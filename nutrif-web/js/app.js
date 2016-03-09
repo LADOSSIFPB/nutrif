@@ -1,0 +1,1 @@
+angular.module('NutrifApp', ['angular-loading-bar', 'ngRoute']);
