@@ -85,13 +85,6 @@
 			<version>2.4</version>
 		</dependency>
 
-		<!-- Connection Pool -->
-		<dependency>
-			<groupId>net.snaq</groupId>
-			<artifactId>dbpool</artifactId>
-			<version>7.0</version>
-		</dependency>
-
 		<!-- MySQL -->
 		<dependency>
 			<groupId>mysql</groupId>
@@ -136,6 +129,17 @@
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-entitymanager</artifactId>
 			<version>5.1.0.Final</version>
+		</dependency>		
+		<dependency>
+			<groupId>com.mchange</groupId>
+			<artifactId>c3p0</artifactId>
+			<version>0.9.5.2</version>
 		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-c3p0</artifactId>
+			<version>5.1.0.Final</version>
+		</dependency>
+			
 	</dependencies>  
 </project>

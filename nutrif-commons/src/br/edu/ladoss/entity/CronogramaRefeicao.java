@@ -20,19 +20,19 @@ public class CronogramaRefeicao {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_cronograma_refeicao")
-	Integer id;
+	private Integer id;
 
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "fk_id_aluno")
-	Aluno aluno;
+	private Aluno aluno;
 
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "fk_id_dia")
-	Dia dia;
+	private Dia dia;
 
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "fk_id_refeicao")
-	Refeicao refeicao;
+	private Refeicao refeicao;
 
 	public CronogramaRefeicao() {
 		super();

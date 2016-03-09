@@ -3,13 +3,10 @@ package br.edu.ladoss.entity;
 import java.util.Date;
 
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -23,24 +20,18 @@ import org.hibernate.annotations.GenerationTime;
 @Entity
 @Table(name = "tb_refeicao_realizada")
 public class RefeicaoRealizada {
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id")
-	private Integer id;
 
-	@OneToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "fk_id_cronograma_refeicao")
-	private CronogramaRefeicao cronogramaRefeicao;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id_refeicao_realizada", unique=true)
+	private Integer id;
+	
+	@EmbeddedId
+	private ConfirmaRefeicaoDia confirmaRefeicaoDia;
 
 	@Generated(GenerationTime.INSERT)
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="dt_abertura", insertable=true, nullable = false)
-	private Date dataHora;
-
-	public RefeicaoRealizada() {
-		super();
-	}
+	@Temporal(TemporalType.TIME)
+	@Column(name="hr_refeicao", insertable=true, nullable = false)
+	private Date horaRefeicao;
 
 	@XmlElement
 	public Integer getId() {
@@ -52,26 +43,25 @@ public class RefeicaoRealizada {
 	}
 
 	@XmlElement
-	public CronogramaRefeicao getCronogramaRefeicao() {
-		return cronogramaRefeicao;
+	public ConfirmaRefeicaoDia getConfirmaRefeicaoDia() {
+		return confirmaRefeicaoDia;
 	}
 
-	public void setCronogramaRefeicao(CronogramaRefeicao cronogramaRefeicao) {
-		this.cronogramaRefeicao = cronogramaRefeicao;
+	public void setConfirmaRefeicaoDia(ConfirmaRefeicaoDia confirmaRefeicaoDia) {
+		this.confirmaRefeicaoDia = confirmaRefeicaoDia;
 	}
-
+	
 	@XmlElement
-	public Date getDataHora() {
-		return dataHora;
+	public Date getHoraRefeicao() {
+		return horaRefeicao;
 	}
 
-	public void setDataHora(Date dataHora) {
-		this.dataHora = dataHora;
+	public void setHoraRefeicao(Date horaRefeicao) {
+		this.horaRefeicao = horaRefeicao;
 	}
 
 	@Override
 	public String toString() {
-		return "RefeicaoRealizada [id=" + id + ", cronogramaRefeicao=" + cronogramaRefeicao
-				+ ", timestamp=" + dataHora + "]";
+		return "RefeicaoRealizada [id=" + id + ", dataHora=" + horaRefeicao + "]";
 	}
 }

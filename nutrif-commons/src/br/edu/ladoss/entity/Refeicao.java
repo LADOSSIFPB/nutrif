@@ -17,10 +17,10 @@ public class Refeicao {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_refeicao")
-	Integer id;
+	private Integer id;
 
 	@Column(name = "nm_tipo_refeicao")
-	String tipo;
+	private String tipo;
 
 	public Refeicao() {
 		super();
