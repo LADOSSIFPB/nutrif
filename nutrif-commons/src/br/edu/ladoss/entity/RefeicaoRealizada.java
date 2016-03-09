@@ -16,10 +16,12 @@ import javax.xml.bind.annotation.XmlRootElement;
 import org.hibernate.annotations.Generated;
 import org.hibernate.annotations.GenerationTime;
 
+import br.edu.ladoss.data.DataEntity;
+
 @XmlRootElement(name = "refeicaoRealizada")
 @Entity
 @Table(name = "tb_refeicao_realizada")
-public class RefeicaoRealizada {
+public class RefeicaoRealizada implements DataEntity{
 
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_refeicao_realizada", unique=true)

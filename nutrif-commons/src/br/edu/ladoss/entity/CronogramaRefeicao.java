@@ -12,11 +12,13 @@ import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import br.edu.ladoss.data.DataEntity;
+
 @XmlRootElement(name = "cronogramaRefeicao")
 @Entity
 @Table(name = "tb_cronograma_refeicao")
-public class CronogramaRefeicao {
-	
+public class CronogramaRefeicao implements DataEntity {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_cronograma_refeicao")

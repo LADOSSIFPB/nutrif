@@ -12,10 +12,12 @@ import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import br.edu.ladoss.data.DataEntity;
+
 @XmlRootElement(name = "aluno")
 @Entity
 @Table(name = "tb_aluno")
-public class Aluno {
+public class Aluno implements DataEntity{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_aluno")

@@ -9,10 +9,12 @@ import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import br.edu.ladoss.data.DataEntity;
+
 @XmlRootElement(name = "dia")
 @Entity
 @Table(name = "tb_dia")
-public class Dia {
+public class Dia implements DataEntity{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

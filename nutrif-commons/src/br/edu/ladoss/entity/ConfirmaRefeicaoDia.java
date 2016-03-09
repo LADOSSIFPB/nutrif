@@ -6,6 +6,9 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
@@ -16,12 +19,18 @@ import javax.xml.bind.annotation.XmlRootElement;
 import org.hibernate.annotations.Generated;
 import org.hibernate.annotations.GenerationTime;
 
+import br.edu.ladoss.data.DataEntity;
+
 @XmlRootElement(name = "confirmaRefeicaoDia")
 @Embeddable
-public class ConfirmaRefeicaoDia implements Serializable{
+public class ConfirmaRefeicaoDia implements Serializable, DataEntity{
 
 	private static final long serialVersionUID = 4103942093838478635L;
-
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	Integer id;
+	
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "fk_id_cronograma_refeicao")
 	private CronogramaRefeicao cronogramaRefeicao;
@@ -39,7 +48,16 @@ public class ConfirmaRefeicaoDia implements Serializable{
 	public void setCronogramaRefeicao(CronogramaRefeicao cronogramaRefeicao) {
 		this.cronogramaRefeicao = cronogramaRefeicao;
 	}
+	
+	@XmlElement
+	public Integer getId(){
+		return id;
+	}
 
+	public Integer setId(){
+		return id;
+	}
+	
 	@XmlElement
 	public Date getDataRefeicao() {
 		return dataRefeicao;
