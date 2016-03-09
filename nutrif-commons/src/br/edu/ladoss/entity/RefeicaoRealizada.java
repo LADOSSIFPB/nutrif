@@ -1,6 +1,6 @@
 package br.edu.ladoss.entity;
 
-import java.sql.Timestamp;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,22 +16,27 @@ import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.hibernate.annotations.Generated;
+import org.hibernate.annotations.GenerationTime;
+
 @XmlRootElement(name = "refeicaoRealizada")
 @Entity
 @Table(name = "tb_refeicao_realizada")
 public class RefeicaoRealizada {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
-	Integer id;
+	private Integer id;
 
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "fk_id_cronograma_refeicao")
-	CronogramaRefeicao cronogramaRefeicao;
+	private CronogramaRefeicao cronogramaRefeicao;
 
+	@Generated(GenerationTime.INSERT)
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "data_e_hora")
-	Timestamp timestamp;
+	@Column(name="dt_abertura", insertable=true, nullable = false)
+	private Date dataHora;
 
 	public RefeicaoRealizada() {
 		super();
@@ -56,18 +61,17 @@ public class RefeicaoRealizada {
 	}
 
 	@XmlElement
-	public Timestamp getTimestamp() {
-		return timestamp;
+	public Date getDataHora() {
+		return dataHora;
 	}
 
-	public void setTimestamp(Timestamp timestamp) {
-		this.timestamp = timestamp;
+	public void setDataHora(Date dataHora) {
+		this.dataHora = dataHora;
 	}
 
 	@Override
 	public String toString() {
 		return "RefeicaoRealizada [id=" + id + ", cronogramaRefeicao=" + cronogramaRefeicao
-				+ ", timestamp=" + timestamp + "]";
+				+ ", timestamp=" + dataHora + "]";
 	}
-
 }

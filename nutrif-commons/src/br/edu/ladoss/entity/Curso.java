@@ -15,11 +15,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Curso {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id")
-	Integer id;
+	@Column(name = "id_curso")
+	private Integer id;
 
-	@Column(name = "nome")
-	String nome;
+	@Column(name = "nm_curso")
+	private String nome;
 
 	public Curso() {
 		super();

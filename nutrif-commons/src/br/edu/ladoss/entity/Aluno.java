@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -21,17 +22,19 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Aluno {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	Integer id;
+	@Column(name = "id_aluno")
+	private Integer id;
 
-	@Column(name = "nome")
-	String nome;
+	@Column(name = "nm_aluno")
+	private String nome;
 
-	@Column(name = "fk_id_curso")
-	Curso curso;
+	@OneToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "fk_id_curso")
+	private Curso curso;
 
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "tb_aluno_cronograma_refeicao", joinColumns = @JoinColumn(name = "fk_id_aluno"), inverseJoinColumns = @JoinColumn(name = "fk_id_cronograma"))
-	List<CronogramaRefeicao> refeicoes;
+	private List<CronogramaRefeicao> refeicoes;
 
 	public Aluno() {
 		super();
@@ -78,5 +81,4 @@ public class Aluno {
 		return "Aluno [id=" + id + ", nome=" + nome + ", curso=" + curso + ", refeicoes="
 				+ refeicoes + "]";
 	}
-
 }

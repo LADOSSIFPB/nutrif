@@ -30,10 +30,12 @@
 		<property name="connection.pool_size">20</property>
 		
 		<!-- Entidades -->
-		<mapping class="br.edu.ifpb.ifopendoors.entity.Room" />
-		<mapping class="br.edu.ifpb.ifopendoors.entity.Person" />
-		<mapping class="br.edu.ifpb.ifopendoors.entity.Open" />
-		<mapping class="br.edu.ifpb.ifopendoors.entity.Close" />
+		<mapping class="br.edu.ladoss.entity.Aluno" />
+		<mapping class="br.edu.ladoss.entity.CronogramaRefeicao" />
+		<mapping class="br.edu.ladoss.entity.Curso" />
+		<mapping class="br.edu.ladoss.entity.Dia" />
+		<mapping class="br.edu.ladoss.entity.Refeicao" />
+		<mapping class="br.edu.ladoss.entity.RefeicaoRealizada" />		
 
 	</session-factory>
 </hibernate-configuration>

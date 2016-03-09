@@ -16,9 +16,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "tb_cronograma_refeicao")
 public class CronogramaRefeicao {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id")
+	@Column(name = "id_cronograma_refeicao")
 	Integer id;
 
 	@OneToOne(fetch = FetchType.EAGER)

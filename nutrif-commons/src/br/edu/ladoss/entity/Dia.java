@@ -13,13 +13,14 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "tb_dia")
 public class Dia {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id")
-	Integer id;
+	@Column(name = "id_dia")
+	private Integer id;
 
-	@Column(name = "nome")
-	String nome;
+	@Column(name = "nm_dia")
+	private String nome;
 
 	public Dia() {
 		super();
@@ -47,5 +48,4 @@ public class Dia {
 	public String toString() {
 		return "Dia [id=" + id + ", nome=" + nome + "]";
 	}
-
 }
