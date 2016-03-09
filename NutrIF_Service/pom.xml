@@ -35,6 +35,13 @@
 	</repositories>
 
 	<dependencies>
+	
+		<!-- Domínio NutrIF -->
+		<dependency>
+			<groupId>br.edu.ifpb.ladoss</groupId>
+			<artifactId>NutrIF_Commons</artifactId>
+			<version>1.0</version>
+		</dependency>
 
 		<!-- Servlet-api -->
 		<dependency>
@@ -123,12 +130,12 @@
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
-			<version>5.0.2.Final</version>
+			<version>5.1.0.Final</version>
 		</dependency>
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-entitymanager</artifactId>
-			<version>5.0.2.Final</version>
+			<version>5.1.0.Final</version>
 		</dependency>
 	</dependencies>  
 </project>
