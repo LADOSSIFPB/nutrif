@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+	<session-factory>
+
+		<property name="connection.url">jdbc:mysql://localhost:3306/nutrif</property>
+		<property name="connection.username">root</property>
+		<property name="connection.password">ifpbinfo</property>
+		<property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+		<property name="dialect">org.hibernate.dialect.MySQLDialect</property>
+
+		<property name="show_sql">true</property>
+		<property name="format_sql">true</property>
+		<property name="hbm2ddl.auto">update</property>
+
+		<!-- JDBC connection pool (use the built-in) -->
+		<property name="connection.pool_size">10</property>
+		<property name="current_session_context_class">thread</property>
+
+		<!-- Produção -->
+		<property name="cache.provider_class">org.hibernate.cache.NoCacheProvider</property> 
+		<property name="c3p0.min_size">5</property>
+		<property name="c3p0.max_size">20</property>
+		<property name="c3p0.timeout">300</property>
+		<property name="c3p0.max_statements">50</property>
+		<property name="c3p0.idle_test_period">3000</property>
+		<property name="show_sql">true</property>
+		<property name="connection.pool_size">20</property>
+		
+		<!-- Entidades -->
+		<mapping class="br.edu.ifpb.ifopendoors.entity.Room" />
+		<mapping class="br.edu.ifpb.ifopendoors.entity.Person" />
+		<mapping class="br.edu.ifpb.ifopendoors.entity.Open" />
+		<mapping class="br.edu.ifpb.ifopendoors.entity.Close" />
+
+	</session-factory>
+</hibernate-configuration>
