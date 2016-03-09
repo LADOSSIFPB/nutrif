@@ -1,7 +1,5 @@
 package br.edu.ladoss.entity;
 
-import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -9,8 +7,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlElement;
@@ -27,14 +23,13 @@ public class Aluno {
 
 	@Column(name = "nm_aluno")
 	private String nome;
+	
+	@Column(name = "nm_matricula")
+	private String matricula;
 
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "fk_id_curso")
 	private Curso curso;
-
-	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name = "tb_aluno_cronograma_refeicao", joinColumns = @JoinColumn(name = "fk_id_aluno"), inverseJoinColumns = @JoinColumn(name = "fk_id_cronograma"))
-	private List<CronogramaRefeicao> refeicoes;
 
 	public Aluno() {
 		super();
@@ -57,6 +52,15 @@ public class Aluno {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
+	
+	@XmlElement
+	public String getMatricula() {
+		return matricula;
+	}
+
+	public void setMatricula(String matricula) {
+		this.matricula = matricula;
+	}
 
 	@XmlElement
 	public Curso getCurso() {
@@ -67,18 +71,9 @@ public class Aluno {
 		this.curso = curso;
 	}
 
-	@XmlElement
-	public List<CronogramaRefeicao> getRefeicoes() {
-		return refeicoes;
-	}
-
-	public void setRefeicoes(List<CronogramaRefeicao> refeicoes) {
-		this.refeicoes = refeicoes;
-	}
-
 	@Override
 	public String toString() {
-		return "Aluno [id=" + id + ", nome=" + nome + ", curso=" + curso + ", refeicoes="
-				+ refeicoes + "]";
+		return "Aluno [id=" + id + ", nome=" + nome + ", curso=" + curso + ", matricula="
+				+ matricula + "]";
 	}
 }
