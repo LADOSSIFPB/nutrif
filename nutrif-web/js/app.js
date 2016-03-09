@@ -1,1 +1,1 @@
-angular.module('NutrifApp', ['angular-loading-bar', 'ngRoute']);
+angular.module('NutrifApp', ['angular-loading-bar', 'ui.router']);
