@@ -8,6 +8,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
+import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
 import br.edu.ifpb.nutrif.hibernate.HibernateUtil;
 import br.edu.ladoss.entity.Aluno;
 
@@ -17,10 +18,8 @@ public class AlunoDAO extends GenericDao2<Integer, Aluno> {
 	
 	private static AlunoDAO instance;
 	
-	public static AlunoDAO getInstance() {
-		
-		instance = new AlunoDAO();
-		
+	public static AlunoDAO getInstance() {		
+		instance = new AlunoDAO();		
 		return instance;
 	}
 
@@ -66,14 +65,12 @@ public class AlunoDAO extends GenericDao2<Integer, Aluno> {
 	}
 
 	@Override
-	public String getNamedQueryValue() {
-		
-		return "Aluno.getAll";
+	public List<Aluno> getAll() throws SQLExceptionNutrIF {
+		return super.getAll("Aluno.getAll");
 	}
 
 	@Override
-	public Class<?> getEntityClass() {
-		
+	public Class<?> getEntityClass() {		
 		return Aluno.class;
 	}
 }

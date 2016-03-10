@@ -16,7 +16,8 @@ import br.edu.ladoss.data.DataEntity;
 @Entity
 @Table(name = "tb_curso")
 @NamedQuery(name = "Curso.getAll", query = "from Curso")
-public class Curso implements DataEntity{
+public class Curso implements DataEntity {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_curso")
@@ -28,7 +29,7 @@ public class Curso implements DataEntity{
 	public Curso() {
 		super();
 	}
-
+	
 	@XmlElement
 	public Integer getId() {
 		return id;
@@ -51,5 +52,4 @@ public class Curso implements DataEntity{
 	public String toString() {
 		return "Curso [id=" + id + ", nome=" + nome + "]";
 	}
-
 }

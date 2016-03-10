@@ -1,5 +1,6 @@
 package br.edu.ladoss.entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 
 import javax.persistence.Entity;
@@ -21,6 +22,7 @@ import br.edu.ladoss.data.DataEntity;
 @Table(name = "tb_aluno")
 @NamedQuery(name = "Aluno.getAll", query = "from Aluno")
 public class Aluno implements DataEntity {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_aluno")
@@ -32,14 +34,14 @@ public class Aluno implements DataEntity {
 	@Column(name = "nm_matricula")
 	private String matricula;
 
-	@OneToOne(fetch = FetchType.EAGER)
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name = "fk_id_curso")
 	private Curso curso;
 
 	public Aluno() {
 		super();
 	}
-
+	
 	@XmlElement
 	public Integer getId() {
 		return id;
@@ -78,6 +80,7 @@ public class Aluno implements DataEntity {
 
 	@Override
 	public String toString() {
-		return "Aluno [id=" + id + ", nome=" + nome + ", curso=" + curso + ", matricula=" + matricula + "]";
+		return "Aluno [id=" + id + ", nome=" + nome + ", curso=" + curso 
+				+ ", matricula=" + matricula + "]";
 	}
 }

@@ -1,6 +1,8 @@
 package br.edu.ifpb.nutrif.controller;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -12,9 +14,12 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
 import br.edu.ifpb.nutrif.dao.AlunoDAO;
+import br.edu.ifpb.nutrif.dao.CursoDAO;
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
 import br.edu.ifpb.nutrif.util.BancoUtil;
+import br.edu.ifpb.nutrif.validation.Validate;
 import br.edu.ladoss.entity.Aluno;
+import br.edu.ladoss.entity.Curso;
 import br.edu.ladoss.entity.Erro;
 
 @Path("aluno")
@@ -29,27 +34,51 @@ public class AlunoController {
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
 		builder.expires(new Date());
 		
-		try {			
-			
-			Integer idPerson = AlunoDAO.getInstance().insert(aluno);
-			
-			if (idPerson != BancoUtil.IDVAZIO) {
-
-				builder.status(Response.Status.OK);
-				builder.entity(aluno);
-			}
+		// Validação dos dados de entrada.
+		int validacao = Validate.aluno(aluno);
 		
-		} catch (SQLExceptionNutrIF qme) {
+		if (validacao == Validate.VALIDATE_OK) {
 			
-			Erro erro = new Erro();
-			erro.setCodigo(qme.getErrorCode());
-			erro.setMensagem(qme.getMessage());
+			try {			
+				
+				// Recuperar Curso.
+				int idCurso = aluno.getCurso().getId();
+				Curso curso = CursoDAO.getInstance().getById(idCurso);
+				aluno.setCurso(curso);
+				
+				//Inserir o Aluno.
+				Integer idPerson = AlunoDAO.getInstance().insert(aluno);
+				
+				if (idPerson != BancoUtil.IDVAZIO) {
 
-			builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(erro);
+					// Operação realizada com sucesso.
+					builder.status(Response.Status.OK);
+					builder.entity(aluno);
+				}
 			
-		}		
+			} catch (SQLExceptionNutrIF qme) {
+				
+				Erro erro = new Erro();
+				erro.setCodigo(qme.getErrorCode());
+				erro.setMensagem(qme.getMessage());
+
+				builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(erro);			
+			}
+		}				
 		
 		return builder.build();		
+	}
+	
+	@GET
+	@Path("/listar")
+	@Produces("application/json")
+	public List<Aluno> getAll() {
+		
+		List<Aluno> alunos = new ArrayList<Aluno>();
+		
+		alunos = AlunoDAO.getInstance().getAll();
+		
+		return alunos;
 	}
 	
 	@GET
