@@ -3,6 +3,7 @@ package br.edu.ifpb.nutrif.validation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import br.edu.ifpb.nutrif.exception.ErrorFactory;
 import br.edu.ladoss.entity.Aluno;
 import br.edu.ladoss.entity.CronogramaRefeicao;
 import br.edu.ladoss.entity.Curso;
@@ -27,10 +28,15 @@ public class Validate {
 		return VALIDATE_OK;
 	}
 	
-	public static int curso(Curso curso) {
+	public static int curso(Curso curso) {		
 		
 		logger.info("Validação para curso.");
-		//TODO: implementar a validação para abertura de sala.
+		
+		String nome = curso.getNome();
+		
+		if (!stringValidator.validateSomenteLetras(nome))
+			return ErrorFactory.NOME_CURSO_INVALIDO;		
+		
 		return VALIDATE_OK;
 	}
 	

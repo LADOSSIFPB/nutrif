@@ -14,9 +14,9 @@ import org.apache.logging.log4j.Logger;
 
 import br.edu.ifpb.nutrif.dao.AlunoDAO;
 import br.edu.ifpb.nutrif.exception.ErrorFactory;
-import br.edu.ifpb.nutrif.exception.NutrIFError;
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
 import br.edu.ladoss.entity.Aluno;
+import br.edu.ladoss.entity.Erro;
 
 /**
  * Classe que reune serviços de consulta ao banco de dados.
@@ -39,7 +39,7 @@ public class ConsultarNutrIFService {
 		Aluno aluno = this.findStudentByNameAndRegistration(nome, matricula);
 		
 		if (aluno == null) {
-			NutrIFError error = ErrorFactory.getErrorFromIndex(ErrorFactory.STUDENT_NOT_FOUND);
+			Erro error = ErrorFactory.getErrorFromIndex(ErrorFactory.ALUNO_NAO_ENCONTRADO);
 			builder = Response.status(Response.Status.NOT_FOUND).entity(error);
 			
 			logger.info("Unsuccessful attempt to find student");

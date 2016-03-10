@@ -8,6 +8,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.HibernateException;
 
+import br.edu.ladoss.entity.Erro;
+
 public class SQLExceptionNutrIF extends HibernateException {
 
 	private static final long serialVersionUID = 6315776920468858333L;
@@ -65,7 +67,8 @@ public class SQLExceptionNutrIF extends HibernateException {
 		this.errorCode = errorCode;
 	}
 	
-	public NutrIFError getErro() {
-		return new NutrIFError(errorCode, erros.get(errorCode));		
+	public Erro getErro() {
+		
+		return new Erro(errorCode, erros.get(errorCode));		
 	}
 }
