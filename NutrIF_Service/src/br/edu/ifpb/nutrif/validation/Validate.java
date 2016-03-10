@@ -4,6 +4,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import br.edu.ladoss.entity.Aluno;
+import br.edu.ladoss.entity.Curso;
+import br.edu.ladoss.entity.Refeicao;
 
 public class Validate {
 
@@ -19,6 +21,20 @@ public class Validate {
 	public static int aluno(Aluno aluno) {
 		
 		logger.info("Validação para aluno.");
+		//TODO: implementar a validação para abertura de sala.
+		return VALIDATE_OK;
+	}
+	
+	public static int curso(Curso curso) {
+		
+		logger.info("Validação para curso.");
+		//TODO: implementar a validação para abertura de sala.
+		return VALIDATE_OK;
+	}
+	
+	public static int refeicao(Refeicao refeicao) {
+		
+		logger.info("Validação para curso.");
 		//TODO: implementar a validação para abertura de sala.
 		return VALIDATE_OK;
 	}

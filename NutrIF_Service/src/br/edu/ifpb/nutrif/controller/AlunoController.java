@@ -47,9 +47,9 @@ public class AlunoController {
 				aluno.setCurso(curso);
 				
 				//Inserir o Aluno.
-				Integer idPerson = AlunoDAO.getInstance().insert(aluno);
+				Integer idAluno = AlunoDAO.getInstance().insert(aluno);
 				
-				if (idPerson != BancoUtil.IDVAZIO) {
+				if (idAluno != BancoUtil.IDVAZIO) {
 
 					// Operação realizada com sucesso.
 					builder.status(Response.Status.OK);
