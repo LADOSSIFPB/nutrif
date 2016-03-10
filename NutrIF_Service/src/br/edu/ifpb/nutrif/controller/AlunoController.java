@@ -84,7 +84,7 @@ public class AlunoController {
 	@GET
 	@Path("/id/{id}")
 	@Produces("application/json")
-	public Response getRoomById(@PathParam("id") int idAluno) {
+	public Response getAlunoById(@PathParam("id") int idAluno) {
 		
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
 		builder.expires(new Date());

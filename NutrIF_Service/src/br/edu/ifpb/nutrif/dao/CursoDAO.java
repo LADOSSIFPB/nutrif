@@ -8,7 +8,7 @@ import org.apache.logging.log4j.Logger;
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
 import br.edu.ladoss.entity.Curso;
 
-public class CursoDAO extends GenericDao2<Integer, Curso>{
+public class CursoDAO extends GenericDao<Integer, Curso>{
 	
 	private static Logger logger = LogManager.getLogger(CursoDAO.class);
 	

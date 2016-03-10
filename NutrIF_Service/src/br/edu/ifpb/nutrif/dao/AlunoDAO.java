@@ -12,7 +12,7 @@ import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
 import br.edu.ifpb.nutrif.hibernate.HibernateUtil;
 import br.edu.ladoss.entity.Aluno;
 
-public class AlunoDAO extends GenericDao2<Integer, Aluno> {
+public class AlunoDAO extends GenericDao<Integer, Aluno> {
 
 	private static Logger logger = LogManager.getLogger(AlunoDAO.class);
 	
