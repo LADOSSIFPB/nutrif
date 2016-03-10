@@ -19,6 +19,4 @@ public interface GenericDAO <PK, T> {
 	public T getById(PK pk) throws SQLExceptionNutrIF;
 
 	public List<T> find(T entity) throws SQLExceptionNutrIF;
-
-	//public List<T> convertToList(ResultSet rs) throws SQLExceptionNutrIF;
 }

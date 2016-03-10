@@ -4,15 +4,15 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-public class Erro {
+public class NutrIFError {
 	
 	private int codigo;
 	
 	private String mensagem;
 
-	public Erro() {}
+	public NutrIFError() {}
 	
-	public Erro(int codigo, String mensagem) {
+	public NutrIFError(int codigo, String mensagem) {
 		this.codigo = codigo;
 		this.mensagem = mensagem;
 	}

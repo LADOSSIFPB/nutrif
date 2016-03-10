@@ -65,7 +65,7 @@ public class SQLExceptionNutrIF extends HibernateException {
 		this.errorCode = errorCode;
 	}
 	
-	public Erro getErro() {
-		return new Erro(errorCode, erros.get(errorCode));		
+	public NutrIFError getErro() {
+		return new NutrIFError(errorCode, erros.get(errorCode));		
 	}
 }

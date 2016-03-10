@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -14,6 +15,7 @@ import br.edu.ladoss.data.DataEntity;
 @XmlRootElement(name = "curso")
 @Entity
 @Table(name = "tb_curso")
+@NamedQuery(name = "Curso.getAll", query = "from Curso")
 public class Curso implements DataEntity{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

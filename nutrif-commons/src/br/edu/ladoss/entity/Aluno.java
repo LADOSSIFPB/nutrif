@@ -1,12 +1,14 @@
 package br.edu.ladoss.entity;
 
 import javax.persistence.Column;
+
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlElement;
@@ -17,7 +19,8 @@ import br.edu.ladoss.data.DataEntity;
 @XmlRootElement(name = "aluno")
 @Entity
 @Table(name = "tb_aluno")
-public class Aluno implements DataEntity{
+@NamedQuery(name = "Aluno.getAll", query = "from Aluno")
+public class Aluno implements DataEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_aluno")
@@ -25,7 +28,7 @@ public class Aluno implements DataEntity{
 
 	@Column(name = "nm_aluno")
 	private String nome;
-	
+
 	@Column(name = "nm_matricula")
 	private String matricula;
 
@@ -54,7 +57,7 @@ public class Aluno implements DataEntity{
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	
+
 	@XmlElement
 	public String getMatricula() {
 		return matricula;
@@ -75,7 +78,6 @@ public class Aluno implements DataEntity{
 
 	@Override
 	public String toString() {
-		return "Aluno [id=" + id + ", nome=" + nome + ", curso=" + curso + ", matricula="
-				+ matricula + "]";
+		return "Aluno [id=" + id + ", nome=" + nome + ", curso=" + curso + ", matricula=" + matricula + "]";
 	}
 }

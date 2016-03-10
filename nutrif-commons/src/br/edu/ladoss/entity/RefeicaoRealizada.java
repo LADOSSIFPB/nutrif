@@ -7,6 +7,7 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -21,18 +22,19 @@ import br.edu.ladoss.data.DataEntity;
 @XmlRootElement(name = "refeicaoRealizada")
 @Entity
 @Table(name = "tb_refeicao_realizada")
-public class RefeicaoRealizada implements DataEntity{
+@NamedQuery(name = "RefeicaoRealizada.getAll", query = "from RefeicaoRealizada")
+public class RefeicaoRealizada implements DataEntity {
 
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id_refeicao_realizada", unique=true)
+	@Column(name = "id_refeicao_realizada", unique = true)
 	private Integer id;
-	
+
 	@EmbeddedId
 	private ConfirmaRefeicaoDia confirmaRefeicaoDia;
 
 	@Generated(GenerationTime.INSERT)
 	@Temporal(TemporalType.TIME)
-	@Column(name="hr_refeicao", insertable=true, nullable = false)
+	@Column(name = "hr_refeicao", insertable = true, nullable = false)
 	private Date horaRefeicao;
 
 	@XmlElement
@@ -52,7 +54,7 @@ public class RefeicaoRealizada implements DataEntity{
 	public void setConfirmaRefeicaoDia(ConfirmaRefeicaoDia confirmaRefeicaoDia) {
 		this.confirmaRefeicaoDia = confirmaRefeicaoDia;
 	}
-	
+
 	@XmlElement
 	public Date getHoraRefeicao() {
 		return horaRefeicao;

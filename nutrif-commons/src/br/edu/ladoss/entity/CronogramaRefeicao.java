@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlElement;
@@ -17,6 +18,7 @@ import br.edu.ladoss.data.DataEntity;
 @XmlRootElement(name = "cronogramaRefeicao")
 @Entity
 @Table(name = "tb_cronograma_refeicao")
+@NamedQuery(name = "CronogramaRefeicao.getAll", query = "from CronogramaRefeicao")
 public class CronogramaRefeicao implements DataEntity {
 
 	@Id

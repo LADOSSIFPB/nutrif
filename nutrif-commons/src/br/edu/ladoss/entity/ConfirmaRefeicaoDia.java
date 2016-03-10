@@ -23,14 +23,14 @@ import br.edu.ladoss.data.DataEntity;
 
 @XmlRootElement(name = "confirmaRefeicaoDia")
 @Embeddable
-public class ConfirmaRefeicaoDia implements Serializable, DataEntity{
+public class ConfirmaRefeicaoDia implements Serializable, DataEntity {
 
 	private static final long serialVersionUID = 4103942093838478635L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Integer id;
-	
+
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "fk_id_cronograma_refeicao")
 	private CronogramaRefeicao cronogramaRefeicao;
@@ -48,16 +48,16 @@ public class ConfirmaRefeicaoDia implements Serializable, DataEntity{
 	public void setCronogramaRefeicao(CronogramaRefeicao cronogramaRefeicao) {
 		this.cronogramaRefeicao = cronogramaRefeicao;
 	}
-	
+
 	@XmlElement
-	public Integer getId(){
+	public Integer getId() {
 		return id;
 	}
 
-	public Integer setId(){
+	public Integer setId() {
 		return id;
 	}
-	
+
 	@XmlElement
 	public Date getDataRefeicao() {
 		return dataRefeicao;
@@ -66,10 +66,9 @@ public class ConfirmaRefeicaoDia implements Serializable, DataEntity{
 	public void setDataRefeicao(Date dataRefeicao) {
 		this.dataRefeicao = dataRefeicao;
 	}
-	
+
 	@Override
 	public String toString() {
-		return "ConfirmaRefeicaoDia [CronogramaRefeicao=" + cronogramaRefeicao 
-				+ ", dataRefeicao=" + dataRefeicao + "]";
+		return "ConfirmaRefeicaoDia [CronogramaRefeicao=" + cronogramaRefeicao + ", dataRefeicao=" + dataRefeicao + "]";
 	}
 }
