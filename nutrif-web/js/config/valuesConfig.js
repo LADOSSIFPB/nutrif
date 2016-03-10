@@ -4,7 +4,7 @@ angular.module("NutrifApp").value("config", {
 
 		var _externalUrl = "http://ladoss.com.br";
 		var _internalUrl = "http://127.0.0.1";
-		var _port = "8080";
+		var _port = "8096";
 		var _context = "/NutrIF_Service";
 
 		var url = location.href;

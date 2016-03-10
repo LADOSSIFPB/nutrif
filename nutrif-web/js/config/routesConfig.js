@@ -13,6 +13,6 @@ angular.module('NutrifApp').config(function ($stateProvider, $urlRouterProvider)
 	  		url: '/cadastro-aluno',
 		    templateUrl: '../view/cadastrar-aluno.html',
 		    controller: 'alunoCtrl',
-		    controllerAs: 'aluno'
+		    controllerAs: 'alunoCtrl'
 	  	});
 });

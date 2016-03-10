@@ -1,12 +1,12 @@
 <div class="section row">
 
     <div class="input-field col s3">
-        <input id="matricula" type="text" ng-model="pesquisa.refeicao.aluno.matricula">
+        <input id="matricula" type="text">
         <label for="matricula">Matrícula</label>
     </div>
 
     <div class="input-field col s9">
-        <input id="nome_completo" type="text" ng-model="pesquisa.refeicao.aluno.nome">
+        <input id="nome_completo" type="text">
         <label for="nome_completo">Nome Completo</label>
     </div>
 </div>
@@ -14,23 +14,19 @@
 <div class="section row">
     <div class="col s6 input-field">
         <div class="select-wrapper">
-            <select class="browser-default" ng-model="pesquisa.refeicao.refeicao">
+            <select class="browser-default" name="refeicaoSelect" id="refeicaoSelect">
                 <option value="" disabled selected>Selecione</option>
-                <option value="1">Almoço</option>
-                <option value="2">Jantar</option>
+                <ng-options="refeicao.nome for refeicao in refeicoes"
+                ng-model="cronogramaRefeicao.refeicao"/>
             </select>
         </div>
         <label class="select-label">Tipo de Refeição</label>
     </div>
     <div class="col s6 input-field">
         <div class="select-wrapper">
-            <select class="browser-default" ng-model=""><!--TODO-->
+            <select class="browser-default">
                 <option value="" disabled selected>Selecione</option>
-                <option value="1">Segunda</option>
-                <option value="2">Terça</option>
-                <option value="3">Quarta</option>
-                <option value="4">Quinta</option>
-                <option value="5">Sexta</option>
+                <ng-options="dia.nome for dia in dias" ng-model="cronogramaRefeicao.dia"/>
             </select>
         </div>
         <label class="select-label">Dia</label>
