@@ -1,0 +1,44 @@
+<div class="section row">
+
+    <div class="input-field col s3">
+        <input id="matricula" type="text" ng-model="pesquisa.refeicao.aluno.matricula">
+        <label for="matricula">Matrícula</label>
+    </div>
+
+    <div class="input-field col s9">
+        <input id="nome_completo" type="text" ng-model="pesquisa.refeicao.aluno.nome">
+        <label for="nome_completo">Nome Completo</label>
+    </div>
+</div>
+
+<div class="section row">
+    <div class="col s6 input-field">
+        <div class="select-wrapper">
+            <select class="browser-default" ng-model="pesquisa.refeicao.refeicao">
+                <option value="" disabled selected>Selecione</option>
+                <option value="1">Almoço</option>
+                <option value="2">Jantar</option>
+            </select>
+        </div>
+        <label class="select-label">Tipo de Refeição</label>
+    </div>
+    <div class="col s6 input-field">
+        <div class="select-wrapper">
+            <select class="browser-default" ng-model=""><!--TODO-->
+                <option value="" disabled selected>Selecione</option>
+                <option value="1">Segunda</option>
+                <option value="2">Terça</option>
+                <option value="3">Quarta</option>
+                <option value="4">Quinta</option>
+                <option value="5">Sexta</option>
+            </select>
+        </div>
+        <label class="select-label">Dia</label>
+    </div>
+</div>
+
+<div class="section-row center-align">
+    <button class="btn waves-effect waves-light center" type="submit" name="action">
+        Registrar
+    </button>
+</div>
