@@ -22,6 +22,7 @@ public class NutrIFApplication extends Application {
 
 	public NutrIFApplication() {
 		
+		// Multiple client-request: Cross-Filter
 		CorsFilter filter = new CorsFilter();
 		filter.getAllowedOrigins().add("*");
 		filter.setAllowedMethods("POST, GET, DELETE, PUT, OPTIONS");

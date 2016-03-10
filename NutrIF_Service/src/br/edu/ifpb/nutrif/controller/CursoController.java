@@ -14,6 +14,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
 import br.edu.ifpb.nutrif.dao.CursoDAO;
+import br.edu.ifpb.nutrif.exception.ErrorFactory;
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
 import br.edu.ifpb.nutrif.util.BancoUtil;
 import br.edu.ifpb.nutrif.validation.Validate;
@@ -49,15 +50,17 @@ public class CursoController {
 					builder.entity(curso);
 				}
 			
-			} catch (SQLExceptionNutrIF qme) {
-				
-				Erro erro = new Erro();
-				erro.setCodigo(qme.getErrorCode());
-				erro.setMensagem(qme.getMessage());
+			} catch (SQLExceptionNutrIF exception) {
 
-				builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(erro);			
+				builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
+						exception.getErro());			
 			}
-		}				
+			
+		} else {
+			
+			Erro erro = ErrorFactory.getErrorFromIndex(validacao);
+			builder.status(Response.Status.NOT_ACCEPTABLE).entity(erro);
+		}
 		
 		return builder.build();		
 	}

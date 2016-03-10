@@ -22,7 +22,6 @@ public class SQLExceptionNutrIF extends HibernateException {
 	static {
 		erros.put(100, "Usuário não existe no sistema.");
 		erros.put(101, "Senha inválida!");
-		erros.put(102, "Orçamento insuficiente!");
 		erros.put(666, "Falha conversão da data.");
 		erros.put(1062, "Entidade submetida já existente.");
 		erros.put(1052, "Consulta com coluna ambígua.");
