@@ -13,40 +13,40 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
-import br.edu.ifpb.nutrif.dao.RefeicaoDAO;
+import br.edu.ifpb.nutrif.dao.DiaDAO;
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
 import br.edu.ifpb.nutrif.util.BancoUtil;
 import br.edu.ifpb.nutrif.validation.Validate;
+import br.edu.ladoss.entity.Dia;
 import br.edu.ladoss.entity.Erro;
-import br.edu.ladoss.entity.Refeicao;
 
-@Path("refeicao")
-public class RefeicaoController {
+@Path("dia")
+public class DiaController {
 
 	@POST
 	@Path("/inserir")
 	@Consumes("application/json")
 	@Produces("application/json")
-	public Response insert(Refeicao refeicao) {
+	public Response insert(Dia dia) {
 		
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
 		builder.expires(new Date());
 		
 		// Validação dos dados de entrada.
-		int validacao = Validate.refeicao(refeicao);
+		int validacao = Validate.dia(dia);
 		
 		if (validacao == Validate.VALIDATE_OK) {
 			
 			try {			
 				
-				//Inserir o Aluno.
-				Integer idRefeicao = RefeicaoDAO.getInstance().insert(refeicao);
+				//Inserir o Dia.
+				Integer idDia = DiaDAO.getInstance().insert(dia);
 				
-				if (idRefeicao != BancoUtil.IDVAZIO) {
+				if (idDia != BancoUtil.IDVAZIO) {
 
 					// Operação realizada com sucesso.
 					builder.status(Response.Status.OK);
-					builder.entity(refeicao);
+					builder.entity(dia);
 				}
 			
 			} catch (SQLExceptionNutrIF qme) {
@@ -65,29 +65,29 @@ public class RefeicaoController {
 	@GET
 	@Path("/listar")
 	@Produces("application/json")
-	public List<Refeicao> getAll() {
+	public List<Dia> getAll() {
 		
-		List<Refeicao> cursos = new ArrayList<Refeicao>();
+		List<Dia> dia = new ArrayList<Dia>();
 		
-		cursos = RefeicaoDAO.getInstance().getAll();
+		dia = DiaDAO.getInstance().getAll();
 		
-		return cursos;
+		return dia;
 	}
 	
 	@GET
 	@Path("/id/{id}")
 	@Produces("application/json")
-	public Response getRefeicaoById(@PathParam("id") int idRefeicao) {
+	public Response getDiaById(@PathParam("id") int idCurso) {
 		
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
 		builder.expires(new Date());
 
 		try {
 
-			Refeicao refeicao = RefeicaoDAO.getInstance().getById(idRefeicao); 
+			Dia dia = DiaDAO.getInstance().getById(idCurso); 
 			
 			builder.status(Response.Status.OK);
-			builder.entity(refeicao);
+			builder.entity(dia);
 
 		} catch (SQLExceptionNutrIF qme) {
 

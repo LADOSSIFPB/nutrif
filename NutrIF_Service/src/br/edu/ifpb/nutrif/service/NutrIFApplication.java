@@ -10,6 +10,7 @@ import org.jboss.resteasy.plugins.interceptors.CorsFilter;
 import br.edu.ifpb.nutrif.controller.AlunoController;
 import br.edu.ifpb.nutrif.controller.CronogramaRefeicaoController;
 import br.edu.ifpb.nutrif.controller.CursoController;
+import br.edu.ifpb.nutrif.controller.DiaController;
 import br.edu.ifpb.nutrif.controller.RefeicaoController;
 import br.edu.ifpb.nutrif.controller.RefeicaoRealizadaController;
 import br.edu.ladoss.entity.CronogramaRefeicao;
@@ -32,6 +33,7 @@ public class NutrIFApplication extends Application {
 		this.singletons.add(new CronogramaRefeicaoController());
 		this.singletons.add(new CursoController());
 		this.singletons.add(new RefeicaoController());
+		this.singletons.add(new DiaController());
 		this.singletons.add(new RefeicaoRealizadaController());
 		this.singletons.add(new RestServices());
 	}

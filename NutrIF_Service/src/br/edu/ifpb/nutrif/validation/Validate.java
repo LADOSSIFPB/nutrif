@@ -4,7 +4,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import br.edu.ladoss.entity.Aluno;
+import br.edu.ladoss.entity.CronogramaRefeicao;
 import br.edu.ladoss.entity.Curso;
+import br.edu.ladoss.entity.Dia;
 import br.edu.ladoss.entity.Refeicao;
 
 public class Validate {
@@ -38,4 +40,19 @@ public class Validate {
 		//TODO: implementar a validação para abertura de sala.
 		return VALIDATE_OK;
 	}
+	
+	public static int dia(Dia aluno) {
+		
+		logger.info("Validação para aluno.");
+		//TODO: implementar a validação para abertura de sala.
+		return VALIDATE_OK;
+	}
+
+	public static int cronogramaRefeicao(CronogramaRefeicao cronogramaRefeicao) {
+		
+		logger.info("Validação para curso.");
+		//TODO: implementar a validação para abertura de sala.
+		return VALIDATE_OK;
+	}
+	
 }
