@@ -13,10 +13,9 @@
 
     <div class="col s4 input-field">
         <div class="select-wrapper">
-            <select class="browser-default">
+            <select class="browser-default" ng-options="curso.nome for curso in cursos"
+                ng-model="cronogramaRefeicao.aluno.curso">
                 <option value="" disabled selected>Selecione</option>
-                <ng-options="curso.nome for curso in cursos"
-                ng-model="cronogramaRefeicao.aluno.curso"/>
             </select>
         </div>
         <label class="select-label">Curso</label>
@@ -24,19 +23,18 @@
 
     <div class="col s4 input-field">
         <div class="select-wrapper">
-            <select class="browser-default">
+            <select class="browser-default" ng-options="refeicao.tipo for refeicao in refeicoes"
+                ng-model="cronogramaRefeicao.refeicao">
                 <option value="" disabled selected>Selecione</option>
-                <ng-options="refeicao.nome for refeicao in refeicoes"
-                ng-model="cronogramaRefeicao.refeicao"/>
             </select>
         </div>
         <label class="select-label">Tipo de Refeição</label>
     </div>
+    
     <div class="col s4 input-field">
         <div class="select-wrapper">
-            <select class="browser-default">
+            <select class="browser-default" ng-options="dia.nome for dia in dias" ng-model="cronogramaRefeicao.dia">
                 <option value="" disabled selected>Selecione</option>
-                <ng-options="dia.nome for dia in dias" ng-model="cronogramaRefeicao.dia"/>
             </select>
         </div>
         <label class="select-label">Dia</label>
