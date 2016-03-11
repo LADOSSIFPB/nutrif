@@ -33,7 +33,7 @@
 		
 		<!-- Entidades -->
 		<mapping class="br.edu.ladoss.entity.Aluno" />
-		<mapping class="br.edu.ladoss.entity.CronogramaRefeicao" />
+		<mapping class="br.edu.ladoss.entity.DiaRefeicao" />
 		<mapping class="br.edu.ladoss.entity.Curso" />
 		<mapping class="br.edu.ladoss.entity.Dia" />
 		<mapping class="br.edu.ladoss.entity.Refeicao" />
