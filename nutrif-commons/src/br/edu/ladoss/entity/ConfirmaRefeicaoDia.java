@@ -23,8 +23,8 @@ public class ConfirmaRefeicaoDia implements Serializable {
 	private static final long serialVersionUID = 4103942093838478635L;
 
 	@OneToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "fk_id_cronograma_refeicao")
-	private DiaRefeicao cronogramaRefeicao;
+	@JoinColumn(name = "fk_id_dia_refeicao")
+	private DiaRefeicao diaRefeicao;
 
 	@Generated(GenerationTime.INSERT)
 	@Temporal(TemporalType.DATE)
@@ -32,12 +32,12 @@ public class ConfirmaRefeicaoDia implements Serializable {
 	private Date dataRefeicao;
 
 	@XmlElement
-	public DiaRefeicao getCronogramaRefeicao() {
-		return cronogramaRefeicao;
+	public DiaRefeicao getDiaRefeicao() {
+		return diaRefeicao;
 	}
 
-	public void setCronogramaRefeicao(DiaRefeicao cronogramaRefeicao) {
-		this.cronogramaRefeicao = cronogramaRefeicao;
+	public void setDiaRefeicao(DiaRefeicao diaRefeicao) {
+		this.diaRefeicao = diaRefeicao;
 	}
 
 	@XmlElement
@@ -51,6 +51,7 @@ public class ConfirmaRefeicaoDia implements Serializable {
 
 	@Override
 	public String toString() {
-		return "ConfirmaRefeicaoDia [CronogramaRefeicao=" + cronogramaRefeicao + ", dataRefeicao=" + dataRefeicao + "]";
+		return "ConfirmaRefeicaoDia [DiaRefeicao=" + diaRefeicao 
+				+ ", dataRefeicao=" + dataRefeicao + "]";
 	}
 }

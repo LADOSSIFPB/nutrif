@@ -29,6 +29,7 @@ public class DiaRefeicao implements DataEntity {
 	private Integer id;
 
 	@ManyToOne(cascade=CascadeType.ALL)
+	@JoinColumn(name="fk_id_aluno")
 	private Aluno aluno;
 
 	@OneToOne(fetch = FetchType.EAGER)

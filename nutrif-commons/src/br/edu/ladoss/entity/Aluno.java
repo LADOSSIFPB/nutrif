@@ -43,7 +43,7 @@ public class Aluno implements DataEntity {
 	private Curso curso;
 	
 	@OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
-    @JoinColumn(name="fk_id_aluno")
+	@JoinColumn(name="fk_id_aluno")
 	List<DiaRefeicao> refeicoes;
 	
 	public Aluno() {

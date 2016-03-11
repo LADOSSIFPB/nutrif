@@ -50,7 +50,7 @@ public class RefeicaoRealizadaController {
 				// Recuperar o Cronograma da Refeição.
 				int idCronogramaRefeicao = refeicaoRealizada
 						.getConfirmaRefeicaoDia()
-						.getCronogramaRefeicao()
+						.getDiaRefeicao()
 						.getId();
 				DiaRefeicao cronogramaRefeicao = DiaRefeicaoDAO
 						.getInstance().getById(idCronogramaRefeicao);
@@ -59,7 +59,7 @@ public class RefeicaoRealizadaController {
 					
 					// Cronograma Refeição completo.
 					refeicaoRealizada.getConfirmaRefeicaoDia()
-						.setCronogramaRefeicao(cronogramaRefeicao);
+						.setDiaRefeicao(cronogramaRefeicao);
 					
 					//Inserir o Aluno.
 					Integer idRefeicaoRealizada = RefeicaoRealizadaDAO
