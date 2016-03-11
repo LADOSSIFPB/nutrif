@@ -12,39 +12,40 @@ import org.hibernate.Session;
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
 import br.edu.ifpb.nutrif.hibernate.HibernateUtil;
 import br.edu.ifpb.nutrif.util.DateUtil;
-import br.edu.ladoss.entity.CronogramaRefeicao;
+import br.edu.ladoss.entity.DiaRefeicao;
 import br.edu.ladoss.entity.Dia;
 
-public class CronogramaRefeicaoDAO extends GenericDao<Integer, CronogramaRefeicao> {
+public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 	
-	private static Logger logger = LogManager.getLogger(CronogramaRefeicaoDAO.class);
+	private static Logger logger = LogManager.getLogger(DiaRefeicaoDAO.class);
 
-	private static CronogramaRefeicaoDAO instance;
+	private static DiaRefeicaoDAO instance;
 
-	public static CronogramaRefeicaoDAO getInstance() {
-		instance = new CronogramaRefeicaoDAO();
+	public static DiaRefeicaoDAO getInstance() {
+		instance = new DiaRefeicaoDAO();
 		return instance;
 	}
 
-	public List<CronogramaRefeicao> getCronogramaRefeicaoByAluno(String nome) {
+	public List<DiaRefeicao> getCronogramaRefeicaoByAluno(String nome) {
 		
 		Session session = HibernateUtil.getSessionFactory().openSession();
 
-		List<CronogramaRefeicao> cronogramasRefeicao = new ArrayList<CronogramaRefeicao>();
+		List<DiaRefeicao> cronogramasRefeicao = new ArrayList<DiaRefeicao>();
 		
 		try {
 			
 			Dia dia = DateUtil.getCurrentDayOfWeek();
 			
-			String hql = "from CronogramaRefeicao"
+			String hql = "from DiaRefeicao"
 					+ " where aluno.nome like :nome"
-					+ " and dia.id = :dia";
+					+ " and dia.id = :dia"
+					+ " and refeicao.id = 1";
 			
 			Query query = session.createQuery(hql);			
 			query.setParameter("nome", "%" + nome + "%");
 			query.setParameter("dia", dia.getId());
 			
-			cronogramasRefeicao = (List<CronogramaRefeicao>) query.list();
+			cronogramasRefeicao = (List<DiaRefeicao>) query.list();
 	        
 		} catch (HibernateException e) {
 			
@@ -60,12 +61,12 @@ public class CronogramaRefeicaoDAO extends GenericDao<Integer, CronogramaRefeica
 	}
 	
 	@Override
-	public List<CronogramaRefeicao> getAll() throws SQLExceptionNutrIF {
-		return super.getAll("CronogramaRefeicao.getAll");
+	public List<DiaRefeicao> getAll() throws SQLExceptionNutrIF {
+		return super.getAll("DiaRefeicao.getAll");
 	}
 
 	@Override
 	public Class<?> getEntityClass() {
-		return CronogramaRefeicao.class;
+		return DiaRefeicao.class;
 	}
 }

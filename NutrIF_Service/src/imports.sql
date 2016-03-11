@@ -7,4 +7,4 @@ insert into tb_dia(id_dia, nm_dia) values (6, "Sexta-feira");
 insert into tb_dia(id_dia, nm_dia) values (7, "Sábado");
 
 insert into tb_refeicao values (1, "Almoço");
-insert into tb_refeicao values (2, "Jantar")
+insert into tb_refeicao values (2, "Jantar");

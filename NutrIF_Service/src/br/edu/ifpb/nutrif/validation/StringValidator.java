@@ -10,14 +10,14 @@ public class StringValidator implements NutrIFValidator {
 	private Pattern patternPassword;
 	private Matcher matcher;
 
-	private static final String STRING_PATTERN = "[0-9a-zA-ZÃ¡Ã Ã¢Ã£Ã©Ã¨ÃªÃ­Ã¯Ã³Ã´ÃµÃ¶ÃºÃ¼Ã§Ã±Ã?Ã€Ã‚ÃƒÃ‰ÃˆÃ?Ã?Ã“Ã”Ã•Ã–ÃšÃœÃ‡Ã‘ ,/-ÂºÂª]*";
-	private static final String STRING_PATTERN_SOMENTE_LETRAS = "[a-zA-ZÃ¡Ã Ã¢Ã£Ã©Ã¨ÃªÃ­Ã¯Ã³Ã´ÃµÃ¶ÃºÃ¼Ã§Ã±Ã?Ã€Ã‚ÃƒÃ‰ÃˆÃ?Ã?Ã“Ã”Ã•Ã–ÃšÃœÃ‡Ã‘]*";
+	private static final String STRING_PATTERN = "[0-9a-zA-ZáàâãéèêíïóôõöúüçñÁÀÂÃÉÈÍÏÓÔÕÖÚÜÇÑ ,/-ºª ]*";
+	private static final String STRING_PATTERN_SOMENTE_LETRAS = "[a-zA-ZáàâãéèêíïóôõöúüçñÁÀÂÃÉÈÍÏÓÔÕÖÚÜÇÑ ]*";
 
-	// Verifica se hÃ¡, ao menos:
-	// - um nÃºmero ou caractere especial;
-	// - uma letra minÃºscula;
-	// - uma letra maiÃºscula.
-	// O tamanho deve estÃ¡ entre 8 e 25 caracteres.
+	// Verifica se há, ao menos:
+	// - um número ou caractere especial;
+	// - uma letra minúscula;
+	// - uma letra maiúscula.
+	// O tamanho deve está entre 8 e 25 caracteres.
 	private static final String PASSWORD_PATTERN = "(?=.*[0-9@#$%^&+=])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{8,25}";
 
 	public StringValidator() {
@@ -28,21 +28,29 @@ public class StringValidator implements NutrIFValidator {
 
 	@Override
 	public boolean validate(final String value) {
+		
 		if (value == null || value.trim().equals(""))
 			return false;
+		
 		matcher = pattern.matcher(value.trim());
+		
 		return matcher.matches();
 	}
 	
 	public boolean validateSomenteLetras(final String value) {
+		
 		if (value == null || value.trim().equals(""))
 			return false;
+		
 		matcher = patternLetras.matcher(value.trim());
+		boolean t = matcher.matches();
 		return matcher.matches();
 	}
 
 	public boolean validate(final String value, int tamanho) {
+		
 		boolean isValidate = validate(value);
+		
 		return (isValidate && value.length() <= tamanho);
 	}
 
@@ -55,14 +63,18 @@ public class StringValidator implements NutrIFValidator {
 
 	public boolean validate(String pattern, final String value,
 			int tamanhoMenor, int tamanhoMaior) {
+		
 		return (validate(value) && (value.length() >= tamanhoMenor && value
 				.length() <= tamanhoMaior));
 	}
 
 	public boolean validatePassword(final String password) {
+		
 		if (password == null || password.trim().equals(""))
 			return false;
+		
 		matcher = patternPassword.matcher(password);
+		
 		return matcher.matches();
 	}
 }

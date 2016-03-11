@@ -49,13 +49,10 @@ public class RefeicaoController {
 					builder.entity(refeicao);
 				}
 			
-			} catch (SQLExceptionNutrIF qme) {
-				
-				Erro erro = new Erro();
-				erro.setCodigo(qme.getErrorCode());
-				erro.setMensagem(qme.getMessage());
+			} catch (SQLExceptionNutrIF exception) {
 
-				builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(erro);			
+				builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
+						exception.getErro());			
 			}
 		}				
 		
@@ -67,11 +64,11 @@ public class RefeicaoController {
 	@Produces("application/json")
 	public List<Refeicao> getAll() {
 		
-		List<Refeicao> cursos = new ArrayList<Refeicao>();
+		List<Refeicao> refeicoes = new ArrayList<Refeicao>();
 		
-		cursos = RefeicaoDAO.getInstance().getAll();
+		refeicoes = RefeicaoDAO.getInstance().getAll();
 		
-		return cursos;
+		return refeicoes;
 	}
 	
 	@GET
@@ -89,13 +86,10 @@ public class RefeicaoController {
 			builder.status(Response.Status.OK);
 			builder.entity(refeicao);
 
-		} catch (SQLExceptionNutrIF qme) {
+		} catch (SQLExceptionNutrIF exception) {
 
-			Erro erro = new Erro();
-			erro.setCodigo(qme.getErrorCode());
-			erro.setMensagem(qme.getMessage());
-
-			builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(erro);
+			builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
+					exception.getErro());
 		}
 
 		return builder.build();

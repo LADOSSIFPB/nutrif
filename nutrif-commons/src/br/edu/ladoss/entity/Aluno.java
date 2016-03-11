@@ -1,8 +1,9 @@
 package br.edu.ladoss.entity;
 
+import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -10,10 +11,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+
+import org.hibernate.annotations.BatchSize;
 
 import br.edu.ladoss.data.DataEntity;
 
@@ -31,13 +35,17 @@ public class Aluno implements DataEntity {
 	@Column(name = "nm_aluno")
 	private String nome;
 
-	@Column(name = "nm_matricula")
+	@Column(name = "nm_matricula", length = 11)
 	private String matricula;
 
 	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name = "fk_id_curso")
 	private Curso curso;
-
+	
+	@OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+    @JoinColumn(name="fk_id_aluno")
+	List<DiaRefeicao> refeicoes;
+	
 	public Aluno() {
 		super();
 	}

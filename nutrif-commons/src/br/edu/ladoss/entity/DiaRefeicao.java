@@ -1,5 +1,6 @@
 package br.edu.ladoss.entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -7,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -17,17 +19,16 @@ import br.edu.ladoss.data.DataEntity;
 
 @XmlRootElement(name = "cronogramaRefeicao")
 @Entity
-@Table(name = "tb_cronograma_refeicao")
-@NamedQuery(name = "CronogramaRefeicao.getAll", query = "from CronogramaRefeicao")
-public class CronogramaRefeicao implements DataEntity {
+@Table(name = "tb_dia_refeicao")
+@NamedQuery(name = "DiaRefeicao.getAll", query = "from DiaRefeicao")
+public class DiaRefeicao implements DataEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_cronograma_refeicao")
 	private Integer id;
 
-	@OneToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "fk_id_aluno")
+	@ManyToOne(cascade=CascadeType.ALL)
 	private Aluno aluno;
 
 	@OneToOne(fetch = FetchType.EAGER)
@@ -38,7 +39,7 @@ public class CronogramaRefeicao implements DataEntity {
 	@JoinColumn(name = "fk_id_refeicao")
 	private Refeicao refeicao;
 
-	public CronogramaRefeicao() {
+	public DiaRefeicao() {
 		super();
 	}
 

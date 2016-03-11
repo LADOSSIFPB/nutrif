@@ -14,7 +14,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
 import br.edu.ifpb.nutrif.dao.AlunoDAO;
-import br.edu.ifpb.nutrif.dao.CronogramaRefeicaoDAO;
+import br.edu.ifpb.nutrif.dao.DiaRefeicaoDAO;
 import br.edu.ifpb.nutrif.dao.DiaDAO;
 import br.edu.ifpb.nutrif.dao.RefeicaoDAO;
 import br.edu.ifpb.nutrif.exception.ErrorFactory;
@@ -22,13 +22,13 @@ import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
 import br.edu.ifpb.nutrif.util.BancoUtil;
 import br.edu.ifpb.nutrif.validation.Validate;
 import br.edu.ladoss.entity.Aluno;
-import br.edu.ladoss.entity.CronogramaRefeicao;
+import br.edu.ladoss.entity.DiaRefeicao;
 import br.edu.ladoss.entity.Dia;
 import br.edu.ladoss.entity.Erro;
 import br.edu.ladoss.entity.Refeicao;
 
-@Path("cronogramarefeicao")
-public class CronogramaRefeicaoController {
+@Path("diarefeicao")
+public class DiaRefeicaoController {
 
 	/**
 	 * Entrada: JSON
@@ -38,51 +38,51 @@ public class CronogramaRefeicaoController {
 	 * 	"refeicao":{"id":"[0-9]"}
 	 * }
 	 * 
-	 * @param cronogramaRefeicao
+	 * @param diaRefeicao
 	 * @return builder
 	 */
 	@POST
 	@Path("/inserir")
 	@Consumes("application/json")
 	@Produces("application/json")
-	public Response insert(CronogramaRefeicao cronogramaRefeicao) {
+	public Response insert(DiaRefeicao diaRefeicao) {
 		
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
 		builder.expires(new Date());
 		
 		// Validação dos dados de entrada.
-		int validacao = Validate.cronogramaRefeicao(cronogramaRefeicao);
+		int validacao = Validate.diaRefeicao(diaRefeicao);
 		
 		if (validacao == Validate.VALIDATE_OK) {
 			
 			try {			
 				
 				// Recuperar Aluno.
-				int idAluno = cronogramaRefeicao.getAluno().getId();
+				int idAluno = diaRefeicao.getAluno().getId();
 				Aluno aluno = AlunoDAO.getInstance().getById(idAluno);
-				cronogramaRefeicao.setAluno(aluno);
+				diaRefeicao.setAluno(aluno);
 				
 				// Recuperar Dia.
-				int idDia = cronogramaRefeicao.getDia().getId();
+				int idDia = diaRefeicao.getDia().getId();
 				Dia dia = DiaDAO.getInstance().getById(idDia);
-				cronogramaRefeicao.setDia(dia);
+				diaRefeicao.setDia(dia);
 				
 				// Recuperar Refeicao.
-				int idRefeicao = cronogramaRefeicao.getRefeicao().getId();
+				int idRefeicao = diaRefeicao.getRefeicao().getId();
 				Refeicao refeicao = RefeicaoDAO.getInstance().getById(idRefeicao);
-				cronogramaRefeicao.setRefeicao(refeicao);
+				diaRefeicao.setRefeicao(refeicao);
 				
 				if (aluno != null && dia != null && refeicao != null) {
 					
 					//Inserir o CronogramaRefeicao.
-					Integer idCronogramaRefeicao = CronogramaRefeicaoDAO.getInstance()
-							.insert(cronogramaRefeicao);
+					Integer idCronogramaRefeicao = DiaRefeicaoDAO.getInstance()
+							.insert(diaRefeicao);
 					
 					if (idCronogramaRefeicao != BancoUtil.IDVAZIO) {
 	
 						// Operação realizada com sucesso.
 						builder.status(Response.Status.OK);
-						builder.entity(cronogramaRefeicao);
+						builder.entity(diaRefeicao);
 					}
 				}
 			
@@ -103,14 +103,14 @@ public class CronogramaRefeicaoController {
 	@GET
 	@Path("/listar")
 	@Produces("application/json")
-	public List<CronogramaRefeicao> getAll() {
+	public List<DiaRefeicao> getAll() {
 		
-		List<CronogramaRefeicao> cronogramaRefeicao = 
-				new ArrayList<CronogramaRefeicao>();
+		List<DiaRefeicao> diasRefeicao = 
+				new ArrayList<DiaRefeicao>();
 		
-		cronogramaRefeicao = CronogramaRefeicaoDAO.getInstance().getAll();
+		diasRefeicao = DiaRefeicaoDAO.getInstance().getAll();
 		
-		return cronogramaRefeicao;
+		return diasRefeicao;
 	}
 	
 	@GET
@@ -124,7 +124,7 @@ public class CronogramaRefeicaoController {
 
 		try {
 
-			CronogramaRefeicao cronogramaRefeicao = CronogramaRefeicaoDAO
+			DiaRefeicao cronogramaRefeicao = DiaRefeicaoDAO
 					.getInstance().getById(idCronogramaRefeicao); 
 			
 			builder.status(Response.Status.OK);
@@ -150,7 +150,7 @@ public class CronogramaRefeicaoController {
 		
 		try {
 
-			List<CronogramaRefeicao> cronogramasRefeicao = CronogramaRefeicaoDAO
+			List<DiaRefeicao> cronogramasRefeicao = DiaRefeicaoDAO
 					.getInstance().getCronogramaRefeicaoByAluno(aluno.getNome());
 			
 			builder.status(Response.Status.OK);

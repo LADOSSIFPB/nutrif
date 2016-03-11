@@ -24,7 +24,7 @@ public class ConfirmaRefeicaoDia implements Serializable {
 
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "fk_id_cronograma_refeicao")
-	private CronogramaRefeicao cronogramaRefeicao;
+	private DiaRefeicao cronogramaRefeicao;
 
 	@Generated(GenerationTime.INSERT)
 	@Temporal(TemporalType.DATE)
@@ -32,11 +32,11 @@ public class ConfirmaRefeicaoDia implements Serializable {
 	private Date dataRefeicao;
 
 	@XmlElement
-	public CronogramaRefeicao getCronogramaRefeicao() {
+	public DiaRefeicao getCronogramaRefeicao() {
 		return cronogramaRefeicao;
 	}
 
-	public void setCronogramaRefeicao(CronogramaRefeicao cronogramaRefeicao) {
+	public void setCronogramaRefeicao(DiaRefeicao cronogramaRefeicao) {
 		this.cronogramaRefeicao = cronogramaRefeicao;
 	}
 

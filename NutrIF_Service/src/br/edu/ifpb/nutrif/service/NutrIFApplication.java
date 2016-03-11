@@ -8,7 +8,7 @@ import javax.ws.rs.core.Application;
 import org.jboss.resteasy.plugins.interceptors.CorsFilter;
 
 import br.edu.ifpb.nutrif.controller.AlunoController;
-import br.edu.ifpb.nutrif.controller.CronogramaRefeicaoController;
+import br.edu.ifpb.nutrif.controller.DiaRefeicaoController;
 import br.edu.ifpb.nutrif.controller.CursoController;
 import br.edu.ifpb.nutrif.controller.DiaController;
 import br.edu.ifpb.nutrif.controller.RefeicaoController;
@@ -30,7 +30,7 @@ public class NutrIFApplication extends Application {
 		this.singletons.add(filter);		
 		// ADD YOUR RESTFUL RESOURCES HERE
 		this.singletons.add(new AlunoController());
-		this.singletons.add(new CronogramaRefeicaoController());
+		this.singletons.add(new DiaRefeicaoController());
 		this.singletons.add(new CursoController());
 		this.singletons.add(new RefeicaoController());
 		this.singletons.add(new DiaController());

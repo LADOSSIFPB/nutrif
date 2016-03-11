@@ -5,10 +5,11 @@ import org.apache.logging.log4j.Logger;
 
 import br.edu.ifpb.nutrif.exception.ErrorFactory;
 import br.edu.ladoss.entity.Aluno;
-import br.edu.ladoss.entity.CronogramaRefeicao;
+import br.edu.ladoss.entity.DiaRefeicao;
 import br.edu.ladoss.entity.Curso;
 import br.edu.ladoss.entity.Dia;
 import br.edu.ladoss.entity.Refeicao;
+import br.edu.ladoss.entity.RefeicaoRealizada;
 
 public class Validate {
 
@@ -54,9 +55,16 @@ public class Validate {
 		return VALIDATE_OK;
 	}
 
-	public static int cronogramaRefeicao(CronogramaRefeicao cronogramaRefeicao) {
+	public static int diaRefeicao(DiaRefeicao cronogramaRefeicao) {
 		
 		logger.info("Validação para curso.");
+		//TODO: implementar a validação para abertura de sala.
+		return VALIDATE_OK;
+	}
+	
+	public static int refeicaoRealizada(RefeicaoRealizada refeicaoRealizada) {
+		
+		logger.info("Validação para Refeicao Realizada.");
 		//TODO: implementar a validação para abertura de sala.
 		return VALIDATE_OK;
 	}
