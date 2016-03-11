@@ -17,6 +17,7 @@ import br.edu.ifpb.nutrif.dao.AlunoDAO;
 import br.edu.ifpb.nutrif.dao.CronogramaRefeicaoDAO;
 import br.edu.ifpb.nutrif.dao.DiaDAO;
 import br.edu.ifpb.nutrif.dao.RefeicaoDAO;
+import br.edu.ifpb.nutrif.exception.ErrorFactory;
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
 import br.edu.ifpb.nutrif.util.BancoUtil;
 import br.edu.ifpb.nutrif.validation.Validate;
@@ -85,14 +86,15 @@ public class CronogramaRefeicaoController {
 					}
 				}
 			
-			} catch (SQLExceptionNutrIF qme) {
-				
-				Erro erro = new Erro();
-				erro.setCodigo(qme.getErrorCode());
-				erro.setMensagem(qme.getMessage());
+			} catch (SQLExceptionNutrIF exception) {
 
-				builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(erro);			
+				builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
+						exception.getErro());			
 			}
+		} else {
+			
+			Erro erro = ErrorFactory.getErrorFromIndex(validacao);
+			builder.status(Response.Status.NOT_ACCEPTABLE).entity(erro);
 		}				
 		
 		return builder.build();		
@@ -130,16 +132,12 @@ public class CronogramaRefeicaoController {
 
 		} catch (SQLExceptionNutrIF qme) {
 
-			Erro erro = new Erro();
-			erro.setCodigo(qme.getErrorCode());
-			erro.setMensagem(qme.getMessage());
-
-			builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(erro);
+			builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
+					qme.getErro());
 		}
 
 		return builder.build();
-	}
-	
+	}	
 	
 	@POST
 	@Path("/buscar/aluno")
@@ -150,7 +148,19 @@ public class CronogramaRefeicaoController {
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
 		builder.expires(new Date());
 		
-		//TODO: Implementar lógica.			
+		try {
+
+			List<CronogramaRefeicao> cronogramasRefeicao = CronogramaRefeicaoDAO
+					.getInstance().getCronogramaRefeicaoByAluno(aluno.getNome());
+			
+			builder.status(Response.Status.OK);
+			builder.entity(cronogramasRefeicao);
+
+		} catch (SQLExceptionNutrIF qme) {
+
+			builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
+					qme.getErro());
+		}		
 		
 		return builder.build();		
 	}

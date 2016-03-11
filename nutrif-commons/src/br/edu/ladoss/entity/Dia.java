@@ -29,6 +29,11 @@ public class Dia implements DataEntity {
 	public Dia() {
 		super();
 	}
+	
+	public Dia (Integer id, String nome) {
+		this.id = id;
+		this.nome = nome;
+	}
 
 	@XmlElement
 	public Integer getId() {
