@@ -139,11 +139,16 @@ public class DiaRefeicaoController {
 		return builder.build();
 	}	
 	
-	@POST
-	@Path("/buscar/aluno")
-	@Consumes("application/json")
+	/**
+	 * 
+	 * @param nome
+	 * @return
+	 */
+	@GET
+	@Path("/buscar/aluno/nome/{nome}")
 	@Produces("application/json")
-	public Response getCronogramaRefeicaoByAluno(Aluno aluno) {
+	public Response getCronogramaRefeicaoByAlunoNome(
+			@PathParam("nome") String nome) {
 		
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
 		builder.expires(new Date());
@@ -151,7 +156,38 @@ public class DiaRefeicaoController {
 		try {
 
 			List<DiaRefeicao> cronogramasRefeicao = DiaRefeicaoDAO
-					.getInstance().getCronogramaRefeicaoByAluno(aluno.getNome());
+					.getInstance().getCronogramaRefeicaoByAluno(nome);
+			
+			builder.status(Response.Status.OK);
+			builder.entity(cronogramasRefeicao);
+
+		} catch (SQLExceptionNutrIF qme) {
+
+			builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
+					qme.getErro());
+		}		
+		
+		return builder.build();		
+	}	
+	
+	/**
+	 * 
+	 * @param matricula
+	 * @return
+	 */
+	@GET
+	@Path("/buscar/aluno/matricula/{matricula}")
+	@Produces("application/json")
+	public Response getCronogramaRefeicaoByAlunoMatricula(
+			@PathParam("matricula") String matricula) {
+		
+		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
+		builder.expires(new Date());
+		
+		try {
+
+			List<DiaRefeicao> cronogramasRefeicao = DiaRefeicaoDAO
+					.getInstance().getCronogramaRefeicaoByAluno(matricula);
 			
 			builder.status(Response.Status.OK);
 			builder.entity(cronogramasRefeicao);
