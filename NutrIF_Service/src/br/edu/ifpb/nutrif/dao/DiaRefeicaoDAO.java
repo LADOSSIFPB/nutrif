@@ -39,7 +39,9 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 			String hql = "from DiaRefeicao"
 					+ " where aluno.nome like :nome"
 					+ " and dia.id = :dia"
-					+ " and refeicao.id = 1";
+					+ " and refeicao.id not in ("
+					+ " 	from RefeicaoRealizada ..."
+					+ ")";
 			
 			Query query = session.createQuery(hql);			
 			query.setParameter("nome", "%" + nome + "%");
