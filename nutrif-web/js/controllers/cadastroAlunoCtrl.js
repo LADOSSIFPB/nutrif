@@ -1,7 +1,8 @@
-angular.module("NutrifApp").controller("alunoCtrl", function ($scope, cronogramaRefeicaoService, refeicaoService, diaService) {
+angular.module("NutrifApp").controller("alunoCtrl", function ($scope, cronogramaRefeicaoService, refeicaoService, diaService, cursoService) {
    
    $scope.refeicoes = [];
    $scope.dias = [];
+   $scope.cursos = []
 
    var carregarRefeicoes = function(){
    		refeicaoService.listarRefeicoes().success( function(data, status){
@@ -27,6 +28,19 @@ angular.module("NutrifApp").controller("alunoCtrl", function ($scope, cronograma
    		});
    }
 
+   var carregarCursos = function(){
+   		cursoService.listarCursos().success( function(data, status){
+   			$scope.cursos = data;
+   		}).error(function(data, status){
+   			if(!data){
+   				alert("Erro ao carregar cursos, tente novamente ou contate os administradores.");
+   			}else{
+   				alert(data.message);
+   			}
+   		});
+   }
+
+   carregarCursos();
    carregarRefeicoes();
-   carregarDias();	
+   carregarDias();
 });

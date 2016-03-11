@@ -1,20 +1,30 @@
 <div class="section row">
-
+    <div class="input-field col s9">
+        <input id="nome_completo" type="text">
+        <label for="nome_completo" ng-model="cronogramaRefeicao.aluno.nome">Nome Completo</label>
+    </div>
     <div class="input-field col s3">
         <input id="matricula" type="text">
         <label for="matricula">Matrícula</label>
     </div>
-
-    <div class="input-field col s9">
-        <input id="nome_completo" type="text">
-        <label for="nome_completo">Nome Completo</label>
-    </div>
 </div>
 
 <div class="section row">
-    <div class="col s6 input-field">
+
+    <div class="col s4 input-field">
         <div class="select-wrapper">
-            <select class="browser-default" name="refeicaoSelect" id="refeicaoSelect">
+            <select class="browser-default">
+                <option value="" disabled selected>Selecione</option>
+                <ng-options="curso.nome for curso in cursos"
+                ng-model="cronogramaRefeicao.aluno.curso"/>
+            </select>
+        </div>
+        <label class="select-label">Curso</label>
+    </div>
+
+    <div class="col s4 input-field">
+        <div class="select-wrapper">
+            <select class="browser-default">
                 <option value="" disabled selected>Selecione</option>
                 <ng-options="refeicao.nome for refeicao in refeicoes"
                 ng-model="cronogramaRefeicao.refeicao"/>
@@ -22,7 +32,7 @@
         </div>
         <label class="select-label">Tipo de Refeição</label>
     </div>
-    <div class="col s6 input-field">
+    <div class="col s4 input-field">
         <div class="select-wrapper">
             <select class="browser-default">
                 <option value="" disabled selected>Selecione</option>
