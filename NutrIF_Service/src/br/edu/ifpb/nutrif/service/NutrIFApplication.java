@@ -13,7 +13,6 @@ import br.edu.ifpb.nutrif.controller.CursoController;
 import br.edu.ifpb.nutrif.controller.DiaController;
 import br.edu.ifpb.nutrif.controller.RefeicaoController;
 import br.edu.ifpb.nutrif.controller.RefeicaoRealizadaController;
-import br.edu.ladoss.entity.CronogramaRefeicao;
 
 public class NutrIFApplication extends Application {
 
