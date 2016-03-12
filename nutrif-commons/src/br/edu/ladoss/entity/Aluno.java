@@ -17,8 +17,6 @@ import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import org.hibernate.annotations.BatchSize;
-
 import br.edu.ladoss.data.DataEntity;
 
 @XmlRootElement(name = "aluno")

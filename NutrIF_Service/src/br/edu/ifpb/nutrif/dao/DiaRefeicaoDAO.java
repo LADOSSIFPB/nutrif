@@ -39,15 +39,58 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 			String hql = "from DiaRefeicao as dr"
 					+ " where dr.aluno.nome like :nome"
 					+ " and dr.dia.id = :dia"
+					+ "	and dr.refeicao.horaFinal >= CURRENT_TIME()"
 					+ " and dr.refeicao.id not in ("
 					+ "		select rr.confirmaRefeicaoDia.diaRefeicao.refeicao.id"
 					+ " 	from RefeicaoRealizada as rr"
 					+ "		where rr.confirmaRefeicaoDia.diaRefeicao.dia.id = :dia"
-					+ "		and rr.confirmaRefeicaoDia.diaRefeicao.refeicao.id = 1"
+					+ "		and rr.confirmaRefeicaoDia.diaRefeicao.refeicao.horaFinal"
+					+ "			>= CURRENT_TIME()"
 					+ ")";
 			
 			Query query = session.createQuery(hql);			
 			query.setParameter("nome", "%" + nome + "%");
+			query.setParameter("dia", dia.getId());
+			
+			cronogramasRefeicao = (List<DiaRefeicao>) query.list();
+	        
+		} catch (HibernateException e) {
+			
+			logger.error(e.getMessage());
+			session.getTransaction().rollback();
+			
+		} finally {
+		
+			session.close();
+		}
+		
+		return cronogramasRefeicao;		
+	}
+	
+public List<DiaRefeicao> getCronogramaRefeicaoByAlunoMatricula(String matricula) {
+		
+		Session session = HibernateUtil.getSessionFactory().openSession();
+
+		List<DiaRefeicao> cronogramasRefeicao = new ArrayList<DiaRefeicao>();
+		
+		try {
+			
+			Dia dia = DateUtil.getCurrentDayOfWeek();
+			
+			String hql = "from DiaRefeicao as dr"
+					+ " where dr.aluno.matricula = :matricula"
+					+ " and dr.dia.id = :dia"
+					+ "	and dr.refeicao.horaFinal >= CURRENT_TIME()"
+					+ " and dr.refeicao.id not in ("
+					+ "		select rr.confirmaRefeicaoDia.diaRefeicao.refeicao.id"
+					+ " 	from RefeicaoRealizada as rr"
+					+ "		where rr.confirmaRefeicaoDia.diaRefeicao.dia.id = :dia"
+					+ "		and rr.confirmaRefeicaoDia.diaRefeicao.refeicao.horaFinal"
+					+ "			>= CURRENT_TIME()"
+					+ ")";
+			
+			Query query = session.createQuery(hql);			
+			query.setParameter("matricula", matricula);
 			query.setParameter("dia", dia.getId());
 			
 			cronogramasRefeicao = (List<DiaRefeicao>) query.list();

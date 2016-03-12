@@ -6,8 +6,9 @@ insert into tb_dia(id_dia, nm_dia) values (5, "Quinta-feira");
 insert into tb_dia(id_dia, nm_dia) values (6, "Sexta-feira");
 insert into tb_dia(id_dia, nm_dia) values (7, "Sábado");
 
-insert into tb_refeicao values (1, "Almoço");
-insert into tb_refeicao values (2, "Jantar");
+INSERT INTO tb_refeicao (id_refeicao, nm_tipo_refeicao, hr_fim, hr_inicio) VALUES
+(1, 'Almoço', '15:00:00', '11:00:00'),
+(2, 'Jantar', '20:00:00', '17:00:00');
 
 INSERT INTO tb_curso (nm_curso) VALUES
 ('Integrado em Informatica'),
