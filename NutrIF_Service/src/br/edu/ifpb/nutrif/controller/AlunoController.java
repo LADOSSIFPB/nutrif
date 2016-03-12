@@ -69,6 +69,50 @@ public class AlunoController {
 		return builder.build();		
 	}
 	
+	@POST
+	@Path("/atualizar")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public Response update(Aluno aluno) {
+		
+		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
+		builder.expires(new Date());
+		
+		// Validação dos dados de entrada.
+		int validacao = Validate.aluno(aluno);
+		
+		if (validacao == Validate.VALIDATE_OK) {
+			
+			try {			
+				
+				// Recuperar Curso.
+				int idCurso = aluno.getCurso().getId();
+				Curso curso = CursoDAO.getInstance().getById(idCurso);
+				aluno.setCurso(curso);
+				
+				//Atualizar o Aluno.
+				aluno = AlunoDAO.getInstance().update(aluno);
+				
+				if (aluno != null) {
+
+					// Operação realizada com sucesso.
+					builder.status(Response.Status.OK);
+					builder.entity(aluno);
+				}
+			
+			} catch (SQLExceptionNutrIF qme) {
+				
+				Erro erro = new Erro();
+				erro.setCodigo(qme.getErrorCode());
+				erro.setMensagem(qme.getMessage());
+
+				builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(erro);			
+			}
+		}				
+		
+		return builder.build();		
+	}
+	
 	@GET
 	@Path("/listar")
 	@Produces("application/json")

@@ -49,7 +49,7 @@ public abstract class GenericDao<PK, T> {
 		return id;
 	}
 
-	public void update(T entity) throws SQLExceptionNutrIF{
+	public T update(T entity) throws SQLExceptionNutrIF{
 		
 		logger.info("Init abstract Update to: " + entity.getClass());
 		
@@ -58,7 +58,7 @@ public abstract class GenericDao<PK, T> {
 		try {
 			
 			session.beginTransaction();
-			session.merge(entity);
+			entity = (T) session.merge(entity);
 			session.getTransaction().commit();
 
 		} catch (HibernateException e) {
@@ -73,6 +73,8 @@ public abstract class GenericDao<PK, T> {
 			
 			session.close();
 		}
+		
+		return entity;
 	}
 
 	public void delete(T entity) {
