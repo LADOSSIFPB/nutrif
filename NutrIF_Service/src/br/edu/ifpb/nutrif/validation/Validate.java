@@ -5,9 +5,9 @@ import org.apache.logging.log4j.Logger;
 
 import br.edu.ifpb.nutrif.exception.ErrorFactory;
 import br.edu.ladoss.entity.Aluno;
-import br.edu.ladoss.entity.DiaRefeicao;
 import br.edu.ladoss.entity.Curso;
 import br.edu.ladoss.entity.Dia;
+import br.edu.ladoss.entity.DiaRefeicao;
 import br.edu.ladoss.entity.Refeicao;
 import br.edu.ladoss.entity.RefeicaoRealizada;
 import br.edu.ladoss.entity.Usuario;
@@ -58,8 +58,28 @@ public class Validate {
 
 	public static int diaRefeicao(DiaRefeicao cronogramaRefeicao) {
 		
-		logger.info("Validação para curso.");
-		//TODO: implementar a validação para abertura de sala.
+		logger.info("Validação para Dia da Refeição.");
+		
+		Aluno aluno = cronogramaRefeicao.getAluno();
+		if (aluno == null || 
+				(aluno != null 
+					&& !numeroValidator.isInteiroPositivo(aluno.getId()))) {
+			return ErrorFactory.ID_ALUNO_INVALIDO;
+		}
+		
+		Dia dia = cronogramaRefeicao.getDia();
+		if (dia == null || 
+				(dia != null 
+					&& !numeroValidator.isInteiroPositivo(dia.getId()))) {
+			return ErrorFactory.ID_DIA_INVALIDO;
+		}
+		
+		Refeicao refeicao = cronogramaRefeicao.getRefeicao();
+		if (refeicao == null || 
+				(refeicao != null 
+					&& !numeroValidator.isInteiroPositivo(refeicao.getId()))) {
+			return ErrorFactory.ID_REFEICAO_INVALIDA;
+		}
 		return VALIDATE_OK;
 	}
 	
