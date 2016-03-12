@@ -19,7 +19,13 @@ public class ErrorFactory {
 	 * Error status: Curso.
 	 */
 	public static final int NOME_CURSO_INVALIDO = 3;
-		
+	
+	/*
+	 * Error status: Usuário.
+	 */
+	public static final int NOME_USUARIO_INVALIDO = 4;
+	public static final int SENHA_USUARIO_INVALIDA = 5;
+	
 	/*
 	 * Mapa de erros: código e mensagem.
 	 */
@@ -31,6 +37,8 @@ public class ErrorFactory {
 		hashMap.put(REGISTRO_DUPLICADO, "Registro duplicado.");
 		hashMap.put(ALUNO_NAO_ENCONTRADO, "Aluno não encontrado.");
 		hashMap.put(NOME_CURSO_INVALIDO, "Nome do curso inválido.");
+		hashMap.put(NOME_USUARIO_INVALIDO, "Nome do usuário inválido.");
+		hashMap.put(SENHA_USUARIO_INVALIDA, "Senha do usuário inválida.");
 
 		return hashMap;
 	}

@@ -10,6 +10,7 @@ import br.edu.ladoss.entity.Curso;
 import br.edu.ladoss.entity.Dia;
 import br.edu.ladoss.entity.Refeicao;
 import br.edu.ladoss.entity.RefeicaoRealizada;
+import br.edu.ladoss.entity.Usuario;
 
 public class Validate {
 
@@ -69,4 +70,18 @@ public class Validate {
 		return VALIDATE_OK;
 	}
 	
+	public static int usuario(Usuario usuario) {
+		
+		logger.info("Validação para Usuário.");
+		
+		String nome = usuario.getNome();
+		if (!stringValidator.validateSomenteLetras(nome))
+			return ErrorFactory.NOME_USUARIO_INVALIDO;
+		
+		String senha = usuario.getSenha();
+		if (!stringValidator.validatePassword(senha))
+			return ErrorFactory.SENHA_USUARIO_INVALIDA;
+		
+		return VALIDATE_OK;
+	}	
 }

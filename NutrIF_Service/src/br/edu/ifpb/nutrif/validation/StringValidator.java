@@ -18,7 +18,7 @@ public class StringValidator implements NutrIFValidator {
 	// - uma letra minúscula;
 	// - uma letra maiúscula.
 	// O tamanho deve está entre 8 e 25 caracteres.
-	private static final String PASSWORD_PATTERN = "(?=.*[0-9@#$%^&+=])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{8,25}";
+	private static final String PASSWORD_PATTERN = "((?=.*[0-9a-zA-Z]).{6,25}";
 
 	public StringValidator() {
 		pattern = Pattern.compile(STRING_PATTERN);
