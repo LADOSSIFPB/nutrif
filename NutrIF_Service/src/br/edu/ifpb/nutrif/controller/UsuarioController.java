@@ -16,10 +16,13 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
 import br.edu.ifpb.nutrif.dao.UsuarioDAO;
+import br.edu.ifpb.nutrif.exception.ErrorFactory;
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
 import br.edu.ifpb.nutrif.util.BancoUtil;
 import br.edu.ifpb.nutrif.util.StringUtil;
 import br.edu.ifpb.nutrif.validation.Validate;
+import br.edu.ladoss.entity.Dia;
+import br.edu.ladoss.entity.Erro;
 import br.edu.ladoss.entity.Usuario;
 
 @Path("usuario")
@@ -60,11 +63,14 @@ public class UsuarioController {
 				String key = StringUtil.criptografarSha256(hoje.toString());
 				usuario.setKey(key);
 				
-				//Inserir o Aluno.
+				//Inserir o usuário.
 				Integer idUsuario = UsuarioDAO.getInstance().insert(usuario);
 				
 				if (idUsuario != BancoUtil.IDVAZIO) {
 
+					// Remover a senha.
+					usuario.setSenha(StringUtil.STRING_VAZIO);
+					
 					// Operação realizada com sucesso.
 					builder.status(Response.Status.OK);
 					builder.entity(usuario);
@@ -79,9 +85,70 @@ public class UsuarioController {
 					exception) {
 
 				builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
-						"");			
+						ErrorFactory.getErrorFromIndex(
+								ErrorFactory.IMPOSSIVEL_CRIPTOGRAFAR_VALOR));			
 			}
-		}				
+		} else {
+			
+			Erro erro = ErrorFactory.getErrorFromIndex(validacao);
+			builder.status(Response.Status.NOT_ACCEPTABLE).entity(erro);
+		}
+		
+		return builder.build();		
+	}
+	
+	@POST
+	@Path("/login")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public Response login(Usuario usuario) {
+		
+		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
+		builder.expires(new Date());
+		
+		// Validação dos dados de entrada.
+		int validacao = Validate.usuario(usuario);
+		
+		if (validacao == Validate.VALIDATE_OK) {
+			
+			try {
+				
+				//Login usuário.
+				usuario = UsuarioDAO.getInstance().login(
+						usuario.getNome(), usuario.getSenha());
+				
+				if (usuario != null) {
+
+					// Remover a senha.
+					usuario.setSenha(StringUtil.STRING_VAZIO);
+					
+					// Operação realizada com sucesso.
+					builder.status(Response.Status.OK);
+					builder.entity(usuario);
+				
+				} else {
+					
+					builder.status(Response.Status.UNAUTHORIZED);
+				}
+			
+			} catch (SQLExceptionNutrIF exception) {
+
+				builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
+						exception.getErro());
+				
+			} catch (UnsupportedEncodingException 
+					exception) {
+
+				builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
+						ErrorFactory.getErrorFromIndex(
+								ErrorFactory.IMPOSSIVEL_CRIPTOGRAFAR_VALOR));			
+			}
+			
+		} else {
+			
+			Erro erro = ErrorFactory.getErrorFromIndex(validacao);
+			builder.status(Response.Status.NOT_ACCEPTABLE).entity(erro);
+		}
 		
 		return builder.build();		
 	}

@@ -54,5 +54,11 @@ public class Usuario extends Pessoa {
 
 	public void setId(Integer id) {
 		this.id = id;
-	}	
+	}
+	
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return "Usuario [nome=" + super.getNome() + ", key=" + key + "]";
+	}
 }
