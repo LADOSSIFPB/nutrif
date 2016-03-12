@@ -21,4 +21,13 @@ INSERT INTO tb_dia_refeicao (fk_id_aluno, fk_id_dia, fk_id_refeicao) VALUES ('1'
 INSERT INTO tb_dia_refeicao (fk_id_aluno, fk_id_dia, fk_id_refeicao) VALUES ('1', '1', '2');
 INSERT INTO tb_dia_refeicao (fk_id_aluno, fk_id_dia, fk_id_refeicao) VALUES ('1', '2', '1');
 INSERT INTO tb_dia_refeicao (fk_id_aluno, fk_id_dia, fk_id_refeicao) VALUES ('1', '2', '2');
-
+INSERT INTO tb_dia_refeicao (fk_id_aluno, fk_id_dia, fk_id_refeicao) VALUES ('1', '3', '1');
+INSERT INTO tb_dia_refeicao (fk_id_aluno, fk_id_dia, fk_id_refeicao) VALUES ('1', '3', '2');
+INSERT INTO tb_dia_refeicao (fk_id_aluno, fk_id_dia, fk_id_refeicao) VALUES ('1', '4', '1');
+INSERT INTO tb_dia_refeicao (fk_id_aluno, fk_id_dia, fk_id_refeicao) VALUES ('1', '4', '2');
+INSERT INTO tb_dia_refeicao (fk_id_aluno, fk_id_dia, fk_id_refeicao) VALUES ('1', '5', '1');
+INSERT INTO tb_dia_refeicao (fk_id_aluno, fk_id_dia, fk_id_refeicao) VALUES ('1', '5', '2');
+INSERT INTO tb_dia_refeicao (fk_id_aluno, fk_id_dia, fk_id_refeicao) VALUES ('1', '6', '1');
+INSERT INTO tb_dia_refeicao (fk_id_aluno, fk_id_dia, fk_id_refeicao) VALUES ('1', '6', '2');
+INSERT INTO tb_dia_refeicao (fk_id_aluno, fk_id_dia, fk_id_refeicao) VALUES ('1', '7', '1');
+INSERT INTO tb_dia_refeicao (fk_id_aluno, fk_id_dia, fk_id_refeicao) VALUES ('1', '7', '2');
