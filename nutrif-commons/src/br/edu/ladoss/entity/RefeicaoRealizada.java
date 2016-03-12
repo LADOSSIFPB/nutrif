@@ -2,6 +2,8 @@ package br.edu.ladoss.entity;
 
 import java.util.Date;
 
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -30,6 +32,10 @@ public class RefeicaoRealizada implements DataEntity {
 	private Integer id;
 
 	@EmbeddedId
+	@AttributeOverrides({
+		  @AttributeOverride(name = "diaRefeicao", column = @Column(name = "fk_id_dia_refeicao", nullable = false)),
+		  @AttributeOverride(name = "dataRefeicao", column = @Column(name = "dt_refeicao", nullable = false))	  
+	})		  
 	private ConfirmaRefeicaoDia confirmaRefeicaoDia;
 
 	@Generated(GenerationTime.INSERT)

@@ -79,6 +79,6 @@ public class Refeicao implements DataEntity {
 	@Override
 	public String toString() {
 		return "Refeicao [id=" + id + ", tipo=" + tipo + ", horaInicio=" 
-				+ horaInicio + ", horaFim " + horaFinal + "]";
+				+ horaInicio + ", horaFim=" + horaFinal + "]";
 	}
 }

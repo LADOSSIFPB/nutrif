@@ -1,5 +1,6 @@
 package br.edu.ifpb.nutrif.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -10,7 +11,10 @@ import org.hibernate.Session;
 
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
 import br.edu.ifpb.nutrif.hibernate.HibernateUtil;
+import br.edu.ifpb.nutrif.util.DateUtil;
 import br.edu.ladoss.entity.Aluno;
+import br.edu.ladoss.entity.Dia;
+import br.edu.ladoss.entity.DiaRefeicao;
 
 public class AlunoDAO extends GenericDao<Integer, Aluno> {
 
@@ -23,33 +27,23 @@ public class AlunoDAO extends GenericDao<Integer, Aluno> {
 		return instance;
 	}
 
-	public Aluno getByNameAndRegistration(String nome, String matricula) {
+	public Aluno getByMatricula(String matricula) {
 		
 		Session session = HibernateUtil.getSessionFactory().openSession();
+		
 		Aluno aluno = null;
-		List<Aluno> alunos;
-		Query query;
 		
 		try {
-		
-			session.beginTransaction();
 			
-			query = session.createQuery("from Aluno"
-					+ " where nome like :nome"
-					+ " and matricula = :matricula");
-			query.setParameter("nome", nome);
+			Dia dia = DateUtil.getCurrentDayOfWeek();
+			
+			String hql = "from Aluno as a"
+					+ " where a.matricula = :matricula";
+			
+			Query query = session.createQuery(hql);
 			query.setParameter("matricula", matricula);
-
-			alunos = (List<Aluno>) query.list();
 			
-			if (alunos.isEmpty()) {
-				
-				alunos = null;
-				
-			} else {
-				
-				aluno = alunos.get(0);
-			}
+			aluno = (Aluno) query.uniqueResult();
 	        
 		} catch (HibernateException e) {
 			

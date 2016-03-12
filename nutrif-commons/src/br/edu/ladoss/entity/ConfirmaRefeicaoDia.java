@@ -21,9 +21,9 @@ import org.hibernate.annotations.GenerationTime;
 public class ConfirmaRefeicaoDia implements Serializable {
 
 	private static final long serialVersionUID = 4103942093838478635L;
-
+	
 	@OneToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "fk_id_dia_refeicao")
+	@JoinColumn(name = "fk_id_dia_refeicao", referencedColumnName="id_dia_refeicao")
 	private DiaRefeicao diaRefeicao;
 
 	@Generated(GenerationTime.INSERT)

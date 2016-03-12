@@ -25,7 +25,7 @@ public class DiaRefeicao implements DataEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id_cronograma_refeicao")
+	@Column(name = "id_dia_refeicao")
 	private Integer id;
 
 	@ManyToOne(cascade=CascadeType.ALL)
@@ -82,8 +82,8 @@ public class DiaRefeicao implements DataEntity {
 
 	@Override
 	public String toString() {
-		return "CronogramaRefeicao [id=" + id + ", aluno=" + aluno + ", dia=" + dia + ", refeicao="
-				+ refeicao + "]";
+		return "DiaRefeicao [id=" + id + ", aluno=" + aluno 
+				+ ", dia=" + dia + ", refeicao=" + refeicao + "]";
 	}
 
 }

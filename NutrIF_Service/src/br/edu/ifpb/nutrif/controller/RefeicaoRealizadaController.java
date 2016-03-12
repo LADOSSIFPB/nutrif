@@ -19,6 +19,7 @@ import br.edu.ifpb.nutrif.exception.ErrorFactory;
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
 import br.edu.ifpb.nutrif.util.BancoUtil;
 import br.edu.ifpb.nutrif.validation.Validate;
+import br.edu.ladoss.entity.ConfirmaRefeicaoDia;
 import br.edu.ladoss.entity.DiaRefeicao;
 import br.edu.ladoss.entity.Erro;
 import br.edu.ladoss.entity.RefeicaoRealizada;
@@ -52,14 +53,17 @@ public class RefeicaoRealizadaController {
 						.getConfirmaRefeicaoDia()
 						.getDiaRefeicao()
 						.getId();
-				DiaRefeicao cronogramaRefeicao = DiaRefeicaoDAO
+				DiaRefeicao diaRefeicao = DiaRefeicaoDAO
 						.getInstance().getById(idCronogramaRefeicao);
 				
-				if (cronogramaRefeicao != null) {
+				if (diaRefeicao != null) {
+					
+					ConfirmaRefeicaoDia confirmaRefeicaoDia = new ConfirmaRefeicaoDia();
+					confirmaRefeicaoDia.setDiaRefeicao(diaRefeicao);
+					confirmaRefeicaoDia.setDataRefeicao(new Date());
 					
 					// Cronograma Refeição completo.
-					refeicaoRealizada.getConfirmaRefeicaoDia()
-						.setDiaRefeicao(cronogramaRefeicao);
+					refeicaoRealizada.setConfirmaRefeicaoDia(confirmaRefeicaoDia);
 					
 					//Inserir o Aluno.
 					Integer idRefeicaoRealizada = RefeicaoRealizadaDAO

@@ -96,13 +96,43 @@ public class AlunoController {
 			builder.status(Response.Status.OK);
 			builder.entity(aluno);
 
-		} catch (SQLExceptionNutrIF qme) {
+		} catch (SQLExceptionNutrIF exception) {
 
-			Erro erro = new Erro();
-			erro.setCodigo(qme.getErrorCode());
-			erro.setMensagem(qme.getMessage());
+			builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
+					exception.getErro());
+		}
 
-			builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(erro);
+		return builder.build();
+	}
+	
+	@GET
+	@Path("/matricula/{matricula}")
+	@Produces("application/json")
+	public Response getAlunoByMatricula(
+			@PathParam("matricula") String matricula) {
+		
+		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
+		builder.expires(new Date());
+
+		try {
+
+			Aluno aluno = AlunoDAO.getInstance().getByMatricula(matricula); 
+			
+			if (aluno != null) {
+				
+				builder.status(Response.Status.OK);
+				builder.entity(aluno);
+				
+			} else {
+				
+				builder.status(Response.Status.NOT_FOUND);
+			}
+			
+
+		} catch (SQLExceptionNutrIF exception) {
+
+			builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
+					exception.getErro());
 		}
 
 		return builder.build();
