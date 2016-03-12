@@ -156,7 +156,7 @@ public class DiaRefeicaoController {
 		try {
 
 			List<DiaRefeicao> cronogramasRefeicao = DiaRefeicaoDAO
-					.getInstance().getCronogramaRefeicaoByAluno(nome);
+					.getInstance().getCronogramaRefeicaoByAlunoNome(nome);
 			
 			builder.status(Response.Status.OK);
 			builder.entity(cronogramasRefeicao);
@@ -187,7 +187,7 @@ public class DiaRefeicaoController {
 		try {
 
 			List<DiaRefeicao> cronogramasRefeicao = DiaRefeicaoDAO
-					.getInstance().getCronogramaRefeicaoByAluno(matricula);
+					.getInstance().getCronogramaRefeicaoByAlunoNome(matricula);
 			
 			builder.status(Response.Status.OK);
 			builder.entity(cronogramasRefeicao);

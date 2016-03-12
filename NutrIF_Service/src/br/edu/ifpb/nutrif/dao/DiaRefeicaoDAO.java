@@ -26,7 +26,7 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 		return instance;
 	}
 
-	public List<DiaRefeicao> getCronogramaRefeicaoByAluno(String nome) {
+	public List<DiaRefeicao> getCronogramaRefeicaoByAlunoNome(String nome) {
 		
 		Session session = HibernateUtil.getSessionFactory().openSession();
 
@@ -36,11 +36,14 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 			
 			Dia dia = DateUtil.getCurrentDayOfWeek();
 			
-			String hql = "from DiaRefeicao"
-					+ " where aluno.nome like :nome"
-					+ " and dia.id = :dia"
-					+ " and refeicao.id not in ("
-					+ " 	from RefeicaoRealizada ..."
+			String hql = "from DiaRefeicao as dr"
+					+ " where dr.aluno.nome like :nome"
+					+ " and dr.dia.id = :dia"
+					+ " and dr.refeicao.id not in ("
+					+ "		select rr.confirmaRefeicaoDia.diaRefeicao.refeicao.id"
+					+ " 	from RefeicaoRealizada as rr"
+					+ "		where rr.confirmaRefeicaoDia.diaRefeicao.dia.id = :dia"
+					+ "		and rr.confirmaRefeicaoDia.diaRefeicao.refeicao.id = 1"
 					+ ")";
 			
 			Query query = session.createQuery(hql);			

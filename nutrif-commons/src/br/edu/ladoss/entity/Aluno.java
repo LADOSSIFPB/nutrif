@@ -35,7 +35,7 @@ public class Aluno implements DataEntity {
 	@Column(name = "nm_aluno")
 	private String nome;
 
-	@Column(name = "nm_matricula", length = 11)
+	@Column(name = "nm_matricula", length = 11, unique = true)
 	private String matricula;
 
 	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
