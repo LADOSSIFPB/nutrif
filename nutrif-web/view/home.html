@@ -1,22 +1,13 @@
 <div class="section row">
 
-    <div class="input-field col s3">
-        <input id="matricula" type="text" ng-model="pesquisa.refeicao.aluno.matricula">
+    <div class="input-field col s4">
+        <input id="matricula" type="text" ng-model="refeicao.aluno.matricula" ng-keyup="buscarRefeicoes(refeicao)">
         <label for="matricula">Matrícula</label>
     </div>
 
-    <div class="input-field col s6">
-        <input id="nome_completo" type="text" ng-model="pesquisa.refeicao.aluno.nome">
+    <div class="input-field col s8">
+        <input id="nome_completo" type="text" ng-model="refeicao.aluno.nome" ng-keyup="buscarRefeicoes(refeicao)">
         <label for="nome_completo">Nome Completo</label>
-    </div>
-
-    <div class="col s3">
-        <label>Tipo de Refeição</label>
-        <select class="browser-default" ng-model="pesquisa.refeicao.refeicao">
-            <option value="" disabled selected>Selecione</option>
-            <option value="1">Almoço</option>
-            <option value="2">Jantar</option>
-        </select>
     </div>
 
 </div>
@@ -35,35 +26,11 @@
         </thead>
 
         <tbody>
-            <tr>
-                <td>José Renan Silva Luciano</td>
-                <td>20131004015</td>
-                <td>Almoço</td>
-                <td>Segunda</td>
-                <td>
-                    <button class="btn waves-effect waves-light" type="submit" name="action">
-                        Registrar
-                    </button>
-                </td>
-            </tr>
-
-            <tr>
-                <td>Rhavy Maia Guedes</td>
-                <td>20131004015</td>
-                <td>Jantar</td>
-                <td>Sexta</td>
-                <td>
-                    <button class="btn waves-effect waves-light" type="submit" name="action">
-                        Registrar
-                    </button>
-                </td>
-            </tr>
-
-            <tr>
-                <td>Marcelo José Siqueira Coutinho de Almeida</td>
-                <td>20131004015</td>
-                <td>Almoço</td>
-                <td>Quarta</td>
+            <tr ng-repeat="refeicao in refeicoes">
+                <td>{{refeicao.aluno.nome | uppercase}}</td>
+                <td>{{refeicao.aluno.matricula}}</td>
+                <td>{{refeicao.refeicao.tipo | uppercase}}</td>
+                <td>{{refeicao.dia.nome | uppercase}}</td>
                 <td>
                     <button class="btn waves-effect waves-light" type="submit" name="action">
                         Registrar
@@ -72,5 +39,4 @@
             </tr>
         </tbody>
     </table>
-
 </div>

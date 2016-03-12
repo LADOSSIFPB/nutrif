@@ -7,14 +7,12 @@ angular.module('NutrifApp').config(function ($stateProvider, $urlRouterProvider)
 		.state('main', {
 		    url: '/main',
 		    templateUrl: '../view/home.html',
-		    controller: 'pesquisaCtrl',
-		    controllerAs: 'pesquisa'
+		    controller: 'pesquisaCtrl'
 	  	})
 
 	  	.state('cadastro-aluno', {
 	  		url: '/cadastro-aluno',
 		    templateUrl: '../view/cadastrar-aluno.html',
-		    controller: 'alunoCtrl',
-		    controllerAs: 'alunoCtrl'
+		    controller: 'alunoCtrl'
 	  	});
 });

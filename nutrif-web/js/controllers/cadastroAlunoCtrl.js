@@ -2,7 +2,7 @@ angular.module("NutrifApp").controller("alunoCtrl", function ($scope, diaRefeica
    
    $scope.cadastrar = function (diaRefeicao) {
 
-      diaRefeicaoService.cadastrarRefeicao(diaRefeicao).success(function () {
+      diaRefeicaoService.cadastrarRefeicao(diaRefeicao).success(function (data, status) {
          
          $state.go("main");
 
