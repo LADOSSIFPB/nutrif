@@ -167,7 +167,7 @@ angular.module('chieffancypants.loadingBar', ['cfp.loadingBarInterceptor']);
  .provider('cfpLoadingBar', function() {
 
   this.autoIncrement = true;
-  this.includeSpinner = true;
+  this.includeSpinner = false;
   this.includeBar = true;
   this.latencyThreshold = 100;
   this.startSize = 0.02;

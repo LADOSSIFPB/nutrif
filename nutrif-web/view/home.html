@@ -32,7 +32,7 @@
                 <td>{{refeicao.refeicao.tipo | uppercase}}</td>
                 <td>{{refeicao.dia.nome | uppercase}}</td>
                 <td>
-                    <button class="btn waves-effect waves-light" type="submit" name="action">
+                    <button class="btn waves-effect waves-light light-green darken-1" ng-click="selecionarRefeicao(refeicao)">
                         Registrar
                     </button>
                 </td>
@@ -40,3 +40,5 @@
         </tbody>
     </table>
 </div>
+
+<div ng-include="'view/modals/confirmar-refeicao.html'" scope="" onload=""></div>

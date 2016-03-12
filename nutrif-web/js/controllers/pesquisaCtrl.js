@@ -1,4 +1,4 @@
-angular.module('NutrifApp').controller("pesquisaCtrl", function ($scope, diaRefeicaoService) {
+angular.module('NutrifApp').controller("pesquisaCtrl", function ($scope, diaRefeicaoService, refeicaoRealizadaService) {
     
 	var TAM_MIN_BUSCA_MATRICULA = 11;
 	var TAM_MIN_BUSCA_NOME = 3;
@@ -35,6 +35,31 @@ angular.module('NutrifApp').controller("pesquisaCtrl", function ($scope, diaRefe
 			});
 
 		}
+
+	}
+
+	$scope.selecionarRefeicao = function (refeicao) {
+		$scope.refeicaoSelecionada = refeicao;
+		$('#confirmar-refeicao').openModal();
+	}
+
+	$scope.registrarRefeicao = function (refeicaoSelecionada) {
+		
+		var _refeicaoRealizada = {};
+		_refeicaoRealizada.confirmaRefeicaoDia = {};
+		_refeicaoRealizada.confirmaRefeicaoDia.diaRefeicao = refeicaoSelecionada;
+
+		refeicaoRealizadaService.inserirRefeicao(_refeicaoRealizada).success(function (data, status) {
+
+			$scope.refeicaoSelecionada = {};
+			$scope.refeicoes = [];
+			$scope.refeicao = {};
+
+			Materialize.toast('Refeição realizada com sucesso', 6000);
+
+		}).error(function (data, status){
+
+		});
 
 	}
 
