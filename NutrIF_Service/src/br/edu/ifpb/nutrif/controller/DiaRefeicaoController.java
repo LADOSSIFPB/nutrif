@@ -156,7 +156,7 @@ public class DiaRefeicaoController {
 		try {
 
 			List<DiaRefeicao> cronogramasRefeicao = DiaRefeicaoDAO
-					.getInstance().getCronogramaRefeicaoByAlunoNome(nome);
+					.getInstance().getDiaRefeicaoByAlunoNome(nome);
 			
 			builder.status(Response.Status.OK);
 			builder.entity(cronogramasRefeicao);
@@ -187,7 +187,33 @@ public class DiaRefeicaoController {
 		try {
 
 			List<DiaRefeicao> cronogramasRefeicao = DiaRefeicaoDAO
-					.getInstance().getCronogramaRefeicaoByAlunoMatricula(matricula);
+					.getInstance().getDiaRefeicaoByAlunoMatricula(matricula);
+			
+			builder.status(Response.Status.OK);
+			builder.entity(cronogramasRefeicao);
+
+		} catch (SQLExceptionNutrIF qme) {
+
+			builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
+					qme.getErro());
+		}		
+		
+		return builder.build();		
+	}
+	
+	@GET
+	@Path("/listar/aluno/matricula/{matricula}")
+	@Produces("application/json")
+	public Response getAllByAlunoMatricula(
+			@PathParam("matricula") String matricula) {
+		
+		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
+		builder.expires(new Date());
+		
+		try {
+
+			List<DiaRefeicao> cronogramasRefeicao = DiaRefeicaoDAO
+					.getInstance().getAllByAlunoMatricula(matricula);
 			
 			builder.status(Response.Status.OK);
 			builder.entity(cronogramasRefeicao);

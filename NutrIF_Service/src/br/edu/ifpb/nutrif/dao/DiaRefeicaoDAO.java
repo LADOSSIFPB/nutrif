@@ -26,7 +26,7 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 		return instance;
 	}
 
-	public List<DiaRefeicao> getCronogramaRefeicaoByAlunoNome(String nome) {
+	public List<DiaRefeicao> getDiaRefeicaoByAlunoNome(String nome) {
 		
 		Session session = HibernateUtil.getSessionFactory().openSession();
 
@@ -39,6 +39,7 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 			String hql = "from DiaRefeicao as dr"
 					+ " where dr.aluno.nome like :nome"
 					+ " and dr.dia.id = :dia"
+					+ "	and dr.refeicao.horaInicio <= CURRENT_TIME()"
 					+ "	and dr.refeicao.horaFinal >= CURRENT_TIME()"
 					+ " and dr.refeicao.id not in ("
 					+ "		select rr.confirmaRefeicaoDia.diaRefeicao.refeicao.id"
@@ -54,10 +55,12 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 			
 			cronogramasRefeicao = (List<DiaRefeicao>) query.list();
 	        
-		} catch (HibernateException e) {
+		} catch (HibernateException exception) {
 			
-			logger.error(e.getMessage());
+			logger.error(exception.getMessage());
 			session.getTransaction().rollback();
+			
+			throw exception;
 			
 		} finally {
 		
@@ -67,7 +70,7 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 		return cronogramasRefeicao;		
 	}
 	
-public List<DiaRefeicao> getCronogramaRefeicaoByAlunoMatricula(String matricula) {
+	public List<DiaRefeicao> getDiaRefeicaoByAlunoMatricula(String matricula) {
 		
 		Session session = HibernateUtil.getSessionFactory().openSession();
 
@@ -80,6 +83,7 @@ public List<DiaRefeicao> getCronogramaRefeicaoByAlunoMatricula(String matricula)
 			String hql = "from DiaRefeicao as dr"
 					+ " where dr.aluno.matricula = :matricula"
 					+ " and dr.dia.id = :dia"
+					+ "	and dr.refeicao.horaInicio <= CURRENT_TIME()"
 					+ "	and dr.refeicao.horaFinal >= CURRENT_TIME()"
 					+ " and dr.refeicao.id not in ("
 					+ "		select rr.confirmaRefeicaoDia.diaRefeicao.refeicao.id"
@@ -95,10 +99,12 @@ public List<DiaRefeicao> getCronogramaRefeicaoByAlunoMatricula(String matricula)
 			
 			cronogramasRefeicao = (List<DiaRefeicao>) query.list();
 	        
-		} catch (HibernateException e) {
+		} catch (HibernateException exception) {
 			
-			logger.error(e.getMessage());
+			logger.error(exception.getMessage());
 			session.getTransaction().rollback();
+			
+			throw exception;
 			
 		} finally {
 		
@@ -106,6 +112,37 @@ public List<DiaRefeicao> getCronogramaRefeicaoByAlunoMatricula(String matricula)
 		}
 		
 		return cronogramasRefeicao;		
+	}
+	
+	public List<DiaRefeicao> getAllByAlunoMatricula(String matricula) {
+		
+		Session session = HibernateUtil.getSessionFactory().openSession();
+
+		List<DiaRefeicao> diasRefeicao = new ArrayList<DiaRefeicao>();
+		
+		try {
+			
+			String hql = "from DiaRefeicao as dr"
+					+ " where dr.aluno.matricula = :matricula";
+			
+			Query query = session.createQuery(hql);			
+			query.setParameter("matricula", matricula);
+			
+			diasRefeicao = (List<DiaRefeicao>) query.list();
+	        
+		} catch (HibernateException exception) {
+			
+			logger.error(exception.getMessage());
+			session.getTransaction().rollback();
+			
+			throw exception;
+			
+		} finally {
+		
+			session.close();
+		}
+		
+		return diasRefeicao;		
 	}
 	
 	@Override
