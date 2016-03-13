@@ -18,7 +18,7 @@ angular.module('NutrifApp').controller("pesquisaCtrl", function ($scope, diaRefe
 
 			}).error(function (data, status) {
 
-				window.alert("Ocorreu um erro na comunicação com o servidor, favor chamar o suporte.");
+				alert("Ocorreu um erro na comunicação com o servidor, favor chamar o suporte.");
 
 			});
 
@@ -30,7 +30,15 @@ angular.module('NutrifApp').controller("pesquisaCtrl", function ($scope, diaRefe
 
 			}).error(function (data, status) {
 
-				window.alert("Ocorreu um erro na comunicação com o servidor, favor chamar o suporte.");
+				if (!data) {
+
+					alert("Ocorreu um erro na comunicação com o servidor, favor chamar o suporte.");
+
+				} else {
+
+					alert(data.message);
+
+				}
 
 			});
 
@@ -49,6 +57,11 @@ angular.module('NutrifApp').controller("pesquisaCtrl", function ($scope, diaRefe
 		_refeicaoRealizada.confirmaRefeicaoDia = {};
 		_refeicaoRealizada.confirmaRefeicaoDia.diaRefeicao = refeicaoSelecionada;
 
+		delete _refeicaoRealizada.confirmaRefeicaoDia.diaRefeicao.refeicao.horaInicio;
+		delete _refeicaoRealizada.confirmaRefeicaoDia.diaRefeicao.refeicao.horaFinal;
+
+		console.log(_refeicaoRealizada);
+
 		refeicaoRealizadaService.inserirRefeicao(_refeicaoRealizada).success(function (data, status) {
 
 			$scope.refeicaoSelecionada = {};
@@ -58,6 +71,16 @@ angular.module('NutrifApp').controller("pesquisaCtrl", function ($scope, diaRefe
 			Materialize.toast('Refeição realizada com sucesso', 6000);
 
 		}).error(function (data, status){
+
+			if (!data) {
+
+				alert("Erro ao registrar refeição, tente novamente ou contate os administradores.");
+
+			} else {
+
+				alert(data.message);
+
+			}
 
 		});
 

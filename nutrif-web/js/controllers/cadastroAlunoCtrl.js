@@ -1,34 +1,64 @@
-angular.module("NutrifApp").controller("alunoCtrl", function ($scope, diaRefeicaoService, refeicaoService, diaService, cursoService) {
-   
-   $scope.cadastrar = function (diaRefeicao) {
+angular.module("NutrifApp").controller("alunoCtrl", function ($scope, alunoService, refeicaoService, diaService, cursoService) {
 
-      diaRefeicaoService.cadastrarRefeicao(diaRefeicao).success(function (data, status) {
-         
-         $state.go("main");
+   $scope.buscarAlunos = function (matricula) {
 
-      }).error(function (data, status){
+      alunoService.buscaAlunoPorMatricula(matricula).success(function (data, status) {
+
+         $scope.aluno = data;
+
+      }).error(function (data, status) {
+
          if (!data) {
                
-            alert("Erro ao cadastrar, tente novamente ou contate os administradores.");
-            
-         } else {
-               
-            alert(data.message);
+            alert("Aluno não registrado, em caso de problemas, contate um administrador");
             
          }
+
       });
 
-   };
+   }
 
-   $scope.refeicoes = [];
+   $scope.tiposRefeicoes = [];
    $scope.dias = []; 
-   $scope.cursos = []
+   $scope.cursos = [];
+   $scope.refeicoes = [];
+
+   $scope.adicionarRefeicao = function (refeicao, aluno) {
+      
+      refeicao.aluno = {};
+      refeicao.aluno = aluno;
+
+      $scope.refeicoes.push(angular.copy(refeicao));
+
+      delete refeicao.dia;
+      delete refeicao.refeicao;
+      delete refeicao.aluno;
+
+   }
+
+   $scope.removerRefeicao = function (refeicao) {
+      var index = $scope.refeicoes.indexOf(refeicao);
+
+      if (index > -1) {
+         $scope.refeicoes.splice(index, 1);
+      }
+
+   }
+
+   $scope.modalAdicionarRefeicao = function () {
+      $('#adicionar-refeicao').openModal();  
+   }
+
+   $scope.pesquisarNovamente = function (){
+      delete $scope.aluno;
+      $scope.refeicoes = [];
+   }
 
    var carregarRefeicoes = function (){
    		
       refeicaoService.listarRefeicoes().success(function (data, status){
    			
-         $scope.refeicoes = data;
+         $scope.tiposRefeicoes = data;
    		
       }).error(function (data, status){
    			

@@ -1,50 +1,75 @@
-<form ng-submit="cadastrar(diaRefeicao)">
-    <div class="section row">
-        <div class="input-field col s9">
-            <input id="nome_completo" type="text" ng-model="diaRefeicao.aluno.nome">
-            <label for="nome_completo">Nome Completo</label>
+<div class="section row" ng-if="!aluno">
+    <form name="form" class="section" ng-submit="buscarAlunos(matricula)">
+        <div class="col s8 offset-s3">
+            <div class="input-field col s6">
+                <input placeholder="Digite 11 números" id="matricula" type="number" 
+                ng-model="matricula" ng-minlength="11" ng-maxlength="11" ng-required="true"/>
+                <label for="matricula" class="active">Matrícula</label>
+            </div>
+            <button ng-disabled="form.$invalid" 
+                class="btn-large waves-effect waves-light light-green darken-1" type="submit">
+                <i class="material-icons center">search</i>
+            </button>
         </div>
-        <div class="input-field col s3">
-            <input id="matricula" type="text" ng-model="diaRefeicao.aluno.matricula">
-            <label for="matricula">Matrícula</label>
+    </form>
+</div>
+
+<div class="section" ng-if="aluno">
+
+<table class="centered bordered">
+        <thead>
+            <tr>
+                <th data-field="nome">Nome Completo</th>
+                <th data-field="matricula">Matrícula</th>
+                <th data-field="curso">Curso</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr>
+                <td>{{aluno.nome}}</td>
+                <td>{{aluno.matricula}}</td>
+                <td>{{aluno.curso.nome | uppercase}}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="section row center">
+        <div class="center">
+            <button class="btn waves-effect waves-light light-green darken" ng-click="pesquisarNovamente()">
+                Pesquisar novamente
+            </button>
         </div>
     </div>
 
-    <div class="section row">
+    <table class="centered striped">
+        <thead>
+            <tr>
+                <th data-field="tipo-refeicao">Tipo da Refeiçao</th>
+                <th data-field="dia-refeicao">Dia da Refeição</th>
+                <th data-field="remover">Remover</th>
+            </tr>
+        </thead>
 
-        <div class="col s4 input-field">
-            <div class="select-wrapper">
-                <select class="browser-default" ng-options="curso.nome for curso in cursos"
-                    ng-model="diaRefeicao.aluno.curso">
-                    <option value="" disabled selected>Selecione</option>
-                </select>
-            </div>
-            <label class="select-label">Curso</label>
-        </div>
+        <tbody>
+            <tr ng-repeat="refeicao in refeicoes">
+                <td>{{refeicao.refeicao.tipo}}</td>
+                <td>{{refeicao.dia.nome}}</td>
+                <td>
+                    <button class="btn waves-effect waves-light red" ng-click="removerRefeicao(refeicao)">
+                        Remover
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 
-        <div class="col s4 input-field">
-            <div class="select-wrapper">
-                <select class="browser-default" ng-options="refeicao.tipo for refeicao in refeicoes"
-                    ng-model="diaRefeicao.refeicao">
-                    <option value="" disabled selected>Selecione</option>
-                </select>
-            </div>
-            <label class="select-label">Tipo de Refeição</label>
-        </div>
-        
-        <div class="col s4 input-field">
-            <div class="select-wrapper">
-                <select class="browser-default" ng-options="dia.nome for dia in dias" ng-model="diaRefeicao.dia">
-                    <option value="" disabled selected>Selecione</option>
-                </select>
-            </div>
-            <label class="select-label">Dia</label>
-        </div>
-    </div>
+</div>
 
-    <div class="section-row center-align">
-        <button class="btn waves-effect waves-light light-green darken-1" type="submit">
-            Registrar
-        </button>
-    </div>
-</form>
+<div ng-if="aluno" class="fixed-action-btn" style="bottom: 24px; right: 24px;">
+    <a class="btn-floating btn-large waves-effect waves-light green" ng-click="modalAdicionarRefeicao()">
+        <i class="material-icons">add</i>
+    </a>
+</div>
+
+<div ng-include="'view/modals/adicionar-refeicao.html'"></div>
