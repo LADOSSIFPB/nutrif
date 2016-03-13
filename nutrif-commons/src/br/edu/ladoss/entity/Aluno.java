@@ -40,10 +40,6 @@ public class Aluno implements DataEntity {
 	@JoinColumn(name = "fk_id_curso")
 	private Curso curso;
 	
-	@OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
-	@JoinColumn(name="fk_id_aluno")
-	List<DiaRefeicao> refeicoes;
-	
 	public Aluno() {
 		super();
 	}
@@ -82,14 +78,6 @@ public class Aluno implements DataEntity {
 
 	public void setCurso(Curso curso) {
 		this.curso = curso;
-	}
-	
-	public List<DiaRefeicao> getRefeicoes() {
-		return refeicoes;
-	}
-
-	public void setRefeicoes(List<DiaRefeicao> refeicoes) {
-		this.refeicoes = refeicoes;
 	}
 
 	@Override

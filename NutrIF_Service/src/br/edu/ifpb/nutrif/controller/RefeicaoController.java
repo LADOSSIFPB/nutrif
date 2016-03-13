@@ -17,7 +17,6 @@ import br.edu.ifpb.nutrif.dao.RefeicaoDAO;
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
 import br.edu.ifpb.nutrif.util.BancoUtil;
 import br.edu.ifpb.nutrif.validation.Validate;
-import br.edu.ladoss.entity.Erro;
 import br.edu.ladoss.entity.Refeicao;
 
 @Path("refeicao")

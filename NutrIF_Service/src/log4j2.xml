@@ -24,8 +24,19 @@ It will look like that:
 			</Policies>
 		</RollingFile>
 	</appenders>
+	
+	<!-- 
+		OFF	0
+		FATAL	100
+		ERROR	200
+		WARN	300
+		INFO	400
+		DEBUG	500
+		TRACE	600
+		ALL		Integer.MAX_VALUE
+	 -->
 	<loggers>
-		<root level="info"> <!-- We log everything -->
+		<root level="INFO"> <!-- We log everything -->
 			<appender-ref ref="Console"/> <!-- To console -->
 			<appender-ref ref="RollingFile"/> <!-- And to a rotated file -->
 		</root>

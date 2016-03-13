@@ -13,22 +13,18 @@ import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import org.hibernate.annotations.Generated;
-import org.hibernate.annotations.GenerationTime;
-
 @XmlRootElement(name = "confirmaRefeicaoDia")
 @Embeddable
 public class ConfirmaRefeicaoDia implements Serializable {
 
-	private static final long serialVersionUID = 4103942093838478635L;
+	private static final long serialVersionUID = 4103942093838478635L;	
 	
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "fk_id_dia_refeicao", referencedColumnName="id_dia_refeicao")
 	private DiaRefeicao diaRefeicao;
 
-	@Generated(GenerationTime.INSERT)
 	@Temporal(TemporalType.DATE)
-	@Column(name = "dt_refeicao", insertable = false, updatable = false, nullable = true)
+	@Column(name = "dt_refeicao", insertable = false, updatable = false)
 	private Date dataRefeicao;
 
 	@XmlElement
