@@ -28,7 +28,7 @@ public class ConfirmaRefeicaoDia implements Serializable {
 
 	@Generated(GenerationTime.INSERT)
 	@Temporal(TemporalType.DATE)
-	@Column(name = "dt_refeicao", insertable = true, nullable = false)
+	@Column(name = "dt_refeicao", insertable = false, updatable = false, nullable = true)
 	private Date dataRefeicao;
 
 	@XmlElement

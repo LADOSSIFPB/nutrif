@@ -31,16 +31,12 @@ public class RefeicaoRealizada implements DataEntity {
 	@Column(name = "id_refeicao_realizada", unique = true)
 	private Integer id;
 
-	@EmbeddedId
-	@AttributeOverrides({
-		  @AttributeOverride(name = "diaRefeicao", column = @Column(name = "fk_id_dia_refeicao", nullable = false)),
-		  @AttributeOverride(name = "dataRefeicao", column = @Column(name = "dt_refeicao", nullable = false))	  
-	})		  
+	@EmbeddedId	  
 	private ConfirmaRefeicaoDia confirmaRefeicaoDia;
 
 	@Generated(GenerationTime.INSERT)
 	@Temporal(TemporalType.TIME)
-	@Column(name = "hr_refeicao", insertable = true, nullable = false)
+	@Column(name = "hr_refeicao", insertable = false, updatable = false, nullable = true)
 	private Date horaRefeicao;
 
 	@XmlElement

@@ -83,10 +83,18 @@ public class Aluno implements DataEntity {
 	public void setCurso(Curso curso) {
 		this.curso = curso;
 	}
+	
+	public List<DiaRefeicao> getRefeicoes() {
+		return refeicoes;
+	}
+
+	public void setRefeicoes(List<DiaRefeicao> refeicoes) {
+		this.refeicoes = refeicoes;
+	}
 
 	@Override
 	public String toString() {
 		return "Aluno [id=" + id + ", nome=" + nome + ", curso=" + curso 
 				+ ", matricula=" + matricula + "]";
-	}
+	}	
 }
