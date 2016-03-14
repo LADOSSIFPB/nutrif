@@ -1,24 +1,28 @@
 <div id="adicionar-refeicao" class="modal">
-	<div class="modal-content" container>
-		<h4 class="center">Adicionar Refeicoes</h4>
-		<div class="row section">
-			<div class="col s5 offset-s1">
-				<select class="browser-default" ng-options="tipoRefeicao.tipo for tipoRefeicao in tiposRefeicoes" 
-					ng-model="refeicao.refeicao">
-					<option value="" disabled selected>Escolha uma refeição</option>
-				</select>
-			</div>
-			<div class="col s5">
-				<select class="browser-default" ng-options="dia.nome for dia in dias" ng-model="refeicao.dia">
-					<option value="" disabled selected>Escolha um dia para essa refeição</option>
-				</select>
+	<form name="addRefeicaoForm" ng-submit="adicionarRefeicao(refeicao, aluno)">
+		<div class="modal-content" container>
+			<h4 class="center">Adicionar Refeicoes</h4>
+			<div class="row section">
+				<div class="col s5 offset-s1">
+					<select class="browser-default" ng-options="tipoRefeicao.tipo for tipoRefeicao in tiposRefeicoes"
+						ng-model="refeicao.refeicao" ng-required="true">
+						<option value="" disabled selected>Escolha uma refeição</option>
+					</select>
+				</div>
+				<div class="col s5">
+					<select class="browser-default" ng-options="dia.nome for dia in dias" ng-model="refeicao.dia" ng-required="true">
+						<option value="" disabled selected>Escolha um dia para essa refeição</option>
+					</select>
+				</div>
 			</div>
 		</div>
-	</div>
-	<div class="modal-footer">
-		<a class="modal-action modal-close waves-effect waves-green btn-flat" 
-		 ng-click="adicionarRefeicao(refeicao, aluno)">
-			Adicionar
-		</a>
-	</div>
+		<div class="modal-footer">
+			<button class="modal-action waves-effect waves-green btn-flat" type="submit">
+				Adicionar
+			</button>
+			<a class="modal-action modal-close waves-effect waves-red btn-flat">
+				Cancelar
+			</a>
+		</div>
+	</form>
 </div>

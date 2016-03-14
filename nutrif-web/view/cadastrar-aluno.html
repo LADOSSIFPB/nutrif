@@ -1,12 +1,12 @@
 <div class="section row" ng-if="!aluno">
-    <form name="form" class="section" ng-submit="buscarAlunos(matricula)">
+    <form name="inserirMatriculaForm" class="section" ng-submit="buscarAlunos(matricula)">
         <div class="col s8 offset-s3">
             <div class="input-field col s6">
-                <input placeholder="Digite 11 números" id="matricula" type="number" 
+                <input placeholder="Digite 11 números" id="matricula" type="number"
                 ng-model="matricula" ng-minlength="11" ng-maxlength="11" ng-required="true"/>
                 <label for="matricula" class="active">Matrícula</label>
             </div>
-            <button ng-disabled="form.$invalid" 
+            <button ng-disabled="inserirMatriculaForm.$invalid"
                 class="btn-large waves-effect waves-light light-green darken-1" type="submit">
                 <i class="material-icons center">search</i>
             </button>
@@ -16,7 +16,7 @@
 
 <div class="section" ng-if="aluno">
 
-<table class="centered bordered">
+    <table class="centered bordered">
         <thead>
             <tr>
                 <th data-field="nome">Nome Completo</th>
@@ -27,13 +27,13 @@
 
         <tbody>
             <tr>
-                <td>{{aluno.nome}}</td>
+                <td>{{aluno.nome | uppercase}}</td>
                 <td>{{aluno.matricula}}</td>
                 <td>{{aluno.curso.nome | uppercase}}</td>
             </tr>
         </tbody>
     </table>
-    
+
     <div class="section row center">
         <div class="center">
             <button class="btn waves-effect waves-light light-green darken" ng-click="pesquisarNovamente()">
@@ -41,6 +41,8 @@
             </button>
         </div>
     </div>
+
+    <p>OBS: O botão de remover foi desabilitado temporariamente para manutenção</p>
 
     <table class="centered striped">
         <thead>
@@ -53,10 +55,10 @@
 
         <tbody>
             <tr ng-repeat="refeicao in refeicoes">
-                <td>{{refeicao.refeicao.tipo}}</td>
-                <td>{{refeicao.dia.nome}}</td>
+                <td>{{refeicao.refeicao.tipo | uppercase}}</td>
+                <td>{{refeicao.dia.nome | uppercase}}</td>
                 <td>
-                    <button class="btn waves-effect waves-light red" ng-click="removerRefeicao(refeicao)">
+                    <button class="btn waves-effect waves-light red" ng-disabled="true" ng-click="removerRefeicao(refeicao)">
                         Remover
                     </button>
                 </td>

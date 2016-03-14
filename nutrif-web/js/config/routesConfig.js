@@ -11,7 +11,7 @@ angular.module('NutrifApp').config(function ($stateProvider, $urlRouterProvider)
 	  	})
 
 	  	.state('cadastro-aluno', {
-	  		url: '/cadastro-aluno',
+	  		url: '/cadastro-aluno?matricula',
 		    templateUrl: '../view/cadastrar-aluno.html',
 		    controller: 'alunoCtrl'
 	  	});
