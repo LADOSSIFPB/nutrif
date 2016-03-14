@@ -23,8 +23,7 @@ public class RefeicaoRealizadaDAO extends GenericDao<Integer, RefeicaoRealizada>
 		return instance;
 	}
 
-	@Override
-	public int insert(RefeicaoRealizada refeicaoRealizada) throws SQLExceptionNutrIF {
+	public int insert2(RefeicaoRealizada refeicaoRealizada) throws SQLExceptionNutrIF {
 		
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		

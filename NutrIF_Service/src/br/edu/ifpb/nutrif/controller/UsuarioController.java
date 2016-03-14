@@ -21,9 +21,8 @@ import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
 import br.edu.ifpb.nutrif.util.BancoUtil;
 import br.edu.ifpb.nutrif.util.StringUtil;
 import br.edu.ifpb.nutrif.validation.Validate;
-import br.edu.ladoss.entity.Dia;
 import br.edu.ladoss.entity.Erro;
-import br.edu.ladoss.entity.Usuario;
+import br.edu.ladoss.entity.Funcionario;
 
 @Path("usuario")
 public class UsuarioController {
@@ -42,7 +41,7 @@ public class UsuarioController {
 	@Path("/inserir")
 	@Consumes("application/json")
 	@Produces("application/json")
-	public Response insert(Usuario usuario) {
+	public Response insert(Funcionario usuario) {
 		
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
 		builder.expires(new Date());
@@ -101,7 +100,7 @@ public class UsuarioController {
 	@Path("/login")
 	@Consumes("application/json")
 	@Produces("application/json")
-	public Response login(Usuario usuario) {
+	public Response login(Funcionario usuario) {
 		
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
 		builder.expires(new Date());
@@ -156,9 +155,9 @@ public class UsuarioController {
 	@GET
 	@Path("/listar")
 	@Produces("application/json")
-	public List<Usuario> getAll() {
+	public List<Funcionario> getAll() {
 		
-		List<Usuario> usuarios = new ArrayList<Usuario>();
+		List<Funcionario> usuarios = new ArrayList<Funcionario>();
 		
 		usuarios = UsuarioDAO.getInstance().getAll();
 		
@@ -175,7 +174,7 @@ public class UsuarioController {
 
 		try {
 
-			Usuario usuario = UsuarioDAO.getInstance().getById(idUsuario); 
+			Funcionario usuario = UsuarioDAO.getInstance().getById(idUsuario); 
 			
 			builder.status(Response.Status.OK);
 			builder.entity(usuario);

@@ -8,9 +8,9 @@ import br.edu.ladoss.entity.Aluno;
 import br.edu.ladoss.entity.Curso;
 import br.edu.ladoss.entity.Dia;
 import br.edu.ladoss.entity.DiaRefeicao;
+import br.edu.ladoss.entity.Funcionario;
 import br.edu.ladoss.entity.Refeicao;
 import br.edu.ladoss.entity.RefeicaoRealizada;
-import br.edu.ladoss.entity.Usuario;
 
 public class Validate {
 
@@ -90,7 +90,7 @@ public class Validate {
 		return VALIDATE_OK;
 	}
 	
-	public static int usuario(Usuario usuario) {
+	public static int usuario(Funcionario usuario) {
 		
 		logger.info("Validação para Usuário.");
 		

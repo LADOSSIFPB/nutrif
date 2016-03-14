@@ -22,7 +22,7 @@ public class RefeicaoRealizada {
 	private ConfirmaRefeicaoDia confirmaRefeicaoDia;
 	
 	@Temporal(TemporalType.TIME)
-	@Column(name = "hr_refeicao", insertable = false, updatable = false)
+	@Column(name = "hr_refeicao", insertable = true, updatable = false)
 	private Date horaRefeicao;
 
 	@XmlElement

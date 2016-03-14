@@ -6,6 +6,8 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
@@ -17,16 +19,29 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Embeddable
 public class ConfirmaRefeicaoDia implements Serializable {
 
-	private static final long serialVersionUID = 4103942093838478635L;	
+	private static final long serialVersionUID = 4103942093838478635L;
+	
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id_refeicao_realizada", unique = true)
+	private Integer id;
 	
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "fk_id_dia_refeicao", referencedColumnName="id_dia_refeicao")
 	private DiaRefeicao diaRefeicao;
 
 	@Temporal(TemporalType.DATE)
-	@Column(name = "dt_refeicao", insertable = false, updatable = false)
+	@Column(name = "dt_refeicao", insertable = true, updatable = false)
 	private Date dataRefeicao;
 
+	@XmlElement
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+	
 	@XmlElement
 	public DiaRefeicao getDiaRefeicao() {
 		return diaRefeicao;
@@ -49,5 +64,27 @@ public class ConfirmaRefeicaoDia implements Serializable {
 	public String toString() {
 		return "ConfirmaRefeicaoDia [DiaRefeicao=" + diaRefeicao 
 				+ ", dataRefeicao=" + dataRefeicao + "]";
+	}
+	
+	@Override
+	public boolean equals(Object o) {		
+		
+		if ((o instanceof ConfirmaRefeicaoDia)
+				&& ((ConfirmaRefeicaoDia) o).getId() == this.id
+				&& ((ConfirmaRefeicaoDia) o).getDiaRefeicao().getId() == this.diaRefeicao.getId()
+				&& ((ConfirmaRefeicaoDia) o).getDataRefeicao().compareTo(this.dataRefeicao) == 0) { 
+			
+			return true; 
+			
+		} else {
+			
+			return false;
+		}
+	}
+	
+	@Override
+	public int hashCode() {
+		
+		return this.id;
 	}
 }

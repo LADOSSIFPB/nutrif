@@ -23,7 +23,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQuery(name = "Pessoa.getAll", query = "from Pessoa")
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "tp_pessoa", discriminatorType = DiscriminatorType.INTEGER)
-@DiscriminatorValue("1")
 public class Pessoa implements Serializable {
 
 	private static final long serialVersionUID = 3773602055618799026L;
@@ -35,6 +34,12 @@ public class Pessoa implements Serializable {
 
 	@Column(name = "nm_pessoa")
 	private String nome;
+	
+	@Column(name = "nm_senha")
+	private String senha;
+	
+	@Column(name = "nm_key")
+	private String key;
 	
 	@Column(name = "tp_pessoa", insertable = false, updatable = false)
     private String tipo;
@@ -56,6 +61,24 @@ public class Pessoa implements Serializable {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
+	
+	@XmlElement
+	public String getSenha() {
+		return senha;
+	}
+
+	public void setSenha(String senha) {
+		this.senha = senha;
+	}
+
+	@XmlElement
+	public String getKey() {
+		return key;
+	}
+
+	public void setKey(String key) {
+		this.key = key;
+	}
 
 	@XmlElement
 	public String getTipo() {
@@ -65,4 +88,9 @@ public class Pessoa implements Serializable {
 	public void setTipo(String tipo) {
 		this.tipo = tipo;
 	}
+	
+	@Override
+	public String toString() {
+		return "Pessoa [id=" + id + ", nome=" + nome + "tipo=" + tipo + "]";
+	}	
 }

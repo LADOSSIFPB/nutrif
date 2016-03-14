@@ -12,9 +12,9 @@ import org.hibernate.Session;
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
 import br.edu.ifpb.nutrif.hibernate.HibernateUtil;
 import br.edu.ifpb.nutrif.util.StringUtil;
-import br.edu.ladoss.entity.Usuario;
+import br.edu.ladoss.entity.Funcionario;
 
-public class UsuarioDAO extends GenericDao<Integer, Usuario> {
+public class UsuarioDAO extends GenericDao<Integer, Funcionario> {
 
 	private static Logger logger = LogManager.getLogger(UsuarioDAO.class);
 	
@@ -25,12 +25,12 @@ public class UsuarioDAO extends GenericDao<Integer, Usuario> {
 		return instance;
 	}
 
-	public Usuario login(String nome, String senha) 
+	public Funcionario login(String nome, String senha) 
 			throws UnsupportedEncodingException {
 		
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		
-		Usuario usuario = null;
+		Funcionario usuario = null;
 		
 		try {
 			
@@ -42,7 +42,7 @@ public class UsuarioDAO extends GenericDao<Integer, Usuario> {
 			query.setParameter("nome", nome);
 			query.setParameter("senha", StringUtil.criptografarBase64(senha));
 			
-			usuario = (Usuario) query.uniqueResult();
+			usuario = (Funcionario) query.uniqueResult();
 	        
 		} catch (HibernateException e) {
 			
@@ -59,12 +59,12 @@ public class UsuarioDAO extends GenericDao<Integer, Usuario> {
 	}
 	
 	@Override
-	public List<Usuario> getAll() throws SQLExceptionNutrIF {
+	public List<Funcionario> getAll() throws SQLExceptionNutrIF {
 		return super.getAll("Usuario.getAll");
 	}
 
 	@Override
 	public Class<?> getEntityClass() {		
-		return Usuario.class;
+		return Funcionario.class;
 	}
 }

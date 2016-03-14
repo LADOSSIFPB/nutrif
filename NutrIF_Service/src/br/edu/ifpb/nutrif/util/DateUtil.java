@@ -13,6 +13,8 @@ public class DateUtil {
 
 	private static Logger logger = LogManager.getLogger(DateUtil.class);
 	
+	public static int DATA_IGUAL = 0;
+	
 	public static Dia getCurrentDayOfWeek() {		
 		
 		Date current = new Date();		

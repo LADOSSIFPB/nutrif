@@ -17,7 +17,6 @@ import br.edu.ifpb.nutrif.dao.DiaRefeicaoDAO;
 import br.edu.ifpb.nutrif.dao.RefeicaoRealizadaDAO;
 import br.edu.ifpb.nutrif.exception.ErrorFactory;
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
-import br.edu.ifpb.nutrif.util.BancoUtil;
 import br.edu.ifpb.nutrif.validation.Validate;
 import br.edu.ladoss.entity.ConfirmaRefeicaoDia;
 import br.edu.ladoss.entity.DiaRefeicao;
@@ -67,14 +66,11 @@ public class RefeicaoRealizadaController {
 					refeicaoRealizada.setHoraRefeicao(new Date());
 					
 					//Inserir o Aluno.
-					Integer idRefeicaoRealizada = RefeicaoRealizadaDAO
-							.getInstance().insert(refeicaoRealizada);
+					RefeicaoRealizadaDAO
+							.getInstance().insertOrUpdate(refeicaoRealizada);
 					
-					if (idRefeicaoRealizada != BancoUtil.IDVAZIO) {
-
-						// Operação realizada com sucesso.
-						builder.status(Response.Status.OK);
-					}
+					// Operação realizada com sucesso.
+					builder.status(Response.Status.OK);
 				}				
 			
 			} catch (SQLExceptionNutrIF exception) {
