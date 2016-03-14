@@ -14,10 +14,15 @@ angular.module("NutrifApp").factory("diaRefeicaoService", function($http, config
 		return $http.post(_path + "/inserir", refeicao)
 	};
 
+	var _listaRefeicaoPorMatricula = function (matricula){
+		return $http.get(_path + "/listar/aluno/matricula/" + matricula)
+	};
+
 	return {
 		buscaRefeicaoPorNome: _buscaRefeicaoPorNome,
 		buscaRefeicaoPorMatricula: _buscaRefeicaoPorMatricula,
-		cadastrarRefeicao: _cadastrarRefeicao
+		cadastrarRefeicao: _cadastrarRefeicao,
+		listaRefeicaoPorMatricula: _listaRefeicaoPorMatricula
 	};
 
 });

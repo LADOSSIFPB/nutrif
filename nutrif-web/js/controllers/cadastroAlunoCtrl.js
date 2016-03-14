@@ -1,10 +1,19 @@
-angular.module("NutrifApp").controller("alunoCtrl", function ($scope, alunoService, refeicaoService, diaService, cursoService) {
+angular.module("NutrifApp").controller("alunoCtrl", function ($scope, alunoService, refeicaoService, diaRefeicaoService, diaService, cursoService) {
+
+   $scope.tiposRefeicoes = [];
+   $scope.dias = []; 
+   $scope.cursos = [];
+   $scope.refeicoes = [];
 
    $scope.buscarAlunos = function (matricula) {
 
       alunoService.buscaAlunoPorMatricula(matricula).success(function (data, status) {
 
          $scope.aluno = data;
+         carregarCursos();
+         carregarTiposRefeicoes();
+         carregarDias();
+         carregarDiaRefeicaoAluno(matricula);
 
       }).error(function (data, status) {
 
@@ -18,21 +27,35 @@ angular.module("NutrifApp").controller("alunoCtrl", function ($scope, alunoServi
 
    }
 
-   $scope.tiposRefeicoes = [];
-   $scope.dias = []; 
-   $scope.cursos = [];
-   $scope.refeicoes = [];
-
    $scope.adicionarRefeicao = function (refeicao, aluno) {
-      
-      refeicao.aluno = {};
-      refeicao.aluno = aluno;
+   
+      var newRefeicao = {
+         refeicao: {id :refeicao.refeicao.id},
+         dia: refeicao.dia,
+         aluno: aluno
+      };
 
-      $scope.refeicoes.push(angular.copy(refeicao));
+      diaRefeicaoService.cadastrarRefeicao(newRefeicao).success(function (data, status) {
 
-      delete refeicao.dia;
-      delete refeicao.refeicao;
-      delete refeicao.aluno;
+         Materialize.toast('Refeição agendada com sucesso', 6000);
+
+      }).error(function (data, status) {
+
+         if (!data) {
+               
+            alert("Erro ao adicionar a refeição, tente novamente ou contate os administradores.");
+            
+         } else {
+               
+            alert(data.message);
+            
+         }
+
+      });
+
+      delete $scope.refeicoes;
+      carregarDiaRefeicaoAluno(aluno.matricula);
+      delete $scope.refeicao;
 
    }
 
@@ -51,10 +74,31 @@ angular.module("NutrifApp").controller("alunoCtrl", function ($scope, alunoServi
 
    $scope.pesquisarNovamente = function (){
       delete $scope.aluno;
-      $scope.refeicoes = [];
+      delete $scope.refeicoes;
    }
 
-   var carregarRefeicoes = function (){
+   var carregarDiaRefeicaoAluno = function (matricula) {
+      
+      diaRefeicaoService.listaRefeicaoPorMatricula(matricula).success(function (data, status) {
+         
+         $scope.refeicoes = data;
+      
+      }).error(function (data, status){
+
+         if (!data) {
+               
+            alert("Erro ao carregar as refeições desse aluno, tente novamente ou contate os administradores.");
+            
+         } else {
+               
+            alert(data.message);
+            
+         }
+
+      });
+   }
+
+   var carregarTiposRefeicoes = function (){
    		
       refeicaoService.listarRefeicoes().success(function (data, status){
    			
@@ -64,7 +108,7 @@ angular.module("NutrifApp").controller("alunoCtrl", function ($scope, alunoServi
    			
          if (!data) {
    			   
-            alert("Erro no refeições, tente novamente ou contate os administradores.");
+            alert("Erro ao carregar as refeições, tente novamente ou contate os administradores.");
    			
          } else {
    				
@@ -113,9 +157,4 @@ angular.module("NutrifApp").controller("alunoCtrl", function ($scope, alunoServi
          }
       });
    }
-
-   carregarCursos();
-   carregarRefeicoes();
-   carregarDias();
-
 });
