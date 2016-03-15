@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#548b2e</color>
+    <color name="colorPrimaryDark">#457326</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="corButton">#8BC24B</color>
+    <color name="gelo">#dadada</color>
+</resources>

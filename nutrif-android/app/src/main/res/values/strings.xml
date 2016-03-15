@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Nutrif</string>
+
+    <!-- Strings related to login -->
+    <string name="matricula">Matrícula</string>
+    <string name="nome">Nome</string>
+    <string name="loggin">Loggin</string>
+</resources>
