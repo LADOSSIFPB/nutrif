@@ -21,4 +21,17 @@ public class Funcionario extends Pessoa {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_funcionario", unique = true)
 	private Integer id;
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+	
+	@Override
+	public String toString() {
+		return "Funcionario [" + super.toString() + "]";
+	}
 }

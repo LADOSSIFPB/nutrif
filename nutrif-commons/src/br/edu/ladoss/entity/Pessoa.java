@@ -5,7 +5,6 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
-import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -40,9 +39,15 @@ public class Pessoa implements Serializable {
 	
 	@Column(name = "nm_key")
 	private String key;
+
+	@Column(name = "nm_email", unique = true)
+	private String email;
 	
 	@Column(name = "tp_pessoa", insertable = false, updatable = false)
     private String tipo;
+	
+	@Column(name = "is_ativo")
+	private boolean ativo;
 
 	@XmlElement
 	public Integer getId() {
@@ -79,6 +84,15 @@ public class Pessoa implements Serializable {
 	public void setKey(String key) {
 		this.key = key;
 	}
+	
+	@XmlElement
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
 
 	@XmlElement
 	public String getTipo() {
@@ -89,8 +103,18 @@ public class Pessoa implements Serializable {
 		this.tipo = tipo;
 	}
 	
+	@XmlElement
+	public boolean isAtivo() {
+		return ativo;
+	}
+
+	public void setAtivo(boolean ativo) {
+		this.ativo = ativo;
+	}
+	
 	@Override
 	public String toString() {
-		return "Pessoa [id=" + id + ", nome=" + nome + "tipo=" + tipo + "]";
+		return "Pessoa [id=" + id + ", nome=" + nome + "email=" + email 
+				+ " tipo=" + tipo + " ativo=" + ativo + "]";
 	}	
 }

@@ -90,7 +90,7 @@ public class Validate {
 		return VALIDATE_OK;
 	}
 	
-	public static int usuario(Funcionario usuario) {
+	public static int funcionario(Funcionario usuario) {
 		
 		logger.info("Validação para Usuário.");
 		

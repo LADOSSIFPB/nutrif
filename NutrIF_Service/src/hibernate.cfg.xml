@@ -32,15 +32,15 @@
 		<property name="connection.pool_size">20</property>
 		
 		<!-- Entidades -->
+		<mapping class="br.edu.ladoss.entity.Pessoa" />
 		<mapping class="br.edu.ladoss.entity.Aluno" />
+		<mapping class="br.edu.ladoss.entity.Funcionario" />
 		<mapping class="br.edu.ladoss.entity.Curso" />
 		<mapping class="br.edu.ladoss.entity.Dia" />
 		<mapping class="br.edu.ladoss.entity.Refeicao" />
 		<mapping class="br.edu.ladoss.entity.DiaRefeicao" />
 		<mapping class="br.edu.ladoss.entity.RefeicaoRealizada" />
-		<mapping class="br.edu.ladoss.entity.ConfirmaRefeicaoDia" />
-		<mapping class="br.edu.ladoss.entity.Pessoa" />
-		<mapping class="br.edu.ladoss.entity.Usuario" />	
+		<mapping class="br.edu.ladoss.entity.ConfirmaRefeicaoDia" />		
 
 	</session-factory>
 </hibernate-configuration>

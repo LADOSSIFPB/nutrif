@@ -22,7 +22,7 @@ public class ConfirmaRefeicaoDia implements Serializable {
 	private static final long serialVersionUID = 4103942093838478635L;
 	
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id_refeicao_realizada", unique = true)
+	@Column(name = "id_refeicao_realizada", unique = true) // columnDefinition = "INT(10) UNSIGNED AUTO_INCREMENT"
 	private Integer id;
 	
 	@OneToOne(fetch = FetchType.EAGER)

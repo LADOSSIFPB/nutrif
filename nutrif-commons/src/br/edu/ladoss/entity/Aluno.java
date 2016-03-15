@@ -21,6 +21,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @DiscriminatorValue(value = "2")
 public class Aluno extends Pessoa {
 
+	private static final long serialVersionUID = 4769549068297565213L;
+
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_aluno")
 	private Integer id;
