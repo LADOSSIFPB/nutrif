@@ -7,6 +7,7 @@ import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.exception.ConstraintViolationException;
 
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
 import br.edu.ifpb.nutrif.hibernate.HibernateUtil;
@@ -33,13 +34,13 @@ public abstract class GenericDao<PK, T> {
 			id = (Integer) session.save(entity);
 			session.getTransaction().commit();
 
-		} catch (HibernateException e) {
+		} catch (ConstraintViolationException e) {
 			
 			logger.error(e.getMessage());
 			
 			session.getTransaction().rollback();
 			
-			throw e;
+			throw new SQLExceptionNutrIF(e);
 			
 		} finally {
 			

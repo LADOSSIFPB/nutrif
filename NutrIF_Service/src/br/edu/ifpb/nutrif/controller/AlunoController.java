@@ -74,6 +74,10 @@ public class AlunoController {
 					// Operação realizada com sucesso.
 					builder.status(Response.Status.OK);
 					builder.entity(aluno);
+					
+				} else {
+					
+					builder.status(Response.Status.NOT_MODIFIED);
 				}
 			
 			} catch (SQLExceptionNutrIF exception) {
@@ -343,13 +347,23 @@ public class AlunoController {
 		return builder.build();
 	}
 	
+	/**
+	 * Entrada:
+	 * {
+	 * 	"keyConfirmation":"[a-zA-Z]*",
+	 * 	"matricula":"[0-9]*"
+	 * }
+	 * 
+	 * @param aluno
+	 * @return
+	 */
 	@POST
-	@Path("/buscar/confirmacao")
+	@Path("/confirmar")
 	@Consumes("application/json")
 	@Produces("application/json")
-	public Response verificaKeyConfirmation(Aluno aluno) {
+	public Response confirmarChave(Aluno aluno) {
 		
-		ResponseBuilder builder = Response.status(Response.Status.OK);
+		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
 		builder.expires(new Date());
 		
 		// Validação dos dados de entrada.
@@ -357,10 +371,37 @@ public class AlunoController {
 		
 		if (validacao == Validate.VALIDATE_OK) {
 			
-			// Consultar chave de confirmação.
-			AlunoDAO.getInstance().verifyKeyConfirmation(aluno.getMatricula(), aluno.getKeyConfirmation());
-			
-			// Ativar aluno.
+			try {
+				
+				String matricula = aluno.getMatricula();
+				String keyConfirmation = aluno.getKeyConfirmation();
+				
+				// Consultar chave de confirmação.
+				boolean isKeyConfirmation = AlunoDAO.getInstance()
+						.isKeyConfirmation(matricula, keyConfirmation);
+				
+				// Ativar aluno.
+				if (isKeyConfirmation) {
+					
+					aluno = AlunoDAO.getInstance().getByMatricula(matricula);
+					aluno.setAtivo(true);
+					
+					aluno = AlunoDAO.getInstance().update(aluno);
+					builder.status(Response.Status.OK);
+					
+				} else {
+					
+					// Chave de autorização inválida.
+					builder.status(Response.Status.UNAUTHORIZED).entity(
+							ErrorFactory.getErrorFromIndex(
+									ErrorFactory.CHAVE_CONFIRMACAO_INVALIDA));
+				}
+				
+			} catch (SQLExceptionNutrIF exception) {
+
+				builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
+						exception.getErro());
+			}			
 		}
 		
 		return builder.build();

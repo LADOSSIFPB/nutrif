@@ -16,27 +16,28 @@ public class ErrorFactory {
 	public static final int ALUNO_NAO_ENCONTRADO = 2;
 	public static final int NOME_ALUNO_INVALIDO = 3;
 	public static final int MATRICULA_ALUNO_INVALIDA = 4;
+	public static final int CHAVE_CONFIRMACAO_INVALIDA = 5;
 	
 	/*
 	 * Error status: Curso.
 	 */
-	public static final int ID_CURSO_INVALIDO = 5;
-	public static final int NOME_CURSO_INVALIDO = 6;
+	public static final int ID_CURSO_INVALIDO = 6;
+	public static final int NOME_CURSO_INVALIDO = 7;
 	
 	/*
 	 * Error status: Usuário.
 	 */
-	public static final int NOME_USUARIO_INVALIDO = 7;
-	public static final int EMAIL_USUARIO_INVALIDO = 8;
-	public static final int SENHA_USUARIO_INVALIDA = 9;
-	public static final int KEY_CONFIRMATION_INVALIDA = 10;
+	public static final int NOME_USUARIO_INVALIDO = 8;
+	public static final int EMAIL_USUARIO_INVALIDO = 9;
+	public static final int SENHA_USUARIO_INVALIDA = 10;
+	public static final int KEY_CONFIRMATION_INVALIDA = 11;
 	
 	/*
 	 * Error status: Dia da Refeição.
 	 */
-	public static final int ID_ALUNO_INVALIDO = 11;
-	public static final int ID_DIA_INVALIDO = 12;
-	public static final int ID_REFEICAO_INVALIDA = 13;
+	public static final int ID_ALUNO_INVALIDO = 12;
+	public static final int ID_DIA_INVALIDO = 13;
+	public static final int ID_REFEICAO_INVALIDA = 14;
 	
 	public static final int IMPOSSIVEL_CRIPTOGRAFAR_VALOR = 14;
 	
@@ -51,6 +52,7 @@ public class ErrorFactory {
 		hashMap.put(REGISTRO_DUPLICADO, "Registro duplicado.");
 		hashMap.put(ALUNO_NAO_ENCONTRADO, "Aluno não encontrado.");		
 		hashMap.put(NOME_ALUNO_INVALIDO, "Nome do aluno inválido.");
+		hashMap.put(CHAVE_CONFIRMACAO_INVALIDA, "Chave confirmação inválida.");
 		hashMap.put(MATRICULA_ALUNO_INVALIDA, "Matrícula do aluno inválida.");		
 		hashMap.put(ID_CURSO_INVALIDO, "Curso inválido.");
 		hashMap.put(NOME_CURSO_INVALIDO, "Nome do curso inválido.");

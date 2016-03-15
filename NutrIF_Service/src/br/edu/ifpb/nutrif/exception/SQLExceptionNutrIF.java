@@ -1,12 +1,15 @@
 package br.edu.ifpb.nutrif.exception;
 
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.xml.bind.ValidationException;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.HibernateException;
+import org.hibernate.JDBCException;
+import org.hibernate.exception.ConstraintViolationException;
 
 import br.edu.ladoss.entity.Erro;
 
@@ -20,7 +23,7 @@ public class SQLExceptionNutrIF extends HibernateException {
 	
 	private static final Map<Integer, String> erros = new HashMap<Integer, String>();
 	static {
-		erros.put(100, "Usuário não existe no sistema.");
+		erros.put(100, "Registro não existe no sistema.");
 		erros.put(101, "Senha inválida!");
 		erros.put(666, "Falha conversão da data.");
 		erros.put(1062, "Entidade submetida já existente.");
@@ -39,7 +42,17 @@ public class SQLExceptionNutrIF extends HibernateException {
 				+ "Favor entre em contato com a equipe de desenvolvimento.");
 	}
 
-	public SQLExceptionNutrIF(SQLException sqlException) {
+	public SQLExceptionNutrIF(ConstraintViolationException sqlException) {
+		
+		super(sqlException);
+		
+		this.errorCode = sqlException.getErrorCode();
+
+		logger.error(this.errorCode + ": " + sqlException.getLocalizedMessage());
+		logger.error(sqlException.getStackTrace());
+	}
+	
+	public SQLExceptionNutrIF(JDBCException sqlException) {
 		
 		super(sqlException);
 		

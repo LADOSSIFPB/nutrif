@@ -96,11 +96,11 @@ public class AlunoDAO extends GenericDao<Integer, Aluno> {
 		return aluno;
 	}
 	
-	public Aluno verifyKeyConfirmation(String matricula, String keyConfirmation) {
+	public boolean isKeyConfirmation(String matricula, String keyConfirmation) {
 		
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		
-		Aluno aluno = null;
+		boolean isKeyConfirmatio = false;
 		
 		try {
 			
@@ -110,9 +110,14 @@ public class AlunoDAO extends GenericDao<Integer, Aluno> {
 			
 			Query query = session.createQuery(hql);
 			query.setParameter("matricula", matricula);
-			query.setParameter("keyConfirmation", matricula);			
+			query.setParameter("keyConfirmation", keyConfirmation);			
 			
-			aluno = (Aluno) query.uniqueResult();
+			Aluno aluno = (Aluno) query.uniqueResult();
+			
+			if (aluno != null 
+					&& aluno.getKeyConfirmation().equals(keyConfirmation)) {
+				isKeyConfirmatio = true;
+			}			
 	        
 		} catch (HibernateException e) {
 			
@@ -124,7 +129,7 @@ public class AlunoDAO extends GenericDao<Integer, Aluno> {
 			session.close();
 		}
 		
-		return aluno;
+		return isKeyConfirmatio;
 	}
 
 	@Override
