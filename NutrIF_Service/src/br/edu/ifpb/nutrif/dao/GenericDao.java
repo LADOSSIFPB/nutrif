@@ -54,8 +54,6 @@ public abstract class GenericDao<PK, T> {
 		logger.info("Init abstract Insert to: " + entity.getClass());
 		
 		Session session = HibernateUtil.getSessionFactory().openSession();
-
-		Integer id;
 		
 		try {
 			

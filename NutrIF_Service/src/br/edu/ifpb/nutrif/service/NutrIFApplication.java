@@ -13,7 +13,7 @@ import br.edu.ifpb.nutrif.controller.DiaController;
 import br.edu.ifpb.nutrif.controller.DiaRefeicaoController;
 import br.edu.ifpb.nutrif.controller.RefeicaoController;
 import br.edu.ifpb.nutrif.controller.RefeicaoRealizadaController;
-import br.edu.ifpb.nutrif.controller.UsuarioController;
+import br.edu.ifpb.nutrif.controller.FuncionarioController;
 
 public class NutrIFApplication extends Application {
 
@@ -31,7 +31,7 @@ public class NutrIFApplication extends Application {
 		this.singletons.add(filter);		
 		// ADD YOUR RESTFUL RESOURCES HERE
 		this.singletons.add(new AlunoController());
-		this.singletons.add(new UsuarioController());
+		this.singletons.add(new FuncionarioController());
 		this.singletons.add(new DiaRefeicaoController());
 		this.singletons.add(new CursoController());
 		this.singletons.add(new RefeicaoController());

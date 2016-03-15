@@ -14,14 +14,14 @@ import br.edu.ifpb.nutrif.hibernate.HibernateUtil;
 import br.edu.ifpb.nutrif.util.StringUtil;
 import br.edu.ladoss.entity.Funcionario;
 
-public class UsuarioDAO extends GenericDao<Integer, Funcionario> {
+public class FuncionarioDAO extends GenericDao<Integer, Funcionario> {
 
-	private static Logger logger = LogManager.getLogger(UsuarioDAO.class);
+	private static Logger logger = LogManager.getLogger(FuncionarioDAO.class);
 	
-	private static UsuarioDAO instance;
+	private static FuncionarioDAO instance;
 	
-	public static UsuarioDAO getInstance() {		
-		instance = new UsuarioDAO();		
+	public static FuncionarioDAO getInstance() {		
+		instance = new FuncionarioDAO();		
 		return instance;
 	}
 
@@ -30,19 +30,19 @@ public class UsuarioDAO extends GenericDao<Integer, Funcionario> {
 		
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		
-		Funcionario usuario = null;
+		Funcionario funcionario = null;
 		
 		try {
 			
-			String hql = "from Usuario as u"
-					+ " where u.nome = :nome"
-					+ " and u.senha = :senha";
+			String hql = "from Funcionario as f"
+					+ " where f.nome = :nome"
+					+ " and f.senha = :senha";
 			
 			Query query = session.createQuery(hql);			
 			query.setParameter("nome", nome);
 			query.setParameter("senha", StringUtil.criptografarBase64(senha));
 			
-			usuario = (Funcionario) query.uniqueResult();
+			funcionario = (Funcionario) query.uniqueResult();
 	        
 		} catch (HibernateException e) {
 			
@@ -55,12 +55,12 @@ public class UsuarioDAO extends GenericDao<Integer, Funcionario> {
 			session.close();
 		}
 		
-		return usuario;
+		return funcionario;
 	}
 	
 	@Override
 	public List<Funcionario> getAll() throws SQLExceptionNutrIF {
-		return super.getAll("Usuario.getAll");
+		return super.getAll("Funcionario.getAll");
 	}
 
 	@Override

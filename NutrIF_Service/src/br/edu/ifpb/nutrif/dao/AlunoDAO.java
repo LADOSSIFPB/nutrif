@@ -1,6 +1,5 @@
 package br.edu.ifpb.nutrif.dao;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -11,10 +10,7 @@ import org.hibernate.Session;
 
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
 import br.edu.ifpb.nutrif.hibernate.HibernateUtil;
-import br.edu.ifpb.nutrif.util.DateUtil;
 import br.edu.ladoss.entity.Aluno;
-import br.edu.ladoss.entity.Dia;
-import br.edu.ladoss.entity.DiaRefeicao;
 
 public class AlunoDAO extends GenericDao<Integer, Aluno> {
 
@@ -34,8 +30,6 @@ public class AlunoDAO extends GenericDao<Integer, Aluno> {
 		Aluno aluno = null;
 		
 		try {
-			
-			Dia dia = DateUtil.getCurrentDayOfWeek();
 			
 			String hql = "from Aluno as a"
 					+ " where a.matricula = :matricula";

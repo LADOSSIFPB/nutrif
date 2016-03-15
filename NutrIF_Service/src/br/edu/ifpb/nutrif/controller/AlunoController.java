@@ -1,5 +1,7 @@
 package br.edu.ifpb.nutrif.controller;
 
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -15,8 +17,10 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 
 import br.edu.ifpb.nutrif.dao.AlunoDAO;
 import br.edu.ifpb.nutrif.dao.CursoDAO;
+import br.edu.ifpb.nutrif.exception.ErrorFactory;
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
 import br.edu.ifpb.nutrif.util.BancoUtil;
+import br.edu.ifpb.nutrif.util.StringUtil;
 import br.edu.ifpb.nutrif.validation.Validate;
 import br.edu.ladoss.entity.Aluno;
 import br.edu.ladoss.entity.Curso;
@@ -25,6 +29,17 @@ import br.edu.ladoss.entity.Erro;
 @Path("aluno")
 public class AlunoController {
 
+	/**
+	 * {
+    "nome":"Maria da Conceição Ferreira",
+    "email":"maria.conceicao@gmail.com",
+    "senha":"12345",
+    "matricula":"20151234567",
+    "curso":{"id":1}
+}
+	 * @param aluno
+	 * @return
+	 */
 	@POST
 	@Path("/inserir")
 	@Consumes("application/json")
@@ -41,10 +56,23 @@ public class AlunoController {
 			
 			try {			
 				
+				// Criptografar senha.
+				String senhaCriptografada = StringUtil.criptografarBase64(
+						aluno.getSenha());				
+				aluno.setSenha(senhaCriptografada);
+				
+				// Gerar AuthKey.
+				Date hoje = new Date();
+				String key = StringUtil.criptografarSha256(hoje.toString());
+				aluno.setKey(key);
+				
 				// Recuperar Curso.
 				int idCurso = aluno.getCurso().getId();
 				Curso curso = CursoDAO.getInstance().getById(idCurso);
 				aluno.setCurso(curso);
+				
+				// Inativar Aluno.
+				aluno.setAtivo(false);
 				
 				//Inserir o Aluno.
 				Integer idAluno = AlunoDAO.getInstance().insert(aluno);
@@ -56,13 +84,17 @@ public class AlunoController {
 					builder.entity(aluno);
 				}
 			
-			} catch (SQLExceptionNutrIF qme) {
-				
-				Erro erro = new Erro();
-				erro.setCodigo(qme.getErrorCode());
-				erro.setMensagem(qme.getMessage());
+			} catch (SQLExceptionNutrIF exception) {
 
-				builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(erro);			
+				builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
+						exception.getErro());
+				
+			} catch (UnsupportedEncodingException | NoSuchAlgorithmException 
+					exception) {
+
+				builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
+						ErrorFactory.getErrorFromIndex(
+								ErrorFactory.IMPOSSIVEL_CRIPTOGRAFAR_VALOR));			
 			}
 		}				
 		
