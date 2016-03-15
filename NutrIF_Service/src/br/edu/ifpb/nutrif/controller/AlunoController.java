@@ -30,13 +30,15 @@ import br.edu.ladoss.entity.Erro;
 public class AlunoController {
 
 	/**
+	 * Inserir Aluno na base de dados.
+	 * 
+	 * Entrada:
 	 * {
-    "nome":"Maria da Conceição Ferreira",
-    "email":"maria.conceicao@gmail.com",
-    "senha":"12345",
-    "matricula":"20151234567",
-    "curso":{"id":1}
-}
+	 * 	"nome":"[a-z]",
+	 * 	"matricula":"[1-9]",
+	 * 	"curso":{"id":[1-9]}
+	 * }
+	 * 
 	 * @param aluno
 	 * @return
 	 */
@@ -50,21 +52,11 @@ public class AlunoController {
 		builder.expires(new Date());
 		
 		// Validação dos dados de entrada.
-		int validacao = Validate.aluno(aluno);
+		int validacao = Validate.inserirAluno(aluno);
 		
 		if (validacao == Validate.VALIDATE_OK) {
 			
-			try {			
-				
-				// Criptografar senha.
-				String senhaCriptografada = StringUtil.criptografarBase64(
-						aluno.getSenha());				
-				aluno.setSenha(senhaCriptografada);
-				
-				// Gerar AuthKey.
-				Date hoje = new Date();
-				String key = StringUtil.criptografarSha256(hoje.toString());
-				aluno.setKey(key);
+			try {
 				
 				// Recuperar Curso.
 				int idCurso = aluno.getCurso().getId();
@@ -89,12 +81,6 @@ public class AlunoController {
 				builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
 						exception.getErro());
 				
-			} catch (UnsupportedEncodingException | NoSuchAlgorithmException 
-					exception) {
-
-				builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
-						ErrorFactory.getErrorFromIndex(
-								ErrorFactory.IMPOSSIVEL_CRIPTOGRAFAR_VALOR));			
 			}
 		}				
 		
@@ -111,7 +97,7 @@ public class AlunoController {
 		builder.expires(new Date());
 		
 		// Validação dos dados de entrada.
-		int validacao = Validate.aluno(aluno);
+		int validacao = Validate.inserirAluno(aluno);
 		
 		if (validacao == Validate.VALIDATE_OK) {
 			
@@ -211,6 +197,172 @@ public class AlunoController {
 					exception.getErro());
 		}
 
+		return builder.build();
+	}
+	
+	@POST
+	@Path("/login")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public Response login(Aluno aluno) {
+		
+		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
+		builder.expires(new Date());
+		
+		// Validação dos dados de entrada.
+		int validacao = Validate.inserirAluno(aluno);
+		
+		if (validacao == Validate.VALIDATE_OK) {
+			
+			try {
+				
+				//Login usuário.
+				aluno = AlunoDAO.getInstance().login(aluno);
+				
+				if (aluno != null) {
+
+					// Remover a senha.
+					aluno.setSenha(StringUtil.STRING_VAZIO);
+					
+					// Operação realizada com sucesso.
+					builder.status(Response.Status.OK);
+					builder.entity(aluno);
+				
+				} else {
+					
+					builder.status(Response.Status.UNAUTHORIZED);
+				}
+			
+			} catch (SQLExceptionNutrIF exception) {
+
+				builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
+						exception.getErro());
+				
+			} catch (UnsupportedEncodingException 
+					exception) {
+
+				builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
+						ErrorFactory.getErrorFromIndex(
+								ErrorFactory.IMPOSSIVEL_CRIPTOGRAFAR_VALOR));			
+			}
+			
+		} else {
+			
+			Erro erro = ErrorFactory.getErrorFromIndex(validacao);
+			builder.status(Response.Status.NOT_ACCEPTABLE).entity(erro);
+		}
+		
+		return builder.build();		
+	}	
+
+	
+	/**
+	 * Inserir acesso do Aluno ao sistema na base de dados.
+	 * 
+	 * Entrada:
+	 * {
+	 * 	"matricula":"[1-9]",
+	 * 	"email":"[a-z]",
+	 * 	"senha":"[a-z]" 	
+	 * }
+	 * 
+	 * @param aluno
+	 * @return
+	 */
+	@POST
+	@Path("/acesso/inserir")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public Response insertAcesso(Aluno aluno) {
+		
+		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
+		builder.expires(new Date());
+		
+		// Validação dos dados de entrada.
+		int validacao = Validate.acessoAluno(aluno);
+		
+		if (validacao == Validate.VALIDATE_OK) {
+			
+			try {			
+				
+				String senhaPlana = aluno.getSenha();
+				String email = aluno.getEmail();
+				
+				// Recuperar Aluno através da matrícula.
+				aluno = AlunoDAO.getInstance().getByMatricula(
+						aluno.getMatricula());
+				
+				if (aluno != null 
+						&& aluno.getId() != BancoUtil.IDVAZIO) {
+
+					// Criptografar senha.
+					String senhaCriptografada = StringUtil.criptografarBase64(
+							senhaPlana);				
+					aluno.setSenha(senhaCriptografada);
+					
+					// Gerar chave de autenticação: KeyAuth.
+					Date hoje = new Date();
+					String keyAuth = StringUtil.criptografarSha256(hoje.toString());
+					aluno.setKeyAuth(keyAuth);
+					
+					// Gerar chave de confirmação: KeyConfirmation.
+					String keyConfirmation = StringUtil.getRadomKeyConfirmation();
+					aluno.setKeyConfirmation(keyConfirmation);
+					
+					// E-mail do Aluno.
+					aluno.setEmail(email);
+					
+					// Inativar Aluno.
+					aluno.setAtivo(false);
+					
+					//Inserir o Aluno.
+					aluno = AlunoDAO.getInstance().update(aluno);
+					
+					if (aluno.getId() != BancoUtil.IDVAZIO) {
+
+						// Operação realizada com sucesso.
+						builder.status(Response.Status.OK);
+						builder.entity(aluno);
+					}
+				}
+			
+			} catch (SQLExceptionNutrIF exception) {
+
+				builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
+						exception.getErro());
+				
+			} catch (UnsupportedEncodingException | NoSuchAlgorithmException 
+					exception) {
+
+				builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
+						ErrorFactory.getErrorFromIndex(
+								ErrorFactory.IMPOSSIVEL_CRIPTOGRAFAR_VALOR));			
+			}
+		}				
+		
+		return builder.build();
+	}
+	
+	@POST
+	@Path("/buscar/confirmacao")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public Response verificaKeyConfirmation(Aluno aluno) {
+		
+		ResponseBuilder builder = Response.status(Response.Status.OK);
+		builder.expires(new Date());
+		
+		// Validação dos dados de entrada.
+		int validacao = Validate.confirmacaoAluno(aluno);
+		
+		if (validacao == Validate.VALIDATE_OK) {
+			
+			// Consultar chave de confirmação.
+			AlunoDAO.getInstance().verifyKeyConfirmation(aluno.getMatricula(), aluno.getKeyConfirmation());
+			
+			// Ativar aluno.
+		}
+		
 		return builder.build();
 	}
 }

@@ -49,17 +49,21 @@ public abstract class GenericDao<PK, T> {
 		return id;
 	}
 	
-	public void insertOrUpdate(T entity)throws SQLExceptionNutrIF {
+	public boolean insertOrUpdate(T entity)throws SQLExceptionNutrIF {
 		
 		logger.info("Init abstract Insert to: " + entity.getClass());
 		
 		Session session = HibernateUtil.getSessionFactory().openSession();
+		
+		boolean success = false;
 		
 		try {
 			
 			session.beginTransaction();
 			session.saveOrUpdate(entity);
 			session.getTransaction().commit();
+			
+			success = true;
 
 		} catch (HibernateException e) {
 			
@@ -73,6 +77,8 @@ public abstract class GenericDao<PK, T> {
 			
 			session.close();
 		}
+		
+		return success;
 	}
 
 	public T update(T entity) throws SQLExceptionNutrIF{

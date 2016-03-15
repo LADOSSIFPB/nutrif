@@ -19,7 +19,7 @@ public class Funcionario extends Pessoa {
 	private static final long serialVersionUID = 7914104914276090901L;
 
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id_funcionario", unique = true)
+	@Column(name = "id_funcionario")
 	private Integer id;
 
 	public Integer getId() {

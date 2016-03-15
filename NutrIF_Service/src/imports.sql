@@ -24,16 +24,15 @@ INSERT INTO tb_curso(id_curso, nm_curso) VALUES('9', 'FÍSICA');
 INSERT INTO tb_curso(id_curso, nm_curso) VALUES('10', 'SUB MSI');
 INSERT INTO tb_curso(id_curso, nm_curso) VALUES('11', 'SUB MIN');
 
+INSERT INTO `tb_pessoa` (`tp_pessoa`, `id_pessoa`, `is_ativo`, `nm_email`, `nm_keyauth`, `nm_pessoa`, `nm_senha`) VALUES
+(2, 1, b'0', 'maria.conceicao@gmail.com', '1E562D7F352A239CEAAE67381369B0030A79EEDF5CA6627D4B0A9BBDF0D154FA', 'Maria da Conceição Ferreira', 'MTIzNDU='),
+(1, 2, b'1', 'admin@ifpb.edu.br', '5582389B437B31E4A59C469199DF3942CDBBC10C156193514D4EE54F474657A4', 'admin', 'aWZwYmluZm8=');
 
-INSERT INTO `tb_pessoa` (`tp_pessoa`, `id_pessoa`, `is_ativo`, `nm_email`, `nm_key`, `nm_pessoa`, `nm_senha`) VALUES
-(2, 1, b'0', 'maria.conceicao@gmail.com', 'CC1D95177235E4410394EDD59B2EA816BF8D43C9586DB159D6EED6084E941962', 'Maria da Conceição Ferreira', 'MTIzNDU='),
-(1, 2, b'1', 'admin@ifpb.edu.br', '99CD681488D7B54734844517FD0D954BB20E9BB130C317DB6E4CDB2A853ED312', 'admin', 'aWZwYmluZm8=');
-
-INSERT INTO `tb_aluno` (`id_aluno`, `nm_matricula`, `id_pessoa`, `fk_id_curso`) VALUES
-(1, '20151234567', 1, 1);
+INSERT INTO `tb_aluno` (`id_aluno`, `nm_keyconfirmation`, `nm_matricula`, `id_pessoa`, `fk_id_curso`) VALUES
+(1, '12345', '20151234567', 1, 1);
 
 INSERT INTO `tb_funcionario` (`id_funcionario`, `id_pessoa`) VALUES
-(1, 2);
+(2, 2);
 
 INSERT INTO tb_dia_refeicao (fk_id_aluno, fk_id_dia, fk_id_refeicao) VALUES ('1', '1', '1');
 INSERT INTO tb_dia_refeicao (fk_id_aluno, fk_id_dia, fk_id_refeicao) VALUES ('1', '1', '2');

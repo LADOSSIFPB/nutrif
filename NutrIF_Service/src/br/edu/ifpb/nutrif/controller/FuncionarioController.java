@@ -60,8 +60,8 @@ public class FuncionarioController {
 				
 				// Gerar AuthKey.
 				Date hoje = new Date();
-				String key = StringUtil.criptografarSha256(hoje.toString());
-				funacionario.setKey(key);
+				String keyAuth = StringUtil.criptografarSha256(hoje.toString());
+				funacionario.setKeyAuth(keyAuth);
 				
 				// Ativar Funacionário.
 				funacionario.setAtivo(true);

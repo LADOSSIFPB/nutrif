@@ -3,6 +3,7 @@ package br.edu.ifpb.nutrif.util;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.UUID;
 
 import javax.xml.bind.DatatypeConverter;
 
@@ -10,6 +11,18 @@ public class StringUtil {
 	
 	public static final String STRING_VAZIO = "";
 
+	public static boolean isEmptyOrNull(String value) {
+
+		boolean isEmptyOrNull = false;
+		
+		if (value == null 
+				|| (value != null && value.trim().equals(STRING_VAZIO))) {
+			isEmptyOrNull = true;
+		}
+		
+		return isEmptyOrNull;		
+	}
+	
 	public static double tirarMascaraOrcamento(String orcamento) {
 
 		orcamento = orcamento.replace(".", "");
@@ -59,6 +72,14 @@ public class StringUtil {
 		}
 
 		return valor;
+	}
+	
+	public static String getRadomKeyConfirmation () {
+		
+		UUID uuid = UUID.randomUUID();
+		String myRandom = uuid.toString();
+
+		return myRandom.substring(0,5);
 	}
 	
 	public static String replaceLastToEmptySpace(String text, String regex) {

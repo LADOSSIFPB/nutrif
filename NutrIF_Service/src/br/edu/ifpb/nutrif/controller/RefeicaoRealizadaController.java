@@ -66,11 +66,13 @@ public class RefeicaoRealizadaController {
 					refeicaoRealizada.setHoraRefeicao(new Date());
 					
 					//Inserir o Aluno.
-					RefeicaoRealizadaDAO
-							.getInstance().insertOrUpdate(refeicaoRealizada);
+					boolean success = RefeicaoRealizadaDAO.getInstance()
+							.insertOrUpdate(refeicaoRealizada);					
 					
-					// Operação realizada com sucesso.
-					builder.status(Response.Status.OK);
+					if (success) {
+						// Operação realizada com sucesso.
+						builder.status(Response.Status.OK);
+					}					
 				}				
 			
 			} catch (SQLExceptionNutrIF exception) {

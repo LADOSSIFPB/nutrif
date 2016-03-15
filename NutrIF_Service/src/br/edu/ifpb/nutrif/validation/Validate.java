@@ -4,6 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import br.edu.ifpb.nutrif.exception.ErrorFactory;
+import br.edu.ifpb.nutrif.util.BancoUtil;
 import br.edu.ladoss.entity.Aluno;
 import br.edu.ladoss.entity.Curso;
 import br.edu.ladoss.entity.Dia;
@@ -23,13 +24,54 @@ public class Validate {
 
 	public static int VALIDATE_OK = 0;	
 	
-	public static int aluno(Aluno aluno) {
+	public static int inserirAluno(Aluno aluno) {
 		
 		logger.info("Validação para aluno.");
-		//TODO: implementar a validação para abertura de sala.
+		
+		if (!stringValidator.validateSomenteLetras(aluno.getNome()))
+			return ErrorFactory.NOME_ALUNO_INVALIDO;
+			
+		if (!numeroValidator.validate(aluno.getMatricula()))
+			return ErrorFactory.MATRICULA_ALUNO_INVALIDA;
+			
+		Curso curso = aluno.getCurso();
+		if (curso != null 
+				&& !numeroValidator.isInteiroPositivo(curso.getId())
+				&& curso.getId() == BancoUtil.IDVAZIO)
+			return ErrorFactory.ID_CURSO_INVALIDO;		
+		
 		return VALIDATE_OK;
 	}
 	
+	public static int acessoAluno(Aluno aluno) {
+		
+		logger.info("Validação para acesso de aluno.");
+		
+		if (!stringValidator.validate(aluno.getMatricula(), 11))
+			return ErrorFactory.MATRICULA_ALUNO_INVALIDA;
+		
+		if (!emailValidator.validate(aluno.getEmail()))
+			return ErrorFactory.EMAIL_USUARIO_INVALIDO;
+
+		if (!stringValidator.validate(aluno.getSenha(), 5, 40))
+			return ErrorFactory.SENHA_USUARIO_INVALIDA;
+		
+		return VALIDATE_OK;
+	}
+	
+	public static int confirmacaoAluno(Aluno aluno) {
+		
+		logger.info("Validação para confirmação de aluno.");
+		
+		if (!stringValidator.validate(aluno.getMatricula(), 11))
+			return ErrorFactory.MATRICULA_ALUNO_INVALIDA;
+		
+		if (!stringValidator.validate(aluno.getKeyConfirmation(), 5))
+			return ErrorFactory.KEY_CONFIRMATION_INVALIDA;
+		
+		return VALIDATE_OK;
+	}
+
 	public static int curso(Curso curso) {		
 		
 		logger.info("Validação para curso.");

@@ -37,8 +37,8 @@ public class Pessoa implements Serializable {
 	@Column(name = "nm_senha")
 	private String senha;
 	
-	@Column(name = "nm_key")
-	private String key;
+	@Column(name = "nm_keyauth")
+	private String keyAuth;
 
 	@Column(name = "nm_email", unique = true)
 	private String email;
@@ -77,12 +77,12 @@ public class Pessoa implements Serializable {
 	}
 
 	@XmlElement
-	public String getKey() {
-		return key;
+	public String getKeyAuth() {
+		return keyAuth;
 	}
 
-	public void setKey(String key) {
-		this.key = key;
+	public void setKeyAuth(String keyAuth) {
+		this.keyAuth = keyAuth;
 	}
 	
 	@XmlElement

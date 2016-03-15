@@ -34,6 +34,9 @@ public class Aluno extends Pessoa {
 	@JoinColumn(name = "fk_id_curso")
 	private Curso curso;
 	
+	@Column(name = "nm_keyconfirmation")
+	private String keyConfirmation;
+	
 	public Aluno() {
 		super();
 	}
@@ -63,6 +66,15 @@ public class Aluno extends Pessoa {
 
 	public void setCurso(Curso curso) {
 		this.curso = curso;
+	}
+	
+	@XmlElement
+	public String getKeyConfirmation() {
+		return keyConfirmation;
+	}
+
+	public void setKeyConfirmation(String keyConfirmation) {
+		this.keyConfirmation = keyConfirmation;
 	}
 
 	@Override
