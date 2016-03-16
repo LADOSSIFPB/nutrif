@@ -3,6 +3,18 @@
 
     <!-- Strings related to login -->
     <string name="matricula">Matrícula</string>
-    <string name="nome">Nome</string>
-    <string name="loggin">Loggin</string>
+    <string name="password">Senha</string>
+    <string name="email">Email</string>
+    <string name="login">Login</string>
+    <string name="title_activity_cadastro">Cadastro</string>
+    <string name="invalido">Campo Inválido</string>
+    <string name="erroconexao">Erro na conexão</string>
+    <string name="mensagemdeconfirmacao">Verifique seu email e entre com o código que foi enviado.</string>
+    <string name="confirmacao">Confirmação</string>
+
+    <!-- Strings related to login -->
+    <string name="registrar">Registrar</string>
+    <string name="undefinedError">Não foi possível identificar o erro</string>
+    <string name="codigo">Código</string>
+    <string name="confirmar">Confirmar</string>
 </resources>

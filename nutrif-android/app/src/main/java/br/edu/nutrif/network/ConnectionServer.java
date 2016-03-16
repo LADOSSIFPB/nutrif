@@ -7,7 +7,7 @@ import retrofit.Retrofit;
  * Created by juan on 14/03/16.
  */
 public class ConnectionServer {
-    private static final String URL_BASE = "";
+    private static final String URL_BASE = "http://187.58.97.226:8080/NutrIF_Sevice/";
     private static APIService service;
     private static ConnectionServer ourInstance = new ConnectionServer();
 
@@ -15,7 +15,7 @@ public class ConnectionServer {
         return ourInstance;
     }
 
-    public static APIService getService() {
+    public APIService getService() {
         return service;
     }
 
