@@ -210,6 +210,7 @@ public class DiaRefeicaoController {
 	 * @param nome
 	 * @return
 	 */
+	@PermitAll
 	@GET
 	@Path("/buscar/aluno/nome/{nome}")
 	@Produces("application/json")
@@ -241,6 +242,7 @@ public class DiaRefeicaoController {
 	 * @param matricula
 	 * @return
 	 */
+	@PermitAll
 	@GET
 	@Path("/buscar/aluno/matricula/{matricula}")
 	@Produces("application/json")
@@ -267,6 +269,7 @@ public class DiaRefeicaoController {
 		return builder.build();		
 	}
 	
+	@PermitAll
 	@GET
 	@Path("/listar/aluno/matricula/{matricula}")
 	@Produces("application/json")
