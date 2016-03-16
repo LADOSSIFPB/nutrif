@@ -37,7 +37,9 @@ public class NutrIFApplication extends Application {
 		this.singletons.add(new RefeicaoController());
 		this.singletons.add(new DiaController());
 		this.singletons.add(new RefeicaoRealizadaController());
-		this.singletons.add(new RestServices());		
+		
+		this.singletons.add(new NutrIFRestIndex());
+		this.singletons.add(new NutrIFRestServices());		
 	}
 
 	public Set<Class<?>> getClasses() {

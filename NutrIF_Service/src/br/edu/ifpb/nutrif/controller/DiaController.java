@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.annotation.security.PermitAll;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -23,6 +24,7 @@ import br.edu.ladoss.entity.Erro;
 @Path("dia")
 public class DiaController {
 
+	@PermitAll
 	@POST
 	@Path("/inserir")
 	@Consumes("application/json")
@@ -62,6 +64,7 @@ public class DiaController {
 		return builder.build();		
 	}
 	
+	@PermitAll
 	@GET
 	@Path("/listar")
 	@Produces("application/json")
@@ -74,6 +77,7 @@ public class DiaController {
 		return dia;
 	}
 	
+	@PermitAll
 	@GET
 	@Path("/id/{id}")
 	@Produces("application/json")

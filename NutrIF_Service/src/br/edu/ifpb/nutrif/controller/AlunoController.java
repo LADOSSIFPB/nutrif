@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.annotation.security.PermitAll;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -42,6 +43,7 @@ public class AlunoController {
 	 * @param aluno
 	 * @return
 	 */
+	@PermitAll
 	@POST
 	@Path("/inserir")
 	@Consumes("application/json")
@@ -91,6 +93,7 @@ public class AlunoController {
 		return builder.build();		
 	}
 	
+	@PermitAll
 	@POST
 	@Path("/atualizar")
 	@Consumes("application/json")
@@ -135,6 +138,7 @@ public class AlunoController {
 		return builder.build();		
 	}
 	
+	@PermitAll
 	@GET
 	@Path("/listar")
 	@Produces("application/json")
@@ -147,6 +151,7 @@ public class AlunoController {
 		return alunos;
 	}
 	
+	@PermitAll
 	@GET
 	@Path("/id/{id}")
 	@Produces("application/json")
@@ -171,6 +176,7 @@ public class AlunoController {
 		return builder.build();
 	}
 	
+	@PermitAll
 	@GET
 	@Path("/matricula/{matricula}")
 	@Produces("application/json")
@@ -204,6 +210,7 @@ public class AlunoController {
 		return builder.build();
 	}
 	
+	@PermitAll
 	@POST
 	@Path("/login")
 	@Consumes("application/json")
@@ -273,6 +280,7 @@ public class AlunoController {
 	 * @param aluno
 	 * @return
 	 */
+	@PermitAll
 	@POST
 	@Path("/acesso/inserir")
 	@Consumes("application/json")
@@ -357,6 +365,7 @@ public class AlunoController {
 	 * @param aluno
 	 * @return
 	 */
+	@PermitAll
 	@POST
 	@Path("/confirmar")
 	@Consumes("application/json")

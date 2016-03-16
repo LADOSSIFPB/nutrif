@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.annotation.security.PermitAll;
 import javax.servlet.ServletContext;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -23,7 +24,7 @@ import org.jboss.resteasy.core.ResourceMethodInvoker;
 import org.jboss.resteasy.core.ResourceMethodRegistry;
 
 @Path("/servicos")
-public class RestServices {
+public class NutrIFRestServices {
 	
 	private static final class MethodDescription {
 		
@@ -51,7 +52,7 @@ public class RestServices {
 
 		public ResourceDescription(String basePath) {
 			this.basePath = basePath;
-			this.calls = new ArrayList<RestServices.MethodDescription>();
+			this.calls = new ArrayList<NutrIFRestServices.MethodDescription>();
 		}
 
 		public void addMethod(String path, ResourceMethodInvoker method) {
@@ -75,7 +76,7 @@ public class RestServices {
 				Set<Map.Entry<String, List<ResourceInvoker>>> bound) {
 			
 			Map<String, ResourceDescription> descriptions = 
-					new HashMap<String, RestServices.ResourceDescription>();
+					new HashMap<String, NutrIFRestServices.ResourceDescription>();
 
 			for (Map.Entry<String, List<ResourceInvoker>> entry : bound) {
 				Method aMethod = ((ResourceMethodInvoker) entry.getValue().get(
@@ -121,6 +122,7 @@ public class RestServices {
      * 
      * @return HTML page which has information about all methods of REST api.
      */
+	@PermitAll
 	@Path("/welcome")
     @GET
     @Produces(MediaType.TEXT_HTML)
@@ -135,6 +137,7 @@ public class RestServices {
                 + " </html> ";
     }
     
+	@PermitAll
 	@GET
 	@Path("/")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -146,6 +149,7 @@ public class RestServices {
 				.getBounded().entrySet());
 	}
 	
+	@PermitAll
 	@GET
 	@Path("/")
 	@Produces(MediaType.TEXT_HTML)

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.annotation.security.PermitAll;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -22,6 +23,7 @@ import br.edu.ladoss.entity.Refeicao;
 @Path("refeicao")
 public class RefeicaoController {
 
+	@PermitAll
 	@POST
 	@Path("/inserir")
 	@Consumes("application/json")
@@ -58,6 +60,7 @@ public class RefeicaoController {
 		return builder.build();		
 	}
 	
+	@PermitAll
 	@GET
 	@Path("/listar")
 	@Produces("application/json")
@@ -70,6 +73,7 @@ public class RefeicaoController {
 		return refeicoes;
 	}
 	
+	@PermitAll
 	@GET
 	@Path("/id/{id}")
 	@Produces("application/json")

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.annotation.security.PermitAll;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -38,6 +39,7 @@ public class FuncionarioController {
 	 * @param funacionario
 	 * @return
 	 */
+	@PermitAll
 	@POST
 	@Path("/inserir")
 	@Consumes("application/json")

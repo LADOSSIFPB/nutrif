@@ -37,4 +37,11 @@
 		<servlet-name>Resteasy</servlet-name>
 		<url-pattern>/*</url-pattern>
 	</servlet-mapping>
+	
+	<!-- Provider - Proteção de acesso aos serviços -->
+	<context-param>
+	      <param-name>resteasy.providers</param-name>
+	      <param-value>br.edu.ifpb.nutrif.service.SecurityInterceptor</param-value>
+	</context-param>
+	
 </web-app>

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.annotation.security.PermitAll;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -31,6 +32,7 @@ public class RefeicaoRealizadaController {
 	 * @param refeicaoRealizada
 	 * @return
 	 */
+	@PermitAll
 	@POST
 	@Path("/inserir")
 	@Consumes("application/json")
@@ -89,6 +91,7 @@ public class RefeicaoRealizadaController {
 		return builder.build();		
 	}
 	
+	@PermitAll
 	@GET
 	@Path("/listar")
 	@Produces("application/json")
@@ -102,6 +105,7 @@ public class RefeicaoRealizadaController {
 		return refeicaoRealizada;
 	}
 	
+	@PermitAll
 	@GET
 	@Path("/id/{id}")
 	@Produces("application/json")
