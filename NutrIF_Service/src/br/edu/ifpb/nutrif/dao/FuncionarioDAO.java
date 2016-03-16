@@ -25,7 +25,7 @@ public class FuncionarioDAO extends GenericDao<Integer, Funcionario> {
 		return instance;
 	}
 
-	public Funcionario login(String nome, String senha) 
+	public Funcionario login(String nome, String senhaPlana) 
 			throws UnsupportedEncodingException {
 		
 		Session session = HibernateUtil.getSessionFactory().openSession();
@@ -34,13 +34,17 @@ public class FuncionarioDAO extends GenericDao<Integer, Funcionario> {
 		
 		try {
 			
+			String senhaCriptografada = StringUtil.criptografarBase64(senhaPlana);
+			
 			String hql = "from Funcionario as f"
 					+ " where f.nome = :nome"
-					+ " and f.senha = :senha";
+					+ " and f.senha = :senha"
+					+ " and f.ativo = :ativo";
 			
 			Query query = session.createQuery(hql);			
 			query.setParameter("nome", nome);
-			query.setParameter("senha", StringUtil.criptografarBase64(senha));
+			query.setParameter("senha", senhaCriptografada);
+			query.setParameter("ativo", true);
 			
 			funcionario = (Funcionario) query.uniqueResult();
 	        

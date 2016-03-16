@@ -122,6 +122,11 @@ public class AlunoController {
 
 					// Operação realizada com sucesso.
 					builder.status(Response.Status.OK);
+					
+					// Remover a senha.
+					aluno.setSenha(StringUtil.STRING_VAZIO);
+					aluno.setKeyConfirmation(StringUtil.STRING_VAZIO);
+					
 					builder.entity(aluno);
 				}
 			
@@ -164,8 +169,19 @@ public class AlunoController {
 
 			Aluno aluno = AlunoDAO.getInstance().getById(idAluno); 
 			
-			builder.status(Response.Status.OK);
-			builder.entity(aluno);
+			if (aluno != null) {
+				
+				// Remover a senha.
+				aluno.setSenha(StringUtil.STRING_VAZIO);
+				aluno.setKeyConfirmation(StringUtil.STRING_VAZIO);
+				
+				builder.status(Response.Status.OK);
+				builder.entity(aluno);
+				
+			} else {
+				
+				builder.status(Response.Status.NOT_FOUND);
+			}
 
 		} catch (SQLExceptionNutrIF exception) {
 
@@ -192,14 +208,17 @@ public class AlunoController {
 			
 			if (aluno != null) {
 				
+				// Remover a senha.
+				aluno.setSenha(StringUtil.STRING_VAZIO);
+				aluno.setKeyConfirmation(StringUtil.STRING_VAZIO);
+				
 				builder.status(Response.Status.OK);
 				builder.entity(aluno);
 				
 			} else {
 				
 				builder.status(Response.Status.NOT_FOUND);
-			}
-			
+			}			
 
 		} catch (SQLExceptionNutrIF exception) {
 
@@ -234,6 +253,7 @@ public class AlunoController {
 
 					// Remover a senha.
 					aluno.setSenha(StringUtil.STRING_VAZIO);
+					aluno.setKeyConfirmation(StringUtil.STRING_VAZIO);
 					
 					// Operação realizada com sucesso.
 					builder.status(Response.Status.OK);
@@ -332,6 +352,10 @@ public class AlunoController {
 					
 					if (aluno.getId() != BancoUtil.IDVAZIO) {
 
+						// Remover a senha.
+						aluno.setSenha(StringUtil.STRING_VAZIO);
+						aluno.setKeyConfirmation(StringUtil.STRING_VAZIO);
+						
 						// Operação realizada com sucesso.
 						builder.status(Response.Status.OK);
 						builder.entity(aluno);

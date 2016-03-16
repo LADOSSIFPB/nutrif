@@ -74,7 +74,9 @@ public class DiaRefeicaoController {
 				Refeicao refeicao = RefeicaoDAO.getInstance().getById(idRefeicao);
 				diaRefeicao.setRefeicao(refeicao);
 				
-				if (aluno != null && dia != null && refeicao != null) {
+				if (aluno != null 
+						&& dia != null 
+						&& refeicao != null) {
 					
 					//Inserir o CronogramaRefeicao.
 					Integer idCronogramaRefeicao = DiaRefeicaoDAO.getInstance()
@@ -85,6 +87,10 @@ public class DiaRefeicaoController {
 						// Operação realizada com sucesso.
 						builder.status(Response.Status.OK);
 						builder.entity(diaRefeicao);
+						
+					} else {
+						
+						builder.status(Response.Status.NOT_MODIFIED);
 					}
 				}
 			
@@ -93,6 +99,7 @@ public class DiaRefeicaoController {
 				builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
 						exception.getErro());			
 			}
+			
 		} else {
 			
 			Erro erro = ErrorFactory.getErrorFromIndex(validacao);
@@ -100,6 +107,61 @@ public class DiaRefeicaoController {
 		}				
 		
 		return builder.build();		
+	}
+	
+	/**
+	 * Entrada: JSON
+	 * {
+	 * 	"aluno":{"id":"[0-9]"},
+	 * 	"dia":{"id":"[0-9]"},
+	 * 	"refeicao":{"id":"[0-9]"}
+	 * }
+	 * 
+	 * @param diaRefeicao
+	 * @return builder
+	 */
+	@PermitAll
+	@POST
+	@Path("/remover")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public Response remover(DiaRefeicao diaRefeicao) {
+		
+		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
+		builder.expires(new Date());
+		
+		// Validação dos dados de entrada.
+		int validacao = Validate.diaRefeicao(diaRefeicao);
+		
+		if (validacao == Validate.VALIDATE_OK) {
+			
+			try {			
+				
+				// Recuperar Aluno.
+				int idAluno = diaRefeicao.getAluno().getId();
+				Aluno aluno = AlunoDAO.getInstance().getById(idAluno);
+				diaRefeicao.setAluno(aluno);
+				
+				// Recuperar Dia.
+				int idDia = diaRefeicao.getDia().getId();
+				Dia dia = DiaDAO.getInstance().getById(idDia);
+				diaRefeicao.setDia(dia);
+				
+				//TODO: Implementar remoção.
+			
+			} catch (SQLExceptionNutrIF exception) {
+
+				builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
+						exception.getErro());			
+			}
+			
+		} else {
+			
+			Erro erro = ErrorFactory.getErrorFromIndex(validacao);
+			builder.status(Response.Status.NOT_ACCEPTABLE).entity(erro);
+		}				
+		
+		return builder.build();
 	}
 	
 	@PermitAll

@@ -114,7 +114,7 @@ public class Pessoa implements Serializable {
 	
 	@Override
 	public String toString() {
-		return "Pessoa [id=" + id + ", nome=" + nome + "email=" + email 
-				+ " tipo=" + tipo + " ativo=" + ativo + "]";
+		return "Pessoa [id=" + id + ", nome=" + nome + ", email=" + email 
+				+ ", tipo=" + tipo + ", ativo=" + ativo + "]";
 	}	
 }

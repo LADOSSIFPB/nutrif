@@ -103,6 +103,7 @@ public class FuncionarioController {
 		return builder.build();		
 	}
 	
+	@PermitAll
 	@POST
 	@Path("/login")
 	@Consumes("application/json")
@@ -159,6 +160,7 @@ public class FuncionarioController {
 		return builder.build();		
 	}
 	
+	@PermitAll
 	@GET
 	@Path("/listar")
 	@Produces("application/json")
@@ -171,6 +173,7 @@ public class FuncionarioController {
 		return usuarios;
 	}
 	
+	@PermitAll
 	@GET
 	@Path("/id/{id}")
 	@Produces("application/json")

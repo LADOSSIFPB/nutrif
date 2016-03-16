@@ -40,6 +40,9 @@ public class DiaRefeicao implements DataEntity {
 	@JoinColumn(name = "fk_id_refeicao")
 	private Refeicao refeicao;
 
+	@Column(name = "is_ativo", columnDefinition = "boolean default true", nullable = false)
+	private boolean ativo;
+	
 	public DiaRefeicao() {
 		super();
 	}
@@ -79,11 +82,19 @@ public class DiaRefeicao implements DataEntity {
 	public void setRefeicao(Refeicao refeicao) {
 		this.refeicao = refeicao;
 	}
+	
+	@XmlElement
+	public boolean isAtivo() {
+		return ativo;
+	}
+
+	public void setAtivo(boolean ativo) {
+		this.ativo = ativo;
+	}
 
 	@Override
 	public String toString() {
 		return "DiaRefeicao [id=" + id + ", aluno=" + aluno 
 				+ ", dia=" + dia + ", refeicao=" + refeicao + "]";
 	}
-
 }
