@@ -360,6 +360,12 @@ public class AlunoController {
 						builder.status(Response.Status.OK);
 						builder.entity(aluno);
 					}
+				
+				} else {
+					
+					builder.status(Response.Status.UNAUTHORIZED).entity(
+							ErrorFactory.getErrorFromIndex(
+									ErrorFactory.ALUNO_NAO_ENCONTRADO));
 				}
 			
 			} catch (SQLExceptionNutrIF exception) {
