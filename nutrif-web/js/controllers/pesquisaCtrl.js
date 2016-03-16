@@ -1,5 +1,5 @@
 angular.module('NutrifApp').controller("pesquisaCtrl", function ($scope, diaRefeicaoService, refeicaoRealizadaService) {
-    
+
 	var TAM_MIN_BUSCA_MATRICULA = 11;
 	var TAM_MIN_BUSCA_NOME = 3;
 
@@ -18,7 +18,15 @@ angular.module('NutrifApp').controller("pesquisaCtrl", function ($scope, diaRefe
 
 			}).error(function (data, status) {
 
-				alert("Ocorreu um erro na comunicação com o servidor, favor chamar o suporte.");
+                if (!data) {
+
+					alert("Ocorreu um erro na comunicação com o servidor, favor chamar o suporte.");
+
+				} else {
+
+					alert(data.mensagem);
+
+				}
 
 			});
 
@@ -36,7 +44,7 @@ angular.module('NutrifApp').controller("pesquisaCtrl", function ($scope, diaRefe
 
 				} else {
 
-					alert(data.message);
+					alert(data.mensagem);
 
 				}
 
@@ -52,7 +60,7 @@ angular.module('NutrifApp').controller("pesquisaCtrl", function ($scope, diaRefe
 	}
 
 	$scope.registrarRefeicao = function (refeicaoSelecionada) {
-		
+
 		var _refeicaoRealizada = {};
 		_refeicaoRealizada.confirmaRefeicaoDia = {};
 		_refeicaoRealizada.confirmaRefeicaoDia.diaRefeicao = refeicaoSelecionada;
@@ -78,7 +86,7 @@ angular.module('NutrifApp').controller("pesquisaCtrl", function ($scope, diaRefe
 
 			} else {
 
-				alert(data.message);
+				alert(data.mensagem);
 
 			}
 

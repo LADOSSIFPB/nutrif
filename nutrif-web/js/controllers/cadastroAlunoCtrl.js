@@ -52,7 +52,7 @@ angular.module("NutrifApp").controller("alunoCtrl", function ($scope, $statePara
 
          } else {
 
-            alert(data.message);
+            alert(data.mensagem);
 
          }
 
@@ -93,7 +93,7 @@ angular.module("NutrifApp").controller("alunoCtrl", function ($scope, $statePara
 
          } else {
 
-            alert(data.message);
+            alert(data.mensagem);
 
          }
 
@@ -114,7 +114,7 @@ angular.module("NutrifApp").controller("alunoCtrl", function ($scope, $statePara
 
          } else {
 
-            alert(data.message);
+            alert(data.mensagem);
 
          }
       });

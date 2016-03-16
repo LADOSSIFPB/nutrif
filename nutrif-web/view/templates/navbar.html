@@ -1,5 +1,70 @@
 <nav>
     <div class="nav-wrapper green darken-4">
-        <a href="#" class="brand-logo center"><img src="img/logo-branca.png" width="140px"></a>
+        <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+        <a href="#" class="brand-logo" ng-class="{'center': !geral.estaLogado()}"><img src="img/logo-branca.png" width="140px"></a>
+        <ul class="right hide-on-med-and-down" ng-if="geral.estaLogado()">
+            <li>
+                <a ng-click="geral.logout()">
+                    <i class="material-icons right">power_settings_new</i>
+                    Sair
+                </a>
+            </li>
+        </ul>
+        <ul class="side-nav" id="mobile-demo">
+            <li class="no-padding">
+                <ul class="collapsible collapsible-accordion">
+                    <li>
+                        <a class="collapsible-header no-active" ui-sref="home">
+                            <strong>Entrada de alunos</strong>
+                            <i class="material-icons">play_for_work</i>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="no-padding">
+                <ul class="collapsible collapsible-accordion" ui-sref="cadastro-aluno">
+                    <li>
+                        <a class="collapsible-header">
+                            <strong>Atualizar refeições</strong>
+                            <i class="material-icons">playlist_add</i>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="no-padding">
+                <ul class="collapsible collapsible-accordion">
+                    <li>
+                        <a class="collapsible-header no-active" ui-sref="#">
+                            <strong>Contato</strong>
+                            <i class="material-icons">call</i>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="no-padding">
+                <ul class="collapsible collapsible-accordion">
+                    <li>
+                        <a class="collapsible-header no-active" ui-sref="#">
+                            <strong>Ajuda</strong>
+                            <i class="material-icons">info_outline</i>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="no-padding">
+                <ul class="collapsible collapsible-accordion">
+                    <li>
+                        <a class="collapsible-header no-active" ui-sref="equipe">
+                            <strong>Equipe</strong>
+                            <i class="material-icons">supervisor_account</i>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
     </div>
 </nav>

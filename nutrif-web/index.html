@@ -8,6 +8,7 @@
 		<!-- AngularJS & Lib imports -->
 		<script type="text/javascript" src="lib/angular/angular.min.js"></script>
 		<script type="text/javascript" src="lib/angular/angular-route.min.js"></script>
+		<script type="text/javascript" src="lib/angular/angular-cookies.js"></script>
 		<script src="lib/angular/angular-cookies.js"></script>
 		<script type='text/javascript' src="lib/loading-bar.js"></script>
 		<script type='text/javascript' src="lib/ui-router.js"></script>
@@ -26,11 +27,15 @@
 		<script type="text/javascript" src="js/app.js"></script>
 		<script type="text/javascript" src="js/config/valuesConfig.js"></script>
 		<script type="text/javascript" src="js/config/routesConfig.js"></script>
+		<script type="text/javascript" src="js/config/filterRoutes.js"></script>
 
 		<script type="text/javascript" src="js/controllers/pesquisaCtrl.js"></script>
 		<script type="text/javascript" src="js/controllers/cadastroAlunoCtrl.js"></script>
+		<script type="text/javascript" src="js/controllers/loginCtrl.js"></script>
+		<script type="text/javascript" src="js/controllers/geralCtrl.js"></script>
 
 		<script type="text/javascript" src="js/services/apiService/diaService.js"></script>
+		<script type="text/javascript" src="js/services/apiService/loginService.js"></script>
 		<script type="text/javascript" src="js/services/apiService/alunoService.js"></script>
 		<script type="text/javascript" src="js/services/apiService/cursoService.js"></script>
 		<script type="text/javascript" src="js/services/apiService/refeicaoService.js"></script>
@@ -42,11 +47,13 @@
 
 	</head>
 
-	<body>
+	<body ng-controller="geralCtrl as geral">
 
 		<header>
 			<div ng-include="'view/templates/navbar.html'"></div>
 		</header>
+
+		<div ng-if="geral.estaLogado()" ng-include="'view/templates/side-nav.html'"></div>
 
 		<main>
 			<div class="container">
