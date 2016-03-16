@@ -11,9 +11,9 @@ import br.edu.ifpb.nutrif.controller.AlunoController;
 import br.edu.ifpb.nutrif.controller.CursoController;
 import br.edu.ifpb.nutrif.controller.DiaController;
 import br.edu.ifpb.nutrif.controller.DiaRefeicaoController;
+import br.edu.ifpb.nutrif.controller.FuncionarioController;
 import br.edu.ifpb.nutrif.controller.RefeicaoController;
 import br.edu.ifpb.nutrif.controller.RefeicaoRealizadaController;
-import br.edu.ifpb.nutrif.controller.FuncionarioController;
 
 public class NutrIFApplication extends Application {
 
