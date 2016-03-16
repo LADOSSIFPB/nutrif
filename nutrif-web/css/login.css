@@ -1,0 +1,12 @@
+body {
+	background-image: url("../img/background2.jpg");
+	background-repeat: no-repeat;
+	-webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+.top-margin2 {
+	margin-top: 10vh;
+}

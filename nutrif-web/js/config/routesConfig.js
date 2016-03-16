@@ -6,8 +6,19 @@ angular.module('NutrifApp').config(function ($stateProvider, $urlRouterProvider)
 
 		.state('main', {
 		    url: '/main',
+		    templateUrl: '../view/main.html',
+		    controller: 'loginCtrl'
+	  	})
+
+		.state('home', {
+		    url: '/home',
 		    templateUrl: '../view/home.html',
 		    controller: 'pesquisaCtrl'
+	  	})
+
+	  	.state('equipe', {
+		    url: '/equipe',
+		    templateUrl: '../view/equipe.html'
 	  	})
 
 	  	.state('cadastro-aluno', {

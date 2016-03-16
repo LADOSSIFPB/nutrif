@@ -1,0 +1,48 @@
+main {
+	flex: 1 0 auto;
+}
+
+body {
+	display: flex;
+	min-height: 100vh;
+	flex-direction: column;
+}
+
+.top-margin {
+	margin-top: 2vh;
+}
+
+.bottom-margin {
+	margin-bottom: 13px;
+}
+
+/* label focus color */
+.input-field input[type=text]:focus + label {
+	color: #689f38;
+}
+
+.input-field input[type=password]:focus + label {
+	color: #689f38;
+}
+
+.input-field input[type=number]:focus + label {
+	color: #689f38;
+}
+
+/* label underline focus color */
+.input-field input[type=text]:focus {
+	border-bottom: 1px solid #689f38;
+}
+
+.input-field input[type=password]:focus {
+	border-bottom: 1px solid #689f38;
+}
+
+.input-field input[type=number]:focus {
+	border-bottom: 1px solid #689f38;
+}
+
+/* icon prefix focus color */
+.input-field .prefix.active {
+	color: #689f38;
+}
