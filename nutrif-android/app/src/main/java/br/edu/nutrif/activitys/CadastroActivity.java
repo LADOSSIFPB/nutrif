@@ -1,8 +1,8 @@
 package br.edu.nutrif.activitys;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
@@ -28,8 +28,6 @@ public class CadastroActivity extends AppCompatActivity {
     EditText senha;
     @Bind(R.id.matricula)
     EditText matricula;
-    @Bind(R.id.dialog)
-    RelativeLayout dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +50,12 @@ public class CadastroActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(Response<Aluno> response, Retrofit retrofit) {
                     if(response.isSuccess()){
-                        dialog.setVisibility(View.VISIBLE);
+                        Bundle bundle = new Bundle();
+                        bundle.putString("matricula", matricula.getText().toString());
+                        Intent intent = new Intent(CadastroActivity.this, ConfirmationActivity.class);
+                        intent.putExtras(bundle);
+                        startActivity(intent);
+                        finish();
                     }else {
                         Snackbar.make(
                                 CadastroActivity.this.findViewById(android.R.id.content),

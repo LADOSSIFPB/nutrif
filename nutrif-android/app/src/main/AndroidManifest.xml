@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="br.edu.nutrif">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
@@ -24,8 +24,17 @@
             </intent-filter>
         </activity>
         <activity android:name=".activitys.RefeitorioActivity" />
-        <activity android:name=".activitys.CadastroActivity"
+        <activity
+            android:name=".activitys.CadastroActivity"
             android:label="@string/title_activity_cadastro"
+            android:parentActivityName=".activitys.LoginActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="br.edu.nutrif.activitys.LoginActivity" />
+        </activity>
+        <activity
+            android:name=".activitys.ConfirmationActivity"
+            android:label="@string/confirmacao"
             android:parentActivityName=".activitys.LoginActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

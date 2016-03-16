@@ -52,4 +52,8 @@ public class LoginActivity extends AppCompatActivity {
         }
         return false;
     }
+
+    public void autenticar(View view){
+        startActivity(new Intent(this, ConfirmationActivity.class));
+    }
 }

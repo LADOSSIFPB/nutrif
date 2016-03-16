@@ -16,5 +16,8 @@
     <string name="registrar">Registrar</string>
     <string name="undefinedError">Não foi possível identificar o erro</string>
     <string name="codigo">Código</string>
+    <string name="naoemembro">Cadastre-se</string>
     <string name="confirmar">Confirmar</string>
+    <string name="validarcodigo">Validar Código</string>
+    <string name="title_activity_confirmation">ConfirmationActivity</string>
 </resources>
