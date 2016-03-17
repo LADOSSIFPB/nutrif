@@ -17,35 +17,36 @@ public class ErrorFactory {
 	public static final int NOME_ALUNO_INVALIDO = 3;
 	public static final int MATRICULA_ALUNO_INVALIDA = 4;
 	public static final int CHAVE_CONFIRMACAO_INVALIDA = 5;
+	public static final int NOME_MATRICULA_ALUNO_INVALIDOS = 6;
 	
 	/*
 	 * Error status: Curso.
 	 */
-	public static final int ID_CURSO_INVALIDO = 6;
-	public static final int NOME_CURSO_INVALIDO = 7;
+	public static final int ID_CURSO_INVALIDO = 7;
+	public static final int NOME_CURSO_INVALIDO = 8;
 	
 	/*
 	 * Error status: Usuário.
 	 */
-	public static final int NOME_USUARIO_INVALIDO = 8;
-	public static final int EMAIL_USUARIO_INVALIDO = 9;
-	public static final int SENHA_USUARIO_INVALIDA = 10;
-	public static final int KEY_CONFIRMATION_INVALIDA = 11;
+	public static final int NOME_USUARIO_INVALIDO = 9;
+	public static final int EMAIL_USUARIO_INVALIDO = 10;
+	public static final int SENHA_USUARIO_INVALIDA = 11;
+	public static final int KEY_CONFIRMATION_INVALIDA = 12;
 	
 	/*
 	 * Error status: Dia da Refeição.
 	 */
-	public static final int ID_DIA_REFEICAO_INVALIDO = 12;
-	public static final int ID_ALUNO_INVALIDO = 13;
-	public static final int ID_DIA_INVALIDO = 14;
-	public static final int ID_REFEICAO_INVALIDA = 15;
+	public static final int ID_DIA_REFEICAO_INVALIDO = 13;
+	public static final int ID_ALUNO_INVALIDO = 14;
+	public static final int ID_DIA_INVALIDO = 15;
+	public static final int ID_REFEICAO_INVALIDA = 16;
 	
 	/*
 	 * Confirmação da Refeição.
 	 */
-	public static final int CONFIRMACAO_REFEICAO_INVALIDA = 16;
+	public static final int CONFIRMACAO_REFEICAO_INVALIDA = 17;
 	
-	public static final int IMPOSSIVEL_CRIPTOGRAFAR_VALOR = 17;
+	public static final int IMPOSSIVEL_CRIPTOGRAFAR_VALOR = 18;
 	
 	
 	/*
@@ -73,9 +74,8 @@ public class ErrorFactory {
 		hashMap.put(KEY_CONFIRMATION_INVALIDA, "Chave de confirmação inválida.");
 		hashMap.put(ID_DIA_REFEICAO_INVALIDO, "Dia da Refeição inválido.");
 		hashMap.put(CONFIRMACAO_REFEICAO_INVALIDA, "Confirmação da refeição inválida.");
+		hashMap.put(NOME_MATRICULA_ALUNO_INVALIDOS, "Nome e matrícula do aluno inválidos.");
 		
-		
-
 		return hashMap;
 	}
 

@@ -239,7 +239,7 @@ public class AlunoController {
 		builder.expires(new Date());
 		
 		// Validação dos dados de entrada.
-		int validacao = Validate.inserirAluno(aluno);
+		int validacao = Validate.loginAluno(aluno);
 		
 		if (validacao == Validate.VALIDATE_OK) {
 			

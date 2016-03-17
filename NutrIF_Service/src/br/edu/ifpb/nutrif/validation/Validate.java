@@ -60,6 +60,30 @@ public class Validate {
 		return VALIDATE_OK;
 	}
 	
+	public static int loginAluno(Aluno aluno) {
+		
+		logger.info("Validação para acesso de Aluno.");
+		String matricula = aluno.getMatricula();
+		String email = aluno.getEmail();		
+		
+		if (matricula == null && email == null) {
+			return ErrorFactory.NOME_MATRICULA_ALUNO_INVALIDOS;
+		}		
+		
+		if (matricula != null 
+				&& !stringValidator.validate(aluno.getMatricula(), 11))
+			return ErrorFactory.MATRICULA_ALUNO_INVALIDA;
+		
+		if (email != null 
+				&& !emailValidator.validate(aluno.getEmail()))
+			return ErrorFactory.EMAIL_USUARIO_INVALIDO;
+
+		if (!stringValidator.validate(aluno.getSenha(), 5, 40))
+			return ErrorFactory.SENHA_USUARIO_INVALIDA;
+		
+		return VALIDATE_OK;
+	}
+	
 	public static int confirmacaoAluno(Aluno aluno) {
 		
 		logger.info("Validação para confirmação de aluno.");
