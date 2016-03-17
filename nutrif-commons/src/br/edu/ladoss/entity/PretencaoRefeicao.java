@@ -66,7 +66,7 @@ public class PretencaoRefeicao {
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return "PretencaoRefeicao[id=" + id + " diaRefeicao=" + diaRefeicao 
-				+ " dataHoraPretencao=" + dataHoraRequisicao + "]";
+		return "PretencaoRefeicao[id=" + id + ", diaRefeicao=" + diaRefeicao 
+				+ ", dataHoraPretencao=" + dataHoraRequisicao + "]";
 	}
 }

@@ -35,11 +35,18 @@ public class ErrorFactory {
 	/*
 	 * Error status: Dia da Refeição.
 	 */
-	public static final int ID_ALUNO_INVALIDO = 12;
-	public static final int ID_DIA_INVALIDO = 13;
-	public static final int ID_REFEICAO_INVALIDA = 14;
+	public static final int ID_DIA_REFEICAO_INVALIDO = 12;
+	public static final int ID_ALUNO_INVALIDO = 13;
+	public static final int ID_DIA_INVALIDO = 14;
+	public static final int ID_REFEICAO_INVALIDA = 15;
 	
-	public static final int IMPOSSIVEL_CRIPTOGRAFAR_VALOR = 14;
+	/*
+	 * Confirmação da Refeição.
+	 */
+	public static final int CONFIRMACAO_REFEICAO_INVALIDA = 16;
+	
+	public static final int IMPOSSIVEL_CRIPTOGRAFAR_VALOR = 17;
+	
 	
 	/*
 	 * Mapa de erros: código e mensagem.
@@ -64,6 +71,10 @@ public class ErrorFactory {
 		hashMap.put(ID_REFEICAO_INVALIDA, "Refeição inválida.");
 		hashMap.put(IMPOSSIVEL_CRIPTOGRAFAR_VALOR, "Impossível criptografar valor.");
 		hashMap.put(KEY_CONFIRMATION_INVALIDA, "Chave de confirmação inválida.");
+		hashMap.put(ID_DIA_REFEICAO_INVALIDO, "Dia da Refeição inválido.");
+		hashMap.put(CONFIRMACAO_REFEICAO_INVALIDA, "Confirmação da refeição inválida.");
+		
+		
 
 		return hashMap;
 	}

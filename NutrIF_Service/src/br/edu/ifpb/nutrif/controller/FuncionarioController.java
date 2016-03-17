@@ -85,7 +85,7 @@ public class FuncionarioController {
 			} catch (SQLExceptionNutrIF exception) {
 
 				builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
-						exception.getErro());
+						exception.getError());
 				
 			} catch (UnsupportedEncodingException | NoSuchAlgorithmException 
 					exception) {
@@ -141,7 +141,7 @@ public class FuncionarioController {
 			} catch (SQLExceptionNutrIF exception) {
 
 				builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
-						exception.getErro());
+						exception.getError());
 				
 			} catch (UnsupportedEncodingException 
 					exception) {
@@ -192,7 +192,7 @@ public class FuncionarioController {
 		} catch (SQLExceptionNutrIF exception) {
 
 			builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
-					exception.getErro());			
+					exception.getError());			
 		}
 
 		return builder.build();

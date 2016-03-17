@@ -11,6 +11,7 @@ import org.hibernate.Session;
 
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
 import br.edu.ifpb.nutrif.hibernate.HibernateUtil;
+import br.edu.ifpb.nutrif.util.BancoUtil;
 import br.edu.ifpb.nutrif.util.DateUtil;
 import br.edu.ladoss.entity.DiaRefeicao;
 import br.edu.ladoss.entity.Dia;
@@ -39,6 +40,7 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 			String hql = "from DiaRefeicao as dr"
 					+ " where dr.aluno.nome like :nome"
 					+ " and dr.dia.id = :dia"
+					+ " and dr.ativo = :ativo"
 					+ "	and dr.refeicao.horaInicio <= CURRENT_TIME()"
 					+ "	and dr.refeicao.horaFinal >= CURRENT_TIME()"
 					+ " and dr.refeicao.id not in ("
@@ -52,15 +54,15 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 			Query query = session.createQuery(hql);			
 			query.setParameter("nome", "%" + nome + "%");
 			query.setParameter("dia", dia.getId());
+			query.setParameter("ativo", BancoUtil.ATIVO);
 			
 			cronogramasRefeicao = (List<DiaRefeicao>) query.list();
 	        
-		} catch (HibernateException exception) {
+		} catch (HibernateException hibernateException) {
 			
-			logger.error(exception.getMessage());
 			session.getTransaction().rollback();
 			
-			throw exception;
+			throw new SQLExceptionNutrIF(hibernateException);
 			
 		} finally {
 		
@@ -83,6 +85,7 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 			String hql = "from DiaRefeicao as dr"
 					+ " where dr.aluno.matricula = :matricula"
 					+ " and dr.dia.id = :dia"
+					+ " and dr.ativo = :ativo"
 					+ "	and dr.refeicao.horaInicio <= CURRENT_TIME()"
 					+ "	and dr.refeicao.horaFinal >= CURRENT_TIME()"
 					+ " and dr.refeicao.id not in ("
@@ -96,15 +99,15 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 			Query query = session.createQuery(hql);			
 			query.setParameter("matricula", matricula);
 			query.setParameter("dia", dia.getId());
+			query.setParameter("ativo", BancoUtil.ATIVO);
 			
 			cronogramasRefeicao = (List<DiaRefeicao>) query.list();
 	        
-		} catch (HibernateException exception) {
+		} catch (HibernateException hibernateException) {
 			
-			logger.error(exception.getMessage());
 			session.getTransaction().rollback();
 			
-			throw exception;
+			throw new SQLExceptionNutrIF(hibernateException);
 			
 		} finally {
 		
@@ -130,12 +133,11 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 			
 			diasRefeicao = (List<DiaRefeicao>) query.list();
 	        
-		} catch (HibernateException exception) {
+		} catch (HibernateException hibernateException) {
 			
-			logger.error(exception.getMessage());
 			session.getTransaction().rollback();
 			
-			throw exception;
+			throw new SQLExceptionNutrIF(hibernateException);
 			
 		} finally {
 		
@@ -143,6 +145,12 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 		}
 		
 		return diasRefeicao;		
+	}
+	
+	@Override
+	public void delete(DiaRefeicao entity) {
+		// TODO Auto-generated method stub
+		super.delete(entity);
 	}
 	
 	@Override

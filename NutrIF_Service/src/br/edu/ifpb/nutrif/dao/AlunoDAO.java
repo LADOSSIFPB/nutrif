@@ -11,6 +11,7 @@ import org.hibernate.Session;
 
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
 import br.edu.ifpb.nutrif.hibernate.HibernateUtil;
+import br.edu.ifpb.nutrif.util.BancoUtil;
 import br.edu.ifpb.nutrif.util.StringUtil;
 import br.edu.ladoss.entity.Aluno;
 
@@ -41,10 +42,11 @@ public class AlunoDAO extends GenericDao<Integer, Aluno> {
 			
 			aluno = (Aluno) query.uniqueResult();
 	        
-		} catch (HibernateException e) {
+		} catch (HibernateException hibernateException) {
 			
-			logger.error(e.getMessage());
 			session.getTransaction().rollback();
+			
+			throw new SQLExceptionNutrIF(hibernateException);
 			
 		} finally {
 		
@@ -77,16 +79,15 @@ public class AlunoDAO extends GenericDao<Integer, Aluno> {
 			query.setParameter("email", email);
 			query.setParameter("senha", StringUtil.criptografarBase64(
 					aluno.getSenha()));
-			query.setParameter("ativo", true);
+			query.setParameter("ativo", BancoUtil.ATIVO);
 			
 			aluno = (Aluno) query.uniqueResult();
 	        
-		} catch (HibernateException e) {
+		} catch (HibernateException hibernateException) {
 			
-			logger.error(e.getMessage());
 			session.getTransaction().rollback();
 			
-			throw e;
+			throw new SQLExceptionNutrIF(hibernateException);
 			
 		} finally {
 		
@@ -119,10 +120,11 @@ public class AlunoDAO extends GenericDao<Integer, Aluno> {
 				isKeyConfirmatio = true;
 			}			
 	        
-		} catch (HibernateException e) {
+		} catch (HibernateException hibernateException) {
 			
-			logger.error(e.getMessage());
 			session.getTransaction().rollback();
+			
+			throw new SQLExceptionNutrIF(hibernateException);
 			
 		} finally {
 		

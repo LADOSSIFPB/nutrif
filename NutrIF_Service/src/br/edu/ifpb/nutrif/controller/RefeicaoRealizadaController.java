@@ -80,7 +80,7 @@ public class RefeicaoRealizadaController {
 			} catch (SQLExceptionNutrIF exception) {
 
 				builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
-						exception.getErro());			
+						exception.getError());			
 			}
 		} else {
 			
@@ -125,7 +125,7 @@ public class RefeicaoRealizadaController {
 		} catch (SQLExceptionNutrIF exception) {
 
 			builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
-					exception.getErro());			
+					exception.getError());			
 		}
 
 		return builder.build();
