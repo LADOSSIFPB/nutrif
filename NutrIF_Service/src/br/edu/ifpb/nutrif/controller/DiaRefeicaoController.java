@@ -97,7 +97,7 @@ public class DiaRefeicaoController {
 			} catch (SQLExceptionNutrIF exception) {
 
 				builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
-						exception.getErro());			
+						exception.getError());			
 			}
 			
 		} else {
@@ -152,7 +152,7 @@ public class DiaRefeicaoController {
 			} catch (SQLExceptionNutrIF exception) {
 
 				builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
-						exception.getErro());			
+						exception.getError());			
 			}
 			
 		} else {
@@ -199,7 +199,7 @@ public class DiaRefeicaoController {
 		} catch (SQLExceptionNutrIF qme) {
 
 			builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
-					qme.getErro());
+					qme.getError());
 		}
 
 		return builder.build();
@@ -231,7 +231,7 @@ public class DiaRefeicaoController {
 		} catch (SQLExceptionNutrIF qme) {
 
 			builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
-					qme.getErro());
+					qme.getError());
 		}		
 		
 		return builder.build();		
@@ -263,7 +263,7 @@ public class DiaRefeicaoController {
 		} catch (SQLExceptionNutrIF qme) {
 
 			builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
-					qme.getErro());
+					qme.getError());
 		}		
 		
 		return builder.build();		
@@ -290,7 +290,7 @@ public class DiaRefeicaoController {
 		} catch (SQLExceptionNutrIF qme) {
 
 			builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
-					qme.getErro());
+					qme.getError());
 		}		
 		
 		return builder.build();		

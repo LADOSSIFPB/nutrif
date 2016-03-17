@@ -4,12 +4,13 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import br.edu.ifpb.nutrif.exception.ErrorFactory;
-import br.edu.ifpb.nutrif.util.BancoUtil;
 import br.edu.ladoss.entity.Aluno;
+import br.edu.ladoss.entity.ConfirmaRefeicaoDia;
 import br.edu.ladoss.entity.Curso;
 import br.edu.ladoss.entity.Dia;
 import br.edu.ladoss.entity.DiaRefeicao;
 import br.edu.ladoss.entity.Funcionario;
+import br.edu.ladoss.entity.PretencaoRefeicao;
 import br.edu.ladoss.entity.Refeicao;
 import br.edu.ladoss.entity.RefeicaoRealizada;
 
@@ -26,7 +27,7 @@ public class Validate {
 	
 	public static int inserirAluno(Aluno aluno) {
 		
-		logger.info("Validação para aluno.");
+		logger.info("Validação para Aluno.");
 		
 		if (!stringValidator.validateSomenteLetras(aluno.getNome()))
 			return ErrorFactory.NOME_ALUNO_INVALIDO;
@@ -36,8 +37,8 @@ public class Validate {
 			
 		Curso curso = aluno.getCurso();
 		if (curso != null 
-				&& !numeroValidator.isInteiroPositivo(curso.getId())
-				&& curso.getId() == BancoUtil.IDVAZIO)
+				&& !numeroValidator.isMaiorZero(curso.getId())
+				&& !numeroValidator.isMaiorZero(curso.getId()))
 			return ErrorFactory.ID_CURSO_INVALIDO;		
 		
 		return VALIDATE_OK;
@@ -45,7 +46,7 @@ public class Validate {
 	
 	public static int acessoAluno(Aluno aluno) {
 		
-		logger.info("Validação para acesso de aluno.");
+		logger.info("Validação para acesso de Aluno.");
 		
 		if (!stringValidator.validate(aluno.getMatricula(), 11))
 			return ErrorFactory.MATRICULA_ALUNO_INVALIDA;
@@ -74,7 +75,7 @@ public class Validate {
 
 	public static int curso(Curso curso) {		
 		
-		logger.info("Validação para curso.");
+		logger.info("Validação para Curso.");
 		
 		String nome = curso.getNome();
 		
@@ -86,8 +87,15 @@ public class Validate {
 	
 	public static int refeicao(Refeicao refeicao) {
 		
-		logger.info("Validação para curso.");
-		//TODO: implementar a validação para abertura de sala.
+		logger.info("Validação para Refeição.");
+		//TODO: implementar a validação.
+		return VALIDATE_OK;
+	}
+	
+	public static int pretencaoRefeicao(PretencaoRefeicao refeicao) {
+		
+		logger.info("Validação para Pretencao da Refeicao.");
+		//TODO: implementar a validação.
 		return VALIDATE_OK;
 	}
 	
@@ -105,7 +113,7 @@ public class Validate {
 		Aluno aluno = cronogramaRefeicao.getAluno();
 		if (aluno == null || 
 				(aluno != null 
-					&& !numeroValidator.isInteiroPositivo(aluno.getId()))) {
+					&& !numeroValidator.isMaiorZero(aluno.getId()))) {
 			return ErrorFactory.ID_ALUNO_INVALIDO;
 		}
 		
@@ -127,14 +135,33 @@ public class Validate {
 	
 	public static int refeicaoRealizada(RefeicaoRealizada refeicaoRealizada) {
 		
-		logger.info("Validação para Refeicao Realizada.");
-		//TODO: implementar a validação para abertura de sala.
+		logger.info("Validação para Refeição Realizada.");
+		
+		ConfirmaRefeicaoDia confirmaRefeicaoDia = refeicaoRealizada
+				.getConfirmaRefeicaoDia();
+		
+		if (confirmaRefeicaoDia != null) {
+			
+			DiaRefeicao diaRefeicao = confirmaRefeicaoDia.getDiaRefeicao();
+			
+			if (diaRefeicao == null 
+					|| (diaRefeicao != null 
+						&& !numeroValidator.isMaiorZero(diaRefeicao.getId()))) {
+				
+				return ErrorFactory.ID_DIA_REFEICAO_INVALIDO;
+			}
+			
+		} else {
+			
+			return ErrorFactory.CONFIRMACAO_REFEICAO_INVALIDA;
+		}
+		
 		return VALIDATE_OK;
 	}
 	
 	public static int funcionario(Funcionario usuario) {
 		
-		logger.info("Validação para Usuário.");
+		logger.info("Validação para Funcionário.");
 		
 		String nome = usuario.getNome();
 		if (!stringValidator.validateSomenteLetras(nome))

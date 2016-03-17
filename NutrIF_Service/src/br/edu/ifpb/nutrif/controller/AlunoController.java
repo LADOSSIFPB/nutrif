@@ -85,8 +85,7 @@ public class AlunoController {
 			} catch (SQLExceptionNutrIF exception) {
 
 				builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
-						exception.getErro());
-				
+						exception.getError());				
 			}
 		}				
 		
@@ -186,7 +185,7 @@ public class AlunoController {
 		} catch (SQLExceptionNutrIF exception) {
 
 			builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
-					exception.getErro());
+					exception.getError());
 		}
 
 		return builder.build();
@@ -223,7 +222,7 @@ public class AlunoController {
 		} catch (SQLExceptionNutrIF exception) {
 
 			builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
-					exception.getErro());
+					exception.getError());
 		}
 
 		return builder.build();
@@ -267,7 +266,7 @@ public class AlunoController {
 			} catch (SQLExceptionNutrIF exception) {
 
 				builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
-						exception.getErro());
+						exception.getError());
 				
 			} catch (UnsupportedEncodingException 
 					exception) {
@@ -360,12 +359,18 @@ public class AlunoController {
 						builder.status(Response.Status.OK);
 						builder.entity(aluno);
 					}
+				
+				} else {
+					
+					builder.status(Response.Status.UNAUTHORIZED).entity(
+							ErrorFactory.getErrorFromIndex(
+									ErrorFactory.ALUNO_NAO_ENCONTRADO));
 				}
 			
 			} catch (SQLExceptionNutrIF exception) {
 
 				builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
-						exception.getErro());
+						exception.getError());
 				
 			} catch (UnsupportedEncodingException | NoSuchAlgorithmException 
 					exception) {
@@ -433,7 +438,7 @@ public class AlunoController {
 			} catch (SQLExceptionNutrIF exception) {
 
 				builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
-						exception.getErro());
+						exception.getError());
 			}			
 		}
 		

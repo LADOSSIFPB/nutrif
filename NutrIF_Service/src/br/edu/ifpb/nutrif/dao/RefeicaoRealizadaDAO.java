@@ -44,10 +44,11 @@ public class RefeicaoRealizadaDAO extends GenericDao<Integer, RefeicaoRealizada>
 			
 			session.getTransaction().commit();
 			
-		} catch (HibernateException e) {
+		} catch (HibernateException hibernateException) {
 			
-			logger.error(e.getMessage());
 			session.getTransaction().rollback();
+			
+			throw new SQLExceptionNutrIF(hibernateException);
 			
 		} finally {
 		

@@ -3,8 +3,6 @@ package br.edu.ifpb.nutrif.exception;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.xml.bind.ValidationException;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.HibernateException;
@@ -13,13 +11,15 @@ import org.hibernate.exception.ConstraintViolationException;
 
 import br.edu.ladoss.entity.Erro;
 
-public class SQLExceptionNutrIF extends HibernateException {
+public class SQLExceptionNutrIF extends RuntimeException {
 
 	private static final long serialVersionUID = 6315776920468858333L;
 
 	private Logger logger = LogManager.getLogger(SQLExceptionNutrIF.class);
 	
 	private int errorCode;
+
+	private static final int HIBERNATE_ERRO = -1;
 	
 	private static final Map<Integer, String> erros = new HashMap<Integer, String>();
 	static {
@@ -40,26 +40,40 @@ public class SQLExceptionNutrIF extends HibernateException {
 		erros.put(1364, "Verifique se todos os campos estão preenchidos adequadamente.");
 		erros.put(0, "Problema na comunicação com o banco de dados. "
 				+ "Favor entre em contato com a equipe de desenvolvimento.");
-	}
-
-	public SQLExceptionNutrIF(ConstraintViolationException sqlException) {
 		
-		super(sqlException);
-		
-		this.errorCode = sqlException.getErrorCode();
-
-		logger.error(this.errorCode + ": " + sqlException.getLocalizedMessage());
-		logger.error(sqlException.getStackTrace());
+		erros.put(-1, "Problema na base de dados. "
+				+ "Favor entre em contato com a equipe de desenvolvimento.");
 	}
 	
-	public SQLExceptionNutrIF(JDBCException sqlException) {
+	public SQLExceptionNutrIF(HibernateException hibernateException) {
 		
-		super(sqlException);
+		super(hibernateException);
 		
-		this.errorCode = sqlException.getErrorCode();
+		if(hibernateException instanceof ConstraintViolationException) {
+			
+			ConstraintViolationException constraintViolationException = 
+					(ConstraintViolationException) hibernateException;
+			
+			this.errorCode = constraintViolationException.getErrorCode();
+			
+		} else {
+			
+			this.errorCode = HIBERNATE_ERRO;
+		}
+		
+		logger.error("ErrorCode: " + this.errorCode + ", Message: " + hibernateException.getMessage());
+		logger.error(hibernateException.getStackTrace());
+	}
 
-		logger.error(this.errorCode + ": " + sqlException.getLocalizedMessage());
-		logger.error(sqlException.getStackTrace());
+	public SQLExceptionNutrIF(JDBCException jdbcException) {
+		
+		super(jdbcException);
+		
+		this.errorCode = jdbcException.getErrorCode();
+
+		logger.error("ErrorCode: " + this.errorCode + ", Message: " 
+				+ jdbcException.getMessage());
+		logger.error(jdbcException.getStackTrace());
 	}
 	
 	public SQLExceptionNutrIF(int errorCode, String localizedMessage) {
@@ -79,7 +93,7 @@ public class SQLExceptionNutrIF extends HibernateException {
 		this.errorCode = errorCode;
 	}
 	
-	public Erro getErro() {
+	public Erro getError() {
 		
 		return new Erro(errorCode, erros.get(errorCode));		
 	}

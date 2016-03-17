@@ -48,11 +48,11 @@ public class FuncionarioDAO extends GenericDao<Integer, Funcionario> {
 			
 			funcionario = (Funcionario) query.uniqueResult();
 	        
-		} catch (HibernateException e) {
+		} catch (HibernateException hibernateException) {
 			
-			logger.error(e.getMessage());
 			session.getTransaction().rollback();
-			throw e;
+			
+			throw new SQLExceptionNutrIF(hibernateException);
 			
 		} finally {
 		

@@ -5,6 +5,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
+import org.hibernate.JDBCException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.exception.ConstraintViolationException;
@@ -34,13 +35,11 @@ public abstract class GenericDao<PK, T> {
 			id = (Integer) session.save(entity);
 			session.getTransaction().commit();
 
-		} catch (ConstraintViolationException e) {
-			
-			logger.error(e.getMessage());
+		} catch (HibernateException hibernateException) {
 			
 			session.getTransaction().rollback();
 			
-			throw new SQLExceptionNutrIF(e);
+			throw new SQLExceptionNutrIF(hibernateException);
 			
 		} finally {
 			
@@ -66,13 +65,11 @@ public abstract class GenericDao<PK, T> {
 			
 			success = true;
 
-		} catch (HibernateException e) {
-			
-			logger.error(e.getMessage());
+		} catch (HibernateException hibernateException) {
 			
 			session.getTransaction().rollback();
 			
-			throw e;
+			throw new HibernateException(hibernateException);
 			
 		} finally {
 			
@@ -94,13 +91,11 @@ public abstract class GenericDao<PK, T> {
 			entity = (T) session.merge(entity);
 			session.getTransaction().commit();
 
-		} catch (HibernateException e) {
-			
-			logger.error(e.getMessage());
+		} catch (HibernateException hibernateException) {
 			
 			session.getTransaction().rollback();
 			
-			throw e;
+			throw new SQLExceptionNutrIF(hibernateException);
 			
 		} finally {
 			
@@ -120,13 +115,11 @@ public abstract class GenericDao<PK, T> {
 			session.delete(entity);
 			session.getTransaction().commit();
 
-		} catch (HibernateException e) {
-			
-			logger.error(e.getMessage());
+		} catch (HibernateException hibernateException) {
 			
 			session.getTransaction().rollback();
-
-			throw e;
+			
+			throw new SQLExceptionNutrIF(hibernateException);
 			
 		} finally {
 			
@@ -148,10 +141,11 @@ public abstract class GenericDao<PK, T> {
 			list = (List<T>) query.list();
 			session.getTransaction().commit();
 			
-		} catch (HibernateException e) {
+		} catch (HibernateException hibernateException) {
 			
-			logger.error(e.getMessage());
 			session.getTransaction().rollback();
+			
+			throw new SQLExceptionNutrIF(hibernateException);
 			
 		} finally {
 			
@@ -174,10 +168,11 @@ public abstract class GenericDao<PK, T> {
 	        Hibernate.initialize(entity);
 	        session.getTransaction().commit();
 	        
-		} catch (HibernateException e) {
+		} catch (HibernateException hibernateException) {
 			
-			logger.error(e.getMessage());
 			session.getTransaction().rollback();
+			
+			throw new SQLExceptionNutrIF(hibernateException);
 			
 		} finally {
 		

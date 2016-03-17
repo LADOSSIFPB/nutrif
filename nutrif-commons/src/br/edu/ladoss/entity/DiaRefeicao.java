@@ -22,7 +22,7 @@ import br.edu.ladoss.data.DataEntity;
 @Table(name = "tb_dia_refeicao")
 @NamedQuery(name = "DiaRefeicao.getAll", query = "from DiaRefeicao")
 public class DiaRefeicao implements DataEntity {
-
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_dia_refeicao")
@@ -42,7 +42,7 @@ public class DiaRefeicao implements DataEntity {
 
 	@Column(name = "is_ativo", columnDefinition = "boolean default true", nullable = false)
 	private boolean ativo;
-	
+		
 	public DiaRefeicao() {
 		super();
 	}

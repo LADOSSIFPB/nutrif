@@ -14,42 +14,43 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
-import br.edu.ifpb.nutrif.dao.CursoDAO;
+import br.edu.ifpb.nutrif.dao.PretencaoRefeicaoDAO;
 import br.edu.ifpb.nutrif.exception.ErrorFactory;
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
 import br.edu.ifpb.nutrif.util.BancoUtil;
 import br.edu.ifpb.nutrif.validation.Validate;
-import br.edu.ladoss.entity.Curso;
 import br.edu.ladoss.entity.Erro;
+import br.edu.ladoss.entity.PretencaoRefeicao;
 
-@Path("curso")
-public class CursoController {
+@Path("pretencaorefeicao")
+public class PretencaoRefeicaoController {
 
 	@PermitAll
 	@POST
 	@Path("/inserir")
 	@Consumes("application/json")
 	@Produces("application/json")
-	public Response insert(Curso curso) {
+	public Response insert(PretencaoRefeicao pretencaoRefeicao) {
 		
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
 		builder.expires(new Date());
 		
 		// Validação dos dados de entrada.
-		int validacao = Validate.curso(curso);
+		int validacao = Validate.pretencaoRefeicao(pretencaoRefeicao);
 		
 		if (validacao == Validate.VALIDATE_OK) {
 			
 			try {			
 				
 				//Inserir o Aluno.
-				Integer idCurso = CursoDAO.getInstance().insert(curso);
+				Integer idPretencaoRefeicao = PretencaoRefeicaoDAO.getInstance()
+						.insert(pretencaoRefeicao);
 				
-				if (idCurso != BancoUtil.IDVAZIO) {
+				if (idPretencaoRefeicao != BancoUtil.IDVAZIO) {
 
 					// Operação realizada com sucesso.
 					builder.status(Response.Status.OK);
-					builder.entity(curso);
+					builder.entity(pretencaoRefeicao);
 				}
 			
 			} catch (SQLExceptionNutrIF exception) {
@@ -71,38 +72,37 @@ public class CursoController {
 	@GET
 	@Path("/listar")
 	@Produces("application/json")
-	public List<Curso> getAll() {
+	public List<PretencaoRefeicao> getAll() {
 		
-		List<Curso> cursos = new ArrayList<Curso>();
+		List<PretencaoRefeicao> pretencaoRefeicao = 
+				new ArrayList<PretencaoRefeicao>();
 		
-		cursos = CursoDAO.getInstance().getAll();
+		pretencaoRefeicao = PretencaoRefeicaoDAO.getInstance().getAll();
 		
-		return cursos;
+		return pretencaoRefeicao;
 	}
 	
 	@PermitAll
 	@GET
 	@Path("/id/{id}")
 	@Produces("application/json")
-	public Response getCursoById(@PathParam("id") int idCurso) {
+	public Response getPretencaoRefeicaoById(@PathParam("id") int idPretencaoRefeicao) {
 		
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
 		builder.expires(new Date());
 
 		try {
 
-			Curso curso = CursoDAO.getInstance().getById(idCurso); 
+			PretencaoRefeicao pretencaoRefeicao = PretencaoRefeicaoDAO
+					.getInstance().getById(idPretencaoRefeicao); 
 			
 			builder.status(Response.Status.OK);
-			builder.entity(curso);
+			builder.entity(pretencaoRefeicao);
 
-		} catch (SQLExceptionNutrIF qme) {
+		} catch (SQLExceptionNutrIF exception) {
 
-			Erro erro = new Erro();
-			erro.setCodigo(qme.getErrorCode());
-			erro.setMensagem(qme.getMessage());
-
-			builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(erro);
+			builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
+					exception.getError());
 		}
 
 		return builder.build();
