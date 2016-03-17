@@ -1,0 +1,71 @@
+<link rel="stylesheet" type="text/css" href="../../css/home.css"/>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('.collapsible').collapsible();
+	});
+</script>
+
+<ul id="sidenav" class="side-nav fixed grey lighten-3">
+
+	<div class="center-align">
+		<img src="../../img/logo.png" width="49%">
+		<div class="divider"></div>
+	</div>
+
+	<li class="no-padding">
+		<ul class="collapsible collapsible-accordion">
+			<li>
+                <a class="collapsible-header no-active" ui-sref="home">
+					<strong>Entrada de alunos</strong>
+					<i class="material-icons">play_for_work</i>
+			    </a>
+            </li>
+		</ul>
+	</li>
+
+	<li class="no-padding">
+		<ul class="collapsible collapsible-accordion" ui-sref="cadastro-aluno">
+			<li>
+				<a class="collapsible-header">
+                    <strong>Atualizar refeições</strong>
+                    <i class="material-icons">playlist_add</i>
+                </a>
+			</li>
+		</ul>
+	</li>
+
+	<li class="no-padding">
+		<ul class="collapsible collapsible-accordion">
+			<li>
+                <a class="collapsible-header no-active" ui-sref="#">
+    				<strong>Contato</strong>
+    				<i class="material-icons">call</i>
+			    </a>
+            </li>
+		</ul>
+	</li>
+
+	<li class="no-padding">
+		<ul class="collapsible collapsible-accordion">
+			<li>
+                <a class="collapsible-header no-active" ui-sref="#">
+    				<strong>Ajuda</strong>
+    				<i class="material-icons">info_outline</i>
+			    </a>
+            </li>
+		</ul>
+	</li>
+
+    <li class="no-padding">
+		<ul class="collapsible collapsible-accordion">
+			<li>
+                <a class="collapsible-header no-active" ui-sref="equipe">
+    				<strong>Equipe</strong>
+    				<i class="material-icons">supervisor_account</i>
+			    </a>
+            </li>
+		</ul>
+	</li>
+
+</ul>
