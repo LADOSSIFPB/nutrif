@@ -69,8 +69,8 @@ public class AlunoDAO extends GenericDao<Integer, Aluno> {
 					? StringUtil.STRING_VAZIO : aluno.getEmail();
 			
 			String hql = "from Aluno as a"
-					+ " where a.matricula = :matricula"
-					+ " or a.email = :email"
+					+ " where (a.matricula = :matricula"
+					+ " or a.email = :email)"
 					+ " and a.senha = :senha"
 					+ " and a.ativo = :ativo";
 			
@@ -82,7 +82,7 @@ public class AlunoDAO extends GenericDao<Integer, Aluno> {
 			query.setParameter("ativo", BancoUtil.ATIVO);
 			
 			aluno = (Aluno) query.uniqueResult();
-	        
+			
 		} catch (HibernateException hibernateException) {
 			
 			session.getTransaction().rollback();
