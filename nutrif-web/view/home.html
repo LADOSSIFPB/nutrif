@@ -1,7 +1,7 @@
 <div class="section row">
 
     <div class="input-field col s4">
-        <input id="matricula" type="text" ng-model="refeicao.aluno.matricula" ng-keyup="buscarRefeicoes(refeicao)">
+        <input id="matricula" type="number" ng-model="refeicao.aluno.matricula" ng-keyup="buscarRefeicoes(refeicao)">
         <label for="matricula">Matrícula</label>
     </div>
 
@@ -9,6 +9,11 @@
         <input id="nome_completo" type="text" ng-model="refeicao.aluno.nome" ng-keyup="buscarRefeicoes(refeicao)">
         <label for="nome_completo">Nome Completo</label>
     </div>
+
+    <button class="btn waves-effect waves-light light-green darken-1 button-width-margin" ng-click="limparBusca()">
+        <i class="material-icons left">delete</i>
+        Limpar Busca
+    </button>
 
 </div>
 
@@ -39,6 +44,9 @@
             </tr>
         </tbody>
     </table>
+
+    <h5 ng-if="refeicoes.length < 1" class="condensed light grey-text center">Não foram encontrados registros</h5>
+
 </div>
 
 <div ng-include="'view/modals/confirmar-refeicao.html'" scope="" onload=""></div>
