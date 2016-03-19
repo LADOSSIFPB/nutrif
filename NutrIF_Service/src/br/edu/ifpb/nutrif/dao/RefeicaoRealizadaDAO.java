@@ -67,4 +67,10 @@ public class RefeicaoRealizadaDAO extends GenericDao<Integer, RefeicaoRealizada>
 	public Class<?> getEntityClass() {
 		return RefeicaoRealizada.class;
 	}
+
+	@Override
+	public RefeicaoRealizada find(RefeicaoRealizada entity) throws SQLExceptionNutrIF {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

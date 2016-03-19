@@ -16,12 +16,14 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
+import br.edu.ifpb.nutrif.dao.DiaRefeicaoDAO;
 import br.edu.ifpb.nutrif.dao.PretensaoRefeicaoDAO;
 import br.edu.ifpb.nutrif.exception.ErrorFactory;
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
 import br.edu.ifpb.nutrif.util.BancoUtil;
 import br.edu.ifpb.nutrif.util.StringUtil;
 import br.edu.ifpb.nutrif.validation.Validate;
+import br.edu.ladoss.entity.DiaRefeicao;
 import br.edu.ladoss.entity.Erro;
 import br.edu.ladoss.entity.PretensaoRefeicao;
 
@@ -45,21 +47,31 @@ public class PretensaoRefeicaoController {
 			
 			try {			
 				
-				// Chave de acesso ao Refeitório através da pretensão lançada.
-				Date agora = new Date();
-				pretensaoRefeicao.setKeyAccess(
-						StringUtil.criptografarSha256(agora.toString()));
+				// Verifica dia da refeição.
+				DiaRefeicao diaRefeicao = DiaRefeicaoDAO.getInstance().find(
+						pretensaoRefeicao.getDiaRefeicao());
 				
-				//Inserir o Aluno.
-				Integer idPretensaoRefeicao = PretensaoRefeicaoDAO.getInstance()
-						.insert(pretensaoRefeicao);
-				
-				if (idPretensaoRefeicao != BancoUtil.IDVAZIO) {
+				if (diaRefeicao != null) {
+					
+					// Atribuindo dia da refeição com dados completos.
+					pretensaoRefeicao.setDiaRefeicao(diaRefeicao);
+					
+					// Chave de acesso ao Refeitório através da pretensão lançada.
+					Date agora = new Date();
+					pretensaoRefeicao.setKeyAccess(
+							StringUtil.criptografarSha256(agora.toString()));
+					
+					//Inserir o Aluno.
+					Integer idPretensaoRefeicao = PretensaoRefeicaoDAO.getInstance()
+							.insert(pretensaoRefeicao);
+					
+					if (idPretensaoRefeicao != BancoUtil.IDVAZIO) {
 
-					// Operação realizada com sucesso.
-					builder.status(Response.Status.OK);
-					builder.entity(pretensaoRefeicao);
-				}
+						// Operação realizada com sucesso.
+						builder.status(Response.Status.OK);
+						builder.entity(pretensaoRefeicao);
+					}
+				}				
 			
 			} catch (SQLExceptionNutrIF exception) {
 

@@ -33,7 +33,7 @@ public class PretensaoRefeicao {
 	private DiaRefeicao diaRefeicao;
 	
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "dt_requisicao", insertable = true, updatable = false)
+	@Column(name = "dt_requisicao", columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
 	private Date dataHoraRequisicao;
 
 	@Column(name = "nm_keyaccess", unique = true)

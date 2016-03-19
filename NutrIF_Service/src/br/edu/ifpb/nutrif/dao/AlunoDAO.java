@@ -143,4 +143,10 @@ public class AlunoDAO extends GenericDao<Integer, Aluno> {
 	public Class<?> getEntityClass() {		
 		return Aluno.class;
 	}
+
+	@Override
+	public Aluno find(Aluno entity) throws SQLExceptionNutrIF {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
