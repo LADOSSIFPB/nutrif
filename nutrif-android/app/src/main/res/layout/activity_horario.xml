@@ -1,0 +1,265 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="br.edu.nutrif.activitys.HorarioActivity" >
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="16dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp">
+
+            <TextView
+                android:id="@+id/horario"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                android:background="@color/colorPrimaryDark"
+                android:textColor="@color/gelo"
+                android:gravity="center"
+                android:padding="6dp"
+                android:text="Horário" />
+
+            <TextView
+                android:id="@+id/segunda"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                android:background="@color/colorPrimaryDark"
+                android:textColor="@color/gelo"
+                android:gravity="center"
+                android:padding="6dp"
+                android:text="Segunda-feira" />
+
+            <TextView
+                android:id="@+id/terca"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                android:background="@color/colorPrimaryDark"
+                android:textColor="@color/gelo"
+                android:gravity="center"
+                android:padding="6dp"
+                android:text="Terça-feira" />
+
+            <TextView
+                android:id="@+id/quarta"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                android:background="@color/colorPrimaryDark"
+                android:textColor="@color/gelo"
+                android:gravity="center"
+                android:padding="6dp"
+                android:text="Quarta-feira" />
+
+            <TextView
+                android:id="@+id/quinta"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                android:background="@color/colorPrimaryDark"
+                android:textColor="@color/gelo"
+                android:gravity="center"
+                android:padding="6dp"
+                android:text="Quinta-feira" />
+
+            <TextView
+                android:id="@+id/sexta"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                android:background="@color/colorPrimaryDark"
+                android:textColor="@color/gelo"
+                android:gravity="center"
+                android:padding="6dp"
+                android:text="Sexta-feira" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp">
+
+            <TextView
+                android:id="@+id/almoco"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Almoço"
+                android:textSize="18dp" />
+
+            <TextView
+                android:id="@+id/campoAlmocoSegunda"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text=""
+                android:textSize="18dp" />
+
+            <TextView
+                android:id="@+id/campoAlmocoTerca"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text=""
+                android:textSize="18dp" />
+
+            <TextView
+                android:id="@+id/campoAlmocoQuarta"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text=""
+                android:textSize="18dp" />
+
+            <TextView
+                android:id="@+id/campoAlmocoQuinta"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text=""
+                android:textSize="18dp" />
+
+            <TextView
+                android:id="@+id/campoAlmocoSexta"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text=""
+                android:textSize="18dp" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp">
+
+            <TextView
+                android:id="@+id/janta"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Janta"
+                android:textSize="18dp" />
+
+            <TextView
+                android:id="@+id/campoJantaSegunda"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text=""
+                android:textSize="18dp" />
+
+            <TextView
+                android:id="@+id/campoJantaTerca"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text=""
+                android:textSize="18dp" />
+
+            <TextView
+                android:id="@+id/campoJantaQuarta"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text=""
+                android:textSize="18dp" />
+
+            <TextView
+                android:id="@+id/campoJantaQuinta"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text=""
+                android:textSize="18dp" />
+
+            <TextView
+                android:id="@+id/campoJantaSexta"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text=""
+                android:textSize="18dp" />
+
+        </TableRow>
+
+    </TableLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/registrar"
+            style="@style/buttonCustom"
+            android:layout_width="196dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="90dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:onClick="registrar"
+            android:text="Registrar"
+            android:textStyle="bold"
+            android:layout_alignParentRight="true"/>
+
+        <Button
+            android:id="@+id/cancelar"
+            style="@style/buttonCustom"
+            android:layout_width="196dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:onClick="cancelar"
+            android:text="Cancelar"
+            android:textStyle="bold"/>
+
+    </LinearLayout>
+
+</LinearLayout>
