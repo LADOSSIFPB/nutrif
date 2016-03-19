@@ -7,7 +7,7 @@ import com.squareup.okhttp.ResponseBody;
 import java.lang.annotation.Annotation;
 
 import br.edu.nutrif.R;
-import br.edu.nutrif.entitys.Erro;
+import br.edu.nutrif.entitys.output.Erro;
 import retrofit.Converter;
 import retrofit.Response;
 import retrofit.Retrofit;

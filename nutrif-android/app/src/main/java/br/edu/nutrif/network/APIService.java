@@ -1,12 +1,12 @@
 package br.edu.nutrif.network;
 
 import br.edu.nutrif.entitys.Aluno;
-import br.edu.nutrif.entitys.ConfirmationKey;
+import br.edu.nutrif.entitys.input.ConfirmationKey;
+import br.edu.nutrif.entitys.input.FormularioLogin;
+import br.edu.nutrif.entitys.PretencaoRefeicao;
 import retrofit.Call;
 import retrofit.http.Body;
-import retrofit.http.GET;
 import retrofit.http.POST;
-import retrofit.http.Path;
 
 /**
  * Created by juan on 14/03/16.
@@ -18,5 +18,11 @@ public interface APIService {
 
     @POST("aluno/confirmar")
     Call<Void> confirmar(@Body ConfirmationKey confirmation);
+
+    @POST("aluno/login")
+    Call<Aluno> login(@Body FormularioLogin aluno);
+
+    @POST("pretensaorefeicao/inserir")
+    Call<PretencaoRefeicao> pedirRefeicao(@Body PretencaoRefeicao pretencaoRefeicao);
 
 }

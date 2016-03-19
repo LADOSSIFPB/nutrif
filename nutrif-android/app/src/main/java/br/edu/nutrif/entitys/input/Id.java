@@ -1,4 +1,4 @@
-package br.edu.nutrif.entitys;
+package br.edu.nutrif.entitys.input;
 
 /**
  * Created by juan on 19/03/16.
