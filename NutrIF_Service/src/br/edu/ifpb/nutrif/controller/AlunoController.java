@@ -21,6 +21,7 @@ import br.edu.ifpb.nutrif.dao.CursoDAO;
 import br.edu.ifpb.nutrif.exception.ErrorFactory;
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
 import br.edu.ifpb.nutrif.util.BancoUtil;
+import br.edu.ifpb.nutrif.util.EmailUtil;
 import br.edu.ifpb.nutrif.util.StringUtil;
 import br.edu.ifpb.nutrif.validation.Validate;
 import br.edu.ladoss.entity.Aluno;
@@ -444,4 +445,20 @@ public class AlunoController {
 		
 		return builder.build();
 	}
+	
+	@PermitAll
+	@GET
+	@Path("/email")
+	@Produces("application/json")
+	public Response sendEmail() {
+		
+		ResponseBuilder builder = Response.status(Response.Status.OK);
+		builder.expires(new Date());
+		
+		EmailUtil emailUtil = new EmailUtil();
+		emailUtil.send();
+		
+		return builder.build();
+	}
+	
 }
