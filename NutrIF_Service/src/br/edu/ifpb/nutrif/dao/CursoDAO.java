@@ -28,4 +28,10 @@ public class CursoDAO extends GenericDao<Integer, Curso>{
 	public Class<?> getEntityClass() {
 		return Curso.class;
 	}
+
+	@Override
+	public Curso find(Curso entity) throws SQLExceptionNutrIF {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

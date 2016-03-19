@@ -13,8 +13,10 @@ import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
 import br.edu.ifpb.nutrif.hibernate.HibernateUtil;
 import br.edu.ifpb.nutrif.util.BancoUtil;
 import br.edu.ifpb.nutrif.util.DateUtil;
-import br.edu.ladoss.entity.DiaRefeicao;
+import br.edu.ifpb.nutrif.util.StringUtil;
+import br.edu.ladoss.entity.Aluno;
 import br.edu.ladoss.entity.Dia;
+import br.edu.ladoss.entity.DiaRefeicao;
 
 public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 	
@@ -158,6 +160,47 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 		return super.getAll("DiaRefeicao.getAll");
 	}
 
+	@Override
+	public DiaRefeicao find(DiaRefeicao diaRefeicao) throws SQLExceptionNutrIF {
+		
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		
+		try {
+			
+			Aluno aluno = diaRefeicao.getAluno();
+			String matricula = StringUtil.isEmptyOrNull(aluno.getMatricula()) 
+					? StringUtil.STRING_VAZIO : aluno.getMatricula();
+			
+			String hql = "from DiaRefeicao as dr"
+					+ " where (dr.aluno.id = :idAluno"
+					+ " OR dr.aluno.matricula = :matricula)"
+					+ " and dr.dia.id = :idDia"
+					+ " and dr.refeicao.id = :idRefeicao"
+					+ " and dr.ativo = :ativo";
+			
+			Query query = session.createQuery(hql);
+			query.setParameter("idAluno", diaRefeicao.getAluno().getId());
+			query.setParameter("matricula", matricula);
+			query.setParameter("idDia", diaRefeicao.getDia().getId());
+			query.setParameter("idRefeicao", diaRefeicao.getRefeicao().getId());
+			query.setParameter("ativo", BancoUtil.ATIVO);			
+			
+			diaRefeicao = (DiaRefeicao) query.uniqueResult();
+	        
+		} catch (HibernateException hibernateException) {
+			
+			session.getTransaction().rollback();
+			
+			throw new SQLExceptionNutrIF(hibernateException);
+			
+		} finally {
+		
+			session.close();
+		}
+		
+		return diaRefeicao;
+	}
+	
 	@Override
 	public Class<?> getEntityClass() {
 		return DiaRefeicao.class;

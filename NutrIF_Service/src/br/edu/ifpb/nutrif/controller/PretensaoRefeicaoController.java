@@ -1,5 +1,7 @@
 package br.edu.ifpb.nutrif.controller;
 
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -14,15 +16,18 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
+import br.edu.ifpb.nutrif.dao.DiaRefeicaoDAO;
 import br.edu.ifpb.nutrif.dao.PretensaoRefeicaoDAO;
 import br.edu.ifpb.nutrif.exception.ErrorFactory;
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
 import br.edu.ifpb.nutrif.util.BancoUtil;
+import br.edu.ifpb.nutrif.util.StringUtil;
 import br.edu.ifpb.nutrif.validation.Validate;
+import br.edu.ladoss.entity.DiaRefeicao;
 import br.edu.ladoss.entity.Erro;
 import br.edu.ladoss.entity.PretensaoRefeicao;
 
-@Path("pretencaorefeicao")
+@Path("pretensaorefeicao")
 public class PretensaoRefeicaoController {
 
 	@PermitAll
@@ -30,33 +35,55 @@ public class PretensaoRefeicaoController {
 	@Path("/inserir")
 	@Consumes("application/json")
 	@Produces("application/json")
-	public Response insert(PretensaoRefeicao pretencaoRefeicao) {
+	public Response insert(PretensaoRefeicao pretensaoRefeicao) {
 		
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
 		builder.expires(new Date());
 		
 		// Validação dos dados de entrada.
-		int validacao = Validate.pretencaoRefeicao(pretencaoRefeicao);
+		int validacao = Validate.pretencaoRefeicao(pretensaoRefeicao);
 		
 		if (validacao == Validate.VALIDATE_OK) {
 			
 			try {			
 				
-				//Inserir o Aluno.
-				Integer idPretencaoRefeicao = PretensaoRefeicaoDAO.getInstance()
-						.insert(pretencaoRefeicao);
+				// Verifica dia da refeição.
+				DiaRefeicao diaRefeicao = DiaRefeicaoDAO.getInstance().find(
+						pretensaoRefeicao.getDiaRefeicao());
 				
-				if (idPretencaoRefeicao != BancoUtil.IDVAZIO) {
+				if (diaRefeicao != null) {
+					
+					// Atribuindo dia da refeição com dados completos.
+					pretensaoRefeicao.setDiaRefeicao(diaRefeicao);
+					
+					// Chave de acesso ao Refeitório através da pretensão lançada.
+					Date agora = new Date();
+					pretensaoRefeicao.setKeyAccess(
+							StringUtil.criptografarSha256(agora.toString()));
+					
+					//Inserir o Aluno.
+					Integer idPretensaoRefeicao = PretensaoRefeicaoDAO.getInstance()
+							.insert(pretensaoRefeicao);
+					
+					if (idPretensaoRefeicao != BancoUtil.IDVAZIO) {
 
-					// Operação realizada com sucesso.
-					builder.status(Response.Status.OK);
-					builder.entity(pretencaoRefeicao);
-				}
+						// Operação realizada com sucesso.
+						builder.status(Response.Status.OK);
+						builder.entity(pretensaoRefeicao);
+					}
+				}				
 			
 			} catch (SQLExceptionNutrIF exception) {
 
 				builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
 						exception.getError());			
+			
+			}  catch (UnsupportedEncodingException | NoSuchAlgorithmException 
+					exception) {
+
+				builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
+						ErrorFactory.getErrorFromIndex(
+								ErrorFactory.IMPOSSIVEL_CRIPTOGRAFAR_VALOR));			
 			}
 			
 		} else {
@@ -87,30 +114,30 @@ public class PretensaoRefeicaoController {
 	@Produces("application/json")
 	public List<PretensaoRefeicao> getAll() {
 		
-		List<PretensaoRefeicao> pretencaoRefeicao = 
+		List<PretensaoRefeicao> pretensaoRefeicao = 
 				new ArrayList<PretensaoRefeicao>();
 		
-		pretencaoRefeicao = PretensaoRefeicaoDAO.getInstance().getAll();
+		pretensaoRefeicao = PretensaoRefeicaoDAO.getInstance().getAll();
 		
-		return pretencaoRefeicao;
+		return pretensaoRefeicao;
 	}
 	
 	@PermitAll
 	@GET
 	@Path("/id/{id}")
 	@Produces("application/json")
-	public Response getPretencaoRefeicaoById(@PathParam("id") int idPretencaoRefeicao) {
+	public Response getPretencaoRefeicaoById(@PathParam("id") int idPretensaoRefeicao) {
 		
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
 		builder.expires(new Date());
 
 		try {
 
-			PretensaoRefeicao pretencaoRefeicao = PretensaoRefeicaoDAO
-					.getInstance().getById(idPretencaoRefeicao); 
+			PretensaoRefeicao pretensaoRefeicao = PretensaoRefeicaoDAO
+					.getInstance().getById(idPretensaoRefeicao); 
 			
 			builder.status(Response.Status.OK);
-			builder.entity(pretencaoRefeicao);
+			builder.entity(pretensaoRefeicao);
 
 		} catch (SQLExceptionNutrIF exception) {
 

@@ -28,4 +28,10 @@ public class PretensaoRefeicaoDAO extends GenericDao<Integer, PretensaoRefeicao>
 	public Class<?> getEntityClass() {
 		return PretensaoRefeicao.class;
 	}
+
+	@Override
+	public PretensaoRefeicao find(PretensaoRefeicao entity) throws SQLExceptionNutrIF {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

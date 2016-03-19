@@ -94,6 +94,7 @@ public class FuncionarioController {
 						ErrorFactory.getErrorFromIndex(
 								ErrorFactory.IMPOSSIVEL_CRIPTOGRAFAR_VALOR));			
 			}
+			
 		} else {
 			
 			Erro erro = ErrorFactory.getErrorFromIndex(validacao);

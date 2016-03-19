@@ -27,5 +27,11 @@ public class DiaDAO extends GenericDao<Integer, Dia>{
 	@Override
 	public Class<?> getEntityClass() {
 		return Dia.class;
+	}
+
+	@Override
+	public Dia find(Dia entity) throws SQLExceptionNutrIF {
+		// TODO Auto-generated method stub
+		return null;
 	}	
 }

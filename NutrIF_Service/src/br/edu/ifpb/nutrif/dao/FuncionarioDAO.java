@@ -71,4 +71,10 @@ public class FuncionarioDAO extends GenericDao<Integer, Funcionario> {
 	public Class<?> getEntityClass() {		
 		return Funcionario.class;
 	}
+
+	@Override
+	public Funcionario find(Funcionario entity) throws SQLExceptionNutrIF {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
