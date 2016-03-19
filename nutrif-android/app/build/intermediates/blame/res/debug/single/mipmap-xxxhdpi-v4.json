@@ -1,5 +1,9 @@
 [
     {
+        "merged": "/home/juan/git/nutrif/nutrif-android/app/build/intermediates/res/merged/debug/mipmap-xxxhdpi-v4/ic_launcher.png",
+        "source": "/home/juan/git/nutrif/nutrif-android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png"
+    },
+    {
         "merged": "/home/juan/Java/workspace/NutrIf/app/build/intermediates/res/merged/debug/mipmap-xxxhdpi-v4/ic_launcher.png",
         "source": "/home/juan/Java/workspace/NutrIf/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png"
     }
