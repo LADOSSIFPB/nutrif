@@ -16,6 +16,12 @@ body {
 	margin-bottom: 13px;
 }
 
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
 /* label focus color */
 .input-field input[type=text]:focus + label {
 	color: #689f38;
@@ -45,4 +51,8 @@ body {
 /* icon prefix focus color */
 .input-field .prefix.active {
 	color: #689f38;
+}
+
+.button-width-margin {
+	margin-left: 10px;
 }

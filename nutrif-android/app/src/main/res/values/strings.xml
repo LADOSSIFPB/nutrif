@@ -20,4 +20,5 @@
     <string name="confirmar">Confirmar</string>
     <string name="validarcodigo">Validar Código</string>
     <string name="title_activity_confirmation">ConfirmationActivity</string>
+    <string name="horario">Horário</string>
 </resources>

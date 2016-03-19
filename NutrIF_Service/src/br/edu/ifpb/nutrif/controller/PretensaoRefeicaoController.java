@@ -14,23 +14,23 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
-import br.edu.ifpb.nutrif.dao.PretencaoRefeicaoDAO;
+import br.edu.ifpb.nutrif.dao.PretensaoRefeicaoDAO;
 import br.edu.ifpb.nutrif.exception.ErrorFactory;
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
 import br.edu.ifpb.nutrif.util.BancoUtil;
 import br.edu.ifpb.nutrif.validation.Validate;
 import br.edu.ladoss.entity.Erro;
-import br.edu.ladoss.entity.PretencaoRefeicao;
+import br.edu.ladoss.entity.PretensaoRefeicao;
 
 @Path("pretencaorefeicao")
-public class PretencaoRefeicaoController {
+public class PretensaoRefeicaoController {
 
 	@PermitAll
 	@POST
 	@Path("/inserir")
 	@Consumes("application/json")
 	@Produces("application/json")
-	public Response insert(PretencaoRefeicao pretencaoRefeicao) {
+	public Response insert(PretensaoRefeicao pretencaoRefeicao) {
 		
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
 		builder.expires(new Date());
@@ -43,7 +43,7 @@ public class PretencaoRefeicaoController {
 			try {			
 				
 				//Inserir o Aluno.
-				Integer idPretencaoRefeicao = PretencaoRefeicaoDAO.getInstance()
+				Integer idPretencaoRefeicao = PretensaoRefeicaoDAO.getInstance()
 						.insert(pretencaoRefeicao);
 				
 				if (idPretencaoRefeicao != BancoUtil.IDVAZIO) {
@@ -69,15 +69,28 @@ public class PretencaoRefeicaoController {
 	}
 	
 	@PermitAll
+	@POST
+	@Path("/chaveacesso/verificar")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public Response verifyChaveAcesso(PretensaoRefeicao pretensaoRefeicao) {
+		
+		ResponseBuilder builder = Response.status(Response.Status.OK);
+		builder.expires(new Date());
+		
+		return builder.build();
+	}
+	
+	@PermitAll
 	@GET
 	@Path("/listar")
 	@Produces("application/json")
-	public List<PretencaoRefeicao> getAll() {
+	public List<PretensaoRefeicao> getAll() {
 		
-		List<PretencaoRefeicao> pretencaoRefeicao = 
-				new ArrayList<PretencaoRefeicao>();
+		List<PretensaoRefeicao> pretencaoRefeicao = 
+				new ArrayList<PretensaoRefeicao>();
 		
-		pretencaoRefeicao = PretencaoRefeicaoDAO.getInstance().getAll();
+		pretencaoRefeicao = PretensaoRefeicaoDAO.getInstance().getAll();
 		
 		return pretencaoRefeicao;
 	}
@@ -93,7 +106,7 @@ public class PretencaoRefeicaoController {
 
 		try {
 
-			PretencaoRefeicao pretencaoRefeicao = PretencaoRefeicaoDAO
+			PretensaoRefeicao pretencaoRefeicao = PretensaoRefeicaoDAO
 					.getInstance().getById(idPretencaoRefeicao); 
 			
 			builder.status(Response.Status.OK);

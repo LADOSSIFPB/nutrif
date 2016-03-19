@@ -10,7 +10,7 @@ import br.edu.ladoss.entity.Curso;
 import br.edu.ladoss.entity.Dia;
 import br.edu.ladoss.entity.DiaRefeicao;
 import br.edu.ladoss.entity.Funcionario;
-import br.edu.ladoss.entity.PretencaoRefeicao;
+import br.edu.ladoss.entity.PretensaoRefeicao;
 import br.edu.ladoss.entity.Refeicao;
 import br.edu.ladoss.entity.RefeicaoRealizada;
 
@@ -116,7 +116,7 @@ public class Validate {
 		return VALIDATE_OK;
 	}
 	
-	public static int pretencaoRefeicao(PretencaoRefeicao refeicao) {
+	public static int pretencaoRefeicao(PretensaoRefeicao refeicao) {
 		
 		logger.info("Validação para Pretencao da Refeicao.");
 		//TODO: implementar a validação.

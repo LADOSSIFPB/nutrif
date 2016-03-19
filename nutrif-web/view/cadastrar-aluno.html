@@ -1,14 +1,17 @@
 <div class="section row" ng-if="!aluno">
     <form name="inserirMatriculaForm" class="section" ng-submit="buscarAlunos(matricula)">
         <div class="col s8 offset-s3">
-            <div class="input-field col s6">
+            <div class="input-field col s8">
                 <input placeholder="Digite 11 números" id="matricula" type="number"
                 ng-model="matricula" ng-minlength="11" ng-maxlength="11" ng-required="true"/>
                 <label for="matricula" class="active">Matrícula</label>
             </div>
+        </div>
+        <div class="col s8 offset-s3">
             <button ng-disabled="inserirMatriculaForm.$invalid"
-                class="btn-large waves-effect waves-light light-green darken-1" type="submit">
-                <i class="material-icons center">search</i>
+                class="btn waves-effect waves-light light-green darken-1 col s8" type="submit">
+                <i class="material-icons left">search</i>
+                Pesquisar Aluno
             </button>
         </div>
     </form>
@@ -35,14 +38,13 @@
     </table>
 
     <div class="section row center">
-        <div class="center">
+        <div class="left button-width-margin">
             <button class="btn waves-effect waves-light light-green darken" ng-click="pesquisarNovamente()">
+                <i class="material-icons left">replay</i>
                 Pesquisar novamente
             </button>
         </div>
     </div>
-
-    <p>OBS: O botão de remover foi desabilitado temporariamente para manutenção</p>
 
     <table class="centered striped">
         <thead>

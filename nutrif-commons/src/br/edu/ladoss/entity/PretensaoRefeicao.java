@@ -17,11 +17,11 @@ import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement(name = "pretencaoRefeicao")
+@XmlRootElement(name = "pretensaoRefeicao")
 @Entity
-@Table(name = "tb_pretencao_refeicao")
-@NamedQuery(name = "PretencaoRefeicao.getAll", query = "from PretencaoRefeicao")
-public class PretencaoRefeicao {
+@Table(name = "tb_pretensao_refeicao")
+@NamedQuery(name = "PretensaoRefeicao.getAll", query = "from PretensaoRefeicao")
+public class PretensaoRefeicao {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,6 +36,9 @@ public class PretencaoRefeicao {
 	@Column(name = "dt_requisicao", insertable = true, updatable = false)
 	private Date dataHoraRequisicao;
 
+	@Column(name = "nm_keyaccess")
+	private String keyAccess;
+	
 	@XmlElement
 	public Integer getId() {
 		return id;
@@ -61,6 +64,15 @@ public class PretencaoRefeicao {
 
 	public void setDataHoraRequisicao(Date dataRequisicao) {
 		this.dataHoraRequisicao = dataRequisicao;
+	}
+	
+	@XmlElement
+	public String getKeyAccess() {
+		return keyAccess;
+	}
+
+	public void setKeyAccess(String keyAccess) {
+		this.keyAccess = keyAccess;
 	}
 	
 	@Override

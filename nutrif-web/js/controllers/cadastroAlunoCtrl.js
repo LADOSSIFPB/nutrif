@@ -174,7 +174,8 @@ angular.module("NutrifApp").controller("alunoCtrl", function ($scope, $statePara
 
           if (!data) {
 
-             alert("Aluno não registrado, em caso de problemas, contate um administrador");
+
+              Materialize.toast('Aluno não cadastrado,<br/>tente novamente ou contate<br/>um administrador', 3000);
 
           }
 

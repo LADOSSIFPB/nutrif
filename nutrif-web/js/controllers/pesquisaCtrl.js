@@ -5,6 +5,11 @@ angular.module('NutrifApp').controller("pesquisaCtrl", function ($scope, diaRefe
 
 	$scope.refeicoes = [];
 
+	$scope.limparBusca = function () {
+		delete $scope.refeicoes;
+		delete $scope.refeicao;
+	}
+
 	$scope.buscarRefeicoes = function (refeicao) {
 
 		var _matricula = refeicao.aluno.matricula;
