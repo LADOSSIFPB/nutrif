@@ -36,7 +36,7 @@ public class PretensaoRefeicao {
 	@Column(name = "dt_requisicao", insertable = true, updatable = false)
 	private Date dataHoraRequisicao;
 
-	@Column(name = "nm_keyaccess")
+	@Column(name = "nm_keyaccess", unique = true)
 	private String keyAccess;
 	
 	@XmlElement
