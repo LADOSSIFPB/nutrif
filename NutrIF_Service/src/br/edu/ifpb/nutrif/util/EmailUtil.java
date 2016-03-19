@@ -15,6 +15,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import br.edu.ifpb.nutrif.dao.CursoDAO;
+import br.edu.ifpb.nutrif.exception.EmailExceptionNutrIF;
 
 public class EmailUtil {
 
@@ -33,41 +34,65 @@ public class EmailUtil {
 		}
 	}
 
-	public void send() {
+	public void sendChaveConfirmacaoAluno(String to, String keyConfirmation) 
+			throws EmailExceptionNutrIF {
+		
+		String subject = "NutrIF - Ativação da conta do Aluno"; 
+		String message = "Bem-vindo(a) ao NutrIF! \n"
+				+ "Sua chave de confirmação de acesso é " + keyConfirmation + ".\n"
+				+ "Utilize para habilitar o acesso ao NutrIF Móvel para Android.";
+		
+		this.send(to, subject, message);
+	}
+	
+	public void send(String to, String subject, String message) 
+			throws EmailExceptionNutrIF {
 
-		String from = "****@gmail.com";
-		String to = "****@gmail.com";
-		String subject = "Your Subject.";
-		String message = "Message Text.";
-		String login = "****@gmail.com";
-		String password = "********";
+		String from = "***@gmail.com"; // Sender Account.
 
-		Properties props = new Properties();
-		props.put("mail.smtp.host", "smtp.gmail.com");
-        props.put("mail.smtp.socketFactory.port", "465");
-        props.put("mail.smtp.socketFactory.class",
-                "javax.net.ssl.SSLSocketFactory");
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.port", "465");
+		final String smtpServer = "smtp.gmail.com";
+		final String password = "***"; // Password -> Application Specific Password.
+		final String SOCKET_FACTORY = "javax.net.ssl.SSLSocketFactory";
+		final String smtpPort = "587";
+		final String PORT = "465";
 
-		Authenticator auth = new SMTPAuthenticator(login, password);
+		final Properties props = new Properties();
+		props.put("mail.smtp.host", smtpServer);
+		props.put("mail.smtp.user", from);
+		props.put("mail.smtp.password", password);
+		props.put("mail.smtp.port", smtpPort);
+		props.put("mail.smtp.auth", true);
+		props.put("mail.smtp.starttls.enable", "true");
+		props.put("mail.smtp.debug", "false");
+		props.put("mail.smtp.socketFactory.port", PORT);
+		props.put("mail.smtp.socketFactory.class", SOCKET_FACTORY);
+		props.put("mail.smtp.socketFactory.fallback", "false");
+
+		Authenticator auth = new SMTPAuthenticator(from, password);
 
 		Session session = Session.getInstance(props, auth);
 
-		MimeMessage msg = new MimeMessage(session);
+		MimeMessage mimeMessage = new MimeMessage(session);
 
 		try {
 			
-			msg.setText(message);
-			msg.setSubject(subject);
-			msg.setFrom(new InternetAddress(from));
-			msg.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
+			logger.info("Preparando o envio do e-mail para: " + to);
 			
-			Transport.send(msg);
+			mimeMessage.setText(message);
+			mimeMessage.setSubject(subject);
+			mimeMessage.setFrom(new InternetAddress(from));
+			mimeMessage.addRecipient(Message.RecipientType.TO, 
+					new InternetAddress(to));
+			
+			Transport transport = session.getTransport("smtp");
+			transport.connect(smtpServer, from, password);
+			transport.sendMessage(mimeMessage, mimeMessage.getAllRecipients());
 		
-		} catch (MessagingException ex) {
+			logger.info("E-mail enviado com sucesso.");
 			
-			logger.error(ex);
+		} catch (MessagingException messagingException) {
+			
+			throw new EmailExceptionNutrIF(messagingException);
 		}
 	}
 }

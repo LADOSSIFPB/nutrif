@@ -11,7 +11,8 @@ import org.hibernate.exception.ConstraintViolationException;
 
 import br.edu.ladoss.entity.Erro;
 
-public class SQLExceptionNutrIF extends RuntimeException {
+public class SQLExceptionNutrIF extends RuntimeException 
+	implements NutrIFException {
 
 	private static final long serialVersionUID = 6315776920468858333L;
 
@@ -76,13 +77,14 @@ public class SQLExceptionNutrIF extends RuntimeException {
 		logger.error(jdbcException.getStackTrace());
 	}
 	
-	public SQLExceptionNutrIF(int errorCode, String localizedMessage) {
+	public SQLExceptionNutrIF(int errorCode) {
 
 		super(erros.get(errorCode));
 
 		this.errorCode = errorCode;
 
-		logger.error(errorCode + ": " + localizedMessage);		
+		logger.error("ErrorCode: " + errorCode + ", Localized message: " 
+				+ erros.get(errorCode));		
 	}
 
 	public int getErrorCode() {
@@ -93,6 +95,7 @@ public class SQLExceptionNutrIF extends RuntimeException {
 		this.errorCode = errorCode;
 	}
 	
+	@Override
 	public Erro getError() {
 		
 		return new Erro(errorCode, erros.get(errorCode));		

@@ -18,6 +18,7 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 
 import br.edu.ifpb.nutrif.dao.AlunoDAO;
 import br.edu.ifpb.nutrif.dao.CursoDAO;
+import br.edu.ifpb.nutrif.exception.EmailExceptionNutrIF;
 import br.edu.ifpb.nutrif.exception.ErrorFactory;
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
 import br.edu.ifpb.nutrif.util.BancoUtil;
@@ -352,6 +353,11 @@ public class AlunoController {
 					
 					if (aluno.getId() != BancoUtil.IDVAZIO) {
 
+						// Enviar e-mail com a chave de acesso.
+						EmailUtil emailUtil = new EmailUtil();
+						emailUtil.sendChaveConfirmacaoAluno(
+								email, keyConfirmation);
+						
 						// Remover a senha.
 						aluno.setSenha(StringUtil.STRING_VAZIO);
 						aluno.setKeyConfirmation(StringUtil.STRING_VAZIO);
@@ -368,7 +374,7 @@ public class AlunoController {
 									ErrorFactory.ALUNO_NAO_ENCONTRADO));
 				}
 			
-			} catch (SQLExceptionNutrIF exception) {
+			} catch (SQLExceptionNutrIF | EmailExceptionNutrIF exception) {
 
 				builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
 						exception.getError());
@@ -446,17 +452,27 @@ public class AlunoController {
 		return builder.build();
 	}
 	
-	@PermitAll
-	@GET
+	@PermitAll	
+	@POST
 	@Path("/email")
+	@Consumes("application/json")
 	@Produces("application/json")
-	public Response sendEmail() {
+	public Response sendEmail(Aluno aluno) {
 		
 		ResponseBuilder builder = Response.status(Response.Status.OK);
 		builder.expires(new Date());
 		
-		EmailUtil emailUtil = new EmailUtil();
-		emailUtil.send();
+		try {
+		
+			EmailUtil emailUtil = new EmailUtil();
+			emailUtil.send(aluno.getEmail(), "Ativação da conta.", 
+				"Chave de confirmação é: ");
+		
+		} catch (EmailExceptionNutrIF exception) {
+			
+			builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
+					exception.getError());
+		}
 		
 		return builder.build();
 	}
