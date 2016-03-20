@@ -128,7 +128,8 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 		try {
 			
 			String hql = "from DiaRefeicao as dr"
-					+ " where dr.aluno.matricula = :matricula";
+					+ " where dr.aluno.matricula = :matricula"
+					+ " order by dr.dia.id asc";
 			
 			Query query = session.createQuery(hql);			
 			query.setParameter("matricula", matricula);

@@ -123,6 +123,13 @@ public class Validate {
 		return VALIDATE_OK;
 	}
 	
+	public static int pretensaoRefeicaoKeyAccess(PretensaoRefeicao refeicao) {
+		
+		logger.info("Validação para Pretencao da Refeicao.");
+		//TODO: implementar a validação.
+		return VALIDATE_OK;
+	}
+	
 	public static int dia(Dia aluno) {
 		
 		logger.info("Validação para aluno.");
