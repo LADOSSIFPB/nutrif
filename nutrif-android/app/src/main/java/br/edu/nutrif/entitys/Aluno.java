@@ -6,7 +6,6 @@ import br.edu.nutrif.entitys.input.Id;
  * Created by juan on 15/03/16.
  */
 public class Aluno extends Pessoa {
-
     private String matricula;
     private Id curso;
     private String keyconfirmation;
