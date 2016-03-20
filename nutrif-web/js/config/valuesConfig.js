@@ -4,7 +4,7 @@ angular.module("NutrifApp").value("config", {
 
 		var _externalDNS = "http://ladoss.com.br";
 		var _externalIP = "http://200.129.68.181";
-		var _internalIP = "http://192.168.2.245";
+		var _internalIP = "http://192.168.1.245";
 		var _port = "8773";
 		var _context = "/NutrIF_Sevice";
 
