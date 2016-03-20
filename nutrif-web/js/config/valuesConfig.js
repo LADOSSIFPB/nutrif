@@ -13,7 +13,7 @@ angular.module("NutrifApp").value("config", {
 		if (url.indexOf(_externalDNS) >= 0 || url.indexOf(_externalIP) >= 0)
 			return _externalDNS + ":" + _port + _context;
 		else
-			return _internalUrl + ":" + _port + _context;
+			return _internalIP + ":" + _port + _context;
 
 	}
 
