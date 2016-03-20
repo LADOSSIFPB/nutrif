@@ -18,6 +18,7 @@ import br.edu.ifpb.nutrif.dao.DiaRefeicaoDAO;
 import br.edu.ifpb.nutrif.dao.RefeicaoRealizadaDAO;
 import br.edu.ifpb.nutrif.exception.ErrorFactory;
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
+import br.edu.ifpb.nutrif.util.StringUtil;
 import br.edu.ifpb.nutrif.validation.Validate;
 import br.edu.ladoss.entity.ConfirmaRefeicaoDia;
 import br.edu.ladoss.entity.DiaRefeicao;
@@ -50,12 +51,12 @@ public class RefeicaoRealizadaController {
 			try {			
 				
 				// Recuperar o Cronograma da Refeição.
-				int idCronogramaRefeicao = refeicaoRealizada
+				int idDiaRefeicao = refeicaoRealizada
 						.getConfirmaRefeicaoDia()
 						.getDiaRefeicao()
 						.getId();
 				DiaRefeicao diaRefeicao = DiaRefeicaoDAO
-						.getInstance().getById(idCronogramaRefeicao);
+						.getInstance().getById(idDiaRefeicao);
 				
 				if (diaRefeicao != null) {
 					
@@ -87,6 +88,7 @@ public class RefeicaoRealizadaController {
 				builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
 						exception.getError());			
 			}
+			
 		} else {
 			
 			Erro erro = ErrorFactory.getErrorFromIndex(validacao);
@@ -114,7 +116,8 @@ public class RefeicaoRealizadaController {
 	@GET
 	@Path("/id/{id}")
 	@Produces("application/json")
-	public Response getRefeicaoById(@PathParam("id") int idRefeicaoRealizada) {
+	public Response getRefeicaoRealizadaById(
+			@PathParam("id") int idRefeicaoRealizada) {
 		
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
 		builder.expires(new Date());
@@ -124,8 +127,16 @@ public class RefeicaoRealizadaController {
 			RefeicaoRealizada refeicaoRealizada = RefeicaoRealizadaDAO
 					.getInstance().getById(idRefeicaoRealizada); 
 			
-			builder.status(Response.Status.OK);
-			builder.entity(refeicaoRealizada);
+			if (refeicaoRealizada != null) {
+				
+				// Refeição Realizada encontrada.
+				builder.status(Response.Status.OK);
+				builder.entity(refeicaoRealizada);
+				
+			} else {
+				
+				builder.status(Response.Status.NOT_FOUND);
+			}		
 
 		} catch (SQLExceptionNutrIF exception) {
 

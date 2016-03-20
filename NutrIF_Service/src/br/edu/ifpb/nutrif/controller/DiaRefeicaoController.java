@@ -21,6 +21,7 @@ import br.edu.ifpb.nutrif.dao.RefeicaoDAO;
 import br.edu.ifpb.nutrif.exception.ErrorFactory;
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
 import br.edu.ifpb.nutrif.util.BancoUtil;
+import br.edu.ifpb.nutrif.util.StringUtil;
 import br.edu.ifpb.nutrif.validation.Validate;
 import br.edu.ladoss.entity.Aluno;
 import br.edu.ladoss.entity.DiaRefeicao;
@@ -79,10 +80,10 @@ public class DiaRefeicaoController {
 						&& refeicao != null) {
 					
 					//Inserir o CronogramaRefeicao.
-					Integer idCronogramaRefeicao = DiaRefeicaoDAO.getInstance()
+					Integer idDiaRefeicao = DiaRefeicaoDAO.getInstance()
 							.insert(diaRefeicao);
 					
-					if (idCronogramaRefeicao != BancoUtil.IDVAZIO) {
+					if (idDiaRefeicao != BancoUtil.IDVAZIO) {
 	
 						// Operação realizada com sucesso.
 						builder.status(Response.Status.OK);
@@ -193,8 +194,15 @@ public class DiaRefeicaoController {
 			DiaRefeicao cronogramaRefeicao = DiaRefeicaoDAO
 					.getInstance().getById(idCronogramaRefeicao); 
 			
-			builder.status(Response.Status.OK);
-			builder.entity(cronogramaRefeicao);
+			if (cronogramaRefeicao != null) {
+				
+				builder.status(Response.Status.OK);
+				builder.entity(cronogramaRefeicao);
+				
+			} else {
+				
+				builder.status(Response.Status.NOT_FOUND);
+			}			
 
 		} catch (SQLExceptionNutrIF qme) {
 
@@ -214,7 +222,7 @@ public class DiaRefeicaoController {
 	@GET
 	@Path("/buscar/aluno/nome/{nome}")
 	@Produces("application/json")
-	public Response getCronogramaRefeicaoByAlunoNome(
+	public Response getDiaRefeicaoByAlunoNome(
 			@PathParam("nome") String nome) {
 		
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
@@ -246,7 +254,7 @@ public class DiaRefeicaoController {
 	@GET
 	@Path("/buscar/aluno/matricula/{matricula}")
 	@Produces("application/json")
-	public Response getCronogramaRefeicaoByAlunoMatricula(
+	public Response getDiaRefeicaoByAlunoMatricula(
 			@PathParam("matricula") String matricula) {
 		
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);

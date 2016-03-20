@@ -18,40 +18,41 @@ public class ErrorFactory {
 	public static final int MATRICULA_ALUNO_INVALIDA = 4;
 	public static final int CHAVE_CONFIRMACAO_INVALIDA = 5;
 	public static final int NOME_MATRICULA_ALUNO_INVALIDOS = 6;
+	public static final int ACESSO_ALUNO_NAO_PERMITIDO = 7;
 	
 	/*
 	 * Error status: Curso.
 	 */
-	public static final int ID_CURSO_INVALIDO = 7;
-	public static final int NOME_CURSO_INVALIDO = 8;
+	public static final int ID_CURSO_INVALIDO = 8;
+	public static final int NOME_CURSO_INVALIDO = 9;
 	
 	/*
 	 * Error status: Usuário.
 	 */
-	public static final int NOME_USUARIO_INVALIDO = 9;
-	public static final int EMAIL_USUARIO_INVALIDO = 10;
-	public static final int SENHA_USUARIO_INVALIDA = 11;
-	public static final int KEY_CONFIRMATION_INVALIDA = 12;
+	public static final int NOME_USUARIO_INVALIDO = 10;
+	public static final int EMAIL_USUARIO_INVALIDO = 11;
+	public static final int SENHA_USUARIO_INVALIDA = 12;
+	public static final int KEY_CONFIRMATION_INVALIDA = 13;
 	
 	/*
 	 * Error status: Dia da Refeição.
 	 */
-	public static final int ID_DIA_REFEICAO_INVALIDO = 13;
-	public static final int ID_ALUNO_INVALIDO = 14;
-	public static final int ID_DIA_INVALIDO = 15;
-	public static final int ID_REFEICAO_INVALIDA = 16;
+	public static final int ID_DIA_REFEICAO_INVALIDO = 14;
+	public static final int ID_ALUNO_INVALIDO = 15;
+	public static final int ID_DIA_INVALIDO = 16;
+	public static final int ID_REFEICAO_INVALIDA = 17;
 	
 	/*
 	 * Confirmação da Refeição.
 	 */
-	public static final int CONFIRMACAO_REFEICAO_INVALIDA = 17;
+	public static final int CONFIRMACAO_REFEICAO_INVALIDA = 18;
 	
 	/*
 	 * Pretensão da Refeição
 	 */
-	public static final int PRETENSAO_REFEICAO_NAO_ENCONTRADA = 18;
+	public static final int PRETENSAO_REFEICAO_NAO_ENCONTRADA = 19;
 	
-	public static final int IMPOSSIVEL_CRIPTOGRAFAR_VALOR = 19;
+	public static final int IMPOSSIVEL_CRIPTOGRAFAR_VALOR = 20;
 	
 	
 	/*
@@ -81,8 +82,8 @@ public class ErrorFactory {
 		hashMap.put(CONFIRMACAO_REFEICAO_INVALIDA, "Confirmação da refeição inválida.");
 		hashMap.put(NOME_MATRICULA_ALUNO_INVALIDOS, "Nome e matrícula do aluno inválidos.");
 		hashMap.put(PRETENSAO_REFEICAO_NAO_ENCONTRADA, "Pretensão da refeição não encontrada.");
-		
-		
+		hashMap.put(ACESSO_ALUNO_NAO_PERMITIDO, "Acesso não permitido. Dados de login não conferem.");
+				
 		return hashMap;
 	}
 

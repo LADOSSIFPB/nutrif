@@ -67,7 +67,7 @@ public class AlunoController {
 				Curso curso = CursoDAO.getInstance().getById(idCurso);
 				aluno.setCurso(curso);
 				
-				// Inativar Aluno.
+				// Inativar acesso do Aluno.
 				aluno.setAtivo(false);
 				
 				//Inserir o Aluno.
@@ -94,6 +94,12 @@ public class AlunoController {
 		return builder.build();		
 	}
 	
+	/**
+	 * Atualizar dados do Aluno.
+	 * 
+	 * @param aluno
+	 * @return
+	 */
 	@PermitAll
 	@POST
 	@Path("/atualizar")
@@ -144,6 +150,11 @@ public class AlunoController {
 		return builder.build();		
 	}
 	
+	/**
+	 * Listar todos os Alunos.
+	 * 
+	 * @return
+	 */
 	@PermitAll
 	@GET
 	@Path("/listar")
@@ -157,6 +168,12 @@ public class AlunoController {
 		return alunos;
 	}
 	
+	/**
+	 * Recuperar Aluno pelo identificador.
+	 * 
+	 * @param idAluno
+	 * @return
+	 */
 	@PermitAll
 	@GET
 	@Path("/id/{id}")
@@ -193,6 +210,12 @@ public class AlunoController {
 		return builder.build();
 	}
 	
+	/**
+	 * Recuperar Aluno pela matrícula.
+	 * 
+	 * @param matricula
+	 * @return
+	 */
 	@PermitAll
 	@GET
 	@Path("/matricula/{matricula}")
@@ -230,6 +253,12 @@ public class AlunoController {
 		return builder.build();
 	}
 	
+	/**
+	 * Login do Aluno.
+	 * 
+	 * @param aluno
+	 * @return
+	 */
 	@PermitAll
 	@POST
 	@Path("/login")
@@ -262,7 +291,9 @@ public class AlunoController {
 				
 				} else {
 					
-					builder.status(Response.Status.UNAUTHORIZED);
+					builder.status(Response.Status.UNAUTHORIZED).entity(
+							ErrorFactory.getErrorFromIndex(
+									ErrorFactory.ACESSO_ALUNO_NAO_PERMITIDO));
 				}
 			
 			} catch (SQLExceptionNutrIF exception) {
@@ -289,7 +320,7 @@ public class AlunoController {
 
 	
 	/**
-	 * Inserir acesso do Aluno ao sistema na base de dados.
+	 * Inserir acesso do Aluno ao sistema via dispositivo móvel.
 	 * 
 	 * Entrada:
 	 * {
@@ -320,10 +351,10 @@ public class AlunoController {
 				
 				String senhaPlana = aluno.getSenha();
 				String email = aluno.getEmail();
+				String matricula = aluno.getMatricula();
 				
 				// Recuperar Aluno através da matrícula.
-				aluno = AlunoDAO.getInstance().getByMatricula(
-						aluno.getMatricula());
+				aluno = AlunoDAO.getInstance().getByMatricula(matricula);
 				
 				if (aluno != null 
 						&& aluno.getId() != BancoUtil.IDVAZIO) {
@@ -334,8 +365,9 @@ public class AlunoController {
 					aluno.setSenha(senhaCriptografada);
 					
 					// Gerar chave de autenticação: KeyAuth.
-					Date hoje = new Date();
-					String keyAuth = StringUtil.criptografarSha256(hoje.toString());
+					Date agora = new Date();
+					String keyAuth = StringUtil.criptografarSha256(
+							agora.toString());
 					aluno.setKeyAuth(keyAuth);
 					
 					// Gerar chave de confirmação: KeyConfirmation.
@@ -392,6 +424,8 @@ public class AlunoController {
 	}
 	
 	/**
+	 * Confirma chave de acesso do Aluno.
+	 * 
 	 * Entrada:
 	 * {
 	 * 	"keyConfirmation":"[a-zA-Z]*",
@@ -412,7 +446,7 @@ public class AlunoController {
 		builder.expires(new Date());
 		
 		// Validação dos dados de entrada.
-		int validacao = Validate.confirmacaoAluno(aluno);
+		int validacao = Validate.confirmacaoChaveAluno(aluno);
 		
 		if (validacao == Validate.VALIDATE_OK) {
 			

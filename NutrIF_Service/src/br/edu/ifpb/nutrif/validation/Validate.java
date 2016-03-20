@@ -84,7 +84,7 @@ public class Validate {
 		return VALIDATE_OK;
 	}
 	
-	public static int confirmacaoAluno(Aluno aluno) {
+	public static int confirmacaoChaveAluno(Aluno aluno) {
 		
 		logger.info("Validação para confirmação de aluno.");
 		
