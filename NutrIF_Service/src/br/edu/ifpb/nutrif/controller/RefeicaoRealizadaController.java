@@ -59,13 +59,18 @@ public class RefeicaoRealizadaController {
 				
 				if (diaRefeicao != null) {
 					
-					ConfirmaRefeicaoDia confirmaRefeicaoDia = new ConfirmaRefeicaoDia();
+					// Data e hora atual.
+					Date agora = new Date();
+					
+					// Confirmação da refeição
+					ConfirmaRefeicaoDia confirmaRefeicaoDia = 
+							new ConfirmaRefeicaoDia();
 					confirmaRefeicaoDia.setDiaRefeicao(diaRefeicao);
-					confirmaRefeicaoDia.setDataRefeicao(new Date());
+					confirmaRefeicaoDia.setDataRefeicao(agora);
 					
 					// Cronograma Refeição completo.
 					refeicaoRealizada.setConfirmaRefeicaoDia(confirmaRefeicaoDia);
-					refeicaoRealizada.setHoraRefeicao(new Date());
+					refeicaoRealizada.setHoraRefeicao(agora);
 					
 					//Inserir o Aluno.
 					boolean success = RefeicaoRealizadaDAO.getInstance()

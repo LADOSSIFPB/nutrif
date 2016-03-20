@@ -17,7 +17,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import br.edu.ladoss.data.DataEntity;
 
-@XmlRootElement(name = "cronogramaRefeicao")
+@XmlRootElement(name = "diaRefeicao")
 @Entity
 @Table(name = "tb_dia_refeicao")
 @NamedQuery(name = "DiaRefeicao.getAll", query = "from DiaRefeicao")

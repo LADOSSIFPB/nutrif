@@ -1,10 +1,16 @@
 package br.edu.nutrif.network;
 
+import java.util.List;
+
 import br.edu.nutrif.entitys.Aluno;
-import br.edu.nutrif.entitys.ConfirmationKey;
+import br.edu.nutrif.entitys.DiaRefeicao;
+import br.edu.nutrif.entitys.input.ConfirmationKey;
+import br.edu.nutrif.entitys.input.FormularioLogin;
+import br.edu.nutrif.entitys.PretencaoRefeicao;
 import retrofit.Call;
 import retrofit.http.Body;
 import retrofit.http.GET;
+import retrofit.http.Header;
 import retrofit.http.POST;
 import retrofit.http.Path;
 
@@ -18,5 +24,15 @@ public interface APIService {
 
     @POST("aluno/confirmar")
     Call<Void> confirmar(@Body ConfirmationKey confirmation);
+
+    @POST("aluno/login")
+    Call<Aluno> login(@Body FormularioLogin aluno);
+
+    @POST("pretensaorefeicao/inserir")
+    Call<PretencaoRefeicao> pedirRefeicao(@Body PretencaoRefeicao pretencaoRefeicao);
+
+    @GET("diarefeicao/listar/aluno/matricula/{matricula}")
+    Call<List<DiaRefeicao>> listaRefeicoes(@Header("Authorization") String accessKey,
+                                           @Path("matricula")String matricula);
 
 }

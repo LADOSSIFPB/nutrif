@@ -9,8 +9,9 @@
     </style>
 
     <style name="buttonCustom">
-        <item name="android:background">>@drawable/layout_button</item>
+        <item name="android:background">@drawable/layout_button</item>
         <item name="android:textColor">@color/gelo</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="AppTheme.NoActionBar">

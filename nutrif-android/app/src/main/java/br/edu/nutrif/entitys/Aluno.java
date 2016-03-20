@@ -1,12 +1,13 @@
 package br.edu.nutrif.entitys;
 
+import br.edu.nutrif.entitys.input.Id;
+
 /**
  * Created by juan on 15/03/16.
  */
 public class Aluno extends Pessoa {
-
     private String matricula;
-    private Curso curso;
+    private Id curso;
     private String keyconfirmation;
 
     public Aluno(String matricula, String email, String senha) {
@@ -17,6 +18,14 @@ public class Aluno extends Pessoa {
 
     public String getKeyconfirmation() {
         return keyconfirmation;
+    }
+
+    public Id getCurso() {
+        return curso;
+    }
+
+    public void setCurso(Id curso) {
+        this.curso = curso;
     }
 
     public void setKeyconfirmation(String keyconfirmation) {
@@ -35,12 +44,5 @@ public class Aluno extends Pessoa {
         this.matricula = matricula;
     }
 
-    public Curso getCurso() {
-        return curso;
-    }
-
-    public void setCurso(Curso curso) {
-        this.curso = curso;
-    }
 
 }

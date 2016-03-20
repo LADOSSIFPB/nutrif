@@ -8,8 +8,9 @@ import android.view.View;
 import android.widget.EditText;
 
 import br.edu.nutrif.R;
-import br.edu.nutrif.entitys.ConfirmationKey;
+import br.edu.nutrif.entitys.input.ConfirmationKey;
 import br.edu.nutrif.network.ConnectionServer;
+import br.edu.nutrif.util.AndroidUtil;
 import br.edu.nutrif.util.ErrorUtils;
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -55,24 +56,19 @@ public class ConfirmationActivity extends AppCompatActivity {
             @Override
             public void onResponse(Response<Void> response, Retrofit retrofit) {
                 if (response.isSuccess()) {
-                    startActivity(new Intent(ConfirmationActivity.this, RefeitorioActivity.class));
+                    startActivity(new Intent(ConfirmationActivity.this, LoginActivity.class));
                     finish();
                 } else {
-                    Snackbar.make(
-                            ConfirmationActivity.this.findViewById(android.R.id.content),
-                            ErrorUtils.parseError(response, retrofit, ConfirmationActivity.this).getMensagem(),
-                            Snackbar.LENGTH_LONG)
-                            .show();
+                    AndroidUtil.showSnackbar(ConfirmationActivity.this,
+                            ErrorUtils.parseError
+                                    (response, retrofit, ConfirmationActivity.this).getMensagem());
+
                 }
             }
 
             @Override
             public void onFailure(Throwable t) {
-                Snackbar.make(
-                        ConfirmationActivity.this.findViewById(android.R.id.content),
-                        ConfirmationActivity.this.getString(R.string.erroconexao),
-                        Snackbar.LENGTH_LONG)
-                        .show();
+                AndroidUtil.showSnackbar(ConfirmationActivity.this, R.string.erroconexao);
             }
         });
     }

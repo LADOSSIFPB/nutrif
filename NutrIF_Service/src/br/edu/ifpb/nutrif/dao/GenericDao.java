@@ -182,7 +182,5 @@ public abstract class GenericDao<PK, T> {
 		return entity;
 	}
 	
-	public List<T> find(T entity) throws SQLExceptionNutrIF {
-		return null;		
-	}
+	public abstract T find(T entity) throws SQLExceptionNutrIF;
 }

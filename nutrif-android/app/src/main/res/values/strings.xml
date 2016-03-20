@@ -19,6 +19,18 @@
     <string name="naoemembro">Cadastre-se</string>
     <string name="confirmar">Confirmar</string>
     <string name="validarcodigo">Validar Código</string>
-    <string name="title_activity_confirmation">ConfirmationActivity</string>
-    <string name="horario">Horário</string>
+    <string name="campoerrado">Senha ou Email Inválido</string>
+
+    <!-- Strings relacionadas à tabela -->
+    <string name="horario">Horário:</string>
+    <string name="segunda">Segunda-Feira</string>
+    <string name="terca">Terça-Feira</string>
+    <string name="quarta">Quarta-Feira</string>
+    <string name="quinta">Quinta-Feira</string>
+    <string name="sexta">Sexta-Feira</string>
+    <string name="almoco">Almoço</string>
+    <string name="janta">Janta</string>
+    <string name="registrarPedido">Registrar Pedido</string>
+    <string name="gerarcode">Gerar QR-Code</string>
+    <string name="impossivelcarregar">Não foi possível carregar</string>
 </resources>

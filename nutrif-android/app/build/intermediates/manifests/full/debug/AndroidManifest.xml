@@ -8,7 +8,7 @@
         android:minSdkVersion="15"
         android:targetSdkVersion="23" />
 
-    <!-- To auto-complete the email text field in the login form with the user's emails -->
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
@@ -19,16 +19,32 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme" >
-        <activity android:name="br.edu.nutrif.activitys.LoginActivity" >
-        </activity>
+        <activity android:name="br.edu.nutrif.activitys.LoginActivity" />
         <activity
             android:name="br.edu.nutrif.activitys.StartActivity"
-            android:theme="@style/noactionbar" >
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name="br.edu.nutrif.activitys.RefeitorioActivity" />
+        <activity
+            android:name="br.edu.nutrif.activitys.CadastroActivity"
+            android:label="@string/title_activity_cadastro"
+            android:parentActivityName="br.edu.nutrif.activitys.LoginActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="br.edu.nutrif.activitys.LoginActivity" />
+        </activity>
+        <activity
+            android:name="br.edu.nutrif.activitys.ConfirmationActivity"
+            android:label="@string/confirmacao"
+            android:parentActivityName="br.edu.nutrif.activitys.LoginActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="br.edu.nutrif.activitys.LoginActivity" />
         </activity>
     </application>
 

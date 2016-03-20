@@ -23,7 +23,8 @@ public class RefeicaoRealizadaDAO extends GenericDao<Integer, RefeicaoRealizada>
 		return instance;
 	}
 
-	public int insert2(RefeicaoRealizada refeicaoRealizada) throws SQLExceptionNutrIF {
+	@Override
+	public int insert(RefeicaoRealizada refeicaoRealizada) throws SQLExceptionNutrIF {
 		
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		
@@ -66,5 +67,11 @@ public class RefeicaoRealizadaDAO extends GenericDao<Integer, RefeicaoRealizada>
 	@Override
 	public Class<?> getEntityClass() {
 		return RefeicaoRealizada.class;
+	}
+
+	@Override
+	public RefeicaoRealizada find(RefeicaoRealizada entity) throws SQLExceptionNutrIF {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

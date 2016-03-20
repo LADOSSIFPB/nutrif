@@ -16,14 +16,19 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
+import br.edu.ifpb.nutrif.dao.DiaRefeicaoDAO;
 import br.edu.ifpb.nutrif.dao.PretensaoRefeicaoDAO;
+import br.edu.ifpb.nutrif.dao.RefeicaoRealizadaDAO;
 import br.edu.ifpb.nutrif.exception.ErrorFactory;
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
 import br.edu.ifpb.nutrif.util.BancoUtil;
 import br.edu.ifpb.nutrif.util.StringUtil;
 import br.edu.ifpb.nutrif.validation.Validate;
+import br.edu.ladoss.entity.ConfirmaRefeicaoDia;
+import br.edu.ladoss.entity.DiaRefeicao;
 import br.edu.ladoss.entity.Erro;
 import br.edu.ladoss.entity.PretensaoRefeicao;
+import br.edu.ladoss.entity.RefeicaoRealizada;
 
 @Path("pretensaorefeicao")
 public class PretensaoRefeicaoController {
@@ -45,20 +50,35 @@ public class PretensaoRefeicaoController {
 			
 			try {			
 				
-				// Chave de acesso ao Refeitório através da pretensão lançada.
-				Date agora = new Date();
-				pretensaoRefeicao.setKeyAccess(
-						StringUtil.criptografarSha256(agora.toString()));
+				// Verifica dia da refeição.
+				DiaRefeicao diaRefeicao = DiaRefeicaoDAO.getInstance().find(
+						pretensaoRefeicao.getDiaRefeicao());
 				
-				//Inserir o Aluno.
-				Integer idPretensaoRefeicao = PretensaoRefeicaoDAO.getInstance()
-						.insert(pretensaoRefeicao);
-				
-				if (idPretensaoRefeicao != BancoUtil.IDVAZIO) {
+				if (diaRefeicao != null) {
+					
+					// Atribuindo dia da refeição com dados completos.
+					pretensaoRefeicao.setDiaRefeicao(diaRefeicao);
+					
+					// Chave de acesso ao Refeitório através da pretensão lançada.
+					Date agora = new Date();
+					pretensaoRefeicao.setKeyAccess(
+							StringUtil.criptografarSha256(agora.toString()));
+					
+					// Data do registro.
+					pretensaoRefeicao.setDataHoraRequisicao(agora);
+					
+					//Inserir o Aluno.
+					Integer idPretensaoRefeicao = PretensaoRefeicaoDAO.getInstance()
+							.insert(pretensaoRefeicao);
+					
+					if (idPretensaoRefeicao != BancoUtil.IDVAZIO) {
 
-					// Operação realizada com sucesso.
-					builder.status(Response.Status.OK);
-					builder.entity(pretensaoRefeicao);
+						// Operação realizada com sucesso.
+						builder.status(Response.Status.OK);
+						builder.entity(pretensaoRefeicao);
+					}
+				} else {
+					//TODO: Implementar mensagem.
 				}
 			
 			} catch (SQLExceptionNutrIF exception) {
@@ -90,8 +110,48 @@ public class PretensaoRefeicaoController {
 	@Produces("application/json")
 	public Response verifyChaveAcesso(PretensaoRefeicao pretensaoRefeicao) {
 		
-		ResponseBuilder builder = Response.status(Response.Status.OK);
+		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
 		builder.expires(new Date());
+		
+		// Validação dos dados de entrada.
+		int validacao = Validate.pretensaoRefeicaoKeyAccess(pretensaoRefeicao);
+		
+		if (validacao == Validate.VALIDATE_OK) {
+			
+			pretensaoRefeicao = PretensaoRefeicaoDAO.getInstance()
+					.getPretensaoRefeicaoByKeyAccess(pretensaoRefeicao
+							.getKeyAccess());
+			
+			if (pretensaoRefeicao != null) {
+				
+				// Realização da refeição
+				
+				ConfirmaRefeicaoDia confirmaRefeicaoDia = new ConfirmaRefeicaoDia();
+				confirmaRefeicaoDia.setDiaRefeicao(
+						pretensaoRefeicao.getDiaRefeicao());
+				RefeicaoRealizada refeicaoRealizada = new RefeicaoRealizada();
+				refeicaoRealizada.setConfirmaRefeicaoDia(confirmaRefeicaoDia);
+				
+				int idRefeicaoRealizada = RefeicaoRealizadaDAO.getInstance()
+						.insert(refeicaoRealizada);
+				
+				if (idRefeicaoRealizada != BancoUtil.IDVAZIO) {
+					
+					builder.status(Response.Status.OK);
+				}				
+				
+			} else {
+				
+				builder.status(Response.Status.NOT_FOUND).entity(
+						ErrorFactory.getErrorFromIndex(
+								ErrorFactory.PRETENSAO_REFEICAO_NAO_ENCONTRADA));
+			}
+			
+		} else {
+			
+			Erro erro = ErrorFactory.getErrorFromIndex(validacao);
+			builder.status(Response.Status.NOT_ACCEPTABLE).entity(erro);
+		}
 		
 		return builder.build();
 	}

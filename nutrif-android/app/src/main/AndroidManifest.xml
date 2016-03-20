@@ -23,7 +23,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activitys.RefeitorioActivity" />
+        <activity android:name=".activitys.RefeitorioActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activitys.CadastroActivity"
             android:label="@string/title_activity_cadastro"
@@ -36,15 +37,6 @@
             android:name=".activitys.ConfirmationActivity"
             android:label="@string/confirmacao"
             android:parentActivityName=".activitys.LoginActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="br.edu.nutrif.activitys.LoginActivity" />
-        </activity>
-        <activity
-            android:name=".activitys.HorarioActivity"
-            android:label="@string/horario"
-            android:parentActivityName=".activitys.LoginActivity"
-            android:screenOrientation="landscape">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="br.edu.nutrif.activitys.LoginActivity" />
