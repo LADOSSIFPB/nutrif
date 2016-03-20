@@ -1,4 +1,4 @@
-package br.edu.nutrif.entitys;
+package br.edu.nutrif.entitys.output;
 
 public class Erro {
 
