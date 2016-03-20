@@ -6,7 +6,7 @@ angular.module('NutrifApp').controller("pesquisaCtrl", function ($scope, diaRefe
 	$scope.refeicoes = [];
 
 	$scope.limparBusca = function () {
-		delete $scope.refeicoes;
+		$scope.refeicoes = [];
 		delete $scope.refeicao;
 	}
 
@@ -72,8 +72,6 @@ angular.module('NutrifApp').controller("pesquisaCtrl", function ($scope, diaRefe
 
 		delete _refeicaoRealizada.confirmaRefeicaoDia.diaRefeicao.refeicao.horaInicio;
 		delete _refeicaoRealizada.confirmaRefeicaoDia.diaRefeicao.refeicao.horaFinal;
-
-		console.log(_refeicaoRealizada);
 
 		refeicaoRealizadaService.inserirRefeicao(_refeicaoRealizada).success(function (data, status) {
 
