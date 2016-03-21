@@ -34,3 +34,8 @@ INSERT INTO `tb_pessoa` (`tp_pessoa`, `id_pessoa`, `is_ativo`, `nm_email`, `nm_k
 INSERT INTO `tb_funcionario` (`id_funcionario`, `id_pessoa`) VALUES
 (517, 517),
 (518, 518);
+
+INSERT INTO `tb_role` (`id_role`, `nm_role`) VALUES
+(1, 'admin'),
+(2, 'inspetor'),
+(3, 'comensal');

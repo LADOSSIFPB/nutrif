@@ -5,7 +5,10 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -25,6 +28,10 @@ public class RefeicaoRealizada {
 	@Column(name = "hr_refeicao", insertable = true, updatable = false)
 	private Date horaRefeicao;
 
+	@OneToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "fk_id_funcionario", referencedColumnName="id_funcionario")
+	private Funcionario inspetor;
+	
 	@XmlElement
 	public ConfirmaRefeicaoDia getConfirmaRefeicaoDia() {
 		return confirmaRefeicaoDia;
