@@ -33,4 +33,7 @@
     <string name="registrarPedido">Registrar Pedido</string>
     <string name="gerarcode">Gerar QR-Code</string>
     <string name="impossivelcarregar">Não foi possível carregar</string>
+
+    <string name="voltar">Voltar</string>
+    <string name="errocode">Não foi possível gerar o código</string>
 </resources>

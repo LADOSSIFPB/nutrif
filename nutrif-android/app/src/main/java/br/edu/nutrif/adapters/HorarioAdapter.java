@@ -5,7 +5,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.widget.Button;
+import android.widget.TextView;
 
 import java.util.List;
 
@@ -46,6 +47,13 @@ public class HorarioAdapter extends RecyclerView.Adapter<HorarioAdapter.RoomView
 
     @Override
     public void onBindViewHolder(RoomViewHolder holder, int position) {
+        String horarios = refeicoes.get(position).getRefeicao().getHoraInicio()
+                .concat("/")
+                .concat(refeicoes.get(position).getRefeicao().getHoraFinal());
+        holder.natureza.setText(refeicoes.get(position).getRefeicao().getTipo());
+        holder.horario.setText(horarios);
+        holder.diadasemana.setText(refeicoes.get(position).getDia().getNome());
+        holder.registrar.setEnabled(refeicoes.get(position).isAtivo());
     }
 
     @Override
@@ -55,17 +63,21 @@ public class HorarioAdapter extends RecyclerView.Adapter<HorarioAdapter.RoomView
 
 
     public class RoomViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        ImageView ativo;
+        TextView natureza, horario, diadasemana;
+        Button registrar;
 
         public RoomViewHolder(View item) {
             super(item);
-            ativo = (ImageView) item.findViewById(R.id.ativo);
-            item.setOnClickListener(this);
+            natureza = (TextView) item.findViewById(R.id.natureza);
+            horario = (TextView) item.findViewById(R.id.horario);
+            diadasemana = (TextView) item.findViewById(R.id.diadasemana);
+            registrar = (Button) item.findViewById(R.id.registrar);
+            registrar.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
-            view.onClickCallback(v,getAdapterPosition());
+            view.onClickCallback(v, getAdapterPosition());
         }
     }
 }

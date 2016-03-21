@@ -12,7 +12,7 @@ import br.edu.nutrif.entitys.Pessoa;
  * Created by juan on 14/03/16.
  */
 public class DatabaseCore extends SQLiteOpenHelper {
-    private static final int VERSION = 1;
+    private static final int VERSION = 2;
 
     public DatabaseCore(Context context) {
         super(context, context.getString(R.string.app_name), null, VERSION);
