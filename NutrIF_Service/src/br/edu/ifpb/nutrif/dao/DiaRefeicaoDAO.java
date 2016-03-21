@@ -31,6 +31,8 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 
 	public List<DiaRefeicao> getDiaRefeicaoByAlunoNome(String nome) {
 		
+		logger.info("Buscar Dia de Refeição nome: " + nome);
+		
 		Session session = HibernateUtil.getSessionFactory().openSession();
 
 		List<DiaRefeicao> cronogramasRefeicao = new ArrayList<DiaRefeicao>();
@@ -48,7 +50,8 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 					+ " and dr.refeicao.id not in ("
 					+ "		select rr.confirmaRefeicaoDia.diaRefeicao.refeicao.id"
 					+ " 	from RefeicaoRealizada as rr"
-					+ "		where rr.confirmaRefeicaoDia.diaRefeicao.dia.id = :dia"
+					+ "		where rr.confirmaRefeicaoDia.diaRefeicao.aluno.id = dr.aluno.id"
+					+ "		and rr.confirmaRefeicaoDia.diaRefeicao.dia.id = :dia"
 					+ "		and rr.confirmaRefeicaoDia.diaRefeicao.refeicao.horaFinal"
 					+ "			>= CURRENT_TIME()"
 					+ ")";
@@ -93,7 +96,8 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 					+ " and dr.refeicao.id not in ("
 					+ "		select rr.confirmaRefeicaoDia.diaRefeicao.refeicao.id"
 					+ " 	from RefeicaoRealizada as rr"
-					+ "		where rr.confirmaRefeicaoDia.diaRefeicao.dia.id = :dia"
+					+ "		where rr.confirmaRefeicaoDia.diaRefeicao.aluno.id = dr.aluno.id"
+					+ "		and rr.confirmaRefeicaoDia.diaRefeicao.dia.id = :dia"
 					+ "		and rr.confirmaRefeicaoDia.diaRefeicao.refeicao.horaFinal"
 					+ "			>= CURRENT_TIME()"
 					+ ")";

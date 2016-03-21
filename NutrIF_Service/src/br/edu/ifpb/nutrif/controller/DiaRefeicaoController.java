@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.annotation.security.DenyAll;
 import javax.annotation.security.PermitAll;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -15,17 +16,16 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
 import br.edu.ifpb.nutrif.dao.AlunoDAO;
-import br.edu.ifpb.nutrif.dao.DiaRefeicaoDAO;
 import br.edu.ifpb.nutrif.dao.DiaDAO;
+import br.edu.ifpb.nutrif.dao.DiaRefeicaoDAO;
 import br.edu.ifpb.nutrif.dao.RefeicaoDAO;
 import br.edu.ifpb.nutrif.exception.ErrorFactory;
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
 import br.edu.ifpb.nutrif.util.BancoUtil;
-import br.edu.ifpb.nutrif.util.StringUtil;
 import br.edu.ifpb.nutrif.validation.Validate;
 import br.edu.ladoss.entity.Aluno;
-import br.edu.ladoss.entity.DiaRefeicao;
 import br.edu.ladoss.entity.Dia;
+import br.edu.ladoss.entity.DiaRefeicao;
 import br.edu.ladoss.entity.Erro;
 import br.edu.ladoss.entity.Refeicao;
 
@@ -165,7 +165,7 @@ public class DiaRefeicaoController {
 		return builder.build();
 	}
 	
-	@PermitAll
+	@DenyAll
 	@GET
 	@Path("/listar")
 	@Produces("application/json")
