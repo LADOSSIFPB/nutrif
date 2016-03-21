@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+	
+	<head>
+		<title>QRCode Reader</title>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+		<script type="text/javascript" src="lib/jsqrcode-combined.min.js"></script>
+		<script type="text/javascript" src="lib/html5-qrcode.min.js"></script>
+	</head>
+	
+	<body>
+		
+		<div id="main">
+			<div id="reader" style="width:300px;height:250px">
+				<script type="text/javascript">
+
+					$('#reader').html5_qrcode(function(data){
+						console.log("Resultado: " + data);
+						window.location.href = data;
+					}, function(error){
+						console.log("Ocorreu um erro: " + error);
+					}, function(videoError){
+						console.log("Ocorreu um erro de vídeo: " + videoError);
+					});
+					
+				</script>
+	 		</div>
+	 	</div>
+
+	</body>
+
+</html>
