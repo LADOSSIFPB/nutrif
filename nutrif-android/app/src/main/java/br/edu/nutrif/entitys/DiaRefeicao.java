@@ -1,9 +1,19 @@
 package br.edu.nutrif.entitys;
 
 public class DiaRefeicao  {
+	private Aluno aluno;
 	private Integer id;
 	private Dia dia;
 	private Refeicao refeicao;
+
+	public Aluno getAluno() {
+		return aluno;
+	}
+
+	public void setAluno(Aluno aluno) {
+		this.aluno = aluno;
+	}
+
 	private boolean ativo;
 		
 	public DiaRefeicao() {
@@ -41,5 +51,4 @@ public class DiaRefeicao  {
 	public void setAtivo(boolean ativo) {
 		this.ativo = ativo;
 	}
-
 }

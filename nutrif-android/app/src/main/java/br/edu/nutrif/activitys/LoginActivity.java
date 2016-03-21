@@ -45,6 +45,7 @@ public class LoginActivity extends AppCompatActivity {
                 public void onResponse(Response<Aluno> response, Retrofit retrofit) {
                     if(response.isSuccess()){
                         aluno.setNome(response.body().getNome());
+                        aluno.setMatricula(response.body().getMatricula());
                         AlunoDAO.getInstance(LoginActivity.this).insertAluno(aluno);
                         PreferencesUtils.setAccessKeyOnSharedPreferences(LoginActivity.this, response.body().getKeyauth());
                         startActivity(new Intent(LoginActivity.this, RefeitorioActivity.class));

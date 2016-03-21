@@ -1,15 +1,14 @@
 package br.edu.nutrif.entitys;
 
-import java.util.Date;
 
 public class Refeicao {
 	private Integer id;
 	private String tipo;
-	private Date horaInicio;
-	private Date horaFinal;
+	private String horaInicio;
+	private String horaFinal;
 
-	public Refeicao() {
-		super();
+	public Refeicao(Integer id) {
+		this.id = id;
 	}
 
 	public Integer getId() {
@@ -28,19 +27,19 @@ public class Refeicao {
 		this.tipo = tipo;
 	}
 
-	public Date getHoraInicio() {
+	public String getHoraInicio() {
 		return horaInicio;
 	}
 
-	public void setHoraInicio(Date horaInicio) {
+	public void setHoraInicio(String horaInicio) {
 		this.horaInicio = horaInicio;
 	}
 
-	public Date getHoraFinal() {
+	public String getHoraFinal() {
 		return horaFinal;
 	}
 
-	public void setHoraFinal(Date horaFinal) {
+	public void setHoraFinal(String horaFinal) {
 		this.horaFinal = horaFinal;
 	}
 }

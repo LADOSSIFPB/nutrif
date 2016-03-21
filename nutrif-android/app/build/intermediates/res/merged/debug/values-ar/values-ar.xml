@@ -20,4 +20,8 @@
     <string msgid="7165123711973476752" name="abc_shareactionprovider_share_with_application">"‏مشاركة مع %s"</string>
     <string msgid="1603543279005712093" name="abc_toolbar_collapse_description">"تصغير"</string>
     <string msgid="2869576371154716097" name="status_bar_notification_info_overflow">"+999"</string>
+    <string name="zxing_app_name">ماسح الرمز الشريطي</string>
+    <string name="zxing_button_ok">موافق</string>
+    <string name="zxing_msg_camera_framework_bug">عفوا، حدثت مشكلة في كاميرا جهاز Android. قد تحتاج إلى إعادة تشغيل الجهاز.</string>
+    <string name="zxing_msg_default_status">قم بوضع الرمز الشريطي داخل حدود صورة الكاميرا ليتم مسحه.</string>
 </resources>

@@ -766,6 +766,82 @@
                         "endOffset": 2130
                     }
                 }
+            },
+            {
+                "to": {
+                    "startLine": 22,
+                    "startColumn": 4,
+                    "startOffset": 2135,
+                    "endColumn": 56,
+                    "endOffset": 2187
+                },
+                "from": {
+                    "file": "/home/juan/git/nutrif/nutrif-android/app/build/intermediates/exploded-aar/com.journeyapps/zxing-android-embedded/3.2.0/res/values-hi/values-hi.xml",
+                    "position": {
+                        "startLine": 2,
+                        "startColumn": 4,
+                        "startOffset": 55,
+                        "endColumn": 56,
+                        "endOffset": 107
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 23,
+                    "startColumn": 4,
+                    "startOffset": 2192,
+                    "endColumn": 50,
+                    "endOffset": 2238
+                },
+                "from": {
+                    "file": "/home/juan/git/nutrif/nutrif-android/app/build/intermediates/exploded-aar/com.journeyapps/zxing-android-embedded/3.2.0/res/values-hi/values-hi.xml",
+                    "position": {
+                        "startLine": 3,
+                        "startColumn": 4,
+                        "startOffset": 112,
+                        "endColumn": 50,
+                        "endOffset": 158
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 24,
+                    "startColumn": 4,
+                    "startOffset": 2243,
+                    "endColumn": 165,
+                    "endOffset": 2404
+                },
+                "from": {
+                    "file": "/home/juan/git/nutrif/nutrif-android/app/build/intermediates/exploded-aar/com.journeyapps/zxing-android-embedded/3.2.0/res/values-hi/values-hi.xml",
+                    "position": {
+                        "startLine": 4,
+                        "startColumn": 4,
+                        "startOffset": 163,
+                        "endColumn": 165,
+                        "endOffset": 324
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 25,
+                    "startColumn": 4,
+                    "startOffset": 2409,
+                    "endColumn": 102,
+                    "endOffset": 2507
+                },
+                "from": {
+                    "file": "/home/juan/git/nutrif/nutrif-android/app/build/intermediates/exploded-aar/com.journeyapps/zxing-android-embedded/3.2.0/res/values-hi/values-hi.xml",
+                    "position": {
+                        "startLine": 5,
+                        "startColumn": 4,
+                        "startOffset": 329,
+                        "endColumn": 102,
+                        "endOffset": 427
+                    }
+                }
             }
         ]
     }

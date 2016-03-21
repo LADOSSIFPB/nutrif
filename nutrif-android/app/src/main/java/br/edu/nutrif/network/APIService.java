@@ -29,7 +29,8 @@ public interface APIService {
     Call<Aluno> login(@Body FormularioLogin aluno);
 
     @POST("pretensaorefeicao/inserir")
-    Call<PretencaoRefeicao> pedirRefeicao(@Body PretencaoRefeicao pretencaoRefeicao);
+    Call<PretencaoRefeicao> pedirRefeicao(@Header("Authorization") String accessKey,
+                                          @Body PretencaoRefeicao pretencaoRefeicao);
 
     @GET("diarefeicao/listar/aluno/matricula/{matricula}")
     Call<List<DiaRefeicao>> listaRefeicoes(@Header("Authorization") String accessKey,
