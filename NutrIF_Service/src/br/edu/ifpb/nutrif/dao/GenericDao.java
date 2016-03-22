@@ -5,10 +5,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
-import org.hibernate.JDBCException;
 import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.exception.ConstraintViolationException;
 
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
 import br.edu.ifpb.nutrif.hibernate.HibernateUtil;
@@ -21,7 +19,7 @@ public abstract class GenericDao<PK, T> {
 	
 	public abstract Class<?> getEntityClass();
 	
-	public int insert(T entity)throws SQLExceptionNutrIF {
+	public int insert(T entity) throws SQLExceptionNutrIF {
 		
 		logger.info("Init abstract Insert to: " + entity.getClass());
 		
@@ -49,7 +47,7 @@ public abstract class GenericDao<PK, T> {
 		return id;
 	}
 	
-	public boolean insertOrUpdate(T entity)throws SQLExceptionNutrIF {
+	public boolean insertOrUpdate(T entity) throws SQLExceptionNutrIF {
 		
 		logger.info("Init abstract Insert to: " + entity.getClass());
 		
@@ -69,7 +67,7 @@ public abstract class GenericDao<PK, T> {
 			
 			session.getTransaction().rollback();
 			
-			throw new HibernateException(hibernateException);
+			throw new SQLExceptionNutrIF(hibernateException);
 			
 		} finally {
 			

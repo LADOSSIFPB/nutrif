@@ -6,8 +6,6 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
@@ -58,7 +56,8 @@ public class ConfirmaRefeicaoDia implements Serializable {
 		
 		if ((o instanceof ConfirmaRefeicaoDia)
 				&& ((ConfirmaRefeicaoDia) o).getDiaRefeicao().getId() == this.diaRefeicao.getId()
-				&& ((ConfirmaRefeicaoDia) o).getDataRefeicao().compareTo(this.dataRefeicao) == 0) { 
+				&& ((ConfirmaRefeicaoDia) o).getDataRefeicao().compareTo(this.dataRefeicao) == 0
+				&& ((ConfirmaRefeicaoDia) o).getDiaRefeicao().isAtivo() == this.diaRefeicao.isAtivo()) { 
 			
 			return true; 
 			

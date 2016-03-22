@@ -39,9 +39,9 @@ public class SQLExceptionNutrIF extends RuntimeException
 				+ "linha pai: uma restrição de chave estrangeira falhou.");
 		erros.put(1452, "A restrição de chave estrangeira falhou.");
 		erros.put(1364, "Verifique se todos os campos estão preenchidos adequadamente.");
+		erros.put(1048, "Registro duplicado já inserido anteriormente.");
 		erros.put(0, "Problema na comunicação com o banco de dados. "
-				+ "Favor entre em contato com a equipe de desenvolvimento.");
-		
+				+ "Favor entre em contato com a equipe de desenvolvimento.");		
 		erros.put(-1, "Problema na base de dados. "
 				+ "Favor entre em contato com a equipe de desenvolvimento.");
 	}
