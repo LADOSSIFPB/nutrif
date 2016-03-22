@@ -3,14 +3,11 @@ package br.edu.ladoss.entity;
 import java.util.Date;
 
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -23,23 +20,19 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQuery(name = "PretensaoRefeicao.getAll", query = "from PretensaoRefeicao")
 public class PretensaoRefeicao {
 
-	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id_pretencao_refeicao")
+	@Column(name = "id_pretensao_refeicao", unique = true) // columnDefinition = "INT(10) UNSIGNED AUTO_INCREMENT"
 	private Integer id;
 	
-	@OneToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "fk_id_dia_refeicao", referencedColumnName="id_dia_refeicao")
-	private DiaRefeicao diaRefeicao;
+	@EmbeddedId	  
+	private ConfirmaPretensaoDia confirmaPretensaoDia;
 	
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "dt_requisicao", insertable = true,
-	updatable = false,
-			columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-	private Date dataHoraRequisicao;
+	@Temporal(TemporalType.TIME)
+	@Column(name = "hr_pretensao", insertable = true, updatable = false)
+	private Date horaPretensao;
 
 	@Column(name = "nm_keyaccess", unique = true)
-	private String keyAccess;
+	private String keyAccess;	
 	
 	@XmlElement
 	public Integer getId() {
@@ -51,23 +44,23 @@ public class PretensaoRefeicao {
 	}
 
 	@XmlElement
-	public DiaRefeicao getDiaRefeicao() {
-		return diaRefeicao;
+	public ConfirmaPretensaoDia getConfirmaPretensaoDia() {
+		return confirmaPretensaoDia;
 	}
 
-	public void setDiaRefeicao(DiaRefeicao diaRefeicao) {
-		this.diaRefeicao = diaRefeicao;
+	public void setConfirmaPretensaoDia(ConfirmaPretensaoDia confirmaPretensaoDia) {
+		this.confirmaPretensaoDia = confirmaPretensaoDia;
 	}
 
 	@XmlElement
-	public Date getDataHoraRequisicao() {
-		return dataHoraRequisicao;
+	public Date getHoraPretensao() {
+		return horaPretensao;
 	}
 
-	public void setDataHoraRequisicao(Date dataRequisicao) {
-		this.dataHoraRequisicao = dataRequisicao;
+	public void setHoraPretensao(Date horaPretensao) {
+		this.horaPretensao = horaPretensao;
 	}
-	
+
 	@XmlElement
 	public String getKeyAccess() {
 		return keyAccess;
@@ -80,7 +73,7 @@ public class PretensaoRefeicao {
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return "PretencaoRefeicao[id=" + id + ", diaRefeicao=" + diaRefeicao 
-				+ ", dataHoraPretencao=" + dataHoraRequisicao + "]";
+		return "PretencaoRefeicao[id=" + id + ", ConfirmaPretensaoDia=" + confirmaPretensaoDia 
+				+ ", dataHoraPretencao=" + horaPretensao + "]";
 	}
 }
