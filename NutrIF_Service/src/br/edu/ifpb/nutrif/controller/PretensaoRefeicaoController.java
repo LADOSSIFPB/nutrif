@@ -52,12 +52,12 @@ public class PretensaoRefeicaoController {
 				
 				// Verifica dia da refeição.
 				DiaRefeicao diaRefeicao = DiaRefeicaoDAO.getInstance().find(
-						pretensaoRefeicao.getDiaRefeicao());
+						pretensaoRefeicao.getConfirmaPretensaoDia().getDiaRefeicao());
 				
 				if (diaRefeicao != null) {
 					
 					// Atribuindo dia da refeição com dados completos.
-					pretensaoRefeicao.setDiaRefeicao(diaRefeicao);
+					pretensaoRefeicao.getConfirmaPretensaoDia().setDiaRefeicao(diaRefeicao);
 					
 					// Chave de acesso ao Refeitório através da pretensão lançada.
 					Date agora = new Date();
@@ -65,7 +65,7 @@ public class PretensaoRefeicaoController {
 							StringUtil.criptografarSha256(agora.toString()));
 					
 					// Data do registro.
-					pretensaoRefeicao.setDataHoraRequisicao(agora);
+					//pretensaoRefeicao.setDataHoraRequisicao(agora);
 					
 					//Inserir o Aluno.
 					Integer idPretensaoRefeicao = PretensaoRefeicaoDAO.getInstance()
@@ -128,7 +128,7 @@ public class PretensaoRefeicaoController {
 				
 				ConfirmaRefeicaoDia confirmaRefeicaoDia = new ConfirmaRefeicaoDia();
 				confirmaRefeicaoDia.setDiaRefeicao(
-						pretensaoRefeicao.getDiaRefeicao());
+						pretensaoRefeicao.getConfirmaPretensaoDia().getDiaRefeicao());
 				RefeicaoRealizada refeicaoRealizada = new RefeicaoRealizada();
 				refeicaoRealizada.setConfirmaRefeicaoDia(confirmaRefeicaoDia);
 				
