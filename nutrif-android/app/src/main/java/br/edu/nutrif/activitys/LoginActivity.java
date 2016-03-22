@@ -9,20 +9,11 @@ import android.widget.EditText;
 import br.edu.nutrif.R;
 import br.edu.nutrif.controller.AlunoController;
 import br.edu.nutrif.controller.Replyable;
-import br.edu.nutrif.database.dao.AlunoDAO;
 import br.edu.nutrif.entitys.Aluno;
 import br.edu.nutrif.entitys.Pessoa;
-import br.edu.nutrif.entitys.input.FormularioLogin;
 import br.edu.nutrif.entitys.output.Erro;
-import br.edu.nutrif.network.ConnectionServer;
 import br.edu.nutrif.util.AndroidUtil;
-import br.edu.nutrif.util.ErrorUtils;
-import br.edu.nutrif.util.PreferencesUtils;
 import butterknife.*;
-import retrofit.Call;
-import retrofit.Callback;
-import retrofit.Response;
-import retrofit.Retrofit;
 
 public class LoginActivity extends AppCompatActivity {
     @Bind(R.id.emailEdit)
@@ -38,7 +29,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void login(View v) {
-        if (!validate()) {
+        Aluno aluno = validate();
+        if (aluno != null) {
             AlunoController.login(new Aluno(null, email.getText().toString(), senha.getText().toString()), this,
                     new Replyable<Aluno>() {
                         @Override
@@ -64,19 +56,27 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(new Intent(this, CadastroActivity.class));
     }
 
-    public boolean validate() {
-        if (email.getText().length() > Pessoa.LENGHT_MAX_EMAIL ||
-                email.getText().length() < Pessoa.LENGHT_MIN_EMAIL ||
-                email.getText().toString().matches("^[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]+$")) {
+    public Aluno validate() {
+        Aluno aluno = new Aluno();
+        aluno.setEmail(email.getText().toString());
+        aluno.setMatricula(email.getText().toString());
+        if (email.getText().length() > Pessoa.LENGHT_MAX_EMAIL || email.getText().length() < Pessoa.LENGHT_MIN_EMAIL
+                || email.getText().toString().matches("^[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]+$")) {
             email.setError(this.getString(R.string.invalido));
-            return true;
+            aluno.setEmail(null);
+        }
+        if (!email.getText().toString().matches("^[0-9]{11}$")) {
+            email.setError(this.getString(R.string.invalido));
+            aluno.setMatricula(null);
         }
         if (senha.getText().length() > Pessoa.LENGHT_MAX_SENHA ||
                 senha.getText().length() < Pessoa.LENGHT_MIN_SENHA) {
             senha.setError(this.getString(R.string.invalido));
-            return true;
         }
-        return false;
+        else {
+            aluno.setSenha(senha.getText().toString());
+        }
+        return null;
     }
 
     public void autenticar(View view) {

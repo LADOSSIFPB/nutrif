@@ -1,13 +1,10 @@
 package br.edu.nutrif.controller;
 
 import android.content.Context;
-import android.content.Intent;
 
 import br.edu.nutrif.R;
-import br.edu.nutrif.activitys.LoginActivity;
 import br.edu.nutrif.database.dao.AlunoDAO;
 import br.edu.nutrif.entitys.Aluno;
-import br.edu.nutrif.entitys.input.FormularioLogin;
 import br.edu.nutrif.entitys.output.Erro;
 import br.edu.nutrif.network.ConnectionServer;
 import br.edu.nutrif.util.ErrorUtils;
@@ -25,7 +22,7 @@ public class AlunoController {
         Call<Aluno> call = ConnectionServer
                 .getInstance()
                 .getService()
-                .login(new FormularioLogin(aluno));
+                .login(aluno);
         call.enqueue(new Callback<Aluno>() {
             @Override
             public void onResponse(Response<Aluno> response, Retrofit retrofit) {
@@ -68,7 +65,7 @@ public class AlunoController {
         Call<Aluno> call = ConnectionServer
                 .getInstance()
                 .getService()
-                .login(new FormularioLogin(aluno));
+                .login(aluno);
 
         call.enqueue(new Callback<Aluno>() {
             @Override

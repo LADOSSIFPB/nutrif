@@ -7,18 +7,8 @@ import android.os.Bundle;
 import br.edu.nutrif.R;
 import br.edu.nutrif.controller.AlunoController;
 import br.edu.nutrif.controller.Replyable;
-import br.edu.nutrif.database.dao.AlunoDAO;
 import br.edu.nutrif.entitys.Aluno;
-import br.edu.nutrif.entitys.input.FormularioLogin;
 import br.edu.nutrif.entitys.output.Erro;
-import br.edu.nutrif.network.ConnectionServer;
-import br.edu.nutrif.util.AndroidUtil;
-import br.edu.nutrif.util.ErrorUtils;
-import br.edu.nutrif.util.PreferencesUtils;
-import retrofit.Call;
-import retrofit.Callback;
-import retrofit.Response;
-import retrofit.Retrofit;
 
 public class StartActivity extends AppCompatActivity {
 
