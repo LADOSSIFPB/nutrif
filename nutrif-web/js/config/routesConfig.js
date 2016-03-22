@@ -8,14 +8,14 @@ angular.module('NutrifApp').config(function ($stateProvider, $urlRouterProvider)
 		    url: '/main',
 		    templateUrl: 'view/main.html',
 		    controller: 'loginCtrl',
-			module: 'public'
+			module: 'non-logged'
 	  	})
 
 		.state('home', {
 		    url: '/home',
 		    templateUrl: 'view/home.html',
 		    controller: 'pesquisaCtrl',
-			module: 'private'
+			module: 'inspetor'
 	  	})
 
 	  	.state('equipe', {
@@ -28,6 +28,6 @@ angular.module('NutrifApp').config(function ($stateProvider, $urlRouterProvider)
 	  		url: '/cadastro-aluno?matricula',
 		    templateUrl: 'view/cadastrar-aluno.html',
 		    controller: 'alunoCtrl',
-			module: 'private'
+			module: 'admin'
 	  	});
 });

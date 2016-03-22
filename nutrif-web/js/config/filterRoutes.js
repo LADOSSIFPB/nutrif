@@ -4,16 +4,40 @@ angular.module('NutrifApp').run(function($rootScope, $state, $cookies) {
 
         var _user = $cookies.getObject("user");
 
-        if (toState.name != "main" && toState.name != "equipe") {
-            if (!_user) {
-                event.preventDefault();
-                $state.go("main");
-            }
-        } else {
-            if (toState.name === "main" && _user) {
+        function findRoleAdmin(role) {
+            return role.nome === 'admin';
+        }
+
+        function findRoleInspetor(role) {
+            return role.nome === 'inspetor';
+        }
+
+        if (_user) {
+
+            if (toState.module === 'non-logged') {
                 event.preventDefault();
                 $state.go("home");
             }
+
+            if (toState.module === 'admin' && !_user.roles.find(findRoleAdmin)) {
+                console.log("bloqueado");
+                event.preventDefault();
+                $state.go("home");
+            }
+
+            /* Adiocionar para onde redirecionar, pois é o ultimo tipo de usuário
+            if(toState.module === 'inspetor' && !_user.roles.find(findRoleInspetor)){
+                event.preventDefault();
+                return;
+            }*/
+
+        } else {
+
+            if (toState.module != 'non-logged') {
+                event.preventDefault();
+                $state.go("main");
+            }
+
         }
 
     });
