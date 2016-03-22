@@ -41,7 +41,8 @@
 		<mapping class="br.edu.ladoss.entity.DiaRefeicao" />
 		<mapping class="br.edu.ladoss.entity.RefeicaoRealizada" />
 		<mapping class="br.edu.ladoss.entity.ConfirmaRefeicaoDia" />
-		<mapping class="br.edu.ladoss.entity.PretensaoRefeicao" />				
+		<mapping class="br.edu.ladoss.entity.PretensaoRefeicao" />
+		<mapping class="br.edu.ladoss.entity.Role" />				
 
 	</session-factory>
 </hibernate-configuration>
