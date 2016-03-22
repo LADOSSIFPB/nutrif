@@ -1,7 +1,5 @@
 package br.edu.nutrif.entitys;
 
-import br.edu.nutrif.entitys.input.Id;
-
 /**
  * Created by juan on 15/03/16.
  */

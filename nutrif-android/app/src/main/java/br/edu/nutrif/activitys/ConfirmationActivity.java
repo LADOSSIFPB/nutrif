@@ -33,7 +33,7 @@ public class ConfirmationActivity extends AppCompatActivity {
         Bundle bundle = this.getIntent().getExtras();
         if (bundle != null && bundle.getString("matricula") != null) {
             matricula.setText(bundle.getString("matricula"));
-
+            codigo.requestFocus();
         }
     }
 

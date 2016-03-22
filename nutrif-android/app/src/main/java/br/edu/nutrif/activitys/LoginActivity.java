@@ -7,19 +7,13 @@ import android.view.View;
 import android.widget.EditText;
 
 import br.edu.nutrif.R;
-import br.edu.nutrif.database.dao.AlunoDAO;
+import br.edu.nutrif.controller.AlunoController;
+import br.edu.nutrif.controller.Replyable;
 import br.edu.nutrif.entitys.Aluno;
 import br.edu.nutrif.entitys.Pessoa;
-import br.edu.nutrif.entitys.input.FormularioLogin;
-import br.edu.nutrif.network.ConnectionServer;
+import br.edu.nutrif.entitys.output.Erro;
 import br.edu.nutrif.util.AndroidUtil;
-import br.edu.nutrif.util.ErrorUtils;
-import br.edu.nutrif.util.PreferencesUtils;
 import butterknife.*;
-import retrofit.Call;
-import retrofit.Callback;
-import retrofit.Response;
-import retrofit.Retrofit;
 
 public class LoginActivity extends AppCompatActivity {
     @Bind(R.id.emailEdit)
@@ -33,61 +27,59 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
     }
-    public void login(View v){
-        if(!validate()){
-            final Aluno aluno = new Aluno(null,email.getText().toString(),senha.getText().toString());
-            Call<Aluno> call = ConnectionServer
-                    .getInstance()
-                    .getService()
-                    .login(new FormularioLogin(aluno));
-            call.enqueue(new Callback<Aluno>() {
-                @Override
-                public void onResponse(Response<Aluno> response, Retrofit retrofit) {
-                    if(response.isSuccess()){
-                        aluno.setNome(response.body().getNome());
-                        aluno.setMatricula(response.body().getMatricula());
-                        AlunoDAO.getInstance(LoginActivity.this).insertAluno(aluno);
-                        PreferencesUtils.setAccessKeyOnSharedPreferences(LoginActivity.this, response.body().getKeyauth());
-                        startActivity(new Intent(LoginActivity.this, RefeitorioActivity.class));
-                        finish();
-                    }else {
-                        if(response.code() == 401){
-                            AndroidUtil.showSnackbar(LoginActivity.this,R.string.campoerrado);
-                        }else{
-                            AndroidUtil.showSnackbar(LoginActivity.this, ErrorUtils.parseError(response,retrofit,LoginActivity.this).getMensagem());
+
+    public void login(View v) {
+        Aluno aluno = validate();
+        if (aluno != null) {
+            AlunoController.login(new Aluno(null, email.getText().toString(), senha.getText().toString()), this,
+                    new Replyable<Aluno>() {
+                        @Override
+                        public void onSuccess(Aluno aluno) {
+                            startActivity(new Intent(LoginActivity.this, RefeitorioActivity.class));
+                            finish();
                         }
 
-                    }
-                }
+                        @Override
+                        public void onFailure(Erro erro) {
+                            AndroidUtil.showSnackbar(LoginActivity.this, erro.getMensagem());
+                        }
 
-                @Override
-                public void onFailure(Throwable t) {
-                    AndroidUtil.showSnackbar(LoginActivity.this,R.string.erroconexao);
-                }
-            });
+                        @Override
+                        public void failCommunication(Throwable throwable) {
+                            AndroidUtil.showSnackbar(LoginActivity.this, getString(R.string.erroconexao));
+                        }
+                    });
         }
     }
 
-    public void redirecionar(View v){
+    public void redirecionar(View v) {
         startActivity(new Intent(this, CadastroActivity.class));
     }
 
-    public boolean validate(){
-        if(email.getText().length() > Pessoa.LENGHT_MAX_EMAIL ||
-                email.getText().length() < Pessoa.LENGHT_MIN_EMAIL ||
-                email.getText().toString().matches("^[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]+$")){
+    public Aluno validate() {
+        Aluno aluno = new Aluno();
+        aluno.setEmail(email.getText().toString());
+        aluno.setMatricula(email.getText().toString());
+        if (email.getText().length() > Pessoa.LENGHT_MAX_EMAIL || email.getText().length() < Pessoa.LENGHT_MIN_EMAIL
+                || email.getText().toString().matches("^[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]+$")) {
             email.setError(this.getString(R.string.invalido));
-            return true;
+            aluno.setEmail(null);
         }
-        if(senha.getText().length() > Pessoa.LENGHT_MAX_SENHA ||
+        if (!email.getText().toString().matches("^[0-9]{11}$")) {
+            email.setError(this.getString(R.string.invalido));
+            aluno.setMatricula(null);
+        }
+        if (senha.getText().length() > Pessoa.LENGHT_MAX_SENHA ||
                 senha.getText().length() < Pessoa.LENGHT_MIN_SENHA) {
             senha.setError(this.getString(R.string.invalido));
-            return true;
         }
-        return false;
+        else {
+            aluno.setSenha(senha.getText().toString());
+        }
+        return null;
     }
 
-    public void autenticar(View view){
+    public void autenticar(View view) {
         startActivity(new Intent(this, ConfirmationActivity.class));
     }
 }
