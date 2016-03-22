@@ -5,11 +5,11 @@ angular.module('NutrifApp').run(function($rootScope, $state, $cookies) {
         var _user = $cookies.getObject("user");
 
         function findRoleAdmin(role) {
-            return role.nome === 'admin';
+            return role.id === 1;
         }
 
         function findRoleInspetor(role) {
-            return role.nome === 'inspetor';
+            return role.id === 2;
         }
 
         if (_user) {

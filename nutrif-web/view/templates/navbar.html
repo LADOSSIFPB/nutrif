@@ -1,9 +1,17 @@
 <nav>
     <div class="nav-wrapper green darken-4">
-        
-        <a href="#" class="brand-logo" ng-class="{'center': !geral.estaLogado()}"><img src="img/logo-branca.png" width="210px"></a>
+
+        <a href="#" class="brand-logo center" ng-if="!geral.estaLogado()"><img src="img/logo-branca.png" width="210px"></a>
         <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
-        
+
+        <ul ng-if="geral.estaLogado()" class="left hide-on-med-and-down" ng-if="geral.estaLogado()">
+            <li>
+                <a>
+                    {{geral.getUserRole()}}
+                </a>
+            </li>
+        </ul>
+
         <ul class="right hide-on-med-and-down" ng-if="geral.estaLogado()">
             <li>
                 <a ng-click="geral.logout()">
@@ -12,7 +20,7 @@
                 </a>
             </li>
         </ul>
-        
+
         <ul class="side-nav" id="mobile-demo">
             <li>
                 <a ui-sref="home">
