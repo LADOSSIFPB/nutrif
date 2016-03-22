@@ -20,13 +20,13 @@ import java.util.List;
 import br.edu.nutrif.R;
 import br.edu.nutrif.adapters.HorarioAdapter;
 import br.edu.nutrif.callback.CallbackButton;
+import br.edu.nutrif.controller.DiaRefeicaoController;
+import br.edu.nutrif.controller.PetensaoRefeicaoController;
+import br.edu.nutrif.controller.Replyable;
 import br.edu.nutrif.database.dao.AlunoDAO;
-import br.edu.nutrif.entitys.Aluno;
-import br.edu.nutrif.entitys.Dia;
 import br.edu.nutrif.entitys.DiaRefeicao;
 import br.edu.nutrif.entitys.PretencaoRefeicao;
-import br.edu.nutrif.entitys.Refeicao;
-import br.edu.nutrif.entitys.input.Id;
+import br.edu.nutrif.entitys.output.Erro;
 import br.edu.nutrif.network.ConnectionServer;
 import br.edu.nutrif.qrcode.Contents;
 import br.edu.nutrif.qrcode.QRCodeEncoder;
@@ -49,30 +49,25 @@ public class RefeitorioActivity extends AppCompatActivity implements CallbackBut
     @Bind(R.id.codelayout)
     LinearLayout codelayout;
 
-    List<DiaRefeicao> refeicoes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_refeitorio);
         ButterKnife.bind(this);
-        String matricula = AlunoDAO.getInstance(this).find().getMatricula();
-        String auth = PreferencesUtils.getAccessKeyOnSharedPreferences(this);
-        Call<List<DiaRefeicao>> call = ConnectionServer.getInstance().getService().listaRefeicoes(auth,
-         matricula);
-        call.enqueue(new Callback<List<DiaRefeicao>>() {
+        DiaRefeicaoController.gerarHorario(this, new Replyable<List<DiaRefeicao>>() {
             @Override
-            public void onResponse(Response<List<DiaRefeicao>> response, Retrofit retrofit) {
-                if (response.isSuccess()) {
-                    refeicoes = response.body();
-                    RefeitorioActivity.this.montaTabela(refeicoes);
-                } else {
-                    AndroidUtil.showSnackbar(RefeitorioActivity.this, R.string.impossivelcarregar);
-                }
+            public void onSuccess(List<DiaRefeicao> diaRefeicaos) {
+                RefeitorioActivity.this.montaTabela(diaRefeicaos);
             }
 
             @Override
-            public void onFailure(Throwable t) {
+            public void onFailure(Erro erro) {
+                AndroidUtil.showSnackbar(RefeitorioActivity.this, erro.getMensagem());
+            }
+
+            @Override
+            public void failCommunication(Throwable throwable) {
                 AndroidUtil.showSnackbar(RefeitorioActivity.this, R.string.impossivelcarregar);
                 loadLayout.setVisibility(View.GONE);
             }
@@ -83,7 +78,6 @@ public class RefeitorioActivity extends AppCompatActivity implements CallbackBut
         loadLayout.setVisibility(View.GONE);
         LinearLayoutManager gridLayoutManager = new LinearLayoutManager(this);
         gridLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-
         recycle.setLayoutManager(gridLayoutManager);
         recycle.setAdapter(new HorarioAdapter(this, refeicoes, this));
 
@@ -91,37 +85,25 @@ public class RefeitorioActivity extends AppCompatActivity implements CallbackBut
 
     @Override
     public void onClickCallback(View view, int position) {
-        DiaRefeicao refeicao = refeicoes.get(position);
-        String matricula = AlunoDAO.getInstance(this).find().getMatricula();
-
-        PretencaoRefeicao pretencao = new PretencaoRefeicao();
-        pretencao.getDiaRefeicao().setAluno(new Aluno(matricula, null, null));
-        pretencao.getDiaRefeicao().setDia(new Dia(refeicao.getDia().getId(), null));
-        pretencao.getDiaRefeicao().setRefeicao(new Refeicao(refeicao.getRefeicao().getId()));
-
-        Call<PretencaoRefeicao> call = ConnectionServer
-                .getInstance()
-                .getService()
-                .pedirRefeicao(PreferencesUtils.getAccessKeyOnSharedPreferences(this), pretencao);
-        call.enqueue(new Callback<PretencaoRefeicao>() {
+        PetensaoRefeicaoController.pedirRefeicao(this, position, new Replyable<PretencaoRefeicao>() {
             @Override
-            public void onResponse(Response<PretencaoRefeicao> response, Retrofit retrofit) {
-                if(response.isSuccess()){
-                    gerandoQrcode(response.body().getKeyAccess());
-                }else {
-                    AndroidUtil.showSnackbar(RefeitorioActivity.this, R.string.undefinedError);
-                }
+            public void onSuccess(PretencaoRefeicao pretencaoRefeicao) {
+                gerandoQrcode(pretencaoRefeicao.getKeyAccess());
             }
 
             @Override
-            public void onFailure(Throwable t) {
+            public void onFailure(Erro erro) {
+                AndroidUtil.showSnackbar(RefeitorioActivity.this, R.string.undefinedError);
+            }
+
+            @Override
+            public void failCommunication(Throwable throwable) {
                 AndroidUtil.showSnackbar(RefeitorioActivity.this, R.string.erroconexao);
             }
         });
-
     }
 
-    public void gerandoQrcode(String str){
+    public void gerandoQrcode(String str) {
         WindowManager manager = (WindowManager) getSystemService(WINDOW_SERVICE);
         Display display = manager.getDefaultDisplay();
         Point point = new Point();
@@ -129,7 +111,7 @@ public class RefeitorioActivity extends AppCompatActivity implements CallbackBut
         int width = point.x;
         int height = point.y;
         int smallerDimension = width < height ? width : height;
-        smallerDimension = smallerDimension * 3/4;
+        smallerDimension = smallerDimension * 3 / 4;
 
         //Encode with a QR Code image
         QRCodeEncoder qrCodeEncoder = new QRCodeEncoder(str,
@@ -150,7 +132,7 @@ public class RefeitorioActivity extends AppCompatActivity implements CallbackBut
 
     }
 
-    public void voltarCodigo(View view){
+    public void voltarCodigo(View view) {
         codelayout.setVisibility(View.GONE);
         recycle.setVisibility(View.VISIBLE);
     }
