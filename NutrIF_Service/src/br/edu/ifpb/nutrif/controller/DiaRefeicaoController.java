@@ -138,18 +138,21 @@ public class DiaRefeicaoController {
 			
 			try {			
 				
-				// Recuperar Aluno.
-				int idAluno = diaRefeicao.getAluno().getId();
-				Aluno aluno = AlunoDAO.getInstance().getById(idAluno);
-				diaRefeicao.setAluno(aluno);
+				// Recuperar Dia da Refeição.
+				diaRefeicao = DiaRefeicaoDAO.getInstance().getById(diaRefeicao.getId());
 				
-				// Recuperar Dia.
-				int idDia = diaRefeicao.getDia().getId();
-				Dia dia = DiaDAO.getInstance().getById(idDia);
-				diaRefeicao.setDia(dia);
+				// Desabilitar.
+				diaRefeicao.setAtivo(false);
 				
-				//TODO: Implementar remoção.
-			
+				// Atualizar.
+				diaRefeicao = DiaRefeicaoDAO.getInstance().update(diaRefeicao);
+				
+				if (diaRefeicao != null) {
+					
+					// Operação realizada com sucesso.
+					builder.status(Response.Status.OK);
+				}
+				
 			} catch (SQLExceptionNutrIF exception) {
 
 				builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(

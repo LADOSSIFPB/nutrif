@@ -155,7 +155,7 @@ public abstract class GenericDao<PK, T> {
 		return list;
 	}
 
-	public T getById(Integer pk){		
+	public T getById(Integer pk) throws SQLExceptionNutrIF {		
 		
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		

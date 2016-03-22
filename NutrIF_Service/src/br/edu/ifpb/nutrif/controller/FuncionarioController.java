@@ -18,6 +18,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
 import br.edu.ifpb.nutrif.dao.FuncionarioDAO;
+import br.edu.ifpb.nutrif.dao.RoleDAO;
 import br.edu.ifpb.nutrif.exception.ErrorFactory;
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
 import br.edu.ifpb.nutrif.util.BancoUtil;
@@ -25,6 +26,7 @@ import br.edu.ifpb.nutrif.util.StringUtil;
 import br.edu.ifpb.nutrif.validation.Validate;
 import br.edu.ladoss.entity.Erro;
 import br.edu.ladoss.entity.Funcionario;
+import br.edu.ladoss.entity.Role;
 
 @Path("funcionario")
 public class FuncionarioController {
@@ -65,6 +67,11 @@ public class FuncionarioController {
 				Date hoje = new Date();
 				String keyAuth = StringUtil.criptografarSha256(hoje.toString());
 				funacionario.setKeyAuth(keyAuth);
+				
+				// Roles do Funcionário.
+				List<Role> roles = RoleDAO.getInstance().getRolesByRolesId(
+						funacionario.getRoles());
+				funacionario.setRoles(roles);
 				
 				// Ativar Funacionário.
 				funacionario.setAtivo(true);

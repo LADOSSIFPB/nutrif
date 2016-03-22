@@ -21,10 +21,6 @@ public class ConfirmaRefeicaoDia implements Serializable {
 
 	private static final long serialVersionUID = 4103942093838478635L;
 	
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id_refeicao_realizada", unique = true) // columnDefinition = "INT(10) UNSIGNED AUTO_INCREMENT"
-	private Integer id;
-	
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "fk_id_dia_refeicao", referencedColumnName="id_dia_refeicao")
 	private DiaRefeicao diaRefeicao;
@@ -32,15 +28,6 @@ public class ConfirmaRefeicaoDia implements Serializable {
 	@Temporal(TemporalType.DATE)
 	@Column(name = "dt_refeicao", insertable = true, updatable = false)
 	private Date dataRefeicao;
-
-	@XmlElement
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
 	
 	@XmlElement
 	public DiaRefeicao getDiaRefeicao() {
@@ -70,7 +57,6 @@ public class ConfirmaRefeicaoDia implements Serializable {
 	public boolean equals(Object o) {		
 		
 		if ((o instanceof ConfirmaRefeicaoDia)
-				&& ((ConfirmaRefeicaoDia) o).getId() == this.id
 				&& ((ConfirmaRefeicaoDia) o).getDiaRefeicao().getId() == this.diaRefeicao.getId()
 				&& ((ConfirmaRefeicaoDia) o).getDataRefeicao().compareTo(this.dataRefeicao) == 0) { 
 			
@@ -85,6 +71,6 @@ public class ConfirmaRefeicaoDia implements Serializable {
 	@Override
 	public int hashCode() {
 		
-		return this.id;
+		return this.diaRefeicao.getId();
 	}
 }
