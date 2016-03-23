@@ -23,21 +23,14 @@ import br.edu.nutrif.callback.CallbackButton;
 import br.edu.nutrif.controller.DiaRefeicaoController;
 import br.edu.nutrif.controller.PetensaoRefeicaoController;
 import br.edu.nutrif.controller.Replyable;
-import br.edu.nutrif.database.dao.AlunoDAO;
 import br.edu.nutrif.entitys.DiaRefeicao;
 import br.edu.nutrif.entitys.PretencaoRefeicao;
 import br.edu.nutrif.entitys.output.Erro;
-import br.edu.nutrif.network.ConnectionServer;
 import br.edu.nutrif.qrcode.Contents;
 import br.edu.nutrif.qrcode.QRCodeEncoder;
 import br.edu.nutrif.util.AndroidUtil;
-import br.edu.nutrif.util.PreferencesUtils;
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import retrofit.Call;
-import retrofit.Callback;
-import retrofit.Response;
-import retrofit.Retrofit;
 
 public class RefeitorioActivity extends AppCompatActivity implements CallbackButton {
     @Bind(R.id.loadinglayout)

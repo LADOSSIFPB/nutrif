@@ -1,5 +1,7 @@
 package br.edu.nutrif.entitys;
 
+import java.util.List;
+
 public class Pessoa {
     private Integer id;
     private String nome;
@@ -8,6 +10,7 @@ public class Pessoa {
     protected String email;
     private String tipo;
     private boolean ativo;
+    private List<Role> roles;
 
     public static final int LENGHT_MATRICULA = 11;
     public static final int LENGHT_MAX_EMAIL = 30;

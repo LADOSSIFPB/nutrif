@@ -5,7 +5,7 @@ package br.edu.nutrif.entitys;
  */
 public class Aluno extends Pessoa {
     private String matricula;
-    private Id curso;
+    private Curso curso;
     private String keyconfirmation;
 
     public Aluno(String matricula, String email, String senha) {
@@ -16,14 +16,6 @@ public class Aluno extends Pessoa {
 
     public String getKeyconfirmation() {
         return keyconfirmation;
-    }
-
-    public Id getCurso() {
-        return curso;
-    }
-
-    public void setCurso(Id curso) {
-        this.curso = curso;
     }
 
     public void setKeyconfirmation(String keyconfirmation) {

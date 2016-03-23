@@ -5,4 +5,6 @@
     <color name="colorAccent">#e20505</color>
     <color name="corButton">#8BC24B</color>
     <color name="gelo">#f4f4f4</color>
+    <color name="fundo">#eb000000</color>
+    <color name="snack">#548b2e</color>
 </resources>

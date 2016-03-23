@@ -80,7 +80,7 @@ public class AlunoController {
 
                 } else {
                     if (response.code() == 401) {
-
+                        AlunoDAO.getInstance(context).delete();
                         Erro erro = new Erro();
                         erro.setCodigo(0);
                         erro.setMensagem(context.getString(R.string.campoerrado));
