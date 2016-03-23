@@ -18,7 +18,7 @@
 		</ul>
 	</li>
 
-	<li class="no-padding">
+	<li class="no-padding" ng-if="geral.getUserRole() === 'Administrador'">
 		<ul class="collapsible collapsible-accordion" ui-sref="cadastro-aluno">
 			<li>
 				<a class="collapsible-header">
