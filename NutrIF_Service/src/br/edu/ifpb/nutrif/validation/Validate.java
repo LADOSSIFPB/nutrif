@@ -5,6 +5,7 @@ import org.apache.logging.log4j.Logger;
 
 import br.edu.ifpb.nutrif.exception.ErrorFactory;
 import br.edu.ladoss.entity.Aluno;
+import br.edu.ladoss.entity.ConfirmaPretensaoDia;
 import br.edu.ladoss.entity.ConfirmaRefeicaoDia;
 import br.edu.ladoss.entity.Curso;
 import br.edu.ladoss.entity.Dia;
@@ -116,10 +117,29 @@ public class Validate {
 		return VALIDATE_OK;
 	}
 	
-	public static int pretencaoRefeicao(PretensaoRefeicao refeicao) {
+	public static int pretensaoRefeicao(PretensaoRefeicao pretensaoRefeicao) {
 		
-		logger.info("Validação para Pretencao da Refeicao.");
-		//TODO: implementar a validação.
+		logger.info("Validação para Pretensão Refeição.");
+		
+		ConfirmaPretensaoDia confirmaPretensaoDia = pretensaoRefeicao
+				.getConfirmaPretensaoDia();
+		
+		if (confirmaPretensaoDia != null) {
+			
+			DiaRefeicao diaRefeicao = confirmaPretensaoDia.getDiaRefeicao();
+			
+			if (diaRefeicao == null 
+					|| (diaRefeicao != null 
+						&& !numeroValidator.isMaiorZero(diaRefeicao.getId()))) {
+				
+				return ErrorFactory.ID_DIA_REFEICAO_INVALIDO;
+			}
+			
+		} else {
+			
+			return ErrorFactory.CONFIRMACAO_REFEICAO_INVALIDA;
+		}
+		
 		return VALIDATE_OK;
 	}
 	

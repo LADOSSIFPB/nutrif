@@ -24,6 +24,7 @@ import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
 import br.edu.ifpb.nutrif.util.BancoUtil;
 import br.edu.ifpb.nutrif.util.StringUtil;
 import br.edu.ifpb.nutrif.validation.Validate;
+import br.edu.ladoss.entity.ConfirmaPretensaoDia;
 import br.edu.ladoss.entity.ConfirmaRefeicaoDia;
 import br.edu.ladoss.entity.DiaRefeicao;
 import br.edu.ladoss.entity.Erro;
@@ -44,28 +45,28 @@ public class PretensaoRefeicaoController {
 		builder.expires(new Date());
 		
 		// Validação dos dados de entrada.
-		int validacao = Validate.pretencaoRefeicao(pretensaoRefeicao);
+		int validacao = Validate.pretensaoRefeicao(pretensaoRefeicao);
 		
 		if (validacao == Validate.VALIDATE_OK) {
 			
 			try {			
 				
+				ConfirmaPretensaoDia confirmaPretensaoDia = 
+						pretensaoRefeicao.getConfirmaPretensaoDia();
+				
 				// Verifica dia da refeição.
-				DiaRefeicao diaRefeicao = DiaRefeicaoDAO.getInstance().find(
-						pretensaoRefeicao.getConfirmaPretensaoDia().getDiaRefeicao());
+				DiaRefeicao diaRefeicao = DiaRefeicaoDAO.getInstance()
+						.getById(confirmaPretensaoDia.getDiaRefeicao().getId());
 				
 				if (diaRefeicao != null) {
 					
 					// Atribuindo dia da refeição com dados completos.
-					pretensaoRefeicao.getConfirmaPretensaoDia().setDiaRefeicao(diaRefeicao);
+					confirmaPretensaoDia.setDiaRefeicao(diaRefeicao);
 					
 					// Chave de acesso ao Refeitório através da pretensão lançada.
 					Date agora = new Date();
 					pretensaoRefeicao.setKeyAccess(
 							StringUtil.criptografarSha256(agora.toString()));
-					
-					// Data do registro.
-					//pretensaoRefeicao.setDataHoraRequisicao(agora);
 					
 					//Inserir o Aluno.
 					Integer idPretensaoRefeicao = PretensaoRefeicaoDAO.getInstance()
@@ -77,8 +78,12 @@ public class PretensaoRefeicaoController {
 						builder.status(Response.Status.OK);
 						builder.entity(pretensaoRefeicao);
 					}
+					
 				} else {
-					//TODO: Implementar mensagem.
+					
+					builder.status(Response.Status.NOT_FOUND).entity(
+							ErrorFactory.getErrorFromIndex(
+									ErrorFactory.ID_DIA_REFEICAO_INVALIDO));
 				}
 			
 			} catch (SQLExceptionNutrIF exception) {
@@ -174,7 +179,8 @@ public class PretensaoRefeicaoController {
 	@GET
 	@Path("/id/{id}")
 	@Produces("application/json")
-	public Response getPretencaoRefeicaoById(@PathParam("id") int idPretensaoRefeicao) {
+	public Response getPretencaoRefeicaoById(
+			@PathParam("id") int idPretensaoRefeicao) {
 		
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
 		builder.expires(new Date());
