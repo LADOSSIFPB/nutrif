@@ -1,6 +1,5 @@
 package br.edu.ifpb.nutrif.dao;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -11,11 +10,8 @@ import org.hibernate.Session;
 
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
 import br.edu.ifpb.nutrif.hibernate.HibernateUtil;
-import br.edu.ifpb.nutrif.util.BancoUtil;
-import br.edu.ifpb.nutrif.util.DateUtil;
-import br.edu.ladoss.entity.Dia;
-import br.edu.ladoss.entity.DiaRefeicao;
 import br.edu.ladoss.entity.PretensaoRefeicao;
+import br.edu.ladoss.entity.RefeicaoRealizada;
 
 public class PretensaoRefeicaoDAO extends GenericDao<Integer, PretensaoRefeicao>{
 	
@@ -26,6 +22,44 @@ public class PretensaoRefeicaoDAO extends GenericDao<Integer, PretensaoRefeicao>
 	public static PretensaoRefeicaoDAO getInstance() {
 		instance = new PretensaoRefeicaoDAO();
 		return instance;
+	}
+	
+	@Override
+	public int insert(PretensaoRefeicao pretensaoRefeicao) throws SQLExceptionNutrIF {
+		
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		
+		Integer idPretensaoRefeicao = null;
+		
+		try {
+			
+			session.beginTransaction();
+			
+			String sql = "INSERT INTO tb_pretensao_refeicao(dt_pretensao,"
+					+ " hr_pretensao, fk_id_dia_refeicao, nm_keyaccess)"
+					+ " VALUES(CURRENT_DATE(), CURRENT_TIME(), :diaRefeicao, :keyAccess)";
+			
+			Query query = session.createSQLQuery(sql);
+			query.setParameter("diaRefeicao", pretensaoRefeicao
+					.getConfirmaPretensaoDia().getDiaRefeicao().getId());
+			query.setParameter("keyAccess", pretensaoRefeicao.getKeyAccess());
+			
+			idPretensaoRefeicao = query.executeUpdate();	
+			
+			session.getTransaction().commit();
+			
+		} catch (HibernateException hibernateException) {
+			
+			session.getTransaction().rollback();
+			
+			throw new SQLExceptionNutrIF(hibernateException);
+			
+		} finally {
+		
+			session.close();
+		}
+		
+		return idPretensaoRefeicao;
 	}
 	
 	@Override

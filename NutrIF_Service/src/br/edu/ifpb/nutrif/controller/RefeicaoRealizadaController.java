@@ -79,7 +79,13 @@ public class RefeicaoRealizadaController {
 					if (success) {
 						// Operação realizada com sucesso.
 						builder.status(Response.Status.OK);
-					}					
+					}
+					
+				} else {
+					
+					builder.status(Response.Status.NOT_FOUND).entity(
+							ErrorFactory.getErrorFromIndex(
+									ErrorFactory.ID_DIA_REFEICAO_INVALIDO));
 				}				
 			
 			} catch (SQLExceptionNutrIF exception) {
@@ -134,7 +140,9 @@ public class RefeicaoRealizadaController {
 				
 			} else {
 				
-				builder.status(Response.Status.NOT_FOUND);
+				builder.status(Response.Status.NOT_FOUND).entity(
+						ErrorFactory.getErrorFromIndex(
+								ErrorFactory.REFEICAO_REALIZADA_NAO_ENCONTRADA));
 			}		
 
 		} catch (SQLExceptionNutrIF exception) {

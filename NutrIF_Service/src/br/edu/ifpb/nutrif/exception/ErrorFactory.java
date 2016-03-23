@@ -52,7 +52,12 @@ public class ErrorFactory {
 	 */
 	public static final int PRETENSAO_REFEICAO_NAO_ENCONTRADA = 19;
 	
-	public static final int IMPOSSIVEL_CRIPTOGRAFAR_VALOR = 20;
+	/*
+	 * Realização da Refeição
+	 */
+	public static final int REFEICAO_REALIZADA_NAO_ENCONTRADA = 20;
+	
+	public static final int IMPOSSIVEL_CRIPTOGRAFAR_VALOR = 21;
 	
 	
 	/*
@@ -83,6 +88,8 @@ public class ErrorFactory {
 		hashMap.put(NOME_MATRICULA_ALUNO_INVALIDOS, "Nome e matrícula do aluno inválidos.");
 		hashMap.put(PRETENSAO_REFEICAO_NAO_ENCONTRADA, "Pretensão da refeição não encontrada.");
 		hashMap.put(ACESSO_ALUNO_NAO_PERMITIDO, "Acesso não permitido. Dados de login não conferem.");
+		hashMap.put(REFEICAO_REALIZADA_NAO_ENCONTRADA, "Refeição realizada não encotrada.");
+		
 				
 		return hashMap;
 	}
