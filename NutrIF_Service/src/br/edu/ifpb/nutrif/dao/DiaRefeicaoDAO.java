@@ -29,7 +29,7 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 		return instance;
 	}
 
-	public List<DiaRefeicao> getDiaRefeicaoByAlunoNome(String nome) {
+	public List<DiaRefeicao> getDiaRefeicaoRealizacaoByAlunoNome(String nome) {
 		
 		logger.info("Buscar Dia de Refeição nome: " + nome);
 		
@@ -77,7 +77,8 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 		return cronogramasRefeicao;		
 	}
 	
-	public List<DiaRefeicao> getDiaRefeicaoByAlunoMatricula(String matricula) {
+	public List<DiaRefeicao> getDiaRefeicaoRealizacaoByAlunoMatricula(
+			String matricula) {
 		
 		Session session = HibernateUtil.getSessionFactory().openSession();
 
@@ -137,6 +138,46 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 			
 			Query query = session.createQuery(hql);			
 			query.setParameter("matricula", matricula);
+			
+			diasRefeicao = (List<DiaRefeicao>) query.list();
+	        
+		} catch (HibernateException hibernateException) {
+			
+			session.getTransaction().rollback();
+			
+			throw new SQLExceptionNutrIF(hibernateException);
+			
+		} finally {
+		
+			session.close();
+		}
+		
+		return diasRefeicao;		
+	}
+	
+	public List<DiaRefeicao> getDiaRefeicaoPretensaoByAlunoMatricula(
+			String matricula) {
+		
+		Session session = HibernateUtil.getSessionFactory().openSession();
+
+		List<DiaRefeicao> diasRefeicao = new ArrayList<DiaRefeicao>();
+		
+		try {
+			
+			String hql = "from DiaRefeicao as dr"
+					+ " where dr.aluno.matricula = :matricula"
+					+ " and dr.ativo = :ativo"
+					+ " and dr.refeicao.id not in ("
+					+ "		select pr.confirmaPretensaoDia.diaRefeicao.refeicao.id"
+					+ " 	from PretensaoRefeicao as pr"
+					+ "		where pr.confirmaPretensaoDia.diaRefeicao.aluno.id = dr.aluno.id"
+					+ "		and pr.confirmaPretensaoDia.diaRefeicao.dia.id = dr.dia.id"
+					+ ")"
+					+ " order by dr.dia.id asc";
+			
+			Query query = session.createQuery(hql);			
+			query.setParameter("matricula", matricula);
+			query.setParameter("ativo", BancoUtil.ATIVO);
 			
 			diasRefeicao = (List<DiaRefeicao>) query.list();
 	        

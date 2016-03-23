@@ -1,6 +1,12 @@
 ALTER TABLE tb_refeicao_realizada CHANGE id_refeicao_realizada 
 id_refeicao_realizada INT(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
+ALTER TABLE tb_pretensao_refeicao CHANGE id_pretensao_refeicao 
+id_pretensao_refeicao INT(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+alter table tb_pessoa_role add column 
+id_pessoa_role int(10) unsigned primary key AUTO_INCREMENT;
+
 insert into tb_dia(id_dia, nm_dia) values (1, "Domingo");
 insert into tb_dia(id_dia, nm_dia) values (2, "Segunda-feira");
 insert into tb_dia(id_dia, nm_dia) values (3, "Terça-feira");
