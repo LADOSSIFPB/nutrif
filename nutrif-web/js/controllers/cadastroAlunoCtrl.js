@@ -61,11 +61,28 @@ angular.module("NutrifApp").controller("alunoCtrl", function ($scope, $statePara
    }
 
    $scope.removerRefeicao = function (refeicao) {
-      var index = $scope.refeicoes.indexOf(refeicao);
+      
+      delete refeicao.refeicao.horaInicio;
+      delete refeicao.refeicao.horaFinal;
 
-      if (index > -1) {
-         $scope.refeicoes.splice(index, 1);
-     }
+      diaRefeicaoService.removerRefeicao(refeicao).success(function(data, status){
+
+          carregarDiaRefeicaoAluno(refeicao.aluno.matricula);
+          Materialize.toast('Refeição removida com sucesso', 6000);
+
+      }).error(function(data, status){
+
+          if (!data) {
+
+            Materialize.toast("Erro ao remover a refeição, tente novamente ou contate os administradores.", 6000);
+
+         } else {
+
+            Materialize.toast(data.mensagem, 6000);
+
+         }
+
+      });
 
    }
 

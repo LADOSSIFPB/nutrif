@@ -14,6 +14,10 @@ angular.module("NutrifApp").factory("diaRefeicaoService", function($http, config
 		return $http.post(_path + "/inserir", refeicao)
 	};
 
+	var _removerRefeicao = function (refeicao) {
+		return $http.post(_path + "/remover", refeicao)
+	};
+
 	var _listaRefeicaoPorMatricula = function (matricula){
 		return $http.get(_path + "/listar/aluno/matricula/" + encodeURI(matricula))
 	};
@@ -22,6 +26,7 @@ angular.module("NutrifApp").factory("diaRefeicaoService", function($http, config
 		buscaRefeicaoPorNome: _buscaRefeicaoPorNome,
 		buscaRefeicaoPorMatricula: _buscaRefeicaoPorMatricula,
 		cadastrarRefeicao: _cadastrarRefeicao,
+		removerRefeicao: _removerRefeicao,
 		listaRefeicaoPorMatricula: _listaRefeicaoPorMatricula
 	};
 
