@@ -213,6 +213,15 @@ public class Validate {
 			return ErrorFactory.CONFIRMACAO_REFEICAO_INVALIDA;
 		}
 		
+		Funcionario inspetor = refeicaoRealizada.getInspetor();
+		
+		if (inspetor == null 
+				|| (inspetor != null 
+					&& !numeroValidator.isMaiorZero(inspetor.getId()))) {
+			
+			return ErrorFactory.CODIGO_FUNCIONARIO_INSPETOR_INVALIDO;
+		}		
+		
 		return VALIDATE_OK;
 	}
 	

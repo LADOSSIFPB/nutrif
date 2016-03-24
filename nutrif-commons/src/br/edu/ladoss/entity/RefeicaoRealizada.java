@@ -64,6 +64,14 @@ public class RefeicaoRealizada {
 	public void setHoraRefeicao(Date horaRefeicao) {
 		this.horaRefeicao = horaRefeicao;
 	}
+	
+	public Funcionario getInspetor() {
+		return inspetor;
+	}
+
+	public void setInspetor(Funcionario inspetor) {
+		this.inspetor = inspetor;
+	}
 
 	@Override
 	public String toString() {

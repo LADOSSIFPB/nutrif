@@ -15,6 +15,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
 import br.edu.ifpb.nutrif.dao.DiaRefeicaoDAO;
+import br.edu.ifpb.nutrif.dao.FuncionarioDAO;
 import br.edu.ifpb.nutrif.dao.RefeicaoRealizadaDAO;
 import br.edu.ifpb.nutrif.exception.ErrorFactory;
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
@@ -22,6 +23,7 @@ import br.edu.ifpb.nutrif.validation.Validate;
 import br.edu.ladoss.entity.ConfirmaRefeicaoDia;
 import br.edu.ladoss.entity.DiaRefeicao;
 import br.edu.ladoss.entity.Error;
+import br.edu.ladoss.entity.Funcionario;
 import br.edu.ladoss.entity.RefeicaoRealizada;
 
 @Path("refeicaorealizada")
@@ -50,10 +52,8 @@ public class RefeicaoRealizadaController {
 			try {			
 				
 				// Recuperar o Cronograma da Refeição.
-				int idDiaRefeicao = refeicaoRealizada
-						.getConfirmaRefeicaoDia()
-						.getDiaRefeicao()
-						.getId();
+				int idDiaRefeicao = refeicaoRealizada.getConfirmaRefeicaoDia()
+						.getDiaRefeicao().getId();
 				DiaRefeicao diaRefeicao = DiaRefeicaoDAO
 						.getInstance().getById(idDiaRefeicao);
 				
@@ -67,16 +67,23 @@ public class RefeicaoRealizadaController {
 							new ConfirmaRefeicaoDia();
 					confirmaRefeicaoDia.setDiaRefeicao(diaRefeicao);
 					confirmaRefeicaoDia.setDataRefeicao(agora);
+					refeicaoRealizada.setConfirmaRefeicaoDia(
+							confirmaRefeicaoDia);
 					
-					// Cronograma Refeição completo.
-					refeicaoRealizada.setConfirmaRefeicaoDia(confirmaRefeicaoDia);
+					// Hora da refeição
 					refeicaoRealizada.setHoraRefeicao(agora);
 					
-					//Inserir o Aluno.
+					// Funcionário responsável registro da refeição realizada.
+					Funcionario inspetor = FuncionarioDAO.getInstance().getById(
+							refeicaoRealizada.getInspetor().getId());
+					refeicaoRealizada.setInspetor(inspetor);
+					
+					//Inserir a Refeição Realizada.
 					boolean success = RefeicaoRealizadaDAO.getInstance()
 							.insertOrUpdate(refeicaoRealizada);					
 					
 					if (success) {
+						
 						// Operação realizada com sucesso.
 						builder.status(Response.Status.OK);
 					}
