@@ -1,4 +1,4 @@
-angular.module('NutrifApp').controller("pesquisaCtrl", function ($scope, diaRefeicaoService, refeicaoRealizadaService) {
+angular.module('NutrifApp').controller("pesquisaCtrl", function ($scope, diaRefeicaoService, refeicaoRealizadaService, $cookies) {
 
 	var TAM_MIN_BUSCA_MATRICULA = 11;
 	var TAM_MIN_BUSCA_NOME = 3;
@@ -69,6 +69,8 @@ angular.module('NutrifApp').controller("pesquisaCtrl", function ($scope, diaRefe
 		var _refeicaoRealizada = {};
 		_refeicaoRealizada.confirmaRefeicaoDia = {};
 		_refeicaoRealizada.confirmaRefeicaoDia.diaRefeicao = refeicaoSelecionada;
+		_refeicaoRealizada.inspetor = {};
+		_refeicaoRealizada.inspetor.id = $cookies.getObject('user').id;
 
 		delete _refeicaoRealizada.confirmaRefeicaoDia.diaRefeicao.refeicao.horaInicio;
 		delete _refeicaoRealizada.confirmaRefeicaoDia.diaRefeicao.refeicao.horaFinal;
