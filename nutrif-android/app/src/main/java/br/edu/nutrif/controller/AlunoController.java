@@ -30,8 +30,8 @@ public class AlunoController {
                     aluno.setNome(response.body().getNome());
                     aluno.setMatricula(response.body().getMatricula());
                     AlunoDAO.getInstance(context).insertAluno(aluno);
-                    PreferencesUtils.setAccessKeyOnSharedPreferences(context, response.body().getKeyauth());
-
+                    PreferencesUtils.setAccessKeyOnSharedPreferences(context, response.body().getKeyAuth());
+                    ui.onSuccess(aluno);
                 } else {
                     if (response.code() == 401) {
                         Erro erro = new Erro();
@@ -76,8 +76,8 @@ public class AlunoController {
                     aluno.setNome(response.body().getNome());
                     aluno.setMatricula(response.body().getMatricula());
                     AlunoDAO.getInstance(context).insertAluno(aluno);
-                    PreferencesUtils.setAccessKeyOnSharedPreferences(context, response.body().getKeyauth());
-
+                    PreferencesUtils.setAccessKeyOnSharedPreferences(context, response.body().getKeyAuth());
+                    ui.onSuccess(aluno);
                 } else {
                     if (response.code() == 401) {
                         AlunoDAO.getInstance(context).delete();

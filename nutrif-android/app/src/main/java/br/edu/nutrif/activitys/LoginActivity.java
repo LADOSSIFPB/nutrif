@@ -38,7 +38,7 @@ public class LoginActivity extends AppCompatActivity {
         change();
         Aluno aluno = validate();
         if (aluno != null) {
-            AlunoController.login(new Aluno(null, identificador.getText().toString(), senha.getText().toString()), this,
+            AlunoController.login(aluno, this,
                     new Replyable<Aluno>() {
                         @Override
                         public void onSuccess(Aluno aluno) {

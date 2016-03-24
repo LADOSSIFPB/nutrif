@@ -6,7 +6,7 @@ public class Pessoa {
     private Integer id;
     private String nome;
     protected String senha;
-    private String keyauth;
+    private String keyAuth;
     protected String email;
     private String tipo;
     private boolean ativo;
@@ -18,12 +18,12 @@ public class Pessoa {
     public static final int LENGHT_MAX_SENHA = 40;
     public static final int LENGHT_MIN_SENHA = 5;
 
-    public String getKeyauth() {
-        return keyauth;
+    public String getKeyAuth() {
+        return keyAuth;
     }
 
-    public void setKeyauth(String keyauth) {
-        this.keyauth = keyauth;
+    public void setKeyAuth(String keyAuth) {
+        this.keyAuth = keyAuth;
     }
 
     public Integer getId() {
