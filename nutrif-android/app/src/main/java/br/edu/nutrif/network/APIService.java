@@ -4,8 +4,8 @@ import java.util.List;
 
 import br.edu.nutrif.entitys.Aluno;
 import br.edu.nutrif.entitys.DiaRefeicao;
+import br.edu.nutrif.entitys.PretensaoRefeicao;
 import br.edu.nutrif.entitys.input.ConfirmationKey;
-import br.edu.nutrif.entitys.PretencaoRefeicao;
 import retrofit.Call;
 import retrofit.http.Body;
 import retrofit.http.GET;
@@ -28,10 +28,10 @@ public interface APIService {
     Call<Aluno> login(@Body Aluno aluno);
 
     @POST("pretensaorefeicao/inserir")
-    Call<PretencaoRefeicao> pedirRefeicao(@Header("Authorization") String accessKey,
-                                          @Body PretencaoRefeicao pretencaoRefeicao);
+    Call<PretensaoRefeicao> pedirRefeicao(@Header("Authorization") String accessKey,
+                                          @Body PretensaoRefeicao pretencaoRefeicao);
 
-    @GET("diarefeicao/listar/aluno/matricula/{matricula}")
+    @GET("diarefeicao/listar/pretensaorefeicao/aluno/matricula/{matricula}")
     Call<List<DiaRefeicao>> listaRefeicoes(@Header("Authorization") String accessKey,
                                            @Path("matricula")String matricula);
 

@@ -8,7 +8,7 @@ import javax.mail.MessagingException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import br.edu.ladoss.entity.Erro;
+import br.edu.ladoss.entity.Error;
 
 public class EmailExceptionNutrIF extends RuntimeException 
 	implements NutrIFException {
@@ -42,8 +42,8 @@ public class EmailExceptionNutrIF extends RuntimeException
 	}
 	
 	@Override
-	public Erro getError() {
+	public Error getError() {
 		
-		return new Erro(errorCode, erros.get(errorCode));		
+		return new Error(errorCode, erros.get(errorCode));		
 	}
 }

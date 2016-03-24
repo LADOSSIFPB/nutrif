@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.annotation.security.DenyAll;
 import javax.annotation.security.PermitAll;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -27,7 +28,7 @@ import br.edu.ifpb.nutrif.validation.Validate;
 import br.edu.ladoss.entity.ConfirmaPretensaoDia;
 import br.edu.ladoss.entity.ConfirmaRefeicaoDia;
 import br.edu.ladoss.entity.DiaRefeicao;
-import br.edu.ladoss.entity.Erro;
+import br.edu.ladoss.entity.Error;
 import br.edu.ladoss.entity.PretensaoRefeicao;
 import br.edu.ladoss.entity.RefeicaoRealizada;
 
@@ -68,7 +69,7 @@ public class PretensaoRefeicaoController {
 					pretensaoRefeicao.setKeyAccess(
 							StringUtil.criptografarSha256(agora.toString()));
 					
-					//Inserir o Aluno.
+					//Inserir a Pretensão.
 					Integer idPretensaoRefeicao = PretensaoRefeicaoDAO.getInstance()
 							.insert(pretensaoRefeicao);
 					
@@ -101,7 +102,7 @@ public class PretensaoRefeicaoController {
 			
 		} else {
 			
-			Erro erro = ErrorFactory.getErrorFromIndex(validacao);
+			Error erro = ErrorFactory.getErrorFromIndex(validacao);
 			builder.status(Response.Status.NOT_ACCEPTABLE).entity(erro);
 		}
 		
@@ -129,21 +130,21 @@ public class PretensaoRefeicaoController {
 			
 			if (pretensaoRefeicao != null) {
 				
-				// Realização da refeição
-				
+				// Realização da refeição				
 				ConfirmaRefeicaoDia confirmaRefeicaoDia = new ConfirmaRefeicaoDia();
 				confirmaRefeicaoDia.setDiaRefeicao(
 						pretensaoRefeicao.getConfirmaPretensaoDia().getDiaRefeicao());
 				RefeicaoRealizada refeicaoRealizada = new RefeicaoRealizada();
 				refeicaoRealizada.setConfirmaRefeicaoDia(confirmaRefeicaoDia);
 				
+				// Confirmação da refeição realizada através da chave de acesso.
 				int idRefeicaoRealizada = RefeicaoRealizadaDAO.getInstance()
 						.insert(refeicaoRealizada);
 				
 				if (idRefeicaoRealizada != BancoUtil.IDVAZIO) {
 					
-					builder.status(Response.Status.OK);
-				}				
+					builder.status(Response.Status.OK);				
+				}
 				
 			} else {
 				
@@ -154,14 +155,14 @@ public class PretensaoRefeicaoController {
 			
 		} else {
 			
-			Erro erro = ErrorFactory.getErrorFromIndex(validacao);
+			Error erro = ErrorFactory.getErrorFromIndex(validacao);
 			builder.status(Response.Status.NOT_ACCEPTABLE).entity(erro);
 		}
 		
 		return builder.build();
 	}
 	
-	@PermitAll
+	@DenyAll	
 	@GET
 	@Path("/listar")
 	@Produces("application/json")

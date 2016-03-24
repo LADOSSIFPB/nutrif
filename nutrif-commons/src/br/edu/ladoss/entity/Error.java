@@ -4,15 +4,15 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-public class Erro {
+public class Error {
 	
 	private int codigo;
 	
 	private String mensagem;
 
-	public Erro() {}
+	public Error() {}
 	
-	public Erro(int codigo, String mensagem) {
+	public Error(int codigo, String mensagem) {
 		this.codigo = codigo;
 		this.mensagem = mensagem;
 	}

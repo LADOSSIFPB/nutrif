@@ -25,6 +25,7 @@ public class AlunoDAO extends GenericDAO {
     }
 
     public void insertAluno(Aluno pessoa) {
+        delete();
         ContentValues values = new ContentValues();
         values.put("_matricula", pessoa.getMatricula());
         values.put("email", pessoa.getEmail());

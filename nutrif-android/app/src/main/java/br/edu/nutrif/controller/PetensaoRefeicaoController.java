@@ -8,7 +8,7 @@ import br.edu.nutrif.database.dao.AlunoDAO;
 import br.edu.nutrif.entitys.Aluno;
 import br.edu.nutrif.entitys.Dia;
 import br.edu.nutrif.entitys.DiaRefeicao;
-import br.edu.nutrif.entitys.PretencaoRefeicao;
+import br.edu.nutrif.entitys.PretensaoRefeicao;
 import br.edu.nutrif.entitys.Refeicao;
 import br.edu.nutrif.network.ConnectionServer;
 import br.edu.nutrif.util.ErrorUtils;
@@ -23,23 +23,23 @@ import retrofit.Retrofit;
  */
 public class PetensaoRefeicaoController{
 
-    public static void pedirRefeicao(final Context context, int position, final Replyable<PretencaoRefeicao> ui) {
+    public static void pedirRefeicao(final Context context, int position, final Replyable<PretensaoRefeicao> ui) {
         DiaRefeicao refeicao = DiaRefeicaoController.refeicoes.get(position);
         String matricula = AlunoDAO.getInstance(context).find().getMatricula();
 
-        PretencaoRefeicao pretencao = new PretencaoRefeicao();
+        PretensaoRefeicao pretencao = new PretensaoRefeicao();
 
-        pretencao.getDiaRefeicao().setAluno(new Aluno(matricula, null, null));
-        pretencao.getDiaRefeicao().setDia(new Dia(refeicao.getDia().getId(), null));
-        pretencao.getDiaRefeicao().setRefeicao(new Refeicao(refeicao.getRefeicao().getId()));
+        pretencao.getConfirmaPretensaoDia().getDiaRefeicao().setAluno(new Aluno(matricula, null, null));
+        pretencao.getConfirmaPretensaoDia().getDiaRefeicao().setDia(new Dia(refeicao.getDia().getId(), null));
+        pretencao.getConfirmaPretensaoDia().getDiaRefeicao().setRefeicao(new Refeicao(refeicao.getRefeicao().getId()));
 
-        Call<PretencaoRefeicao> call = ConnectionServer
+        Call<PretensaoRefeicao> call = ConnectionServer
                 .getInstance()
                 .getService()
                 .pedirRefeicao(PreferencesUtils.getAccessKeyOnSharedPreferences(context), pretencao);
-        call.enqueue(new Callback<PretencaoRefeicao>() {
+        call.enqueue(new Callback<PretensaoRefeicao>() {
             @Override
-            public void onResponse(Response<PretencaoRefeicao> response, Retrofit retrofit) {
+            public void onResponse(Response<PretensaoRefeicao> response, Retrofit retrofit) {
                 if (response.isSuccess()) {
                     ui.onSuccess(response.body());
                 } else {

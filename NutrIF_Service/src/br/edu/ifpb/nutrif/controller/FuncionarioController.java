@@ -24,7 +24,7 @@ import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
 import br.edu.ifpb.nutrif.util.BancoUtil;
 import br.edu.ifpb.nutrif.util.StringUtil;
 import br.edu.ifpb.nutrif.validation.Validate;
-import br.edu.ladoss.entity.Erro;
+import br.edu.ladoss.entity.Error;
 import br.edu.ladoss.entity.Funcionario;
 import br.edu.ladoss.entity.Role;
 
@@ -105,7 +105,7 @@ public class FuncionarioController {
 			
 		} else {
 			
-			Erro erro = ErrorFactory.getErrorFromIndex(validacao);
+			Error erro = ErrorFactory.getErrorFromIndex(validacao);
 			builder.status(Response.Status.NOT_ACCEPTABLE).entity(erro);
 		}
 		
@@ -162,7 +162,7 @@ public class FuncionarioController {
 			
 		} else {
 			
-			Erro erro = ErrorFactory.getErrorFromIndex(validacao);
+			Error erro = ErrorFactory.getErrorFromIndex(validacao);
 			builder.status(Response.Status.NOT_ACCEPTABLE).entity(erro);
 		}
 		

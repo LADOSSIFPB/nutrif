@@ -6,6 +6,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 
 import br.edu.nutrif.R;
 import br.edu.nutrif.entitys.input.ConfirmationKey;
@@ -24,6 +25,7 @@ public class ConfirmationActivity extends AppCompatActivity {
     EditText matricula;
     @Bind(R.id.codigo)
     EditText codigo;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

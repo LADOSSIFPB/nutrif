@@ -21,7 +21,7 @@ import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
 import br.edu.ifpb.nutrif.validation.Validate;
 import br.edu.ladoss.entity.ConfirmaRefeicaoDia;
 import br.edu.ladoss.entity.DiaRefeicao;
-import br.edu.ladoss.entity.Erro;
+import br.edu.ladoss.entity.Error;
 import br.edu.ladoss.entity.RefeicaoRealizada;
 
 @Path("refeicaorealizada")
@@ -96,7 +96,7 @@ public class RefeicaoRealizadaController {
 			
 		} else {
 			
-			Erro erro = ErrorFactory.getErrorFromIndex(validacao);
+			Error erro = ErrorFactory.getErrorFromIndex(validacao);
 			builder.status(Response.Status.NOT_ACCEPTABLE).entity(erro);
 		}					
 		

@@ -1,8 +1,8 @@
 package br.edu.ifpb.nutrif.exception;
 
-import br.edu.ladoss.entity.Erro;
+import br.edu.ladoss.entity.Error;
 
 public interface NutrIFException {
 
-	public Erro getError();
+	public Error getError();
 }

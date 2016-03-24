@@ -9,7 +9,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.JDBCException;
 import org.hibernate.exception.ConstraintViolationException;
 
-import br.edu.ladoss.entity.Erro;
+import br.edu.ladoss.entity.Error;
 
 public class SQLExceptionNutrIF extends RuntimeException 
 	implements NutrIFException {
@@ -96,8 +96,8 @@ public class SQLExceptionNutrIF extends RuntimeException
 	}
 	
 	@Override
-	public Erro getError() {
+	public Error getError() {
 		
-		return new Erro(errorCode, erros.get(errorCode));		
+		return new Error(errorCode, erros.get(errorCode));		
 	}
 }
