@@ -136,10 +136,12 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 			
 			String hql = "from DiaRefeicao as dr"
 					+ " where dr.aluno.matricula = :matricula"
+					+ " and dr.ativo = :ativo"
 					+ " order by dr.dia.id asc";
 			
 			Query query = session.createQuery(hql);			
 			query.setParameter("matricula", matricula);
+			query.setParameter("ativo", BancoUtil.ATIVO);
 			
 			diasRefeicao = (List<DiaRefeicao>) query.list();
 	        

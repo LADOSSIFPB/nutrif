@@ -40,7 +40,8 @@ public class DiaRefeicao implements DataEntity {
 	@JoinColumn(name = "fk_id_refeicao")
 	private Refeicao refeicao;
 
-	@Column(name = "is_ativo", columnDefinition = "boolean default true", nullable = false)
+	@Column(name = "is_ativo", columnDefinition = "boolean default true", 
+			nullable = false, insertable = false, updatable = true)
 	private boolean ativo;
 		
 	public DiaRefeicao() {

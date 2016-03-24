@@ -111,11 +111,12 @@ public class DiaRefeicaoController {
 	}
 	
 	/**
+	 * Remover o dia da refeição através do id. A remoção desativa o registro
+	 * pela mudança de estado da variável <b>ativo<b> para o valor false.
+	 * 
 	 * Entrada: JSON
 	 * {
-	 * 	"aluno":{"id":"[0-9]"},
-	 * 	"dia":{"id":"[0-9]"},
-	 * 	"refeicao":{"id":"[0-9]"}
+	 * 	"id":"[0-9]"
 	 * }
 	 * 
 	 * @param diaRefeicao
@@ -139,7 +140,8 @@ public class DiaRefeicaoController {
 			try {			
 				
 				// Recuperar Dia da Refeição.
-				diaRefeicao = DiaRefeicaoDAO.getInstance().getById(diaRefeicao.getId());
+				diaRefeicao = DiaRefeicaoDAO.getInstance().getById(
+						diaRefeicao.getId());
 				
 				// Desabilitar.
 				diaRefeicao.setAtivo(false);
@@ -182,6 +184,11 @@ public class DiaRefeicaoController {
 		return diasRefeicao;
 	}
 	
+	/**
+	 * Recupera o dia da refeição (ativa ou inativa) através do id.
+	 * @param idCronogramaRefeicao
+	 * @return
+	 */
 	@PermitAll
 	@GET
 	@Path("/id/{id}")
@@ -217,13 +224,15 @@ public class DiaRefeicaoController {
 	}	
 	
 	/**
-	 * 
+	 * Buscar os dias de refeição de um Aluno através do seu Nome. Somente serão
+	 * retornados os registros que não estejam como referção realizada.
+	 *  
 	 * @param nome
 	 * @return
 	 */
 	@PermitAll
 	@GET
-	@Path("/buscar/aluno/nome/{nome}")
+	@Path("/buscar/refeicaorealizada/aluno/nome/{nome}")
 	@Produces("application/json")
 	public Response getDiaRefeicaoByAlunoNome(
 			@PathParam("nome") String nome) {
@@ -249,13 +258,16 @@ public class DiaRefeicaoController {
 	}	
 	
 	/**
-	 * 
+	 * Buscar os dias de refeição de um Aluno através do sua Matrícula. 
+	 * Somente serão retornados os registros que não estejam como referção
+	 * realizada.
+	 *   
 	 * @param matricula
 	 * @return
 	 */
 	@PermitAll
 	@GET
-	@Path("/buscar/aluno/matricula/{matricula}")
+	@Path("/buscar/refeicaorealizada/aluno/matricula/{matricula}")
 	@Produces("application/json")
 	public Response getDiaRefeicaoByAlunoMatricula(
 			@PathParam("matricula") String matricula) {
@@ -281,6 +293,12 @@ public class DiaRefeicaoController {
 		return builder.build();		
 	}
 	
+	/**
+	 * Listar todos os dias de refeições <b>ativos<b> de um Aluno pela Matrícula.
+	 * 
+	 * @param matricula
+	 * @return diasRefeicao
+	 */
 	@PermitAll
 	@GET
 	@Path("/listar/aluno/matricula/{matricula}")
