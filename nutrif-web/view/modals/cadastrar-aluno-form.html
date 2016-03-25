@@ -1,0 +1,32 @@
+<div id="cadastrar-aluno-form" class="modal">
+	<div class="modal-content">
+		<h4 class="center">Novo usuário</h4>
+		<form>
+			<div class="row">
+				<div class="input-field col s4">
+					<input id="first_name" type="text" class="validate">
+					<label for="first_name">Matrícula</label>
+				</div>
+				<div class="input-field col s8">
+					<input id="last_name" type="text" class="validate">
+					<label for="last_name">Nome completo</label>
+				</div>
+				<div class="input-field col s6">
+					<select class="browser-default">
+						<option value="" disabled selected>Selecione o curso</option>
+						<option value="1">Option 1</option>
+						<option value="2">Option 2</option>
+						<option value="3">Option 3</option>
+					</select>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div class="modal-footer">
+		<a ng-click="removerRefeicao(refeicaoSelecionada)" 
+		   class="modal-action modal-close waves-effect waves-green btn-flat green-text text-darken-4">
+			Confirmar
+		</a>
+		<a class="modal-action modal-close waves-effect waves-red btn-flat red-text text-darken-4">Cancelar</a>
+	</div>
+</div>
