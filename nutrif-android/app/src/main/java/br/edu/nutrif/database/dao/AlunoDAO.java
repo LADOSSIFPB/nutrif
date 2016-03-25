@@ -12,8 +12,8 @@ import br.edu.nutrif.entitys.Aluno;
 public class AlunoDAO extends GenericDAO {
     public static final String ALUNO_TABLE = "tb_aluno";
     public static final String CREATE_TABLE = "create table IF NOT EXISTS " + ALUNO_TABLE + " (" +
-            "_matricula text primary key unique, " +
-            "email text not null, " +
+            "matricula text not null, " +
+            "_email text primary key unique, " +
             "senha text not null);";
 
     public AlunoDAO(Context context) {
@@ -27,22 +27,23 @@ public class AlunoDAO extends GenericDAO {
     public void insertAluno(Aluno pessoa) {
         delete();
         ContentValues values = new ContentValues();
-        values.put("_matricula", pessoa.getMatricula());
-        values.put("email", pessoa.getEmail());
+        values.put("matricula", pessoa.getMatricula());
+        values.put("_email", pessoa.getEmail());
         values.put("senha", pessoa.getSenha());
         insert(ALUNO_TABLE, values);
     }
 
     public  Aluno find() {
-        String[] colums = new String[]{"_matricula", "email", "senha"};
-        Cursor cursor = db.query(ALUNO_TABLE, colums, null, null, null, null, "_matricula");
+        String[] colums = new String[]{"matricula", "_email", "senha"};
+        Cursor cursor = db.query(ALUNO_TABLE, colums, null, null, null, null, "_email");
 
         for (int i = cursor.getCount(); i != 0; i--) {
-            cursor.moveToFirst();
+            cursor.moveToLast();
             Aluno u = new Aluno();
             u.setMatricula(cursor.getString(0));
             u.setEmail(cursor.getString(1));
             u.setSenha(cursor.getString(2));
+            cursor.close();
             return u;
         }
 

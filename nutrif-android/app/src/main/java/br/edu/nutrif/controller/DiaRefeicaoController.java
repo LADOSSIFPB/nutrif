@@ -1,16 +1,15 @@
 package br.edu.nutrif.controller;
 
 import android.content.Context;
-import android.view.View;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import br.edu.nutrif.R;
+import br.edu.nutrif.database.DatabaseCore;
 import br.edu.nutrif.database.dao.AlunoDAO;
+import br.edu.nutrif.database.dao.DiaRefeicaoDAO;
 import br.edu.nutrif.entitys.DiaRefeicao;
 import br.edu.nutrif.network.ConnectionServer;
-import br.edu.nutrif.util.AndroidUtil;
 import br.edu.nutrif.util.ErrorUtils;
 import br.edu.nutrif.util.PreferencesUtils;
 import retrofit.Call;
@@ -36,8 +35,7 @@ public class DiaRefeicaoController {
             @Override
             public void onResponse(Response<List<DiaRefeicao>> response, Retrofit retrofit) {
                 if (response.isSuccess()) {
-                    refeicoes = response.body();
-                    ui.onSuccess(refeicoes);
+                    ui.onSuccess(DiaRefeicaoController.organizaDiaRefeicao(context, response.body()));
                 } else {
                     ui.onFailure(ErrorUtils.parseError(response, retrofit, context));
                 }
@@ -45,10 +43,30 @@ public class DiaRefeicaoController {
 
             @Override
             public void onFailure(Throwable t) {
+                refeicoes = DiaRefeicaoDAO.getInstance(context).findAll();
                 ui.failCommunication(t);
             }
         });
 
+    }
+
+    public static List<DiaRefeicao> organizaDiaRefeicao(Context context, List<DiaRefeicao> server) {
+        DiaRefeicaoDAO bd = new DiaRefeicaoDAO(context);
+        List<DiaRefeicao> diarefeicaobd = bd.findAll();
+
+        for (DiaRefeicao diaRefeicao : server) {
+            if (diarefeicaobd == null) {
+                bd.insert(diaRefeicao);
+            } else {
+                for (DiaRefeicao bdRefeicao : diarefeicaobd)
+                    if (bdRefeicao.getId().equals(diaRefeicao.getId())) {
+                        diaRefeicao.setCodigo(bdRefeicao.getCodigo());
+                        break;
+                    }
+            }
+        }
+        refeicoes = server;
+        return refeicoes;
     }
 
 }

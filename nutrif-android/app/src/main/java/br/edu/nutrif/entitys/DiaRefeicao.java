@@ -1,54 +1,67 @@
 package br.edu.nutrif.entitys;
 
-public class DiaRefeicao  {
-	private Aluno aluno;
-	private Integer id;
-	private Dia dia;
-	private Refeicao refeicao;
+public class DiaRefeicao {
 
-	public Aluno getAluno() {
-		return aluno;
-	}
+    private Aluno aluno;
+    private Integer id;
+    private Dia dia;
+    private Refeicao refeicao;
+    private String codigo;
 
-	public void setAluno(Aluno aluno) {
-		this.aluno = aluno;
-	}
+    public DiaRefeicao(){
+        aluno = new Aluno();
+        id = new Integer(0);
+        dia = new Dia();
+        refeicao = new Refeicao();
+    }
 
-	private boolean ativo;
-		
-	public DiaRefeicao() {
-		super();
-	}
+    public String getCodigo() {
+        return codigo;
+    }
 
-	public Integer getId() {
-		return id;
-	}
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
+    }
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    public Aluno getAluno() {
+        return aluno;
+    }
 
-	public Dia getDia() {
-		return dia;
-	}
+    public void setAluno(Aluno aluno) {
+        this.aluno = aluno;
+    }
 
-	public void setDia(Dia dia) {
-		this.dia = dia;
-	}
+    private boolean ativo;
 
-	public Refeicao getRefeicao() {
-		return refeicao;
-	}
+    public Integer getId() {
+        return id;
+    }
 
-	public void setRefeicao(Refeicao refeicao) {
-		this.refeicao = refeicao;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	public boolean isAtivo() {
-		return ativo;
-	}
+    public Dia getDia() {
+        return dia;
+    }
 
-	public void setAtivo(boolean ativo) {
-		this.ativo = ativo;
-	}
+    public void setDia(Dia dia) {
+        this.dia = dia;
+    }
+
+    public Refeicao getRefeicao() {
+        return refeicao;
+    }
+
+    public void setRefeicao(Refeicao refeicao) {
+        this.refeicao = refeicao;
+    }
+
+    public boolean isAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(boolean ativo) {
+        this.ativo = ativo;
+    }
 }
