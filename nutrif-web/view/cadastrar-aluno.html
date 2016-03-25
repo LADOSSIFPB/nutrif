@@ -1,5 +1,5 @@
-<div class="section row" ng-if="!aluno">
-    <form name="inserirMatriculaForm" class="section" ng-submit="buscarAlunos(matricula)">
+<div class="section" ng-if="!aluno">
+    <form name="inserirMatriculaForm" class="section row" ng-submit="buscarAlunos(matricula)">
         <div class="col s8 offset-s3">
             <div class="input-field col s8">
                 <input placeholder="Digite 11 números" id="matricula" type="number"
@@ -15,6 +15,16 @@
             </button>
         </div>
     </form>
+    <div class="divider"></div>
+    <div class="section top-margin row center">
+        <div class="top-margin col s8 offset-s3">
+            <button class="btn waves-effect waves-light light-green darken-1 col s8" 
+                ng-click="modalCadastroAluno()">
+                <i class="material-icons left">supervisor_account</i>
+                Cadastrar novo aluno
+            </button>
+        </div>
+    </div>
 </div>
 
 <div class="section" ng-if="aluno">
@@ -60,7 +70,7 @@
                 <td>{{refeicao.refeicao.tipo | uppercase}}</td>
                 <td>{{refeicao.dia.nome | uppercase}}</td>
                 <td>
-                    <button class="btn waves-effect waves-light red" ng-click="removerRefeicao(refeicao)">
+                    <button class="btn waves-effect waves-light red" ng-click="modalRemoverRefeicao(refeicao)">
                         Remover
                     </button>
                 </td>
@@ -77,3 +87,5 @@
 </div>
 
 <div ng-include="'view/modals/adicionar-refeicao.html'"></div>
+<div ng-include="'view/modals/cadastrar-aluno-form.html'"></div>
+<div ng-include="'view/modals/confirmar-remocao-refeicao.html'"></div>
