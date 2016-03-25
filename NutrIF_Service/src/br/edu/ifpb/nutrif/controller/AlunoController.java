@@ -56,7 +56,7 @@ public class AlunoController {
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
 		builder.expires(new Date());
 		
-		// Validaï¿½ï¿½o dos dados de entrada.
+		// Validação dos dados de entrada.
 		int validacao = Validate.inserirAluno(aluno);
 		
 		if (validacao == Validate.VALIDATE_OK) {
@@ -76,7 +76,7 @@ public class AlunoController {
 				
 				if (idAluno != BancoUtil.IDVAZIO) {
 
-					// Operaï¿½ï¿½o realizada com sucesso.
+					// Operação realizada com sucesso.
 					builder.status(Response.Status.OK);
 					builder.entity(aluno);
 					
@@ -111,7 +111,7 @@ public class AlunoController {
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
 		builder.expires(new Date());
 		
-		// Validaï¿½ï¿½o dos dados de entrada.
+		// Validação dos dados de entrada.
 		int validacao = Validate.inserirAluno(aluno);
 		
 		if (validacao == Validate.VALIDATE_OK) {
@@ -128,7 +128,7 @@ public class AlunoController {
 				
 				if (aluno != null) {
 
-					// Operaï¿½ï¿½o realizada com sucesso.
+					// Operação realizada com sucesso.
 					builder.status(Response.Status.OK);
 					
 					// Remover a senha.
@@ -212,7 +212,7 @@ public class AlunoController {
 	}
 	
 	/**
-	 * Recuperar Aluno pela matrï¿½cula.
+	 * Recuperar Aluno pela matrícula.
 	 * 
 	 * @param matricula
 	 * @return
@@ -270,14 +270,14 @@ public class AlunoController {
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
 		builder.expires(new Date());
 		
-		// Validaï¿½ï¿½o dos dados de entrada.
+		// Validação dos dados de entrada.
 		int validacao = Validate.loginAluno(aluno);
 		
 		if (validacao == Validate.VALIDATE_OK) {
 			
 			try {
 				
-				//Login usuï¿½rio.
+				//Login usuário.
 				aluno = AlunoDAO.getInstance().login(aluno);
 				
 				if (aluno != null) {
@@ -286,7 +286,7 @@ public class AlunoController {
 					aluno.setSenha(StringUtil.STRING_VAZIO);
 					aluno.setKeyConfirmation(StringUtil.STRING_VAZIO);
 					
-					// Operaï¿½ï¿½o realizada com sucesso.
+					// Operação realizada com sucesso.
 					builder.status(Response.Status.OK);
 					builder.entity(aluno);
 				
@@ -321,7 +321,7 @@ public class AlunoController {
 
 	
 	/**
-	 * Inserir acesso do Aluno ao sistema via dispositivo mï¿½vel.
+	 * Inserir acesso do Aluno ao sistema via dispositivo móvel.
 	 * 
 	 * Entrada:
 	 * {
@@ -343,7 +343,7 @@ public class AlunoController {
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
 		builder.expires(new Date());
 		
-		// Validaï¿½ï¿½o dos dados de entrada.
+		// Validação dos dados de entrada.
 		int validacao = Validate.acessoAluno(aluno);
 		
 		if (validacao == Validate.VALIDATE_OK) {
@@ -354,7 +354,7 @@ public class AlunoController {
 				String email = aluno.getEmail();
 				String matricula = aluno.getMatricula();
 				
-				// Recuperar Aluno atravï¿½s da matrï¿½cula.
+				// Recuperar Aluno através da matrícula.
 				aluno = AlunoDAO.getInstance().getByMatricula(matricula);
 				
 				if (aluno != null 
@@ -365,13 +365,13 @@ public class AlunoController {
 							senhaPlana);				
 					aluno.setSenha(senhaCriptografada);
 					
-					// Gerar chave de autenticaï¿½ï¿½o: KeyAuth.
+					// Gerar chave de autenticação: KeyAuth.
 					Date agora = new Date();
 					String keyAuth = StringUtil.criptografarSha256(
 							agora.toString());
 					aluno.setKeyAuth(keyAuth);
 					
-					// Gerar chave de confirmaï¿½ï¿½o: KeyConfirmation.
+					// Gerar chave de confirmação: KeyConfirmation.
 					String keyConfirmation = StringUtil.getRadomKeyConfirmation();
 					aluno.setKeyConfirmation(keyConfirmation);
 					
@@ -388,14 +388,14 @@ public class AlunoController {
 
 						// Enviar e-mail com a chave de acesso.
 						EmailUtil emailUtil = new EmailUtil();
-//						emailUtil.sendChaveConfirmacaoAluno(
-//								email, keyConfirmation);
+						emailUtil.sendChaveConfirmacaoAluno(
+								email, keyConfirmation);
 						
 						// Remover a senha.
 						aluno.setSenha(StringUtil.STRING_VAZIO);
 						aluno.setKeyConfirmation(StringUtil.STRING_VAZIO);
 						
-						// Operaï¿½ï¿½o realizada com sucesso.
+						// Operação realizada com sucesso.
 						builder.status(Response.Status.OK);
 						builder.entity(aluno);
 					}
@@ -446,7 +446,7 @@ public class AlunoController {
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
 		builder.expires(new Date());
 		
-		// Validaï¿½ï¿½o dos dados de entrada.
+		// Validação dos dados de entrada.
 		int validacao = Validate.confirmacaoChaveAluno(aluno);
 		
 		if (validacao == Validate.VALIDATE_OK) {
@@ -456,7 +456,7 @@ public class AlunoController {
 				String matricula = aluno.getMatricula();
 				String keyConfirmation = aluno.getKeyConfirmation();
 				
-				// Consultar chave de confirmaï¿½ï¿½o.
+				// Consultar chave de confirmação.
 				boolean isKeyConfirmation = AlunoDAO.getInstance()
 						.isKeyConfirmation(matricula, keyConfirmation);
 				
@@ -471,7 +471,7 @@ public class AlunoController {
 					
 				} else {
 					
-					// Chave de autorizaï¿½ï¿½o invï¿½lida.
+					// Chave de autorização inválida.
 					builder.status(Response.Status.UNAUTHORIZED).entity(
 							ErrorFactory.getErrorFromIndex(
 									ErrorFactory.CHAVE_CONFIRMACAO_INVALIDA));
@@ -500,8 +500,8 @@ public class AlunoController {
 		try {
 		
 			EmailUtil emailUtil = new EmailUtil();
-			emailUtil.send(aluno.getEmail(), "Ativaï¿½ï¿½o da conta.", 
-				"Chave de confirmaï¿½ï¿½o ï¿½: ");
+			emailUtil.send(aluno.getEmail(), "Ativação da conta.", 
+				"Chave de confirmação: ");
 		
 		} catch (EmailExceptionNutrIF exception) {
 			

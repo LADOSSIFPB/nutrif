@@ -22,6 +22,8 @@ import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 @XmlRootElement(name = "pessoa")
 @Entity
 @Table(name = "tb_pessoa")
@@ -80,7 +82,7 @@ public class Pessoa implements Serializable {
 		this.nome = nome;
 	}
 	
-	@XmlElement
+	@JsonIgnore
 	public String getSenha() {
 		return senha;
 	}
@@ -89,7 +91,7 @@ public class Pessoa implements Serializable {
 		this.senha = senha;
 	}
 
-	@XmlElement
+	@JsonIgnore
 	public String getKeyAuth() {
 		return keyAuth;
 	}
