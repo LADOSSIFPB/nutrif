@@ -2105,11 +2105,12 @@
 
 	#header {
 		position: relative;
-		background-image: url("../../images/header.jpg");
+		background-image: url("../../assets/img/background2.jpg");
 		background-size: cover;
 		background-position: center center;
 		background-attachment: fixed;
-		color: #fff;
+		color: #FFFFFF;
+		font-weight: bold;
 		text-align: center;
 		padding: 0.5em 0 2em 0;
 		cursor: default;
@@ -3054,3 +3055,39 @@
 	    background: #00cc66 !important;
 	    color: #fff;
 	}
+
+	#header .inner {
+			-moz-animation: reveal-banner 1s 0.25s ease-in-out;
+			-webkit-animation: reveal-banner 1s 0.25s ease-in-out;
+			-ms-animation: reveal-banner 1s 0.25s ease-in-out;
+			animation: reveal-banner 1s 0.25s ease-in-out;
+			-moz-animation-fill-mode: forwards;
+			-webkit-animation-fill-mode: forwards;
+			-ms-animation-fill-mode: forwards;
+			animation-fill-mode: forwards;
+			background: rgba(25, 25, 23, 0.8);
+			color: #fff;
+			display: inline-block;
+			opacity: 10;
+			padding-left: 9em;
+			padding-right: 9em;
+			padding-bottom: 1em;
+			text-align: center;
+		}
+
+.nutrif-icon{
+	margin-top: 1em;
+	width: 60%;
+}
+
+header nutrif-icon{
+	margin-top: 1em;
+	width: 10%;
+}
+
+
+.icons-header{
+	width: 10%;
+	height: 10;
+	display: inline;
+}
