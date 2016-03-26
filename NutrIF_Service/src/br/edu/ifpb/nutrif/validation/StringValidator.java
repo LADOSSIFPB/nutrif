@@ -31,25 +31,27 @@ public class StringValidator implements NutrIFValidator {
 	@Override
 	public boolean validate(final String value) {
 		
-		boolean isValidete = false;
+		boolean isValidate = false;
 		
-		if (value != null || value.trim().equals(StringUtil.STRING_VAZIO)) {
+		if (value != null && !value.trim().equals(StringUtil.STRING_VAZIO)) {
 		
 			matcher = pattern.matcher(value.trim());
-			isValidete = matcher.matches();
+			isValidate = matcher.matches();
 		}
 		
-		return isValidete;
+		return isValidate;
 	}
 	
 	public boolean validateSomenteLetras(final String value) {
 		
-		if (value == null || value.trim().equals(""))
-			return false;
+		boolean isValidate = false;
 		
-		matcher = patternLetras.matcher(value.trim());
-		boolean t = matcher.matches();
-		return matcher.matches();
+		if (value != null && !value.trim().equals(StringUtil.STRING_VAZIO)) {
+			matcher = patternLetras.matcher(value.trim());
+			isValidate = matcher.matches();
+		}		
+		
+		return isValidate;
 	}
 
 	public boolean validate(final String value, int tamanho) {
@@ -62,24 +64,29 @@ public class StringValidator implements NutrIFValidator {
 	public boolean validate(final String value, int tamanhoMenor,
 			int tamanhoMaior) {
 		
-		return (value.length() >= tamanhoMenor && value.length() <= tamanhoMaior);
+		return (value.length() >= tamanhoMenor 
+				&& value.length() <= tamanhoMaior);
 		
 	}
 
 	public boolean validate(String pattern, final String value,
 			int tamanhoMenor, int tamanhoMaior) {
 		
-		return (validate(value) && (value.length() >= tamanhoMenor && value
-				.length() <= tamanhoMaior));
+		return (validate(value) && (value.length() >= tamanhoMenor 
+				&& value.length() <= tamanhoMaior));
 	}
 
 	public boolean validatePassword(final String password) {
 		
-		if (password == null || password.trim().equals(""))
-			return false;
+		boolean isValidate = false;
 		
-		matcher = patternPassword.matcher(password);
+		if (password != null 
+				&& !password.trim().equals(StringUtil.STRING_VAZIO)) {
+
+			matcher = patternPassword.matcher(password);
+			isValidate = matcher.matches();
+		}
 		
-		return matcher.matches();
+		return isValidate;
 	}
 }
