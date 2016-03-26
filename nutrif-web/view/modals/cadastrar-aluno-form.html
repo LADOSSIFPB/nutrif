@@ -1,32 +1,30 @@
 <div id="cadastrar-aluno-form" class="modal">
-	<div class="modal-content">
-		<h4 class="center">Novo usuário</h4>
-		<form>
+	<form method="post" ng-submit="cadastrarAluno(newAluno)">
+		<div class="modal-content">
+			<h4 class="center">Novo usuário</h4>
 			<div class="row">
 				<div class="input-field col s4">
-					<input id="first_name" type="text" class="validate">
-					<label for="first_name">Matrícula</label>
+					<input id='matricula' type="number" ng-required="true" ng-model="newAluno.matricula">
+					<label for="matricula">Matrícula</label>
 				</div>
 				<div class="input-field col s8">
-					<input id="last_name" type="text" class="validate">
-					<label for="last_name">Nome completo</label>
+					<input id="nome" type="text" ng-required="true" ng-model="newAluno.nome">
+					<label for="nome">Nome completo</label>
 				</div>
 				<div class="input-field col s6">
-					<select class="browser-default">
+					<select class="browser-default" ng-required="true" ng-model="newAluno.curso" 
+						ng-options="curso.nome for curso in cursos">
 						<option value="" disabled selected>Selecione o curso</option>
-						<option value="1">Option 1</option>
-						<option value="2">Option 2</option>
-						<option value="3">Option 3</option>
 					</select>
 				</div>
 			</div>
-		</form>
-	</div>
-	<div class="modal-footer">
-		<a ng-click="removerRefeicao(refeicaoSelecionada)" 
-		   class="modal-action modal-close waves-effect waves-green btn-flat green-text text-darken-4">
-			Confirmar
-		</a>
-		<a class="modal-action modal-close waves-effect waves-red btn-flat red-text text-darken-4">Cancelar</a>
-	</div>
+		</div>
+		<div class="modal-footer">
+			<button type="submit" 
+				class="modal-action modal-close waves-effect waves-green btn-flat green-text text-darken-4">
+				Confirmar
+			</button>
+			<a class="modal-action modal-close waves-effect waves-red btn-flat red-text text-darken-4">Cancelar</a>
+		</div>
+	</form>
 </div>

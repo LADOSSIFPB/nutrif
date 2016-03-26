@@ -8,14 +8,14 @@
 					<div class="center-align">
 
 						<h3 class="condensed light">Entrar</h3>
-
+						{{funcionario}}
 						<form name="loginForm" method="post" ng-submit=fazerLogin(funcionario)>
 
 							<div class="row">
 								<div class="input-field col s10 offset-s1">
 
 									<i class="material-icons prefix">account_circle</i>
-									<input id="intput-nome" type="text" name="nome" ng-model="funcionario.nome" ng-required="true"/>
+									<input id="intput-nome" type="text" name="nome" ng-model="funcionario.email" ng-required="true"/>
 									<label for="intput-nome">Nome de usuário</label>
 
 								</div>

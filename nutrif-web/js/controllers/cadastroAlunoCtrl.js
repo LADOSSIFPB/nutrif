@@ -60,9 +60,28 @@ angular.module("NutrifApp").controller("alunoCtrl", function ($scope, $statePara
 
    }
 
-   $scope.modalCadastroAluno = function (aluno) {
+   $scope.modalCadastroAluno = function () {
       $('#cadastrar-aluno-form').openModal();
    };
+
+   $scope.cadastrarAluno = function (newAluno) {
+      
+      $('#cadastrar-aluno-form').closeModal();
+      
+      alunoService.cadastrarAluno(newAluno).success(function (data, status) {
+        $state.go("cadastro-aluno", {"matricula": data.matricula});
+      }).error(function (data, status) {
+        if (!data) {
+
+            Materialize.toast("Erro ao cadastrar o aluno, tente novamente ou contate os administradores.", 6000);
+
+         } else {
+
+            Materialize.toast(data.mensagem, 6000);
+
+         }
+      });
+   }
 
    $scope.modalRemoverRefeicao = function (refeicao) {
       $scope.refeicaoSelecionada = refeicao;
@@ -192,7 +211,6 @@ angular.module("NutrifApp").controller("alunoCtrl", function ($scope, $statePara
        alunoService.buscaAlunoPorMatricula($stateParams.matricula).success(function (data, status) {
 
           $scope.aluno = data;
-          carregarCursos();
           carregarTiposRefeicoes();
           carregarDias();
           carregarDiaRefeicaoAluno($stateParams.matricula);
@@ -208,5 +226,7 @@ angular.module("NutrifApp").controller("alunoCtrl", function ($scope, $statePara
 
        });
    }
+
+   carregarCursos();
 
 });
