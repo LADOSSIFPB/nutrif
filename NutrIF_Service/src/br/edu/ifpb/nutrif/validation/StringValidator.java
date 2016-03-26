@@ -3,6 +3,8 @@ package br.edu.ifpb.nutrif.validation;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import br.edu.ifpb.nutrif.util.StringUtil;
+
 public class StringValidator implements NutrIFValidator {
 
 	private Pattern pattern;
@@ -29,12 +31,15 @@ public class StringValidator implements NutrIFValidator {
 	@Override
 	public boolean validate(final String value) {
 		
-		if (value == null || value.trim().equals(""))
-			return false;
+		boolean isValidete = false;
 		
-		matcher = pattern.matcher(value.trim());
+		if (value != null || value.trim().equals(StringUtil.STRING_VAZIO)) {
 		
-		return matcher.matches();
+			matcher = pattern.matcher(value.trim());
+			isValidete = matcher.matches();
+		}
+		
+		return isValidete;
 	}
 	
 	public boolean validateSomenteLetras(final String value) {
