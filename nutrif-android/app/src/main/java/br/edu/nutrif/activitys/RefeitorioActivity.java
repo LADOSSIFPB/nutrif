@@ -11,6 +11,8 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.WriterException;
@@ -36,12 +38,14 @@ public class RefeitorioActivity extends AppCompatActivity implements CallbackBut
     @Bind(R.id.loadinglayout)
     LinearLayout loadLayout;
 
+    @Bind(R.id.content)
+    RelativeLayout content;
+
     @Bind(R.id.recycle)
     RecyclerView recycle;
 
     @Bind(R.id.codelayout)
     LinearLayout codelayout;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +56,7 @@ public class RefeitorioActivity extends AppCompatActivity implements CallbackBut
         DiaRefeicaoController.gerarHorario(this, new Replyable<List<DiaRefeicao>>() {
             @Override
             public void onSuccess(List<DiaRefeicao> diaRefeicaos) {
-                RefeitorioActivity.this.montaTabela(diaRefeicaos);
+                montaTabela(diaRefeicaos);
             }
 
             @Override
@@ -63,7 +67,7 @@ public class RefeitorioActivity extends AppCompatActivity implements CallbackBut
             @Override
             public void failCommunication(Throwable throwable) {
                 AndroidUtil.showSnackbar(RefeitorioActivity.this, R.string.impossivelcarregar);
-                loadLayout.setVisibility(View.GONE);
+                montaTabela(DiaRefeicaoController.refeicoes);
             }
         });
     }
@@ -74,11 +78,16 @@ public class RefeitorioActivity extends AppCompatActivity implements CallbackBut
         gridLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recycle.setLayoutManager(gridLayoutManager);
         recycle.setAdapter(new HorarioAdapter(this, refeicoes, this));
+        if (recycle.getAdapter().getItemCount() == 0) {
+            TextView textView = new TextView(this);
+            textView.setText(R.string.nodays);
+            content.addView(textView);
+        }
 
     }
 
     @Override
-    public void onClickCallback(View view, int position) {
+    public void onClickCallback(View view, final int position) {
         PetensaoRefeicaoController.pedirRefeicao(this, position, new Replyable<PretensaoRefeicao>() {
             @Override
             public void onSuccess(PretensaoRefeicao pretencaoRefeicao) {
@@ -87,12 +96,20 @@ public class RefeitorioActivity extends AppCompatActivity implements CallbackBut
 
             @Override
             public void onFailure(Erro erro) {
-                AndroidUtil.showSnackbar(RefeitorioActivity.this, R.string.undefinedError);
+                AndroidUtil.showSnackbar(RefeitorioActivity.this, erro.getMensagem());
+                String msg = DiaRefeicaoController.refeicoes.get(position).getCodigo();
+                if (msg != null) {
+                    gerandoQrcode(msg);
+                }
             }
 
             @Override
             public void failCommunication(Throwable throwable) {
                 AndroidUtil.showSnackbar(RefeitorioActivity.this, R.string.erroconexao);
+                String msg = DiaRefeicaoController.refeicoes.get(position).getCodigo();
+                if (msg != null) {
+                    gerandoQrcode(msg);
+                }
             }
         });
     }
@@ -117,8 +134,7 @@ public class RefeitorioActivity extends AppCompatActivity implements CallbackBut
             Bitmap bitmap = qrCodeEncoder.encodeAsBitmap();
             ImageView myImage = (ImageView) findViewById(R.id.code);
             myImage.setImageBitmap(bitmap);
-            codelayout.setVisibility(View.VISIBLE);
-            recycle.setVisibility(View.GONE);
+            alteraView(null);
 
         } catch (WriterException e) {
             AndroidUtil.showSnackbar(this, R.string.errocode);
@@ -126,8 +142,8 @@ public class RefeitorioActivity extends AppCompatActivity implements CallbackBut
 
     }
 
-    public void voltarCodigo(View view) {
-        codelayout.setVisibility(View.GONE);
-        recycle.setVisibility(View.VISIBLE);
+    public void alteraView(View view) {
+        codelayout.setVisibility(codelayout.getVisibility() == View.GONE ? View.VISIBLE : View.GONE);
+        content.setVisibility(content.getVisibility() == View.GONE?  View.VISIBLE : View.GONE);
     }
 }

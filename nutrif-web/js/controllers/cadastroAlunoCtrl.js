@@ -60,8 +60,18 @@ angular.module("NutrifApp").controller("alunoCtrl", function ($scope, $statePara
 
    }
 
+   $scope.modalCadastroAluno = function (aluno) {
+      $('#cadastrar-aluno-form').openModal();
+   };
+
+   $scope.modalRemoverRefeicao = function (refeicao) {
+      $scope.refeicaoSelecionada = refeicao;
+      $('#confirmar-remocao-refeicao').openModal();
+   };
+
    $scope.removerRefeicao = function (refeicao) {
       
+      $('#confirmar-remocao-refeicao').closeModal();
       delete refeicao.refeicao.horaInicio;
       delete refeicao.refeicao.horaFinal;
 

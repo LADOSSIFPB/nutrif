@@ -29,6 +29,7 @@ public class AlunoController {
                 if (response.isSuccess()) {
                     aluno.setNome(response.body().getNome());
                     aluno.setMatricula(response.body().getMatricula());
+                    aluno.setEmail(response.body().getEmail());
                     AlunoDAO.getInstance(context).insertAluno(aluno);
                     PreferencesUtils.setAccessKeyOnSharedPreferences(context, response.body().getKeyAuth());
                     ui.onSuccess(aluno);
@@ -75,7 +76,7 @@ public class AlunoController {
 
                     aluno.setNome(response.body().getNome());
                     aluno.setMatricula(response.body().getMatricula());
-                    AlunoDAO.getInstance(context).insertAluno(aluno);
+                    aluno.setEmail(response.body().getEmail());
                     PreferencesUtils.setAccessKeyOnSharedPreferences(context, response.body().getKeyAuth());
                     ui.onSuccess(aluno);
                 } else {

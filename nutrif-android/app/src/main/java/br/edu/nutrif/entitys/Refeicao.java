@@ -11,6 +11,10 @@ public class Refeicao {
 		this.id = id;
 	}
 
+	public Refeicao(){
+
+	}
+
 	public Integer getId() {
 		return id;
 	}

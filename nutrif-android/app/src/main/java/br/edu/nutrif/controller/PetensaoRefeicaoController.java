@@ -5,6 +5,7 @@ import android.content.Context;
 import java.util.List;
 
 import br.edu.nutrif.database.dao.AlunoDAO;
+import br.edu.nutrif.database.dao.DiaRefeicaoDAO;
 import br.edu.nutrif.entitys.Aluno;
 import br.edu.nutrif.entitys.Dia;
 import br.edu.nutrif.entitys.DiaRefeicao;
@@ -21,17 +22,17 @@ import retrofit.Retrofit;
 /**
  * Created by juan on 21/03/16.
  */
-public class PetensaoRefeicaoController{
+public class PetensaoRefeicaoController {
 
     public static void pedirRefeicao(final Context context, int position, final Replyable<PretensaoRefeicao> ui) {
-        DiaRefeicao refeicao = DiaRefeicaoController.refeicoes.get(position);
+
+        final DiaRefeicao refeicao = DiaRefeicaoController.refeicoes.get(position);
+
         String matricula = AlunoDAO.getInstance(context).find().getMatricula();
 
         PretensaoRefeicao pretencao = new PretensaoRefeicao();
 
-        pretencao.getConfirmaPretensaoDia().getDiaRefeicao().setAluno(new Aluno(matricula, null, null));
-        pretencao.getConfirmaPretensaoDia().getDiaRefeicao().setDia(new Dia(refeicao.getDia().getId(), null));
-        pretencao.getConfirmaPretensaoDia().getDiaRefeicao().setRefeicao(new Refeicao(refeicao.getRefeicao().getId()));
+        pretencao.getConfirmaPretensaoDia().getDiaRefeicao().setId(refeicao.getDia().getId());
 
         Call<PretensaoRefeicao> call = ConnectionServer
                 .getInstance()
@@ -41,6 +42,8 @@ public class PetensaoRefeicaoController{
             @Override
             public void onResponse(Response<PretensaoRefeicao> response, Retrofit retrofit) {
                 if (response.isSuccess()) {
+                    refeicao.setCodigo(response.body().getKeyAccess());
+                    DiaRefeicaoDAO.getInstance(context).update(refeicao);
                     ui.onSuccess(response.body());
                 } else {
                     ui.onFailure(ErrorUtils.parseError(response, retrofit, context));
@@ -54,5 +57,6 @@ public class PetensaoRefeicaoController{
         });
 
     }
+
 
 }
