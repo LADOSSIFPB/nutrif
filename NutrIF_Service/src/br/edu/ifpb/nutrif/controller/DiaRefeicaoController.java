@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.annotation.security.DenyAll;
 import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -170,7 +171,7 @@ public class DiaRefeicaoController {
 		return builder.build();
 	}
 	
-	@DenyAll
+	@RolesAllowed({"admin"})
 	@GET
 	@Path("/listar")
 	@Produces("application/json")
@@ -225,7 +226,7 @@ public class DiaRefeicaoController {
 	
 	/**
 	 * Buscar os dias de refeição de um Aluno através do seu Nome. Somente serão
-	 * retornados os registros que não estejam como referção realizada.
+	 * retornados os registros que não estejam como refeição realizada.
 	 *  
 	 * @param nome
 	 * @return
@@ -259,7 +260,7 @@ public class DiaRefeicaoController {
 	
 	/**
 	 * Buscar os dias de refeição de um Aluno através do sua Matrícula. 
-	 * Somente serão retornados os registros que não estejam como referção
+	 * Somente serão retornados os registros que não estejam como refeição
 	 * realizada.
 	 *   
 	 * @param matricula

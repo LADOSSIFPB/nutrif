@@ -26,6 +26,7 @@ import br.edu.ifpb.nutrif.util.StringUtil;
 import br.edu.ifpb.nutrif.validation.Validate;
 import br.edu.ladoss.entity.Error;
 import br.edu.ladoss.entity.Funcionario;
+import br.edu.ladoss.entity.FuncionarioAcesso;
 import br.edu.ladoss.entity.Role;
 
 @Path("funcionario")
@@ -117,30 +118,31 @@ public class FuncionarioController {
 	@Path("/login")
 	@Consumes("application/json")
 	@Produces("application/json")
-	public Response login(Funcionario usuario) {
+	public Response login(FuncionarioAcesso funcionarioAcesso) {
 		
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
 		builder.expires(new Date());
 		
 		// Validação dos dados de entrada.
-		int validacao = Validate.funcionario(usuario);
+		int validacao = Validate.acessoFuncionario(funcionarioAcesso);
 		
 		if (validacao == Validate.VALIDATE_OK) {
 			
 			try {
 				
 				//Login usuário.
-				usuario = FuncionarioDAO.getInstance().login(
-						usuario.getNome(), usuario.getSenha());
+				Funcionario funcionario = FuncionarioDAO.getInstance().login(
+						funcionarioAcesso.getEmail(), 
+						funcionarioAcesso.getSenha());
 				
-				if (usuario != null) {
+				if (funcionario != null) {
 
-					// Remover a senha.
-					usuario.setSenha(StringUtil.STRING_VAZIO);
+					funcionarioAcesso = FuncionarioAcesso.getInstance(
+							funcionario);
 					
 					// Operação realizada com sucesso.
 					builder.status(Response.Status.OK);
-					builder.entity(usuario);
+					builder.entity(funcionarioAcesso);
 				
 				} else {
 					

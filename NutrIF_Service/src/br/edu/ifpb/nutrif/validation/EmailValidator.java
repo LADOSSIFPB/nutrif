@@ -3,6 +3,8 @@ package br.edu.ifpb.nutrif.validation;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import br.edu.ifpb.nutrif.util.StringUtil;
+
 public class EmailValidator implements NutrIFValidator{
 
 	private Pattern pattern;
@@ -23,7 +25,14 @@ public class EmailValidator implements NutrIFValidator{
 	 * @return true valid hex, false invalid hex
 	 */
 	public boolean validate(final String email) {
-		matcher = pattern.matcher(email.trim());
-		return matcher.matches();
+		
+		boolean isEmail = false;
+		
+		if(!StringUtil.isEmptyOrNull(email)) {
+			matcher = pattern.matcher(email.trim());
+			isEmail = matcher.matches();
+		}
+		
+		return isEmail;
 	}
 }

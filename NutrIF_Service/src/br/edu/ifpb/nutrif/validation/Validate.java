@@ -11,6 +11,8 @@ import br.edu.ladoss.entity.Curso;
 import br.edu.ladoss.entity.Dia;
 import br.edu.ladoss.entity.DiaRefeicao;
 import br.edu.ladoss.entity.Funcionario;
+import br.edu.ladoss.entity.FuncionarioAcesso;
+import br.edu.ladoss.entity.Pessoa;
 import br.edu.ladoss.entity.PretensaoRefeicao;
 import br.edu.ladoss.entity.Refeicao;
 import br.edu.ladoss.entity.RefeicaoRealizada;
@@ -85,6 +87,16 @@ public class Validate {
 		return VALIDATE_OK;
 	}
 	
+	public static int acessoServicoKeyAuth(String keyAuth) {
+		
+		logger.info("Validação para Chave de Autenticação.");
+		
+		if (!stringValidator.validate(keyAuth, 64))
+			return ErrorFactory.CHAVE_AUTORIZACAO_PESSOA_INVALIDA;
+		
+		return VALIDATE_OK;
+	}
+	
 	public static int confirmacaoChaveAluno(Aluno aluno) {
 		
 		logger.info("Validação para confirmação de aluno.");
@@ -151,7 +163,7 @@ public class Validate {
 		if (pretensaoRefeicao == null 
 				|| !(pretensaoRefeicao != null && stringValidator.validate(
 						pretensaoRefeicao.getKeyAccess(), 64)))
-			return ErrorFactory.CHAVE_ACESSO_INVALIDA;
+			return ErrorFactory.CHAVE_ACESSO_PRETENSAO_INVALIDA;
 		
 		return VALIDATE_OK;
 	}
@@ -238,5 +250,18 @@ public class Validate {
 			return ErrorFactory.SENHA_USUARIO_INVALIDA;
 		
 		return VALIDATE_OK;
-	}	
+	}
+	
+	public static int acessoFuncionario(FuncionarioAcesso funcionarioAcesso) {
+		
+		logger.info("Validação para acesso de Funcionário.");
+		
+		if (!emailValidator.validate(funcionarioAcesso.getEmail()))
+			return ErrorFactory.EMAIL_USUARIO_INVALIDO;
+
+		if (!stringValidator.validate(funcionarioAcesso.getSenha(), 5, 40))
+			return ErrorFactory.SENHA_USUARIO_INVALIDA;
+		
+		return VALIDATE_OK;
+	}
 }

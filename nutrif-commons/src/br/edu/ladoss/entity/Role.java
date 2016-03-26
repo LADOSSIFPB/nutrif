@@ -46,4 +46,24 @@ public class Role {
 	public String toString() {
 		return "Role [id=" + id +", nome=" + nome + "]";
 	}
+	
+	@Override
+	public boolean equals(Object value) {
+		
+		if (value instanceof String) {
+			return this.nome.equals(value);
+		}
+		
+		if (value instanceof Role) {
+			
+			Role role = (Role) value;
+			
+			if (this.id == role.getId() 
+					&& this.nome.equals(role.getNome())) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
 }

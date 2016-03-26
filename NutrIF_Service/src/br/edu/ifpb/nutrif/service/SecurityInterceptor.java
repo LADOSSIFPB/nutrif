@@ -18,9 +18,12 @@ import javax.ws.rs.ext.Provider;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.jboss.resteasy.core.Headers;
 import org.jboss.resteasy.core.ResourceMethodInvoker;
-import org.jboss.resteasy.core.ServerResponse;
+
+import br.edu.ifpb.nutrif.dao.PessoaDAO;
+import br.edu.ifpb.nutrif.validation.Validate;
+import br.edu.ladoss.entity.Pessoa;
+import br.edu.ladoss.entity.Role;
 
 @Provider
 public class SecurityInterceptor implements ContainerRequestFilter {
@@ -29,8 +32,11 @@ public class SecurityInterceptor implements ContainerRequestFilter {
 	
 	private static final String AUTHORIZATION_PROPERTY = "Authorization";
     private static final String AUTHENTICATION_SCHEME_BASIC = "Basic";
-    private static final ServerResponse ACCESS_DENIED = new ServerResponse("Access denied for this resource", 401, new Headers<Object>());
     
+    /**
+     * Analisar níveis de acesso aos serviços baseado nas permissões dos
+     * usuários.
+     */
 	@Override
 	public void filter(ContainerRequestContext requestContext)
 			throws IOException {
@@ -75,30 +81,46 @@ public class SecurityInterceptor implements ContainerRequestFilter {
                 		rolesAnnotation.value()));
                  
                 //Is user valid?
-                /*if( ! isUserAllowed(keyAuth, rolesSet))
-                {
-                    requestContext.abortWith(ACCESS_DENIED);
+                if(!isUserAllowed(keyAuth, rolesSet)) {
+                    
+                	requestContext.abortWith(Response.status(
+    						Response.Status.UNAUTHORIZED).build());
                     return;
-                }*/
+                }
 			}            
         }		
 	}
 	
+	/**
+	 * Verificar se o usuário autenticado possui permissão de acesso ao serviço.
+	 * 
+	 * @param keyAuth
+	 * @param rolesSet
+	 * @return
+	 */
 	private boolean isUserAllowed(final String keyAuth, final Set<String> rolesSet) {
+		
 		boolean isAllowed = false;
-
-		// Step 1. Fetch password from database and match with password in
-		// argument
-		// If both match then get the defined role for user from database and
-		// continue; else return isAllowed [false]
-		// Access the database and do this part yourself
-		// String userRole = userMgr.getUserRole(username);
-		String userRole = "ADMIN";
-
-		// Step 2. Verify user role
-		if (rolesSet.contains(userRole)) {
-			isAllowed = true;
+		
+		int validacao = Validate.acessoServicoKeyAuth(keyAuth);
+		
+		if (validacao == Validate.VALIDATE_OK) {
+			Pessoa pessoa = PessoaDAO.getInstance().getByKeyAuth(keyAuth);
+			
+			if (pessoa != null) {
+				
+				List<Role> rolesPessoa = pessoa.getRoles();
+				
+				for (Role rolePessoa: rolesPessoa) {
+					
+					isAllowed = rolesSet.contains(rolePessoa.getNome());
+					
+					if (isAllowed)
+						break;
+				}				
+			}			
 		}
+		
 		return isAllowed;
 	}
 }

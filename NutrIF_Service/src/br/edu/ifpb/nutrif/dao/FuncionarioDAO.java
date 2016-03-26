@@ -13,8 +13,6 @@ import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
 import br.edu.ifpb.nutrif.hibernate.HibernateUtil;
 import br.edu.ifpb.nutrif.util.BancoUtil;
 import br.edu.ifpb.nutrif.util.StringUtil;
-import br.edu.ladoss.entity.Aluno;
-import br.edu.ladoss.entity.DiaRefeicao;
 import br.edu.ladoss.entity.Funcionario;
 
 public class FuncionarioDAO extends GenericDao<Integer, Funcionario> {
@@ -28,7 +26,15 @@ public class FuncionarioDAO extends GenericDao<Integer, Funcionario> {
 		return instance;
 	}
 
-	public Funcionario login(String nome, String senhaPlana) 
+	/**
+	 * Login do Funcionário através do e-mail e senha.
+	 * 
+	 * @param email
+	 * @param senhaPlana
+	 * @return funcionario
+	 * @throws UnsupportedEncodingException
+	 */
+	public Funcionario login(String email, String senhaPlana) 
 			throws UnsupportedEncodingException {
 		
 		Session session = HibernateUtil.getSessionFactory().openSession();
@@ -40,14 +46,14 @@ public class FuncionarioDAO extends GenericDao<Integer, Funcionario> {
 			String senhaCriptografada = StringUtil.criptografarBase64(senhaPlana);
 			
 			String hql = "from Funcionario as f"
-					+ " where f.nome = :nome"
+					+ " where f.email = :email"
 					+ " and f.senha = :senha"
 					+ " and f.ativo = :ativo";
 			
 			Query query = session.createQuery(hql);			
-			query.setParameter("nome", nome);
+			query.setParameter("email", email);
 			query.setParameter("senha", senhaCriptografada);
-			query.setParameter("ativo", true);
+			query.setParameter("ativo", BancoUtil.ATIVO);
 			
 			funcionario = (Funcionario) query.uniqueResult();
 	        

@@ -2,7 +2,7 @@ package br.edu.ladoss.entity;
 
 import javax.xml.bind.annotation.XmlElement;
 
-public class PessoaAcesso extends Pessoa {
+public class AlunoAcesso extends Pessoa {
 
 	private static final long serialVersionUID = 8011399615861874456L;
 
