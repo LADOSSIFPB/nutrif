@@ -26,7 +26,6 @@ import br.edu.ifpb.nutrif.util.StringUtil;
 import br.edu.ifpb.nutrif.validation.Validate;
 import br.edu.ladoss.entity.Error;
 import br.edu.ladoss.entity.Funcionario;
-import br.edu.ladoss.entity.FuncionarioAcesso;
 import br.edu.ladoss.entity.Role;
 
 @Path("funcionario")
@@ -97,64 +96,6 @@ public class FuncionarioController {
 						exception.getError());
 				
 			} catch (UnsupportedEncodingException | NoSuchAlgorithmException 
-					exception) {
-
-				builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
-						ErrorFactory.getErrorFromIndex(
-								ErrorFactory.IMPOSSIVEL_CRIPTOGRAFAR_VALOR));			
-			}
-			
-		} else {
-			
-			Error erro = ErrorFactory.getErrorFromIndex(validacao);
-			builder.status(Response.Status.NOT_ACCEPTABLE).entity(erro);
-		}
-		
-		return builder.build();		
-	}
-	
-	@PermitAll
-	@POST
-	@Path("/login")
-	@Consumes("application/json")
-	@Produces("application/json")
-	public Response login(FuncionarioAcesso funcionarioAcesso) {
-		
-		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
-		builder.expires(new Date());
-		
-		// Validação dos dados de entrada.
-		int validacao = Validate.acessoFuncionario(funcionarioAcesso);
-		
-		if (validacao == Validate.VALIDATE_OK) {
-			
-			try {
-				
-				//Login usuário.
-				Funcionario funcionario = FuncionarioDAO.getInstance().login(
-						funcionarioAcesso.getEmail(), 
-						funcionarioAcesso.getSenha());
-				
-				if (funcionario != null) {
-
-					funcionarioAcesso = FuncionarioAcesso.getInstance(
-							funcionario);
-					
-					// Operação realizada com sucesso.
-					builder.status(Response.Status.OK);
-					builder.entity(funcionarioAcesso);
-				
-				} else {
-					
-					builder.status(Response.Status.UNAUTHORIZED);
-				}
-			
-			} catch (SQLExceptionNutrIF exception) {
-
-				builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
-						exception.getError());
-				
-			} catch (UnsupportedEncodingException 
 					exception) {
 
 				builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(

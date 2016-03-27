@@ -21,15 +21,15 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class PretensaoRefeicao {
 
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id_pretensao_refeicao", unique = true) // columnDefinition = "INT(10) UNSIGNED AUTO_INCREMENT"
+	@Column(name = "id_pretensao_refeicao", unique = true) //TODO: columnDefinition = "INT(10) UNSIGNED AUTO_INCREMENT"
 	private Integer id;
 	
 	@EmbeddedId	  
 	private ConfirmaPretensaoDia confirmaPretensaoDia;
 	
-	@Temporal(TemporalType.TIME)
-	@Column(name = "hr_pretensao", insertable = true, updatable = false)
-	private Date horaPretensao;
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "dt_solicitacao", insertable = true, updatable = false)
+	private Date dataSolicitacao;
 
 	@Column(name = "nm_keyaccess", unique = true)
 	private String keyAccess;	
@@ -53,12 +53,12 @@ public class PretensaoRefeicao {
 	}
 
 	@XmlElement
-	public Date getHoraPretensao() {
-		return horaPretensao;
+	public Date getDataSolicitacao() {
+		return dataSolicitacao;
 	}
 
-	public void setHoraPretensao(Date horaPretensao) {
-		this.horaPretensao = horaPretensao;
+	public void setDataSolicitacao(Date dataSolicitacao) {
+		this.dataSolicitacao = dataSolicitacao;
 	}
 
 	@XmlElement
@@ -74,6 +74,6 @@ public class PretensaoRefeicao {
 	public String toString() {
 		// TODO Auto-generated method stub
 		return "PretencaoRefeicao[id=" + id + ", ConfirmaPretensaoDia=" + confirmaPretensaoDia 
-				+ ", dataHoraPretencao=" + horaPretensao + "]";
+				+ ", dataSolicitacao=" + dataSolicitacao + "]";
 	}
 }

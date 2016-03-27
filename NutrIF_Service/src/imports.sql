@@ -15,9 +15,9 @@ insert into tb_dia(id_dia, nm_dia) values (5, "Quinta-feira");
 insert into tb_dia(id_dia, nm_dia) values (6, "Sexta-feira");
 insert into tb_dia(id_dia, nm_dia) values (7, "Sábado");
 
-INSERT INTO tb_refeicao (id_refeicao, nm_tipo_refeicao, hr_fim, hr_inicio) VALUES
-(1, 'Almoço', '14:00:00', '11:00:00'),
-(2, 'Jantar', '19:00:00', '17:00:00');
+INSERT INTO tb_refeicao (id_refeicao, nm_tipo_refeicao, hr_fim, hr_inicio, hr_pretensao) VALUES
+(1, 'Almoço', '14:30:00', '10:30:00', '7:00:00'),
+(2, 'Jantar', '19:30:00', '17:00:00', '7:00:00');
 
 INSERT INTO tb_curso(id_curso, nm_curso) VALUES('1', 'Superior em Telemática');
 INSERT INTO tb_curso(id_curso, nm_curso) VALUES('2', 'Integrado em Mineração');

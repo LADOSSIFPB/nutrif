@@ -11,8 +11,7 @@ import br.edu.ladoss.entity.Curso;
 import br.edu.ladoss.entity.Dia;
 import br.edu.ladoss.entity.DiaRefeicao;
 import br.edu.ladoss.entity.Funcionario;
-import br.edu.ladoss.entity.FuncionarioAcesso;
-import br.edu.ladoss.entity.Pessoa;
+import br.edu.ladoss.entity.PessoaAcesso;
 import br.edu.ladoss.entity.PretensaoRefeicao;
 import br.edu.ladoss.entity.Refeicao;
 import br.edu.ladoss.entity.RefeicaoRealizada;
@@ -55,30 +54,6 @@ public class Validate {
 			return ErrorFactory.MATRICULA_ALUNO_INVALIDA;
 		
 		if (!emailValidator.validate(aluno.getEmail()))
-			return ErrorFactory.EMAIL_USUARIO_INVALIDO;
-
-		if (!stringValidator.validate(aluno.getSenha(), 5, 40))
-			return ErrorFactory.SENHA_USUARIO_INVALIDA;
-		
-		return VALIDATE_OK;
-	}
-	
-	public static int loginAluno(Aluno aluno) {
-		
-		logger.info("Validação para acesso de Aluno.");
-		String matricula = aluno.getMatricula();
-		String email = aluno.getEmail();		
-		
-		if (matricula == null && email == null) {
-			return ErrorFactory.NOME_MATRICULA_ALUNO_INVALIDOS;
-		}		
-		
-		if (matricula != null 
-				&& !stringValidator.validate(aluno.getMatricula(), 11))
-			return ErrorFactory.MATRICULA_ALUNO_INVALIDA;
-		
-		if (email != null 
-				&& !emailValidator.validate(aluno.getEmail()))
 			return ErrorFactory.EMAIL_USUARIO_INVALIDO;
 
 		if (!stringValidator.validate(aluno.getSenha(), 5, 40))
@@ -252,14 +227,14 @@ public class Validate {
 		return VALIDATE_OK;
 	}
 	
-	public static int acessoFuncionario(FuncionarioAcesso funcionarioAcesso) {
+	public static int acessoPessoa(PessoaAcesso pessoaAcesso) {
 		
 		logger.info("Validação para acesso de Funcionário.");
 		
-		if (!emailValidator.validate(funcionarioAcesso.getEmail()))
+		if (!emailValidator.validate(pessoaAcesso.getEmail()))
 			return ErrorFactory.EMAIL_USUARIO_INVALIDO;
 
-		if (!stringValidator.validate(funcionarioAcesso.getSenha(), 5, 40))
+		if (!stringValidator.validate(pessoaAcesso.getSenha(), 5, 40))
 			return ErrorFactory.SENHA_USUARIO_INVALIDA;
 		
 		return VALIDATE_OK;

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.annotation.security.DenyAll;
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.Consumes;
@@ -235,7 +234,7 @@ public class DiaRefeicaoController {
 	@GET
 	@Path("/buscar/refeicaorealizada/aluno/nome/{nome}")
 	@Produces("application/json")
-	public Response getDiaRefeicaoByAlunoNome(
+	public Response getDiaRefeicaoRealizacaoByAlunoNome(
 			@PathParam("nome") String nome) {
 		
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
@@ -270,7 +269,7 @@ public class DiaRefeicaoController {
 	@GET
 	@Path("/buscar/refeicaorealizada/aluno/matricula/{matricula}")
 	@Produces("application/json")
-	public Response getDiaRefeicaoByAlunoMatricula(
+	public Response getDiaRefeicaoRealizacaoByAlunoMatricula(
 			@PathParam("matricula") String matricula) {
 		
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);

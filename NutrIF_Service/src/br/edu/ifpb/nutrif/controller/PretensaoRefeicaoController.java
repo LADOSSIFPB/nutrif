@@ -17,12 +17,15 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
+import org.joda.time.Period;
+
 import br.edu.ifpb.nutrif.dao.DiaRefeicaoDAO;
 import br.edu.ifpb.nutrif.dao.PretensaoRefeicaoDAO;
 import br.edu.ifpb.nutrif.dao.RefeicaoRealizadaDAO;
 import br.edu.ifpb.nutrif.exception.ErrorFactory;
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
 import br.edu.ifpb.nutrif.util.BancoUtil;
+import br.edu.ifpb.nutrif.util.DateUtil;
 import br.edu.ifpb.nutrif.util.StringUtil;
 import br.edu.ifpb.nutrif.validation.Validate;
 import br.edu.ladoss.entity.ConfirmaPretensaoDia;
@@ -30,6 +33,7 @@ import br.edu.ladoss.entity.ConfirmaRefeicaoDia;
 import br.edu.ladoss.entity.DiaRefeicao;
 import br.edu.ladoss.entity.Error;
 import br.edu.ladoss.entity.PretensaoRefeicao;
+import br.edu.ladoss.entity.Refeicao;
 import br.edu.ladoss.entity.RefeicaoRealizada;
 
 @Path("pretensaorefeicao")
@@ -59,7 +63,7 @@ public class PretensaoRefeicaoController {
 				DiaRefeicao diaRefeicao = DiaRefeicaoDAO.getInstance()
 						.getById(confirmaPretensaoDia.getDiaRefeicao().getId());
 				
-				if (diaRefeicao != null) {
+				if (diaRefeicao != null) {					
 					
 					// Atribuindo dia da refeição com dados completos.
 					confirmaPretensaoDia.setDiaRefeicao(diaRefeicao);
@@ -98,6 +102,100 @@ public class PretensaoRefeicaoController {
 				builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
 						ErrorFactory.getErrorFromIndex(
 								ErrorFactory.IMPOSSIVEL_CRIPTOGRAFAR_VALOR));			
+			}
+			
+		} else {
+			
+			Error erro = ErrorFactory.getErrorFromIndex(validacao);
+			builder.status(Response.Status.NOT_ACCEPTABLE).entity(erro);
+		}
+		
+		return builder.build();		
+	}
+	
+	/**
+	 * - Data da refeição baseado no dia.
+	 * - Analisar a diferença de tempo entre a data da solicitação e data da 
+	 * refeição menor ou igual a 24h.
+	 * 
+	 * @param pretensaoRefeicao
+	 * @return
+	 */
+	@PermitAll
+	@POST
+	@Path("/teste")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public Response teste(PretensaoRefeicao pretensaoRefeicao) {
+		
+		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
+		builder.expires(new Date());
+		
+		// Validação dos dados de entrada.
+		int validacao = Validate.pretensaoRefeicao(pretensaoRefeicao);
+		
+		if (validacao == Validate.VALIDATE_OK) {
+			
+			try {			
+				
+				ConfirmaPretensaoDia confirmaPretensaoDia = 
+						pretensaoRefeicao.getConfirmaPretensaoDia();
+				
+				// Verifica dia da refeição.
+				DiaRefeicao diaRefeicao = DiaRefeicaoDAO.getInstance()
+						.getById(confirmaPretensaoDia.getDiaRefeicao().getId());
+				
+				if (diaRefeicao != null) {
+					
+					// Verificar se solicitação está sendo lançada dentro do prazo
+					
+					// Extrair da Refeição a hora máxima para solicitação da pretensão.
+					Refeicao refeicao = diaRefeicao.getRefeicao();
+					
+					// Dia da semana para lançar a pretensão.
+					int diaPretensao = diaRefeicao.getDia().getId();
+					
+					// Dia da semana que da solicitação para a pretensão.
+					int diaSolicitacao = DateUtil.getCurrentDayOfWeek().getId();
+					
+					// Diferença de dias entre solicitação e pretensão.
+					int diferenca = diaPretensao - diaSolicitacao;
+					if (diaPretensao == diaSolicitacao) {
+						diferenca = 7;
+					}
+					
+					Date dataSolicitacao = new Date();
+					
+					// Data da pretensão.
+					Date dataPretensao = DateUtil.addDays(dataSolicitacao, 
+							diferenca);
+					dataPretensao = DateUtil.setTimeInDate(
+							dataPretensao, refeicao.getHoraPretensao());
+					
+					// Verificações de período de solicitação da pretensão.
+					Period period = DateUtil.getPeriodBetweenDate(dataSolicitacao, 
+							dataPretensao);					
+					System.out.println("Dias: " +period.getDays() 
+						+ ", Horas: " + period.getHours() 
+						+ ", Minutos:" + period.getMinutes());
+					
+					int minutes = DateUtil.getMinutesBetweenDate(dataSolicitacao, 
+							dataPretensao);
+					
+					System.out.println("Minutos:" + minutes);
+					
+				} else {
+					
+					builder.status(Response.Status.NOT_FOUND).entity(
+							ErrorFactory.getErrorFromIndex(
+									ErrorFactory.ID_DIA_REFEICAO_INVALIDO));
+				}
+			
+			} catch (SQLExceptionNutrIF exception) {
+
+				builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
+						exception.getError());			
+			
 			}
 			
 		} else {

@@ -37,6 +37,10 @@ public class Refeicao implements DataEntity {
 	@Column(name = "hr_fim")
 	@Temporal(TemporalType.TIME)
 	private Date horaFinal;
+	
+	@Column(name = "hr_pretensao")
+	@Temporal(TemporalType.TIME)
+	private Date horaPretensao;
 
 	public Refeicao() {
 		super();
@@ -60,6 +64,7 @@ public class Refeicao implements DataEntity {
 		this.tipo = tipo;
 	}
 
+	@XmlElement
 	public Date getHoraInicio() {
 		return horaInicio;
 	}
@@ -68,6 +73,7 @@ public class Refeicao implements DataEntity {
 		this.horaInicio = horaInicio;
 	}
 
+	@XmlElement
 	public Date getHoraFinal() {
 		return horaFinal;
 	}
@@ -76,9 +82,19 @@ public class Refeicao implements DataEntity {
 		this.horaFinal = horaFinal;
 	}
 	
+	@XmlElement
+	public Date getHoraPretensao() {
+		return horaPretensao;
+	}
+
+	public void setHoraPretensao(Date horaPretensao) {
+		this.horaPretensao = horaPretensao;
+	}
+	
 	@Override
 	public String toString() {
 		return "Refeicao [id=" + id + ", tipo=" + tipo + ", horaInicio=" 
-				+ horaInicio + ", horaFim=" + horaFinal + "]";
+				+ horaInicio + ", horaFim=" + horaFinal + ", horaPretensao="
+				+ horaPretensao +"]";
 	}
 }

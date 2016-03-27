@@ -11,47 +11,54 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
-import br.edu.ifpb.nutrif.dao.FuncionarioDAO;
+import br.edu.ifpb.nutrif.dao.PessoaDAO;
 import br.edu.ifpb.nutrif.exception.ErrorFactory;
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
 import br.edu.ifpb.nutrif.validation.Validate;
 import br.edu.ladoss.entity.Error;
-import br.edu.ladoss.entity.Funcionario;
-import br.edu.ladoss.entity.FuncionarioAcesso;
+import br.edu.ladoss.entity.Pessoa;
+import br.edu.ladoss.entity.PessoaAcesso;
 
 @Path("pessoa")
 public class PessoaController {
 	
+	/**
+	 * Login para Pessoa. Retorna a chave de autenticação caso o usuário esteja
+	 * com o e-mail e senha corretos.
+	 * 
+	 * @param pessoaAcesso
+	 * @return
+	 */
 	@PermitAll
 	@POST
 	@Path("/login")
 	@Consumes("application/json")
 	@Produces("application/json")
-	public Response login(FuncionarioAcesso funcionarioAcesso) {
+	public Response login(PessoaAcesso pessoaAcesso) {
 		
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
 		builder.expires(new Date());
 		
 		// Validação dos dados de entrada.
-		int validacao = Validate.acessoFuncionario(funcionarioAcesso);
+		int validacao = Validate.acessoPessoa(pessoaAcesso);
 		
 		if (validacao == Validate.VALIDATE_OK) {
 			
 			try {
 				
-				//Login usuário.
-				Funcionario funcionario = FuncionarioDAO.getInstance().login(
-						funcionarioAcesso.getEmail(), 
-						funcionarioAcesso.getSenha());
+				//Login Pessoa.
+				Pessoa pessoa = PessoaDAO.getInstance().login(
+						pessoaAcesso.getEmail(), 
+						pessoaAcesso.getSenha());
 				
-				if (funcionario != null) {
+				if (pessoa != null) {
 
-					funcionarioAcesso = FuncionarioAcesso.getInstance(
-							funcionario);
+					pessoaAcesso = PessoaAcesso.getInstance(
+							pessoa);
 					
 					// Operação realizada com sucesso.
 					builder.status(Response.Status.OK);
-					builder.entity(funcionarioAcesso);
+					builder.entity(pessoaAcesso);
 				
 				} else {
 					
