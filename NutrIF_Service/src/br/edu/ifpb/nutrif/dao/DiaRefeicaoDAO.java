@@ -29,9 +29,9 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 		return instance;
 	}
 
-	public List<DiaRefeicao> getDiaRefeicaoRealizacaoByAlunoNome(String nome) {
+	public List<DiaRefeicao> getDiaRefeicaoRealizadaByAlunoNome(String nome) {
 		
-		logger.info("Buscar Dia de Refeição nome: " + nome);
+		logger.info("Buscar Dia de Refeição por Nome: " + nome);
 		
 		Session session = HibernateUtil.getSessionFactory().openSession();
 
@@ -78,8 +78,10 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 		return diasRefeicao;		
 	}
 	
-	public List<DiaRefeicao> getDiaRefeicaoRealizacaoByAlunoMatricula(
+	public List<DiaRefeicao> getDiaRefeicaoRealizadaByAlunoMatricula(
 			String matricula) {
+		
+		logger.info("Buscar Dia de Refeição por Matrícula: " + matricula);
 		
 		Session session = HibernateUtil.getSessionFactory().openSession();
 

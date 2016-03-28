@@ -243,7 +243,7 @@ public class DiaRefeicaoController {
 		try {
 
 			List<DiaRefeicao> diasRefeicao = DiaRefeicaoDAO
-					.getInstance().getDiaRefeicaoRealizacaoByAlunoNome(nome);
+					.getInstance().getDiaRefeicaoRealizadaByAlunoNome(nome);
 			
 			builder.status(Response.Status.OK);
 			builder.entity(diasRefeicao);
@@ -278,7 +278,7 @@ public class DiaRefeicaoController {
 		try {
 
 			List<DiaRefeicao> diasRefeicao = DiaRefeicaoDAO
-					.getInstance().getDiaRefeicaoRealizacaoByAlunoMatricula(
+					.getInstance().getDiaRefeicaoRealizadaByAlunoMatricula(
 							matricula);
 			
 			builder.status(Response.Status.OK);
