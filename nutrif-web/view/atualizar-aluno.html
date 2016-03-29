@@ -19,23 +19,22 @@
 
 <div class="section" ng-if="aluno">
 
-    <table class="centered bordered">
-        <thead>
-            <tr>
-                <th data-field="nome">Nome Completo</th>
-                <th data-field="matricula">Matrícula</th>
-                <th data-field="curso">Curso</th>
-            </tr>
-        </thead>
-
-        <tbody>
-            <tr>
-                <td>{{aluno.nome | uppercase}}</td>
-                <td>{{aluno.matricula}}</td>
-                <td>{{aluno.curso.nome | uppercase}}</td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="row">
+        <div class="input-field col s12">
+            <input id="nome" type="text" ng-required="true" ng-model="aluno.nome">
+            <label class="active" for="nome">Nome completo</label>
+        </div>
+        <div class="input-field col s6">
+            <input id='matricula' type="text" ng-required="true" ng-model="aluno.matricula">
+            <label class="active" for="matricula">Matrícula</label>
+        </div>
+        <div class="input-field col s6">
+            <select class="browser-default" ng-required="true" ng-model="aluno.curso"
+                ng-options="curso.nome for curso in cursos">
+                <option value="" ng-disabled="true">{{aluno.curso.nome}}</option>
+            </select>
+        </div>
+    </div>
 
     <div class="section row center">
         <div class="left button-width-margin">
