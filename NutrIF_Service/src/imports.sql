@@ -34,8 +34,8 @@ INSERT INTO tb_curso(id_curso, nm_curso) VALUES('12', 'Segurança do Trabalho');
 
 -- Funcionários
 INSERT INTO tb_pessoa (tp_pessoa, id_pessoa, is_ativo, nm_email, nm_keyauth, nm_pessoa, nm_senha) VALUES
-(1, 517, b'1', NULL, '244679736B782A9F06B5E1241AFB99E9C33B3FEBE8588105B0640C2FD9145F13', 'admin', 'aWZwYjIwMTU='),
-(1, 518, b'1', NULL, '8B8B90C10085E67E0537A84A286587C828F08D79738CA3230444158D37F184FB', 'caest', 'Y2Flc3RydQ==');
+(1, 517, b'1', 'admin@nutrif.com', '244679736B782A9F06B5E1241AFB99E9C33B3FEBE8588105B0640C2FD9145F13', 'admin', 'aWZwYjIwMTU='),
+(1, 518, b'1', 'caest@nutrif.com', '8B8B90C10085E67E0537A84A286587C828F08D79738CA3230444158D37F184FB', 'caest', 'Y2Flc3RydQ==');
 
 INSERT INTO tb_funcionario (id_funcionario, id_pessoa) VALUES
 (517, 517),
@@ -45,3 +45,5 @@ INSERT INTO tb_role (id_role, nm_role) VALUES
 (1, 'admin'),
 (2, 'inspetor'),
 (3, 'comensal');
+
+INSERT INTO tb_pessoa_role (fk_id_role, fk_id_pessoa) VALUES (1, 517), (2, 518);
