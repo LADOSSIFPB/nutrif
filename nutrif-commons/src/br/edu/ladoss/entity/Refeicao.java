@@ -41,6 +41,9 @@ public class Refeicao implements DataEntity {
 	@Column(name = "hr_pretensao")
 	@Temporal(TemporalType.TIME)
 	private Date horaPretensao;
+	
+	@Column(name = "nr_dia_previsto_pretensao", columnDefinition = "int default 1")
+	private int diaPrevistoPretensao;
 
 	public Refeicao() {
 		super();
@@ -91,10 +94,21 @@ public class Refeicao implements DataEntity {
 		this.horaPretensao = horaPretensao;
 	}
 	
+	@XmlElement
+	public int getDiaPrevistoPretensao() {
+		return diaPrevistoPretensao;
+	}
+
+	public void setDiaPrevistoPretensao(int diaPrevistoPretensao) {
+		this.diaPrevistoPretensao = diaPrevistoPretensao;
+	}
+	
 	@Override
 	public String toString() {
 		return "Refeicao [id=" + id + ", tipo=" + tipo + ", horaInicio=" 
 				+ horaInicio + ", horaFim=" + horaFinal + ", horaPretensao="
 				+ horaPretensao +"]";
 	}
+
+	
 }

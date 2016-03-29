@@ -19,7 +19,6 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.joda.time.Period;
 
 import br.edu.ifpb.nutrif.dao.DiaRefeicaoDAO;
 import br.edu.ifpb.nutrif.dao.PretensaoRefeicaoDAO;
@@ -164,39 +163,38 @@ public class PretensaoRefeicaoController {
 					// Diferença de dias entre solicitação e pretensão.
 					int diferenca = diaPretensao - diaSolicitacao;
 					
-					if (diaPretensao == diaSolicitacao) {
+					// Quantidade máxima de diferença entre o dia da solicitação e o pretendido.
+					if (diferenca == refeicao.getDiaPrevistoPretensao()) {	
 						
-						diferenca = 7;						
-					}
-					
-					// Data Atual
-					Date dataSolicitacao = new Date();
-					
-					// Data da pretensão.
-					Date dataPretensao = DateUtil.addDays(dataSolicitacao, 
-							diferenca);
-					dataPretensao = DateUtil.setTimeInDate(
-							dataPretensao, refeicao.getHoraPretensao());
-					
-					// Verificações de período de solicitação da pretensão.					
-					int diferencaMinutos = DateUtil.getMinutesBetweenDate(
-							dataSolicitacao, 
-							dataPretensao);
-					
-					logger.info("Diferença em minutos: " + diferencaMinutos);
-					
-					// Verificar se solicitação está sendo lançada dentro do prazo					
-					if (diferencaMinutos <= DateUtil.UM_DIA_MINUTOS) {
+						// Data Atual
+						Date dataSolicitacao = new Date();
 						
-						// Atribuição das datas de pretensão e solicitação.
-						confirmaPretensaoDia.setDataPretensao(dataPretensao);
-						pretensaoRefeicao.setConfirmaPretensaoDia(
-								confirmaPretensaoDia);
-						pretensaoRefeicao.setDataSolicitacao(dataSolicitacao);
+						// Data da pretensão.
+						Date dataPretensao = DateUtil.addDays(dataSolicitacao, 
+								diferenca);
+						dataPretensao = DateUtil.setTimeInDate(
+								dataPretensao, refeicao.getHoraPretensao());
 						
-						builder.status(Response.Status.OK).entity(
-								pretensaoRefeicao);
-					}					
+						// Verificações de período de solicitação da pretensão.					
+						int diferencaMinutos = DateUtil.getMinutesBetweenDate(
+								dataSolicitacao, 
+								dataPretensao);
+						
+						logger.info("Diferença em minutos: " + diferencaMinutos);
+						
+						// Verificar se solicitação está sendo lançada dentro do prazo					
+						if (diferencaMinutos <= DateUtil.UM_DIA_MINUTOS) {
+							
+							// Atribuição das datas de pretensão e solicitação.
+							confirmaPretensaoDia.setDataPretensao(dataPretensao);
+							pretensaoRefeicao.setConfirmaPretensaoDia(
+									confirmaPretensaoDia);
+							pretensaoRefeicao.setDataSolicitacao(dataSolicitacao);
+							
+							builder.status(Response.Status.OK).entity(
+									pretensaoRefeicao);
+						}
+					}										
 					
 				} else {
 					
