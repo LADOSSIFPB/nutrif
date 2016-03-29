@@ -22,6 +22,8 @@ public class DateUtil {
 	
 	public static int DATA_IGUAL = 0;
 	
+	public static int UM_DIA_MINUTOS = 1440;
+	
 	public static Dia getCurrentDayOfWeek() {		
 		
 		Date current = new Date();		

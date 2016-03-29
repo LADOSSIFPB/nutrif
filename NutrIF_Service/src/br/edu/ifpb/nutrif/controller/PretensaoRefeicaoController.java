@@ -17,6 +17,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.joda.time.Period;
 
 import br.edu.ifpb.nutrif.dao.DiaRefeicaoDAO;
@@ -39,6 +41,9 @@ import br.edu.ladoss.entity.RefeicaoRealizada;
 @Path("pretensaorefeicao")
 public class PretensaoRefeicaoController {
 
+	private static Logger logger = LogManager.getLogger(
+			PretensaoRefeicaoController.class);
+	
 	@PermitAll
 	@POST
 	@Path("/inserir")
@@ -116,17 +121,17 @@ public class PretensaoRefeicaoController {
 	/**
 	 * - Data da refeição baseado no dia.
 	 * - Analisar a diferença de tempo entre a data da solicitação e data da 
-	 * refeição menor ou igual a 24h.
+	 * refeição menor ou igual a 24hs ou 48hs.
 	 * 
 	 * @param pretensaoRefeicao
 	 * @return
 	 */
 	@PermitAll
 	@POST
-	@Path("/teste")
+	@Path("/diarefeicao/verificar")
 	@Consumes("application/json")
 	@Produces("application/json")
-	public Response teste(PretensaoRefeicao pretensaoRefeicao) {
+	public Response verifyDiaRefeicao(PretensaoRefeicao pretensaoRefeicao) {
 		
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
 		builder.expires(new Date());
@@ -146,9 +151,7 @@ public class PretensaoRefeicaoController {
 						.getById(confirmaPretensaoDia.getDiaRefeicao().getId());
 				
 				if (diaRefeicao != null) {
-					
-					// Verificar se solicitação está sendo lançada dentro do prazo
-					
+									
 					// Extrair da Refeição a hora máxima para solicitação da pretensão.
 					Refeicao refeicao = diaRefeicao.getRefeicao();
 					
@@ -160,10 +163,13 @@ public class PretensaoRefeicaoController {
 					
 					// Diferença de dias entre solicitação e pretensão.
 					int diferenca = diaPretensao - diaSolicitacao;
+					
 					if (diaPretensao == diaSolicitacao) {
-						diferenca = 7;
+						
+						diferenca = 7;						
 					}
 					
+					// Data Atual
 					Date dataSolicitacao = new Date();
 					
 					// Data da pretensão.
@@ -172,17 +178,25 @@ public class PretensaoRefeicaoController {
 					dataPretensao = DateUtil.setTimeInDate(
 							dataPretensao, refeicao.getHoraPretensao());
 					
-					// Verificações de período de solicitação da pretensão.
-					Period period = DateUtil.getPeriodBetweenDate(dataSolicitacao, 
-							dataPretensao);					
-					System.out.println("Dias: " +period.getDays() 
-						+ ", Horas: " + period.getHours() 
-						+ ", Minutos:" + period.getMinutes());
-					
-					int minutes = DateUtil.getMinutesBetweenDate(dataSolicitacao, 
+					// Verificações de período de solicitação da pretensão.					
+					int diferencaMinutos = DateUtil.getMinutesBetweenDate(
+							dataSolicitacao, 
 							dataPretensao);
 					
-					System.out.println("Minutos:" + minutes);
+					logger.info("Diferença em minutos: " + diferencaMinutos);
+					
+					// Verificar se solicitação está sendo lançada dentro do prazo					
+					if (diferencaMinutos <= DateUtil.UM_DIA_MINUTOS) {
+						
+						// Atribuição das datas de pretensão e solicitação.
+						confirmaPretensaoDia.setDataPretensao(dataPretensao);
+						pretensaoRefeicao.setConfirmaPretensaoDia(
+								confirmaPretensaoDia);
+						pretensaoRefeicao.setDataSolicitacao(dataSolicitacao);
+						
+						builder.status(Response.Status.OK).entity(
+								pretensaoRefeicao);
+					}					
 					
 				} else {
 					
@@ -195,7 +209,6 @@ public class PretensaoRefeicaoController {
 
 				builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
 						exception.getError());			
-			
 			}
 			
 		} else {
@@ -204,7 +217,7 @@ public class PretensaoRefeicaoController {
 			builder.status(Response.Status.NOT_ACCEPTABLE).entity(erro);
 		}
 		
-		return builder.build();		
+		return builder.build();	
 	}
 	
 	@PermitAll

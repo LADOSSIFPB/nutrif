@@ -325,32 +325,4 @@ public class DiaRefeicaoController {
 		
 		return builder.build();		
 	}
-	
-	@PermitAll
-	@GET
-	@Path("/listar/pretensaorefeicao/aluno/matricula/{matricula}")
-	@Produces("application/json")
-	public Response getDiaRefeicaoPretensaoByAlunoMatricula(
-			@PathParam("matricula") String matricula) {
-		
-		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
-		builder.expires(new Date());
-		
-		try {
-
-			List<DiaRefeicao> diasRefeicao = DiaRefeicaoDAO
-					.getInstance().getDiaRefeicaoPretensaoByAlunoMatricula(
-							matricula);
-			
-			builder.status(Response.Status.OK);
-			builder.entity(diasRefeicao);
-
-		} catch (SQLExceptionNutrIF qme) {
-
-			builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
-					qme.getError());
-		}		
-		
-		return builder.build();		
-	}
 }
