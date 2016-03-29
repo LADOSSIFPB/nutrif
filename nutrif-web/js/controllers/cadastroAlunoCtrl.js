@@ -6,7 +6,7 @@ angular.module("NutrifApp").controller("alunoCtrl", function ($scope, $statePara
    $scope.refeicoes = [];
 
    $scope.buscarAlunos = function (matricula) {
-      $state.go("cadastro-aluno", {"matricula": matricula});
+      $state.go("atualizar-aluno", {"matricula": matricula});
    }
 
    $scope.adicionarRefeicao = function (refeicao, aluno) {
@@ -65,11 +65,11 @@ angular.module("NutrifApp").controller("alunoCtrl", function ($scope, $statePara
    };
 
    $scope.cadastrarAluno = function (newAluno) {
-      
+
       $('#cadastrar-aluno-form').closeModal();
-      
+
       alunoService.cadastrarAluno(newAluno).success(function (data, status) {
-        $state.go("cadastro-aluno", {"matricula": data.matricula});
+        $state.go("atualizar-aluno", {"matricula": data.matricula});
       }).error(function (data, status) {
         if (!data) {
 
@@ -89,7 +89,7 @@ angular.module("NutrifApp").controller("alunoCtrl", function ($scope, $statePara
    };
 
    $scope.removerRefeicao = function (refeicao) {
-      
+
       $('#confirmar-remocao-refeicao').closeModal();
       delete refeicao.refeicao.horaInicio;
       delete refeicao.refeicao.horaFinal;
@@ -122,7 +122,7 @@ angular.module("NutrifApp").controller("alunoCtrl", function ($scope, $statePara
    $scope.pesquisarNovamente = function (){
       delete $scope.aluno;
       delete $scope.refeicoes;
-      $state.go("cadastro-aluno", {"matricula": ""});
+      $state.go("atualizar-aluno", {"matricula": ""});
    }
 
    var carregarDiaRefeicaoAluno = function (matricula) {

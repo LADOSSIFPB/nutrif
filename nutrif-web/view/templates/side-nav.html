@@ -19,11 +19,22 @@
 	</li>
 
 	<li class="no-padding" ng-if="geral.getUserRole() === 'Administrador'">
+		<ul class="collapsible collapsible-accordion" ui-sref="atualizar-aluno">
+			<li>
+				<a class="collapsible-header">
+                    <strong>Atualizar alunos</strong>
+                    <i class="material-icons">playlist_add</i>
+                </a>
+			</li>
+		</ul>
+	</li>
+
+	<li class="no-padding" ng-if="geral.getUserRole() === 'Administrador'">
 		<ul class="collapsible collapsible-accordion" ui-sref="cadastro-aluno">
 			<li>
 				<a class="collapsible-header">
-                    <strong>Atualizar refeições</strong>
-                    <i class="material-icons">playlist_add</i>
+                    <strong>Adicionar aluno</strong>
+                    <i class="material-icons">supervisor_account</i>
                 </a>
 			</li>
 		</ul>
