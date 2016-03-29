@@ -8,14 +8,14 @@
 					<div class="center-align">
 
 						<h3 class="condensed light">Entrar</h3>
-						{{funcionario}}
-						<form name="loginForm" method="post" ng-submit=fazerLogin(funcionario)>
+						{{pessoa}}
+						<form name="loginForm" method="post" ng-submit=fazerLogin(pessoa)>
 
 							<div class="row">
 								<div class="input-field col s10 offset-s1">
 
 									<i class="material-icons prefix">account_circle</i>
-									<input id="intput-nome" type="text" name="nome" ng-model="funcionario.email" ng-required="true"/>
+									<input id="intput-nome" type="text" name="nome" ng-model="pessoa.email" ng-required="true"/>
 									<label for="intput-nome">Nome de usuário</label>
 
 								</div>
@@ -25,7 +25,7 @@
 								<div class="input-field col s10 offset-s1">
 
 									<i class="material-icons prefix">vpn_key</i>
-									<input id="input-password" type="password"  name="password" ng-model="funcionario.senha" ng-required="true"/>
+									<input id="input-password" type="password"  name="password" ng-model="pessoa.senha" ng-required="true"/>
 									<label for="input-password">Senha</label>
 
 								</div>
