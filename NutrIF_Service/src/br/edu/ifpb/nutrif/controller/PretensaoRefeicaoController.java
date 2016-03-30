@@ -71,12 +71,12 @@ public class PretensaoRefeicaoController {
 					
 					pretensaoRefeicao = verifyPretensao(diaRefeicao);
 					
-					// Chave de acesso ao Refeitório através da pretensão lançada.
-					Date agora = new Date();
-					pretensaoRefeicao.setKeyAccess(
-							StringUtil.criptografarSha256(agora.toString()));
-					
 					if (pretensaoRefeicao != null) {
+						
+						// Chave de acesso ao Refeitório através da pretensão lançada.
+						Date agora = new Date();
+						pretensaoRefeicao.setKeyAccess(
+								StringUtil.criptografarSha256(agora.toString()));
 						
 						//Inserir a Pretensão.
 						Integer idPretensaoRefeicao = PretensaoRefeicaoDAO.getInstance()
@@ -88,9 +88,6 @@ public class PretensaoRefeicaoController {
 							builder.status(Response.Status.OK);
 							builder.entity(pretensaoRefeicao);
 						}
-					} else {
-						
-						//TODO Problema na geração da pretensão.
 					}
 					
 				} else {
@@ -192,6 +189,13 @@ public class PretensaoRefeicaoController {
 		return builder.build();	
 	}
 	
+	/**
+	 * Analisar pretensão lançada baseada na data da solicitação e no dia da
+	 * refeição.
+	 * 
+	 * @param diaRefeicao
+	 * @return pretensaoRefeicao
+	 */
 	private PretensaoRefeicao verifyPretensao(DiaRefeicao diaRefeicao) {
 		
 		PretensaoRefeicao pretensaoRefeicao = null;
@@ -246,6 +250,7 @@ public class PretensaoRefeicaoController {
 		
 		return pretensaoRefeicao;
 	}
+	
 	@PermitAll
 	@POST
 	@Path("/chaveacesso/verificar")
