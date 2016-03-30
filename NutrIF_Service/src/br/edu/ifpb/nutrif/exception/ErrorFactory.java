@@ -51,25 +51,26 @@ public class ErrorFactory {
 	 * Pretensão da Refeição
 	 */
 	public static final int PRETENSAO_REFEICAO_NAO_ENCONTRADA = 19;
-	public static final int CONFIRMACAO_PRETENSAO_INVALIDA = 20;
-	public static final int CHAVE_ACESSO_PRETENSAO_INVALIDA = 21;
+	public static final int PRETENSAO_REFEICAO_INVALIDA = 20;
+	public static final int CONFIRMACAO_PRETENSAO_INVALIDA = 21;
+	public static final int CHAVE_ACESSO_PRETENSAO_INVALIDA = 22;
 	
 	/*
 	 * Realização da Refeição
 	 */
-	public static final int REFEICAO_REALIZADA_NAO_ENCONTRADA = 22;
+	public static final int REFEICAO_REALIZADA_NAO_ENCONTRADA = 23;
 	
 	/*
 	 * Funcionário
 	 */
-	public static final int CODIGO_FUNCIONARIO_INSPETOR_INVALIDO = 23;
+	public static final int CODIGO_FUNCIONARIO_INSPETOR_INVALIDO = 24;
 	
 	/*
 	 * Pessoa
 	 */
-	public static final int CHAVE_AUTORIZACAO_PESSOA_INVALIDA = 24;
+	public static final int CHAVE_AUTORIZACAO_PESSOA_INVALIDA = 25;
 	
-	public static final int IMPOSSIVEL_CRIPTOGRAFAR_VALOR = 25;
+	public static final int IMPOSSIVEL_CRIPTOGRAFAR_VALOR = 26;
 	
 	
 	/*
@@ -105,6 +106,8 @@ public class ErrorFactory {
 		hashMap.put(CHAVE_ACESSO_PRETENSAO_INVALIDA, "Chave de acesso da pretensão da refeição inválida.");
 		hashMap.put(CODIGO_FUNCIONARIO_INSPETOR_INVALIDO, "Código do inspetor inválido.");
 		hashMap.put(CHAVE_AUTORIZACAO_PESSOA_INVALIDA, "Chave de autorização de acesso para usuário inválida.");
+		hashMap.put(PRETENSAO_REFEICAO_INVALIDA, "Pretensão de refeição inválida.");
+		
 		
 		
 		return hashMap;

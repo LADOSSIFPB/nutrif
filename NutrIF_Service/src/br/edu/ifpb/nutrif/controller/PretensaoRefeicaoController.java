@@ -69,23 +69,28 @@ public class PretensaoRefeicaoController {
 				
 				if (diaRefeicao != null) {					
 					
-					// Atribuindo dia da refeição com dados completos.
-					confirmaPretensaoDia.setDiaRefeicao(diaRefeicao);
+					pretensaoRefeicao = verifyPretensao(diaRefeicao);
 					
 					// Chave de acesso ao Refeitório através da pretensão lançada.
 					Date agora = new Date();
 					pretensaoRefeicao.setKeyAccess(
 							StringUtil.criptografarSha256(agora.toString()));
 					
-					//Inserir a Pretensão.
-					Integer idPretensaoRefeicao = PretensaoRefeicaoDAO.getInstance()
-							.insert(pretensaoRefeicao);
-					
-					if (idPretensaoRefeicao != BancoUtil.IDVAZIO) {
+					if (pretensaoRefeicao != null) {
+						
+						//Inserir a Pretensão.
+						Integer idPretensaoRefeicao = PretensaoRefeicaoDAO.getInstance()
+								.insert(pretensaoRefeicao);
+						
+						if (idPretensaoRefeicao != BancoUtil.IDVAZIO) {
 
-						// Operação realizada com sucesso.
-						builder.status(Response.Status.OK);
-						builder.entity(pretensaoRefeicao);
+							// Operação realizada com sucesso.
+							builder.status(Response.Status.OK);
+							builder.entity(pretensaoRefeicao);
+						}
+					} else {
+						
+						//TODO Problema na geração da pretensão.
 					}
 					
 				} else {
@@ -151,50 +156,19 @@ public class PretensaoRefeicaoController {
 				
 				if (diaRefeicao != null) {
 									
-					// Extrair da Refeição a hora máxima para solicitação da pretensão.
-					Refeicao refeicao = diaRefeicao.getRefeicao();
+					pretensaoRefeicao = verifyPretensao(diaRefeicao);
 					
-					// Dia da semana para lançar a pretensão.
-					int diaPretensao = diaRefeicao.getDia().getId();
-					
-					// Dia da semana que da solicitação para a pretensão.
-					int diaSolicitacao = DateUtil.getCurrentDayOfWeek().getId();
-					
-					// Diferença de dias entre solicitação e pretensão.
-					int diferenca = diaPretensao - diaSolicitacao;
-					
-					// Quantidade máxima de diferença entre o dia da solicitação e o pretendido.
-					if (diferenca == refeicao.getDiaPrevistoPretensao()) {	
+					if (pretensaoRefeicao != null) {
 						
-						// Data Atual
-						Date dataSolicitacao = new Date();
+						builder.status(Response.Status.OK).entity(
+								pretensaoRefeicao);
 						
-						// Data da pretensão.
-						Date dataPretensao = DateUtil.addDays(dataSolicitacao, 
-								diferenca);
-						dataPretensao = DateUtil.setTimeInDate(
-								dataPretensao, refeicao.getHoraPretensao());
+					} else {
 						
-						// Verificações de período de solicitação da pretensão.					
-						int diferencaMinutos = DateUtil.getMinutesBetweenDate(
-								dataSolicitacao, 
-								dataPretensao);
-						
-						logger.info("Diferença em minutos: " + diferencaMinutos);
-						
-						// Verificar se solicitação está sendo lançada dentro do prazo					
-						if (diferencaMinutos <= DateUtil.UM_DIA_MINUTOS) {
-							
-							// Atribuição das datas de pretensão e solicitação.
-							confirmaPretensaoDia.setDataPretensao(dataPretensao);
-							pretensaoRefeicao.setConfirmaPretensaoDia(
-									confirmaPretensaoDia);
-							pretensaoRefeicao.setDataSolicitacao(dataSolicitacao);
-							
-							builder.status(Response.Status.OK).entity(
-									pretensaoRefeicao);
-						}
-					}										
+						builder.status(Response.Status.NOT_ACCEPTABLE).entity(
+								ErrorFactory.getErrorFromIndex(
+										ErrorFactory.PRETENSAO_REFEICAO_INVALIDA));
+					}
 					
 				} else {
 					
@@ -218,6 +192,60 @@ public class PretensaoRefeicaoController {
 		return builder.build();	
 	}
 	
+	private PretensaoRefeicao verifyPretensao(DiaRefeicao diaRefeicao) {
+		
+		PretensaoRefeicao pretensaoRefeicao = null;
+		
+		// Extrair da Refeição a hora máxima para solicitação da pretensão.
+		Refeicao refeicao = diaRefeicao.getRefeicao();
+		
+		// Dia da semana para lançar a pretensão.
+		int diaPretensao = diaRefeicao.getDia().getId();
+		
+		// Dia da semana que da solicitação para a pretensão.
+		int diaSolicitacao = DateUtil.getCurrentDayOfWeek().getId();
+		
+		// Diferença de dias entre solicitação e pretensão.
+		int diferenca = diaPretensao - diaSolicitacao;
+		
+		// Quantidade máxima de diferença entre o dia da solicitação e o pretendido.
+		if (diferenca == refeicao.getDiaPrevistoPretensao()) {	
+			
+			// Data Atual
+			Date dataSolicitacao = new Date();
+			
+			// Data da pretensão.
+			Date dataPretensao = DateUtil.addDays(dataSolicitacao, 
+					diferenca);
+			dataPretensao = DateUtil.setTimeInDate(
+					dataPretensao, refeicao.getHoraPretensao());
+			
+			// Verificações de período de solicitação da pretensão.					
+			int diferencaMinutos = DateUtil.getMinutesBetweenDate(
+					dataSolicitacao, 
+					dataPretensao);
+			
+			logger.info("Diferença em minutos: " + diferencaMinutos);
+			
+			// Verificar se solicitação está sendo lançada dentro do prazo					
+			if (diferencaMinutos <= DateUtil.UM_DIA_MINUTOS) {
+				
+				ConfirmaPretensaoDia confirmaPretensaoDia = 
+						new ConfirmaPretensaoDia();
+				
+				// Atribuição das datas de pretensão e solicitação.
+				confirmaPretensaoDia.setDataPretensao(dataPretensao);
+				confirmaPretensaoDia.setDiaRefeicao(diaRefeicao);
+				
+				pretensaoRefeicao = new PretensaoRefeicao();
+				pretensaoRefeicao.setConfirmaPretensaoDia(
+						confirmaPretensaoDia);
+				pretensaoRefeicao.setDataSolicitacao(dataSolicitacao);
+			}				
+		}
+		
+		return pretensaoRefeicao;
+	}
 	@PermitAll
 	@POST
 	@Path("/chaveacesso/verificar")
