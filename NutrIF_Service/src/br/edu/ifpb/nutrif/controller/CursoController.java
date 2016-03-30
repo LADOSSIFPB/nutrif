@@ -20,7 +20,7 @@ import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
 import br.edu.ifpb.nutrif.util.BancoUtil;
 import br.edu.ifpb.nutrif.validation.Validate;
 import br.edu.ladoss.entity.Curso;
-import br.edu.ladoss.entity.Erro;
+import br.edu.ladoss.entity.Error;
 
 @Path("curso")
 public class CursoController {
@@ -60,7 +60,7 @@ public class CursoController {
 			
 		} else {
 			
-			Erro erro = ErrorFactory.getErrorFromIndex(validacao);
+			Error erro = ErrorFactory.getErrorFromIndex(validacao);
 			builder.status(Response.Status.NOT_ACCEPTABLE).entity(erro);
 		}
 		
@@ -98,7 +98,7 @@ public class CursoController {
 
 		} catch (SQLExceptionNutrIF qme) {
 
-			Erro erro = new Erro();
+			Error erro = new Error();
 			erro.setCodigo(qme.getErrorCode());
 			erro.setMensagem(qme.getMessage());
 

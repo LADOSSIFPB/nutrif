@@ -3,7 +3,7 @@ package br.edu.ifpb.nutrif.exception;
 import java.util.HashMap;
 import java.util.Map;
 
-import br.edu.ladoss.entity.Erro;
+import br.edu.ladoss.entity.Error;
 
 public class ErrorFactory {
 
@@ -51,13 +51,15 @@ public class ErrorFactory {
 	 * Pretensão da Refeição
 	 */
 	public static final int PRETENSAO_REFEICAO_NAO_ENCONTRADA = 19;
+	public static final int CONFIRMACAO_PRETENSAO_INVALIDA = 20;
+	public static final int CHAVE_ACESSO_INVALIDA = 21;
 	
 	/*
 	 * Realização da Refeição
 	 */
-	public static final int REFEICAO_REALIZADA_NAO_ENCONTRADA = 20;
+	public static final int REFEICAO_REALIZADA_NAO_ENCONTRADA = 22;
 	
-	public static final int IMPOSSIVEL_CRIPTOGRAFAR_VALOR = 21;
+	public static final int IMPOSSIVEL_CRIPTOGRAFAR_VALOR = 23;
 	
 	
 	/*
@@ -89,14 +91,15 @@ public class ErrorFactory {
 		hashMap.put(PRETENSAO_REFEICAO_NAO_ENCONTRADA, "Pretensão da refeição não encontrada.");
 		hashMap.put(ACESSO_ALUNO_NAO_PERMITIDO, "Acesso não permitido. Dados de login não conferem.");
 		hashMap.put(REFEICAO_REALIZADA_NAO_ENCONTRADA, "Refeição realizada não encotrada.");
+		hashMap.put(CONFIRMACAO_PRETENSAO_INVALIDA, "Confirmação de pretensão inválida.");
+		hashMap.put(CHAVE_ACESSO_INVALIDA, "Chave de acesso da pretensão da refeição inválida.");		
 		
-				
 		return hashMap;
 	}
 
-	public static final Erro getErrorFromIndex(int index) {
+	public static final Error getErrorFromIndex(int index) {
 		
-		Erro error = new Erro();
+		Error error = new Error();
 		error.setCodigo(index);
 		error.setMensagem(mapErrors.get(index));
 		

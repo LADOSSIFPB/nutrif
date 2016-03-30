@@ -19,7 +19,7 @@ import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
 import br.edu.ifpb.nutrif.util.BancoUtil;
 import br.edu.ifpb.nutrif.validation.Validate;
 import br.edu.ladoss.entity.Dia;
-import br.edu.ladoss.entity.Erro;
+import br.edu.ladoss.entity.Error;
 
 @Path("dia")
 public class DiaController {
@@ -53,7 +53,7 @@ public class DiaController {
 			
 			} catch (SQLExceptionNutrIF qme) {
 				
-				Erro erro = new Erro();
+				Error erro = new Error();
 				erro.setCodigo(qme.getErrorCode());
 				erro.setMensagem(qme.getMessage());
 
@@ -95,7 +95,7 @@ public class DiaController {
 
 		} catch (SQLExceptionNutrIF qme) {
 
-			Erro erro = new Erro();
+			Error erro = new Error();
 			erro.setCodigo(qme.getErrorCode());
 			erro.setMensagem(qme.getMessage());
 

@@ -35,7 +35,7 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 		
 		Session session = HibernateUtil.getSessionFactory().openSession();
 
-		List<DiaRefeicao> cronogramasRefeicao = new ArrayList<DiaRefeicao>();
+		List<DiaRefeicao> diasRefeicao = new ArrayList<DiaRefeicao>();
 		
 		try {
 			
@@ -52,6 +52,7 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 					+ " 	from RefeicaoRealizada as rr"
 					+ "		where rr.confirmaRefeicaoDia.diaRefeicao.aluno.id = dr.aluno.id"
 					+ "		and rr.confirmaRefeicaoDia.diaRefeicao.dia.id = :dia"
+					+ "		and rr.confirmaRefeicaoDia.dataRefeicao = CURRENT_DATE()"
 					+ "		and rr.confirmaRefeicaoDia.diaRefeicao.refeicao.horaFinal"
 					+ "			>= CURRENT_TIME()"
 					+ ")";
@@ -61,7 +62,7 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 			query.setParameter("dia", dia.getId());
 			query.setParameter("ativo", BancoUtil.ATIVO);
 			
-			cronogramasRefeicao = (List<DiaRefeicao>) query.list();
+			diasRefeicao = (List<DiaRefeicao>) query.list();
 	        
 		} catch (HibernateException hibernateException) {
 			
@@ -74,7 +75,7 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 			session.close();
 		}
 		
-		return cronogramasRefeicao;		
+		return diasRefeicao;		
 	}
 	
 	public List<DiaRefeicao> getDiaRefeicaoRealizacaoByAlunoMatricula(
@@ -82,7 +83,7 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 		
 		Session session = HibernateUtil.getSessionFactory().openSession();
 
-		List<DiaRefeicao> cronogramasRefeicao = new ArrayList<DiaRefeicao>();
+		List<DiaRefeicao> diasRefeicao = new ArrayList<DiaRefeicao>();
 		
 		try {
 			
@@ -99,6 +100,7 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 					+ " 	from RefeicaoRealizada as rr"
 					+ "		where rr.confirmaRefeicaoDia.diaRefeicao.aluno.id = dr.aluno.id"
 					+ "		and rr.confirmaRefeicaoDia.diaRefeicao.dia.id = :dia"
+					+ "		and rr.confirmaRefeicaoDia.dataRefeicao = CURRENT_DATE()"
 					+ "		and rr.confirmaRefeicaoDia.diaRefeicao.refeicao.horaFinal"
 					+ "			>= CURRENT_TIME()"
 					+ ")";
@@ -108,7 +110,7 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 			query.setParameter("dia", dia.getId());
 			query.setParameter("ativo", BancoUtil.ATIVO);
 			
-			cronogramasRefeicao = (List<DiaRefeicao>) query.list();
+			diasRefeicao = (List<DiaRefeicao>) query.list();
 	        
 		} catch (HibernateException hibernateException) {
 			
@@ -121,7 +123,7 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 			session.close();
 		}
 		
-		return cronogramasRefeicao;		
+		return diasRefeicao;		
 	}
 	
 	public List<DiaRefeicao> getAllByAlunoMatricula(String matricula) {
@@ -172,6 +174,7 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 					+ " 	from PretensaoRefeicao as pr"
 					+ "		where pr.confirmaPretensaoDia.diaRefeicao.aluno.id = dr.aluno.id"
 					+ "		and pr.confirmaPretensaoDia.diaRefeicao.dia.id = dr.dia.id"
+					+ "		and pr.confirmaPretensaoDia.dataPretensao = CURRENT_DATE()"
 					+ ")"
 					+ " order by dr.dia.id asc";
 			

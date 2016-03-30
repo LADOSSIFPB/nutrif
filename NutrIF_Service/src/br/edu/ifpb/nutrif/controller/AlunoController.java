@@ -28,7 +28,7 @@ import br.edu.ifpb.nutrif.util.StringUtil;
 import br.edu.ifpb.nutrif.validation.Validate;
 import br.edu.ladoss.entity.Aluno;
 import br.edu.ladoss.entity.Curso;
-import br.edu.ladoss.entity.Erro;
+import br.edu.ladoss.entity.Error;
 
 @Path("aluno")
 public class AlunoController {
@@ -140,7 +140,7 @@ public class AlunoController {
 			
 			} catch (SQLExceptionNutrIF qme) {
 				
-				Erro erro = new Erro();
+				Error erro = new Error();
 				erro.setCodigo(qme.getErrorCode());
 				erro.setMensagem(qme.getMessage());
 
@@ -312,7 +312,7 @@ public class AlunoController {
 			
 		} else {
 			
-			Erro erro = ErrorFactory.getErrorFromIndex(validacao);
+			Error erro = ErrorFactory.getErrorFromIndex(validacao);
 			builder.status(Response.Status.NOT_ACCEPTABLE).entity(erro);
 		}
 		

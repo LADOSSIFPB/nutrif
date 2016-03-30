@@ -143,10 +143,16 @@ public class Validate {
 		return VALIDATE_OK;
 	}
 	
-	public static int pretensaoRefeicaoKeyAccess(PretensaoRefeicao refeicao) {
+	public static int pretensaoRefeicaoKeyAccess(
+			PretensaoRefeicao pretensaoRefeicao) {
 		
-		logger.info("Validação para Pretencao da Refeicao.");
-		//TODO: implementar a validação.
+		logger.info("Validação da chave de acesso para Pretensão da Refeicao.");
+ 
+		if (pretensaoRefeicao == null 
+				|| !(pretensaoRefeicao != null && stringValidator.validate(
+						pretensaoRefeicao.getKeyAccess(), 64)))
+			return ErrorFactory.CHAVE_ACESSO_INVALIDA;
+		
 		return VALIDATE_OK;
 	}
 	
