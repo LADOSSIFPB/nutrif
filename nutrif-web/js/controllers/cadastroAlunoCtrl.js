@@ -6,7 +6,7 @@ angular.module("NutrifApp").controller("alunoCtrl", function ($scope, $statePara
    $scope.refeicoes = [];
 
    $scope.buscarAlunos = function (matricula) {
-      $state.go("atualizar-aluno", {"matricula": matricula});
+      $state.go("atualizar-aluno-form", {"matricula": matricula});
    }
 
    $scope.adicionarRefeicao = function (refeicao, aluno) {
@@ -69,7 +69,7 @@ angular.module("NutrifApp").controller("alunoCtrl", function ($scope, $statePara
       $('#cadastrar-aluno-form').closeModal();
 
       alunoService.cadastrarAluno(newAluno).success(function (data, status) {
-        $state.go("atualizar-aluno", {"matricula": data.matricula});
+        $state.go("atualizar-aluno-form", {"matricula": data.matricula});
       }).error(function (data, status) {
         if (!data) {
 
@@ -122,7 +122,7 @@ angular.module("NutrifApp").controller("alunoCtrl", function ($scope, $statePara
    $scope.pesquisarNovamente = function (){
       delete $scope.aluno;
       delete $scope.refeicoes;
-      $state.go("atualizar-aluno", {"matricula": ""});
+      $state.go("atualizar-aluno");
    }
 
    var carregarDiaRefeicaoAluno = function (matricula) {
@@ -206,7 +206,7 @@ angular.module("NutrifApp").controller("alunoCtrl", function ($scope, $statePara
       });
    }
 
-   if (typeof $stateParams.matricula != "undefined"){
+   if (typeof $stateParams.matricula != "undefined") {
 
        alunoService.buscaAlunoPorMatricula($stateParams.matricula).success(function (data, status) {
 
@@ -218,7 +218,6 @@ angular.module("NutrifApp").controller("alunoCtrl", function ($scope, $statePara
        }).error(function (data, status) {
 
           if (!data) {
-
 
               Materialize.toast('Aluno não cadastrado,<br/>tente novamente ou contate<br/>um administrador', 3000);
 

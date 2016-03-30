@@ -25,8 +25,15 @@ angular.module('NutrifApp').config(function ($stateProvider, $urlRouterProvider)
 	  	})
 
 	  	.state('atualizar-aluno', {
-	  		url: '/atualizar-aluno?matricula',
+	  		url: '/atualizar-aluno',
 		    templateUrl: 'view/atualizar-aluno.html',
+		    controller: 'alunoCtrl',
+			module: 'admin'
+	  	})
+
+	  	.state('atualizar-aluno-form', {
+	  		url: '/form/:matricula',
+		    templateUrl: 'view/atualizar-aluno-form.html',
 		    controller: 'alunoCtrl',
 			module: 'admin'
 	  	})

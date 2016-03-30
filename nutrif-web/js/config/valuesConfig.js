@@ -3,9 +3,9 @@ angular.module("NutrifApp").value("config", {
 	baseUrl: function() {
 
 		var _protocol = "http://"
-		var _externalDNS = "localhost";
-		var _externalIP = "localhost";
-		var _internalIP = "127.0.0.1";
+		var _externalDNS = "192.168.1.199";
+		var _externalIP = "192.168.1.199";
+		var _internalIP = "192.168.1.199";
 		var _port = "8080";
 		var _context = "/NutrIF_Sevice";
 
