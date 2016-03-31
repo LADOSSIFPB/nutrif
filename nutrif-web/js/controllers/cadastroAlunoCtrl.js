@@ -69,7 +69,10 @@ angular.module("NutrifApp").controller("alunoCtrl", function ($scope, $statePara
       $('#cadastrar-aluno-form').closeModal();
 
       alunoService.cadastrarAluno(newAluno).success(function (data, status) {
+        
         $state.go("atualizar-aluno-form", {"matricula": data.matricula});
+        Materialize.toast("Aluno cadastrado com sucesso<br/>Você agora pode adicionar refeições para ele.", 6000);
+      
       }).error(function (data, status) {
         if (!data) {
 
