@@ -6,14 +6,14 @@ angular.module('NutrifApp').config(function ($stateProvider, $urlRouterProvider)
 
 		.state('main', {
 		    url: '/main',
-		    templateUrl: 'view/main.html',
+		    templateUrl: 'view/login.html',
 		    controller: 'loginCtrl',
 			module: 'non-logged'
 	  	})
 
 		.state('home', {
 		    url: '/home',
-		    templateUrl: 'view/home.html',
+		    templateUrl: 'view/entrada-aluno.html',
 		    controller: 'pesquisaCtrl',
 			module: 'inspetor'
 	  	})
@@ -32,7 +32,7 @@ angular.module('NutrifApp').config(function ($stateProvider, $urlRouterProvider)
 	  	})
 
 	  	.state('atualizar-aluno-form', {
-	  		url: '/form/:matricula',
+	  		url: '/atualizar-aluno/form/:matricula',
 		    templateUrl: 'view/atualizar-aluno-form.html',
 		    controller: 'alunoCtrl',
 			module: 'admin'
