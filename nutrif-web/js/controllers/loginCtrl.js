@@ -5,7 +5,7 @@ angular.module('NutrifApp').controller("loginCtrl", function ($scope, loginServi
         loginService.fazerLogin(funcionario).success(function (data, status){
 
             $cookies.putObject('user', data);
-            $state.go("home");
+            $state.go("entrada-aluno");
 
         }).error(function (data, status) {
 

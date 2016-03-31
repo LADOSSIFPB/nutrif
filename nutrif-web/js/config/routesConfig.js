@@ -1,18 +1,18 @@
 angular.module('NutrifApp').config(function ($stateProvider, $urlRouterProvider) {
 
-	$urlRouterProvider.otherwise('/main');
+	$urlRouterProvider.otherwise('/login');
 
 	$stateProvider
 
-		.state('main', {
-		    url: '/main',
+		.state('login', {
+		    url: '/login',
 		    templateUrl: 'view/login.html',
 		    controller: 'loginCtrl',
 			module: 'non-logged'
 	  	})
 
-		.state('home', {
-		    url: '/home',
+		.state('entrada-aluno', {
+		    url: '/entrada-aluno',
 		    templateUrl: 'view/entrada-aluno.html',
 		    controller: 'pesquisaCtrl',
 			module: 'inspetor'

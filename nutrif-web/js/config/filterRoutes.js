@@ -16,13 +16,13 @@ angular.module('NutrifApp').run(function($rootScope, $state, $cookies) {
 
             if (toState.module === 'non-logged') {
                 event.preventDefault();
-                $state.go("home");
+                $state.go("entrada-aluno");
             }
 
             if (toState.module === 'admin' && !_user.roles.find(findRoleAdmin)) {
                 console.log("bloqueado");
                 event.preventDefault();
-                $state.go("home");
+                $state.go("entrada-aluno");
             }
 
             /* Adiocionar para onde redirecionar, pois é o ultimo tipo de usuário
@@ -35,7 +35,7 @@ angular.module('NutrifApp').run(function($rootScope, $state, $cookies) {
 
             if (toState.module != 'non-logged') {
                 event.preventDefault();
-                $state.go("main");
+                $state.go("login");
             }
 
         }

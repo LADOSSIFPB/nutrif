@@ -30,7 +30,7 @@ angular.module('NutrifApp').controller("geralCtrl", function ($scope, $cookies, 
 
     this.logout = function () {
         $cookies.remove("user");
-        $state.go("main");
+        $state.go("login");
     }
 
 });
