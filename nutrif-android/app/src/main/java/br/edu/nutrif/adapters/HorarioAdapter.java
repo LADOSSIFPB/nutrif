@@ -53,7 +53,7 @@ public class HorarioAdapter extends RecyclerView.Adapter<HorarioAdapter.RoomView
         holder.natureza.setText(refeicoes.get(position).getRefeicao().getTipo());
         holder.horario.setText(horarios);
         holder.diadasemana.setText(refeicoes.get(position).getDia().getNome());
-        holder.registrar.setEnabled(refeicoes.get(position).isAtivo());
+       // holder.registrar.setEnabled(true);
     }
 
     @Override
@@ -64,15 +64,14 @@ public class HorarioAdapter extends RecyclerView.Adapter<HorarioAdapter.RoomView
 
     public class RoomViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView natureza, horario, diadasemana;
-        Button registrar;
+       // Button registrar;
 
         public RoomViewHolder(View item) {
             super(item);
             natureza = (TextView) item.findViewById(R.id.natureza);
             horario = (TextView) item.findViewById(R.id.horario);
             diadasemana = (TextView) item.findViewById(R.id.diadasemana);
-            registrar = (Button) item.findViewById(R.id.registrar);
-            registrar.setOnClickListener(this);
+            item.setOnClickListener(this);
         }
 
         @Override

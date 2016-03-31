@@ -1,18 +1,23 @@
 package br.edu.nutrif.network;
 
-import com.google.gson.ExclusionStrategy;
-import com.google.gson.FieldAttributes;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 import retrofit.GsonConverterFactory;
+import retrofit.Response;
 import retrofit.Retrofit;
 
 /**
  * Created by juan on 14/03/16.
  */
 public class ConnectionServer {
-    private static final String URL_BASE = "http://192.168.56.1:8080/NutrIF_Sevice/";
+
+    private static final String[] URL_BASES =
+            {"http://ladoss.com.br:8773/NutrIF_Sevice/",
+                    "http://192.168.56.1:8773/NutrIF_Sevice/"};
     private static APIService service;
     private static ConnectionServer ourInstance = new ConnectionServer();
 
@@ -25,11 +30,26 @@ public class ConnectionServer {
     }
 
     private ConnectionServer() {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(URL_BASE)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+        updateServiceAdress();
+    }
 
-        service = retrofit.create(APIService.class);
+    public void updateServiceAdress() {
+
+        for (String endereco : URL_BASES) {
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl(endereco)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+
+            service = retrofit.create(APIService.class);
+
+            try {
+                Response<Void> response = service.status().execute();
+                if (response.isSuccess())
+                    break;
+            } catch (IOException e) {
+                continue;
+            }
+        }
     }
 }

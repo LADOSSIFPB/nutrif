@@ -40,7 +40,7 @@ public class StartActivity extends AppCompatActivity {
 
             @Override
             public void failCommunication(Throwable throwable) {
-                startActivity(new Intent(StartActivity.this, LoginActivity.class));
+                startActivity(new Intent(StartActivity.this, RefeitorioActivity.class));
                 finish();
             }
         });

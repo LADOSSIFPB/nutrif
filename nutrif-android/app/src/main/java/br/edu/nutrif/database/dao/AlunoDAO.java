@@ -12,8 +12,8 @@ import br.edu.nutrif.entitys.Aluno;
 public class AlunoDAO extends GenericDAO {
     public static final String ALUNO_TABLE = "tb_aluno";
     public static final String CREATE_TABLE = "create table IF NOT EXISTS " + ALUNO_TABLE + " (" +
-            "matricula text not null, " +
             "_email text primary key unique, " +
+            "matricula text not null, " +
             "senha text not null);";
 
     public AlunoDAO(Context context) {

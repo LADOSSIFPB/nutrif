@@ -18,6 +18,9 @@ import retrofit.http.Path;
  */
 public interface APIService {
 
+    @GET("status")
+    Call<Void> status();
+
     @POST("aluno/acesso/inserir")
     Call<Aluno> inserir(@Body Aluno aluno);
 
@@ -31,7 +34,7 @@ public interface APIService {
     Call<PretensaoRefeicao> pedirRefeicao(@Header("Authorization") String accessKey,
                                           @Body PretensaoRefeicao pretencaoRefeicao);
 
-    @GET("diarefeicao/listar/pretensaorefeicao/aluno/matricula/{matricula}")
+    @GET("diarefeicao/listar/aluno/matricula/{matricula}")
     Call<List<DiaRefeicao>> listaRefeicoes(@Header("Authorization") String accessKey,
                                            @Path("matricula")String matricula);
 

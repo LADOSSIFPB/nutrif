@@ -54,50 +54,54 @@ public class AlunoController {
     }
 
     public static void login(final Context context, final Replyable<Aluno> ui) {
-
-        AlunoDAO pessoaDAO = new AlunoDAO(context);
-
-        final Aluno aluno = pessoaDAO.find();
-        if (aluno == null) {
-            ui.onFailure(null);
-            return;
-        }
-
-        Call<Aluno> call = ConnectionServer
-                .getInstance()
-                .getService()
-                .login(aluno);
-
-        call.enqueue(new Callback<Aluno>() {
+        new Thread(new Runnable() {
             @Override
-            public void onResponse(Response<Aluno> response, Retrofit retrofit) {
+            public void run() {
+                AlunoDAO pessoaDAO = new AlunoDAO(context);
 
-                if (response.isSuccess()) {
+                final Aluno aluno = pessoaDAO.find();
+                if (aluno == null) {
+                    ui.onFailure(null);
+                    return;
+                }
 
-                    aluno.setNome(response.body().getNome());
-                    aluno.setMatricula(response.body().getMatricula());
-                    aluno.setEmail(response.body().getEmail());
-                    PreferencesUtils.setAccessKeyOnSharedPreferences(context, response.body().getKeyAuth());
-                    ui.onSuccess(aluno);
-                } else {
-                    if (response.code() == 401) {
-                        AlunoDAO.getInstance(context).delete();
-                        Erro erro = new Erro();
-                        erro.setCodigo(0);
-                        erro.setMensagem(context.getString(R.string.campoerrado));
-                        ui.onFailure(erro);
+                Call<Aluno> call = ConnectionServer
+                        .getInstance()
+                        .getService()
+                        .login(aluno);
 
-                    } else {
-                        ui.onFailure(ErrorUtils.parseError(response, retrofit, context));
+                call.enqueue(new Callback<Aluno>() {
+                    @Override
+                    public void onResponse(Response<Aluno> response, Retrofit retrofit) {
+
+                        if (response.isSuccess()) {
+
+                            aluno.setNome(response.body().getNome());
+                            aluno.setMatricula(response.body().getMatricula());
+                            aluno.setEmail(response.body().getEmail());
+                            PreferencesUtils.setAccessKeyOnSharedPreferences(context, response.body().getKeyAuth());
+                            ui.onSuccess(aluno);
+                        } else {
+                            if (response.code() == 401) {
+                                AlunoDAO.getInstance(context).delete();
+                                Erro erro = new Erro();
+                                erro.setCodigo(0);
+                                erro.setMensagem(context.getString(R.string.campoerrado));
+                                ui.onFailure(erro);
+
+                            } else {
+                                ui.onFailure(ErrorUtils.parseError(response, retrofit, context));
+                            }
+
+                        }
                     }
 
-                }
+                    @Override
+                    public void onFailure(Throwable t) {
+                        ui.failCommunication(t);
+                    }
+                });
             }
-
-            @Override
-            public void onFailure(Throwable t) {
-                ui.failCommunication(t);
-            }
-        });
+        }).start();
     }
 }

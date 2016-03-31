@@ -2,8 +2,26 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:theme="@style/AppTheme.NoActionBar"
     tools:context="br.edu.nutrif.LoginActivity">
 
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            style="@style/AppTheme"
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:logo="@drawable/logo"
+            android:elevation="4dp" />
+
+    </android.support.design.widget.AppBarLayout>
     <LinearLayout
         android:id="@+id/content"
         android:layout_width="match_parent"
@@ -27,6 +45,13 @@
                 android:gravity="center"
                 android:orientation="vertical">
 
+
+                <ImageView
+                    android:layout_width="300dp"
+                    android:layout_height="125dp"
+                    android:id="@+id/logotipo"
+                    android:layout_gravity="center_horizontal"
+                    android:src="@drawable/logoverde1054" />
 
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
@@ -69,35 +94,48 @@
                     android:layout_marginTop="40dp"
                     android:onClick="login"
                     android:text="@string/login"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:translationZ="3dp" />
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="top|center"
-                    android:orientation="horizontal">
+                    android:orientation="vertical">
 
                     <Button
-                        style="@style/buttonCustom"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
+                        android:layout_marginTop="4dp"
                         android:onClick="redirecionar"
                         android:paddingLeft="16dp"
                         android:paddingRight="16dp"
+                        android:elevation="0dp"
+                        android:textSize="11dp"
+                        android:textColor="@color/colorPrimary"
                         android:text="@string/naoemembro"
-                        android:textStyle="bold" />
+                        android:background="#00ffffff"
+                        android:layout_marginBottom="4dp"
+                        android:typeface="normal"
+                        android:textStyle="normal" />
+                    <View
+                        android:layout_width="200dp"
+                        android:layout_height="2dp"
+                        android:background="@color/colorPrimaryDark" />
 
                     <Button
-                        style="@style/buttonCustom"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="16dp"
-                        android:layout_marginTop="16dp"
+                        android:layout_marginTop="4dp"
                         android:onClick="autenticar"
+                        android:textColor="@color/colorPrimary"
+                        android:elevation="0dp"
+                        android:textSize="11dp"
                         android:paddingLeft="16dp"
                         android:paddingRight="16dp"
-                        android:text="@string/validarcodigo" />
+                        android:text="@string/validarcodigo"
+                        android:background="#00ffffff"
+                        android:typeface="normal" />
                 </LinearLayout>
             </LinearLayout>
         </ScrollView>

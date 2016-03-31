@@ -44,6 +44,7 @@ public class DiaRefeicaoController {
             @Override
             public void onFailure(Throwable t) {
                 refeicoes = DiaRefeicaoDAO.getInstance(context).findAll();
+                ConnectionServer.getInstance().updateServiceAdress();
                 ui.failCommunication(t);
             }
         });

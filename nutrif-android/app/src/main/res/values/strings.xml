@@ -38,4 +38,5 @@
     <string name="voltar">Voltar</string>
     <string name="errocode">Não foi possível gerar o código</string>
     <string name="identificador">Email ou Matrícula</string>
+    <string name="title_activity_refeicao">Refeição</string>
 </resources>

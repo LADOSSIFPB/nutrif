@@ -20,7 +20,7 @@ public class DiaRefeicaoDAO extends GenericDAO<DiaRefeicao> {
             "tipo text not null, " +
             "diadasemana text not null, " +
             "keyAccess text, " +
-            "horarios text not null" +
+            "horarios text not null," +
             "_email text not null);";
 
     public static DiaRefeicaoDAO getInstance(Context context) {
@@ -62,7 +62,7 @@ public class DiaRefeicaoDAO extends GenericDAO<DiaRefeicao> {
     }
 
     public DiaRefeicao find(DiaRefeicao pretensaoRefeicao) {
-        String[] colums = new String[]{"_id", "tipo", "diadasemana", "keyAccess", "horarios"};
+        String[] colums = new String[]{"_id", "tipo", "diadasemana", "keyAccess", "horarios","_email"};
         Cursor cursor = db.query(DIAREFEICAO_TABLE, colums, null, null, null, null, "_id");
 
         if (cursor.getCount() != 0) {
