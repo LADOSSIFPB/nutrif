@@ -100,42 +100,45 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="top|center"
-                    android:orientation="vertical">
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp">
 
-                    <Button
-                        android:layout_width="match_parent"
+                    <TextView
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
+                        android:layout_marginTop="6dp"
                         android:onClick="redirecionar"
                         android:paddingLeft="16dp"
                         android:paddingRight="16dp"
-                        android:elevation="0dp"
-                        android:textSize="11dp"
+                        android:textSize="15sp"
                         android:textColor="@color/colorPrimary"
                         android:text="@string/naoemembro"
                         android:background="#00ffffff"
-                        android:layout_marginBottom="4dp"
+                        android:layout_marginBottom="6dp"
                         android:typeface="normal"
-                        android:textStyle="normal" />
+                        android:textStyle="normal"
+                        android:layout_gravity="center" />
                     <View
                         android:layout_width="200dp"
                         android:layout_height="2dp"
                         android:background="@color/colorPrimaryDark" />
 
-                    <Button
-                        android:layout_width="match_parent"
+                    <TextView
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
+                        android:layout_marginTop="6dp"
                         android:onClick="autenticar"
                         android:textColor="@color/colorPrimary"
-                        android:elevation="0dp"
-                        android:textSize="11dp"
+                        android:textSize="15sp"
                         android:paddingLeft="16dp"
                         android:paddingRight="16dp"
                         android:text="@string/validarcodigo"
                         android:background="#00ffffff"
-                        android:typeface="normal" />
+                        android:typeface="normal"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="6dp" />
                 </LinearLayout>
             </LinearLayout>
         </ScrollView>

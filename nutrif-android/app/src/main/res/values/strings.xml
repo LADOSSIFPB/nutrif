@@ -39,4 +39,6 @@
     <string name="errocode">Não foi possível gerar o código</string>
     <string name="identificador">Email ou Matrícula</string>
     <string name="title_activity_refeicao">Refeição</string>
+    <string name="instrucaocadastro">Por favor, preencha os campos para realizar o cadastro:</string>
+
 </resources>

@@ -26,31 +26,4 @@ public class ConfirmaPretensaoDia{
 		this.dataPretensao = dataPretensao;
 	}
 
-	@Override
-	public String toString() {
-		return "ConfirmaPretensaoDia [DiaRefeicao=" + diaRefeicao 
-				+ ", dataPretensao=" + dataPretensao + "]";
-	}
-	
-	@Override
-	public boolean equals(Object o) {		
-		
-		if ((o instanceof ConfirmaPretensaoDia)
-				&& ((ConfirmaPretensaoDia) o).getDiaRefeicao().getId() == this.diaRefeicao.getId()
-				&& ((ConfirmaPretensaoDia) o).getDataPretensao().compareTo(this.dataPretensao) == 0
-				&& ((ConfirmaPretensaoDia) o).getDiaRefeicao().isAtivo() == this.diaRefeicao.isAtivo()) { 
-			
-			return true; 
-			
-		} else {
-			
-			return false;
-		}
-	}
-	
-	@Override
-	public int hashCode() {
-		
-		return this.diaRefeicao.getId();
-	}
 }

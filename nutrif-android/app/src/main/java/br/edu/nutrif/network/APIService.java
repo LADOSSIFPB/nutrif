@@ -38,4 +38,8 @@ public interface APIService {
     Call<List<DiaRefeicao>> listaRefeicoes(@Header("Authorization") String accessKey,
                                            @Path("matricula")String matricula);
 
+    @POST("pretensaorefeicao/diarefeicao/verificar")
+    Call<PretensaoRefeicao> infoRefeicao(@Header("Authorization") String accessKey,
+                                         @Body PretensaoRefeicao refeicao);
+
 }

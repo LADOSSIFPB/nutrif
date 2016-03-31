@@ -22,6 +22,18 @@
             android:paddingRight="@dimen/activity_horizontal_margin"
             android:paddingTop="@dimen/activity_vertical_margin">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="@string/instrucaocadastro"
+                android:id="@+id/textView"
+                android:layout_gravity="center"
+                android:textSize="20sp"
+                android:layout_marginBottom="20dp"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="4dp" />
+
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">

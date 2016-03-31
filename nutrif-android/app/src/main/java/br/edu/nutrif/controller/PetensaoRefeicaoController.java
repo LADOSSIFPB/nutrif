@@ -58,5 +58,31 @@ public class PetensaoRefeicaoController {
 
     }
 
+    public static void retornarRefeicao(final Context context, int position, final Replyable<PretensaoRefeicao> ui){
+        PretensaoRefeicao pretensaoRefeicao = new PretensaoRefeicao();
+        pretensaoRefeicao.getConfirmaPretensaoDia().getDiaRefeicao().setId(
+                DiaRefeicaoController.refeicoes.get(position).getId()
+        );
+
+        Call<PretensaoRefeicao> call = ConnectionServer.getInstance().getService().infoRefeicao(
+                PreferencesUtils.getAccessKeyOnSharedPreferences(context),
+                pretensaoRefeicao
+        );
+        call.enqueue(new Callback<PretensaoRefeicao>() {
+            @Override
+            public void onResponse(Response<PretensaoRefeicao> response, Retrofit retrofit) {
+                if(response.isSuccess()){
+                    ui.onSuccess(response.body());
+                }else {
+                    ui.onFailure(ErrorUtils.parseError(response,retrofit,context));
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                ui.failCommunication(t);
+            }
+        });
+    }
 
 }

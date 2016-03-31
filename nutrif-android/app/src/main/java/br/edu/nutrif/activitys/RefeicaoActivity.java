@@ -14,9 +14,14 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.WriterException;
+
+import org.w3c.dom.Text;
+
+import java.text.SimpleDateFormat;
 
 import br.edu.nutrif.R;
 import br.edu.nutrif.controller.DiaRefeicaoController;
@@ -40,6 +45,21 @@ public class RefeicaoActivity extends AppCompatActivity {
     @Bind(R.id.codelayout)
     LinearLayout codelayout;
 
+    @Bind(R.id.dia)
+    TextView dia;
+
+    @Bind(R.id.hora_final)
+    TextView hora_final;
+
+    @Bind(R.id.hora_inicial)
+    TextView hora_inicial;
+
+    @Bind(R.id.tipo)
+    TextView tipo;
+
+    @Bind(R.id.data)
+    TextView data;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,33 +70,38 @@ public class RefeicaoActivity extends AppCompatActivity {
 
     }
 
-    public void on(){
-        final int position = this.getIntent().getIntExtra("position",-1);
+    public void buildContent() {
+        loadLayout.setVisibility(View.VISIBLE);
+        final int position = this.getIntent().getIntExtra("position", -1);
 
-        PetensaoRefeicaoController.pedirRefeicao(this, position, new Replyable<PretensaoRefeicao>() {
-            @Override
-            public void onSuccess(PretensaoRefeicao pretencaoRefeicao) {
-                gerandoQrcode(pretencaoRefeicao.getKeyAccess());
-            }
+        if (position != -1) {
+            PetensaoRefeicaoController.retornarRefeicao(this, position, new Replyable<PretensaoRefeicao>() {
+                @Override
+                public void onSuccess(PretensaoRefeicao pretencaoRefeicao) {
+                    dia.setText(pretencaoRefeicao.getConfirmaPretensaoDia().getDiaRefeicao().getDia().getNome());
+                    hora_final.setText(pretencaoRefeicao.getConfirmaPretensaoDia().getDiaRefeicao().getRefeicao().getHoraFinal());
+                    hora_inicial.setText(pretencaoRefeicao.getConfirmaPretensaoDia().getDiaRefeicao().getRefeicao().getHoraInicio());
 
-            @Override
-            public void onFailure(Erro erro) {
-                AndroidUtil.showSnackbar(RefeicaoActivity.this, erro.getMensagem());
-                String msg = DiaRefeicaoController.refeicoes.get(position).getCodigo();
-                if (msg != null) {
-                    gerandoQrcode(msg);
+                    java.text.SimpleDateFormat dateformate= new SimpleDateFormat("dd-MM HH:mm:ss");
+                    String dataconvertida = dateformate.format(pretencaoRefeicao.getConfirmaPretensaoDia().getDataPretensao());
+
+                    data.setText(dataconvertida);
+                    tipo.setText(pretencaoRefeicao.getConfirmaPretensaoDia().getDiaRefeicao().getRefeicao().getTipo());
                 }
-            }
 
-            @Override
-            public void failCommunication(Throwable throwable) {
-                AndroidUtil.showSnackbar(RefeicaoActivity.this, R.string.erroconexao);
-                String msg = DiaRefeicaoController.refeicoes.get(position).getCodigo();
-                if (msg != null) {
-                    gerandoQrcode(msg);
+                @Override
+                public void onFailure(Erro erro) {
+                    AndroidUtil.showSnackbar(RefeicaoActivity.this, erro.getMensagem());
+
                 }
-            }
-        });
+
+                @Override
+                public void failCommunication(Throwable throwable) {
+                    AndroidUtil.showSnackbar(RefeicaoActivity.this, R.string.erroconexao);
+
+                }
+            });
+        }
     }
 
     public void gerandoQrcode(String str) {
@@ -108,6 +133,6 @@ public class RefeicaoActivity extends AppCompatActivity {
 
     public void alteraView(View view) {
         codelayout.setVisibility(codelayout.getVisibility() == View.GONE ? View.VISIBLE : View.GONE);
-        content.setVisibility(content.getVisibility() == View.GONE?  View.VISIBLE : View.GONE);
+        content.setVisibility(content.getVisibility() == View.GONE ? View.VISIBLE : View.GONE);
     }
 }

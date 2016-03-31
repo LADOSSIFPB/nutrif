@@ -1,6 +1,6 @@
 package br.edu.nutrif.entitys;
 
-public class DiaRefeicao {
+public class  DiaRefeicao {
 
     private Aluno aluno;
     private Integer id;
