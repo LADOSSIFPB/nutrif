@@ -1,6 +1,6 @@
-<!DOCTYPE HTML>
+﻿<!DOCTYPE HTML>
 <!--
-	Helios by HTML5 UP
+	Twenty by HTML5 UP
 	html5up.net | @n33co
 	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 -->
@@ -11,82 +11,166 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
 		<link rel="stylesheet" href="assets/css/main.css" />
-		<link rel="shortcut icon" href="assets/img/fav.png">
+		<link rel="shortcut icon" href="images/fav.png">
 		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
 	</head>
-	<body class="homepage">
+	<body class="index">
 		<div id="page-wrapper">
-			
-				<div id="header">
+			<!-- 
+				<header id="header" class="alt">
+					<h1 id="logo"><a href="#banner" class="scrolly">LADOSS</a></h1>
+					<nav id="nav">
+						<ul>
+							<li class="submenu">
+								<a>Conheça-nos</a>
+								<ul>
+									<li><a href="#banner" class="scrolly">Home</a></li>
+									<li class="submenu">
+										<a href="#main" class="scrolly">Projetos</a>
+										<ul>
+											<li><a href="#ifopendoors" class="scrolly">IFOpenDoors</a></li>
+											<li><a href="#nutrif" class="scrolly">Nutrif</a></li>
+											<li><a href="#ifpitaco" class="scrolly">IFPitaco</a></li>
+											<li><a href="#qmanager" class="scrolly">Quality-Manager</a></li>
+											<li><a href="#popjudge" class="scrolly">POPJudge</a></li>
+											<li><a href="#recdata" class="scrolly">RECData</a></li>
+										</ul>
+									</li>
+									<li><a href="#footer" class="scrolly">Contato</a></li>
+								</ul>
+							</li>
+						</ul>
+					</nav>
+				</header> -->
 
-						<div class="inner">
-							<header>
-								<h1>
-								<img src="assets/img/logo.png"></a>
-								</h1>
-								<hr />
-								<p>Conectando você à sua refeição</p>
-							</header>
-							<footer>
-								<div class = "icons-header">
-									<a href="#banner"><img src="assets/img/cellphone.png"></a>
-									<a href="#banner"><img src="assets/img/fav.png"></a>
-								</div>
-							</footer>
+			<!-- Banner -->
+				<section id="banner">
+
+					<!--
+						".inner" is set up as an inline-block so it automatically expands
+						in both directions to fit whatever's inside it. This means it won't
+						automatically wrap lines, so be sure to use line breaks where
+						appropriate (<br />).
+					-->
+					<div class="inner">
+
+						<header>
+							<img class = "image.fit" src="images/logo-branca.png" width="100%">
+						</header>
+						<hr/>
+						<p>Conectando você à sua refeição</p>
+						<div class="row">
+							<!-- <div class="4u 12u(narrower)">
+								<a href="" target="blank">
+									<img class="image.fit" src="images/admin.png" width="30%">
+									<p>Administrador</p>
+								</a>
+							</div> -->
+							<div class="6u 12u(narrower)">
+								<a href="" target="blank">
+									<img class="image.fit" src="images/celular.png" width="30%">
+									<p>Aluno</p>
+								</a>
+							</div>
+							<div class="6u 12u(narrower)">
+								<a href="" target="blank">
+									<img class="image.fit" src="images/talheres.png" width="69%">
+									<p>Servidor</p>
+								</a>
+							</div>
 						</div>
 					</div>
-				</div>
 
-		
-				 <div id="footer">
-					<div class="container">
+				</section>
+
+			
+				<!-- <article id="main">
+					<header class="special container" id="home">
+						<h2>Isto é o que desenvolvemos no <strong>LADOSS</strong></h2>
+						<h6>Clique em um projeto para saber mais</h6>
+					</header>
+					<section class="wrapper style2 container special-alt">
 						<div class="row">
-							<div class="12u">
-
-									<section class="contact">
-										<header>
-											<h3>Quer saber mais sobre nós?</h3>
-										</header>
-										<div class = "row">
-											<div class="6u 12u">
-												<a href="#">
-													<img class = "nutrif-icon"src="assets/img/ladoss-branco.png">
-												</a>
-											</div>
-											<div class="6u 12u">
-												<a href="#">
-													<img class = "nutrif-icon" src="assets/img/ifpb-branco.png">
-												</a>
-											</div>
-										</div>
-
-									</section>
-									<p></p>
-									<!-- <div class="copyright">
-										<ul>
-											<li>&copy; <a href = "http://ladoss.com.br:8773/ladoss" target="blank">LADOSS</a>. All rights reserved.</li>
-
-											<li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
-										</ul>
-									</div> -->
-
+							<div class="4u 12u(narrower)" align="center">
+								<a href = "#ifopendoors" class="linkable scrolly">
+									<img src = "images/ifopendoors.png" width="85%">
+								</a>
 							</div>
-
+							<div class="4u 12u(narrower)" align="center">
+								<a href = "#nutrif" class="linkable scrolly">
+									<img src = "images/nutrif.png" width="85%">
+								</a>
+							</div>
+							<div class="4u 12u(narrower)" align="center">
+								<a href = "#ifpitaco" class="linkable scrolly">
+									<img src = "images/ifpitaco.png" width="85%">
+								</a>
+							</div>
 						</div>
-					</div> 
-				</div>
+						<div class="row">
+							<div class="4u 12u(narrower)" align="center">
+								<a href = "#qmanager" class="linkable scrolly">
+									<img src = "images/qmanager.png" width="85%">
+								</a>
+							</div>
+							<div class="4u 12u(narrower)" align="center">
+								<a href = "#popjudge" class="linkable scrolly">
+									<img src = "images/popjudge.png" width="85%">
+								</a>
+							</div>
+							<div class="4u 12u(narrower)" align="center">
+								<a href = "#recdata" class="linkable scrolly">
+									<img src = "images/popjudge.png" width="85%">
+								</a>
+							</div>
+						</div>
+					</section>
+				</article>
+			</div> -->
+			<!-- Footer -->
 
-		</div>
+				<footer id="footer">
 
-		
+					<!-- <ul class="icons icons-footer">
+						<li><a href="https://www.facebook.com/LDSMS.IFPB" target="_blank" class="icon circle fa-facebook"><span class="label">Facebook</span></a></li>
+						<li><a href="https://github.com/LADOSSIFPB" target="_blank" class="icon circle fa-github"><span class="label">Github</span></a></li>
+					</ul>
+ -->
+					<div class="row">
+						<div class="1u 12u(narrower)"></div>
+						<div class="5u 12u(narrower)">
+							<section class="footer-info"align="left">
+								<a href="http://www.ifpb.edu.br" target="blank">
+									<img src="images/ifpb-branco.png" width="72%">
+								</a>
+							</section>
+						</div>
+						<div class="5u 12u(narrower)">
+							<section class="footer-info" align="left">
+									<a href="http://www.ladoss.com.br:8773/ladoss" target="blank">
+										<img src="images/ladoss-branco.png" width="82%">
+								  	</a>
+							</section>
+						</div>
+						<div class="1u 12u(narrower)"></div>					
+					</div>
+					<ul class="copyright">
+						<li>&copy; LADOSS 2015</li>
+						<li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+					</ul>
+
+				</footer>
+
+		<!-- Scripts -->
 			<script src="assets/js/jquery.min.js"></script>
 			<script src="assets/js/jquery.dropotron.min.js"></script>
 			<script src="assets/js/jquery.scrolly.min.js"></script>
-			<script src="assets/js/jquery.onvisible.min.js"></script>
+			<script src="assets/js/jquery.scrollgress.min.js"></script>
 			<script src="assets/js/skel.min.js"></script>
 			<script src="assets/js/util.js"></script>
-			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]
-			<script src="assets/js/main.js"></script>-->
+			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+			<script src="assets/js/main.js"></script>
 
 	</body>
 </html>
