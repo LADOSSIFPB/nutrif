@@ -13,7 +13,7 @@ import br.edu.nutrif.database.dao.DiaRefeicaoDAO;
  * Created by juan on 14/03/16.
  */
 public class DatabaseCore extends SQLiteOpenHelper {
-    private static final int VERSION = 1;
+    private static final int VERSION = 3;
 
     public DatabaseCore(Context context) {
         super(context, context.getString(R.string.app_name), null, VERSION);
@@ -28,7 +28,8 @@ public class DatabaseCore extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("drop table "+ AlunoDAO.ALUNO_TABLE +" ;");
+       // db.execSQL("drop table "+ AlunoDAO.ALUNO_TABLE +" ;");
+        db.execSQL("drop table tb_pessoa ;");
         onCreate(db);
     }
 }

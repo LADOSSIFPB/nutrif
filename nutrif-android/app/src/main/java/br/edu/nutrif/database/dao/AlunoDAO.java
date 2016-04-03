@@ -13,7 +13,7 @@ public class AlunoDAO extends GenericDAO {
     public static final String ALUNO_TABLE = "tb_aluno";
     public static final String CREATE_TABLE = "create table IF NOT EXISTS " + ALUNO_TABLE + " (" +
             "_email text primary key unique, " +
-            "matricula text not null, " +
+            "matricula text not null," +
             "senha text not null);";
 
     public AlunoDAO(Context context) {
@@ -33,16 +33,16 @@ public class AlunoDAO extends GenericDAO {
         insert(ALUNO_TABLE, values);
     }
 
-    public  Aluno find() {
-        String[] colums = new String[]{"matricula", "_email", "senha"};
+    public Aluno find() {
+        String[] colums = new String[]{"_email", "senha", "matricula"};
         Cursor cursor = db.query(ALUNO_TABLE, colums, null, null, null, null, "_email");
 
         for (int i = cursor.getCount(); i != 0; i--) {
             cursor.moveToLast();
             Aluno u = new Aluno();
-            u.setMatricula(cursor.getString(0));
-            u.setEmail(cursor.getString(1));
-            u.setSenha(cursor.getString(2));
+            u.setEmail(cursor.getString(0));
+            u.setSenha(cursor.getString(1));
+            u.setMatricula(cursor.getString(2));
             cursor.close();
             return u;
         }

@@ -12,12 +12,13 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
+        android:name=".view.NutrifApplication"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".activitys.LoginActivity"
+            android:name=".view.activitys.LoginActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activitys.StartActivity"
+            android:name=".view.activitys.StartActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,32 +27,32 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activitys.RefeitorioActivity"
+            android:name=".view.activitys.RefeitorioActivity"
             android:screenOrientation="portrait"></activity>
         <activity
-            android:name=".activitys.CadastroActivity"
+            android:name=".view.activitys.CadastroActivity"
             android:label="@string/title_activity_cadastro"
-            android:parentActivityName=".activitys.LoginActivity">
+            android:parentActivityName=".view.activitys.LoginActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="br.edu.nutrif.activitys.LoginActivity" />
+                android:value=".view.activitys.LoginActivity" />
         </activity>
         <activity
-            android:name=".activitys.ConfirmationActivity"
+            android:name=".view.activitys.ConfirmationActivity"
             android:label="@string/confirmacao"
-            android:parentActivityName=".activitys.LoginActivity">
+            android:parentActivityName=".view.activitys.LoginActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="br.edu.nutrif.activitys.LoginActivity" />
+                android:value=".view.activitys.LoginActivity" />
         </activity>
         <activity
-            android:name=".activitys.RefeicaoActivity"
+            android:name=".view.activitys.RefeicaoActivity"
             android:label="@string/title_activity_refeicao"
-            android:parentActivityName=".activitys.RefeitorioActivity"
+            android:parentActivityName=".view.activitys.RefeitorioActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="br.edu.nutrif.activitys.RefeitorioActivity" />
+                android:value=".view.activitys.RefeitorioActivity" />
         </activity>
     </application>
 

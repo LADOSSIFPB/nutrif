@@ -1,36 +1,29 @@
-package br.edu.nutrif.activitys;
+package br.edu.nutrif.view.activitys;
 
 import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.WriterException;
 
-import org.w3c.dom.Text;
-
 import java.text.SimpleDateFormat;
 
 import br.edu.nutrif.R;
-import br.edu.nutrif.controller.DiaRefeicaoController;
 import br.edu.nutrif.controller.PetensaoRefeicaoController;
 import br.edu.nutrif.controller.Replyable;
 import br.edu.nutrif.entitys.PretensaoRefeicao;
 import br.edu.nutrif.entitys.output.Erro;
-import br.edu.nutrif.qrcode.Contents;
-import br.edu.nutrif.qrcode.QRCodeEncoder;
+import br.edu.nutrif.util.qrcode.Contents;
+import br.edu.nutrif.util.qrcode.QRCodeEncoder;
 import br.edu.nutrif.util.AndroidUtil;
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -67,6 +60,7 @@ public class RefeicaoActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ButterKnife.bind(this);
+        buildContent();
 
     }
 
@@ -92,6 +86,7 @@ public class RefeicaoActivity extends AppCompatActivity {
                 @Override
                 public void onFailure(Erro erro) {
                     AndroidUtil.showSnackbar(RefeicaoActivity.this, erro.getMensagem());
+                    finish();
 
                 }
 

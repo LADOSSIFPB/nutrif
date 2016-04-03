@@ -5,7 +5,6 @@ import android.content.Context;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.edu.nutrif.database.DatabaseCore;
 import br.edu.nutrif.database.dao.AlunoDAO;
 import br.edu.nutrif.database.dao.DiaRefeicaoDAO;
 import br.edu.nutrif.entitys.DiaRefeicao;
@@ -26,11 +25,10 @@ public class DiaRefeicaoController {
 
     public static void gerarHorario(final Context context, final Replyable<List<DiaRefeicao>> ui) {
 
-        String matricula = AlunoDAO.getInstance(context).find().getMatricula();
         String auth = PreferencesUtils.getAccessKeyOnSharedPreferences(context);
+        String matricula = AlunoDAO.getInstance(context).find().getMatricula();
 
-        Call<List<DiaRefeicao>> call = ConnectionServer.getInstance().getService().listaRefeicoes(auth,
-                matricula);
+        Call<List<DiaRefeicao>> call = ConnectionServer.getInstance().getService().listaRefeicoes(auth, matricula);
         call.enqueue(new Callback<List<DiaRefeicao>>() {
             @Override
             public void onResponse(Response<List<DiaRefeicao>> response, Retrofit retrofit) {

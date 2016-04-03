@@ -1,9 +1,6 @@
-package br.edu.nutrif.activitys;
+package br.edu.nutrif.view.activitys;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -12,7 +9,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 
 import br.edu.nutrif.R;
-import br.edu.nutrif.controller.AlunoController;
+import br.edu.nutrif.controller.PessoaController;
 import br.edu.nutrif.controller.Replyable;
 import br.edu.nutrif.entitys.Aluno;
 import br.edu.nutrif.entitys.Pessoa;
@@ -42,12 +39,12 @@ public class LoginActivity extends AppCompatActivity {
 
     public void login(View v) {
         change();
-        Aluno aluno = validate();
+        Pessoa aluno = validate();
         if (aluno != null) {
-            AlunoController.login(aluno, this,
-                    new Replyable<Aluno>() {
+            PessoaController.login(aluno, this,
+                    new Replyable<Pessoa>() {
                         @Override
-                        public void onSuccess(Aluno aluno) {
+                        public void onSuccess(Pessoa aluno) {
                             startActivity(new Intent(LoginActivity.this, RefeitorioActivity.class));
                             finish();
                         }

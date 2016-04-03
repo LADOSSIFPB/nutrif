@@ -1,37 +1,24 @@
-package br.edu.nutrif.activitys;
+package br.edu.nutrif.view.activitys;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
-import android.view.Display;
 import android.view.View;
-import android.view.WindowManager;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.google.zxing.BarcodeFormat;
-import com.google.zxing.WriterException;
-
 import java.util.List;
 
 import br.edu.nutrif.R;
-import br.edu.nutrif.adapters.HorarioAdapter;
-import br.edu.nutrif.callback.CallbackButton;
+import br.edu.nutrif.view.adapters.HorarioAdapter;
+import br.edu.nutrif.view.callback.CallbackButton;
 import br.edu.nutrif.controller.DiaRefeicaoController;
-import br.edu.nutrif.controller.PetensaoRefeicaoController;
 import br.edu.nutrif.controller.Replyable;
 import br.edu.nutrif.entitys.DiaRefeicao;
-import br.edu.nutrif.entitys.PretensaoRefeicao;
 import br.edu.nutrif.entitys.output.Erro;
-import br.edu.nutrif.qrcode.Contents;
-import br.edu.nutrif.qrcode.QRCodeEncoder;
 import br.edu.nutrif.util.AndroidUtil;
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -46,8 +33,6 @@ public class RefeitorioActivity extends AppCompatActivity implements CallbackBut
     @Bind(R.id.recycle)
     RecyclerView recycle;
 
-    @Bind(R.id.codelayout)
-    LinearLayout codelayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

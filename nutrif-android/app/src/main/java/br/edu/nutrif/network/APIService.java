@@ -4,6 +4,7 @@ import java.util.List;
 
 import br.edu.nutrif.entitys.Aluno;
 import br.edu.nutrif.entitys.DiaRefeicao;
+import br.edu.nutrif.entitys.Pessoa;
 import br.edu.nutrif.entitys.PretensaoRefeicao;
 import br.edu.nutrif.entitys.input.ConfirmationKey;
 import retrofit.Call;
@@ -24,11 +25,14 @@ public interface APIService {
     @POST("aluno/acesso/inserir")
     Call<Aluno> inserir(@Body Aluno aluno);
 
+    @GET("aluno/id/{id}")
+    Call<Aluno> getMatricula(@Header("Authorization") String accessKey, @Path("id")String id);
+
     @POST("aluno/confirmar")
     Call<Void> confirmar(@Body ConfirmationKey confirmation);
 
-    @POST("aluno/login")
-    Call<Aluno> login(@Body Aluno aluno);
+    @POST("pessoa/login")
+    Call<Pessoa> login(@Body Pessoa pessoa);
 
     @POST("pretensaorefeicao/inserir")
     Call<PretensaoRefeicao> pedirRefeicao(@Header("Authorization") String accessKey,

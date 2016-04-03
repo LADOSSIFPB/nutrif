@@ -1,4 +1,4 @@
-package br.edu.nutrif.callback;
+package br.edu.nutrif.view.callback;
 
 import android.view.View;
 

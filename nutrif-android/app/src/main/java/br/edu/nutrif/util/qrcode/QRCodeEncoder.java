@@ -1,4 +1,4 @@
-package br.edu.nutrif.qrcode;
+package br.edu.nutrif.util.qrcode;
 
 import android.provider.ContactsContract;
 import android.graphics.Bitmap;
