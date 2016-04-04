@@ -74,6 +74,7 @@ angular.module('NutrifApp').controller("pesquisaCtrl", function ($scope, diaRefe
 
 		delete _refeicaoRealizada.confirmaRefeicaoDia.diaRefeicao.refeicao.horaInicio;
 		delete _refeicaoRealizada.confirmaRefeicaoDia.diaRefeicao.refeicao.horaFinal;
+		delete _refeicaoRealizada.confirmaRefeicaoDia.diaRefeicao.refeicao.horaPretensao; 
 
 		refeicaoRealizadaService.inserirRefeicao(_refeicaoRealizada).success(function (data, status) {
 
