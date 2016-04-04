@@ -5,25 +5,57 @@
     android:layout_height="match_parent"
     tools:context="br.edu.nutrif.view.activitys.RefeitorioActivity">
 
-    <RelativeLayout
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/content"
-        android:layout_gravity="center">
+        android:layout_gravity="center"
+        android:background="#f3f3f3">
+        <android.support.design.widget.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/AppTheme.AppBarOverlay">
+
+            <android.support.v7.widget.Toolbar
+                style="@style/AppTheme"
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimary"
+                android:elevation="4dp" />
+
+        </android.support.design.widget.AppBarLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/refeicoesdireito"
+            android:id="@+id/textView2"
+            android:layout_gravity="center_horizontal"
+            android:textColor="@color/colorPrimary"
+            android:layout_margin="10dp"
+            android:textAlignment="center"
+            android:phoneNumber="false"
+            android:password="false"
+            style="@style/TextAppearance.AppCompat.Display1"
+            android:textSize="20sp" />
+
         <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/recycle">
         </android.support.v7.widget.RecyclerView>
 
-    </RelativeLayout>
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/loadinglayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#cf000000"
-        android:gravity="center_vertical|center|center_horizontal">
+        android:gravity="center_vertical|center|center_horizontal"
+        android:visibility="gone">
 
         <ProgressBar
             android:layout_width="wrap_content"

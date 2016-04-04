@@ -3,6 +3,8 @@ package br.edu.nutrif.util;
 import android.content.Context;
 import android.util.Log;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.squareup.okhttp.ResponseBody;
 
 import java.io.IOException;
@@ -19,11 +21,13 @@ public class ErrorUtils {
     public static Erro parseError(Response<?> response, Retrofit retrofit, Context context) {
         Converter<ResponseBody, Erro> converter =
                 retrofit.responseConverter(Erro.class, new Annotation[0]);
-        Erro error = null;
+        Erro error;
         try {
             error = converter.convert(response.errorBody());
+            if(error == null){
+                error = new Erro(0, context.getString(R.string.undefinedError));
+            }
         } catch (IOException e) {
-            e.printStackTrace();
             error = new Erro(0, context.getString(R.string.undefinedError));
         }
         return error;

@@ -58,8 +58,11 @@ public class RefeicaoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_refeicao);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setLogo(R.mipmap.ic_launcher);
+        toolbar.setTitle(R.string.app_name);
         setSupportActionBar(toolbar);
         ButterKnife.bind(this);
+        carregando();
         buildContent();
 
     }
@@ -76,7 +79,7 @@ public class RefeicaoActivity extends AppCompatActivity {
                     hora_final.setText(pretencaoRefeicao.getConfirmaPretensaoDia().getDiaRefeicao().getRefeicao().getHoraFinal());
                     hora_inicial.setText(pretencaoRefeicao.getConfirmaPretensaoDia().getDiaRefeicao().getRefeicao().getHoraInicio());
 
-                    java.text.SimpleDateFormat dateformate= new SimpleDateFormat("dd-MM HH:mm:ss");
+                    java.text.SimpleDateFormat dateformate = new SimpleDateFormat("dd-MM HH:mm:ss");
                     String dataconvertida = dateformate.format(pretencaoRefeicao.getConfirmaPretensaoDia().getDataPretensao());
 
                     data.setText(dataconvertida);
@@ -85,15 +88,15 @@ public class RefeicaoActivity extends AppCompatActivity {
 
                 @Override
                 public void onFailure(Erro erro) {
-                    AndroidUtil.showSnackbar(RefeicaoActivity.this, erro.getMensagem());
+                    AndroidUtil.showToast(RefeicaoActivity.this, erro.getMensagem());
                     finish();
 
                 }
 
                 @Override
                 public void failCommunication(Throwable throwable) {
-                    AndroidUtil.showSnackbar(RefeicaoActivity.this, R.string.erroconexao);
-
+                    AndroidUtil.showToast(RefeicaoActivity.this, R.string.erroconexao);
+                    finish();
                 }
             });
         }
@@ -128,6 +131,11 @@ public class RefeicaoActivity extends AppCompatActivity {
 
     public void alteraView(View view) {
         codelayout.setVisibility(codelayout.getVisibility() == View.GONE ? View.VISIBLE : View.GONE);
+        content.setVisibility(content.getVisibility() == View.GONE ? View.VISIBLE : View.GONE);
+    }
+
+    public void carregando(){
+        loadLayout.setVisibility(loadLayout.getVisibility() == View.GONE? View.VISIBLE : View.GONE);
         content.setVisibility(content.getVisibility() == View.GONE ? View.VISIBLE : View.GONE);
     }
 }

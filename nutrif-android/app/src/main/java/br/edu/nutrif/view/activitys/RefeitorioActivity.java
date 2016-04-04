@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -28,7 +29,7 @@ public class RefeitorioActivity extends AppCompatActivity implements CallbackBut
     LinearLayout loadLayout;
 
     @Bind(R.id.content)
-    RelativeLayout content;
+    LinearLayout content;
 
     @Bind(R.id.recycle)
     RecyclerView recycle;
@@ -39,8 +40,10 @@ public class RefeitorioActivity extends AppCompatActivity implements CallbackBut
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_refeitorio);
         ButterKnife.bind(this);
-        // Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        // setSupportActionBar(toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setLogo(R.mipmap.ic_launcher);
+        toolbar.setTitle(R.string.app_name);
+        setSupportActionBar(toolbar);
         DiaRefeicaoController.gerarHorario(this, new Replyable<List<DiaRefeicao>>() {
             @Override
             public void onSuccess(List<DiaRefeicao> diaRefeicaos) {
