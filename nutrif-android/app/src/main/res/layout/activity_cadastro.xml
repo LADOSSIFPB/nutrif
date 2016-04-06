@@ -4,8 +4,23 @@
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
     android:orientation="vertical"
+    style="@style/Theme.AppCompat.Light.NoActionBar"
     tools:context=".view.activitys.CadastroActivity">
 
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            style="@style/AppTheme"
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:elevation="4dp" />
+
+    </android.support.design.widget.AppBarLayout>
     <ScrollView
         android:id="@+id/login_form"
         android:layout_width="match_parent"

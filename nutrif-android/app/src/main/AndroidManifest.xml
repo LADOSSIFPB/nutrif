@@ -33,7 +33,6 @@
         <activity
             android:name=".view.activitys.CadastroActivity"
             android:label="@string/title_activity_cadastro"
-            android:theme="@style/AppTheme.NoActionBar"
             android:parentActivityName=".view.activitys.LoginActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

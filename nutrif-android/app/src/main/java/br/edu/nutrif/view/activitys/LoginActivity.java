@@ -34,11 +34,12 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle(R.string.app_name);
         toolbar.setLogo(R.mipmap.ic_launcher);
     }
 
     public void login(View v) {
-        change();
+        change(false);
         Pessoa aluno = validate();
         if (aluno != null) {
             PessoaController.login(aluno, this,
@@ -52,13 +53,13 @@ public class LoginActivity extends AppCompatActivity {
                         @Override
                         public void onFailure(Erro erro) {
                             AndroidUtil.showSnackbar(LoginActivity.this, erro.getMensagem());
-                            LoginActivity.this.change();
+                            LoginActivity.this.change(true);
                         }
 
                         @Override
                         public void failCommunication(Throwable throwable) {
                             AndroidUtil.showSnackbar(LoginActivity.this, getString(R.string.erroconexao));
-                            LoginActivity.this.change();
+                            LoginActivity.this.change(true);
                         }
                     });
         }
@@ -94,8 +95,13 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
-    public void change() {
-        content.setVisibility(content.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
-        carregarLayout.setVisibility(carregarLayout.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
+    public void change(final boolean ativo) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                carregarLayout.setVisibility(ativo ? View.GONE : View.VISIBLE);
+                content.setVisibility(!ativo ? View.GONE : View.VISIBLE);
+            }
+        });
     }
 }
