@@ -27,6 +27,7 @@ import br.edu.ifpb.nutrif.util.EmailUtil;
 import br.edu.ifpb.nutrif.util.StringUtil;
 import br.edu.ifpb.nutrif.validation.Validate;
 import br.edu.ladoss.entity.Aluno;
+import br.edu.ladoss.entity.AlunoAcesso;
 import br.edu.ladoss.entity.Curso;
 import br.edu.ladoss.entity.Error;
 
@@ -272,24 +273,24 @@ public class AlunoController {
 	@Path("/acesso/inserir")
 	@Consumes("application/json")
 	@Produces("application/json")
-	public Response insertAcesso(Aluno aluno) {
+	public Response insertAcesso(AlunoAcesso alunoAcesso) {
 		
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
 		builder.expires(new Date());
 		
 		// Validação dos dados de entrada.
-		int validacao = Validate.acessoAluno(aluno);
+		int validacao = Validate.acessoAluno(alunoAcesso);
 		
 		if (validacao == Validate.VALIDATE_OK) {
 			
 			try {			
 				
-				String senhaPlana = aluno.getSenha();
-				String email = aluno.getEmail();
-				String matricula = aluno.getMatricula();
+				String senhaPlana = alunoAcesso.getSenha();
+				String email = alunoAcesso.getEmail();
+				String matricula = alunoAcesso.getMatricula();
 				
 				// Recuperar Aluno através da matrícula.
-				aluno = AlunoDAO.getInstance().getByMatricula(matricula);
+				Aluno aluno = AlunoDAO.getInstance().getByMatricula(matricula);
 				
 				if (aluno != null 
 						&& aluno.getId() != BancoUtil.IDVAZIO) {
