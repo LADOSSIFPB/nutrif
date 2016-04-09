@@ -6,28 +6,30 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 
 import br.edu.nutrif.R;
+import br.edu.nutrif.controller.PessoaController;
+import br.edu.nutrif.controller.Replyable;
 import br.edu.nutrif.entitys.Aluno;
-import br.edu.nutrif.entitys.Pessoa;
-import br.edu.nutrif.network.ConnectionServer;
+import br.edu.nutrif.entitys.output.Erro;
 import br.edu.nutrif.util.AndroidUtil;
-import br.edu.nutrif.util.ErrorUtils;
+import br.edu.nutrif.util.ValidateUtil;
+import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.*;
-import retrofit.Call;
-import retrofit.Callback;
-import retrofit.Response;
-import retrofit.Retrofit;
 
 
-public class CadastroActivity extends AppCompatActivity {
+public class CadastroActivity extends AppCompatActivity implements Replyable<Aluno>{
     @Bind(R.id.email)
     EditText email;
     @Bind(R.id.password)
     EditText senha;
     @Bind(R.id.matricula)
     EditText matricula;
+    @Bind(R.id.carregando)
+    LinearLayout carregarLayout;
+    @Bind(R.id.content)
+    LinearLayout content;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,56 +45,62 @@ public class CadastroActivity extends AppCompatActivity {
     }
 
     public void registrar(View v) {
+        change(false);
         if (!validate()) {
-            Call<Aluno> call = ConnectionServer.getInstance()
-                    .getService()
-                    .inserir(
-                            new Aluno(
-                                    matricula.getText().toString(),
-                                    email.getText().toString(),
-                                    senha.getText().toString()
-                            ));
-            call.enqueue(new Callback<Aluno>() {
-                @Override
-                public void onResponse(Response<Aluno> response, Retrofit retrofit) {
-                    if (response.isSuccess()) {
-                        Bundle bundle = new Bundle();
-                        bundle.putString("matricula", matricula.getText().toString());
-                        Intent intent = new Intent(CadastroActivity.this, ConfirmationActivity.class);
-                        intent.putExtras(bundle);
-                        startActivity(intent);
-                        finish();
-                    } else {
-                        AndroidUtil.showSnackbar(CadastroActivity.this, ErrorUtils.parseError(response, retrofit, CadastroActivity.this).getMensagem());
-                    }
-                }
-
-                @Override
-                public void onFailure(Throwable t) {
-                    AndroidUtil.showSnackbar(CadastroActivity.this, R.string.erroconexao);
-                }
-            });
+            PessoaController.cadastrar(new Aluno(
+                    matricula.getText().toString(),
+                    email.getText().toString(),
+                    senha.getText().toString()),
+                    this,this);
         }
     }
 
     public boolean validate() {
-        if (email.getText().length() > Pessoa.LENGHT_MAX_EMAIL ||
-                email.getText().length() < Pessoa.LENGHT_MIN_EMAIL ||
-                email.getText().toString().matches("^[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]+$")) {
+        if (ValidateUtil.validateField(email.getText().toString(), ValidateUtil.EMAIL)!=ValidateUtil.OK){
             email.setError(this.getString(R.string.invalido));
             return true;
         }
-        if (senha.getText().length() > Pessoa.LENGHT_MAX_SENHA ||
-                senha.getText().length() < Pessoa.LENGHT_MIN_SENHA) {
+        if (ValidateUtil.validateField(senha.getText().toString(), ValidateUtil.SENHA)!= ValidateUtil.OK) {
             senha.setError(this.getString(R.string.invalido));
             return true;
         }
-        int tam = matricula.getText().length();
-        if (tam != Pessoa.LENGHT_MATRICULA) {
+        if (ValidateUtil.validateField(matricula.getText().toString(),ValidateUtil.MATRICULA)!=ValidateUtil.OK) {
             matricula.setError(this.getString(R.string.invalido));
             return true;
         }
         return false;
+    }
+
+    public void change(final boolean ativo) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                carregarLayout.setVisibility(ativo ? View.GONE : View.VISIBLE);
+                content.setVisibility(!ativo ? View.GONE : View.VISIBLE);
+            }
+        });
+    }
+
+    @Override
+    public void onSuccess(Aluno aluno) {
+        Bundle bundle = new Bundle();
+        bundle.putString("matricula", matricula.getText().toString());
+        Intent intent = new Intent(CadastroActivity.this, ConfirmationActivity.class);
+        intent.putExtras(bundle);
+        startActivity(intent);
+        finish();
+    }
+
+    @Override
+    public void onFailure(Erro erro) {
+        AndroidUtil.showSnackbar(CadastroActivity.this, erro.getMensagem());
+        change(true);
+    }
+
+    @Override
+    public void failCommunication(Throwable throwable) {
+        AndroidUtil.showSnackbar(CadastroActivity.this, R.string.erroconexao);
+        change(true);
     }
 }
 

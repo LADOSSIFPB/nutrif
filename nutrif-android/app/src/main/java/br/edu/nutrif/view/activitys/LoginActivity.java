@@ -23,7 +23,7 @@ public class LoginActivity extends AppCompatActivity {
     EditText identificador;
     @Bind(R.id.passwordEdit)
     EditText senha;
-    @Bind(R.id.carregando)
+    @Bind(R.id.carregando_layout)
     LinearLayout carregarLayout;
     @Bind(R.id.content)
     LinearLayout content;

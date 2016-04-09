@@ -1,6 +1,8 @@
 package br.edu.nutrif.controller;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 
 import java.io.IOException;
 
@@ -10,8 +12,10 @@ import br.edu.nutrif.entitys.Aluno;
 import br.edu.nutrif.entitys.Pessoa;
 import br.edu.nutrif.entitys.output.Erro;
 import br.edu.nutrif.network.ConnectionServer;
+import br.edu.nutrif.util.AndroidUtil;
 import br.edu.nutrif.util.ErrorUtils;
 import br.edu.nutrif.util.PreferencesUtils;
+import br.edu.nutrif.view.activitys.ConfirmationActivity;
 import retrofit.Call;
 import retrofit.Callback;
 import retrofit.Response;
@@ -21,6 +25,7 @@ import retrofit.Retrofit;
  * Created by juan on 21/03/16.
  */
 public class PessoaController {
+
     public static void login(final Pessoa pessoa, final Context context, final Replyable<Pessoa> ui) {
         new Thread(new Runnable() {
             @Override
@@ -59,7 +64,6 @@ public class PessoaController {
         ).start();
     }
 
-
     public static void login(final Context context, final Replyable<Pessoa> ui) {
 
         AlunoDAO alunoDAO = new AlunoDAO(context);
@@ -74,11 +78,11 @@ public class PessoaController {
 
     private static boolean salvaPessoa(Context context, Pessoa pessoa) {
 
-        if (pessoa.getTipo() == null || Integer.parseInt(pessoa.getTipo()) != 2)
+        if (Integer.parseInt(pessoa.getTipo()) != 1)
             return false;
 
         Call<Aluno> call = ConnectionServer.getInstance().getService().getMatricula(
-                PreferencesUtils.getAccessKeyOnSharedPreferences(context),
+                pessoa.getKeyAuth(),
                 pessoa.getId().toString());
         try {
             Response<Aluno> response = call.execute();
@@ -95,5 +99,33 @@ public class PessoaController {
             e.printStackTrace();
         }
         return false;
+    }
+
+    public static void cadastrar(final Aluno aluno,final Context context, final  Replyable<Aluno> ui){
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                Call<Aluno> call = ConnectionServer.getInstance()
+                        .getService()
+                        .inserir(aluno);
+                call.enqueue(new Callback<Aluno>() {
+                    @Override
+                    public void onResponse(Response<Aluno> response, Retrofit retrofit) {
+                        if (response.isSuccess()) {
+                            ui.onSuccess(response.body());
+                        } else {
+                            ui.onFailure(ErrorUtils.parseError(response,retrofit,context));
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Throwable t) {
+                        ui.failCommunication(t);
+                    }
+                });
+            }
+        }).start();
     }
 }
