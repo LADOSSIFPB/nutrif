@@ -16,7 +16,7 @@ import retrofit.Retrofit;
 /**
  * Created by juan on 21/03/16.
  */
-public class PetensaoRefeicaoController {
+public class PretensaoRefeicaoController {
 
     public static void pedirRefeicao(final Context context, int position, final Replyable<PretensaoRefeicao> ui) {
 

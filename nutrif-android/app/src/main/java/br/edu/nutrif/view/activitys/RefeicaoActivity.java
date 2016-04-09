@@ -18,7 +18,7 @@ import com.google.zxing.WriterException;
 import java.text.SimpleDateFormat;
 
 import br.edu.nutrif.R;
-import br.edu.nutrif.controller.PetensaoRefeicaoController;
+import br.edu.nutrif.controller.PretensaoRefeicaoController;
 import br.edu.nutrif.controller.Replyable;
 import br.edu.nutrif.entitys.PretensaoRefeicao;
 import br.edu.nutrif.entitys.output.Erro;
@@ -72,7 +72,7 @@ public class RefeicaoActivity extends AppCompatActivity {
         final int position = this.getIntent().getIntExtra("position", -1);
 
         if (position != -1) {
-            PetensaoRefeicaoController.retornarRefeicao(this, position, new Replyable<PretensaoRefeicao>() {
+            PretensaoRefeicaoController.retornarRefeicao(this, position, new Replyable<PretensaoRefeicao>() {
                 @Override
                 public void onSuccess(PretensaoRefeicao pretencaoRefeicao) {
                     dia.setText(pretencaoRefeicao.getConfirmaPretensaoDia().getDiaRefeicao().getDia().getNome());

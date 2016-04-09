@@ -10,7 +10,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import br.edu.nutrif.R;
-import br.edu.nutrif.view.callback.CallbackButton;
+import br.edu.nutrif.view.callback.RecycleButtonClicked;
 import br.edu.nutrif.entitys.DiaRefeicao;
 
 /**
@@ -19,9 +19,9 @@ import br.edu.nutrif.entitys.DiaRefeicao;
 public class HorarioAdapter extends RecyclerView.Adapter<HorarioAdapter.RoomViewHolder> {
     private List<DiaRefeicao> refeicoes;
     private LayoutInflater inflater;
-    private CallbackButton view;
+    private RecycleButtonClicked view;
 
-    public HorarioAdapter(Context context, List<DiaRefeicao> myList, CallbackButton view) {
+    public HorarioAdapter(Context context, List<DiaRefeicao> myList, RecycleButtonClicked view) {
         this.refeicoes = myList;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.view = view;

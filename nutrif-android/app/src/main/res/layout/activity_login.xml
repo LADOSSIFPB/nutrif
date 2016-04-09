@@ -22,10 +22,7 @@
                 style="@style/AppTheme"
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/colorPrimary"
-                android:logo="@drawable/logo"
-                android:elevation="4dp" />
+                android:layout_height="wrap_content" />
 
         </android.support.design.widget.AppBarLayout>
 
@@ -70,7 +67,7 @@
                             android:id="@+id/identificadorEdit"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="@string/identificador"
+                            android:hint="@string/email"
                             android:imeActionId="@+id/login"
                             android:imeOptions="actionNext|actionUnspecified"
                             android:inputType="textEmailAddress"
@@ -157,8 +154,8 @@
     </LinearLayout>
 
     <include
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         layout="@layout/layout_carregando" />
 
 </FrameLayout>

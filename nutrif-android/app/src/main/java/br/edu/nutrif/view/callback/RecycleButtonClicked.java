@@ -5,6 +5,6 @@ import android.view.View;
 /**
  * Created by juan on 19/03/16.
  */
-public interface CallbackButton {
+public interface RecycleButtonClicked {
     public void onClickCallback(View view, int position);
 }

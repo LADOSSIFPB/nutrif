@@ -12,6 +12,11 @@
     <string name="erroconexao">Erro na conexão</string>
     <string name="mensagemdeconfirmacao">Verifique seu email e entre com o código que foi enviado.</string>
     <string name="confirmacao">Confirmação</string>
+    <string name="logindone">Login Efetuado com Sucesso! Atualizando dados…</string>
+
+    <string name="nao">Não</string>
+    <string name="sair">Sair</string>
+    <string name="sairconfirmation">Você deseja realmente sair?</string>
 
     <!-- Strings related to login -->
     <string name="registrar">Registrar</string>

@@ -36,6 +36,12 @@ public class LoginActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.app_name);
         toolbar.setLogo(R.mipmap.ic_launcher);
+
+        Bundle bundle = this.getIntent().getExtras();
+        if (bundle != null && bundle.getString("email") != null) {
+            identificador.setText(bundle.getString("email"));
+            senha.requestFocus();
+        }
     }
 
     public void login(View v) {
@@ -46,6 +52,7 @@ public class LoginActivity extends AppCompatActivity {
                     new Replyable<Pessoa>() {
                         @Override
                         public void onSuccess(Pessoa aluno) {
+                            AndroidUtil.showToast(LoginActivity.this, R.string.logindone);
                             startActivity(new Intent(LoginActivity.this, RefeitorioActivity.class));
                             finish();
                         }

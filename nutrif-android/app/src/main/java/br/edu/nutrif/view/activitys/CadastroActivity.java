@@ -19,7 +19,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 
-public class CadastroActivity extends AppCompatActivity implements Replyable<Aluno>{
+public class CadastroActivity extends AppCompatActivity implements Replyable<Aluno> {
     @Bind(R.id.email)
     EditText email;
     @Bind(R.id.password)
@@ -48,23 +48,23 @@ public class CadastroActivity extends AppCompatActivity implements Replyable<Alu
         change(false);
         if (!validate()) {
             PessoaController.cadastrar(new Aluno(
-                    matricula.getText().toString(),
-                    email.getText().toString(),
-                    senha.getText().toString()),
-                    this,this);
+                            matricula.getText().toString(),
+                            email.getText().toString(),
+                            senha.getText().toString()),
+                    this, this);
         }
     }
 
     public boolean validate() {
-        if (ValidateUtil.validateField(email.getText().toString(), ValidateUtil.EMAIL)!=ValidateUtil.OK){
+        if (ValidateUtil.validateField(email.getText().toString(), ValidateUtil.EMAIL) != ValidateUtil.OK) {
             email.setError(this.getString(R.string.invalido));
             return true;
         }
-        if (ValidateUtil.validateField(senha.getText().toString(), ValidateUtil.SENHA)!= ValidateUtil.OK) {
+        if (ValidateUtil.validateField(senha.getText().toString(), ValidateUtil.SENHA) != ValidateUtil.OK) {
             senha.setError(this.getString(R.string.invalido));
             return true;
         }
-        if (ValidateUtil.validateField(matricula.getText().toString(),ValidateUtil.MATRICULA)!=ValidateUtil.OK) {
+        if (ValidateUtil.validateField(matricula.getText().toString(), ValidateUtil.MATRICULA) != ValidateUtil.OK) {
             matricula.setError(this.getString(R.string.invalido));
             return true;
         }
@@ -85,6 +85,7 @@ public class CadastroActivity extends AppCompatActivity implements Replyable<Alu
     public void onSuccess(Aluno aluno) {
         Bundle bundle = new Bundle();
         bundle.putString("matricula", matricula.getText().toString());
+        bundle.putString("email", email.getText().toString());
         Intent intent = new Intent(CadastroActivity.this, ConfirmationActivity.class);
         intent.putExtras(bundle);
         startActivity(intent);

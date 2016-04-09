@@ -9,6 +9,7 @@ import br.edu.nutrif.controller.PessoaController;
 import br.edu.nutrif.controller.Replyable;
 import br.edu.nutrif.entitys.Pessoa;
 import br.edu.nutrif.entitys.output.Erro;
+import br.edu.nutrif.util.AndroidUtil;
 
 public class StartActivity extends AppCompatActivity {
 
@@ -28,8 +29,14 @@ public class StartActivity extends AppCompatActivity {
         PessoaController.login(this, new Replyable<Pessoa>() {
             @Override
             public void onSuccess(Pessoa pessoa) {
-                startActivity(new Intent(StartActivity.this, RefeitorioActivity.class));
-                finish();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        AndroidUtil.showToast(StartActivity.this, R.string.logindone);
+                        startActivity(new Intent(StartActivity.this, RefeitorioActivity.class));
+                        finish();
+                    }
+                });
             }
 
             @Override
