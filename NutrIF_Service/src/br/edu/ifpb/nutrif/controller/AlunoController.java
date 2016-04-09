@@ -19,6 +19,7 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 
 import br.edu.ifpb.nutrif.dao.AlunoDAO;
 import br.edu.ifpb.nutrif.dao.CursoDAO;
+import br.edu.ifpb.nutrif.dao.RoleDAO;
 import br.edu.ifpb.nutrif.exception.EmailExceptionNutrIF;
 import br.edu.ifpb.nutrif.exception.ErrorFactory;
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
@@ -30,6 +31,7 @@ import br.edu.ladoss.entity.Aluno;
 import br.edu.ladoss.entity.AlunoAcesso;
 import br.edu.ladoss.entity.Curso;
 import br.edu.ladoss.entity.Error;
+import br.edu.ladoss.entity.Role;
 
 @Path("aluno")
 public class AlunoController {
@@ -68,6 +70,12 @@ public class AlunoController {
 				int idCurso = aluno.getCurso().getId();
 				Curso curso = CursoDAO.getInstance().getById(idCurso);
 				aluno.setCurso(curso);
+				
+				// Role 
+				Role role = RoleDAO.getInstance().getById(Role.COMENSAL_ROLE);
+				List<Role> roles = new ArrayList<Role>();
+				roles.add(role);				
+				aluno.setRoles(roles);
 				
 				// Inativar acesso do Aluno.
 				aluno.setAtivo(false);

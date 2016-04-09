@@ -1,5 +1,7 @@
 package br.edu.ladoss.entity;
 
+import java.util.Date;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,8 +14,12 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 import br.edu.ladoss.data.DataEntity;
 
@@ -39,10 +45,15 @@ public class DiaRefeicao implements DataEntity {
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "fk_id_refeicao")
 	private Refeicao refeicao;
-
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "dt_insercao", nullable = false,
+		    columnDefinition="TIMESTAMP default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP")
+	private Date dataInsercao;
+	
 	@Column(name = "is_ativo", columnDefinition = "boolean default true", 
 			nullable = false, insertable = false, updatable = true)
-	private boolean ativo;
+	private boolean ativo;	
 		
 	public DiaRefeicao() {
 		super();
@@ -91,6 +102,15 @@ public class DiaRefeicao implements DataEntity {
 
 	public void setAtivo(boolean ativo) {
 		this.ativo = ativo;
+	}
+	
+	@JsonIgnore
+	public Date getDataInsercao() {
+		return dataInsercao;
+	}
+
+	public void setDataInsercao(Date dataInsercao) {
+		this.dataInsercao = dataInsercao;
 	}
 
 	@Override

@@ -20,10 +20,13 @@ import br.edu.ifpb.nutrif.dao.RefeicaoRealizadaDAO;
 import br.edu.ifpb.nutrif.exception.ErrorFactory;
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
 import br.edu.ifpb.nutrif.validation.Validate;
+import br.edu.ladoss.entity.ConfirmaPretensaoDia;
 import br.edu.ladoss.entity.ConfirmaRefeicaoDia;
 import br.edu.ladoss.entity.DiaRefeicao;
 import br.edu.ladoss.entity.Error;
 import br.edu.ladoss.entity.Funcionario;
+import br.edu.ladoss.entity.MapaRefeicoesRealizadas;
+import br.edu.ladoss.entity.PretensaoRefeicao;
 import br.edu.ladoss.entity.RefeicaoRealizada;
 
 @Path("refeicaorealizada")
@@ -159,5 +162,41 @@ public class RefeicaoRealizadaController {
 		}
 
 		return builder.build();
+	}
+	
+	
+	@PermitAll
+	@POST
+	@Path("/mapa/consultar")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public Response verifyDiaRefeicao(
+			MapaRefeicoesRealizadas mapaRefeicoesRealizadas) {
+		
+		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
+		builder.expires(new Date());
+		
+		// Validação dos dados de entrada.
+		int validacao = Validate.VALIDATE_OK; //TODO: Validate.pretensaoRefeicao(pretensaoRefeicao);
+		
+		if (validacao == Validate.VALIDATE_OK) {
+			
+			try {			
+				
+				
+			
+			} catch (SQLExceptionNutrIF exception) {
+
+				builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
+						exception.getError());			
+			}
+			
+		} else {
+			
+			Error erro = ErrorFactory.getErrorFromIndex(validacao);
+			builder.status(Response.Status.NOT_ACCEPTABLE).entity(erro);
+		}
+		
+		return builder.build();	
 	}
 }

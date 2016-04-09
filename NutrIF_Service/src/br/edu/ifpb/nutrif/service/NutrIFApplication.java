@@ -30,7 +30,10 @@ public class NutrIFApplication extends Application {
 		filter.setAllowedMethods("POST, GET, DELETE, PUT, OPTIONS");
 		filter.setAllowedHeaders("Content-Type");
 		
-		this.singletons.add(filter);		
+		this.singletons.add(filter);
+		
+		//singletons.add(new JaxbJacksonObjectMapper());
+		
 		// ADD YOUR RESTFUL RESOURCES HERE
 		this.singletons.add(new AlunoController());
 		this.singletons.add(new FuncionarioController());

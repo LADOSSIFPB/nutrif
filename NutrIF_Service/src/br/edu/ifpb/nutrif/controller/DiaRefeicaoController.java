@@ -79,6 +79,10 @@ public class DiaRefeicaoController {
 						&& dia != null 
 						&& refeicao != null) {
 					
+					// Data e hora atual.
+					Date agora = new Date();
+					diaRefeicao.setDataInsercao(agora);
+					
 					//Inserir o CronogramaRefeicao.
 					Integer idDiaRefeicao = DiaRefeicaoDAO.getInstance()
 							.insert(diaRefeicao);

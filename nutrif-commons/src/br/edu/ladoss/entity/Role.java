@@ -23,6 +23,11 @@ public class Role {
 
 	@Column(name = "nm_role")
 	private String nome;
+	
+	// Regras de acesso para os usuários.
+	public static int ADMIN_ROLE = 1;
+	public static int INSPETOR_ROLE = 2;
+	public static int COMENSAL_ROLE = 3;
 
 	@XmlElement
 	public Integer getId() {
