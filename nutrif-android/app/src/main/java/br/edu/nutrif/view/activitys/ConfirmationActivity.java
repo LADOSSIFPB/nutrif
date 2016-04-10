@@ -14,23 +14,17 @@ import br.edu.nutrif.controller.Replyable;
 import br.edu.nutrif.entitys.Aluno;
 import br.edu.nutrif.entitys.input.ConfirmationKey;
 import br.edu.nutrif.entitys.output.Erro;
-import br.edu.nutrif.network.ConnectionServer;
 import br.edu.nutrif.util.AndroidUtil;
-import br.edu.nutrif.util.ErrorUtils;
 import br.edu.nutrif.util.ValidateUtil;
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import retrofit.Call;
-import retrofit.Callback;
-import retrofit.Response;
-import retrofit.Retrofit;
 
 public class ConfirmationActivity extends AppCompatActivity implements Replyable<Aluno> {
     @Bind(R.id.matricula)
     EditText matricula;
     @Bind(R.id.codigo)
     EditText codigo;
-    @Bind(R.id.carregando)
+    @Bind(R.id.carregando_layout)
     LinearLayout carregarLayout;
     @Bind(R.id.content)
     LinearLayout content;

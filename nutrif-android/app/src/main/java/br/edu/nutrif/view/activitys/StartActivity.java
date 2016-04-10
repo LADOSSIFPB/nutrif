@@ -7,6 +7,7 @@ import android.os.Bundle;
 import br.edu.nutrif.R;
 import br.edu.nutrif.controller.PessoaController;
 import br.edu.nutrif.controller.Replyable;
+import br.edu.nutrif.database.dao.AlunoDAO;
 import br.edu.nutrif.entitys.Pessoa;
 import br.edu.nutrif.entitys.output.Erro;
 import br.edu.nutrif.util.AndroidUtil;
@@ -47,6 +48,15 @@ public class StartActivity extends AppCompatActivity {
 
             @Override
             public void failCommunication(Throwable throwable) {
+                if(AlunoDAO.getInstance(StartActivity.this).find() != null)
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            AndroidUtil.showToast(StartActivity.this, R.string.logadooff);
+                            startActivity(new Intent(StartActivity.this, RefeitorioActivity.class));
+                            finish();
+                        }
+                    });
                 startActivity(new Intent(StartActivity.this, RefeitorioActivity.class));
                 finish();
             }

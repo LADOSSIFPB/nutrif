@@ -18,8 +18,10 @@ import com.google.zxing.WriterException;
 import java.text.SimpleDateFormat;
 
 import br.edu.nutrif.R;
+import br.edu.nutrif.controller.DiaRefeicaoController;
 import br.edu.nutrif.controller.PretensaoRefeicaoController;
 import br.edu.nutrif.controller.Replyable;
+import br.edu.nutrif.database.dao.PretensaoRefeicaoDAO;
 import br.edu.nutrif.entitys.PretensaoRefeicao;
 import br.edu.nutrif.entitys.output.Erro;
 import br.edu.nutrif.util.qrcode.Contents;
@@ -61,6 +63,8 @@ public class RefeicaoActivity extends AppCompatActivity {
         toolbar.setLogo(R.mipmap.ic_launcher);
         toolbar.setTitle(R.string.app_name);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
         ButterKnife.bind(this);
         carregando();
         buildContent();
@@ -75,31 +79,44 @@ public class RefeicaoActivity extends AppCompatActivity {
             PretensaoRefeicaoController.retornarRefeicao(this, position, new Replyable<PretensaoRefeicao>() {
                 @Override
                 public void onSuccess(PretensaoRefeicao pretencaoRefeicao) {
-                    dia.setText(pretencaoRefeicao.getConfirmaPretensaoDia().getDiaRefeicao().getDia().getNome());
-                    hora_final.setText(pretencaoRefeicao.getConfirmaPretensaoDia().getDiaRefeicao().getRefeicao().getHoraFinal());
-                    hora_inicial.setText(pretencaoRefeicao.getConfirmaPretensaoDia().getDiaRefeicao().getRefeicao().getHoraInicio());
-
-                    java.text.SimpleDateFormat dateformate = new SimpleDateFormat("dd-MM HH:mm:ss");
-                    String dataconvertida = dateformate.format(pretencaoRefeicao.getConfirmaPretensaoDia().getDataPretensao());
-
-                    data.setText(dataconvertida);
-                    tipo.setText(pretencaoRefeicao.getConfirmaPretensaoDia().getDiaRefeicao().getRefeicao().getTipo());
+                    RefeicaoActivity.this.organizarTela(pretencaoRefeicao);
+                    carregando();
                 }
 
                 @Override
                 public void onFailure(Erro erro) {
                     AndroidUtil.showToast(RefeicaoActivity.this, erro.getMensagem());
                     finish();
-
                 }
 
                 @Override
                 public void failCommunication(Throwable throwable) {
-                    AndroidUtil.showToast(RefeicaoActivity.this, R.string.erroconexao);
-                    finish();
+                    PretensaoRefeicao pretensaoRefeicao = PretensaoRefeicaoDAO.
+                            getInstance(RefeicaoActivity.this).find(
+                            DiaRefeicaoController.refeicoes.get(position).getId());
+                    if(pretensaoRefeicao != null){
+                        AndroidUtil.showSnackbar(RefeicaoActivity.this,R.string.recuperaqrcode);
+                        RefeicaoActivity.this.organizarTela(pretensaoRefeicao);
+                        carregando();
+                    }else{
+                        AndroidUtil.showToast(RefeicaoActivity.this, R.string.erroconexao);
+                        finish();
+                    }
                 }
             });
         }
+    }
+
+    public void organizarTela(PretensaoRefeicao pretencaoRefeicao){
+        dia.setText(pretencaoRefeicao.getConfirmaPretensaoDia().getDiaRefeicao().getDia().getNome());
+        hora_final.setText(pretencaoRefeicao.getConfirmaPretensaoDia().getDiaRefeicao().getRefeicao().getHoraFinal());
+        hora_inicial.setText(pretencaoRefeicao.getConfirmaPretensaoDia().getDiaRefeicao().getRefeicao().getHoraInicio());
+
+        java.text.SimpleDateFormat dateformate = new SimpleDateFormat("dd/MM HH:mm:ss");
+        String dataconvertida = dateformate.format(pretencaoRefeicao.getConfirmaPretensaoDia().getDataPretensao());
+
+        data.setText(dataconvertida);
+        tipo.setText(pretencaoRefeicao.getConfirmaPretensaoDia().getDiaRefeicao().getRefeicao().getTipo());
     }
 
     public void gerandoQrcode(String str) {

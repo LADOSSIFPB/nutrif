@@ -52,7 +52,6 @@ public class HorarioAdapter extends RecyclerView.Adapter<HorarioAdapter.RoomView
         holder.natureza.setText(refeicoes.get(position).getRefeicao().getTipo());
         holder.horario.setText(horarios);
         holder.diadasemana.setText(refeicoes.get(position).getDia().getNome());
-       // holder.registrar.setEnabled(true);
     }
 
     @Override

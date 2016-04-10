@@ -52,9 +52,14 @@ public class LoginActivity extends AppCompatActivity {
                     new Replyable<Pessoa>() {
                         @Override
                         public void onSuccess(Pessoa aluno) {
-                            AndroidUtil.showToast(LoginActivity.this, R.string.logindone);
-                            startActivity(new Intent(LoginActivity.this, RefeitorioActivity.class));
-                            finish();
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    AndroidUtil.showToast(LoginActivity.this, R.string.logindone);
+                                    startActivity(new Intent(LoginActivity.this, RefeitorioActivity.class));
+                                    finish();
+                                }
+                            });
                         }
 
                         @Override

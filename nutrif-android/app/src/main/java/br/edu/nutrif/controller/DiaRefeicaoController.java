@@ -7,7 +7,9 @@ import java.util.List;
 
 import br.edu.nutrif.database.dao.AlunoDAO;
 import br.edu.nutrif.database.dao.DiaRefeicaoDAO;
+import br.edu.nutrif.database.dao.PretensaoRefeicaoDAO;
 import br.edu.nutrif.entitys.DiaRefeicao;
+import br.edu.nutrif.entitys.PretensaoRefeicao;
 import br.edu.nutrif.network.ConnectionServer;
 import br.edu.nutrif.util.ErrorUtils;
 import br.edu.nutrif.util.PreferencesUtils;
@@ -24,28 +26,31 @@ public class DiaRefeicaoController {
     public static List<DiaRefeicao> refeicoes = new ArrayList<>();
 
     public static void gerarHorario(final Context context, final Replyable<List<DiaRefeicao>> ui) {
-
-        String auth = PreferencesUtils.getAccessKeyOnSharedPreferences(context);
-        String matricula = AlunoDAO.getInstance(context).find().getMatricula();
-
-        Call<List<DiaRefeicao>> call = ConnectionServer.getInstance().getService().listaRefeicoes(auth, matricula);
-        call.enqueue(new Callback<List<DiaRefeicao>>() {
+        new Thread(new Runnable() {
             @Override
-            public void onResponse(Response<List<DiaRefeicao>> response, Retrofit retrofit) {
-                if (response.isSuccess()) {
-                    ui.onSuccess(DiaRefeicaoController.organizaDiaRefeicao(context, response.body()));
-                } else {
-                    ui.onFailure(ErrorUtils.parseError(response, retrofit, context));
-                }
-            }
+            public void run() {
+                String auth = PreferencesUtils.getAccessKeyOnSharedPreferences(context);
+                String matricula = AlunoDAO.getInstance(context).find().getMatricula();
 
-            @Override
-            public void onFailure(Throwable t) {
-                refeicoes = DiaRefeicaoDAO.getInstance(context).findAll();
-                ConnectionServer.getInstance().updateServiceAdress();
-                ui.failCommunication(t);
+                Call<List<DiaRefeicao>> call = ConnectionServer.getInstance().getService().listaRefeicoes(auth, matricula);
+                call.enqueue(new Callback<List<DiaRefeicao>>() {
+                    @Override
+                    public void onResponse(Response<List<DiaRefeicao>> response, Retrofit retrofit) {
+                        if (response.isSuccess()) {
+                            ui.onSuccess(DiaRefeicaoController.organizaDiaRefeicao(context, response.body()));
+                        } else {
+                            ui.onFailure(ErrorUtils.parseError(response, retrofit, context));
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Throwable t) {
+                        refeicoes = DiaRefeicaoDAO.getInstance(context).findAll();
+                        ui.failCommunication(t);
+                    }
+                });
             }
-        });
+        }).start();
 
     }
 

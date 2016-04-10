@@ -26,6 +26,8 @@
     <string name="confirmar">Confirmar</string>
     <string name="validarcodigo">Validar Código</string>
     <string name="campoerrado">Senha ou Email Inválido</string>
+    <string name="recuperaqrcode">Recuperando dados no celular</string>
+    <string name="logadooff">Você está logado no modo Offline. Não é possível atualizar os dados</string>
 
     <!-- Strings relacionadas à tabela -->
     <string name="horario">Horário:</string>
