@@ -37,9 +37,11 @@ public class PretensaoRefeicaoDAO extends GenericDao<Integer, PretensaoRefeicao>
 			
 			String sql = "INSERT INTO tb_pretensao_refeicao(dt_pretensao,"
 					+ " dt_solicitacao, fk_id_dia_refeicao, nm_keyaccess)"
-					+ " VALUES(CURRENT_DATE(), CURRENT_TIMESTAMP(), :diaRefeicao, :keyAccess)";
+					+ " VALUES(:dataPretensao, CURRENT_TIMESTAMP(), :diaRefeicao, :keyAccess)";
 			
 			Query query = session.createSQLQuery(sql);
+			query.setParameter("dataPretensao", pretensaoRefeicao
+					.getConfirmaPretensaoDia().getDataPretensao());
 			query.setParameter("diaRefeicao", pretensaoRefeicao
 					.getConfirmaPretensaoDia().getDiaRefeicao().getId());
 			query.setParameter("keyAccess", pretensaoRefeicao.getKeyAccess());
