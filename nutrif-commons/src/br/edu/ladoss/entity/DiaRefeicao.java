@@ -46,6 +46,10 @@ public class DiaRefeicao implements DataEntity {
 	@JoinColumn(name = "fk_id_refeicao")
 	private Refeicao refeicao;
 	
+	@OneToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "fk_id_funcionario")
+	private Funcionario funcionario;
+	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "dt_insercao", nullable = false,
 		    columnDefinition="TIMESTAMP default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP")
@@ -112,10 +116,24 @@ public class DiaRefeicao implements DataEntity {
 	public void setDataInsercao(Date dataInsercao) {
 		this.dataInsercao = dataInsercao;
 	}
+	
+	@XmlElement
+	public Funcionario getFuncionario() {
+		return funcionario;
+	}
+
+	public void setFuncionario(Funcionario funcionario) {
+		this.funcionario = funcionario;
+	}
 
 	@Override
 	public String toString() {
 		return "DiaRefeicao [id=" + id + ", aluno=" + aluno 
-				+ ", dia=" + dia + ", refeicao=" + refeicao + "]";
+				+ ", dia=" + dia 
+				+ ", refeicao=" + refeicao 
+				+ ", dataInsercao=" + dataInsercao 
+				+ ", funcionario=" + funcionario + "]";
 	}
+
+	
 }

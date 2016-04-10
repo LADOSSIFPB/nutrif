@@ -150,30 +150,38 @@ public class Validate {
 		return VALIDATE_OK;
 	}
 
-	public static int diaRefeicao(DiaRefeicao cronogramaRefeicao) {
+	public static int diaRefeicao(DiaRefeicao diaRefeicao) {
 		
 		logger.info("Validação para Dia da Refeição.");
 		
-		Aluno aluno = cronogramaRefeicao.getAluno();
+		Aluno aluno = diaRefeicao.getAluno();
 		if (aluno == null || 
 				(aluno != null 
 					&& !numeroValidator.isMaiorZero(aluno.getId()))) {
 			return ErrorFactory.ID_ALUNO_INVALIDO;
 		}
 		
-		Dia dia = cronogramaRefeicao.getDia();
+		Dia dia = diaRefeicao.getDia();
 		if (dia == null || 
 				(dia != null 
 					&& !numeroValidator.isInteiroPositivo(dia.getId()))) {
 			return ErrorFactory.ID_DIA_INVALIDO;
 		}
 		
-		Refeicao refeicao = cronogramaRefeicao.getRefeicao();
+		Refeicao refeicao = diaRefeicao.getRefeicao();
 		if (refeicao == null || 
 				(refeicao != null 
 					&& !numeroValidator.isInteiroPositivo(refeicao.getId()))) {
 			return ErrorFactory.ID_REFEICAO_INVALIDA;
+		}		
+		
+		Funcionario funcionario = diaRefeicao.getFuncionario();
+		if (funcionario == null || 
+				(funcionario != null 
+					&& !numeroValidator.isInteiroPositivo(funcionario.getId()))) {
+			return ErrorFactory.ID_FUNCIONARIO_INVALIDO;
 		}
+		
 		return VALIDATE_OK;
 	}
 	

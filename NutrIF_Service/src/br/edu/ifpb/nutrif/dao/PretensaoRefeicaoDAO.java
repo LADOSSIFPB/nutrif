@@ -36,8 +36,8 @@ public class PretensaoRefeicaoDAO extends GenericDao<Integer, PretensaoRefeicao>
 			session.beginTransaction();
 			
 			String sql = "INSERT INTO tb_pretensao_refeicao(dt_pretensao,"
-					+ " hr_pretensao, fk_id_dia_refeicao, nm_keyaccess)"
-					+ " VALUES(CURRENT_DATE(), CURRENT_TIME(), :diaRefeicao, :keyAccess)";
+					+ " dt_solicitacao, fk_id_dia_refeicao, nm_keyaccess)"
+					+ " VALUES(CURRENT_DATE(), CURRENT_TIMESTAMP(), :diaRefeicao, :keyAccess)";
 			
 			Query query = session.createSQLQuery(sql);
 			query.setParameter("diaRefeicao", pretensaoRefeicao

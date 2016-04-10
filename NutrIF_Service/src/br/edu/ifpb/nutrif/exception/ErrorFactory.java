@@ -64,13 +64,14 @@ public class ErrorFactory {
 	 * Funcionário
 	 */
 	public static final int CODIGO_FUNCIONARIO_INSPETOR_INVALIDO = 24;
+	public static final int ID_FUNCIONARIO_INVALIDO = 25;
 	
 	/*
 	 * Pessoa
 	 */
-	public static final int CHAVE_AUTORIZACAO_PESSOA_INVALIDA = 25;
+	public static final int CHAVE_AUTORIZACAO_PESSOA_INVALIDA = 26;
 	
-	public static final int IMPOSSIVEL_CRIPTOGRAFAR_VALOR = 26;
+	public static final int IMPOSSIVEL_CRIPTOGRAFAR_VALOR = 27;
 	
 	
 	/*
@@ -107,8 +108,7 @@ public class ErrorFactory {
 		hashMap.put(CODIGO_FUNCIONARIO_INSPETOR_INVALIDO, "Código do inspetor inválido.");
 		hashMap.put(CHAVE_AUTORIZACAO_PESSOA_INVALIDA, "Chave de autorização de acesso para usuário inválida.");
 		hashMap.put(PRETENSAO_REFEICAO_INVALIDA, "Pretensão de refeição inválida.");
-		
-		
+		hashMap.put(ID_FUNCIONARIO_INVALIDO, "Funcionário inválido.");	
 		
 		return hashMap;
 	}

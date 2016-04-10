@@ -18,6 +18,7 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 import br.edu.ifpb.nutrif.dao.AlunoDAO;
 import br.edu.ifpb.nutrif.dao.DiaDAO;
 import br.edu.ifpb.nutrif.dao.DiaRefeicaoDAO;
+import br.edu.ifpb.nutrif.dao.FuncionarioDAO;
 import br.edu.ifpb.nutrif.dao.RefeicaoDAO;
 import br.edu.ifpb.nutrif.exception.ErrorFactory;
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
@@ -27,6 +28,7 @@ import br.edu.ladoss.entity.Aluno;
 import br.edu.ladoss.entity.Dia;
 import br.edu.ladoss.entity.DiaRefeicao;
 import br.edu.ladoss.entity.Error;
+import br.edu.ladoss.entity.Funcionario;
 import br.edu.ladoss.entity.Refeicao;
 
 @Path("diarefeicao")
@@ -70,14 +72,21 @@ public class DiaRefeicaoController {
 				Dia dia = DiaDAO.getInstance().getById(idDia);
 				diaRefeicao.setDia(dia);
 				
-				// Recuperar Refeicao.
+				// Recuperar Refeição.
 				int idRefeicao = diaRefeicao.getRefeicao().getId();
 				Refeicao refeicao = RefeicaoDAO.getInstance().getById(idRefeicao);
 				diaRefeicao.setRefeicao(refeicao);
 				
+				// Recuperar Funcionário
+				int idFuncionario = diaRefeicao.getFuncionario().getId();
+				Funcionario funcionario = FuncionarioDAO.getInstance()
+						.getById(idFuncionario);
+				diaRefeicao.setFuncionario(funcionario);
+				
 				if (aluno != null 
 						&& dia != null 
-						&& refeicao != null) {
+						&& refeicao != null
+						&& funcionario != null) {
 					
 					// Data e hora atual.
 					Date agora = new Date();
