@@ -49,17 +49,9 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/loadinglayout"
+    <include
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#cf000000"
-        android:gravity="center_vertical|center|center_horizontal"
-        android:visibility="gone">
-
-        <ProgressBar
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
+        layout="@layout/layout_carregando" />
 
 </FrameLayout>

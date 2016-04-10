@@ -2,7 +2,7 @@ package br.edu.nutrif.controller;
 
 import android.content.Context;
 
-import br.edu.nutrif.database.dao.DiaRefeicaoDAO;
+import br.edu.nutrif.database.dao.PretensaoRefeicaoDAO;
 import br.edu.nutrif.entitys.DiaRefeicao;
 import br.edu.nutrif.entitys.PretensaoRefeicao;
 import br.edu.nutrif.network.ConnectionServer;
@@ -16,26 +16,25 @@ import retrofit.Retrofit;
 /**
  * Created by juan on 21/03/16.
  */
-public class PetensaoRefeicaoController {
+public class PretensaoRefeicaoController {
 
-    public static void pedirRefeicao(final Context context, int position, final Replyable<PretensaoRefeicao> ui) {
+    public static void pedirRefeicao(final Context context, int position, final Replyable<br.edu.nutrif.entitys.PretensaoRefeicao> ui) {
 
         final DiaRefeicao refeicao = DiaRefeicaoController.refeicoes.get(position);
 
-        PretensaoRefeicao pretencao = new PretensaoRefeicao();
+        final br.edu.nutrif.entitys.PretensaoRefeicao pretencao = new br.edu.nutrif.entitys.PretensaoRefeicao();
 
         pretencao.getConfirmaPretensaoDia().getDiaRefeicao().setId(refeicao.getDia().getId());
 
-        Call<PretensaoRefeicao> call = ConnectionServer
+        Call<br.edu.nutrif.entitys.PretensaoRefeicao> call = ConnectionServer
                 .getInstance()
                 .getService()
                 .pedirRefeicao(PreferencesUtils.getAccessKeyOnSharedPreferences(context), pretencao);
-        call.enqueue(new Callback<PretensaoRefeicao>() {
+        call.enqueue(new Callback<br.edu.nutrif.entitys.PretensaoRefeicao>() {
             @Override
-            public void onResponse(Response<PretensaoRefeicao> response, Retrofit retrofit) {
+            public void onResponse(Response<br.edu.nutrif.entitys.PretensaoRefeicao> response, Retrofit retrofit) {
                 if (response.isSuccess()) {
-                    refeicao.setCodigo(response.body().getKeyAccess());
-                    DiaRefeicaoDAO.getInstance(context).update(refeicao);
+                    PretensaoRefeicaoDAO.getInstance(context).update(response.body());
                     ui.onSuccess(response.body());
                 } else {
                     ui.onFailure(ErrorUtils.parseError(response, retrofit, context));
@@ -50,21 +49,22 @@ public class PetensaoRefeicaoController {
 
     }
 
-    public static void retornarRefeicao(final Context context, int position, final Replyable<PretensaoRefeicao> ui){
-        PretensaoRefeicao pretensaoRefeicao = new PretensaoRefeicao();
+    public static void retornarRefeicao(final Context context, int position, final Replyable<br.edu.nutrif.entitys.PretensaoRefeicao> ui){
+        br.edu.nutrif.entitys.PretensaoRefeicao pretensaoRefeicao = new br.edu.nutrif.entitys.PretensaoRefeicao();
         pretensaoRefeicao.getConfirmaPretensaoDia().getDiaRefeicao().setId(
                 DiaRefeicaoController.refeicoes.get(position).getId()
         );
 
-        Call<PretensaoRefeicao> call = ConnectionServer.getInstance().getService().infoRefeicao(
+        Call<br.edu.nutrif.entitys.PretensaoRefeicao> call = ConnectionServer.getInstance().getService().infoRefeicao(
                 PreferencesUtils.getAccessKeyOnSharedPreferences(context),
                 pretensaoRefeicao
         );
-        call.enqueue(new Callback<PretensaoRefeicao>() {
+        call.enqueue(new Callback<br.edu.nutrif.entitys.PretensaoRefeicao>() {
             @Override
-            public void onResponse(Response<PretensaoRefeicao> response, Retrofit retrofit) {
+            public void onResponse(Response<br.edu.nutrif.entitys.PretensaoRefeicao> response, Retrofit retrofit) {
                 if(response.isSuccess()){
                     ui.onSuccess(response.body());
+                    PretensaoRefeicaoDAO.getInstance(context).insert(response.body());
                 }else {
                     ui.onFailure(ErrorUtils.parseError(response,retrofit,context));
                 }

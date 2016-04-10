@@ -8,12 +8,14 @@ import android.util.Log;
 import br.edu.nutrif.R;
 import br.edu.nutrif.database.dao.AlunoDAO;
 import br.edu.nutrif.database.dao.DiaRefeicaoDAO;
+import br.edu.nutrif.database.dao.PretensaoRefeicaoDAO;
+import br.edu.nutrif.database.dao.PretensaoRefeicaoDAO;
 
 /**
  * Created by juan on 14/03/16.
  */
 public class DatabaseCore extends SQLiteOpenHelper {
-    private static final int VERSION = 3;
+    private static final int VERSION = 1;
 
     public DatabaseCore(Context context) {
         super(context, context.getString(R.string.app_name), null, VERSION);
@@ -24,11 +26,11 @@ public class DatabaseCore extends SQLiteOpenHelper {
         Log.i("Nutrif"," create database");
         db.execSQL(AlunoDAO.CREATE_TABLE);
         db.execSQL(DiaRefeicaoDAO.CREATE_TABLE);
+        db.execSQL(PretensaoRefeicaoDAO.CREATE_TABLE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-       // db.execSQL("drop table "+ AlunoDAO.ALUNO_TABLE +" ;");
         db.execSQL("drop table tb_pessoa ;");
         onCreate(db);
     }

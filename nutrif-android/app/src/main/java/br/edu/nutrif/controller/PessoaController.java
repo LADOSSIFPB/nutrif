@@ -10,6 +10,7 @@ import br.edu.nutrif.R;
 import br.edu.nutrif.database.dao.AlunoDAO;
 import br.edu.nutrif.entitys.Aluno;
 import br.edu.nutrif.entitys.Pessoa;
+import br.edu.nutrif.entitys.input.ConfirmationKey;
 import br.edu.nutrif.entitys.output.Erro;
 import br.edu.nutrif.network.ConnectionServer;
 import br.edu.nutrif.util.AndroidUtil;
@@ -78,7 +79,7 @@ public class PessoaController {
 
     private static boolean salvaPessoa(Context context, Pessoa pessoa) {
 
-        if (Integer.parseInt(pessoa.getTipo()) != 1)
+        if (!pessoa.getTipo().equals("2"))
             return false;
 
         Call<Aluno> call = ConnectionServer.getInstance().getService().getMatricula(
@@ -101,7 +102,7 @@ public class PessoaController {
         return false;
     }
 
-    public static void cadastrar(final Aluno aluno,final Context context, final  Replyable<Aluno> ui){
+    public static void cadastrar(final Aluno aluno, final Context context, final Replyable<Aluno> ui) {
 
         new Thread(new Runnable() {
             @Override
@@ -116,7 +117,7 @@ public class PessoaController {
                         if (response.isSuccess()) {
                             ui.onSuccess(response.body());
                         } else {
-                            ui.onFailure(ErrorUtils.parseError(response,retrofit,context));
+                            ui.onFailure(ErrorUtils.parseError(response, retrofit, context));
                         }
                     }
 
@@ -127,5 +128,36 @@ public class PessoaController {
                 });
             }
         }).start();
+    }
+
+    public static void validar(final ConfirmationKey key, final Context context, final Replyable<Aluno> ui) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Call<Void> call = ConnectionServer.getInstance()
+                        .getService()
+                        .confirmar(key);
+                call.enqueue(new Callback<Void>() {
+                    @Override
+                    public void onResponse(Response<Void> response, Retrofit retrofit) {
+                        if (response.isSuccess()) {
+                            ui.onSuccess(null);
+                        } else {
+                            ui.onFailure(ErrorUtils.parseError(response, retrofit, context));
+
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Throwable t) {
+                        ui.failCommunication(t);
+                    }
+                });
+            }
+        }).start();
+    }
+
+    public static void logoff(final Context context) {
+        AlunoDAO.getInstance(context).delete();
     }
 }

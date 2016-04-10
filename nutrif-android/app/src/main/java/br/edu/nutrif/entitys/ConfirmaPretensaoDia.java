@@ -8,7 +8,7 @@ public class ConfirmaPretensaoDia{
 
 	private DiaRefeicao diaRefeicao = new DiaRefeicao();
 
-	private Date dataPretensao;
+	private Long dataPretensao;
 
 	public DiaRefeicao getDiaRefeicao() {
 		return diaRefeicao;
@@ -19,10 +19,10 @@ public class ConfirmaPretensaoDia{
 	}
 
 	public Date getDataPretensao() {
-		return dataPretensao;
+		return new Date(dataPretensao);
 	}
 
-	public void setDataPretensao(Date dataPretensao) {
+	public void setDataPretensao(Long dataPretensao) {
 		this.dataPretensao = dataPretensao;
 	}
 
