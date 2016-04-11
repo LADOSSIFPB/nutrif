@@ -7,9 +7,7 @@ import java.util.List;
 
 import br.edu.nutrif.database.dao.AlunoDAO;
 import br.edu.nutrif.database.dao.DiaRefeicaoDAO;
-import br.edu.nutrif.database.dao.PretensaoRefeicaoDAO;
 import br.edu.nutrif.entitys.DiaRefeicao;
-import br.edu.nutrif.entitys.PretensaoRefeicao;
 import br.edu.nutrif.network.ConnectionServer;
 import br.edu.nutrif.util.ErrorUtils;
 import br.edu.nutrif.util.PreferencesUtils;

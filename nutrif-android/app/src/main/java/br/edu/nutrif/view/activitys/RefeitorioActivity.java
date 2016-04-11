@@ -8,6 +8,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -48,6 +50,21 @@ public class RefeitorioActivity extends AppCompatActivity implements RecycleButt
         setSupportActionBar(toolbar);
         change(false);
         DiaRefeicaoController.gerarHorario(this, this);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        getMenuInflater().inflate(R.menu.item, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        int id = item.getItemId();
+        if(id == R.id.sair){
+            sair();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     public void montaTabela(List<DiaRefeicao> refeicoes) {

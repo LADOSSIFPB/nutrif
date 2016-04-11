@@ -6,8 +6,11 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Display;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -71,6 +74,7 @@ public class RefeicaoActivity extends AppCompatActivity {
 
     }
 
+
     public void buildContent() {
         loadLayout.setVisibility(View.VISIBLE);
         final int position = this.getIntent().getIntExtra("position", -1);
@@ -107,7 +111,7 @@ public class RefeicaoActivity extends AppCompatActivity {
         }
     }
 
-    public void organizarTela(PretensaoRefeicao pretencaoRefeicao){
+    public void organizarTela(final PretensaoRefeicao pretencaoRefeicao){
         dia.setText(pretencaoRefeicao.getConfirmaPretensaoDia().getDiaRefeicao().getDia().getNome());
         hora_final.setText(pretencaoRefeicao.getConfirmaPretensaoDia().getDiaRefeicao().getRefeicao().getHoraFinal());
         hora_inicial.setText(pretencaoRefeicao.getConfirmaPretensaoDia().getDiaRefeicao().getRefeicao().getHoraInicio());
@@ -117,6 +121,33 @@ public class RefeicaoActivity extends AppCompatActivity {
 
         data.setText(dataconvertida);
         tipo.setText(pretencaoRefeicao.getConfirmaPretensaoDia().getDiaRefeicao().getRefeicao().getTipo());
+        LinearLayout body = (LinearLayout) findViewById(R.id.body);
+        if(pretencaoRefeicao.getKeyAccess()== null){
+            Button pretencaoButton = new Button(this);
+            pretencaoButton.setBackgroundResource(R.drawable.layout_button);
+            pretencaoButton.setTextAppearance(this, R.style.buttonCustom);
+            pretencaoButton.setText(R.string.registrarPedido);
+            pretencaoButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
+            body.addView(pretencaoButton);
+
+        }else {
+            Button qrcodeButton = new Button(this);
+            qrcodeButton.setBackgroundResource(R.drawable.layout_button);
+            qrcodeButton.setTextAppearance(this, R.style.buttonCustom);
+            qrcodeButton.setText(R.string.gerarcode);
+            qrcodeButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    gerandoQrcode(pretencaoRefeicao.getKeyAccess());
+                }
+            });
+            body.addView(qrcodeButton);
+        }
     }
 
     public void gerandoQrcode(String str) {

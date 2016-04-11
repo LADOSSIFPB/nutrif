@@ -32,6 +32,7 @@ public class PretensaoRefeicaoDAO extends GenericDAO<br.edu.nutrif.entitys.Prete
     }
 
     public void insert(PretensaoRefeicao pretensaoRefeicao) {
+        delete(pretensaoRefeicao);
         ContentValues values = new ContentValues();
 
         java.text.SimpleDateFormat dateformate = new SimpleDateFormat("dd/MM HH:mm:ss");
@@ -49,7 +50,7 @@ public class PretensaoRefeicaoDAO extends GenericDAO<br.edu.nutrif.entitys.Prete
     }
 
     public void delete(PretensaoRefeicao pretensaoRefeicao) {
-        db.delete(DIAREFEICAO_TABLE, null, null);
+        db.delete(DIAREFEICAO_TABLE, "_id = " + pretensaoRefeicao.getConfirmaPretensaoDia().getDiaRefeicao().getId(), null);
     }
 
     public void update(PretensaoRefeicao pretensaoRefeicao) {
@@ -72,7 +73,7 @@ public class PretensaoRefeicaoDAO extends GenericDAO<br.edu.nutrif.entitys.Prete
 
     public PretensaoRefeicao find(int id) {
         PretensaoRefeicao pretensaoRefeicao = null;
-        String[] colums = new String[]{"_id", "dia", "hora_init", "hora_final", "data", "tipo","keyAccess"};
+        String[] colums = new String[]{"_id", "dia", "hora_init", "hora_final", "data", "tipo", "keyAccess"};
         Cursor cursor = db.query(DIAREFEICAO_TABLE, colums, "_id =" + id, null, null, null, "_id");
 
         if (cursor.getCount() != 0) {

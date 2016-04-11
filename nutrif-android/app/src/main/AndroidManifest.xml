@@ -26,9 +26,9 @@
             </intent-filter>
         </activity>
         <activity
-            android:theme="@style/AppTheme.NoActionBar"
             android:name=".view.activitys.RefeitorioActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".view.activitys.CadastroActivity"
             android:label="@string/title_activity_cadastro"
@@ -40,8 +40,8 @@
         <activity
             android:name=".view.activitys.ConfirmationActivity"
             android:label="@string/confirmacao"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:parentActivityName=".view.activitys.LoginActivity">
+            android:parentActivityName=".view.activitys.LoginActivity"
+            android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".view.activitys.LoginActivity" />
@@ -55,6 +55,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".view.activitys.RefeitorioActivity" />
         </activity>
+
     </application>
 
 </manifest>
