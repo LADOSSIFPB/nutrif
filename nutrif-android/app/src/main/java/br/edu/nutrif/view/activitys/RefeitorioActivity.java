@@ -103,7 +103,7 @@ public class RefeitorioActivity extends AppCompatActivity implements RecycleButt
     @Override
     public void failCommunication(Throwable throwable) {
         AndroidUtil.showSnackbar(RefeitorioActivity.this, R.string.impossivelcarregar);
-        montaTabela(DiaRefeicaoController.refeicoes);
+        montaTabela(DiaRefeicaoController.getRefeicoes());
         change(true);
     }
 

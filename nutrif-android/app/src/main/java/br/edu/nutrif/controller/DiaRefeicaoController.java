@@ -21,7 +21,11 @@ import retrofit.Retrofit;
  */
 public class DiaRefeicaoController {
 
-    public static List<DiaRefeicao> refeicoes = new ArrayList<>();
+    private static List<DiaRefeicao> refeicoes = new ArrayList<>();
+
+    public static List<DiaRefeicao> getRefeicoes(){
+        return refeicoes;
+    }
 
     public static void gerarHorario(final Context context, final Replyable<List<DiaRefeicao>> ui) {
         new Thread(new Runnable() {

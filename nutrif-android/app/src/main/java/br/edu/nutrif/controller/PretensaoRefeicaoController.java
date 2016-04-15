@@ -20,11 +20,11 @@ public class PretensaoRefeicaoController {
 
     public static void pedirRefeicao(final Context context, int position, final Replyable<br.edu.nutrif.entitys.PretensaoRefeicao> ui) {
 
-        final DiaRefeicao refeicao = DiaRefeicaoController.refeicoes.get(position);
+        final DiaRefeicao refeicao = DiaRefeicaoController.getRefeicoes().get(position);
 
         final br.edu.nutrif.entitys.PretensaoRefeicao pretencao = new br.edu.nutrif.entitys.PretensaoRefeicao();
 
-        pretencao.getConfirmaPretensaoDia().getDiaRefeicao().setId(refeicao.getDia().getId());
+        pretencao.getConfirmaPretensaoDia().getDiaRefeicao().setId(refeicao.getId());
 
         Call<br.edu.nutrif.entitys.PretensaoRefeicao> call = ConnectionServer
                 .getInstance()
@@ -34,7 +34,7 @@ public class PretensaoRefeicaoController {
             @Override
             public void onResponse(Response<br.edu.nutrif.entitys.PretensaoRefeicao> response, Retrofit retrofit) {
                 if (response.isSuccess()) {
-                    PretensaoRefeicaoDAO.getInstance(context).update(response.body());
+                    PretensaoRefeicaoDAO.getInstance(context).insertOrUpdate(response.body());
                     ui.onSuccess(response.body());
                 } else {
                     ui.onFailure(ErrorUtils.parseError(response, retrofit, context));
@@ -52,7 +52,7 @@ public class PretensaoRefeicaoController {
     public static void retornarRefeicao(final Context context, int position, final Replyable<br.edu.nutrif.entitys.PretensaoRefeicao> ui){
         br.edu.nutrif.entitys.PretensaoRefeicao pretensaoRefeicao = new br.edu.nutrif.entitys.PretensaoRefeicao();
         pretensaoRefeicao.getConfirmaPretensaoDia().getDiaRefeicao().setId(
-                DiaRefeicaoController.refeicoes.get(position).getId()
+                DiaRefeicaoController.getRefeicoes().get(position).getId()
         );
 
         Call<br.edu.nutrif.entitys.PretensaoRefeicao> call = ConnectionServer.getInstance().getService().infoRefeicao(
@@ -64,7 +64,6 @@ public class PretensaoRefeicaoController {
             public void onResponse(Response<br.edu.nutrif.entitys.PretensaoRefeicao> response, Retrofit retrofit) {
                 if(response.isSuccess()){
                     ui.onSuccess(response.body());
-                    PretensaoRefeicaoDAO.getInstance(context).insert(response.body());
                 }else {
                     ui.onFailure(ErrorUtils.parseError(response,retrofit,context));
                 }

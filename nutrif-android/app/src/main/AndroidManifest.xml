@@ -55,7 +55,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".view.activitys.RefeitorioActivity" />
         </activity>
-
+        <activity android:name=".view.activitys.QRCodeActivity"></activity>
     </application>
 
 </manifest>

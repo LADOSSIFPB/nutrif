@@ -104,4 +104,11 @@ public class PretensaoRefeicaoDAO extends GenericDAO<br.edu.nutrif.entitys.Prete
         return null;
     }
 
+    public void insertOrUpdate(PretensaoRefeicao pretensaoRefeicao){
+        if(find(pretensaoRefeicao.getConfirmaPretensaoDia().getDiaRefeicao().getId()) == null){
+            insert(pretensaoRefeicao);
+        }else
+            update(pretensaoRefeicao);
+    }
+
 }

@@ -11,7 +11,7 @@ public class PretensaoRefeicao {
 
     private ConfirmaPretensaoDia confirmaPretensaoDia = new ConfirmaPretensaoDia();
 
-    private Long horaPretensao;
+    private Long dataSolicitacao;
 
     private String keyAccess;
 
@@ -36,11 +36,11 @@ public class PretensaoRefeicao {
     
     public Date getHoraPretensao() {
 
-        return new Date(horaPretensao);
+        return new Date(dataSolicitacao);
     }
 
     public void setHoraPretensao(Long horaPretensao) {
-        this.horaPretensao = horaPretensao;
+        this.dataSolicitacao = horaPretensao;
     }
 
     
