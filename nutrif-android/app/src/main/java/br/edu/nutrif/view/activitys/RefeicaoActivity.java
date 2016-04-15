@@ -166,7 +166,7 @@ public class RefeicaoActivity extends AppCompatActivity {
         }
     }
 
-    public void gerarQRCode(String code) {
+    public void gerarQRCode(View view) {
         Intent intent = new Intent(RefeicaoActivity.this, QRCodeActivity.class);
         intent.putExtra("qrcode", code);
         startActivity(intent);
