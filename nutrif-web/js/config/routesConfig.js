@@ -27,21 +27,21 @@ angular.module('NutrifApp').config(function ($stateProvider, $urlRouterProvider)
 	  	.state('atualizar-aluno', {
 	  		url: '/atualizar-aluno',
 		    templateUrl: 'view/atualizar-aluno.html',
-		    controller: 'alunoCtrl',
+		    controller: 'atualizaAlunoCtrl',
 			module: 'admin'
 	  	})
 
 	  	.state('atualizar-aluno-form', {
 	  		url: '/atualizar-aluno/form/:matricula',
 		    templateUrl: 'view/atualizar-aluno-form.html',
-		    controller: 'alunoCtrl',
+		    controller: 'atualizaAlunoCtrl',
 			module: 'admin'
 	  	})
 
 		.state('cadastro-aluno', {
 	  		url: '/cadastro-aluno',
 		    templateUrl: 'view/cadastro-aluno.html',
-		    controller: 'alunoCtrl',
+		    controller: 'cadastroAlunoCtrl',
 			module: 'admin'
 	  	});
 });
