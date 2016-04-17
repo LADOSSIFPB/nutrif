@@ -63,7 +63,7 @@ public class RefeicaoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_refeicao);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setLogo(R.mipmap.ic_launcher);
+        toolbar.setLogo(R.drawable.ic_action_name);
         toolbar.setTitle(R.string.app_name);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -112,11 +112,7 @@ public class RefeicaoActivity extends AppCompatActivity {
         dia.setText(pretencaoRefeicao.getConfirmaPretensaoDia().getDiaRefeicao().getDia().getNome());
         hora_final.setText(pretencaoRefeicao.getConfirmaPretensaoDia().getDiaRefeicao().getRefeicao().getHoraFinal());
         hora_inicial.setText(pretencaoRefeicao.getConfirmaPretensaoDia().getDiaRefeicao().getRefeicao().getHoraInicio());
-
-        java.text.SimpleDateFormat dateformate = new SimpleDateFormat("dd/MM HH:mm:ss");
-        String dataconvertida = dateformate.format(pretencaoRefeicao.getConfirmaPretensaoDia().getDataPretensao());
-
-        data.setText(dataconvertida);
+        data.setText(pretencaoRefeicao.getConfirmaPretensaoDia().getDataPretensao());
         tipo.setText(pretencaoRefeicao.getConfirmaPretensaoDia().getDiaRefeicao().getRefeicao().getTipo());
 
         if(pretencaoRefeicao.getKeyAccess() == null){

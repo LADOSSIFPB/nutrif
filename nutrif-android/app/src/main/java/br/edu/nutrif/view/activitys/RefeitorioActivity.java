@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -45,7 +46,7 @@ public class RefeitorioActivity extends AppCompatActivity implements RecycleButt
         setContentView(R.layout.activity_refeitorio);
         ButterKnife.bind(this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setLogo(R.mipmap.ic_launcher);
+        toolbar.setLogo(R.drawable.ic_action_name);
         toolbar.setTitle(R.string.app_name);
         setSupportActionBar(toolbar);
         change(false);
@@ -53,15 +54,15 @@ public class RefeitorioActivity extends AppCompatActivity implements RecycleButt
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu){
+    public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.item, menu);
         return true;
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item){
+    public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if(id == R.id.sair){
+        if (id == R.id.sair) {
             sair();
         }
         return super.onOptionsItemSelected(item);
@@ -73,10 +74,13 @@ public class RefeitorioActivity extends AppCompatActivity implements RecycleButt
         recycle.setLayoutManager(gridLayoutManager);
         recycle.setAdapter(new HorarioAdapter(this, refeicoes, this));
         if (recycle.getAdapter().getItemCount() == 0) {
+            recycle.setVisibility(View.GONE);
             TextView textView = new TextView(this);
             textView.setText(R.string.nodays);
+            textView.setGravity(Gravity.CENTER);
             content.addView(textView);
-        }
+        }else
+            recycle.setVisibility(View.VISIBLE);
 
     }
 
@@ -117,15 +121,16 @@ public class RefeitorioActivity extends AppCompatActivity implements RecycleButt
         });
     }
 
-    public void sair(){
+    public void sair() {
         AlertDialog alertDialog = new AlertDialog.Builder(this).create();
         alertDialog.setTitle(R.string.sair);
         alertDialog.setMessage(getString(R.string.sairconfirmation));
         alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, getString(R.string.sair),
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
                         PessoaController.logoff(RefeitorioActivity.this);
-                        startActivity(new Intent(RefeitorioActivity.this,LoginActivity.class));
+                        startActivity(new Intent(RefeitorioActivity.this, LoginActivity.class));
                         finish();
                     }
                 });

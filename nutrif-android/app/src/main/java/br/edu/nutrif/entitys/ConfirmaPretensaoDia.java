@@ -1,5 +1,7 @@
 package br.edu.nutrif.entitys;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class ConfirmaPretensaoDia{
@@ -18,12 +20,22 @@ public class ConfirmaPretensaoDia{
 		this.diaRefeicao = diaRefeicao;
 	}
 
-	public Date getDataPretensao() {
-		return new Date(dataPretensao);
+	public String getDataPretensao() {
+		java.text.SimpleDateFormat dateformate = new SimpleDateFormat("dd/MM HH:mm:ss");
+		return dateformate.format(dataPretensao);
 	}
 
 	public void setDataPretensao(Long dataPretensao) {
 		this.dataPretensao = dataPretensao;
+	}
+
+	public void setDataPretensao(String dataPretensao){
+		java.text.SimpleDateFormat dateformate = new SimpleDateFormat("dd/MM HH:mm:ss");
+		try {
+			this.dataPretensao = dateformate.parse(dataPretensao).getTime();
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

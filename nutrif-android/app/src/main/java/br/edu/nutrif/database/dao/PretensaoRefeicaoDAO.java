@@ -6,6 +6,7 @@ import android.database.Cursor;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import br.edu.nutrif.entitys.PretensaoRefeicao;
 
@@ -56,14 +57,11 @@ public class PretensaoRefeicaoDAO extends GenericDAO<br.edu.nutrif.entitys.Prete
     public void update(PretensaoRefeicao pretensaoRefeicao) {
         ContentValues values = new ContentValues();
 
-        java.text.SimpleDateFormat dateformate = new SimpleDateFormat("dd/MM HH:mm:ss");
-        String dataconvertida = dateformate.format(pretensaoRefeicao.getConfirmaPretensaoDia().getDataPretensao());
-
         values.put("_id", pretensaoRefeicao.getConfirmaPretensaoDia().getDiaRefeicao().getId());
         values.put("dia", pretensaoRefeicao.getConfirmaPretensaoDia().getDiaRefeicao().getDia().getNome());
         values.put("hora_init", pretensaoRefeicao.getConfirmaPretensaoDia().getDiaRefeicao().getRefeicao().getHoraInicio());
         values.put("hora_final", pretensaoRefeicao.getConfirmaPretensaoDia().getDiaRefeicao().getRefeicao().getHoraFinal());
-        values.put("data", dataconvertida);
+        values.put("data", pretensaoRefeicao.getConfirmaPretensaoDia().getDataPretensao());
         values.put("tipo", pretensaoRefeicao.getConfirmaPretensaoDia().getDiaRefeicao().getRefeicao().getTipo());
         values.put("keyAccess", pretensaoRefeicao.getKeyAccess());
 
@@ -88,12 +86,8 @@ public class PretensaoRefeicaoDAO extends GenericDAO<br.edu.nutrif.entitys.Prete
             pretensaoRefeicao.getConfirmaPretensaoDia().getDiaRefeicao().getRefeicao()
                     .setHoraFinal(cursor.getString(3));
 
-            try {
-                pretensaoRefeicao.getConfirmaPretensaoDia().setDataPretensao(
-                        new SimpleDateFormat("dd/MM HH:mm:ss").parse(cursor.getString(4)).getTime());
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
+            pretensaoRefeicao.getConfirmaPretensaoDia().setDataPretensao(cursor.getString(4));
+
             pretensaoRefeicao.getConfirmaPretensaoDia().getDiaRefeicao().getRefeicao()
                     .setTipo(cursor.getString(5));
             pretensaoRefeicao.setKeyAccess(cursor.getString(6));
@@ -104,10 +98,10 @@ public class PretensaoRefeicaoDAO extends GenericDAO<br.edu.nutrif.entitys.Prete
         return null;
     }
 
-    public void insertOrUpdate(PretensaoRefeicao pretensaoRefeicao){
-        if(find(pretensaoRefeicao.getConfirmaPretensaoDia().getDiaRefeicao().getId()) == null){
+    public void insertOrUpdate(PretensaoRefeicao pretensaoRefeicao) {
+        if (find(pretensaoRefeicao.getConfirmaPretensaoDia().getDiaRefeicao().getId()) == null) {
             insert(pretensaoRefeicao);
-        }else
+        } else
             update(pretensaoRefeicao);
     }
 

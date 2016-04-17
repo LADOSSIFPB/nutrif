@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import br.edu.nutrif.R;
@@ -22,7 +23,11 @@ public class HorarioAdapter extends RecyclerView.Adapter<HorarioAdapter.RoomView
     private RecycleButtonClicked view;
 
     public HorarioAdapter(Context context, List<DiaRefeicao> myList, RecycleButtonClicked view) {
-        this.refeicoes = myList;
+        if (myList == null) {
+            this.refeicoes = new ArrayList<>();
+        } else {
+            this.refeicoes = myList;
+        }
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.view = view;
     }
@@ -62,7 +67,7 @@ public class HorarioAdapter extends RecyclerView.Adapter<HorarioAdapter.RoomView
 
     public class RoomViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView natureza, horario, diadasemana;
-       // Button registrar;
+        // Button registrar;
 
         public RoomViewHolder(View item) {
             super(item);

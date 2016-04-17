@@ -18,8 +18,10 @@ public class DiaRefeicaoDAO extends GenericDAO<DiaRefeicao> {
             "_id integer primary key unique, " +
             "tipo text not null, " +
             "diadasemana text not null, " +
-            "horarios text not null," +
+            "hora_init text not null," +
+            "hora_final text not null," +
             "_email text not null);";
+    public static final String DROP_TABLE = "drop table " + DIAREFEICAO_TABLE + ";";
 
     public static DiaRefeicaoDAO getInstance(Context context) {
         return new DiaRefeicaoDAO(context);
@@ -34,9 +36,8 @@ public class DiaRefeicaoDAO extends GenericDAO<DiaRefeicao> {
         values.put("_id", diaRefeicao.getId());
         values.put("tipo", diaRefeicao.getRefeicao().getTipo());
         values.put("diadasemana", diaRefeicao.getDia().getNome());
-        values.put("horarios", diaRefeicao.getRefeicao().getHoraInicio()
-                .concat("/")
-                .concat(diaRefeicao.getRefeicao().getHoraFinal()));
+        values.put("hora_init", diaRefeicao.getRefeicao().getHoraInicio());
+        values.put("hora_final", diaRefeicao.getRefeicao().getHoraFinal());
         values.put("_email", diaRefeicao.getAluno().getEmail());
         insert(DIAREFEICAO_TABLE, values);
     }
@@ -50,15 +51,14 @@ public class DiaRefeicaoDAO extends GenericDAO<DiaRefeicao> {
         values.put("_id", diaRefeicao.getId());
         values.put("tipo", diaRefeicao.getRefeicao().getTipo());
         values.put("diadasemana", diaRefeicao.getDia().getNome());
-        values.put("horarios", diaRefeicao.getRefeicao().getHoraInicio()
-                .concat("/")
-                .concat(diaRefeicao.getRefeicao().getHoraFinal()));
+        values.put("hora_init", diaRefeicao.getRefeicao().getHoraInicio());
+        values.put("hora_final", diaRefeicao.getRefeicao().getHoraFinal());
         db.update(DIAREFEICAO_TABLE, values, "_id = " + diaRefeicao.getId(), null);
 
     }
 
     public DiaRefeicao find(DiaRefeicao pretensaoRefeicao) {
-        String[] colums = new String[]{"_id", "tipo", "diadasemana", "horarios", "_email"};
+        String[] colums = new String[]{"_id", "tipo", "diadasemana", "hora_init", "hora_final", "_email"};
         Cursor cursor = db.query(DIAREFEICAO_TABLE, colums, null, null, null, null, "_id");
 
         if (cursor.getCount() != 0) {
@@ -66,10 +66,10 @@ public class DiaRefeicaoDAO extends GenericDAO<DiaRefeicao> {
             DiaRefeicao pretensao = new DiaRefeicao();
             pretensao.setId(cursor.getInt(0));
             pretensao.getRefeicao().setTipo(cursor.getString(1));
-            pretensao.getRefeicao().setHoraInicio(cursor.getString(3));
-            pretensao.getRefeicao().setHoraFinal(cursor.getString(3));
             pretensao.getDia().setNome(cursor.getString(2));
-            pretensao.getAluno().setEmail(cursor.getString(4));
+            pretensao.getRefeicao().setHoraInicio(cursor.getString(3));
+            pretensao.getRefeicao().setHoraFinal(cursor.getString(4));
+            pretensao.getAluno().setEmail(cursor.getString(5));
             cursor.close();
             return pretensao;
         }
@@ -78,7 +78,7 @@ public class DiaRefeicaoDAO extends GenericDAO<DiaRefeicao> {
     }
 
     public List<DiaRefeicao> findAll() {
-        String[] colums = new String[]{"_id", "tipo", "diadasemana", "horarios", "_email"};
+        String[] colums = new String[]{"_id", "tipo", "diadasemana", "hora_init", "hora_final", "_email"};
         Cursor cursor = db.query(DIAREFEICAO_TABLE, colums, null, null, null, null, "_id");
 
         if (cursor.getCount() != 0) {
@@ -90,8 +90,8 @@ public class DiaRefeicaoDAO extends GenericDAO<DiaRefeicao> {
                 pretensao.getRefeicao().setTipo(cursor.getString(1));
                 pretensao.getDia().setNome(cursor.getString(2));
                 pretensao.getRefeicao().setHoraInicio(cursor.getString(3));
-                pretensao.getRefeicao().setHoraFinal(cursor.getString(3));
-                pretensao.getAluno().setEmail(cursor.getString(4));
+                pretensao.getRefeicao().setHoraFinal(cursor.getString(4));
+                pretensao.getAluno().setEmail(cursor.getString(5));
                 lista.add(pretensao);
             } while (cursor.moveToNext());
             cursor.close();

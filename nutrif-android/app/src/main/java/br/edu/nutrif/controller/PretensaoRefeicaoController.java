@@ -51,8 +51,9 @@ public class PretensaoRefeicaoController {
 
     public static void retornarRefeicao(final Context context, int position, final Replyable<br.edu.nutrif.entitys.PretensaoRefeicao> ui){
         br.edu.nutrif.entitys.PretensaoRefeicao pretensaoRefeicao = new br.edu.nutrif.entitys.PretensaoRefeicao();
+        final int id = DiaRefeicaoController.getRefeicoes().get(position).getId();
         pretensaoRefeicao.getConfirmaPretensaoDia().getDiaRefeicao().setId(
-                DiaRefeicaoController.getRefeicoes().get(position).getId()
+                id
         );
 
         Call<br.edu.nutrif.entitys.PretensaoRefeicao> call = ConnectionServer.getInstance().getService().infoRefeicao(
@@ -63,6 +64,12 @@ public class PretensaoRefeicaoController {
             @Override
             public void onResponse(Response<br.edu.nutrif.entitys.PretensaoRefeicao> response, Retrofit retrofit) {
                 if(response.isSuccess()){
+                    PretensaoRefeicao refeicao = PretensaoRefeicaoDAO.getInstance(context).find(id);
+
+                    if(refeicao != null && refeicao.getConfirmaPretensaoDia().getDataPretensao()
+                            .equals(response.body().getConfirmaPretensaoDia().getDataPretensao())){
+                        response.body().setKeyAccess(refeicao.getKeyAccess());
+                    }
                     ui.onSuccess(response.body());
                 }else {
                     ui.onFailure(ErrorUtils.parseError(response,retrofit,context));
