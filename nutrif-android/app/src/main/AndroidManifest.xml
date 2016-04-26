@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="br.edu.nutrif">
+    package="br.edu.ladoss.nutrif">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
@@ -14,10 +14,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".view.activitys.LoginActivity"
+            android:name="br.edu.ladoss.nutrif.view.activitys.LoginActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".view.activitys.StartActivity"
+            android:name="br.edu.ladoss.nutrif.view.activitys.StartActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,36 +26,36 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".view.activitys.RefeitorioActivity"
+            android:name="br.edu.ladoss.nutrif.view.activitys.RefeitorioActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".view.activitys.CadastroActivity"
+            android:name="br.edu.ladoss.nutrif.view.activitys.CadastroActivity"
             android:label="@string/title_activity_cadastro"
-            android:parentActivityName=".view.activitys.LoginActivity">
+            android:parentActivityName="br.edu.ladoss.nutrif.view.activitys.LoginActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".view.activitys.LoginActivity" />
+                android:value="br.edu.ladoss.nutrif.view.activitys.LoginActivity" />
         </activity>
         <activity
-            android:name=".view.activitys.ConfirmationActivity"
+            android:name="br.edu.ladoss.nutrif.view.activitys.ConfirmationActivity"
             android:label="@string/confirmacao"
-            android:parentActivityName=".view.activitys.LoginActivity"
+            android:parentActivityName="br.edu.ladoss.nutrif.view.activitys.LoginActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".view.activitys.LoginActivity" />
+                android:value="br.edu.ladoss.nutrif.view.activitys.LoginActivity" />
         </activity>
         <activity
-            android:name=".view.activitys.RefeicaoActivity"
+            android:name="br.edu.ladoss.nutrif.view.activitys.RefeicaoActivity"
             android:label="@string/title_activity_refeicao"
-            android:parentActivityName=".view.activitys.RefeitorioActivity"
+            android:parentActivityName="br.edu.ladoss.nutrif.view.activitys.RefeitorioActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".view.activitys.RefeitorioActivity" />
+                android:value="br.edu.ladoss.nutrif.view.activitys.RefeitorioActivity" />
         </activity>
-        <activity android:name=".view.activitys.QRCodeActivity"></activity>
+        <activity android:name="br.edu.ladoss.nutrif.view.activitys.QRCodeActivity"></activity>
     </application>
 
 </manifest>
