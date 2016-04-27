@@ -26,14 +26,20 @@ public class FileUtil {
 	public static String FILE_SEPARATOR = System.getProperties().getProperty("file.separator");
 	public static String USER_HOME = System.getProperties().getProperty("user.home");
 
-	public static String BASE_PATH = USER_HOME + FILE_SEPARATOR + "uploadFile" + FILE_SEPARATOR;
+	public static String BASE_PATH = USER_HOME + FILE_SEPARATOR + "nutrif_upload" + FILE_SEPARATOR;
 
-	public static String PROJETO_PATH = BASE_PATH + "projeto";
+	public static String PERFIL_PATH = BASE_PATH + "perfil";
 
 	public static String PDF_FILE = "pdf";
+	
+	public static String PDF_PNG = "png";
+	
+	public static String PDF_JPEG = "jpeg";
+	
+	public static String PDF_JPG = "jpg";
 
 	private static Map<TipoArquivo, String> diretorios = new HashMap<TipoArquivo, String>()  {{
-	    put(TipoArquivo.ARQUIVO_FOTO_PERFIL, PROJETO_PATH);
+	    put(TipoArquivo.ARQUIVO_FOTO_PERFIL, PERFIL_PATH);
 	}};
 	
 	/**
@@ -77,10 +83,13 @@ public class FileUtil {
 		}
 	}
 	
-	public static String getNomeSistemaArquivo(String idProjeto, String extension) {
+	public static String getNomeSistemaArquivo(String prefix, String extension) {
+		
 		Date agora = new Date();
-		String nomeSistemaArquivo = idProjeto + "-"
-				+ Long.toString(agora.getTime()) + "." + FileUtil.PDF_FILE;
+		
+		String nomeSistemaArquivo = prefix + "-"
+				+ Long.toString(agora.getTime()) + "." + extension;
+		
 		return nomeSistemaArquivo;
 	}
 }

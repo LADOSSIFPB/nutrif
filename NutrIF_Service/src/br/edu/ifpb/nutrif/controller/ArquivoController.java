@@ -12,8 +12,21 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
+import org.apache.commons.io.FilenameUtils;
 import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
 
+import br.edu.ifpb.nutrif.dao.ArquivoDAO;
+import br.edu.ifpb.nutrif.dao.PessoaDAO;
+import br.edu.ifpb.nutrif.exception.IOExceptionNutrIF;
+import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
+import br.edu.ifpb.nutrif.util.BancoUtil;
+import br.edu.ifpb.nutrif.util.FileUtil;
+import br.edu.ifpb.nutrif.validation.DataValidator;
+import br.edu.ifpb.nutrif.validation.ImageValidator;
+import br.edu.ifpb.nutrif.validation.StringValidator;
+import br.edu.ladoss.entity.Arquivo;
+import br.edu.ladoss.entity.Pessoa;
+import br.edu.ladoss.entity.Error;
 import br.edu.ladoss.enumeration.TipoArquivo;
 import br.edu.ladoss.form.FileUploadForm;
 
@@ -26,6 +39,8 @@ import br.edu.ladoss.form.FileUploadForm;
 @Path("/arquivo")
 public class ArquivoController {
 
+	private static ImageValidator imageValidator = new ImageValidator();
+	
 	/**
 	 * Upload de arquivos.
 	 * 
@@ -40,73 +55,62 @@ public class ArquivoController {
 	@Consumes(MediaType.MULTIPART_FORM_DATA + ";charset=UTF-8")
 	@Produces("application/json")
 	public Response uploadArquivoProjeto(
-			@PathParam("tipoarquivo") TipoArquivo tipoArquivoProjeto,
+			@PathParam("tipoarquivo") TipoArquivo tipoArquivo,
 			@MultipartForm FileUploadForm form) {
 
 		// Arquivo.
 		ResponseBuilder builder = Response.status(Response.Status.NOT_MODIFIED);
 		builder.expires(new Date());
-		/*
+		
 		try {
+			
 			String nomeRealArquivo = form.getFileName();
 			String extension = FilenameUtils.getExtension(nomeRealArquivo);
+			Integer idPessoa = form.getIdPessoa();
 
-			if (extension.equalsIgnoreCase(FileUtil.PDF_FILE)) {
+			if (imageValidator.validate(nomeRealArquivo)) {
 
-				// Nome do arquivo será o código do Projeto + CurrentTimeStamp
-				// (milis).
-				String nomeSistemaArquivo = FileUtil.getNomeSistemaArquivo(idProjeto,
-						FileUtil.PDF_FILE);
+				// Nome do arquivo
+				String nomeSistemaArquivo = FileUtil.getNomeSistemaArquivo(
+						idPessoa.toString(),
+						extension);
 
-				Projeto projeto = new Projeto();
-				projeto.setIdProjeto(Integer.valueOf(idProjeto));
-
-				Pessoa pessoa = new Pessoa();
-				pessoa.setPessoaId(form.getIdPessoa());
-							
-				// Arquivo genérico.
-				Arquivo arquivo = new Arquivo();				
+				Pessoa pessoa = PessoaDAO.getInstance().getById(idPessoa);
+				Date agora = new Date();
+				
+				// Arquivo gen�rico.
+				Arquivo arquivo = new Arquivo();
+				arquivo.setFile(form.getData());
 				arquivo.setNomeRealArquivo(nomeRealArquivo);
 				arquivo.setNomeSistemaArquivo(nomeSistemaArquivo);
 				arquivo.setExtensaoArquivo(extension);
-				arquivo.setCadastradorArquivo(pessoa);
-				arquivo.setTipoArquivo(TipoArquivo.ARQUIVO_PROJETO);
-				arquivo.setFile(form.getData());
+				arquivo.setTipoArquivo(tipoArquivo);
+				arquivo.setRegistro(agora);
+				arquivo.setSubmetedor(pessoa);
 				
-				// Identificação do Arquivo de Projeto
-				ArquivoProjeto arquivoProjeto = new ArquivoProjeto();
-				arquivoProjeto.setArquivo(arquivo);
-				arquivoProjeto.setProjeto(projeto);
-				arquivoProjeto.setTipoArquivoProjeto(tipoArquivoProjeto);
-				
-				// Salvar no diretório
+				// Salvar no diret�rio
 				FileUtil.writeFile(arquivo);				
 				
-				// Persistência do metadado do arquivo no banco de dados.	
-				ArquivoProjetoDAO arquivoProjetoDAO = ArquivoProjetoDAO
-						.getInstance();
-				int idArquivoProjeto = arquivoProjetoDAO.insert(arquivoProjeto);
+				// Persist�ncia do metadado do arquivo no banco de dados.	
+				int idArquivo = ArquivoDAO.getInstance().insert(arquivo);
 
-				if (idArquivoProjeto != BancoUtil.IDVAZIO) {
+				if (idArquivo != BancoUtil.IDVAZIO) {
 					
-					arquivoProjeto.setIdArquivoProjeto(idArquivoProjeto);
-					builder.status(Response.Status.OK).entity(arquivoProjeto);					
+					arquivo.setId(idArquivo);
+					builder.status(Response.Status.OK);					
 				}
 
 			} else {
-
-				MapErroQManager me = new MapErroQManager(
-						CodeErroQManager.FORMATO_ARQUIVO_INVALIDO);
-				Erro erro = me.getErro();
-				builder.status(Response.Status.NOT_ACCEPTABLE).entity(erro);
+				
+				builder.status(Response.Status.NOT_ACCEPTABLE);
 			}
 
-		} catch (IOExceptionNutrIF | SQLExceptionQManager e) {
+		} catch (IOExceptionNutrIF | SQLExceptionNutrIF e) {
 
-			Erro erro = e.getErro();
-			builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(erro);
+			Error error = e.getError();
+			builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(error);
 		}
-		*/
+		
 
 		return builder.build();
 	}
