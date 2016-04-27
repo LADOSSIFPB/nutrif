@@ -13,6 +13,7 @@ import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
 import br.edu.ifpb.nutrif.hibernate.HibernateUtil;
 import br.edu.ifpb.nutrif.util.BancoUtil;
 import br.edu.ifpb.nutrif.util.StringUtil;
+import br.edu.ladoss.entity.Login;
 import br.edu.ladoss.entity.Pessoa;
 
 public class PessoaDAO extends GenericDao<Integer, Pessoa> {
@@ -21,8 +22,7 @@ public class PessoaDAO extends GenericDao<Integer, Pessoa> {
 	
 	private static PessoaDAO instance;
 	
-	public static PessoaDAO getInstance() {	
-		
+	public static PessoaDAO getInstance() {		
 		instance = new PessoaDAO();		
 		return instance;
 	}

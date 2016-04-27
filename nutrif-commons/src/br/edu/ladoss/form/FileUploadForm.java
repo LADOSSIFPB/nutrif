@@ -20,10 +20,6 @@ public class FileUploadForm {
 	@PartType(MediaType.TEXT_PLAIN)
 	private int idPessoa;
 	
-	@FormParam("tipoArquivo")
-	@PartType(MediaType.TEXT_PLAIN)
-	private TipoArquivo tipoArquivo;
-	
 	public FileUploadForm() {}
 
 	public byte[] getData() {
@@ -48,13 +44,5 @@ public class FileUploadForm {
 
 	public void setIdPessoa(int idPessoa) {
 		this.idPessoa = idPessoa;
-	}
-
-	public TipoArquivo getTipoArquivo() {
-		return tipoArquivo;
-	}
-
-	public void setTipoArquivo(TipoArquivo tipoArquivo) {
-		this.tipoArquivo = tipoArquivo;
 	}
 }
