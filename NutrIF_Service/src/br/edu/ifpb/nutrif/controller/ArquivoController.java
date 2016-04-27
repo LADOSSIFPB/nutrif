@@ -1,4 +1,4 @@
-package br.edu.ifpb.nutrif.service;
+package br.edu.ifpb.nutrif.controller;
 
 import java.util.Date;
 
@@ -24,10 +24,10 @@ import br.edu.ladoss.form.FileUploadForm;
  *
  */
 @Path("/arquivo")
-public class UploadFileQManager {
+public class ArquivoController {
 
 	/**
-	 * Upload dos arquivos do Projeto.
+	 * Upload de arquivos.
 	 * 
 	 * @param idProjeto
 	 * @param form
@@ -36,15 +36,14 @@ public class UploadFileQManager {
 	 */
 	@PermitAll
 	@POST
-	@Path("/upload/perfil/{idprojeto}/{tipoarquivoprojeto}")
+	@Path("/upload/{tipoarquivo}")
 	@Consumes(MediaType.MULTIPART_FORM_DATA + ";charset=UTF-8")
 	@Produces("application/json")
 	public Response uploadArquivoProjeto(
-			@PathParam("idprojeto") String idProjeto,
-			@PathParam("tipoarquivoprojeto") TipoArquivo tipoArquivoProjeto,
+			@PathParam("tipoarquivo") TipoArquivo tipoArquivoProjeto,
 			@MultipartForm FileUploadForm form) {
 
-		// Arquivo do projeto com extensão "pdf".
+		// Arquivo.
 		ResponseBuilder builder = Response.status(Response.Status.NOT_MODIFIED);
 		builder.expires(new Date());
 		/*
