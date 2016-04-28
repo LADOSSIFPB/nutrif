@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:theme="@style/Base.ThemeOverlay.AppCompat.Light"
-    tools:context=".nutrif.view.activitys.LoginActivity">
+    tools:context="br.edu.ladoss.nutrif.view.activitys.LoginActivity">
 
 
     <LinearLayout

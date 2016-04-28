@@ -15,17 +15,25 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.mikepenz.materialdrawer.Drawer;
+import com.mikepenz.materialdrawer.DrawerBuilder;
+import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
+import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
+import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
+
 import java.util.List;
 
 import br.edu.ladoss.nutrif.R;
-import br.edu.ladoss.nutrif.controller.PessoaController;
-import br.edu.ladoss.nutrif.view.adapters.HorarioAdapter;
-import br.edu.ladoss.nutrif.view.callback.RecycleButtonClicked;
 import br.edu.ladoss.nutrif.controller.DiaRefeicaoController;
+import br.edu.ladoss.nutrif.controller.PessoaController;
 import br.edu.ladoss.nutrif.controller.Replyable;
+import br.edu.ladoss.nutrif.database.dao.AlunoDAO;
+import br.edu.ladoss.nutrif.entitys.Aluno;
 import br.edu.ladoss.nutrif.entitys.DiaRefeicao;
 import br.edu.ladoss.nutrif.entitys.output.Erro;
 import br.edu.ladoss.nutrif.util.AndroidUtil;
+import br.edu.ladoss.nutrif.view.adapters.HorarioAdapter;
+import br.edu.ladoss.nutrif.view.callback.RecycleButtonClicked;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
@@ -39,6 +47,8 @@ public class RefeitorioActivity extends AppCompatActivity implements RecycleButt
     @Bind(R.id.recycle)
     RecyclerView recycle;
 
+    private Drawer drawer;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,8 +59,26 @@ public class RefeitorioActivity extends AppCompatActivity implements RecycleButt
         toolbar.setLogo(R.drawable.ic_action_name);
         toolbar.setTitle(R.string.app_name);
         setSupportActionBar(toolbar);
+        buildSlideBar(toolbar,savedInstanceState);
         change(false);
         DiaRefeicaoController.gerarHorario(this, this);
+    }
+
+    public void buildSlideBar(Toolbar toolbar, Bundle savedInstanceState){
+        drawer = new DrawerBuilder()
+                .withActivity(this)
+                .withRootView(R.id.content)
+                .withToolbar(toolbar)
+                .withActionBarDrawerToggle(true)
+                .withActionBarDrawerToggleAnimated(true)
+                .withDrawerGravity(Gravity.LEFT)
+                .withSelectedItem(0)
+                .withSavedInstance(savedInstanceState)
+                .build();
+        Aluno aluno = AlunoDAO.getInstance(this).find();
+        ProfileDrawerItem profile = new ProfileDrawerItem()
+                .withEmail(aluno.getEmail());
+        drawer.addItem(profile);
     }
 
     @Override

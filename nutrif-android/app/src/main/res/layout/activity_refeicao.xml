@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".nutrif.view.activitys.RefeicaoActivity">
+    tools:context="br.edu.ladoss.nutrif.view.activitys.RefeicaoActivity">
 
     <LinearLayout
         android:layout_width="match_parent"

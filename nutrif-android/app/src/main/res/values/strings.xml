@@ -13,6 +13,7 @@
     <string name="mensagemdeconfirmacao">Verifique seu email e entre com o código que foi enviado.</string>
     <string name="confirmacao">Confirmação</string>
     <string name="logindone">Login Efetuado com Sucesso! Atualizando dados…</string>
+    <string name="photo">Foto</string>
 
     <string name="nao">Não</string>
     <string name="sair">Sair</string>

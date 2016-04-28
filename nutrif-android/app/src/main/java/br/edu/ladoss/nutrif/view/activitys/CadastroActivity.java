@@ -1,10 +1,15 @@
 package br.edu.ladoss.nutrif.view.activitys;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DrawableUtils;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
@@ -30,6 +35,8 @@ public class CadastroActivity extends AppCompatActivity implements Replyable<Alu
     LinearLayout carregarLayout;
     @Bind(R.id.content)
     LinearLayout content;
+    @Bind(R.id.photo)
+    Button photo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +50,24 @@ public class CadastroActivity extends AppCompatActivity implements Replyable<Alu
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
     }
+
+    public void tirarFoto(View v){
+            Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+                startActivityForResult(takePictureIntent, 1);
+            }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 1 && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            photo.setBackground(new BitmapDrawable(getResources(),imageBitmap));
+            photo.setText("");
+        }
+    }
+
 
     public void registrar(View v) {
         change(false);
