@@ -11,11 +11,13 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
+import br.edu.ifpb.nutrif.dao.LoginDAO;
 import br.edu.ifpb.nutrif.dao.PessoaDAO;
 import br.edu.ifpb.nutrif.exception.ErrorFactory;
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
 import br.edu.ifpb.nutrif.validation.Validate;
 import br.edu.ladoss.entity.Error;
+import br.edu.ladoss.entity.Login;
 import br.edu.ladoss.entity.Pessoa;
 import br.edu.ladoss.entity.PessoaAcesso;
 
@@ -52,7 +54,17 @@ public class PessoaController {
 						pessoaAcesso.getSenha());
 				
 				if (pessoa != null) {
-
+					
+					// Registro do Login
+					Date agora = new Date();
+					
+					Login login = new Login();
+					login.setPessoa(pessoa);
+					login.setRegistro(agora);
+					
+					LoginDAO.getInstance().insert(login);
+					
+					// Pessoa
 					pessoaAcesso = PessoaAcesso.getInstance(
 							pessoa);
 					

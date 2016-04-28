@@ -1,7 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>NutrIF_Sevice</groupId>
-	<artifactId>NutrIF_Sevice</artifactId>
+	<groupId>NutrIF_Service</groupId>
+	<artifactId>NutrIF_Service</artifactId>
 	<version>0.0.1</version>
 	<packaging>war</packaging>
 	<description>Serviço para o NutrIF</description>
@@ -66,25 +66,27 @@
 		<dependency>
 			<groupId>org.jboss.resteasy</groupId>
 			<artifactId>resteasy-jackson-provider</artifactId>
-			<version>3.0.10.Final</version>
+			<version>3.0.12.Final</version>
 		</dependency>
 		<dependency>
 			<groupId>org.jboss.resteasy</groupId>
 			<artifactId>resteasy-client</artifactId>
-			<version>3.0.10.Final</version>
+			<version>3.0.12.Final</version>
 		</dependency>
 
-		
+		<!-- RestEasy - Multipart -->
 		<dependency>
 			<groupId>org.jboss.resteasy</groupId>
 			<artifactId>resteasy-multipart-provider</artifactId>
-			<version>3.0.10.Final</version>
+			<version>3.0.12.Final</version>
 		</dependency>
+
 		<dependency>
 			<groupId>org.jboss.resteasy</groupId>
 			<artifactId>resteasy-jaxrs</artifactId>
-			<version>3.0.10.Final</version>
+			<version>3.0.12.Final</version>
 		</dependency>
+
 		<dependency>
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
@@ -159,8 +161,7 @@
 			<groupId>joda-time</groupId>
 			<artifactId>joda-time</artifactId>
 			<version>2.9.2</version>
-		</dependency>
-		
+		</dependency>		
 			
 	</dependencies>  
 </project>

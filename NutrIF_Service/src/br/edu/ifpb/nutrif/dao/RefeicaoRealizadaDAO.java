@@ -12,10 +12,7 @@ import org.hibernate.Session;
 
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
 import br.edu.ifpb.nutrif.hibernate.HibernateUtil;
-import br.edu.ifpb.nutrif.util.BancoUtil;
-import br.edu.ifpb.nutrif.util.DateUtil;
 import br.edu.ladoss.entity.Dia;
-import br.edu.ladoss.entity.DiaRefeicao;
 import br.edu.ladoss.entity.MapaRefeicoesRealizadas;
 import br.edu.ladoss.entity.Refeicao;
 import br.edu.ladoss.entity.RefeicaoRealizada;

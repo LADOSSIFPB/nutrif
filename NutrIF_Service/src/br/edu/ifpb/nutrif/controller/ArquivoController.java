@@ -1,0 +1,117 @@
+package br.edu.ifpb.nutrif.controller;
+
+import java.util.Date;
+
+import javax.annotation.security.PermitAll;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.ResponseBuilder;
+
+import org.apache.commons.io.FilenameUtils;
+import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
+
+import br.edu.ifpb.nutrif.dao.ArquivoDAO;
+import br.edu.ifpb.nutrif.dao.PessoaDAO;
+import br.edu.ifpb.nutrif.exception.IOExceptionNutrIF;
+import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
+import br.edu.ifpb.nutrif.util.BancoUtil;
+import br.edu.ifpb.nutrif.util.FileUtil;
+import br.edu.ifpb.nutrif.validation.DataValidator;
+import br.edu.ifpb.nutrif.validation.ImageValidator;
+import br.edu.ifpb.nutrif.validation.StringValidator;
+import br.edu.ladoss.entity.Arquivo;
+import br.edu.ladoss.entity.Pessoa;
+import br.edu.ladoss.entity.Error;
+import br.edu.ladoss.enumeration.TipoArquivo;
+import br.edu.ladoss.form.FileUploadForm;
+
+/**
+ * ServiÃ§o de upload de arquivo.
+ * 
+ * @author Rhavy
+ *
+ */
+@Path("/arquivo")
+public class ArquivoController {
+
+	private static ImageValidator imageValidator = new ImageValidator();
+	
+	/**
+	 * Upload de arquivos.
+	 * 
+	 * @param idProjeto
+	 * @param form
+	 * @return response
+	 * @author Rhavy Maia Guedes.
+	 */
+	@PermitAll
+	@POST
+	@Path("/upload/{tipoarquivo}")
+	@Consumes(MediaType.MULTIPART_FORM_DATA + ";charset=UTF-8")
+	@Produces("application/json")
+	public Response uploadArquivoProjeto(
+			@PathParam("tipoarquivo") TipoArquivo tipoArquivo,
+			@MultipartForm FileUploadForm form) {
+
+		// Arquivo.
+		ResponseBuilder builder = Response.status(Response.Status.NOT_MODIFIED);
+		builder.expires(new Date());
+		
+		try {
+			
+			String nomeRealArquivo = form.getFileName();
+			String extension = FilenameUtils.getExtension(nomeRealArquivo);
+			Integer idPessoa = form.getIdPessoa();
+
+			if (imageValidator.validate(nomeRealArquivo)) {
+
+				// Nome do arquivo
+				String nomeSistemaArquivo = FileUtil.getNomeSistemaArquivo(
+						idPessoa.toString(),
+						extension);
+
+				Pessoa pessoa = PessoaDAO.getInstance().getById(idPessoa);
+				Date agora = new Date();
+				
+				// Arquivo genérico.
+				Arquivo arquivo = new Arquivo();
+				arquivo.setFile(form.getData());
+				arquivo.setNomeRealArquivo(nomeRealArquivo);
+				arquivo.setNomeSistemaArquivo(nomeSistemaArquivo);
+				arquivo.setExtensaoArquivo(extension);
+				arquivo.setTipoArquivo(tipoArquivo);
+				arquivo.setRegistro(agora);
+				arquivo.setSubmetedor(pessoa);
+				
+				// Salvar no diretório
+				FileUtil.writeFile(arquivo);				
+				
+				// Persistência do metadado do arquivo no banco de dados.	
+				int idArquivo = ArquivoDAO.getInstance().insert(arquivo);
+
+				if (idArquivo != BancoUtil.IDVAZIO) {
+					
+					arquivo.setId(idArquivo);
+					builder.status(Response.Status.OK);					
+				}
+
+			} else {
+				
+				builder.status(Response.Status.NOT_ACCEPTABLE);
+			}
+
+		} catch (IOExceptionNutrIF | SQLExceptionNutrIF e) {
+
+			Error error = e.getError();
+			builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(error);
+		}
+		
+
+		return builder.build();
+	}
+}

@@ -5,7 +5,7 @@
 	id="WebApp_ID" 
 	version="3.1">
 	
-	<display-name>NutrIF_Sevice</display-name>
+	<display-name>NutrIF_Service</display-name>
 	
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
@@ -32,6 +32,7 @@
 			  <param-name>javax.ws.rs.Application</param-name>
 			  <param-value>br.edu.ifpb.nutrif.service.NutrIFApplication</param-value>
 		</init-param>
+		<async-supported>true</async-supported>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>Resteasy</servlet-name>
