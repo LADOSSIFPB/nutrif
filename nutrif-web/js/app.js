@@ -1,1 +1,1 @@
-angular.module('NutrifApp', ['angular-loading-bar', 'ui.router', 'ngCookies']);
+angular.module('NutrifApp', ['angular-loading-bar', 'ui.router', 'ngCookies', 'ui.mask']);
