@@ -48,6 +48,14 @@ angular.module('NutrifApp').config(function ($stateProvider, $urlRouterProvider)
 	  	.state('pretensao-home', {
 	  		url: '/pretensao-home',
 		    templateUrl: 'view/pretensao-home.html',
+		    controller: 'pretensaoCtrl',
 			module: 'non-logged'
+	  	})
+
+	  	.state('lista-pretensao', {
+	  		url: '/lista-pretensao',
+		    templateUrl: 'view/lista-pretensao.html',
+		    controller: 'pretensaoCtrl',
+			module: 'comensal'
 	  	});
 });
