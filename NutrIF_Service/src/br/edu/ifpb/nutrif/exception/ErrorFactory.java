@@ -73,6 +73,7 @@ public class ErrorFactory {
 	
 	public static final int IMPOSSIVEL_CRIPTOGRAFAR_VALOR = 27;
 	
+	public static final int NOME_ARQUIVO_INVALIDO = 28;
 	
 	/*
 	 * Mapa de erros: código e mensagem.
@@ -109,6 +110,7 @@ public class ErrorFactory {
 		hashMap.put(CHAVE_AUTORIZACAO_PESSOA_INVALIDA, "Chave de autorização de acesso para usuário inválida.");
 		hashMap.put(PRETENSAO_REFEICAO_INVALIDA, "Pretensão de refeição inválida.");
 		hashMap.put(ID_FUNCIONARIO_INVALIDO, "Funcionário inválido.");	
+		hashMap.put(NOME_ARQUIVO_INVALIDO, "Nome arquivo inválido.");	
 		
 		return hashMap;
 	}

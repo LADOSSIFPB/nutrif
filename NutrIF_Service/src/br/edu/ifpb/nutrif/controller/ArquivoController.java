@@ -1,18 +1,25 @@
 package br.edu.ifpb.nutrif.controller;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Date;
 
 import javax.annotation.security.PermitAll;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
+import javax.ws.rs.core.StreamingOutput;
 
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.IOUtils;
 import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
 
 import br.edu.ifpb.nutrif.dao.ArquivoDAO;
@@ -21,17 +28,16 @@ import br.edu.ifpb.nutrif.exception.IOExceptionNutrIF;
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
 import br.edu.ifpb.nutrif.util.BancoUtil;
 import br.edu.ifpb.nutrif.util.FileUtil;
-import br.edu.ifpb.nutrif.validation.DataValidator;
 import br.edu.ifpb.nutrif.validation.ImageValidator;
-import br.edu.ifpb.nutrif.validation.StringValidator;
+import br.edu.ifpb.nutrif.validation.Validate;
 import br.edu.ladoss.entity.Arquivo;
-import br.edu.ladoss.entity.Pessoa;
 import br.edu.ladoss.entity.Error;
+import br.edu.ladoss.entity.Pessoa;
 import br.edu.ladoss.enumeration.TipoArquivo;
 import br.edu.ladoss.form.FileUploadForm;
 
 /**
- * ServiÃ§o de upload de arquivo.
+ * Serviço de upload de arquivo.
  * 
  * @author Rhavy
  *
@@ -113,5 +119,51 @@ public class ArquivoController {
 		
 
 		return builder.build();
+	}
+	
+	@PermitAll
+	@GET
+	@Path("/download/{tipoarquivo}/nome/{nome}")
+	@Produces(MediaType.APPLICATION_OCTET_STREAM)
+	public Response download(@PathParam("tipoarquivo") TipoArquivo tipoArquivo, 
+			@PathParam("nome") String nome) {
+
+		StreamingOutput stream = null;
+		
+		// Validação dos dados de entrada.
+		int validacao = Validate.downloadArquivo(tipoArquivo, nome);
+		
+		if (validacao == Validate.VALIDATE_OK) {
+			
+			// Recuperar nome real.
+			Arquivo arquivo = ArquivoDAO.getInstance().getByNomeReal(nome);
+			
+			if (arquivo != null) {
+				
+				final InputStream is = FileUtil.readFile(arquivo
+						.getNomeSistemaArquivo());
+
+				stream = new StreamingOutput() {
+
+					public void write(OutputStream output) 
+							throws IOException, WebApplicationException {
+
+						try {
+							
+							output.write(IOUtils.toByteArray(is));
+							
+						} catch (Exception e) {
+							
+							throw new WebApplicationException(e);
+						}
+					}
+				};
+			}
+		}				
+
+		//TODO: Ajusta a extensão do arquivo.
+		return Response.ok(stream, MediaType.APPLICATION_OCTET_STREAM)
+				.header("content-disposition", "attachment; filename=\"" + nome + "\"")
+				.build();
 	}
 }

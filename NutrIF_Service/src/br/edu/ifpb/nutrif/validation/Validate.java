@@ -5,6 +5,7 @@ import org.apache.logging.log4j.Logger;
 
 import br.edu.ifpb.nutrif.exception.ErrorFactory;
 import br.edu.ladoss.entity.Aluno;
+import br.edu.ladoss.entity.Arquivo;
 import br.edu.ladoss.entity.ConfirmaPretensaoDia;
 import br.edu.ladoss.entity.ConfirmaRefeicaoDia;
 import br.edu.ladoss.entity.Curso;
@@ -15,6 +16,7 @@ import br.edu.ladoss.entity.PessoaAcesso;
 import br.edu.ladoss.entity.PretensaoRefeicao;
 import br.edu.ladoss.entity.Refeicao;
 import br.edu.ladoss.entity.RefeicaoRealizada;
+import br.edu.ladoss.enumeration.TipoArquivo;
 
 public class Validate {
 
@@ -145,7 +147,7 @@ public class Validate {
 	
 	public static int dia(Dia aluno) {
 		
-		logger.info("Validação para aluno.");
+		logger.info("Validação para Dia.");
 		//TODO: implementar a validação para abertura de sala.
 		return VALIDATE_OK;
 	}
@@ -244,6 +246,17 @@ public class Validate {
 
 		if (!stringValidator.validate(pessoaAcesso.getSenha(), 5, 40))
 			return ErrorFactory.SENHA_USUARIO_INVALIDA;
+		
+		return VALIDATE_OK;
+	}
+	
+	public static int downloadArquivo(TipoArquivo tipoArquivo, 
+			String nomeRealArquivo) {
+		
+		logger.info("Validação para Arquivo.");
+		
+		if (!stringValidator.validateSomenteLetras(nomeRealArquivo))
+			return ErrorFactory.NOME_ARQUIVO_INVALIDO;
 		
 		return VALIDATE_OK;
 	}
