@@ -93,7 +93,9 @@ public class FileUtil {
 		
 		InputStream in = null;
 		
-		Path file = Paths.get("C:\\Users\\Rhavy\\nutrif_upload\\perfil\\517-1461798786231.JPG");
+		String diretorioArquivo = diretorios.get(TipoArquivo.ARQUIVO_FOTO_PERFIL);
+		
+		Path file = Paths.get(diretorioArquivo + FILE_SEPARATOR + fileName);
 		
 		try {
 			
