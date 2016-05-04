@@ -48,10 +48,10 @@ public class EmailUtil {
 	public void send(String to, String subject, String message) 
 			throws EmailExceptionNutrIF {
 
-		String from = "***@gmail.com"; // Sender Account.
+		String from = "ladossifpb@gmail.com"; // Sender Account.
 
 		final String smtpServer = "smtp.gmail.com";
-		final String password = "***"; // Password -> Application Specific Password.
+		final String password = "nutr1f%2014"; // Password -> Application Specific Password.
 		final String SOCKET_FACTORY = "javax.net.ssl.SSLSocketFactory";
 		final String smtpPort = "587";
 		final String PORT = "465";

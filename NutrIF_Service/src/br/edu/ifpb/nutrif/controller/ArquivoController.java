@@ -24,7 +24,6 @@ import org.apache.commons.io.IOUtils;
 import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
 
 import br.edu.ifpb.nutrif.dao.ArquivoDAO;
-import br.edu.ifpb.nutrif.dao.DiaRefeicaoDAO;
 import br.edu.ifpb.nutrif.dao.PessoaDAO;
 import br.edu.ifpb.nutrif.exception.IOExceptionNutrIF;
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
@@ -33,7 +32,6 @@ import br.edu.ifpb.nutrif.util.FileUtil;
 import br.edu.ifpb.nutrif.validation.ImageValidator;
 import br.edu.ifpb.nutrif.validation.Validate;
 import br.edu.ladoss.entity.Arquivo;
-import br.edu.ladoss.entity.DiaRefeicao;
 import br.edu.ladoss.entity.Error;
 import br.edu.ladoss.entity.Pessoa;
 import br.edu.ladoss.enumeration.TipoArquivo;
@@ -101,6 +99,7 @@ public class ArquivoController {
 					arquivo.setTipoArquivo(tipoArquivo);
 					arquivo.setRegistro(agora);
 					arquivo.setSubmetedor(pessoa);
+					arquivo.setAtivo(BancoUtil.ATIVO);
 					
 					// Salvar no diretório
 					FileUtil.writeFile(arquivo);				
@@ -122,7 +121,8 @@ public class ArquivoController {
 			} catch (IOExceptionNutrIF | SQLExceptionNutrIF e) {
 
 				Error error = e.getError();
-				builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(error);
+				builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
+						error);
 			}
 		}		
 
