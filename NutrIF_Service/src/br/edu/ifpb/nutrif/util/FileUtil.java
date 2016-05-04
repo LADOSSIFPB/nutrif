@@ -89,11 +89,12 @@ public class FileUtil {
 		}
 	}
 	
-	public static InputStream readFile(String fileName) {
+	public static InputStream readFile(TipoArquivo tipoArquivo, 
+			String fileName) {
 		
 		InputStream in = null;
 		
-		String diretorioArquivo = diretorios.get(TipoArquivo.ARQUIVO_FOTO_PERFIL);
+		String diretorioArquivo = diretorios.get(tipoArquivo);
 		
 		Path file = Paths.get(diretorioArquivo + FILE_SEPARATOR + fileName);
 		

@@ -10,7 +10,6 @@ import org.hibernate.Session;
 
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
 import br.edu.ifpb.nutrif.hibernate.HibernateUtil;
-import br.edu.ladoss.entity.Aluno;
 import br.edu.ladoss.entity.Arquivo;
 
 public class ArquivoDAO extends GenericDao<Integer, Arquivo> {
@@ -24,7 +23,7 @@ public class ArquivoDAO extends GenericDao<Integer, Arquivo> {
 		return instance;
 	}
 	
-	public Arquivo getByNomeReal(String nomeRealArquivo) {
+	public Arquivo getByNomeSistema(String nomeSistemaArquivo) {
 		
 		Arquivo arquivo = null;
 
@@ -33,10 +32,10 @@ public class ArquivoDAO extends GenericDao<Integer, Arquivo> {
 		try {
 			
 			String hql = "from Arquivo as a"
-					+ " where a.nomeRealArquivo = :nomeRealArquivo";
+					+ " where a.nomeSistemaArquivo = :nomeSistemaArquivo";
 			
 			Query query = session.createQuery(hql);
-			query.setParameter("nomeRealArquivo", nomeRealArquivo);
+			query.setParameter("nomeSistemaArquivo", nomeSistemaArquivo);
 			
 			arquivo = (Arquivo) query.uniqueResult();
 	        

@@ -17,6 +17,7 @@ import br.edu.ladoss.entity.PretensaoRefeicao;
 import br.edu.ladoss.entity.Refeicao;
 import br.edu.ladoss.entity.RefeicaoRealizada;
 import br.edu.ladoss.enumeration.TipoArquivo;
+import br.edu.ladoss.form.FileUploadForm;
 
 public class Validate {
 
@@ -25,6 +26,7 @@ public class Validate {
 	private static StringValidator stringValidator = new StringValidator();
 	private static NumeroValidator numeroValidator = new NumeroValidator();
 	private static EmailValidator emailValidator = new EmailValidator();
+	private static ImageValidator imageValidator = new ImageValidator();
 	private static DataValidator dataValidator = new DataValidator();
 
 	public static int VALIDATE_OK = 0;	
@@ -253,10 +255,28 @@ public class Validate {
 	public static int downloadArquivo(TipoArquivo tipoArquivo, 
 			String nomeRealArquivo) {
 		
-		logger.info("Validação para Arquivo.");
+		logger.info("Validação para Download de Arquivo.");
+	
+		if (tipoArquivo == null) 
+			return ErrorFactory.TIPO_ARQUIVO_INVALIDO;
 		
-		if (!stringValidator.validateSomenteLetras(nomeRealArquivo))
+		if (!imageValidator.validate(nomeRealArquivo))
 			return ErrorFactory.NOME_ARQUIVO_INVALIDO;
+		
+		return VALIDATE_OK;
+	}
+
+	public static int uploadArquivo(TipoArquivo tipoArquivo, 
+			FileUploadForm form) {
+		
+		logger.info("Validação para Upload de Arquivo.");
+		
+		if (tipoArquivo != null) 
+			return ErrorFactory.TIPO_ARQUIVO_INVALIDO;
+		
+		if (form != null) {
+			
+		}
 		
 		return VALIDATE_OK;
 	}

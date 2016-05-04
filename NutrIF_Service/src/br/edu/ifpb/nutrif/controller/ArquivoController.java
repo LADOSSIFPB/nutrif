@@ -68,55 +68,60 @@ public class ArquivoController {
 		ResponseBuilder builder = Response.status(Response.Status.NOT_MODIFIED);
 		builder.expires(new Date());
 		
-		try {
+		// Validação dos dados do arquivo.
+		int validacao = Validate.uploadArquivo(tipoArquivo, form);
+		
+		if (validacao == Validate.VALIDATE_OK) {
 			
-			String nomeRealArquivo = form.getFileName();
-			String extension = FilenameUtils.getExtension(nomeRealArquivo);
-			Integer idPessoa = form.getIdPessoa();
-
-			if (imageValidator.validate(nomeRealArquivo)) {
-
-				// Nome do arquivo
-				String nomeSistemaArquivo = FileUtil.getNomeSistemaArquivo(
-						idPessoa.toString(),
-						extension);
-
-				Pessoa pessoa = PessoaDAO.getInstance().getById(idPessoa);
-				Date agora = new Date();
+			try {
 				
-				// Arquivo genérico.
-				Arquivo arquivo = new Arquivo();
-				arquivo.setFile(form.getData());
-				arquivo.setNomeRealArquivo(nomeRealArquivo);
-				arquivo.setNomeSistemaArquivo(nomeSistemaArquivo);
-				arquivo.setExtensaoArquivo(extension);
-				arquivo.setTipoArquivo(tipoArquivo);
-				arquivo.setRegistro(agora);
-				arquivo.setSubmetedor(pessoa);
-				
-				// Salvar no diretório
-				FileUtil.writeFile(arquivo);				
-				
-				// Persistência do metadado do arquivo no banco de dados.	
-				int idArquivo = ArquivoDAO.getInstance().insert(arquivo);
+				String nomeRealArquivo = form.getFileName();
+				String extension = FilenameUtils.getExtension(nomeRealArquivo);
+				Integer idPessoa = form.getIdPessoa();
 
-				if (idArquivo != BancoUtil.IDVAZIO) {
+				if (imageValidator.validate(nomeRealArquivo)) {
+
+					// Nome do arquivo
+					String nomeSistemaArquivo = FileUtil.getNomeSistemaArquivo(
+							idPessoa.toString(),
+							extension);
+
+					Pessoa pessoa = PessoaDAO.getInstance().getById(idPessoa);
+					Date agora = new Date();
 					
-					arquivo.setId(idArquivo);
-					builder.status(Response.Status.OK);					
+					// Arquivo genérico.
+					Arquivo arquivo = new Arquivo();
+					arquivo.setFile(form.getData());
+					arquivo.setNomeRealArquivo(nomeRealArquivo);
+					arquivo.setNomeSistemaArquivo(nomeSistemaArquivo);
+					arquivo.setExtensaoArquivo(extension);
+					arquivo.setTipoArquivo(tipoArquivo);
+					arquivo.setRegistro(agora);
+					arquivo.setSubmetedor(pessoa);
+					
+					// Salvar no diretório
+					FileUtil.writeFile(arquivo);				
+					
+					// Persistência do metadado do arquivo no banco de dados.	
+					int idArquivo = ArquivoDAO.getInstance().insert(arquivo);
+
+					if (idArquivo != BancoUtil.IDVAZIO) {
+						
+						arquivo.setId(idArquivo);
+						builder.status(Response.Status.OK);					
+					}
+
+				} else {
+					
+					builder.status(Response.Status.NOT_ACCEPTABLE);
 				}
 
-			} else {
-				
-				builder.status(Response.Status.NOT_ACCEPTABLE);
+			} catch (IOExceptionNutrIF | SQLExceptionNutrIF e) {
+
+				Error error = e.getError();
+				builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(error);
 			}
-
-		} catch (IOExceptionNutrIF | SQLExceptionNutrIF e) {
-
-			Error error = e.getError();
-			builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(error);
-		}
-		
+		}		
 
 		return builder.build();
 	}
@@ -126,22 +131,26 @@ public class ArquivoController {
 	@Path("/download/{tipoarquivo}/nome/{nome}")
 	@Produces(MediaType.APPLICATION_OCTET_STREAM)
 	public Response download(@PathParam("tipoarquivo") TipoArquivo tipoArquivo, 
-			@PathParam("nome") String nome) {
+			@PathParam("nome") String nomeSistemaArquivo) {
 
+		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
+		builder.expires(new Date());
+		
 		StreamingOutput stream = null;
 		
 		// Validação dos dados de entrada.
-		int validacao = Validate.downloadArquivo(tipoArquivo, nome);
+		int validacao = Validate.downloadArquivo(tipoArquivo, nomeSistemaArquivo);
 		
 		if (validacao == Validate.VALIDATE_OK) {
 			
 			// Recuperar nome real.
-			Arquivo arquivo = ArquivoDAO.getInstance().getByNomeReal(nome);
+			Arquivo arquivo = ArquivoDAO.getInstance().getByNomeSistema(
+					nomeSistemaArquivo);
 			
 			if (arquivo != null) {
 				
-				final InputStream is = FileUtil.readFile(arquivo
-						.getNomeSistemaArquivo());
+				final InputStream is = FileUtil.readFile(tipoArquivo,
+						arquivo.getNomeSistemaArquivo());
 
 				stream = new StreamingOutput() {
 
@@ -158,12 +167,21 @@ public class ArquivoController {
 						}
 					}
 				};
+				
+				// Arquivo para envio.
+				builder.entity(stream)
+					.status(Response.Status.OK)
+					.type(MediaType.APPLICATION_OCTET_STREAM)
+					.header("content-disposition", 
+							"attachment; filename=\"" + nomeSistemaArquivo + "\"");
+				
+			} else {
+				
+				// Arquivo inexistente.
+				builder.status(Response.Status.NOT_FOUND);
 			}
-		}				
-
-		//TODO: Ajusta a extensão do arquivo.
-		return Response.ok(stream, MediaType.APPLICATION_OCTET_STREAM)
-				.header("content-disposition", "attachment; filename=\"" + nome + "\"")
-				.build();
+		}
+		
+		return builder.build();
 	}
 }
