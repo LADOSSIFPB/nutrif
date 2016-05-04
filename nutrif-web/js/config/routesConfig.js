@@ -43,5 +43,19 @@ angular.module('NutrifApp').config(function ($stateProvider, $urlRouterProvider)
 		    templateUrl: 'view/cadastro-aluno.html',
 		    controller: 'cadastroAlunoCtrl',
 			module: 'admin'
+	  	})
+
+	  	.state('pretensao-home', {
+	  		url: '/pretensao-home',
+		    templateUrl: 'view/pretensao-home.html',
+		    controller: 'pretensaoCtrl',
+			module: 'non-logged'
+	  	})
+
+	  	.state('lista-pretensao', {
+	  		url: '/lista-pretensao',
+		    templateUrl: 'view/lista-pretensao.html',
+		    controller: 'pretensaoCtrl',
+			module: 'comensal'
 	  	});
 });

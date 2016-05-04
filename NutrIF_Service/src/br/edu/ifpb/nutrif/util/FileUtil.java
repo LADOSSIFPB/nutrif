@@ -1,8 +1,14 @@
 package br.edu.ifpb.nutrif.util;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -81,6 +87,26 @@ public class FileUtil {
 			logger.error("Problema ao salvar o arquivo no sistema");
 			throw new IOExceptionNutrIF(e.getMessage());
 		}
+	}
+	
+	public static InputStream readFile(TipoArquivo tipoArquivo, 
+			String fileName) {
+		
+		InputStream in = null;
+		
+		String diretorioArquivo = diretorios.get(tipoArquivo);
+		
+		Path file = Paths.get(diretorioArquivo + FILE_SEPARATOR + fileName);
+		
+		try {
+			
+			in = Files.newInputStream(file);
+				    
+		} catch (IOException x) {
+		    System.err.println(x);
+		}		
+		
+		return in;
 	}
 	
 	public static String getNomeSistemaArquivo(String prefix, String extension) {

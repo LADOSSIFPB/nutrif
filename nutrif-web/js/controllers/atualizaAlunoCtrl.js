@@ -1,4 +1,4 @@
-angular.module("NutrifApp").controller("atualizaAlunoCtrl", function ($scope, $stateParams, $state, alunoService, refeicaoService, diaRefeicaoService, diaService, cursoService) {
+angular.module("NutrifApp").controller("atualizaAlunoCtrl", function ($scope, $cookies, $stateParams, $state, alunoService, refeicaoService, diaRefeicaoService, diaService, cursoService) {
 
    $scope.tiposRefeicoes = [];
    $scope.dias = [];
@@ -30,13 +30,15 @@ angular.module("NutrifApp").controller("atualizaAlunoCtrl", function ($scope, $s
       var newRefeicao = {
          refeicao: {id :refeicao.refeicao.id},
          dia: refeicao.dia,
-         aluno: aluno
+         aluno: aluno,
+         funcionario: $cookies.getObject('user')
       };
+
+      $('#adicionar-refeicao').closeModal();
 
       diaRefeicaoService.cadastrarRefeicao(newRefeicao).success(function (data, status) {
 
          Materialize.toast('Refeição agendada com sucesso', 6000);
-         $('#adicionar-refeicao').closeModal();
 
          delete $scope.refeicoes;
          delete refeicao.refeicao;
@@ -196,8 +198,9 @@ angular.module("NutrifApp").controller("atualizaAlunoCtrl", function ($scope, $s
 
           if (!data) {
 
+              $state.go("atualizar-aluno");
               Materialize.toast('Aluno não cadastrado,<br/>tente novamente ou contate<br/>um administrador', 3000);
-
+                 
           }
 
        });

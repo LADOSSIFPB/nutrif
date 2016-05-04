@@ -4,8 +4,6 @@ import javax.ws.rs.core.MediaType;
 
 import org.jboss.resteasy.annotations.providers.multipart.PartType;
 
-import br.edu.ladoss.enumeration.TipoArquivo;
-
 public class FileUploadForm {
 	
 	@FormParam("uploadedFile")

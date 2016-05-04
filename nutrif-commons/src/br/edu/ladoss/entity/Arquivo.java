@@ -53,6 +53,9 @@ public class Arquivo {
 	@Column(name = "tp_arquivo")
 	@Enumerated(EnumType.ORDINAL)
 	private TipoArquivo tipoArquivo;
+	
+	@Column(name = "is_ativo")
+	private boolean ativo;
 
 	@Transient
 	private byte[] file;
@@ -128,10 +131,20 @@ public class Arquivo {
 	public void setSubmetedor(Pessoa submetedor) {
 		this.submetedor = submetedor;
 	}
+
+	public boolean isAtivo() {
+		return ativo;
+	}
+
+	public void setAtivo(boolean ativo) {
+		this.ativo = ativo;
+	}
 	
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return super.toString();
+		return "Arquivo [id=" + id + ", nomeReal=" + nomeRealArquivo 
+				+ ", nomeSistema="+ nomeSistemaArquivo +", " + tipoArquivo 
+				+ ", registro=" + registro + ", ativo=" + ativo + "]";
 	}
 }
