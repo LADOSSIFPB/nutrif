@@ -10,7 +10,9 @@ import org.hibernate.Session;
 
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
 import br.edu.ifpb.nutrif.hibernate.HibernateUtil;
+import br.edu.ifpb.nutrif.util.BancoUtil;
 import br.edu.ladoss.entity.Arquivo;
+import br.edu.ladoss.entity.DiaRefeicao;
 
 public class ArquivoDAO extends GenericDao<Integer, Arquivo> {
 
@@ -51,6 +53,38 @@ public class ArquivoDAO extends GenericDao<Integer, Arquivo> {
 		}
 		
 		return arquivo;		
+	}
+	
+	public List<Arquivo> getByIdPessoa(Integer idPessoa) {
+		
+		List<Arquivo> arquivos = null;
+
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		
+		try {
+			
+			String hql = "from Arquivo as a"
+					+ " where a.submetedor.id = :idPessoa"
+					+ " and a.ativo = :ativo";
+			
+			Query query = session.createQuery(hql);
+			query.setParameter("idPessoa", idPessoa);
+			query.setParameter("ativo", BancoUtil.ATIVO);
+			
+			arquivos = (List<Arquivo>) query.list();
+	        
+		} catch (HibernateException hibernateException) {
+			
+			session.getTransaction().rollback();
+			
+			throw new SQLExceptionNutrIF(hibernateException);
+			
+		} finally {
+		
+			session.close();
+		}
+		
+		return arquivos;		
 	}
 	
 	@Override

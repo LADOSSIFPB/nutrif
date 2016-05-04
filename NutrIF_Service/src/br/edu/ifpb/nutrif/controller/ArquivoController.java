@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Date;
+import java.util.List;
 
 import javax.annotation.security.PermitAll;
 import javax.ws.rs.Consumes;
@@ -23,6 +24,7 @@ import org.apache.commons.io.IOUtils;
 import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
 
 import br.edu.ifpb.nutrif.dao.ArquivoDAO;
+import br.edu.ifpb.nutrif.dao.DiaRefeicaoDAO;
 import br.edu.ifpb.nutrif.dao.PessoaDAO;
 import br.edu.ifpb.nutrif.exception.IOExceptionNutrIF;
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
@@ -31,6 +33,7 @@ import br.edu.ifpb.nutrif.util.FileUtil;
 import br.edu.ifpb.nutrif.validation.ImageValidator;
 import br.edu.ifpb.nutrif.validation.Validate;
 import br.edu.ladoss.entity.Arquivo;
+import br.edu.ladoss.entity.DiaRefeicao;
 import br.edu.ladoss.entity.Error;
 import br.edu.ladoss.entity.Pessoa;
 import br.edu.ladoss.enumeration.TipoArquivo;
@@ -183,5 +186,37 @@ public class ArquivoController {
 		}
 		
 		return builder.build();
+	}
+	
+	/**
+	 * Consultar arquivo de uma Pessoa.
+	 * 
+	 * @param idPessoa
+	 * @return
+	 */
+	@PermitAll
+	@GET
+	@Path("/listar/pessoa/{id}")
+	@Produces("application/json")
+	public Response listar(@PathParam("id") Integer idPessoa) {
+		
+		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
+		builder.expires(new Date());
+		
+		try {
+
+			List<Arquivo> arquivos = ArquivoDAO.getInstance()
+					.getByIdPessoa(idPessoa);
+			
+			builder.status(Response.Status.OK);
+			builder.entity(arquivos);
+
+		} catch (SQLExceptionNutrIF qme) {
+
+			builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
+					qme.getError());
+		}		
+		
+		return builder.build();		
 	}
 }
