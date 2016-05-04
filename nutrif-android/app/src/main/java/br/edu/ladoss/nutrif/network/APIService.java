@@ -1,5 +1,8 @@
 package br.edu.ladoss.nutrif.network;
 
+import com.squareup.okhttp.RequestBody;
+import com.squareup.okhttp.ResponseBody;
+
 import java.util.List;
 
 import br.edu.ladoss.nutrif.entitys.Aluno;
@@ -7,12 +10,16 @@ import br.edu.ladoss.nutrif.entitys.DiaRefeicao;
 import br.edu.ladoss.nutrif.entitys.Pessoa;
 import br.edu.ladoss.nutrif.entitys.PretensaoRefeicao;
 import br.edu.ladoss.nutrif.entitys.input.ConfirmationKey;
+import okhttp3.MultipartBody;
 import retrofit.Call;
 import retrofit.http.Body;
 import retrofit.http.GET;
 import retrofit.http.Header;
+import retrofit.http.Multipart;
 import retrofit.http.POST;
+import retrofit.http.Part;
 import retrofit.http.Path;
+import retrofit.http.Query;
 
 /**
  * Created by juan on 14/03/16.
@@ -45,5 +52,11 @@ public interface APIService {
     @POST("pretensaorefeicao/diarefeicao/verificar")
     Call<PretensaoRefeicao> infoRefeicao(@Header("Authorization") String accessKey,
                                          @Body PretensaoRefeicao refeicao);
+
+    @Multipart
+    @POST("documents/checkin")
+    public Call<Void> upload(@Query(value = "fileName") String fileName,
+                                @Part("uploadedFile") RequestBody file,
+                                @Query(value = "idPessoa") Integer idPessoa);
 
 }

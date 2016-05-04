@@ -12,8 +12,8 @@ import retrofit.Retrofit;
 public class ConnectionServer {
 
     private static final String[] URL_BASES =
-            {"http://192.168.1.245:8773/NutrIF_Sevice/",
-                    "http://ladoss.com.br:8773/NutrIF_Sevice/"};
+            {"http://192.168.1.245:8773/NutrIF_Service/",
+                    "http://ladoss.com.br:8773/NutrIF_Service/"};
     private static APIService service;
     private static ConnectionServer ourInstance = new ConnectionServer();
 

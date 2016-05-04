@@ -2,6 +2,11 @@ package br.edu.ladoss.nutrif.controller;
 
 import android.content.Context;
 
+import com.squareup.okhttp.MediaType;
+import com.squareup.okhttp.MultipartBuilder;
+import com.squareup.okhttp.RequestBody;
+
+import java.io.File;
 import java.io.IOException;
 
 import br.edu.ladoss.nutrif.R;
@@ -124,6 +129,31 @@ public class PessoaController {
                 });
             }
         }).start();
+    }
+
+    public static void uploadPhoto(final Context context, final Replyable<Aluno> ui, final File file, int idPessoa){
+        //Convertendo imagem
+        RequestBody fileBody = RequestBody.create(MediaType.parse("image/jpeg"), file);
+        //Montando a serialização
+        MultipartBuilder multipartBuilder = new MultipartBuilder();
+        multipartBuilder.addFormDataPart("photo", file.getName(), fileBody);
+        com.squareup.okhttp.RequestBody fileRequestBody = multipartBuilder.build();
+        //Criando a chamada
+        Call<Void> call = ConnectionServer
+                .getInstance().getService().upload(file.getName(),
+                        fileRequestBody ,idPessoa );
+        //Executando a chamada
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Response<Void> response, Retrofit retrofit) {
+
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+
+            }
+        });
     }
 
     public static void validar(final ConfirmationKey key, final Context context, final Replyable<Aluno> ui) {

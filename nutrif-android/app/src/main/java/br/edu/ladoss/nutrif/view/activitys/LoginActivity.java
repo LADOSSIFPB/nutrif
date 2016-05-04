@@ -113,8 +113,9 @@ public class LoginActivity extends AppCompatActivity {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(LoginActivity.this.getCurrentFocus().getWindowToken(), 0);
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                if (LoginActivity.this.getCurrentFocus() != null)
+                    imm.hideSoftInputFromWindow(LoginActivity.this.getCurrentFocus().getWindowToken(), 0);
                 carregarLayout.setVisibility(ativo ? View.GONE : View.VISIBLE);
                 content.setVisibility(!ativo ? View.GONE : View.VISIBLE);
             }

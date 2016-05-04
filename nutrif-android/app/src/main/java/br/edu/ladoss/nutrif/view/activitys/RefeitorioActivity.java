@@ -2,6 +2,8 @@ package br.edu.ladoss.nutrif.view.activitys;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -94,6 +96,14 @@ public class RefeitorioActivity extends AppCompatActivity implements RecycleButt
             sair();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 1 && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+        }
     }
 
     public void montaTabela(List<DiaRefeicao> refeicoes) {
