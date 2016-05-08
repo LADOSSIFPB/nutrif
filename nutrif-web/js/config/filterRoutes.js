@@ -12,6 +12,10 @@ angular.module('NutrifApp').run(function($rootScope, $state, $cookies) {
             return role.id === 2;
         }
 
+        function findRoleComensal(role) {
+            return role.id === 3;
+        }
+
         if (_user) {
 
             if (toState.module === 'non-logged') {
@@ -20,16 +24,19 @@ angular.module('NutrifApp').run(function($rootScope, $state, $cookies) {
             }
 
             if (toState.module === 'admin' && !_user.roles.find(findRoleAdmin)) {
-                console.log("bloqueado");
                 event.preventDefault();
                 $state.go("entrada-aluno");
             }
 
-            /* Adiocionar para onde redirecionar, pois é o ultimo tipo de usuário
-            if(toState.module === 'inspetor' && !_user.roles.find(findRoleInspetor)){
+            if(toState.module === 'comensal' && !_user.roles.find(findRoleComensal)){
                 event.preventDefault();
-                return;
-            }*/
+                $state.go("entrada-aluno");
+            }
+
+            if(toState.module != 'comensal' && _user.roles.find(findRoleComensal)){
+                event.preventDefault();
+                $state.go("lista-pretensao");
+            }
 
         } else {
 

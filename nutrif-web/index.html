@@ -34,6 +34,7 @@
 		<script type="text/javascript" src="js/controllers/atualizaAlunoCtrl.js"></script>
 		<script type="text/javascript" src="js/controllers/cadastroAlunoCtrl.js"></script>
 		<script type="text/javascript" src="js/controllers/loginCtrl.js"></script>
+		<script type="text/javascript" src="js/controllers/loginPretensaoCtrl.js"></script>
 		<script type="text/javascript" src="js/controllers/pretensaoCtrl.js"></script>
 		<script type="text/javascript" src="js/controllers/geralCtrl.js"></script>
 
@@ -62,7 +63,9 @@
 			<div ng-include="'view/templates/navbar.html'"></div>
 		</header>
 
-		<div ng-if="geral.estaLogado()" ng-include="'view/templates/side-nav.html'"></div>
+		<div ng-if="geral.estaLogado() && geral.getUserRole() != 'Aluno'" 
+			 ng-include="'view/templates/side-nav.html'">
+		</div>
 
 		<main>
 			<div class="container">

@@ -48,7 +48,7 @@ angular.module('NutrifApp').config(function ($stateProvider, $urlRouterProvider)
 	  	.state('pretensao-home', {
 	  		url: '/pretensao-home',
 		    templateUrl: 'view/pretensao-home.html',
-		    controller: 'pretensaoCtrl',
+		    controller: 'loginPretensaoCtrl',
 			module: 'non-logged'
 	  	})
 
