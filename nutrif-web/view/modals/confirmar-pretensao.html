@@ -1,0 +1,30 @@
+<div id="confirmar-pretensao" class="modal">
+	<div class="modal-content">
+		<h4 class="center">Deseja solicitar esta refeição?</h4>
+		<table class="centered striped">
+			<thead>
+				<tr>
+					<th data-field="id">Nome Completo</th>
+					<th data-field="name">Matrícula</th>
+					<th data-field="price">Tipo Refeição</th>
+					<th data-field="price">Dia da semana</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>{{refeicaoSelecionada.aluno.nome | uppercase}}</td>
+					<td>{{refeicaoSelecionada.aluno.matricula}}</td>
+					<td>{{refeicaoSelecionada.refeicao.tipo | uppercase}}</td>
+					<td>{{refeicaoSelecionada.dia.nome | uppercase}}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div class="modal-footer">
+		<a ng-click="registrarRefeicao(refeicaoSelecionada)" 
+		   class="modal-action modal-close waves-effect waves-green btn-flat green-text text-darken-4">
+			Confirmar
+		</a>
+		<a class="modal-action modal-close waves-effect waves-red btn-flat red-text text-darken-4">Cancelar</a>
+	</div>
+</div>

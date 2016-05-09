@@ -27,7 +27,7 @@
 							<td>{{refeicao.dia.nome | uppercase}}</td>
 							<td>
 								<button class="btn waves-effect waves-light light-green darken" 
-										ng-click="">
+										ng-click="abrirModalPretensao(refeicao)">
 									Solicitar
 								</button>
 							</td>
@@ -39,3 +39,5 @@
 		</div>
 	</div>
 </div>
+
+<div ng-include="'view/modals/confirmar-pretensao.html'"></div>

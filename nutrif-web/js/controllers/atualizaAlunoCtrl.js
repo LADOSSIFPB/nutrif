@@ -72,6 +72,7 @@ angular.module("NutrifApp").controller("atualizaAlunoCtrl", function ($scope, $c
       $('#confirmar-remocao-refeicao').closeModal();
       delete refeicao.refeicao.horaInicio;
       delete refeicao.refeicao.horaFinal;
+      delete refeicao.refeicao.horaPretensao;
 
       diaRefeicaoService.removerRefeicao(refeicao).success(function(data, status){
 
