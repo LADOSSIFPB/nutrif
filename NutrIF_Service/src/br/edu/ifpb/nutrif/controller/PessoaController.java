@@ -62,6 +62,7 @@ public class PessoaController {
 					login.setPessoa(pessoa);
 					login.setRegistro(agora);
 					
+					// Registro de Login para a Pessoa.
 					LoginDAO.getInstance().insert(login);
 					
 					// Pessoa

@@ -2,6 +2,7 @@ package br.edu.ladoss.entity;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -28,7 +29,7 @@ public class Login {
 	@Column(name = "id_login")
 	private Integer id;
 	
-	@OneToOne(fetch = FetchType.EAGER)
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name = "fk_id_pessoa", referencedColumnName="id_pessoa")
 	private Pessoa pessoa;
 	
