@@ -37,6 +37,9 @@ public class Aluno extends Pessoa {
 	@Column(name = "nm_keyconfirmation")
 	private String keyConfirmation;
 	
+	@Column(name = "is_acesso")
+	private boolean acesso;
+	
 	public Aluno() {
 		super();
 	}
@@ -77,9 +80,18 @@ public class Aluno extends Pessoa {
 		this.keyConfirmation = keyConfirmation;
 	}
 
+	@XmlElement
+	public boolean isAcesso() {
+		return acesso;
+	}
+
+	public void setAcesso(boolean acesso) {
+		this.acesso = acesso;
+	}
+	
 	@Override
 	public String toString() {
 		return "Aluno [" + super.toString() + " idAluno=" + id + ", curso=" + curso 
 				+ ", matricula=" + matricula + "]";
-	}	
+	}		
 }

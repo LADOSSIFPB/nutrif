@@ -303,6 +303,16 @@ public class AlunoController {
 				if (aluno != null 
 						&& aluno.getId() != BancoUtil.IDVAZIO) {
 
+					// Verificar se o usuário já tem acesso solicitado.					
+					if (!aluno.isAcesso()) {
+						
+						// E-mail do Aluno.
+						aluno.setEmail(email);
+					} else {
+						
+						email = aluno.getEmail();
+					}
+					
 					// Criptografar senha.
 					String senhaCriptografada = StringUtil.criptografarBase64(
 							senhaPlana);				
@@ -318,11 +328,11 @@ public class AlunoController {
 					String keyConfirmation = StringUtil.getRadomKeyConfirmation();
 					aluno.setKeyConfirmation(keyConfirmation);
 					
-					// E-mail do Aluno.
-					aluno.setEmail(email);
-					
 					// Inativar Aluno.
-					aluno.setAtivo(false);
+					aluno.setAtivo(BancoUtil.INATIVO);
+					
+					// Ativar solicitação de acesso.
+					aluno.setAcesso(BancoUtil.ATIVO);
 					
 					//Inserir o Aluno.
 					aluno = AlunoDAO.getInstance().update(aluno);
