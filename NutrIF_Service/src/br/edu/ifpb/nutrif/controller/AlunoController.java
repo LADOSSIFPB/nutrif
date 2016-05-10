@@ -77,8 +77,8 @@ public class AlunoController {
 				roles.add(role);				
 				aluno.setRoles(roles);
 				
-				// Inativar acesso do Aluno.
-				aluno.setAtivo(false);
+				// Inativar o Aluno.
+				aluno.setAtivo(BancoUtil.INATIVO);
 				
 				//Inserir o Aluno.
 				Integer idAluno = AlunoDAO.getInstance().insert(aluno);
@@ -138,12 +138,7 @@ public class AlunoController {
 				if (aluno != null) {
 
 					// Operação realizada com sucesso.
-					builder.status(Response.Status.OK);
-					
-					// Remover a senha.
-					aluno.setSenha(StringUtil.STRING_VAZIO);
-					aluno.setKeyConfirmation(StringUtil.STRING_VAZIO);
-					
+					builder.status(Response.Status.OK);					
 					builder.entity(aluno);
 				}
 			
@@ -465,4 +460,39 @@ public class AlunoController {
 		return builder.build();
 	}
 	
+	@PermitAll	
+	@GET
+	@Path("/inserir/role")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public Response insertRole() {
+		
+		ResponseBuilder builder = Response.status(Response.Status.OK);
+		builder.expires(new Date());
+		
+		try {
+		
+			List<Aluno> alunos = AlunoDAO.getInstance().getAll();
+			
+			for (Aluno aluno: alunos) {
+				
+				// Inserir role Aluno aos registros antigos.
+				Role role = RoleDAO.getInstance().getById(Role.COMENSAL_ROLE);
+				List<Role> roles = new ArrayList<Role>();
+				roles.add(role);				
+				aluno.setRoles(roles);
+				
+				AlunoDAO.getInstance().update(aluno);				
+			}
+			
+			builder.status(Response.Status.OK);
+		
+		} catch (SQLExceptionNutrIF exception) {
+
+			builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
+					exception.getError());
+		}
+		
+		return builder.build();
+	}
 }

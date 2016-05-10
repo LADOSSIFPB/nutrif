@@ -91,7 +91,7 @@ public class Aluno extends Pessoa {
 	
 	@Override
 	public String toString() {
-		return "Aluno [" + super.toString() + " idAluno=" + id + ", curso=" + curso 
+		return "Aluno [" + super.toString() + ", curso=" + curso 
 				+ ", matricula=" + matricula + "]";
 	}		
 }

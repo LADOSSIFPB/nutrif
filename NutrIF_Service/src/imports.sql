@@ -48,4 +48,5 @@ INSERT INTO tb_role (id_role, nm_role) VALUES
 
 INSERT INTO tb_pessoa_role (fk_id_role, fk_id_pessoa) VALUES (1, 517), (2, 518);
 
-UPDATE `nutrif`.`tb_aluno` SET `is_acesso` = b'0';
+-- Atualização: 20160509
+UPDATE nutrif.tb_aluno SET is_acesso = b'0';
