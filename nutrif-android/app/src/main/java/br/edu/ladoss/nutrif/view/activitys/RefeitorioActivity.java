@@ -4,25 +4,33 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.mikepenz.materialdrawer.Drawer;
+import com.mikepenz.google_material_typeface_library.GoogleMaterial;
+import com.mikepenz.materialdrawer.AccountHeader;
+import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.DrawerBuilder;
-import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
-import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
+import com.mikepenz.materialdrawer.model.interfaces.IProfile;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
 
+import java.io.File;
 import java.util.List;
 
 import br.edu.ladoss.nutrif.R;
@@ -39,7 +47,7 @@ import br.edu.ladoss.nutrif.view.callback.RecycleButtonClicked;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class RefeitorioActivity extends AppCompatActivity implements RecycleButtonClicked, Replyable<List<DiaRefeicao>> {
+public class RefeitorioActivity extends AppCompatActivity implements RecycleButtonClicked, Replyable<List<DiaRefeicao>>, AccountHeader.OnAccountHeaderProfileImageListener{
     @Bind(R.id.carregando_layout)
     LinearLayout carregarLayout;
 
@@ -49,38 +57,56 @@ public class RefeitorioActivity extends AppCompatActivity implements RecycleButt
     @Bind(R.id.recycle)
     RecyclerView recycle;
 
-    private Drawer drawer;
-
+    AccountHeader headerResult;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_refeitorio);
         ButterKnife.bind(this);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setLogo(R.drawable.ic_action_name);
         toolbar.setTitle(R.string.app_name);
         setSupportActionBar(toolbar);
+
         buildSlideBar(toolbar,savedInstanceState);
+
         change(false);
         DiaRefeicaoController.gerarHorario(this, this);
     }
 
+    public void tirarFoto(View v){
+        CropImage.startPickImageActivity(this);
+    }
+
+
     public void buildSlideBar(Toolbar toolbar, Bundle savedInstanceState){
-        drawer = new DrawerBuilder()
+        Aluno aluno = AlunoDAO.getInstance(this).find();
+
+        headerResult = new AccountHeaderBuilder()
                 .withActivity(this)
-                .withRootView(R.id.content)
+                .withSelectionListEnabled(false)
+                .withAlternativeProfileHeaderSwitching(false)
+                .addProfiles(
+                        new ProfileDrawerItem()
+                                .withEmail(aluno.getEmail())
+                                .withName("Juan Barros")
+                                .withIcon(GoogleMaterial.Icon.gmd_account_circle))
+                .withOnAccountHeaderProfileImageListener(this)
+                .build();
+
+        new DrawerBuilder()
+                .withAccountHeader(headerResult)
                 .withToolbar(toolbar)
                 .withActionBarDrawerToggle(true)
                 .withActionBarDrawerToggleAnimated(true)
-                .withDrawerGravity(Gravity.LEFT)
-                .withSelectedItem(0)
+                .withTranslucentStatusBar(true)
+                .withActivity(this)
+                .withDrawerGravity(Gravity.START)
+                .withSelectedItem(-1)
                 .withSavedInstance(savedInstanceState)
                 .build();
-        Aluno aluno = AlunoDAO.getInstance(this).find();
-        ProfileDrawerItem profile = new ProfileDrawerItem()
-                .withEmail(aluno.getEmail());
-        drawer.addItem(profile);
+
     }
 
     @Override
@@ -100,11 +126,16 @@ public class RefeitorioActivity extends AppCompatActivity implements RecycleButt
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == 1 && resultCode == RESULT_OK) {
-            Bundle extras = data.getExtras();
-            Bitmap imageBitmap = (Bitmap) extras.get("data");
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            Toast.makeText(this,"hoh",Toast.LENGTH_LONG).show();
+                CropImage.ActivityResult result = CropImage.getActivityResult(data);
+                if (resultCode == RESULT_OK) {
+                    Uri resultUri = result.getUri();
+                } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+                    Exception error = result.getError();
+                }
+            }
         }
-    }
 
     public void montaTabela(List<DiaRefeicao> refeicoes) {
         LinearLayoutManager gridLayoutManager = new LinearLayoutManager(this);
@@ -180,5 +211,20 @@ public class RefeitorioActivity extends AppCompatActivity implements RecycleButt
                     }
                 });
         alertDialog.show();
+    }
+
+    @Override
+    public boolean onProfileImageClick(View view, IProfile profile, boolean current) {
+        Aluno aluno = AlunoDAO.getInstance(this).find();
+
+        if (aluno.getPhoto() == null){
+            tirarFoto(view);
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onProfileImageLongClick(View view, IProfile profile, boolean current) {
+        return false;
     }
 }

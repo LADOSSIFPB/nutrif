@@ -20,6 +20,7 @@ import br.edu.ladoss.nutrif.util.ErrorUtils;
 import br.edu.ladoss.nutrif.util.PreferencesUtils;
 import retrofit.Call;
 import retrofit.Callback;
+import retrofit.GsonConverterFactory;
 import retrofit.Response;
 import retrofit.Retrofit;
 
@@ -53,7 +54,9 @@ public class PessoaController {
                             erro.setMensagem(context.getString(R.string.campoerrado));
                             ui.onFailure(erro);
                         } else {
-                            ui.failCommunication(new Throwable());
+                            ui.onFailure(ErrorUtils.parseError(response,
+                                    new Retrofit.Builder().baseUrl("http://ladoss:8080").addConverterFactory(GsonConverterFactory.create()).build()
+                                    , context));
                         }
 
                     }

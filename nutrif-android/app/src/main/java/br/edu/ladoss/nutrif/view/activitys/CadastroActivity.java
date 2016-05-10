@@ -1,14 +1,11 @@
 package br.edu.ladoss.nutrif.view.activitys;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
@@ -16,7 +13,6 @@ import br.edu.ladoss.nutrif.R;
 import br.edu.ladoss.nutrif.controller.PessoaController;
 import br.edu.ladoss.nutrif.controller.Replyable;
 import br.edu.ladoss.nutrif.entitys.Aluno;
-import br.edu.ladoss.nutrif.entitys.Pessoa;
 import br.edu.ladoss.nutrif.entitys.output.Erro;
 import br.edu.ladoss.nutrif.util.AndroidUtil;
 import br.edu.ladoss.nutrif.util.ValidateUtil;
@@ -49,14 +45,6 @@ public class CadastroActivity extends AppCompatActivity implements Replyable<Alu
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
     }
-
-    public void tirarFoto(View v){
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            startActivityForResult(takePictureIntent, 1);
-        }
-    }
-
 
     public void registrar(View v) {
         change(false);
