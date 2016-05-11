@@ -258,6 +258,33 @@ public class AlunoController {
 		return builder.build();
 	}
 	
+	@PermitAll
+	@GET
+	@Path("/listar/nome/{nome}")
+	@Produces("application/json")
+	public Response listByNome(@PathParam("nome") String nome) {
+		
+		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
+		builder.expires(new Date());
+
+		List<Aluno> alunos = new ArrayList<Aluno>();
+		
+		try {
+
+			alunos = AlunoDAO.getInstance().listByNome(nome);
+			
+			builder.status(Response.Status.OK);
+			builder.entity(alunos);
+
+		} catch (SQLExceptionNutrIF exception) {
+
+			builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
+					exception.getError());
+		}
+
+		return builder.build();
+	}
+	
 	/**
 	 * Inserir acesso do Aluno ao sistema via dispositivo móvel.
 	 * 
