@@ -9,7 +9,7 @@ public class Aluno extends Pessoa {
     private String matricula;
     private Curso curso;
     private String keyConfirmation;
-    private Integer photo;
+    private String photo;
 
     public Aluno(String matricula, String email, String senha) {
         this.matricula = matricula;
@@ -37,8 +37,11 @@ public class Aluno extends Pessoa {
         this.matricula = matricula;
     }
 
+    public void setPhoto(String photo){
+        this.photo = photo;
+    }
 
-    public Integer getPhoto() {
+    public String getPhoto() {
         return photo;
     }
 }

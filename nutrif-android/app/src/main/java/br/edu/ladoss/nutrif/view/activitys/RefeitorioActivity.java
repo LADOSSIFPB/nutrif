@@ -2,24 +2,21 @@ package br.edu.ladoss.nutrif.view.activitys;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.materialdrawer.AccountHeader;
@@ -31,6 +28,9 @@ import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import br.edu.ladoss.nutrif.R;
@@ -47,7 +47,7 @@ import br.edu.ladoss.nutrif.view.callback.RecycleButtonClicked;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class RefeitorioActivity extends AppCompatActivity implements RecycleButtonClicked, Replyable<List<DiaRefeicao>>, AccountHeader.OnAccountHeaderProfileImageListener{
+public class RefeitorioActivity extends AppCompatActivity implements RecycleButtonClicked, Replyable<List<DiaRefeicao>>, AccountHeader.OnAccountHeaderProfileImageListener {
     @Bind(R.id.carregando_layout)
     LinearLayout carregarLayout;
 
@@ -59,6 +59,10 @@ public class RefeitorioActivity extends AppCompatActivity implements RecycleButt
 
     AccountHeader headerResult;
 
+    static final int REQUEST_TAKE_PHOTO = 1;
+
+    String mCurrentPhotoPath;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,18 +73,13 @@ public class RefeitorioActivity extends AppCompatActivity implements RecycleButt
         toolbar.setTitle(R.string.app_name);
         setSupportActionBar(toolbar);
 
-        buildSlideBar(toolbar,savedInstanceState);
+        buildSlideBar(toolbar, savedInstanceState);
 
         change(false);
         DiaRefeicaoController.gerarHorario(this, this);
     }
 
-    public void tirarFoto(View v){
-        CropImage.startPickImageActivity(this);
-    }
-
-
-    public void buildSlideBar(Toolbar toolbar, Bundle savedInstanceState){
+    public void buildSlideBar(Toolbar toolbar, Bundle savedInstanceState) {
         Aluno aluno = AlunoDAO.getInstance(this).find();
 
         headerResult = new AccountHeaderBuilder()
@@ -90,7 +89,7 @@ public class RefeitorioActivity extends AppCompatActivity implements RecycleButt
                 .addProfiles(
                         new ProfileDrawerItem()
                                 .withEmail(aluno.getEmail())
-                                .withName("Juan Barros")
+                                .withName(aluno.getNome())
                                 .withIcon(GoogleMaterial.Icon.gmd_account_circle))
                 .withOnAccountHeaderProfileImageListener(this)
                 .build();
@@ -126,16 +125,99 @@ public class RefeitorioActivity extends AppCompatActivity implements RecycleButt
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(resultCode == RESULT_OK && requestCode == 1){
+            CropImage.activity(Uri.parse(mCurrentPhotoPath))
+                    .setGuidelines(CropImageView.Guidelines.ON)
+                    .setActivityTitle(getString(R.string.cut))
+                    .setAllowRotation(true)
+                    .setFixAspectRatio(true)
+                    .setAspectRatio(1,1)
+                    .setCropShape(CropImageView.CropShape.OVAL)
+                    .start(this);
+        }
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
-            Toast.makeText(this,"hoh",Toast.LENGTH_LONG).show();
-                CropImage.ActivityResult result = CropImage.getActivityResult(data);
-                if (resultCode == RESULT_OK) {
-                    Uri resultUri = result.getUri();
-                } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
-                    Exception error = result.getError();
-                }
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+            if (resultCode == RESULT_OK) {
+                final IProfile profile = headerResult.getActiveProfile();
+                profile.withIcon(result.getUri());
+                PessoaController.uploadPhoto(this, new Replyable<Aluno>() {
+                    @Override
+                    public void onSuccess(Aluno aluno) {
+                        headerResult.updateProfile(profile);
+                    }
+
+                    @Override
+                    public void onFailure(Erro erro) {
+
+                    }
+
+                    @Override
+                    public void failCommunication(Throwable throwable) {
+
+                    }
+                },new File(result.getUri().toString()));
+            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+                Exception error = result.getError();
             }
         }
+    }
+
+    private File createImageFile() throws IOException {
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        File storageDir = Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName,  /* prefix */
+                ".jpg",         /* suffix */
+                storageDir      /* directory */
+        );
+
+        // Save a file: path for use with ACTION_VIEW intents
+        mCurrentPhotoPath = "file:" + image.getAbsolutePath();
+        return image;
+    }
+    private void dispatchTakePictureIntent() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        // Ensure that there's a camera activity to handle the intent
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            // Create the File where the photo should go
+            File photoFile = null;
+            try {
+                photoFile = createImageFile();
+            } catch (IOException ex) {
+
+            }
+            // Continue only if the File was successfully created
+            if (photoFile != null) {
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT,
+                        Uri.fromFile(photoFile));
+                startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
+            }
+        }
+    }
+    public void tirarPhoto(){
+        AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+        alertDialog.setTitle(R.string.atencao);
+        alertDialog.setMessage(getString(R.string.aviso));
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, getString(R.string.entendido),
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dispatchTakePictureIntent();
+                        dialog.dismiss();
+                    }
+                });
+        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, getString(R.string.cancelar),
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        alertDialog.show();
+
+    }
 
     public void montaTabela(List<DiaRefeicao> refeicoes) {
         LinearLayoutManager gridLayoutManager = new LinearLayoutManager(this);
@@ -148,7 +230,7 @@ public class RefeitorioActivity extends AppCompatActivity implements RecycleButt
             textView.setText(R.string.nodays);
             textView.setGravity(Gravity.CENTER);
             content.addView(textView);
-        }else
+        } else
             recycle.setVisibility(View.VISIBLE);
 
     }
@@ -159,7 +241,6 @@ public class RefeitorioActivity extends AppCompatActivity implements RecycleButt
         intent.putExtra("position", position);
         startActivity(intent);
     }
-
 
     @Override
     public void onSuccess(List<DiaRefeicao> diaRefeicaos) {
@@ -217,8 +298,8 @@ public class RefeitorioActivity extends AppCompatActivity implements RecycleButt
     public boolean onProfileImageClick(View view, IProfile profile, boolean current) {
         Aluno aluno = AlunoDAO.getInstance(this).find();
 
-        if (aluno.getPhoto() == null){
-            tirarFoto(view);
+        if (aluno.getPhoto() == null) {
+            tirarPhoto();
         }
         return true;
     }

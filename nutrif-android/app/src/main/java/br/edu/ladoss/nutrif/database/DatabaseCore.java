@@ -31,6 +31,7 @@ public class DatabaseCore extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL(DiaRefeicaoDAO.DROP_TABLE);
+        db.execSQL(AlunoDAO.DROP_TABLE);
         onCreate(db);
     }
 }

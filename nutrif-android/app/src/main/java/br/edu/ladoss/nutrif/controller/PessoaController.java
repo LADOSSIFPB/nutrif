@@ -134,7 +134,8 @@ public class PessoaController {
         }).start();
     }
 
-    public static void uploadPhoto(final Context context, final Replyable<Aluno> ui, final File file, int idPessoa){
+    public static void uploadPhoto(final Context context, final Replyable<Aluno> ui, final File file){
+        int idPessoa = AlunoDAO.getInstance(context).find().getId();
         //Convertendo imagem
         RequestBody fileBody = RequestBody.create(MediaType.parse("image/jpeg"), file);
         //Montando a serialização
