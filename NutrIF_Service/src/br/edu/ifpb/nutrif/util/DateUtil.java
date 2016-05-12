@@ -1,6 +1,5 @@
 package br.edu.ifpb.nutrif.util;
 
-import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -9,7 +8,6 @@ import java.util.GregorianCalendar;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.joda.time.DateTime;
-import org.joda.time.Hours;
 import org.joda.time.Interval;
 import org.joda.time.Minutes;
 import org.joda.time.Period;
@@ -17,8 +15,6 @@ import org.joda.time.Period;
 import br.edu.ladoss.entity.Dia;
 
 public class DateUtil {
-
-	private static Logger logger = LogManager.getLogger(DateUtil.class);
 	
 	public static int DATA_IGUAL = 0;
 	
@@ -33,10 +29,24 @@ public class DateUtil {
 		return getDayOfWeek(current);
 	}
 	
+	public static int getTodayDaysDiff(int finalDayOfWeek) {
+        
+		Calendar now = Calendar.getInstance();
+        
+		int nowDayOfWeek = now.get(Calendar.DAY_OF_WEEK);
+		
+        int diff = finalDayOfWeek - nowDayOfWeek;
+        
+        if (diff < 0) {
+            diff += 7;
+        }
+        
+        return diff;
+    }
+	
 	public static Dia getDayOfWeek(Date date) {	
 		
 		String dayName = new SimpleDateFormat("EEEE").format(date);
-		logger.info("Dia atual: " + dayName);
 		
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(date);

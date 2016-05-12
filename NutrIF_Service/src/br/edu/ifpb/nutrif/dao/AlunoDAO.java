@@ -23,6 +23,36 @@ public class AlunoDAO extends GenericDao<Integer, Aluno> {
 		return instance;
 	}
 
+	public List<Aluno> listByNome(String nome) {
+		
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		
+		List<Aluno> aluno = null;
+		
+		try {
+			
+			String hql = "from Aluno as a"
+					+ " where a.nome like :nome";
+			
+			Query query = session.createQuery(hql);
+			query.setParameter("nome", "%" + nome + "%");
+			
+			aluno = (List<Aluno>) query.list();
+	        
+		} catch (HibernateException hibernateException) {
+			
+			session.getTransaction().rollback();
+			
+			throw new SQLExceptionNutrIF(hibernateException);
+			
+		} finally {
+		
+			session.close();
+		}
+		
+		return aluno;
+	}
+	
 	public Aluno getByMatricula(String matricula) {
 		
 		Session session = HibernateUtil.getSessionFactory().openSession();

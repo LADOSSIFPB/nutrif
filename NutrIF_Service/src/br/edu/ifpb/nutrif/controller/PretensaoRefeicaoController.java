@@ -206,11 +206,8 @@ public class PretensaoRefeicaoController {
 		// Dia da semana para lançar a pretensão.
 		int diaPretensao = diaRefeicao.getDia().getId();
 		
-		// Dia da semana que da solicitação para a pretensão.
-		int diaSolicitacao = DateUtil.getCurrentDayOfWeek().getId();
-		
-		// Diferença de dias entre solicitação e pretensão.
-		int diferenca = diaPretensao - diaSolicitacao;
+		//TODO: Ajustar cálculo. Diferença de dias entre solicitação e pretensão.
+		int diferenca = DateUtil.getTodayDaysDiff(diaPretensao);
 		
 		// Quantidade máxima de diferença entre o dia da solicitação e o pretendido.
 		if (diferenca == refeicao.getDiaPrevistoPretensao()) {	
