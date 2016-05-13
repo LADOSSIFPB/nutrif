@@ -17,7 +17,7 @@
 
     <string name="cut">Recorte a foto</string>
     <string name="atencao">Atenção!</string>
-    <string name="aviso">Certifique-se de tirar uma foto adequada do seu rosto pois ela será utilizada ao entrar no refeitório. Qualquer foto julgada inadequada poderá acarretar em punição ao aluno.</string>
+    <string name="aviso">Certifique-se de tirar uma foto adequada do seu rosto pois ela será utilizada ao entrar no refeitório e só poderá ser tirada uma vez. Qualquer foto julgada inadequada poderá acarretar em punição ao aluno.</string>
     <string name="entendido">Eu compreendi</string>
     <string name="cancelar">Cancelar</string>
 

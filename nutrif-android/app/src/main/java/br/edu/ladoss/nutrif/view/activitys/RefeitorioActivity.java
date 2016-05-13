@@ -2,6 +2,9 @@ package br.edu.ladoss.nutrif.view.activitys;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.Icon;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -42,6 +45,7 @@ import br.edu.ladoss.nutrif.entitys.Aluno;
 import br.edu.ladoss.nutrif.entitys.DiaRefeicao;
 import br.edu.ladoss.nutrif.entitys.output.Erro;
 import br.edu.ladoss.nutrif.util.AndroidUtil;
+import br.edu.ladoss.nutrif.util.ImageUtils;
 import br.edu.ladoss.nutrif.view.adapters.HorarioAdapter;
 import br.edu.ladoss.nutrif.view.callback.RecycleButtonClicked;
 import butterknife.Bind;
@@ -82,15 +86,21 @@ public class RefeitorioActivity extends AppCompatActivity implements RecycleButt
     public void buildSlideBar(Toolbar toolbar, Bundle savedInstanceState) {
         Aluno aluno = AlunoDAO.getInstance(this).find();
 
+        ProfileDrawerItem profile = new ProfileDrawerItem()
+                .withName(aluno.getNome())
+                .withEmail(aluno.getEmail())
+                .withIsExpanded(true);
+
+        if(aluno.getPhoto() == null)
+            profile.withIcon(GoogleMaterial.Icon.gmd_add_a_photo);
+        else
+            profile.withIcon(ImageUtils.byteToDrawable(aluno.getPhoto()));
+
         headerResult = new AccountHeaderBuilder()
                 .withActivity(this)
                 .withSelectionListEnabled(false)
                 .withAlternativeProfileHeaderSwitching(false)
-                .addProfiles(
-                        new ProfileDrawerItem()
-                                .withEmail(aluno.getEmail())
-                                .withName(aluno.getNome())
-                                .withIcon(GoogleMaterial.Icon.gmd_account_circle))
+                .addProfiles(profile)
                 .withOnAccountHeaderProfileImageListener(this)
                 .build();
 
@@ -136,13 +146,15 @@ public class RefeitorioActivity extends AppCompatActivity implements RecycleButt
                     .start(this);
         }
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
-            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+            final CropImage.ActivityResult result = CropImage.getActivityResult(data);
             if (resultCode == RESULT_OK) {
                 final IProfile profile = headerResult.getActiveProfile();
-                profile.withIcon(result.getUri());
+                final Drawable drawable = Drawable.createFromPath(result.getUri().getPath());
                 PessoaController.uploadPhoto(this, new Replyable<Aluno>() {
                     @Override
                     public void onSuccess(Aluno aluno) {
+                        AlunoDAO.getInstance(RefeitorioActivity.this).updatePhoto(drawable);
+                        profile.withIcon(result.getUri());
                         headerResult.updateProfile(profile);
                     }
 
@@ -155,7 +167,7 @@ public class RefeitorioActivity extends AppCompatActivity implements RecycleButt
                     public void failCommunication(Throwable throwable) {
 
                     }
-                },new File(result.getUri().toString()));
+                },new File(result.getUri().toString()).getAbsoluteFile());
             } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
                 Exception error = result.getError();
             }
@@ -297,10 +309,8 @@ public class RefeitorioActivity extends AppCompatActivity implements RecycleButt
     @Override
     public boolean onProfileImageClick(View view, IProfile profile, boolean current) {
         Aluno aluno = AlunoDAO.getInstance(this).find();
-
-        if (aluno.getPhoto() == null) {
+       // if(aluno.getPhoto() == null)
             tirarPhoto();
-        }
         return true;
     }
 
