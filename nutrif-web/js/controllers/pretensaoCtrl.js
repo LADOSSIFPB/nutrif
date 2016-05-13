@@ -2,6 +2,7 @@ angular.module('NutrifApp').controller("pretensaoCtrl", function ($scope, $cooki
 
 	$scope.refeicoes = [];
 	$scope.refeicaoSelecionada = {};
+	$scope.pretensao = {};
 
 	var carregarDiaRefeicaoAluno = function (matricula) {
 		diaRefeicaoService.listaRefeicaoPorMatricula(matricula).success(function (data, status) {
@@ -29,11 +30,27 @@ angular.module('NutrifApp').controller("pretensaoCtrl", function ($scope, $cooki
     	
 		pretensaoService.verifyDiaRefeicao(_pretensao).success(function (data, status) {
 			$('#confirmar-pretensao').openModal();
+			$scope.pretensao = data;
 		}).error(function (data, status){
 			if (!data) {
 				Materialize.toast('Erro desconhecido<br/>Tente novamente ou informe um administrador.', 3000);
 			} else {
 				Materialize.toast('Erro: Solicite apenas refeições do dia seguinte.', 3000);
+			}
+		})
+  	}
+
+  	$scope.inserePretensao = function (pretensao) {
+
+  		$('#confirmar-pretensao').closeModal();
+
+  		pretensaoService.insertPretensao(pretensao).success(function (data, status) {
+			Materialize.toast('Pretensão enviada com sucesso', 3000);
+		}).error(function (data, status){
+			if (!data) {
+				Materialize.toast('Erro desconhecido<br/>Tente novamente ou informe um administrador.', 3000);
+			} else {
+				Materialize.toast(data.mensagem, 3000);
 			}
 		})
   	}

@@ -6,8 +6,13 @@ angular.module("NutrifApp").factory("pretensaoService", function($http, config){
 		return $http.post(_path + "/diarefeicao/verificar", pretensao);
 	};
 
+	var _insertPretensao = function(pretensao){
+		return $http.post(_path + "/inserir", pretensao);
+	};
+
 	return {
-		verifyDiaRefeicao : _verifyDiaRefeicao
+		verifyDiaRefeicao : _verifyDiaRefeicao,
+		insertPretensao: _insertPretensao
 	};
 
 });
