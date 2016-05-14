@@ -167,7 +167,7 @@ public class RefeitorioActivity extends AppCompatActivity implements RecycleButt
                     public void failCommunication(Throwable throwable) {
 
                     }
-                },new File(result.getUri().toString()).getAbsoluteFile());
+                },new File(result.getUri().getPath()));
             } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
                 Exception error = result.getError();
             }

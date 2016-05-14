@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Nutrif</string>
     <string name="nodays">Você ainda não possui refeições</string>
+    <string name="description">Através de um sistema de código gerado pela aplicação android, o aluno do Instituto Federal da Paraíba Campus Campina Grande poderá gerar o código QRCode em seu smartphone ou tablet e entrar no restaurante do instituto. O aplicativo é destina àqueles que possuem estão cadastrados como alunos bolsistas do auxílio alimentação e tem o objetivo de facilitar a entrada ao refeitório da escola.</string>
 
     <!-- Strings related to login -->
     <string name="matricula">Matrícula</string>
