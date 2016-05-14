@@ -6,6 +6,7 @@ import br.edu.ladoss.nutrif.entitys.Pessoa;
  * Created by juan on 15/03/16.
  */
 public class ValidateUtil {
+
     public final static int EMAIL = 1;
     public final static int NOME = 2;
     public final static int MATRICULA = 3;
