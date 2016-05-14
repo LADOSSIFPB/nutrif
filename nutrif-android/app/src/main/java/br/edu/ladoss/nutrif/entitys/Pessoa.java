@@ -3,13 +3,21 @@ package br.edu.ladoss.nutrif.entitys;
 import java.util.List;
 
 public class Pessoa {
+
     private Integer id;
+
     private String nome;
+
     protected String senha;
+
     private String keyAuth;
+
     protected String email;
+
     private String tipo;
+
     private boolean ativo;
+
     private List<Role> roles;
 
     public static final int LENGHT_MATRICULA = 11;
