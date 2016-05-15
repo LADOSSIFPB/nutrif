@@ -42,6 +42,7 @@ public class PessoaController {
                     if (response.isSuccess()) {
                         pessoa.setTipo(response.body().getTipo());
                         pessoa.setId(response.body().getId());
+                        pessoa.setNome(response.body().getNome());
                         pessoa.setKeyAuth(response.body().getKeyAuth());
                         if (PessoaController.salvaPessoa(context, pessoa))
                             ui.onSuccess(response.body());
@@ -150,12 +151,15 @@ public class PessoaController {
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Response<Void> response, Retrofit retrofit) {
-
+                if(response.isSuccess())
+                    ui.onSuccess(null);
+                else
+                    ui.onFailure(ErrorUtils.parseError(response,retrofit,context));
             }
 
             @Override
             public void onFailure(Throwable t) {
-
+                ui.failCommunication(t);
             }
         });
     }
