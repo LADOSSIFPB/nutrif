@@ -11,12 +11,15 @@
         android:required="true" />
     <application
         android:allowBackup="true"
+        android:allowClearUserData="false"
+        android:description="@string/description"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="br.edu.ladoss.nutrif.view.activitys.LoginActivity" />
+            android:name="br.edu.ladoss.nutrif.view.activitys.LoginActivity"
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity
             android:name="br.edu.ladoss.nutrif.view.activitys.StartActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
