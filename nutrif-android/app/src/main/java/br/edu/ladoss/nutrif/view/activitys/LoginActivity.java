@@ -58,11 +58,11 @@ public class LoginActivity extends AppCompatActivity {
 
     public void login(View v) {
 
-        //change(false);
-
         boolean isValidated = isValidated();
 
         if (isValidated) {
+
+            change(false);
 
             // Preparar aluno para envio da requisição.
             Aluno aluno = new Aluno();
