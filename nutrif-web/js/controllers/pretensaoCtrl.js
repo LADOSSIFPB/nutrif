@@ -30,7 +30,13 @@ angular.module('NutrifApp').controller("pretensaoCtrl", function ($scope, $cooki
     	
 		pretensaoService.verifyDiaRefeicao(_pretensao).success(function (data, status) {
 			$('#confirmar-pretensao').openModal();
+
+			delete data.diaRefeicao.refeicao.horaInicio;
+			delete data.diaRefeicao.refeicao.horaFinal;
+			delete data.diaRefeicao.refeicao.horaPretensao;
+
 			$scope.pretensao = data;
+			
 		}).error(function (data, status){
 			if (!data) {
 				Materialize.toast('Erro desconhecido<br/>Tente novamente ou informe um administrador.', 3000);
