@@ -66,6 +66,9 @@ public class LoginActivity extends AppCompatActivity {
 
             // Preparar aluno para envio da requisição.
             Aluno aluno = new Aluno();
+            aluno.setEmail(identificadorEditText.getText().toString().trim());
+            aluno.setMatricula(identificadorEditText.getText().toString().trim());
+            aluno.setSenha(senhaEditText.getText().toString());
 
             PessoaController.login(aluno, this,
                     new Replyable<Pessoa>() {
