@@ -1,21 +1,20 @@
 <resources>
 
-    <style name="AppTheme" parent="MaterialDrawerTheme.Light.DarkToolbar.TranslucentStatus">
+    <style name="AppTheme" parent="MaterialDrawerTheme.Light.DarkToolbar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
 
         <!-- MaterialDrawer specific values -->
-        <item name="material_drawer_background">#303030</item>
-        <item name="material_drawer_primary_text">@color/gelo</item>
-        <item name="material_drawer_primary_icon">#ACACAC</item>
+        <item name="material_drawer_background">@color/gelo</item>
+        <item name="material_drawer_primary_text">#000</item>
+        <item name="material_drawer_primary_icon">@color/colorPrimary</item>
         <item name="material_drawer_secondary_text">@color/material_drawer_secondary_text</item>
         <item name="material_drawer_hint_text">@color/material_drawer_hint_text</item>
         <item name="material_drawer_divider">@color/material_drawer_divider</item>
-        <item name="material_drawer_selected">#202020</item>
+        <item name="material_drawer_selected">@color/colorPrimary</item>
         <item name="material_drawer_selected_text">@color/colorPrimary</item>
         <item name="material_drawer_header_selection_text">@color/material_drawer_header_selection_text</item>
 
