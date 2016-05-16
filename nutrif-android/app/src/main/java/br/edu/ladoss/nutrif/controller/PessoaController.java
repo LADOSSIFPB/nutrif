@@ -136,17 +136,18 @@ public class PessoaController {
     }
 
     public static void uploadPhoto(final Context context, final Replyable<Aluno> ui, final File file){
-        int idPessoa = AlunoDAO.getInstance(context).find().getId();
+
         //Convertendo imagem
         RequestBody fileBody = RequestBody.create(MediaType.parse("image/jpeg"), file);
-        //Montando a serialização
+        //Montando os campos
         MultipartBuilder multipartBuilder = new MultipartBuilder();
         multipartBuilder.addFormDataPart("photo", file.getName(), fileBody);
         com.squareup.okhttp.RequestBody fileRequestBody = multipartBuilder.build();
+        RequestBody idPessoa = RequestBody.create(MediaType.parse("text/plain"), AlunoDAO.getInstance(context).find().getId().toString());
+        RequestBody fileName = RequestBody.create(MediaType.parse("text/plain"), file.getName());
         //Criando a chamada
         Call<Void> call = ConnectionServer
-                .getInstance().getService().upload(file.getName(),
-                        fileRequestBody ,idPessoa );
+                .getInstance().getService().upload(fileName, fileRequestBody ,idPessoa );
         //Executando a chamada
         call.enqueue(new Callback<Void>() {
             @Override

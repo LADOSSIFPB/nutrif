@@ -43,10 +43,6 @@ public class LoginActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle(R.string.app_name);
-        toolbar.setLogo(R.drawable.ic_action_name);
-
         Bundle bundle = this.getIntent().getExtras();
         if (bundle != null
                 && bundle.getString("email") != null) {

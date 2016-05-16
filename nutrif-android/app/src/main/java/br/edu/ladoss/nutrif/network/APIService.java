@@ -54,9 +54,9 @@ public interface APIService {
                                          @Body PretensaoRefeicao refeicao);
 
     @Multipart
-    @POST("documents/checkin")
-    public Call<Void> upload(@Query(value = "fileName") String fileName,
-                                @Part("uploadedFile") RequestBody file,
-                                @Query(value = "idPessoa") Integer idPessoa);
+    @POST("arquivo/upload/ARQUIVO_FOTO_PERFIL")
+    public Call<Void> upload(@Part("fileName") RequestBody fileName,
+                             @Part("uploadedFile") RequestBody file,
+                             @Part("idPessoa") RequestBody idPessoa);
 
 }
