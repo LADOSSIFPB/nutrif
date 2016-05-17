@@ -83,7 +83,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/confirmar"
                 android:onClick="confirmar"
-                style="@style/buttonCustom"/>
+                style="@style/buttomCustom"/>
         </LinearLayout>
 
     </LinearLayout>

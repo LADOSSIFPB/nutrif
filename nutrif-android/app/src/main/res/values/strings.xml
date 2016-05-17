@@ -30,7 +30,7 @@
     <string name="registrar">Registrar</string>
     <string name="undefinedError">Não foi possível identificar o erro</string>
     <string name="codigo">Código</string>
-    <string name="naoemembro">Cadastre-se</string>
+    <string name="naoemembro">Cadastrar</string>
     <string name="confirmar">Confirmar</string>
     <string name="validarcodigo">Validar Código</string>
     <string name="campoerrado">Senha ou Email Inválido</string>
@@ -56,6 +56,6 @@
     <string name="title_activity_refeicao">Refeição</string>
     <string name="instrucaocadastro">Por favor, preencha os campos para realizar o cadastro:</string>
     <string name="refeicoesdireito">Refeições que tenho direito:</string>
-    <string name="or">ou</string>
+    <string name="or">OU</string>
 
 </resources>

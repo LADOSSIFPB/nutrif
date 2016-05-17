@@ -7,6 +7,7 @@
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-feature android:name="android.hardware.camera"
         android:required="true" />
     <application
@@ -19,10 +20,10 @@
         android:theme="@style/AppTheme">
         <activity
             android:name="br.edu.ladoss.nutrif.view.activitys.LoginActivity"
-        android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        android:theme="@style/AppTheme"/>
         <activity
             android:name="br.edu.ladoss.nutrif.view.activitys.StartActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+            android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
