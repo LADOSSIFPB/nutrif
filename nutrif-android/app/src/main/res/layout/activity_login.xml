@@ -59,8 +59,9 @@
                             android:maxLines="1"
                             android:padding="15dp"
                             android:singleLine="true"
-                            android:textColor="#ffffff"
+                            android:textColor="@color/gelo"
                             android:autoText="true"
+                            android:textColorHint="@color/gelo"
                             android:background="@drawable/edit_text_white_top" />
 
                         <EditText
@@ -75,10 +76,12 @@
                             android:layout_marginTop="5dp"
                             android:singleLine="true"
                             android:padding="15dp"
-                            android:background="@drawable/edit_text_white_bottom"/>
+                            android:textColorHint="@color/gelo"
+                            android:background="@drawable/edit_text_white_bottom"
+                            android:textColor="@color/gelo" />
 
                     <Button
-                        style="@style/buttonCustom"
+                        style="@style/buttomLogin"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="40dp"
@@ -92,8 +95,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:layout_marginBottom="25dp"
-                        android:layout_marginTop="25dp"
+                        android:layout_marginBottom="18dp"
+                        android:layout_marginTop="18dp"
                         android:gravity="center">
                         <View
                             android:layout_width="match_parent"
@@ -123,7 +126,7 @@
                     <Button
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        style="@style/buttonCustom"
+                        style="@style/buttomLogin"
                         android:id="@+id/button"
                         android:layout_marginTop="6dp"
                         android:onClick="redirecionar"
@@ -145,14 +148,13 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="6dp"
+                            android:layout_marginTop="20dp"
                             android:onClick="autenticar"
                             android:textColor="@color/gelo"
                             android:textSize="15sp"
                             android:paddingLeft="16dp"
                             android:paddingRight="16dp"
                             android:text="@string/validarcodigo"
-                            android:background="#00ffffff"
                             android:typeface="normal"
                             android:layout_gravity="center"
                             android:layout_marginBottom="6dp" />

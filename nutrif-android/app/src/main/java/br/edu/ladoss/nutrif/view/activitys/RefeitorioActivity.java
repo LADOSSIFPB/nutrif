@@ -233,6 +233,7 @@ public class RefeitorioActivity extends AppCompatActivity implements RecycleButt
             }
         }
     }
+
     public void tirarPhoto(){
         AlertDialog alertDialog = new AlertDialog.Builder(this).create();
         alertDialog.setTitle(R.string.atencao);

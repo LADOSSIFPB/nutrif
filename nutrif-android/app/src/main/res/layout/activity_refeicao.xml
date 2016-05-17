@@ -94,7 +94,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/gerarcode"
                 android:id="@+id/codeBtn"
-                style="@style/buttonCustom"
+                style="@style/buttomCustom"
                 android:onClick="gerarQRCode"/>
 
             <Button
@@ -103,7 +103,7 @@
                 android:text="@string/registrarPedido"
                 android:id="@+id/pedirBtn"
                 android:onClick="pedirRefeicao"
-                style="@style/buttonCustom"/>
+                style="@style/buttomCustom"/>
 
         </LinearLayout>
 
