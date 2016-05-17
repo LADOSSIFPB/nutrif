@@ -31,9 +31,11 @@ angular.module('NutrifApp').controller("pretensaoCtrl", function ($scope, $cooki
 		pretensaoService.verifyDiaRefeicao(_pretensao).success(function (data, status) {
 			$('#confirmar-pretensao').openModal();
 
-			delete data.diaRefeicao.refeicao.horaInicio;
-			delete data.diaRefeicao.refeicao.horaFinal;
-			delete data.diaRefeicao.refeicao.horaPretensao;
+			delete data.dataSolicitacao;
+			delete data.confirmaPretensaoDia.dataPretensao;
+			delete data.confirmaPretensaoDia.refeicao.horaInicio;
+			delete data.confirmaPretensaoDia.diaRefeicao.refeicao.horaFinal;
+			delete data.confirmaPretensaoDia.diaRefeicao.refeicao.horaPretensao;
 
 			$scope.pretensao = data;
 			
