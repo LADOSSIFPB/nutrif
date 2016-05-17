@@ -50,6 +50,9 @@ public class PretensaoRefeicaoController {
 	@Produces("application/json")
 	public Response insert(PretensaoRefeicao pretensaoRefeicao) {
 		
+		logger.info("Inserção da Pretensão para a Refeição: " 
+				+ pretensaoRefeicao);
+		
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
 		builder.expires(new Date());
 		
@@ -66,6 +69,7 @@ public class PretensaoRefeicaoController {
 				// Verifica dia da refeição.
 				DiaRefeicao diaRefeicao = DiaRefeicaoDAO.getInstance()
 						.getById(confirmaPretensaoDia.getDiaRefeicao().getId());
+				logger.info("Dia da Refeição: " + diaRefeicao);
 				
 				if (diaRefeicao != null) {					
 					
@@ -134,6 +138,9 @@ public class PretensaoRefeicaoController {
 	@Produces("application/json")
 	public Response verifyDiaRefeicao(PretensaoRefeicao pretensaoRefeicao) {
 		
+		logger.info("Verificação da Pretensão para a Refeição: " 
+				+ pretensaoRefeicao);
+		
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
 		builder.expires(new Date());
 		
@@ -150,6 +157,7 @@ public class PretensaoRefeicaoController {
 				// Verifica dia da refeição.
 				DiaRefeicao diaRefeicao = DiaRefeicaoDAO.getInstance()
 						.getById(confirmaPretensaoDia.getDiaRefeicao().getId());
+				logger.info("Dia da Refeição: " + diaRefeicao);
 				
 				if (diaRefeicao != null) {
 									
@@ -197,6 +205,8 @@ public class PretensaoRefeicaoController {
 	 * @return pretensaoRefeicao
 	 */
 	private PretensaoRefeicao verifyPretensao(DiaRefeicao diaRefeicao) {
+		
+		logger.info("Analise da Pretensão de Refeição: " + diaRefeicao);
 		
 		PretensaoRefeicao pretensaoRefeicao = null;
 		
