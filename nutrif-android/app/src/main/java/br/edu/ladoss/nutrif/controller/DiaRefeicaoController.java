@@ -58,18 +58,10 @@ public class DiaRefeicaoController {
 
     public static List<DiaRefeicao> organizaDiaRefeicao(Context context, List<DiaRefeicao> server) {
         DiaRefeicaoDAO bd = new DiaRefeicaoDAO(context);
-        List<DiaRefeicao> diarefeicaobd = bd.findAll();
+        bd.deleteAll();
 
         for (DiaRefeicao diaRefeicao : server) {
-            if (diarefeicaobd == null) {
-                bd.insert(diaRefeicao);
-            } else {
-                for (DiaRefeicao bdRefeicao : diarefeicaobd)
-                    if (bdRefeicao.getId().equals(diaRefeicao.getId())) {
-                        diaRefeicao.setCodigo(bdRefeicao.getCodigo());
-                        break;
-                    }
-            }
+            bd.insert(diaRefeicao);
         }
         refeicoes = server;
         return refeicoes;

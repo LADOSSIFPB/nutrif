@@ -11,6 +11,7 @@ import java.io.IOException;
 
 import br.edu.ladoss.nutrif.R;
 import br.edu.ladoss.nutrif.database.dao.AlunoDAO;
+import br.edu.ladoss.nutrif.database.dao.DiaRefeicaoDAO;
 import br.edu.ladoss.nutrif.entitys.Aluno;
 import br.edu.ladoss.nutrif.entitys.Pessoa;
 import br.edu.ladoss.nutrif.entitys.input.ConfirmationKey;
@@ -194,5 +195,6 @@ public class PessoaController {
 
     public static void logoff(final Context context) {
         AlunoDAO.getInstance(context).delete();
+        DiaRefeicaoDAO.getInstance(context).deleteAll();
     }
 }
