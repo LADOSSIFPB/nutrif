@@ -4,7 +4,10 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import br.edu.ladoss.nutrif.entitys.PretensaoRefeicao;
 
@@ -34,8 +37,7 @@ public class PretensaoRefeicaoDAO extends GenericDAO<br.edu.ladoss.nutrif.entity
         delete(pretensaoRefeicao);
         ContentValues values = new ContentValues();
 
-        java.text.SimpleDateFormat dateformate = new SimpleDateFormat("dd/MM HH:mm:ss");
-        String dataconvertida = dateformate.format(pretensaoRefeicao.getConfirmaPretensaoDia().getDataPretensao());
+        String dataconvertida = pretensaoRefeicao.getConfirmaPretensaoDia().getDataPretensao();
 
         values.put("_id", pretensaoRefeicao.getConfirmaPretensaoDia().getDiaRefeicao().getId());
         values.put("dia", pretensaoRefeicao.getConfirmaPretensaoDia().getDiaRefeicao().getDia().getNome());

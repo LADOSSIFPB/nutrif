@@ -194,7 +194,7 @@ public class PessoaController {
     }
 
     public static void logoff(final Context context) {
-        AlunoDAO.getInstance(context).delete();
+        AlunoDAO.getInstance(context).deleteAll();
         DiaRefeicaoDAO.getInstance(context).deleteAll();
     }
 }
