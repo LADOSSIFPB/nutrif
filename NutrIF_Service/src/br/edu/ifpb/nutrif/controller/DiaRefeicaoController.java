@@ -15,6 +15,9 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import br.edu.ifpb.nutrif.dao.AlunoDAO;
 import br.edu.ifpb.nutrif.dao.DiaDAO;
 import br.edu.ifpb.nutrif.dao.DiaRefeicaoDAO;
@@ -34,6 +37,8 @@ import br.edu.ladoss.entity.Refeicao;
 @Path("diarefeicao")
 public class DiaRefeicaoController {
 
+	private static Logger logger = LogManager.getLogger(
+			DiaRefeicaoController.class);
 	/**
 	 * Entrada: JSON
 	 * {
@@ -319,6 +324,8 @@ public class DiaRefeicaoController {
 	public Response getAllByAlunoMatricula(
 			@PathParam("matricula") String matricula) {
 		
+		logger.info("Consulta do Dia da Refeição pela Matrícula: " + matricula);
+		
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
 		builder.expires(new Date());
 		
@@ -326,6 +333,7 @@ public class DiaRefeicaoController {
 
 			List<DiaRefeicao> diasRefeicao = DiaRefeicaoDAO
 					.getInstance().getAllByAlunoMatricula(matricula);
+			logger.debug("Dias das Refeições: " + diasRefeicao);
 			
 			builder.status(Response.Status.OK);
 			builder.entity(diasRefeicao);
