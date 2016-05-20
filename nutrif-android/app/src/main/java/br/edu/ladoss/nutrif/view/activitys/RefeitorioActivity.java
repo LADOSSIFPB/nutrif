@@ -1,30 +1,28 @@
 package br.edu.ladoss.nutrif.view.activitys;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.Icon;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.materialdrawer.AccountHeader;
@@ -36,9 +34,6 @@ import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.io.File;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import br.edu.ladoss.nutrif.R;
@@ -57,6 +52,8 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class RefeitorioActivity extends AppCompatActivity implements RecycleButtonClicked, Replyable<List<DiaRefeicao>>, AccountHeader.OnAccountHeaderProfileImageListener {
+    private static final int PERMISSIONS_REQUEST_CAMERA = 1;
+
     @Bind(R.id.carregando_layout)
     LinearLayout carregarLayout;
 
@@ -68,33 +65,13 @@ public class RefeitorioActivity extends AppCompatActivity implements RecycleButt
 
     AccountHeader headerResult;
 
-    static final int REQUEST_TAKE_PHOTO = 1;
-
-    String mCurrentPhotoPath;
-
-    private static final int REQUEST_EXTERNAL_STORAGE = 1;
-    private static String[] PERMISSIONS_STORAGE = {Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA};
-
-    public void verifyStoragePermissions() {
-        // Check if we have write permission
-        int permission = ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
-
-        if (permission != PackageManager.PERMISSION_GRANTED) {
-            // We don't have permission so prompt the user
-            ActivityCompat.requestPermissions(
-                    this,
-                    PERMISSIONS_STORAGE,
-                    REQUEST_EXTERNAL_STORAGE
-            );
-        }
-    }
+    Uri mCropImageUri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_refeitorio);
         ButterKnife.bind(this);
-        verifyStoragePermissions();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.app_name);
@@ -114,7 +91,7 @@ public class RefeitorioActivity extends AppCompatActivity implements RecycleButt
                 .withEmail(aluno.getEmail())
                 .withIsExpanded(true);
 
-        if(aluno.getPhoto() == null)
+        if (aluno.getPhoto() == null)
             profile.withIcon(GoogleMaterial.Icon.gmd_add_a_photo);
         else
             profile.withIcon(ImageUtils.byteToDrawable(aluno.getPhoto()));
@@ -130,9 +107,9 @@ public class RefeitorioActivity extends AppCompatActivity implements RecycleButt
         new DrawerBuilder()
                 .withAccountHeader(headerResult)
                 .withToolbar(toolbar)
+                .withTranslucentStatusBar(false)
                 .withActionBarDrawerToggle(true)
                 .withActionBarDrawerToggleAnimated(true)
-                .withTranslucentStatusBar(true)
                 .withActivity(this)
                 .withDrawerGravity(Gravity.START)
                 .withSelectedItem(-1)
@@ -157,119 +134,61 @@ public class RefeitorioActivity extends AppCompatActivity implements RecycleButt
     }
 
     @Override
+    @SuppressLint("NewApi")
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(resultCode == RESULT_OK && requestCode == 1){
-            CropImage.activity(Uri.parse(mCurrentPhotoPath))
-                    .setGuidelines(CropImageView.Guidelines.ON)
-                    .setActivityTitle(getString(R.string.cut))
-                    .setAllowRotation(true)
-                    .setFixAspectRatio(true)
-                    .setAspectRatio(1,1)
-                    .setCropShape(CropImageView.CropShape.OVAL)
-                    .start(this);
-        }
-        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+        // handle result of pick image chooser
+        if (requestCode == CropImage.PICK_IMAGE_CHOOSER_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            Uri imageUri = CropImage.getPickImageResultUri(this, data);
+
+            // For API >= 23 we need to check specifically that we have permissions to read external storage.
+            boolean requirePermissions = false;
+            if (CropImage.isReadExternalStoragePermissionsRequired(this, imageUri)) {
+                // request permissions and handle the result in onRequestPermissionsResult()
+                requirePermissions = true;
+                mCropImageUri = imageUri;
+                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 0);
+            } else {
+                // no permissions required or already grunted, can start crop image activity
+                startCropImageActivity(imageUri);
+            }
+        } else if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+
             final CropImage.ActivityResult result = CropImage.getActivityResult(data);
-            if (resultCode == RESULT_OK) {
-                final IProfile profile = headerResult.getActiveProfile();
-                final Drawable drawable = Drawable.createFromPath(result.getUri().getPath());
-                PessoaController.uploadPhoto(this, new Replyable<Aluno>() {
-                    @Override
-                    public void onSuccess(Aluno aluno) {
-                        AlunoDAO.getInstance(RefeitorioActivity.this).updatePhoto(drawable);
-                        profile.withIcon(result.getUri());
-                        headerResult.updateProfile(profile);
-                    }
+            final IProfile profile = headerResult.getActiveProfile();
+            final Drawable drawable = Drawable.createFromPath(result.getUri().getPath());
+            PessoaController.uploadPhoto(this, new Replyable<Aluno>() {
+                @Override
+                public void onSuccess(Aluno aluno) {
+                    AlunoDAO.getInstance(RefeitorioActivity.this).updatePhoto(drawable);
+                    profile.withIcon(result.getUri());
+                    headerResult.updateProfile(profile);
+                }
 
-                    @Override
-                    public void onFailure(Erro erro) {
+                @Override
+                public void onFailure(Erro erro) {
 
-                    }
+                }
 
-                    @Override
-                    public void failCommunication(Throwable throwable) {
+                @Override
+                public void failCommunication(Throwable throwable) {
 
-                    }
-                },new File(result.getUri().getPath()));
-            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
-                Exception error = result.getError();
-            }
+                }
+            }, new File(result.getUri().getPath()));
         }
+
     }
 
-    private File createImageFile() throws IOException {
-        // Create an image file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "JPEG_" + timeStamp + "_";
-        File storageDir = Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_PICTURES);
-        File image = File.createTempFile(
-                imageFileName,  /* prefix */
-                ".jpg",         /* suffix */
-                storageDir      /* directory */
-        );
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        if(requestCode == PERMISSIONS_REQUEST_CAMERA && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+            CropImage.startPickImageActivity(RefeitorioActivity.this);
 
-        // Save a file: path for use with ACTION_VIEW intents
-        mCurrentPhotoPath = "file:" + image.getAbsolutePath();
-        return image;
-    }
-
-    private void dispatchTakePictureIntent() {
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        // Ensure that there's a camera activity to handle the intent
-        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            // Create the File where the photo should go
-            File photoFile = null;
-            try {
-                photoFile = createImageFile();
-            } catch (IOException ex) {
-                Log.w("das",ex.getMessage());
-            }
-            // Continue only if the File was successfully created
-            if (photoFile != null) {
-                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT,
-                        Uri.fromFile(photoFile));
-                startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
-            }
+        else if (mCropImageUri != null && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            // required permissions granted, start crop image activity
+            startCropImageActivity(mCropImageUri);
         }
-    }
-
-    public void tirarPhoto(){
-        AlertDialog alertDialog = new AlertDialog.Builder(this).create();
-        alertDialog.setTitle(R.string.atencao);
-        alertDialog.setMessage(getString(R.string.aviso));
-        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, getString(R.string.entendido),
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        dispatchTakePictureIntent();
-                        dialog.dismiss();
-                    }
-                });
-        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, getString(R.string.cancelar),
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-        alertDialog.show();
-
-    }
-
-    public void montaTabela(List<DiaRefeicao> refeicoes) {
-        LinearLayoutManager gridLayoutManager = new LinearLayoutManager(this);
-        gridLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        recycle.setLayoutManager(gridLayoutManager);
-        recycle.setAdapter(new HorarioAdapter(this, refeicoes, this));
-        if (recycle.getAdapter().getItemCount() == 0) {
-            recycle.setVisibility(View.GONE);
-            TextView textView = new TextView(this);
-            textView.setText(R.string.nodays);
-            textView.setGravity(Gravity.CENTER);
-            content.addView(textView);
-        } else
-            recycle.setVisibility(View.VISIBLE);
-
+            else {
+            Toast.makeText(this, "Cancelado", Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override
@@ -296,6 +215,19 @@ public class RefeitorioActivity extends AppCompatActivity implements RecycleButt
         AndroidUtil.showSnackbar(RefeitorioActivity.this, R.string.impossivelcarregar);
         montaTabela(DiaRefeicaoController.getRefeicoes());
         change(true);
+    }
+
+    @Override
+    public boolean onProfileImageClick(View view, IProfile profile, boolean current) {
+        Aluno aluno = AlunoDAO.getInstance(this).find();
+        // if(aluno.getPhoto() == null)
+        tirarPhoto();
+        return true;
+    }
+
+    @Override
+    public boolean onProfileImageLongClick(View view, IProfile profile, boolean current) {
+        return false;
     }
 
     public void change(final boolean ativo) {
@@ -331,16 +263,66 @@ public class RefeitorioActivity extends AppCompatActivity implements RecycleButt
         alertDialog.show();
     }
 
-    @Override
-    public boolean onProfileImageClick(View view, IProfile profile, boolean current) {
-        Aluno aluno = AlunoDAO.getInstance(this).find();
-       // if(aluno.getPhoto() == null)
-            tirarPhoto();
-        return true;
+
+    public void startCropImageActivity(Uri image) {
+        CropImage.activity(image)
+                .setGuidelines(CropImageView.Guidelines.ON)
+                .setActivityTitle(getString(R.string.cut))
+                .setAllowRotation(true)
+                .setFixAspectRatio(true)
+                .setAspectRatio(1, 1)
+                .setCropShape(CropImageView.CropShape.OVAL)
+                .start(this);
     }
 
-    @Override
-    public boolean onProfileImageLongClick(View view, IProfile profile, boolean current) {
-        return false;
+    public void tirarPhoto() {
+        AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+        alertDialog.setTitle(R.string.atencao);
+        alertDialog.setMessage(getString(R.string.aviso));
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, getString(R.string.entendido),
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        if (ContextCompat.checkSelfPermission(RefeitorioActivity.this,
+                                Manifest.permission.CAMERA)
+                                != PackageManager.PERMISSION_GRANTED) {
+                            if (ActivityCompat.shouldShowRequestPermissionRationale(RefeitorioActivity.this,
+                                    Manifest.permission.CAMERA)) {
+                            } else {
+                                ActivityCompat.requestPermissions(RefeitorioActivity.this,
+                                        new String[]{Manifest.permission.CAMERA},
+                                        PERMISSIONS_REQUEST_CAMERA)   ;
+                            }
+                        }else{
+                            CropImage.startPickImageActivity(RefeitorioActivity.this);
+                        }
+                    }
+                });
+        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, getString(R.string.cancelar),
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        alertDialog.show();
+
     }
+
+    public void montaTabela(List<DiaRefeicao> refeicoes) {
+        LinearLayoutManager gridLayoutManager = new LinearLayoutManager(this);
+        gridLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        recycle.setLayoutManager(gridLayoutManager);
+        recycle.setAdapter(new HorarioAdapter(this, refeicoes, this));
+        if (recycle.getAdapter().getItemCount() == 0) {
+            recycle.setVisibility(View.GONE);
+            TextView textView = new TextView(this);
+            textView.setText(R.string.nodays);
+            textView.setGravity(Gravity.CENTER);
+            content.addView(textView);
+        } else
+            recycle.setVisibility(View.VISIBLE);
+
+    }
+
 }
