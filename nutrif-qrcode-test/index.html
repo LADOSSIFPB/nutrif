@@ -1,32 +1,51 @@
 <!DOCTYPE html>
-<html>
-	
-	<head>
-		<title>QRCode Reader</title>
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
-		<script type="text/javascript" src="lib/jsqrcode-combined.min.js"></script>
-		<script type="text/javascript" src="lib/html5-qrcode.min.js"></script>
-	</head>
-	
-	<body>
-		
-		<div id="main">
-			<div id="reader" style="width:300px;height:250px">
-				<script type="text/javascript">
+<html lang="en-us" ng-app="App">
+<head>
+  <meta charset="UTF-8">
+  <title>Angular-qr-scanner demo by sembrestels</title>
+</head>
+<body>
 
-					$('#reader').html5_qrcode(function(data){
-						console.log("Resultado: " + data);
-						window.location.href = data;
-					}, function(error){
-						console.log("Ocorreu um erro: " + error);
-					}, function(videoError){
-						console.log("Ocorreu um erro de vídeo: " + videoError);
-					});
-					
-				</script>
-	 		</div>
-	 	</div>
+  <section class="main-content">
 
-	</body>
+    <h2>Demo</h2>
+    <p>Enable the camera and scan a QR code.</p>
 
+    <div ng-controller="qrCrtl">
+      <p><label>Data:</label> {{data}}</p>
+      <p><label>Error:</label> {{error}}</p>
+      <qr-scanner ng-if="teste" width="400" height="300" ng-success="onSuccess(data)" ng-error="onError(error)" />
+    </div>
+
+  </section>
+
+  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+  <script src="qr-scanner.js"></script>
+  <script src="jsqrcode-combined.min.js"></script>
+  <script>
+
+    var App = angular.module('App', ['qrScanner']);
+
+    App.controller('qrCrtl', ['$scope' , '$http', '$q', '$timeout', function($scope, $http, $q, $timeout) {
+      
+      $scope.teste = true;
+
+      $scope.onSuccess = function(data) {
+        console.log(data);
+        $timeout(function(){}, 3000);      
+        console.log("terminou");
+        $scope.data = data;
+      };
+      $scope.onError = function(error) {
+        console.log(error);
+        $scope.error = error;
+      };
+      $scope.onVideoError = function(error) {
+        console.log(error);
+        $scope.error = error;
+      };
+    }]);
+
+  </script>
+</body>
 </html>
