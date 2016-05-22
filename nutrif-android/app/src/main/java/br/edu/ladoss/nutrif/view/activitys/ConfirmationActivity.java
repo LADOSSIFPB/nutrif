@@ -86,10 +86,12 @@ public class ConfirmationActivity extends AppCompatActivity implements Replyable
     public void onFailure(Erro erro) {
         AndroidUtil.showSnackbar(ConfirmationActivity.this,
                 erro.getMensagem());
+        change(true);
     }
 
     @Override
     public void failCommunication(Throwable throwable) {
         AndroidUtil.showSnackbar(ConfirmationActivity.this, R.string.erroconexao);
+        change(true);
     }
 }
