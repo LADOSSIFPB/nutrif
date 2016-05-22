@@ -2,6 +2,7 @@ package br.edu.ladoss.nutrif.entitys;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class ConfirmaPretensaoDia{
 
@@ -20,8 +21,10 @@ public class ConfirmaPretensaoDia{
 	}
 
 	public String getDataPretensao() {
-		java.text.SimpleDateFormat dateformate = new SimpleDateFormat("dd/MM HH:mm:ss");
-		return dateformate.format(dataPretensao);
+		Date date= new Date(dataPretensao.longValue());
+		SimpleDateFormat df2 = new SimpleDateFormat("dd/MM HH:mm");
+		String dateText = df2.format(date);
+		return dateText;
 	}
 
 	public void setDataPretensao(Long dataPretensao) {
@@ -29,7 +32,7 @@ public class ConfirmaPretensaoDia{
 	}
 
 	public void setDataPretensao(String dataPretensao){
-		java.text.SimpleDateFormat dateformate = new SimpleDateFormat("dd/MM HH:mm:ss");
+		java.text.SimpleDateFormat dateformate = new SimpleDateFormat("dd/MM HH:mm");
 		try {
 			this.dataPretensao = dateformate.parse(dataPretensao).getTime();
 		} catch (ParseException e) {

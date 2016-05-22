@@ -12,7 +12,7 @@ import retrofit.Retrofit;
 public class ConnectionServer {
 
     private static final String[] URL_BASES =
-            {"http://192.168.56.101:8080/NutrIF_Service/",
+            {"http://192.168.25.2:8080/NutrIF_Service/",
                     "http://192.168.1.245:8773/NutrIF_Service/",
                     "http://ladoss.com.br:8773/NutrIF_Service/"};
     private static APIService service;

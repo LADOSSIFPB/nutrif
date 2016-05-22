@@ -43,7 +43,11 @@ public class DiaRefeicaoDAO extends GenericDAO<DiaRefeicao> {
     }
 
     public void delete(DiaRefeicao pretensaoRefeicao) {
-        db.delete(DIAREFEICAO_TABLE, null, null);
+        db.delete(DIAREFEICAO_TABLE, " _id ='"+pretensaoRefeicao.getId()+"';", null);
+    }
+
+    public void deleteAll(){
+        db.delete(DIAREFEICAO_TABLE, null , null);
     }
 
     public void update(DiaRefeicao diaRefeicao) {

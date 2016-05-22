@@ -3,7 +3,6 @@ package br.edu.ladoss.nutrif.database.dao;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 
@@ -41,7 +40,7 @@ public class AlunoDAO extends GenericDAO {
         Log.i(aluno.getEmail()," atualizado");
     }
     public void insertAluno(Aluno pessoa) {
-        delete();
+        deleteAll();
         ContentValues values = new ContentValues();
         values.put("matricula", pessoa.getMatricula());
         values.put("_email", pessoa.getEmail());
@@ -72,7 +71,7 @@ public class AlunoDAO extends GenericDAO {
         return null;
     }
 
-    public void delete() {
+    public void deleteAll() {
         db.delete(ALUNO_TABLE, null, null);
     }
 }
