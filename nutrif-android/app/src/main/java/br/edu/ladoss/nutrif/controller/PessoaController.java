@@ -1,9 +1,9 @@
 package br.edu.ladoss.nutrif.controller;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.squareup.okhttp.MediaType;
-import com.squareup.okhttp.MultipartBuilder;
 import com.squareup.okhttp.RequestBody;
 
 import java.io.File;
@@ -19,6 +19,8 @@ import br.edu.ladoss.nutrif.entitys.output.Erro;
 import br.edu.ladoss.nutrif.network.ConnectionServer;
 import br.edu.ladoss.nutrif.util.ErrorUtils;
 import br.edu.ladoss.nutrif.util.PreferencesUtils;
+import okhttp3.MultipartBody;
+import okhttp3.ResponseBody;
 import retrofit.Call;
 import retrofit.Callback;
 import retrofit.GsonConverterFactory;
@@ -140,23 +142,33 @@ public class PessoaController {
 
         //Convertendo imagem
         RequestBody fileBody = RequestBody.create(MediaType.parse("image/jpeg"), file);
-        //Montando os campos
-        MultipartBuilder multipartBuilder = new MultipartBuilder();
-        multipartBuilder.addFormDataPart("photo", file.getName(), fileBody);
-        com.squareup.okhttp.RequestBody fileRequestBody = multipartBuilder.build();
-        RequestBody idPessoa = RequestBody.create(MediaType.parse("text/plain"), AlunoDAO.getInstance(context).find().getId().toString());
-        RequestBody fileName = RequestBody.create(MediaType.parse("text/plain"), file.getName());
-        //Criando a chamada
-        Call<Void> call = ConnectionServer
-                .getInstance().getService().upload(fileName, fileRequestBody ,idPessoa );
-        //Executando a chamada
+
+        // create RequestBody instance from file
+        okhttp3.RequestBody requestFile =
+                okhttp3.RequestBody.create(okhttp3.MediaType.parse("multipart/form-data"), file);
+
+        // MultipartBody.Part is used to send also the actual file name
+        MultipartBody.Part uploadedFile =
+                MultipartBody.Part.createFormData("uploadedFile", file.getName(), requestFile);
+
+        RequestBody fileName =
+                RequestBody.create(
+                        MediaType.parse("multipart/form-data"), file.getName());
+
+        RequestBody idPessoa =
+                RequestBody.create(
+                        MediaType.parse("multipart/form-data"), AlunoDAO.getInstance(context).find().getId().toString());
+
+        Call<Void> call = ConnectionServer.getInstance().getService().upload(fileName,uploadedFile,idPessoa);
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Response<Void> response, Retrofit retrofit) {
-                if(response.isSuccess())
+                if(response.isSuccess()){
                     ui.onSuccess(null);
-                else
+                }
+                else {
                     ui.onFailure(ErrorUtils.parseError(response,retrofit,context));
+                }
             }
 
             @Override

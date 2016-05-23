@@ -101,6 +101,7 @@ public class RefeitorioActivity extends AppCompatActivity implements RecycleButt
                 .withSelectionListEnabled(false)
                 .withAlternativeProfileHeaderSwitching(false)
                 .addProfiles(profile)
+                .withHeaderBackground(R.drawable.background)
                 .withOnAccountHeaderProfileImageListener(this)
                 .build();
 
@@ -166,7 +167,7 @@ public class RefeitorioActivity extends AppCompatActivity implements RecycleButt
 
                 @Override
                 public void onFailure(Erro erro) {
-
+                    Toast.makeText(RefeitorioActivity.this,"Não foi possível atualizar a foto",Toast.LENGTH_LONG).show();
                 }
 
                 @Override
@@ -219,9 +220,10 @@ public class RefeitorioActivity extends AppCompatActivity implements RecycleButt
 
     @Override
     public boolean onProfileImageClick(View view, IProfile profile, boolean current) {
-        Aluno aluno = AlunoDAO.getInstance(this).find();
+        //Aluno aluno = AlunoDAO.getInstance(this).find();
         // if(aluno.getPhoto() == null)
-        tirarPhoto();
+        //tirarPhoto();
+        AndroidUtil.showSnackbar(this,"Essa função ainda está em desenvolvimento. Aguarde novas atualizações.");
         return true;
     }
 

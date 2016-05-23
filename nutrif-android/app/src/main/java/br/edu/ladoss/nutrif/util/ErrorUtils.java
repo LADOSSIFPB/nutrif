@@ -20,11 +20,11 @@ public class ErrorUtils {
                 retrofit.responseConverter(Erro.class, new Annotation[0]);
         Erro error;
         try {
-            error = converter.convert(response.errorBody());
+                error = converter.convert(response.errorBody());
             if(error == null){
                 error = new Erro(0, context.getString(R.string.undefinedError));
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             error = new Erro(0, context.getString(R.string.undefinedError));
         }
         return error;

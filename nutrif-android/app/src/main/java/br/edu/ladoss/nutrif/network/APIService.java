@@ -1,7 +1,8 @@
 package br.edu.ladoss.nutrif.network;
 
+
+
 import com.squareup.okhttp.RequestBody;
-import com.squareup.okhttp.ResponseBody;
 
 import java.util.List;
 
@@ -19,7 +20,6 @@ import retrofit.http.Multipart;
 import retrofit.http.POST;
 import retrofit.http.Part;
 import retrofit.http.Path;
-import retrofit.http.Query;
 
 /**
  * Created by juan on 14/03/16.
@@ -55,8 +55,8 @@ public interface APIService {
 
     @Multipart
     @POST("arquivo/upload/ARQUIVO_FOTO_PERFIL")
-    public Call<Void> upload(@Part("fileName") RequestBody fileName,
-                             @Part("uploadedFile") RequestBody file,
+     Call<Void> upload(@Part("fileName") RequestBody fileName,
+                             @Part("uploadedFile") MultipartBody.Part file,
                              @Part("idPessoa") RequestBody idPessoa);
 
 }
