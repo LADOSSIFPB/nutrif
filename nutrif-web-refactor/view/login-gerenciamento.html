@@ -1,0 +1,36 @@
+<div layout="row" layout-align="center center" class="form-whiteframe">
+    <md-card flex-gt-sm="35" flex-gt-lg="20" flex-sm="50" flex-xs="90" class="form-body">
+
+        <md-card-title>
+            <md-card-title-text layout="row" layout-align="center center">
+                <span class="md-display-2-light">Entrar</span>
+            </md-card-title-text>
+        </md-card-title>
+
+        <md-card-content layout="column">
+
+            <md-input-container class="md-icon-float md-block">
+                <md-icon md-svg-src="img/icon/round-account-button-with-user-inside.svg"/></md-icon>
+                <label>Email</label>
+                <input type="email">
+            </md-input-container>
+
+            <md-input-container class="md-icon-float md-block">
+                <label>Senha</label>
+                <md-icon md-svg-src="img/icon/locked-padlock.svg" class="name"></md-icon>
+                <input type="password">
+            </md-input-container>
+
+            <md-button class="md-raised md-primary md-hue-1">Entrar</md-button>
+
+            <div layout="row" style="margin: 5px">
+                <span flex></span>
+                <span class="md-subhead">OU</span>
+                <span flex></span>
+            </div>
+
+            <md-button class="md-primary md-hue-1" ui-sref="login.pretensao">Pretensão Refeição</md-button>
+
+        </md-card-content>
+    </md-card>
+</div>

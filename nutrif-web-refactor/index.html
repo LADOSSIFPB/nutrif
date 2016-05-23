@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html ng-app="NutrifApp">
+
+	<head>
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+		<meta charset="utf-8">
+
+		<!-- AngularJS & Lib imports -->
+		<script type="text/javascript" src="lib/angular/angular.min.js"></script>
+		<script type="text/javascript" src="lib/angular/angular-route.min.js"></script>
+		<script type="text/javascript" src="lib/angular/angular-messages.min.js"></script>
+		<script type="text/javascript" src="lib/angular/angular-aria.min.js"></script>
+		<script type="text/javascript" src="lib/angular/angular-animate.min.js"></script>
+		<script type="text/javascript" src="lib/angular/angular-cookies.min.js"></script>
+		<script type='text/javascript' src="lib/loading-bar/loading-bar.js"></script>
+		<link rel="stylesheet" type="text/css" href="lib/loading-bar/loading-bar.css">
+		<script type='text/javascript' src="lib/md-data-table/md-data-table.js"></script>
+		<link rel="stylesheet" type="text/css" href="lib/md-data-table/md-data-table.css">
+		<script type='text/javascript' src="lib/ui-router.js"></script>
+		<link rel="stylesheet" type="text/css" href="lib/angular-material/angular-material.min.css">
+		<script type="text/javascript" src="lib/angular-material/angular-material.min.js"></script>
+
+		<link rel="stylesheet" type="text/css" href="css/app.css">
+
+		<!-- Our AngularJS scripts imports -->
+		<script type="text/javascript" src="js/app.js"></script>
+		<script type="text/javascript" src="js/config/themeConfig.js"></script>
+		<script type="text/javascript" src="js/config/routesConfig.js"></script>
+		<script type="text/javascript" src="js/controllers/sideNavCtrl.js"></script>
+
+		<title>NutrIF</title>
+		<link rel="shortcut icon" href="img/fav.png"/>
+
+	</head>
+
+	<body ng-cloak layout="column">
+
+		<div ui-view layout="column" flex></div>
+
+	</body>
+
+</html>

@@ -1,0 +1,18 @@
+.container-margin{
+    margin-right: 10%;
+    margin-left: 10%;
+    margin-top: 3%;
+    margin-bottom: 3%;
+}
+
+.toolbar-input {
+    margin-left: 15px;
+}
+
+md-toolbar.md-table-toolbar div.toolbar-input > input {
+    width: 100%;
+    margin: 0;
+    border: none;
+    color: rgba(0, 0, 0, 0.87);
+    outline: 0;
+}
