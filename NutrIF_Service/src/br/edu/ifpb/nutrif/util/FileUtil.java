@@ -55,8 +55,7 @@ public class FileUtil {
 	 * @param filename
 	 * @throws IOException
 	 */
-	public static void writeFile(Arquivo arquivo)
-			throws IOExceptionNutrIF {
+	public static void writeFile(Arquivo arquivo) throws IOExceptionNutrIF {
 
 		byte[] content = arquivo.getFile();
 		

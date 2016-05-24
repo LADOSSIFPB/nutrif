@@ -70,14 +70,17 @@ public class ErrorFactory {
 	 * Pessoa
 	 */
 	public static final int CHAVE_AUTORIZACAO_PESSOA_INVALIDA = 26;
+	public static final int ID_PESSOA_INVALIDO = 27;
 	
-	public static final int IMPOSSIVEL_CRIPTOGRAFAR_VALOR = 27;
+	public static final int IMPOSSIVEL_CRIPTOGRAFAR_VALOR = 28;
 	
 	/*
 	 * Arquivo
 	 */
-	public static final int TIPO_ARQUIVO_INVALIDO = 28;
-	public static final int NOME_ARQUIVO_INVALIDO = 29;
+	public static final int TIPO_ARQUIVO_INVALIDO = 29;
+	public static final int NOME_ARQUIVO_INVALIDO = 30;
+	public static final int TAMANHO_ARQUIVO_INVALIDO = 31;
+	public static final int FORMULARIO_ARQUIVO_INVALIDO = 32;
 	
 	/*
 	 * Mapa de erros: código e mensagem.
@@ -115,7 +118,10 @@ public class ErrorFactory {
 		hashMap.put(PRETENSAO_REFEICAO_INVALIDA, "Pretensão de refeição inválida.");
 		hashMap.put(ID_FUNCIONARIO_INVALIDO, "Funcionário inválido.");
 		hashMap.put(TIPO_ARQUIVO_INVALIDO, "Tipo do arquivo inválido.");		
-		hashMap.put(NOME_ARQUIVO_INVALIDO, "Nome arquivo inválido.");	
+		hashMap.put(NOME_ARQUIVO_INVALIDO, "Nome arquivo inválido.");
+		hashMap.put(ID_PESSOA_INVALIDO, "Identificador da pessoa inválido.");
+		hashMap.put(TAMANHO_ARQUIVO_INVALIDO, "Tamanho do arquivo inválido.");
+		hashMap.put(FORMULARIO_ARQUIVO_INVALIDO, "Formulário com dados da submissão do inválido.");		
 		
 		return hashMap;
 	}

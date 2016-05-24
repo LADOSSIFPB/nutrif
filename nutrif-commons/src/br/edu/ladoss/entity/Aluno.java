@@ -37,6 +37,10 @@ public class Aluno extends Pessoa {
 	@Column(name = "nm_keyconfirmation")
 	private String keyConfirmation;
 	
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinColumn(name = "fk_id_foto_perfil")
+	private Arquivo fotoPerfil;
+
 	@Column(name = "is_acesso")
 	private boolean acesso;
 	
@@ -80,6 +84,14 @@ public class Aluno extends Pessoa {
 		this.keyConfirmation = keyConfirmation;
 	}
 
+	public Arquivo getFotoPerfil() {
+		return fotoPerfil;
+	}
+
+	public void setFotoPerfil(Arquivo fotoPerfil) {
+		this.fotoPerfil = fotoPerfil;
+	}
+	
 	@XmlElement
 	public boolean isAcesso() {
 		return acesso;

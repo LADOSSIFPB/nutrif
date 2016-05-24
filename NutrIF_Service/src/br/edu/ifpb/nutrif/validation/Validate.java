@@ -271,11 +271,28 @@ public class Validate {
 		
 		logger.info("Validação para Upload de Arquivo.");
 		
-		if (tipoArquivo != null) 
+		if (tipoArquivo == null) 
 			return ErrorFactory.TIPO_ARQUIVO_INVALIDO;
 		
 		if (form != null) {
 			
+			String fileName = form.getFileName();
+			if (!imageValidator.validate(fileName)) {
+				return ErrorFactory.NOME_ARQUIVO_INVALIDO;
+			}
+			
+			int idPessoa = form.getIdPessoa();
+			if (!numeroValidator.isInteiroPositivo(idPessoa)) {
+				return ErrorFactory.ID_PESSOA_INVALIDO;
+			}
+			
+			byte[] arquivo = form.getData();
+			if (arquivo == null || (arquivo != null && arquivo.length <= 0)) {
+				return ErrorFactory.TAMANHO_ARQUIVO_INVALIDO;
+			}
+		
+		} else {
+			return ErrorFactory.FORMULARIO_ARQUIVO_INVALIDO;
 		}
 		
 		return VALIDATE_OK;
