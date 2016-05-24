@@ -36,7 +36,10 @@
     <string name="campoerrado">Senha ou Email Inválido</string>
     <string name="recuperaqrcode">Recuperando dados no celular</string>
     <string name="logadooff">Você está logado no modo Offline. Não é possível atualizar os dados</string>
-
+    <string name="dia">Dia:</string>
+    <string name="tipo">Tipo:</string>
+    <string name="disponivel">Disponível entre:</string>
+    <string name="e">e</string>
     <!-- Strings relacionadas à tabela -->
     <string name="horario">Horário:</string>
     <string name="segunda">Segunda-Feira</string>
@@ -57,5 +60,6 @@
     <string name="instrucaocadastro">Por favor, preencha os campos para realizar o cadastro:</string>
     <string name="refeicoesdireito">Refeições que tenho direito:</string>
     <string name="or">OU</string>
+    <string name="refeicao">Refeição</string>
 
 </resources>

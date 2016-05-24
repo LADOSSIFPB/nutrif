@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -63,6 +64,9 @@ public class RefeitorioActivity extends AppCompatActivity implements RecycleButt
     @Bind(R.id.recycle)
     RecyclerView recycle;
 
+    @Bind(R.id.swiperefresh)
+    SwipeRefreshLayout swipe;
+
     AccountHeader headerResult;
 
     Uri mCropImageUri;
@@ -78,6 +82,17 @@ public class RefeitorioActivity extends AppCompatActivity implements RecycleButt
         setSupportActionBar(toolbar);
 
         buildSlideBar(toolbar, savedInstanceState);
+
+        swipe.setColorSchemeColors(getResources().getColor(R.color.accent));
+        swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                swipe.requestDisallowInterceptTouchEvent(true);
+                DiaRefeicaoController.gerarHorario(RefeitorioActivity.this,RefeitorioActivity.this);
+                swipe.requestDisallowInterceptTouchEvent(false);
+                swipe.setRefreshing(false);
+            }
+        });
 
         change(false);
         DiaRefeicaoController.gerarHorario(this, this);
@@ -142,10 +157,8 @@ public class RefeitorioActivity extends AppCompatActivity implements RecycleButt
             Uri imageUri = CropImage.getPickImageResultUri(this, data);
 
             // For API >= 23 we need to check specifically that we have permissions to read external storage.
-            boolean requirePermissions = false;
             if (CropImage.isReadExternalStoragePermissionsRequired(this, imageUri)) {
                 // request permissions and handle the result in onRequestPermissionsResult()
-                requirePermissions = true;
                 mCropImageUri = imageUri;
                 requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 0);
             } else {
@@ -222,8 +235,8 @@ public class RefeitorioActivity extends AppCompatActivity implements RecycleButt
     public boolean onProfileImageClick(View view, IProfile profile, boolean current) {
         //Aluno aluno = AlunoDAO.getInstance(this).find();
         // if(aluno.getPhoto() == null)
-        //tirarPhoto();
-        AndroidUtil.showSnackbar(this,"Essa função ainda está em desenvolvimento. Aguarde novas atualizações.");
+        tirarPhoto();
+        //AndroidUtil.showSnackbar(this,"Essa função ainda está em desenvolvimento. Aguarde novas atualizações.");
         return true;
     }
 

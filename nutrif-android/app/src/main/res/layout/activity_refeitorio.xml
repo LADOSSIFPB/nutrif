@@ -6,53 +6,59 @@
     tools:context="br.edu.ladoss.nutrif.view.activitys.RefeitorioActivity">
 
     <LinearLayout
-        android:orientation="vertical"
+        android:id="@+id/content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/content"
         android:layout_gravity="center"
         android:background="#f3f3f3"
-        android:gravity="center_horizontal">
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
         <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:theme="@style/AppTheme.AppBarOverlay">
 
             <android.support.v7.widget.Toolbar
-                style="@style/AppTheme"
                 android:id="@+id/toolbar"
+                style="@style/AppTheme"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/colorPrimary"
                 android:elevation="4dp" />
 
         </android.support.design.widget.AppBarLayout>
-
-        <TextView
+            <TextView
+                android:id="@+id/textView2"
+                style="@style/TextAppearance.AppCompat.Display1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="10dp"
+                android:password="false"
+                android:phoneNumber="false"
+                android:text="@string/refeicoesdireito"
+                android:textAlignment="center"
+                android:textColor="@color/colorPrimary"
+                android:textSize="20sp" />
+        <android.support.v4.widget.SwipeRefreshLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/refeicoesdireito"
-            android:id="@+id/textView2"
-            android:layout_gravity="center_horizontal"
-            android:textColor="@color/colorPrimary"
-            android:layout_margin="10dp"
-            android:textAlignment="center"
-            android:phoneNumber="false"
-            android:password="false"
-            style="@style/TextAppearance.AppCompat.Display1"
-            android:textSize="20sp" />
+            android:id="@+id/swiperefresh">
+
 
         <android.support.v7.widget.RecyclerView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/recycle">
-        </android.support.v7.widget.RecyclerView>
+                android:id="@+id/recycle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
+            </android.support.v7.widget.RecyclerView>
+        </android.support.v4.widget.SwipeRefreshLayout>
     </LinearLayout>
 
     <include
+        layout="@layout/layout_carregando"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        layout="@layout/layout_carregando" />
+        android:layout_height="match_parent" />
 
 </FrameLayout>

@@ -32,61 +32,132 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:id="@+id/body">
+            android:layout_gravity="top|center_horizontal"
+            android:gravity="top|center"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginLeft="13dp"
+            android:id="@+id/body"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Large Text"
+                android:text="Segunda"
                 android:id="@+id/dia"
-                android:layout_gravity="center_horizontal"
                 android:layout_margin="4dp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Medium Text"
-                android:id="@+id/tipo"
-                android:layout_gravity="center_horizontal"
-                android:layout_margin="4dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Medium Text"
-                android:id="@+id/data"
-                android:layout_gravity="center_horizontal"
-                android:layout_margin="4dp" />
+                android:textStyle="bold"
+                android:gravity="center" />
 
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:gravity="center_horizontal"
-                android:layout_marginBottom="8dp">
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:layout_margin="10dp"
+                android:layout_gravity="center"
+                android:gravity="center">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="Medium Text"
+                    android:text="@string/tipo"
+                    android:id="@+id/textView4"
+                    android:layout_gravity="center"
+                    android:gravity="center" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Almoço"
+                    android:id="@+id/tipo"
+                    android:layout_margin="4dp"
+                    android:gravity="center" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingRight="10dp"
+                android:paddingLeft="10dp"
+                android:layout_margin="10dp"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="@string/dia"
+                    android:id="@+id/textView5"
+                    android:layout_gravity="center"
+                    android:gravity="center" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="25/02"
+                    android:id="@+id/data"
+                    android:layout_gravity="center"
+                    android:layout_margin="4dp"
+                    android:gravity="center" />
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/disponivel"
+                android:id="@+id/textView6"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_margin="10dp" />
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:layout_gravity="center"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="15:00"
                     android:id="@+id/hora_inicial"
-                    android:layout_margin="4dp" />
+                    android:layout_margin="4dp"
+                    android:gravity="center"
+                    android:layout_gravity="center" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/e"
+                    android:id="@+id/textView7"
+                    android:gravity="center"
+                    android:layout_gravity="center" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="Medium Text"
+                    android:text="15:02"
                     android:id="@+id/hora_final"
-                    android:layout_margin="4dp" />
+                    android:layout_margin="4dp"
+                    android:gravity="center"
+                    android:layout_gravity="center" />
+
             </LinearLayout>
 
             <Button
@@ -95,7 +166,8 @@
                 android:text="@string/gerarcode"
                 android:id="@+id/codeBtn"
                 style="@style/buttomCustom"
-                android:onClick="gerarQRCode"/>
+                android:onClick="gerarQRCode"
+                android:layout_margin="10dp" />
 
             <Button
                 android:layout_width="wrap_content"
@@ -103,7 +175,8 @@
                 android:text="@string/registrarPedido"
                 android:id="@+id/pedirBtn"
                 android:onClick="pedirRefeicao"
-                style="@style/buttomCustom"/>
+                style="@style/buttomCustom"
+                android:layout_margin="10dp" />
 
         </LinearLayout>
 
