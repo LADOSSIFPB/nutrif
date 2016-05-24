@@ -24,7 +24,6 @@ public class ImageValidator implements NutrIFValidator {
    public boolean validate(final String image){
 		  
 	  matcher = pattern.matcher(image);
-	  return matcher.matches();
-	    	    
+	  return matcher.matches();	    	    
    }
 }

@@ -21,15 +21,17 @@ import javax.ws.rs.core.StreamingOutput;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
 
 import br.edu.ifpb.nutrif.dao.ArquivoDAO;
 import br.edu.ifpb.nutrif.dao.PessoaDAO;
+import br.edu.ifpb.nutrif.exception.ErrorFactory;
 import br.edu.ifpb.nutrif.exception.IOExceptionNutrIF;
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
 import br.edu.ifpb.nutrif.util.BancoUtil;
 import br.edu.ifpb.nutrif.util.FileUtil;
-import br.edu.ifpb.nutrif.validation.ImageValidator;
 import br.edu.ifpb.nutrif.validation.Validate;
 import br.edu.ladoss.entity.Arquivo;
 import br.edu.ladoss.entity.Error;
@@ -46,7 +48,7 @@ import br.edu.ladoss.form.FileUploadForm;
 @Path("/arquivo")
 public class ArquivoController {
 
-	private static ImageValidator imageValidator = new ImageValidator();
+	private static Logger logger = LogManager.getLogger(ArquivoController.class);
 	
 	/**
 	 * Upload de arquivos.
@@ -65,6 +67,8 @@ public class ArquivoController {
 			@PathParam("tipoarquivo") TipoArquivo tipoArquivo,
 			@MultipartForm FileUploadForm form) {
 
+		logger.info("Salvando o arquivo:" + tipoArquivo);
+		
 		// Arquivo.
 		ResponseBuilder builder = Response.status(Response.Status.NOT_MODIFIED);
 		builder.expires(new Date());
@@ -79,15 +83,16 @@ public class ArquivoController {
 				String nomeRealArquivo = form.getFileName();
 				String extension = FilenameUtils.getExtension(nomeRealArquivo);
 				Integer idPessoa = form.getIdPessoa();
+				
+				// Nome do arquivo
+				String nomeSistemaArquivo = FileUtil.getNomeSistemaArquivo(
+						idPessoa.toString(),
+						extension);
 
-				if (imageValidator.validate(nomeRealArquivo)) {
-
-					// Nome do arquivo
-					String nomeSistemaArquivo = FileUtil.getNomeSistemaArquivo(
-							idPessoa.toString(),
-							extension);
-
-					Pessoa pessoa = PessoaDAO.getInstance().getById(idPessoa);
+				Pessoa pessoa = PessoaDAO.getInstance().getById(idPessoa);
+				
+				if (pessoa != null) {
+					
 					Date agora = new Date();
 					
 					// Arquivo genérico.
@@ -110,12 +115,15 @@ public class ArquivoController {
 					if (idArquivo != BancoUtil.IDVAZIO) {
 						
 						arquivo.setId(idArquivo);
-						builder.status(Response.Status.OK);					
+						arquivo.setFile(null);
+						builder.status(Response.Status.OK).entity(arquivo);					
 					}
-
+					
 				} else {
 					
-					builder.status(Response.Status.NOT_ACCEPTABLE);
+					Error erro = ErrorFactory.getErrorFromIndex(
+							ErrorFactory.ID_PESSOA_INVALIDO);
+					builder.status(Response.Status.NOT_ACCEPTABLE).entity(erro);
 				}
 
 			} catch (IOExceptionNutrIF | SQLExceptionNutrIF e) {
@@ -124,11 +132,23 @@ public class ArquivoController {
 				builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
 						error);
 			}
-		}		
+			
+		} else {
+			
+			Error erro = ErrorFactory.getErrorFromIndex(validacao);
+			builder.status(Response.Status.NOT_ACCEPTABLE).entity(erro);
+		}
 
 		return builder.build();
 	}
 	
+	/**
+	 * Download do arquivo do perfil.
+	 * 
+	 * @param tipoArquivo
+	 * @param nomeSistemaArquivo
+	 * @return
+	 */
 	@PermitAll
 	@GET
 	@Path("/download/{tipoarquivo}/nome/{nome}")
