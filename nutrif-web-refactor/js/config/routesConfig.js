@@ -37,5 +37,14 @@ angular.module('NutrifApp').config(function ($stateProvider, $urlRouterProvider)
             controller: 'entradaAlunoCtrl',
             controllerAs: 'entrada',
 			module: 'inspetor'
+	  	})
+
+		.state('home.adicionar-alunos', {
+		    url: '/adicionar',
+			title: 'Adicionar Alunos',
+		    templateUrl: 'view/manager/admin/adicionar-alunos.html',
+            controller: 'cadastrarAlunoCtrl',
+            controllerAs: 'cadastrar',
+			module: 'admin'
 	  	});
 });
