@@ -15,7 +15,6 @@ angular.module("NutrifApp").factory("userService", function($cookies, config){
     var _getUserRole = function () {
 
         function findRoleAdmin(role) {
-            console.log(role.nome);
             return role.id === 1;
         }
 
