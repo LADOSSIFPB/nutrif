@@ -1,0 +1,18 @@
+<md-sidenav layout="column" class="md-sidenav-left md-whiteframe-z2" md-component-id="sideNav" md-is-locked-open="$mdMedia('gt-md') && sideNav.isOpened">
+
+    <md-toolbar class="md-whiteframe-4dp">
+        <div class="md-toolbar-tools">
+            <span flex></span>
+            <h1 ng-bind="sideNav.typeUser.nome"></h1>
+            <span flex></span>
+        </div>
+    </md-toolbar>
+
+    <md-content layout-padding>
+        <md-list>
+            <div ng-if="sideNav.typeUser.id === 1" ng-include="'view/templates/manager/admin/sidenav-itens-admin.html'"></div>
+            <div ng-if="sideNav.typeUser.id === 2" ng-include="'view/templates/manager/inspetor/sidenav-itens-inspetor.html'"></div>
+        </md-list>
+    </md-content>
+
+</md-sidenav>

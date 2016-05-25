@@ -13,6 +13,8 @@ angular.module('NutrifApp').config(function ($stateProvider, $urlRouterProvider)
 		.state('login.gerenciamento', {
 		    url: '/gerenciamento',
 		    templateUrl: 'view/login-gerenciamento.html',
+			controller: 'loginManagerCtrl',
+			controllerAs: 'login',
 			module: 'non-logged'
 	  	})
 
@@ -24,8 +26,16 @@ angular.module('NutrifApp').config(function ($stateProvider, $urlRouterProvider)
 
         .state('home', {
 		    url: '/inicio',
-			title: 'Entrada de Alunos',
+			abstract: true,
 		    templateUrl: 'view/manager/home.html'
-	  	});
+	  	})
 
+		.state('home.entrada-alunos', {
+		    url: '/entrada',
+			title: 'Entrada de Alunos',
+		    templateUrl: 'view/manager/entrada-alunos.html',
+            controller: 'entradaAlunoCtrl',
+            controllerAs: 'entrada',
+			module: 'inspetor'
+	  	});
 });

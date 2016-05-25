@@ -1,0 +1,48 @@
+<md-card>
+    <md-table-container>
+
+        <md-toolbar class="md-table-toolbar md-default">
+            <div class="md-toolbar-tools">
+
+                <md-icon style="fill: rgba(0,0,0,.54);" md-svg-icon="img/icon/searching-magnifying-glass.svg"></md-icon>
+
+                <div class="toolbar-input" flex>
+                    <input type="text" ng-model="entrada.texto" ng-keyup="entrada.pesquisar(entrada.texto)" placeholder="Digite o nome ou a matrícula do aluno">
+                </div>
+
+                <md-button aria-label="Menu" class="md-icon-button">
+                    <md-tooltip md-direction="bottom">Refazer busca</md-tooltip>
+                    <md-icon style="fill: rgba(0,0,0,.54);" md-svg-icon="img/icon/replay-arrow.svg"></md-icon>
+                </md-button>
+
+                <md-button aria-label="Menu" class="md-icon-button">
+                    <md-tooltip md-direction="bottom">Buscar por QR Code</md-tooltip>
+                    <md-icon style="fill: rgba(0,0,0,.54);" md-svg-icon="img/icon/select-all.svg"></md-icon>
+                </md-button>
+
+            </div>
+        </md-toolbar>
+
+        <table md-table md-row-select ng-model="sideNav.teste">
+
+            <thead md-head>
+                <tr md-row>
+                    <th md-column>Nome Completo</th>
+                    <th md-column>Matrícula</th>
+                    <th md-column>Tipo da Refeição</th>
+                    <th md-column>Dia da Refeição</th>
+                </tr>
+            </thead>
+
+            <tbody md-body>
+                <tr md-row md-select="aluno" md-on-select="sideNav.showAdvanced" md-select-id="matricula" md-auto-select ng-repeat="aluno in sideNav.teste2">
+                    <td md-cell>{{aluno.nome | uppercase}}</td>
+                    <td md-cell>{{aluno.matricula}}</td>
+                    <td md-cell>{{aluno.refeicao | uppercase}}</td>
+                    <td md-cell>{{aluno.dia | uppercase}}</td>
+                </tr>
+            </tbody>
+
+        </table>
+    </md-table-container>
+</md-card>
