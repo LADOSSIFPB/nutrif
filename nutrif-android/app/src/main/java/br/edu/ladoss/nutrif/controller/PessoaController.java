@@ -140,24 +140,9 @@ public class PessoaController {
 
     public static void uploadPhoto(final Context context, final Replyable<Aluno> ui, final File file){
 
-        //Convertendo imagem
-        RequestBody fileBody = RequestBody.create(MediaType.parse("image/jpeg"), file);
-
-        // create RequestBody instance from file
-        okhttp3.RequestBody requestFile =
-                okhttp3.RequestBody.create(okhttp3.MediaType.parse("multipart/form-data"), file);
-
-        // MultipartBody.Part is used to send also the actual file name
-        MultipartBody.Part uploadedFile =
-                MultipartBody.Part.createFormData("uploadedFile", file.getName(), requestFile);
-
-        RequestBody fileName =
-                RequestBody.create(
-                        MediaType.parse("multipart/form-data"), file.getName());
-
-        RequestBody idPessoa =
-                RequestBody.create(
-                        MediaType.parse("multipart/form-data"), AlunoDAO.getInstance(context).find().getId().toString());
+        RequestBody uploadedFile = RequestBody.create(MediaType.parse("image/*"), file);
+        RequestBody fileName = RequestBody.create(MediaType.parse("text/plain"), file.getName());
+        int idPessoa = AlunoDAO.getInstance(context).find().getId();
 
         Call<Void> call = ConnectionServer.getInstance().getService().upload(fileName,uploadedFile,idPessoa);
         call.enqueue(new Callback<Void>() {

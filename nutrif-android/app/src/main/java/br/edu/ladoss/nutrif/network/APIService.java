@@ -52,11 +52,10 @@ public interface APIService {
     @POST("pretensaorefeicao/diarefeicao/verificar")
     Call<PretensaoRefeicao> infoRefeicao(@Header("Authorization") String accessKey,
                                          @Body PretensaoRefeicao refeicao);
-
     @Multipart
     @POST("arquivo/upload/ARQUIVO_FOTO_PERFIL")
      Call<Void> upload(@Part("fileName") RequestBody fileName,
-                             @Part("uploadedFile") MultipartBody.Part file,
-                             @Part("idPessoa") RequestBody idPessoa);
+                       @Part("uploadedFile") RequestBody file ,
+                       @Part("idPessoa") int idPessoa);
 
 }
