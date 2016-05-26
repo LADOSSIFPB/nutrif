@@ -1,114 +1,18 @@
 <div flex layout="row" ng-controller="sideNavCtrl as sideNav">
-    <md-sidenav layout="column" class="md-sidenav-left md-whiteframe-z2" md-component-id="sideNav" md-is-locked-open="$mdMedia('gt-md') && sideNav.isOpened">
 
-        <md-toolbar class="md-whiteframe-4dp">
-            <div class="md-toolbar-tools">
-                <span flex></span>
-                <h1>Administrador</h1>
-                <span flex></span>
-            </div>
-        </md-toolbar>
-
-        <md-content layout-padding>
-            <md-list>
-                <md-list-item ng-click="sideNav.openOrCloseSideNav()">
-                    <md-icon md-svg-icon="img/icon/download-button.svg"></md-icon>
-                    <p>Entrada de Alunos</p>
-                </md-list-item>
-                <md-list-item ng-click="sideNav.openOrCloseSideNav()">
-                    <md-icon md-svg-icon="img/icon/user-shape.svg"></md-icon>
-                    <p>Atualizar Alunos</p>
-                </md-list-item>
-                <md-list-item ng-click="sideNav.openOrCloseSideNav()">
-                    <md-icon md-svg-icon="img/icon/add-to-queue-button.svg"></md-icon>
-                    <p>Adicionar Alunos</p>
-                </md-list-item>
-                <md-list-item ng-click="sideNav.openOrCloseSideNav()">
-                    <md-icon md-svg-icon="img/icon/time-lapse.svg"></md-icon>
-                    <p>Estatísticas</p>
-                </md-list-item>
-            </md-list>
-        </md-content>
-
-    </md-sidenav>
+    <div layout="row" ng-include="'view/templates/manager/sidenav.html'"></div>
 
     <div flex layout="column">
-        <md-toolbar layout="row" class="md-whiteframe-4dp">
-            <div class="md-toolbar-tools">
-                <div flex layout="row" class="md-toolbar-tools">
-                    <md-button aria-label="Menu" ng-click="sideNav.openOrCloseSideNav()" class="md-icon-button">
-                        <md-tooltip md-direction="bottom">Mostrar/Ocultar Menu</md-tooltip>
-                        <md-icon md-svg-icon="img/icon/menu-button.svg"></md-icon>
-                    </md-button>
-                </div>
-                <h1 ng-bind="sideNav.title"></h1>
-                <span flex></span>
-                <md-button aria-label="Menu" class="md-icon-button">
-                    <md-tooltip md-direction="bottom">Sair</md-tooltip>
-                    <md-icon md-svg-icon="img/icon/power-button.svg"></md-icon>
-                </md-button>
-            </div>
-        </md-toolbar>
+
+        <div ng-include="'view/templates/manager/toolbar-manager.html'"></div>
+
         <md-content flex layout="column">
-
-
             <div class="container-margin">
-                <!--<div layout="row">
-                    <md-input-container flex="30"class="md-icon-float md-block">
-                        <label>Matrícula</label>
-                        <input type="number">
-                    </md-input-container>
-                    <span flex></span>
-                    <md-input-container flex="66" class="md-icon-float md-block">
-                        <label>Nome Completo</label>
-                        <input type="text">
-                    </md-input-container>
-                </div>-->
-
-                <md-card>
-                    <md-table-container>
-                        <md-toolbar class="md-table-toolbar md-default">
-                            <div class="md-toolbar-tools">
-                                <md-icon style="fill: rgba(0,0,0,.54);" md-svg-icon="img/icon/searching-magnifying-glass.svg"></md-icon>
-                                <div class="toolbar-input" flex>
-                                    <input type="text" placeholder="Digite o nome ou a matrícula do aluno">
-                                </div>
-                                <md-button aria-label="Menu" class="md-icon-button">
-                                    <md-tooltip md-direction="bottom">Refazer busca</md-tooltip>
-                                    <md-icon style="fill: rgba(0,0,0,.54);" md-svg-icon="img/icon/replay-arrow.svg"></md-icon>
-                                </md-button>
-                                <md-button aria-label="Menu" class="md-icon-button">
-                                    <md-tooltip md-direction="bottom">Buscar por QR Code</md-tooltip>
-                                    <md-icon style="fill: rgba(0,0,0,.54);" md-svg-icon="img/icon/select-all.svg"></md-icon>
-                                </md-button>
-                            </div>
-                        </md-toolbar>
-                        <table md-table md-row-select ng-model="sideNav.teste">
-                            <thead md-head>
-                                <tr md-row>
-                                    <th md-column>Nome Completo</th>
-                                    <th md-column>Matrícula</th>
-                                    <th md-column>Tipo da Refeição</th>
-                                    <th md-column>Dia da Refeição</th>
-                                </tr>
-                            </thead>
-                            <tbody md-body>
-                                <tr md-row md-select="aluno" md-on-select="sideNav.showAdvanced" md-select-id="matricula" md-auto-select ng-repeat="aluno in sideNav.teste2">
-                                    <td md-cell>{{aluno.nome | uppercase}}</td>
-                                    <td md-cell>{{aluno.matricula}}</td>
-                                    <td md-cell>{{aluno.refeicao | uppercase}}</td>
-                                    <td md-cell>{{aluno.dia | uppercase}}</td>
-                                </tr>
-                            </tbody>
-
-                        </table>
-                    </md-table-container>
-                </md-card>
+                <div ui-view></div>
             </div>
-
             <span flex></span>
             <div ng-include="'view/templates/footer.html'"></div>
         </md-content>
-    </div>
 
+    </div>
 </div>

@@ -1,13 +1,8 @@
 <link rel="stylesheet" type="text/css" href="css/login.css"/>
 
-<div flex>
-    <header>
-        <div ng-include="'view/templates/toolbar-login.html'"></div>
-    </header>
-
-    <main>
-        <div ui-view></div>
-    </main>
+<div layout="column" flex>
+    <div ng-include="'view/templates/toolbar-login.html'"></div>
+    <div ui-view></div>
+    <span flex></span>
+    <div ng-include="'view/templates/footer.html'"></div>
 </div>
-
-<div ng-include="'view/templates/footer.html'"></div>

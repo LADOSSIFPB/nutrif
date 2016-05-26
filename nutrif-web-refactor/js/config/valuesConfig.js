@@ -7,7 +7,7 @@ angular.module("NutrifApp").value("config", {
 		var _externalIP = "localhost";
 		var _internalIP = "localhost";
 		var _port = "8080";
-		var _context = "/NutrIF_Sevice";
+		var _context = "/NutrIF_Service";
 
 		var url = location.href;
 
@@ -15,7 +15,6 @@ angular.module("NutrifApp").value("config", {
 			return _protocol + _externalDNS + ":" + _port + _context;
 		else
 			return _protocol + _internalIP + ":" + _port + _context;
-
 	}
 
 })
