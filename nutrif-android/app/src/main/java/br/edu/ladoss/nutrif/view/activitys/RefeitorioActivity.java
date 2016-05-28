@@ -180,7 +180,7 @@ public class RefeitorioActivity extends AppCompatActivity implements RecycleButt
 
                 @Override
                 public void onFailure(Erro erro) {
-                    Toast.makeText(RefeitorioActivity.this,"Não foi possível atualizar a foto",Toast.LENGTH_LONG).show();
+                    Toast.makeText(RefeitorioActivity.this, erro.getMensagem(),Toast.LENGTH_LONG).show();
                 }
 
                 @Override
