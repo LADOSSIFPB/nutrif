@@ -46,5 +46,14 @@ angular.module('NutrifApp').config(function ($stateProvider, $urlRouterProvider)
             controller: 'cadastrarAlunoCtrl',
             controllerAs: 'cadastrar',
 			module: 'admin'
+	  	})
+
+		.state('home.listar-alunos', {
+		    url: '/listar',
+			title: 'Listar Alunos',
+		    templateUrl: 'view/manager/admin/listar-alunos.html',
+            controller: 'listarAlunosCtrl',
+            controllerAs: 'listar',
+			module: 'admin'
 	  	});
 });
