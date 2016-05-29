@@ -27,7 +27,7 @@ public class CharacterEncodingFilter implements Filter {
 			FilterChain chain) throws IOException, ServletException {
 		
 		// setting the charset
-		response.setCharacterEncoding(StandardCharsets.UTF_8.toString());
+		response.setCharacterEncoding(StandardCharsets.ISO_8859_1.toString());
 		chain.doFilter(request, response);
 	}
 
