@@ -1,4 +1,4 @@
-angular.module('NutrifApp').controller('cadastrarAlunoCtrl', function ($scope, $mdToast, cursoService, alunoService) {
+angular.module('NutrifApp').controller('cadastrarAlunoCtrl', function ($scope, $mdToast, cursoService, alunoService, $state) {
 
     $scope.cursos = [];
 
@@ -16,6 +16,8 @@ angular.module('NutrifApp').controller('cadastrarAlunoCtrl', function ($scope, $
             .action('OK')
             .hideDelay(6000)
         );
+
+        $state.transitionTo('home.editar-aluno', {matricula: data.matricula}, {reload: true});
     }
 
     function onErrorCallback (data, status) {

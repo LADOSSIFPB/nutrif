@@ -1,17 +1,53 @@
-angular.module('NutrifApp').controller('listarAlunosCtrl', function ($scope, $mdToast, cursoService, alunoService) {
+angular.module('NutrifApp').controller('listarAlunosCtrl', function ($scope, $mdToast, alunoService) {
 
-    $scope.alunos = [{nome: 'José Renan Silva Luciano', matricula:'20131004015', curso: {nome: 'Técnico em Informática'}},
-    {nome: 'José Renan Silva Luciano', matricula:'20131004015', curso: {nome: 'Técnico em Informática'}},
-    {nome: 'José Renan Silva Luciano', matricula:'20131004015', curso: {nome: 'Técnico em Informática'}},
-    {nome: 'José Renan Silva Luciano', matricula:'20131004015', curso: {nome: 'Técnico em Informática'}},
-    {nome: 'José Renan Silva Luciano', matricula:'20131004015', curso: {nome: 'Técnico em Informática'}},
-    {nome: 'José Renan Silva Luciano', matricula:'20131004015', curso: {nome: 'Técnico em Informática'}},
-    {nome: 'José Renan Silva Luciano2', matricula:'20131004015', curso: {nome: 'Técnico em Informática'}},
-    {nome: 'José Renan Silva Luciano2', matricula:'20131004015', curso: {nome: 'Técnico em Informática'}},
-    {nome: 'José Renan Silva Luciano2', matricula:'20131004015', curso: {nome: 'Técnico em Informática'}},
-    {nome: 'José Renan Silva Luciano2', matricula:'20131004015', curso: {nome: 'Técnico em Informática'}},
-    {nome: 'José Renan Silva Luciano2', matricula:'20131004015', curso: {nome: 'Técnico em Informática'}},
-    {nome: 'José Renan Silva Luciano2', matricula:'20131004015', curso: {nome: 'Técnico em Informática'}}];
+    $scope.texto = "";
+    $scope.alunos = [];
+
+    $scope.limparBusca = function () {
+        $scope.texto = "";
+        $scope.alunos = [];
+    };
+
+    $scope.pesquisar = function (texto){
+        if(texto.length > 2) {
+            if (texto.match(/[a-zA-Z]/i) != null) {
+                alunoService.buscaAlunoPorNome(texto)
+                    .success(onSuccessCallback)
+                    .error(onErrorCallback);
+            } else if (texto.length === 11) {
+                alunoService.buscaAlunoPorMatricula(texto)
+                    .success(function (data, status) {
+                        $scope.alunos = [];
+                        $scope.alunos.push(data);
+                    })
+                    .error(onErrorCallback)
+            }
+        } else if (texto.length === 0) {
+            $scope.alunos = [];
+        }
+    };
+
+    function onSuccessCallback(data, status) {
+        $scope.alunos = data;
+    }
+
+    function onErrorCallback(data, status) {
+        var _message = '';
+
+        if (!data) {
+            _message = 'Ocorreu um erro na comunicação com o servidor, favor chamar o suporte.'
+        } else {
+            _message = data.mensagem
+        }
+
+        $mdToast.show(
+            $mdToast.simple()
+            .textContent(_message)
+            .position('top right')
+            .action('OK')
+            .hideDelay(6000)
+        );
+    }
 
     $scope.query = {
         order: 'nome',

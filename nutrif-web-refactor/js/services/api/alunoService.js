@@ -3,7 +3,7 @@ angular.module("NutrifApp").factory("alunoService", function($http, config){
 	var _path = config.baseUrl() + "/aluno";
 
 	var _buscaAlunoPorNome = function (nome){
-		return $http.get(_path + "/nome/" + encodeURI(nome))
+		return $http.get(_path + "/listar/nome/" + encodeURI(nome))
 	};
 
 	var _cadastrarAluno = function (aluno){

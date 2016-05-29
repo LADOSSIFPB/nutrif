@@ -55,5 +55,14 @@ angular.module('NutrifApp').config(function ($stateProvider, $urlRouterProvider)
             controller: 'listarAlunosCtrl',
             controllerAs: 'listar',
 			module: 'admin'
+	  	})
+
+		.state('home.editar-aluno', {
+		    url: '/editar/:matricula',
+			title: 'Editar Aluno',
+		    templateUrl: 'view/manager/admin/editar-aluno.html',
+			controller: 'editarAlunoCtrl',
+			controllerAs: 'editar',
+			module: 'admin'
 	  	});
 });
