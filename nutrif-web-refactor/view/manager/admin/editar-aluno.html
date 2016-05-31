@@ -1,19 +1,25 @@
 <md-card>
     <md-card-header>
+
         <md-card-avatar>
             <md-icon class="md-avatar-icon" md-svg-icon="img/icon/create-new-pencil-button.svg"></md-icon>
         </md-card-avatar>
+
         <md-card-header-text>
             <span class="md-title">Editar informações do aluno</span>
             <span class="md-subhead">Clique em salvar para alterar as informações</span>
         </md-card-header-text>
+
         <md-card-icon-actions>
-            <md-button class="md-icon-button" aria-label="toggle">
+            <md-button class="md-icon-button" aria-label="Salvar alterações" ng-click="atualizar(alunoCopy)">
+                <md-tooltip md-direction="bottom">Salvar Alterações</md-tooltip>
                 <md-icon md-svg-icon="img/icon/save-button.svg"></md-icon>
             </md-button>
         </md-card-icon-actions>
+
     </md-card-header>
     <md-card-content layout="column">
+
         <md-input-container class="md-icon-float md-block">
             <label>Nome Completo</label>
             <input ng-model="alunoCopy.nome" type="text">
@@ -25,33 +31,46 @@
         </md-input-container>
 
         <md-input-container flex>
-            <label>{{alunoCopy.curso.nome}}</label>
-            <md-select ng-model="alunoCopy.curso" aria-label="Selecione o curso">
+            <label>Curso</label>
+            <md-select ng-model="alunoCopy.curso.id" aria-label="Selecione o curso">
+                <md-option ng-repeat="curso in cursos" value="{{curso.id}}">
+                    {{curso.nome}}
+                </md-option>
             </md-select>
         </md-input-container>
+
     </md-card-content>
 </md-card>
 
 <md-card>
     <md-card-header>
+
         <md-card-avatar>
             <md-icon class="md-avatar-icon" md-svg-icon="img/icon/view-list-button.svg"></md-icon>
         </md-card-avatar>
+
         <md-card-header-text>
             <span class="md-title">Gerenciar refeições</span>
             <span class="md-subhead">Selecione as refeições para remover ou adicione uma nova</span>
         </md-card-header-text>
+
         <md-card-actions layout="row">
             <md-card-icon-actions>
-                <md-button class="md-icon-button" aria-label="toggle">
+
+                <md-button class="md-icon-button" aria-label="Apagar refeições">
+                    <md-tooltip md-direction="bottom">Apagar refeições</md-tooltip>
                     <md-icon md-svg-icon="img/icon/rubbish-bin-delete-button.svg"></md-icon>
                 </md-button>
-                <md-button class="md-icon-button" aria-label="toggle">
+
+                <md-button class="md-icon-button" aria-label="Adicionar Refeição">
+                    <md-tooltip md-direction="bottom">Adicionar Refeição</md-tooltip>
                     <md-icon md-svg-icon="img/icon/add-plus-button.svg"></md-icon>
                 </md-button>
+
             </md-card-icon-actions>
         </md-card-actions>
     </md-card-header>
+
     <md-table-container>
         <table md-table md-row-select multiple ng-model="selected">
             <thead md-head>
@@ -68,4 +87,5 @@
             </tbody>
         </table>
     </md-table-container>
+
 </md-card>

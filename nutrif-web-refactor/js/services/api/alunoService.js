@@ -10,6 +10,10 @@ angular.module("NutrifApp").factory("alunoService", function($http, config){
 		return $http.post(_path + "/inserir", aluno)
 	};
 
+	var _atualizarAluno = function (aluno){
+		return $http.post(_path + "/atualizar", aluno)
+	};
+
 	var _buscaAlunoPorMatricula = function (matricula){
 		return $http.get(_path + "/matricula/" + encodeURI(matricula))
 	};
@@ -17,6 +21,7 @@ angular.module("NutrifApp").factory("alunoService", function($http, config){
 	return {
 		buscaAlunoPorNome: _buscaAlunoPorNome,
 		cadastrarAluno: _cadastrarAluno,
+		atualizarAluno: _atualizarAluno,
 		buscaAlunoPorMatricula: _buscaAlunoPorMatricula
 	};
 
