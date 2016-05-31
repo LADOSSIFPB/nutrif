@@ -19,68 +19,69 @@ public class ErrorFactory {
 	public static final int CHAVE_CONFIRMACAO_INVALIDA = 5;
 	public static final int NOME_MATRICULA_ALUNO_INVALIDOS = 6;
 	public static final int ACESSO_ALUNO_NAO_PERMITIDO = 7;
+	public static final int MATRICULA_ALUNO_DUPLICADA = 8;
 	
 	/*
 	 * Error status: Curso.
 	 */
-	public static final int ID_CURSO_INVALIDO = 8;
-	public static final int NOME_CURSO_INVALIDO = 9;
+	public static final int ID_CURSO_INVALIDO = 9;
+	public static final int NOME_CURSO_INVALIDO = 10;
 	
 	/*
 	 * Error status: Usuário.
 	 */
-	public static final int NOME_USUARIO_INVALIDO = 10;
-	public static final int EMAIL_USUARIO_INVALIDO = 11;
-	public static final int SENHA_USUARIO_INVALIDA = 12;
-	public static final int KEY_CONFIRMATION_INVALIDA = 13;
+	public static final int NOME_USUARIO_INVALIDO = 11;
+	public static final int EMAIL_USUARIO_INVALIDO = 12;
+	public static final int SENHA_USUARIO_INVALIDA = 13;
+	public static final int KEY_CONFIRMATION_INVALIDA = 14;
 	
 	/*
 	 * Error status: Dia da Refeição.
 	 */
-	public static final int ID_DIA_REFEICAO_INVALIDO = 14;
-	public static final int ID_ALUNO_INVALIDO = 15;
-	public static final int ID_DIA_INVALIDO = 16;
-	public static final int ID_REFEICAO_INVALIDA = 17;
+	public static final int ID_DIA_REFEICAO_INVALIDO = 15;
+	public static final int ID_ALUNO_INVALIDO = 16;
+	public static final int ID_DIA_INVALIDO = 17;
+	public static final int ID_REFEICAO_INVALIDA = 18;
 	
 	/*
 	 * Confirmação da Refeição.
 	 */
-	public static final int CONFIRMACAO_REFEICAO_INVALIDA = 18;
+	public static final int CONFIRMACAO_REFEICAO_INVALIDA = 19;
 	
 	/*
 	 * Pretensão da Refeição
 	 */
-	public static final int PRETENSAO_REFEICAO_NAO_ENCONTRADA = 19;
-	public static final int PRETENSAO_REFEICAO_INVALIDA = 20;
-	public static final int CONFIRMACAO_PRETENSAO_INVALIDA = 21;
-	public static final int CHAVE_ACESSO_PRETENSAO_INVALIDA = 22;
+	public static final int PRETENSAO_REFEICAO_NAO_ENCONTRADA = 20;
+	public static final int PRETENSAO_REFEICAO_INVALIDA = 21;
+	public static final int CONFIRMACAO_PRETENSAO_INVALIDA = 22;
+	public static final int CHAVE_ACESSO_PRETENSAO_INVALIDA = 23;
 	
 	/*
 	 * Realização da Refeição
 	 */
-	public static final int REFEICAO_REALIZADA_NAO_ENCONTRADA = 23;
+	public static final int REFEICAO_REALIZADA_NAO_ENCONTRADA = 24;
 	
 	/*
 	 * Funcionário
 	 */
-	public static final int CODIGO_FUNCIONARIO_INSPETOR_INVALIDO = 24;
-	public static final int ID_FUNCIONARIO_INVALIDO = 25;
+	public static final int CODIGO_FUNCIONARIO_INSPETOR_INVALIDO = 25;
+	public static final int ID_FUNCIONARIO_INVALIDO = 26;
 	
 	/*
 	 * Pessoa
 	 */
-	public static final int CHAVE_AUTORIZACAO_PESSOA_INVALIDA = 26;
-	public static final int ID_PESSOA_INVALIDO = 27;
+	public static final int CHAVE_AUTORIZACAO_PESSOA_INVALIDA = 27;
+	public static final int ID_PESSOA_INVALIDO = 28;
 	
-	public static final int IMPOSSIVEL_CRIPTOGRAFAR_VALOR = 28;
+	public static final int IMPOSSIVEL_CRIPTOGRAFAR_VALOR = 29;
 	
 	/*
 	 * Arquivo
 	 */
-	public static final int TIPO_ARQUIVO_INVALIDO = 29;
-	public static final int NOME_ARQUIVO_INVALIDO = 30;
-	public static final int TAMANHO_ARQUIVO_INVALIDO = 31;
-	public static final int FORMULARIO_ARQUIVO_INVALIDO = 32;
+	public static final int TIPO_ARQUIVO_INVALIDO = 30;
+	public static final int NOME_ARQUIVO_INVALIDO = 31;
+	public static final int TAMANHO_ARQUIVO_INVALIDO = 32;
+	public static final int FORMULARIO_ARQUIVO_INVALIDO = 33;
 	
 	/*
 	 * Mapa de erros: código e mensagem.
@@ -121,7 +122,8 @@ public class ErrorFactory {
 		hashMap.put(NOME_ARQUIVO_INVALIDO, "Nome arquivo inválido.");
 		hashMap.put(ID_PESSOA_INVALIDO, "Identificador da pessoa inválido.");
 		hashMap.put(TAMANHO_ARQUIVO_INVALIDO, "Tamanho do arquivo inválido.");
-		hashMap.put(FORMULARIO_ARQUIVO_INVALIDO, "Formulário com dados da submissão do inválido.");		
+		hashMap.put(FORMULARIO_ARQUIVO_INVALIDO, "Formulário com dados da submissão do inválido.");
+		hashMap.put(MATRICULA_ALUNO_DUPLICADA, "Matrícula do aluno duplicada.");		
 		
 		return hashMap;
 	}
