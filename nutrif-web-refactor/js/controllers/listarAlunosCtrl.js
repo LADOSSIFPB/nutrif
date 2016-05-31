@@ -35,7 +35,7 @@ angular.module('NutrifApp').controller('listarAlunosCtrl', function ($scope, $md
         var _message = '';
 
         if (!data) {
-            _message = 'Ocorreu um erro na comunicação com o servidor, favor chamar o suporte.'
+            _message = 'Não foram encontrados alunos com esses dados'
         } else {
             _message = data.mensagem
         }
