@@ -15,6 +15,9 @@ angular.module("NutrifApp").factory("diaRefeicaoService", function($http, config
 	};
 
 	var _removerRefeicao = function (refeicao) {
+        delete refeicao.refeicao.horaFinal;
+        delete refeicao.refeicao.horaInicio;
+        delete refeicao.refeicao.horaPretensao;
 		return $http.post(_path + "/remover", refeicao)
 	};
 

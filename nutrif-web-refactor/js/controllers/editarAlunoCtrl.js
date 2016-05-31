@@ -22,6 +22,36 @@ angular.module('NutrifApp').controller('editarAlunoCtrl', function ($scope, alun
             .error(onErrorCallback);
     }
 
+    $scope.apagarAlunos = function (selected) {
+        if (selected.length === 0) {
+            $mdToast.show(
+                $mdToast.simple()
+                .textContent('Antes de apagar, selecione alguma refeição')
+                .position('top right')
+                .action('OK')
+                .hideDelay(6000)
+            );
+        } else {
+            var _length = selected.length;
+            for (var i = 0; i < _length; i++) {
+                diaRefeicaoService.removerRefeicao(selected[i])
+                    .success(function functionName() {
+                        $scope.refeicoes.splice($scope.refeicoes.indexOf(selected[i]));
+                    })
+                    .error(function (data, status) {
+
+                        $mdToast.show(
+                            $mdToast.simple()
+                            .textContent('Erro ao apagar uma refeição')
+                            .position('top right')
+                            .action('OK')
+                            .hideDelay(6000)
+                        );
+                    });
+            }
+        }
+    }
+
     function carregamentoInicial() {
         var _matricula = $stateParams.matricula;
 
