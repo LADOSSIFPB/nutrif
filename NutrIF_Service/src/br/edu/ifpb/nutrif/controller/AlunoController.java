@@ -17,6 +17,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
+import org.hibernate.exception.ConstraintViolationException;
+
 import br.edu.ifpb.nutrif.dao.AlunoDAO;
 import br.edu.ifpb.nutrif.dao.CursoDAO;
 import br.edu.ifpb.nutrif.dao.RoleDAO;
@@ -142,14 +144,12 @@ public class AlunoController {
 					builder.entity(aluno);
 				}
 			
-			} catch (SQLExceptionNutrIF qme) {
-				
-				Error erro = new Error();
-				erro.setCodigo(qme.getErrorCode());
-				erro.setMensagem(qme.getMessage());
+			} catch (SQLExceptionNutrIF exception) {
 
-				builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(erro);			
-			}
+				builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
+						exception.getError());			
+			
+			} 
 		}				
 		
 		return builder.build();		
