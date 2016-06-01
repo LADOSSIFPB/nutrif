@@ -15,19 +15,19 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
-import br.edu.ifpb.nutrif.dao.AlunoDAO;
 import br.edu.ifpb.nutrif.dao.DiaRefeicaoDAO;
 import br.edu.ifpb.nutrif.dao.FuncionarioDAO;
+import br.edu.ifpb.nutrif.dao.PretensaoRefeicaoDAO;
 import br.edu.ifpb.nutrif.dao.RefeicaoRealizadaDAO;
 import br.edu.ifpb.nutrif.exception.ErrorFactory;
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
 import br.edu.ifpb.nutrif.validation.Validate;
-import br.edu.ladoss.entity.Aluno;
 import br.edu.ladoss.entity.ConfirmaRefeicaoDia;
 import br.edu.ladoss.entity.DiaRefeicao;
 import br.edu.ladoss.entity.Error;
 import br.edu.ladoss.entity.Funcionario;
 import br.edu.ladoss.entity.MapaRefeicoesRealizadas;
+import br.edu.ladoss.entity.PretensaoRefeicao;
 import br.edu.ladoss.entity.RefeicaoRealizada;
 
 @Path("refeicaorealizada")
@@ -48,7 +48,7 @@ public class RefeicaoRealizadaController {
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
 		builder.expires(new Date());
 		
-		// Validação dos dados de entrada.
+		// Validaïção dos dados de entrada.
 		int validacao = Validate.refeicaoRealizada(refeicaoRealizada);
 		
 		if (validacao == Validate.VALIDATE_OK) {
@@ -66,31 +66,47 @@ public class RefeicaoRealizadaController {
 					// Data e hora atual.
 					Date agora = new Date();
 					
-					// Confirmação da refeição
-					ConfirmaRefeicaoDia confirmaRefeicaoDia = 
-							new ConfirmaRefeicaoDia();
-					confirmaRefeicaoDia.setDiaRefeicao(diaRefeicao);
-					confirmaRefeicaoDia.setDataRefeicao(agora);
-					refeicaoRealizada.setConfirmaRefeicaoDia(
-							confirmaRefeicaoDia);
+					PretensaoRefeicao pretensaoRefeicao = PretensaoRefeicaoDAO
+							.getInstance().getPretensaoRefeicaoByDiaRefeicao(
+									idDiaRefeicao, agora);
 					
-					// Hora da refeição
-					refeicaoRealizada.setHoraRefeicao(agora);
-					
-					// Funcionário responsável registro da refeição realizada.
-					Funcionario inspetor = FuncionarioDAO.getInstance().getById(
-							refeicaoRealizada.getInspetor().getId());
-					refeicaoRealizada.setInspetor(inspetor);
-					
-					//Inserir a Refeição Realizada.
-					boolean success = RefeicaoRealizadaDAO.getInstance()
-							.insertOrUpdate(refeicaoRealizada);					
-					
-					if (success) {
+					if ((!diaRefeicao.getRefeicao().isPrevistoPretensao() 
+							&& pretensaoRefeicao == null) ||
+							(!diaRefeicao.getRefeicao().isPrevistoPretensao() 
+									&& pretensaoRefeicao != null) ||
+							(diaRefeicao.getRefeicao().isPrevistoPretensao() 
+								&& pretensaoRefeicao != null)) {
 						
-						// Operação realizada com sucesso.
-						builder.status(Response.Status.OK);
-					}
+						// Confirmação da refeição
+						ConfirmaRefeicaoDia confirmaRefeicaoDia = 
+								new ConfirmaRefeicaoDia();
+						confirmaRefeicaoDia.setDiaRefeicao(diaRefeicao);
+						confirmaRefeicaoDia.setDataRefeicao(agora);
+						refeicaoRealizada.setConfirmaRefeicaoDia(
+								confirmaRefeicaoDia);
+						
+						// Hora da refeição
+						refeicaoRealizada.setHoraRefeicao(agora);
+						
+						// Funcionário responsável registro da refeição realizada.
+						Funcionario inspetor = FuncionarioDAO.getInstance().getById(
+								refeicaoRealizada.getInspetor().getId());
+						refeicaoRealizada.setInspetor(inspetor);
+						
+						//Inserir a Refeição Realizada.
+						boolean success = RefeicaoRealizadaDAO.getInstance()
+								.insertOrUpdate(refeicaoRealizada);					
+						
+						if (success) {
+							
+							// Operação realizada com sucesso.
+							builder.status(Response.Status.OK);
+						}
+					
+					} else {
+						
+						//TODO: Mensagem de pretensão obrigatória.
+					}					
 					
 				} else {
 					

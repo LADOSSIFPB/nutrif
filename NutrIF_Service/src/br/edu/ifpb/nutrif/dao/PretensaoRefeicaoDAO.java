@@ -1,5 +1,6 @@
 package br.edu.ifpb.nutrif.dao;
 
+import java.util.Date;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -11,7 +12,6 @@ import org.hibernate.Session;
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
 import br.edu.ifpb.nutrif.hibernate.HibernateUtil;
 import br.edu.ladoss.entity.PretensaoRefeicao;
-import br.edu.ladoss.entity.RefeicaoRealizada;
 
 public class PretensaoRefeicaoDAO extends GenericDao<Integer, PretensaoRefeicao>{
 	
@@ -82,6 +82,46 @@ public class PretensaoRefeicaoDAO extends GenericDao<Integer, PretensaoRefeicao>
 			
 			Query query = session.createQuery(hql);
 			query.setParameter("keyAccess", keyAccess);
+			
+			pretensaoRefeicao = (PretensaoRefeicao) query.uniqueResult();
+	        
+		} catch (HibernateException hibernateException) {
+			
+			session.getTransaction().rollback();
+			
+			throw new SQLExceptionNutrIF(hibernateException);
+			
+		} finally {
+		
+			session.close();
+		}
+		
+		return pretensaoRefeicao;		
+	}
+	
+	/**
+	 * Consultar pretensão da refeição através do dia da refeição e da data da
+	 * intensão da refeição.
+	 * 
+	 * @param idDiaRefeicao
+	 * @return
+	 */
+	public PretensaoRefeicao getPretensaoRefeicaoByDiaRefeicao(int idDiaRefeicao,
+			Date dataPretensao) {
+		
+		Session session = HibernateUtil.getSessionFactory().openSession();
+
+		PretensaoRefeicao pretensaoRefeicao = null;
+		
+		try {
+			
+			String hql = "from PretensaoRefeicao as pr"
+					+ " where pr.confirmaPretensaoDia.diaRefeicao.id = :idDiaRefeicao"
+					+ " and pr.confirmaPretensaoDia.dataPretensao = :dataPretensao";
+			
+			Query query = session.createQuery(hql);
+			query.setParameter("idDiaRefeicao", idDiaRefeicao);
+			query.setParameter("dataPretensao", dataPretensao);
 			
 			pretensaoRefeicao = (PretensaoRefeicao) query.uniqueResult();
 	        
