@@ -9,7 +9,7 @@
 
         <md-card-content layout="column">
 
-            <form layout-align="center none" ng-submit="login.fazerLogin(login.funcionario)">
+            <form layout="column" ng-submit="login.fazerLogin(login.funcionario)">
 
                 <md-input-container class="md-icon-float md-block">
                     <md-icon md-svg-src="img/icon/round-account-button-with-user-inside.svg"/></md-icon>
@@ -23,7 +23,7 @@
                     <input ng-model="login.funcionario.senha" type="password">
                 </md-input-container>
 
-                <md-button layout-fill type="submit" class="md-raised md-primary md-hue-1">Entrar</md-button>
+                <md-button type="submit" class="md-raised md-primary md-hue-1">Entrar</md-button>
 
             </form>
 
