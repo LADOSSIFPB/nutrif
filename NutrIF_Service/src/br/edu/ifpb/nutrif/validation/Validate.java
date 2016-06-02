@@ -265,6 +265,16 @@ public class Validate {
 		
 		return VALIDATE_OK;
 	}
+	
+	public static int downloadImagemPerfil(int idAluno) {
+		
+		logger.info("Validação para Download da Imagem do Perfil.");
+		
+		if (!numeroValidator.isMaiorZero(idAluno))
+			return ErrorFactory.ID_ALUNO_INVALIDO;
+		
+		return VALIDATE_OK;
+	}
 
 	public static int uploadArquivo(TipoArquivo tipoArquivo, 
 			FileUploadForm form) {

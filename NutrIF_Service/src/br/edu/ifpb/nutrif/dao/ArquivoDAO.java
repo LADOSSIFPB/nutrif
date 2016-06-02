@@ -12,7 +12,7 @@ import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
 import br.edu.ifpb.nutrif.hibernate.HibernateUtil;
 import br.edu.ifpb.nutrif.util.BancoUtil;
 import br.edu.ladoss.entity.Arquivo;
-import br.edu.ladoss.entity.DiaRefeicao;
+import br.edu.ladoss.enumeration.TipoArquivo;
 
 public class ArquivoDAO extends GenericDao<Integer, Arquivo> {
 
@@ -38,6 +38,41 @@ public class ArquivoDAO extends GenericDao<Integer, Arquivo> {
 			
 			Query query = session.createQuery(hql);
 			query.setParameter("nomeSistemaArquivo", nomeSistemaArquivo);
+			
+			arquivo = (Arquivo) query.uniqueResult();
+	        
+		} catch (HibernateException hibernateException) {
+			
+			session.getTransaction().rollback();
+			
+			throw new SQLExceptionNutrIF(hibernateException);
+			
+		} finally {
+		
+			session.close();
+		}
+		
+		return arquivo;		
+	}
+	
+	public Arquivo getImagemPerfilByIdAluno(int idAluno) {
+		
+		Arquivo arquivo = null;
+
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		
+		try {
+			
+			String hql = "from Arquivo as a"
+					+ " where a.submetedor.id = :id"
+					+ " and a.tipoArquivo = :tipoArquivo"
+					+ " and a.ativo = :ativo"
+					+ " order by a.registro DESC";
+			
+			Query query = session.createQuery(hql);
+			query.setParameter("id", idAluno);
+			query.setParameter("tipoArquivo", TipoArquivo.ARQUIVO_FOTO_PERFIL);
+			query.setParameter("ativo", BancoUtil.ATIVO);
 			
 			arquivo = (Arquivo) query.uniqueResult();
 	        

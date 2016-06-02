@@ -40,10 +40,13 @@ public class Refeicao implements DataEntity {
 	
 	@Column(name = "hr_pretensao")
 	@Temporal(TemporalType.TIME)
-	private Date horaPretensao;
+	private Date horaPretensao;	
 	
 	@Column(name = "nr_dia_previsto_pretensao", columnDefinition = "int default 1")
 	private int diaPrevistoPretensao;
+	
+	@Column(name = "is_previsto_pretensao", columnDefinition = "tinyint default false")
+	private boolean isPrevistoPretensao;
 
 	public Refeicao() {
 		super();
@@ -103,12 +106,20 @@ public class Refeicao implements DataEntity {
 		this.diaPrevistoPretensao = diaPrevistoPretensao;
 	}
 	
+	@XmlElement
+	public boolean isPrevistoPretensao() {
+		return isPrevistoPretensao;
+	}
+
+	public void setPrevistoPretensao(boolean isPrevistoPretensao) {
+		this.isPrevistoPretensao = isPrevistoPretensao;
+	}
+	
 	@Override
 	public String toString() {
 		return "Refeicao [id=" + id + ", tipo=" + tipo + ", horaInicio=" 
 				+ horaInicio + ", horaFim=" + horaFinal + ", horaPretensao="
-				+ horaPretensao +"]";
+				+ horaPretensao + ", diPrevistoPretensao=" + diaPrevistoPretensao 
+				+ ", isPrevistoPretensao=" + isPrevistoPretensao + "]";
 	}
-
-	
 }
