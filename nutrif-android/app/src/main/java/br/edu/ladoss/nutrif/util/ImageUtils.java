@@ -6,6 +6,8 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * Created by juan on 12/05/16.
@@ -23,6 +25,24 @@ public class ImageUtils {
         } else
             return null;
 
+    }
+
+    public static byte[] inputToByte(InputStream inputStream){
+        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+
+        int nRead;
+        byte[] data = new byte[16384];
+
+        try {
+            while ((nRead = inputStream.read(data, 0, data.length)) != -1) {
+                buffer.write(data, 0, nRead);
+            }
+            buffer.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return buffer.toByteArray();
     }
 
 
