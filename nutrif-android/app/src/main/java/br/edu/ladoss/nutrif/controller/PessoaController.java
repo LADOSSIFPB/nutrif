@@ -8,6 +8,7 @@ import com.squareup.okhttp.RequestBody;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 
 import br.edu.ladoss.nutrif.R;
 import br.edu.ladoss.nutrif.database.dao.AlunoDAO;
@@ -17,7 +18,9 @@ import br.edu.ladoss.nutrif.entitys.Pessoa;
 import br.edu.ladoss.nutrif.entitys.input.ConfirmationKey;
 import br.edu.ladoss.nutrif.entitys.output.Erro;
 import br.edu.ladoss.nutrif.network.ConnectionServer;
+import br.edu.ladoss.nutrif.util.AndroidUtil;
 import br.edu.ladoss.nutrif.util.ErrorUtils;
+import br.edu.ladoss.nutrif.util.ImageUtils;
 import br.edu.ladoss.nutrif.util.PreferencesUtils;
 import okhttp3.MultipartBody;
 import okhttp3.ResponseBody;
@@ -26,6 +29,8 @@ import retrofit.Callback;
 import retrofit.GsonConverterFactory;
 import retrofit.Response;
 import retrofit.Retrofit;
+
+import static br.edu.ladoss.nutrif.R.string.e;
 
 /**
  * Created by juan on 21/03/16.
@@ -47,7 +52,7 @@ public class PessoaController {
                         pessoa.setId(response.body().getId());
                         pessoa.setNome(response.body().getNome());
                         pessoa.setKeyAuth(response.body().getKeyAuth());
-                        if (PessoaController.salvaPessoa(context, pessoa))
+                        if (PessoaController.salvaPessoa(context, pessoa) && PessoaController.downloadPhoto(context))
                             ui.onSuccess(response.body());
                         else
                             ui.failCommunication(new Throwable());
@@ -138,21 +143,20 @@ public class PessoaController {
         }).start();
     }
 
-    public static void uploadPhoto(final Context context, final Replyable<Aluno> ui, final File file){
+    public static void uploadPhoto(final Context context, final Replyable<Aluno> ui, final File file) {
 
         RequestBody uploadedFile = RequestBody.create(MediaType.parse("image/*"), file);
         RequestBody fileName = RequestBody.create(MediaType.parse("text/plain"), file.getName());
         int idPessoa = AlunoDAO.getInstance(context).find().getId();
 
-        Call<Void> call = ConnectionServer.getInstance().getService().upload(fileName,uploadedFile,idPessoa);
+        Call<Void> call = ConnectionServer.getInstance().getService().upload(fileName, uploadedFile, idPessoa);
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Response<Void> response, Retrofit retrofit) {
-                if(response.isSuccess()){
+                if (response.isSuccess()) {
                     ui.onSuccess(null);
-                }
-                else {
-                    ui.onFailure(ErrorUtils.parseError(response,retrofit,context));
+                } else {
+                    ui.onFailure(ErrorUtils.parseError(response, retrofit, context));
                 }
             }
 
@@ -161,6 +165,26 @@ public class PessoaController {
                 ui.failCommunication(t);
             }
         });
+    }
+
+    public static boolean downloadPhoto(final Context context) {
+        Call<com.squareup.okhttp.ResponseBody> call = ConnectionServer.getInstance().getService().download(
+                AlunoDAO.getInstance(context).find().getId().toString()
+        );
+        try {
+            Response<com.squareup.okhttp.ResponseBody> response = call.execute();
+            if (response.isSuccess()) {
+
+                InputStream input = response.body().byteStream();
+                AlunoDAO.getInstance(context).updatePhoto(ImageUtils.byteToDrawable(ImageUtils.inputToByte(input)));
+            }
+            else{
+                return false;
+            }
+        } catch (IOException e) {
+            return false;
+        }
+        return true;
     }
 
     public static void validar(final ConfirmationKey key, final Context context, final Replyable<Aluno> ui) {
