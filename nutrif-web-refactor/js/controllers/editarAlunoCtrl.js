@@ -51,8 +51,12 @@ angular.module('NutrifApp').controller('editarAlunoCtrl', function ($scope, alun
             for (var i = 0; i < _length; i++) {
                 diaRefeicaoService.removerRefeicao(selected[i])
                     .success(function functionName() {
-                        if (i === _length - 1) {
-                            $state.transitionTo('home.editar-aluno', {reload: true});
+                        if (i >= _length) {
+                            $state.transitionTo($state.current, $stateParams, {
+                                reload: true,
+                                inherit: false,
+                                notify: true
+                            });
                         }
                     })
                     .error(function (data, status) {
@@ -131,12 +135,30 @@ function adicionarRefeicaoCtrl (refeicoes, aluno, $state, $stateParams, userServ
     $scope.aluno = aluno;
 
     $scope.hide = function(refeicao) {
-        $mdDialog.hide();
-        refeicao.funcionario = userService.getUser();
-        refeicao.aluno = $scope.aluno;
-        diaRefeicaoService.cadastrarRefeicao(refeicao)
-            .success(onSuccessCallback)
-            .error(onErrorCallback);
+        
+        var encontrarRefeicao = function (element, index, array) {
+            if (element.refeicao.id === parseInt(refeicao.refeicao.id) && element.dia.id === parseInt(refeicao.dia.id)) {
+                return true;
+            }
+            return false;
+        }
+
+        if ($scope.refeicoes.findIndex(encontrarRefeicao) > -1) {
+            $mdToast.show(
+                $mdToast.simple()
+                .textContent('Um aluno não pode possuir duas refeições iguais no mesmo dia')
+                .position('top right')
+                .action('OK')
+                .hideDelay(6000)
+            );
+        } else {
+            $mdDialog.hide();
+            refeicao.funcionario = userService.getUser();
+            refeicao.aluno = $scope.aluno;
+            diaRefeicaoService.cadastrarRefeicao(refeicao)
+                .success(onSuccessCallback)
+                .error(onErrorCallback);
+        }
     };
 
     function onSuccessCallback (data, status) {
