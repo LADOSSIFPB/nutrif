@@ -48,7 +48,7 @@ public class RefeicaoRealizadaController {
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
 		builder.expires(new Date());
 		
-		// Validaïção dos dados de entrada.
+		// Validação dos dados de entrada.
 		int validacao = Validate.refeicaoRealizada(refeicaoRealizada);
 		
 		if (validacao == Validate.VALIDATE_OK) {
@@ -66,10 +66,12 @@ public class RefeicaoRealizadaController {
 					// Data e hora atual.
 					Date agora = new Date();
 					
+					// Pretensão
 					PretensaoRefeicao pretensaoRefeicao = PretensaoRefeicaoDAO
 							.getInstance().getPretensaoRefeicaoByDiaRefeicao(
 									idDiaRefeicao, agora);
 					
+					// Analise para lançamento obrigatório da prentesão.
 					if ((!diaRefeicao.getRefeicao().isPrevistoPretensao() 
 							&& pretensaoRefeicao == null) ||
 							(!diaRefeicao.getRefeicao().isPrevistoPretensao() 
@@ -105,7 +107,10 @@ public class RefeicaoRealizadaController {
 					
 					} else {
 						
-						//TODO: Mensagem de pretensão obrigatória.
+						// Mensagem de pretensão obrigatória.
+						builder.status(Response.Status.NOT_ACCEPTABLE).entity(
+								ErrorFactory.getErrorFromIndex(
+										ErrorFactory.PRETENSAO_REFEICAO_NAO_ENCONTRADA));
 					}					
 					
 				} else {

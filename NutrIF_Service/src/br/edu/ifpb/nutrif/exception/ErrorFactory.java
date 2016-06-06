@@ -82,6 +82,7 @@ public class ErrorFactory {
 	public static final int NOME_ARQUIVO_INVALIDO = 31;
 	public static final int TAMANHO_ARQUIVO_INVALIDO = 32;
 	public static final int FORMULARIO_ARQUIVO_INVALIDO = 33;
+	public static final int ARQUIVO_PERFIL_INVALIDO = 34;
 	
 	/*
 	 * Mapa de erros: código e mensagem.
@@ -123,7 +124,9 @@ public class ErrorFactory {
 		hashMap.put(ID_PESSOA_INVALIDO, "Identificador da pessoa inválido.");
 		hashMap.put(TAMANHO_ARQUIVO_INVALIDO, "Tamanho do arquivo inválido.");
 		hashMap.put(FORMULARIO_ARQUIVO_INVALIDO, "Formulário com dados da submissão do inválido.");
-		hashMap.put(MATRICULA_ALUNO_DUPLICADA, "Matrícula do aluno duplicada.");		
+		hashMap.put(MATRICULA_ALUNO_DUPLICADA, "Matrícula do aluno duplicada.");
+		hashMap.put(ARQUIVO_PERFIL_INVALIDO, "Arquivo do perfil não encontrado.");
+		
 		
 		return hashMap;
 	}

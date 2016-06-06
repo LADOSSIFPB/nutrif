@@ -55,7 +55,7 @@ public class ArquivoDAO extends GenericDao<Integer, Arquivo> {
 		return arquivo;		
 	}
 	
-	public Arquivo getImagemPerfilByIdAluno(int idAluno) {
+	public Arquivo getImagemPerfilByIdAluno(int idAluno) throws SQLExceptionNutrIF {
 		
 		Arquivo arquivo = null;
 
@@ -69,7 +69,8 @@ public class ArquivoDAO extends GenericDao<Integer, Arquivo> {
 					+ " and a.ativo = :ativo"
 					+ " order by a.registro DESC";
 			
-			Query query = session.createQuery(hql);
+			Query query = session.createQuery(hql)
+					.setMaxResults(1);
 			query.setParameter("id", idAluno);
 			query.setParameter("tipoArquivo", TipoArquivo.ARQUIVO_FOTO_PERFIL);
 			query.setParameter("ativo", BancoUtil.ATIVO);

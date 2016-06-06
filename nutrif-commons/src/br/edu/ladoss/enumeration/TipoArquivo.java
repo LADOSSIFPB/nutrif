@@ -10,9 +10,12 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlEnum
 public enum TipoArquivo implements Serializable {
 	
-	// Tipo Arquivo de Projeto
-	@XmlEnumValue("1") ARQUIVO_FOTO_PERFIL (1);	
+	// Tipo Arquivo de Foto do Perfil
+	@XmlEnumValue("1") ARQUIVO_FOTO_PERFIL (1),	
 
+	// Tipo Arquivo de Foto do Perfil
+	@XmlEnumValue("2") ARQUIVO_REFEICAO_ALMOCO (2);
+		
 	private final int id;
 
 	TipoArquivo(int id) {
