@@ -233,10 +233,9 @@ public class RefeitorioActivity extends AppCompatActivity implements RecycleButt
 
     @Override
     public boolean onProfileImageClick(View view, IProfile profile, boolean current) {
-        //Aluno aluno = AlunoDAO.getInstance(this).find();
-        // if(aluno.getPhoto() == null)
-        tirarPhoto();
-        //AndroidUtil.showSnackbar(this,"Essa função ainda está em desenvolvimento. Aguarde novas atualizações.");
+        Aluno aluno = AlunoDAO.getInstance(this).find();
+        if(aluno.getPhoto() == null)
+            tirarPhoto();
         return true;
     }
 

@@ -41,6 +41,7 @@ public class PessoaController {
         new Thread(new Runnable() {
             @Override
             public void run() {
+
                 Call<Pessoa> call = ConnectionServer
                         .getInstance()
                         .getService()
@@ -145,11 +146,13 @@ public class PessoaController {
 
     public static void uploadPhoto(final Context context, final Replyable<Aluno> ui, final File file) {
 
+        String auth = PreferencesUtils.getAccessKeyOnSharedPreferences(context);
+
         RequestBody uploadedFile = RequestBody.create(MediaType.parse("image/*"), file);
         RequestBody fileName = RequestBody.create(MediaType.parse("text/plain"), file.getName());
         int idPessoa = AlunoDAO.getInstance(context).find().getId();
 
-        Call<Void> call = ConnectionServer.getInstance().getService().upload(fileName, uploadedFile, idPessoa);
+        Call<Void> call = ConnectionServer.getInstance().getService().upload(auth, fileName, uploadedFile, idPessoa);
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Response<Void> response, Retrofit retrofit) {
@@ -168,7 +171,10 @@ public class PessoaController {
     }
 
     public static boolean downloadPhoto(final Context context) {
+        String auth = PreferencesUtils.getAccessKeyOnSharedPreferences(context);
+
         Call<com.squareup.okhttp.ResponseBody> call = ConnectionServer.getInstance().getService().download(
+                auth,
                 AlunoDAO.getInstance(context).find().getId().toString()
         );
         try {
@@ -177,9 +183,6 @@ public class PessoaController {
 
                 InputStream input = response.body().byteStream();
                 AlunoDAO.getInstance(context).updatePhoto(ImageUtils.byteToDrawable(ImageUtils.inputToByte(input)));
-            }
-            else{
-                return false;
             }
         } catch (IOException e) {
             return false;
