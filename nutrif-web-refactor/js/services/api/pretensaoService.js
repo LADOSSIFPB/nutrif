@@ -10,8 +10,14 @@ angular.module("NutrifApp").factory("pretensaoService", function($http, config){
 		return $http.post(_path + "/inserir", pretensao);
 	};
 
+	var _verifyChaveAcesso = function(code){
+		var pretensao = {keyAccess: code};
+		return $http.post(_path + "/chaveacesso/verificar", pretensao);
+	};
+
 	return {
 		verifyDiaRefeicao : _verifyDiaRefeicao,
+		verifyChaveAcesso: _verifyChaveAcesso,
 		insertPretensao: _insertPretensao
 	};
 

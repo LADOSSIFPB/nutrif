@@ -39,6 +39,15 @@ angular.module('NutrifApp').config(function ($stateProvider, $urlRouterProvider)
 			module: 'inspetor'
 	  	})
 
+		.state('home.qrcode', {
+		    url: '/qrcode',
+			title: 'Entrada de Alunos',
+		    templateUrl: 'view/manager/entrada-qrcode.html',
+			controller: 'entradaQrCtrl',
+            controllerAs: 'qr',
+			module: 'inspetor'
+	  	})
+
 		.state('home.adicionar-alunos', {
 		    url: '/adicionar',
 			title: 'Adicionar Alunos',
