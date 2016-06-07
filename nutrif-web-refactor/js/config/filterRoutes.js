@@ -34,10 +34,10 @@ angular.module('NutrifApp').run(function($rootScope, $state, userService) {
                 $state.go("home.entrada-alunos");
             }
 
-            /*if(toState.module != 'comensal' && _user.roles.find(findRoleComensal)){
+            if(toState.module != 'comensal' && _user.roles.find(findRoleComensal)){
                 event.preventDefault();
-                $state.go("lista-pretensao");
-            }*/
+                $state.go("pretensao.home");
+            }
 
         } else {
 
