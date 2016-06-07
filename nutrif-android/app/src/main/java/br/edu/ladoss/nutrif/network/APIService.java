@@ -58,12 +58,14 @@ public interface APIService {
                                          @Body PretensaoRefeicao refeicao);
     @Multipart
     @POST("arquivo/upload/ARQUIVO_FOTO_PERFIL")
-     Call<Void> upload(@Part("fileName") RequestBody fileName,
+     Call<Void> upload(@Header("Authorization") String accessKey,
+                       @Part("fileName") RequestBody fileName,
                        @Part("uploadedFile") RequestBody file ,
                        @Part("idPessoa") int idPessoa);
 
     @GET("arquivo/download/perfil/aluno/{id}")
     @Streaming
-    Call<ResponseBody> download(@Path("id")String id);
+    Call<ResponseBody> download(@Header("Authorization") String accessKey,
+                                @Path("id")String id);
 
 }
