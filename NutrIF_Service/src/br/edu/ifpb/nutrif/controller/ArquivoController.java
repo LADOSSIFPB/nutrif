@@ -263,43 +263,39 @@ public class ArquivoController {
 		
 		if (validacao == Validate.VALIDATE_OK) {
 			
-			// Recuperar arquivo da imagem do perfil do aluno.
-			Arquivo arquivo = ArquivoDAO.getInstance().getImagemPerfilByIdAluno(
-					idAluno);
+			try {				
 			
-			if (arquivo != null) {
+				// Recuperar registro persistente do arquivo da imagem para o perfil do aluno.
+				Arquivo arquivo = ArquivoDAO.getInstance().getImagemPerfilByIdAluno(
+						idAluno);
 				
-				final InputStream is = FileUtil.readFile(TipoArquivo.ARQUIVO_FOTO_PERFIL,
-						arquivo.getNomeSistemaArquivo());
-
-				stream = new StreamingOutput() {
-
-					public void write(OutputStream output) 
-							throws IOException, WebApplicationException {
-
-						try {
-							
-							output.write(IOUtils.toByteArray(is));
-							
-						} catch (Exception e) {
-							
-							throw new WebApplicationException(e);
-						}
-					}
-				};
+				if (arquivo != null) {
+	
+					stream = FileUtil.readStreamingOutput(TipoArquivo.ARQUIVO_FOTO_PERFIL,
+							arquivo.getNomeSistemaArquivo());
+					
+					// Arquivo para envio.
+					builder.entity(stream)
+						.status(Response.Status.OK)
+						.type(MediaType.APPLICATION_OCTET_STREAM)
+						.header("content-disposition", 
+								"attachment; filename=\"" 
+										+ arquivo.getNomeSistemaArquivo() + "\"");
+					
+				} else {
+					
+					// Arquivo inexistente.
+					builder.status(Response.Status.NOT_FOUND)
+						.type(MediaType.APPLICATION_JSON)
+						.entity(ErrorFactory.getErrorFromIndex(
+									ErrorFactory.ARQUIVO_PERFIL_INVALIDO));
+				}
+			
+			} catch (SQLExceptionNutrIF exception) {
 				
-				// Arquivo para envio.
-				builder.entity(stream)
-					.status(Response.Status.OK)
-					.type(MediaType.APPLICATION_OCTET_STREAM)
-					.header("content-disposition", 
-							"attachment; filename=\"" 
-									+ arquivo.getNomeSistemaArquivo() + "\"");
-				
-			} else {
-				
-				// Arquivo inexistente.
-				builder.status(Response.Status.NOT_FOUND);
+				builder.status(Response.Status.INTERNAL_SERVER_ERROR)
+					.type(MediaType.APPLICATION_JSON)
+					.entity(exception.getError());
 			}
 		}
 		

@@ -1,4 +1,4 @@
-angular.module('NutrifApp').controller('editarAlunoCtrl', function ($scope, alunoService, diaRefeicaoService, cursoService, $stateParams, $state, $mdToast) {
+angular.module('NutrifApp').controller('editarAlunoCtrl', function ($scope, alunoService, diaRefeicaoService, cursoService, $stateParams, $state, $mdToast, $mdDialog) {
 
     $scope.selected = [];
     $scope.cursos = [];
@@ -22,6 +22,20 @@ angular.module('NutrifApp').controller('editarAlunoCtrl', function ($scope, alun
             .error(onErrorCallback);
     }
 
+    $scope.adicionaRefeicao = function () {
+        $mdDialog.show({
+            controller: adicionarRefeicaoCtrl,
+            templateUrl: 'view/manager/modals/modal-confirmar-refeicao.html',
+            parent: angular.element(document.body),
+            clickOutsideToClose:true,
+            fullscreen: false,
+            locals : {
+                refeicoes: $scope.refeicoes,
+                aluno: $scope.aluno
+            }
+        }).then(function() {}, function() {});
+    }
+
     $scope.apagarAlunos = function (selected) {
         if (selected.length === 0) {
             $mdToast.show(
@@ -32,11 +46,18 @@ angular.module('NutrifApp').controller('editarAlunoCtrl', function ($scope, alun
                 .hideDelay(6000)
             );
         } else {
-            var _length = selected.length;
+            var _length = angular.copy(selected.length);
+            var _selected = angular.copy(selected);
             for (var i = 0; i < _length; i++) {
                 diaRefeicaoService.removerRefeicao(selected[i])
                     .success(function functionName() {
-                        $scope.refeicoes.splice($scope.refeicoes.indexOf(selected[i]));
+                        if (i >= _length) {
+                            $state.transitionTo($state.current, $stateParams, {
+                                reload: true,
+                                inherit: false,
+                                notify: true
+                            });
+                        }
                     })
                     .error(function (data, status) {
 
@@ -105,3 +126,96 @@ angular.module('NutrifApp').controller('editarAlunoCtrl', function ($scope, alun
     carregamentoInicial();
 
 });
+
+function adicionarRefeicaoCtrl (refeicoes, aluno, $state, $stateParams, userService, $scope, $mdDialog, $mdToast, diaRefeicaoService, refeicaoService, diaService) {
+
+    $scope.tiposRefeicao = [];
+    $scope.dias = [];
+    $scope.refeicoes = refeicoes;
+    $scope.aluno = aluno;
+
+    $scope.hide = function(refeicao) {
+        
+        var encontrarRefeicao = function (element, index, array) {
+            if (element.refeicao.id === parseInt(refeicao.refeicao.id) && element.dia.id === parseInt(refeicao.dia.id)) {
+                return true;
+            }
+            return false;
+        }
+
+        if ($scope.refeicoes.findIndex(encontrarRefeicao) > -1) {
+            $mdToast.show(
+                $mdToast.simple()
+                .textContent('Um aluno não pode possuir duas refeições iguais no mesmo dia')
+                .position('top right')
+                .action('OK')
+                .hideDelay(6000)
+            );
+        } else {
+            $mdDialog.hide();
+            refeicao.funcionario = userService.getUser();
+            refeicao.aluno = $scope.aluno;
+            diaRefeicaoService.cadastrarRefeicao(refeicao)
+                .success(onSuccessCallback)
+                .error(onErrorCallback);
+        }
+    };
+
+    function onSuccessCallback (data, status) {
+        $mdToast.show(
+            $mdToast.simple()
+            .textContent('Refeição adicionada com sucesso')
+            .position('top right')
+            .action('OK')
+            .hideDelay(6000)
+        );
+        atualizarState();
+    }
+
+    function onErrorCallback (data, status){
+        var _message = '';
+        if (!data) {
+            _message = 'Erro no servidor, por favor chamar administração ou suporte.'
+        } else {
+            _message = data.mensagem
+        }
+
+        $mdToast.show(
+            $mdToast.simple()
+            .textContent(_message)
+            .position('top right')
+            .action('OK')
+            .hideDelay(6000)
+        );
+    }
+
+    $scope.cancel = function() {
+        $mdDialog.cancel();
+    };
+
+    function atualizarState() {
+        $state.transitionTo($state.current, $stateParams, {
+            reload: true,
+            inherit: false,
+            notify: true
+        });
+    }
+
+    function carregamentoInicial() {
+
+        diaService.listarDias()
+            .success(function (data, status) {
+                $scope.dias = data;
+            })
+            .error(onErrorCallback);
+
+        refeicaoService.listarRefeicoes()
+            .success(function (data, status) {
+                $scope.tiposRefeicao = data;
+            })
+            .error(onErrorCallback);
+    }
+
+    carregamentoInicial();
+
+};

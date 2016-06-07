@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -13,6 +14,10 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.StreamingOutput;
+
+import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -46,6 +51,7 @@ public class FileUtil {
 
 	private static Map<TipoArquivo, String> diretorios = new HashMap<TipoArquivo, String>()  {{
 	    put(TipoArquivo.ARQUIVO_FOTO_PERFIL, PERFIL_PATH);
+	    put(TipoArquivo.ARQUIVO_REFEICAO_ALMOCO, PERFIL_PATH);
 	}};
 	
 	/**
@@ -106,6 +112,30 @@ public class FileUtil {
 		}		
 		
 		return in;
+	}
+	
+	public static StreamingOutput readStreamingOutput(TipoArquivo tipoArquivo, 
+			String fileName) {
+		
+		final InputStream is = FileUtil.readFile(tipoArquivo, fileName);
+
+		StreamingOutput stream = new StreamingOutput() {
+
+			public void write(OutputStream output) 
+					throws IOException, WebApplicationException {
+
+				try {
+					
+					output.write(IOUtils.toByteArray(is));
+					
+				} catch (Exception e) {
+					
+					throw new WebApplicationException(e);
+				}
+			}
+		};
+		
+		return stream;		
 	}
 	
 	public static String getNomeSistemaArquivo(String prefix, String extension) {
