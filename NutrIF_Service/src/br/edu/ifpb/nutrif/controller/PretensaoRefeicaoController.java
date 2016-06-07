@@ -14,6 +14,9 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
@@ -33,6 +36,7 @@ import br.edu.ladoss.entity.ConfirmaPretensaoDia;
 import br.edu.ladoss.entity.ConfirmaRefeicaoDia;
 import br.edu.ladoss.entity.DiaRefeicao;
 import br.edu.ladoss.entity.Error;
+import br.edu.ladoss.entity.MapaPretensaoRefeicao;
 import br.edu.ladoss.entity.PretensaoRefeicao;
 import br.edu.ladoss.entity.Refeicao;
 import br.edu.ladoss.entity.RefeicaoRealizada;
@@ -292,6 +296,9 @@ public class PretensaoRefeicaoController {
 				
 				if (idRefeicaoRealizada != BancoUtil.IDVAZIO) {
 					
+					int status = openDoorPostRequest();
+                    logger.info("Catra ca: " + status);
+                    
 					builder.status(Response.Status.OK);				
 				}
 				
@@ -309,6 +316,58 @@ public class PretensaoRefeicaoController {
 		}
 		
 		return builder.build();
+	}
+	
+	public int openDoorPostRequest() {
+		
+		Client client = ClientBuilder.newClient();
+		Response response = client.target("http://192.168.2.110:8080/IFOpenDoors_SERVICE/room/open")
+				.request().post(Entity.json("{\"person\":{\"id\":1}, \"room\":{\"id\":1}}"));
+		
+		return response.getStatus(); 
+	}
+	
+	@PermitAll
+	@POST
+	@Path("/mapa/consultar")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public Response getMapaPretensaoRefeicao(
+			MapaPretensaoRefeicao mapaPretensaoRefeicao) {
+		
+		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
+		builder.expires(new Date());
+		
+		// Validação dos dados de entrada.
+		int validacao = Validate.VALIDATE_OK; //TODO: Validate.pretensaoRefeicao(pretensaoRefeicao);
+		
+		if (validacao == Validate.VALIDATE_OK) {
+			
+			try {			
+				
+				List<PretensaoRefeicao> pretensoesRefeicoes = PretensaoRefeicaoDAO
+						.getInstance().getMapaPretensaoRefeicao(
+								mapaPretensaoRefeicao);
+				
+				mapaPretensaoRefeicao.setPretensoesRefeicoes(pretensoesRefeicoes);
+				
+				builder.status(Response.Status.OK).entity(
+						mapaPretensaoRefeicao);
+				
+			
+			} catch (SQLExceptionNutrIF exception) {
+
+				builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
+						exception.getError());			
+			}
+			
+		} else {
+			
+			Error erro = ErrorFactory.getErrorFromIndex(validacao);
+			builder.status(Response.Status.NOT_ACCEPTABLE).entity(erro);
+		}
+		
+		return builder.build();	
 	}
 	
 	@DenyAll	

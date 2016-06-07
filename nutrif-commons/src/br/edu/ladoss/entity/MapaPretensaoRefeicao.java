@@ -7,23 +7,23 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "mapaRefeicoesRealizadas")
-public class MapaRefeicoesRealizadas {
+public class MapaPretensaoRefeicao {
 	
-	private List<RefeicaoRealizada> refeicoesRealizadas;
+	private List<PretensaoRefeicao> pretensoesRefeicoes;
 	
 	private Refeicao refeicao;
 	
 	private Dia dia;
 
-	private Date dataRefeicao;
+	private Date dataPretensao;
 
 	@XmlElement
-	public List<RefeicaoRealizada> getRefeicoesRealizadas() {
-		return refeicoesRealizadas;
+	public List<PretensaoRefeicao> getPretensoesRefeicoes() {
+		return pretensoesRefeicoes;
 	}
 
-	public void setRefeicoesRealizadas(List<RefeicaoRealizada> refeicoesRealizadas) {
-		this.refeicoesRealizadas = refeicoesRealizadas;
+	public void setPretensoesRefeicoes(List<PretensaoRefeicao> pretensoesRefeicoes) {
+		this.pretensoesRefeicoes = pretensoesRefeicoes;
 	}
 
 	@XmlElement
@@ -45,19 +45,19 @@ public class MapaRefeicoesRealizadas {
 	}
 	
 	@XmlElement
-	public Date getDataRefeicao() {
-		return dataRefeicao;
+	public Date getDataPretensao() {
+		return dataPretensao;
 	}
 
-	public void setDataRefeicao(Date dataRefeicao) {
-		this.dataRefeicao = dataRefeicao;
+	public void setDataPretensao(Date dataPretensao) {
+		this.dataPretensao = dataPretensao;
 	}
 	
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return "MapaRefeicoesRealizadas[refeicao=" + refeicao 
+		return "MapaPretensaoRefeicao[refeicao=" + refeicao 
 				+ ", dia=" + dia 
-				+ ", dataRefeicao=" + dataRefeicao + "]";
+				+ ", dataRefeicao=" + dataPretensao + "]";
 	}	
 }

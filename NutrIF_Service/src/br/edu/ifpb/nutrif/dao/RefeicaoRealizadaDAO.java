@@ -13,7 +13,7 @@ import org.hibernate.Session;
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
 import br.edu.ifpb.nutrif.hibernate.HibernateUtil;
 import br.edu.ladoss.entity.Dia;
-import br.edu.ladoss.entity.MapaRefeicoesRealizadas;
+import br.edu.ladoss.entity.MapaRefeicaoRealizada;
 import br.edu.ladoss.entity.Refeicao;
 import br.edu.ladoss.entity.RefeicaoRealizada;
 
@@ -65,7 +65,7 @@ public class RefeicaoRealizadaDAO extends GenericDao<Integer, RefeicaoRealizada>
 	}
 	
 	public List<RefeicaoRealizada> getMapaRefeicoesRaelizadas(
-			MapaRefeicoesRealizadas mapaRefeicoesRealizadas) {
+			MapaRefeicaoRealizada mapaRefeicoesRealizadas) {
 		
 		Session session = HibernateUtil.getSessionFactory().openSession();
 
