@@ -16,8 +16,19 @@ angular.module("NutrifApp").controller("listarPretensaoCtrl", function ($scope, 
                     locals : {
                         pretensao: data
                     }
-                }).then(function(data) {
-                    console.log(data);
+                }).then(function(code) {
+                    $mdDialog.show({
+                        controller: generateQrCtrl,
+                        templateUrl: 'view/manager/modals/modal-show-qrcode.html',
+                        parent: angular.element(document.body),
+                        clickOutsideToClose:true,
+                        fullscreen: false,
+                        locals : {
+                            code: code
+                        }
+                    }).then(function(data) {
+
+                    }, function() {})
                 }, function() {});
             })
             .error(onErrorCallback);
@@ -26,7 +37,7 @@ angular.module("NutrifApp").controller("listarPretensaoCtrl", function ($scope, 
     var carregarDiaRefeicaoAluno = function () {
 
         var _matricula = userService.getUser().matricula;
-        
+
         diaRefeicaoService.listaRefeicaoPorMatricula(_matricula)
             .success(function (data, status) {
                 $scope.refeicoes = data;
@@ -63,10 +74,13 @@ function confirmarPretensaoCtrl (pretensao, $scope, $mdDialog, $mdToast, pretens
     $scope.refeicao = pretensao.confirmaPretensaoDia.diaRefeicao;
 
     $scope.hide = function() {
-        
-        pretensaoService.insertPretensao($scope.pretensao)
-            .success(onSuccessCallback)
-            .error(onErrorCallback);
+        if (typeof($scope.pretensao.keyAccess) != "undefined")
+            $mdDialog.hide($scope.pretensao);
+        else {
+            pretensaoService.insertPretensao($scope.pretensao)
+                .success(onSuccessCallback)
+                .error(onErrorCallback);
+        }
     };
 
     function onSuccessCallback (data, status) {
@@ -97,6 +111,20 @@ function confirmarPretensaoCtrl (pretensao, $scope, $mdDialog, $mdToast, pretens
             .hideDelay(6000)
         );
     }
+
+    $scope.cancel = function() {
+        $mdDialog.cancel();
+    };
+
+};
+
+function generateQrCtrl (code, $scope, $mdDialog) {
+
+    $scope.code = code.keyAccess;
+
+    $scope.hide = function() {
+        $mdDialog.hide();
+    };
 
     $scope.cancel = function() {
         $mdDialog.cancel();

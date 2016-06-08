@@ -1,4 +1,4 @@
-angular.module("NutrifApp").factory("pretensaoService", function($http, config){
+angular.module("NutrifApp").factory("pretensaoService", function($http, config, userService){
 
     var _path = config.baseUrl() + "/pretensaorefeicao";
 
@@ -18,7 +18,7 @@ angular.module("NutrifApp").factory("pretensaoService", function($http, config){
 	};
 
 	var _verifyChaveAcesso = function(code){
-		var pretensao = {keyAccess: code};
+		var pretensao = {funcionario: userService.getUser(), keyAccess: code};
 		return $http.post(_path + "/chaveacesso/verificar", pretensao);
 	};
 
