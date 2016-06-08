@@ -1,7 +1,6 @@
 package br.edu.ladoss.nutrif.entitys;
 
 import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 
 import br.edu.ladoss.nutrif.util.ImageUtils;
 
@@ -42,8 +41,8 @@ public class Aluno extends Pessoa {
     }
 
 
-    public void setPhoto(Drawable pictureData) {
-        photo = ImageUtils.drawableToByteArray(pictureData);
+    public void setPhoto(Bitmap pictureData) {
+        photo =  ImageUtils.BitmapToByteArray(pictureData);
     }
 
     public void setPhoto(byte[] photo){

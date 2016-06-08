@@ -1,7 +1,7 @@
 package br.edu.ladoss.nutrif.controller;
 
 import android.content.Context;
-import android.util.Log;
+import android.graphics.BitmapFactory;
 
 import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.RequestBody;
@@ -18,19 +18,14 @@ import br.edu.ladoss.nutrif.entitys.Pessoa;
 import br.edu.ladoss.nutrif.entitys.input.ConfirmationKey;
 import br.edu.ladoss.nutrif.entitys.output.Erro;
 import br.edu.ladoss.nutrif.network.ConnectionServer;
-import br.edu.ladoss.nutrif.util.AndroidUtil;
 import br.edu.ladoss.nutrif.util.ErrorUtils;
 import br.edu.ladoss.nutrif.util.ImageUtils;
 import br.edu.ladoss.nutrif.util.PreferencesUtils;
-import okhttp3.MultipartBody;
-import okhttp3.ResponseBody;
 import retrofit.Call;
 import retrofit.Callback;
 import retrofit.GsonConverterFactory;
 import retrofit.Response;
 import retrofit.Retrofit;
-
-import static br.edu.ladoss.nutrif.R.string.e;
 
 /**
  * Created by juan on 21/03/16.
@@ -53,8 +48,18 @@ public class PessoaController {
                         pessoa.setId(response.body().getId());
                         pessoa.setNome(response.body().getNome());
                         pessoa.setKeyAuth(response.body().getKeyAuth());
-                        if (PessoaController.salvaPessoa(context, pessoa) && PessoaController.downloadPhoto(context))
-                            ui.onSuccess(response.body());
+
+                        if (PessoaController.salvaPessoa(context, pessoa)){
+                            Aluno aluno = AlunoDAO.getInstance(context).findPhoto();
+                            boolean hasPhoto = aluno.getPhoto() != null;
+                            if(!hasPhoto){
+                                hasPhoto = PessoaController.downloadPhoto(context);
+                            }
+                            if(hasPhoto)
+                                ui.onSuccess(response.body());
+                            else
+                                ui.failCommunication(new Throwable());
+                        }
                         else
                             ui.failCommunication(new Throwable());
                     } else {
@@ -180,9 +185,8 @@ public class PessoaController {
         try {
             Response<com.squareup.okhttp.ResponseBody> response = call.execute();
             if (response.isSuccess()) {
-
                 InputStream input = response.body().byteStream();
-                AlunoDAO.getInstance(context).updatePhoto(ImageUtils.byteToDrawable(ImageUtils.inputToByte(input)));
+                AlunoDAO.getInstance(context).updatePhoto(BitmapFactory.decodeStream(input));
             }
         } catch (IOException e) {
             return false;

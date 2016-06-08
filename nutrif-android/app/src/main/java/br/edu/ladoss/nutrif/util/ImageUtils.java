@@ -13,12 +13,11 @@ import java.io.InputStream;
  * Created by juan on 12/05/16.
  */
 public class ImageUtils {
-    public static byte[] drawableToByteArray(Drawable d) {
+    public static byte[] BitmapToByteArray(Bitmap imageBitmap) {
 
-        if (d != null) {
-            Bitmap imageBitmap = ((BitmapDrawable) d).getBitmap();
+        if (imageBitmap != null) {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+            imageBitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
             byte[] byteData = baos.toByteArray();
 
             return byteData;
@@ -27,30 +26,11 @@ public class ImageUtils {
 
     }
 
-    public static byte[] inputToByte(InputStream inputStream){
-        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
 
-        int nRead;
-        byte[] data = new byte[16384];
-
-        try {
-            while ((nRead = inputStream.read(data, 0, data.length)) != -1) {
-                buffer.write(data, 0, nRead);
-            }
-            buffer.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return buffer.toByteArray();
-    }
-
-
-    public static Drawable byteToDrawable(byte[] data) {
-
+    public static Bitmap byteArrayToBitmap(byte[] data) {
         if (data == null)
             return null;
         else
-            return new BitmapDrawable(BitmapFactory.decodeByteArray(data, 0, data.length));
+            return BitmapFactory.decodeByteArray(data, 0, data.length);
     }
 }
