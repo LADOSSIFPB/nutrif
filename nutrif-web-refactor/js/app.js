@@ -1,1 +1,1 @@
-angular.module('NutrifApp', ['angular-loading-bar', 'qrScanner', 'ngMaterial', 'ui.router', 'ngCookies', 'md.data.table']);
+angular.module('NutrifApp', ['angular-loading-bar', 'ja.qr', 'qrScanner', 'ngMaterial', 'ui.router', 'ngCookies', 'md.data.table']);

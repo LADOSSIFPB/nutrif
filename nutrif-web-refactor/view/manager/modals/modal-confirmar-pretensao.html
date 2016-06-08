@@ -1,0 +1,39 @@
+<md-dialog aria-label="Confirmar solicitação de refeição"  ng-cloak>
+    <md-dialog-content>
+        <div class="md-dialog-content">
+            <h2>Deseja realmente solicitar essa refeição?</h2>
+            <md-card>
+                <md-table-container>
+                    <table md-table>
+                        <thead md-head>
+                            <tr md-row>
+                                <th md-column>Nome Completo</th>
+                                <th md-column>Matrícula</th>
+                                <th md-column>Tipo da Refeição</th>
+                                <th md-column>Dia de Refeição</th>
+                            </tr>
+                        </thead>
+                        <tbody md-body>
+                            <tr md-row>
+                                <td md-cell>{{refeicao.aluno.nome | uppercase}}</td>
+                                <td md-cell>{{refeicao.aluno.matricula}}</td>
+                                <td md-cell>{{refeicao.refeicao.tipo  | uppercase}}</td>
+                                <td md-cell>{{refeicao.dia.nome | uppercase}}</td>
+                            </tr>
+                        </tbody>
+
+                    </table>
+                </md-table-container>
+            </md-card>
+        </div>
+    </md-dialog-content>
+    <md-dialog-actions layout="row">
+        <span flex></span>
+        <md-button ng-click="cancel()" class="md-warn">
+            Cancelar
+        </md-button>
+        <md-button ng-click="hide()" class="md-primary" style="margin-right:20px;">
+            Confirmar
+        </md-button>
+    </md-dialog-actions>
+</md-dialog>

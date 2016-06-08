@@ -1,5 +1,6 @@
 package br.edu.ifpb.nutrif.dao;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -11,7 +12,10 @@ import org.hibernate.Session;
 
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
 import br.edu.ifpb.nutrif.hibernate.HibernateUtil;
+import br.edu.ladoss.entity.Dia;
+import br.edu.ladoss.entity.MapaPretensaoRefeicao;
 import br.edu.ladoss.entity.PretensaoRefeicao;
+import br.edu.ladoss.entity.Refeicao;
 
 public class PretensaoRefeicaoDAO extends GenericDao<Integer, PretensaoRefeicao>{
 	
@@ -137,6 +141,45 @@ public class PretensaoRefeicaoDAO extends GenericDao<Integer, PretensaoRefeicao>
 		}
 		
 		return pretensaoRefeicao;		
+	}
+	
+	public List<PretensaoRefeicao> getMapaPretensaoRefeicao(
+			MapaPretensaoRefeicao mapaPretensaoRefeicao) {
+		
+		Session session = HibernateUtil.getSessionFactory().openSession();
+
+		List<PretensaoRefeicao> refeicoesRealizadas = new ArrayList<PretensaoRefeicao>();
+		
+		try {
+			
+			Dia dia = mapaPretensaoRefeicao.getDia();
+			Refeicao refeicao = mapaPretensaoRefeicao.getRefeicao();
+			Date dataPretensao = mapaPretensaoRefeicao.getDataPretensao();
+			
+			String hql = "from PretensaoRefeicao as pr"
+					+ " where pr.confirmaPretensaoDia.diaRefeicao.dia.id = :dia"
+					+ " and pr.confirmaPretensaoDia.diaRefeicao.refeicao.id = :refeicao"
+					+ " and pr.confirmaPretensaoDia.dataPretensao = :dataPretensao";
+			
+			Query query = session.createQuery(hql);
+			query.setParameter("dia", dia.getId());
+			query.setParameter("refeicao", refeicao.getId());
+			query.setParameter("dataPretensao", dataPretensao);
+			
+			refeicoesRealizadas = (List<PretensaoRefeicao>) query.list();
+	        
+		} catch (HibernateException hibernateException) {
+			
+			session.getTransaction().rollback();
+			
+			throw new SQLExceptionNutrIF(hibernateException);
+			
+		} finally {
+		
+			session.close();
+		}
+		
+		return refeicoesRealizadas;		
 	}
 
 	@Override

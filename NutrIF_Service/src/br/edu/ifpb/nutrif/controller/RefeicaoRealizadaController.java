@@ -26,7 +26,7 @@ import br.edu.ladoss.entity.ConfirmaRefeicaoDia;
 import br.edu.ladoss.entity.DiaRefeicao;
 import br.edu.ladoss.entity.Error;
 import br.edu.ladoss.entity.Funcionario;
-import br.edu.ladoss.entity.MapaRefeicoesRealizadas;
+import br.edu.ladoss.entity.MapaRefeicaoRealizada;
 import br.edu.ladoss.entity.PretensaoRefeicao;
 import br.edu.ladoss.entity.RefeicaoRealizada;
 
@@ -193,7 +193,7 @@ public class RefeicaoRealizadaController {
 	@Consumes("application/json")
 	@Produces("application/json")
 	public Response getMapaRefeicoesRealizadas(
-			MapaRefeicoesRealizadas mapaRefeicoesRealizadas) {
+			MapaRefeicaoRealizada mapaRefeicoesRealizadas) {
 		
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
 		builder.expires(new Date());

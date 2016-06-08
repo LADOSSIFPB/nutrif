@@ -21,6 +21,8 @@ angular.module('NutrifApp').config(function ($stateProvider, $urlRouterProvider)
         .state('login.pretensao', {
 		    url: '/pretensao',
 		    templateUrl: 'view/login-pretensao.html',
+		    controller: 'loginPretensaoCtrl',
+			controllerAs: 'pretensao',
 			module: 'non-logged'
 	  	})
 
@@ -73,5 +75,20 @@ angular.module('NutrifApp').config(function ($stateProvider, $urlRouterProvider)
 			controller: 'editarAlunoCtrl',
 			controllerAs: 'editar',
 			module: 'admin'
+	  	})
+
+	  	.state('pretensao', {
+		    url: '/pretensao',
+		    templateUrl: 'view/pretensao/pretensao-home.html',
+			abstract: true
+	  	})
+
+	  	.state('pretensao.listar-pretensao', {
+		    url: '/listar',
+		    templateUrl: 'view/pretensao/listar-pretensao.html',
+		    title: 'Pretensão de Refeições',
+		    controller: 'listarPretensaoCtrl',
+			controllerAs: 'listar',
+		    module: 'comensal'
 	  	});
 });
