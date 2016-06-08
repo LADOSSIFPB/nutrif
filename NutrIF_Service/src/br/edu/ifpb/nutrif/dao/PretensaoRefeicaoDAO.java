@@ -14,10 +14,8 @@ import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
 import br.edu.ifpb.nutrif.hibernate.HibernateUtil;
 import br.edu.ladoss.entity.Dia;
 import br.edu.ladoss.entity.MapaPretensaoRefeicao;
-import br.edu.ladoss.entity.MapaRefeicaoRealizada;
 import br.edu.ladoss.entity.PretensaoRefeicao;
 import br.edu.ladoss.entity.Refeicao;
-import br.edu.ladoss.entity.RefeicaoRealizada;
 
 public class PretensaoRefeicaoDAO extends GenericDao<Integer, PretensaoRefeicao>{
 	

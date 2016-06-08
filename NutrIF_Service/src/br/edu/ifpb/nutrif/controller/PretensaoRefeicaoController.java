@@ -132,7 +132,7 @@ public class PretensaoRefeicaoController {
 	 * - Analisar a diferença de tempo entre a data da solicitação e data da 
 	 * refeição menor ou igual a 24hs ou 48hs.
 	 * 
-	 * @param pretensaoRefeicao
+	 * @param pretensaoRefeicaoCalculada
 	 * @return
 	 */
 	@PermitAll
@@ -140,23 +140,23 @@ public class PretensaoRefeicaoController {
 	@Path("/diarefeicao/verificar")
 	@Consumes("application/json")
 	@Produces("application/json")
-	public Response verifyDiaRefeicao(PretensaoRefeicao pretensaoRefeicao) {
+	public Response verifyDiaRefeicao(PretensaoRefeicao pretensaoRefeicaoCalculada) {
 		
 		logger.info("Verificação da Pretensão para a Refeição: " 
-				+ pretensaoRefeicao);
+				+ pretensaoRefeicaoCalculada);
 		
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
 		builder.expires(new Date());
 		
 		// Validação dos dados de entrada.
-		int validacao = Validate.pretensaoRefeicao(pretensaoRefeicao);
+		int validacao = Validate.pretensaoRefeicao(pretensaoRefeicaoCalculada);
 		
 		if (validacao == Validate.VALIDATE_OK) {
 			
 			try {			
 				
 				ConfirmaPretensaoDia confirmaPretensaoDia = 
-						pretensaoRefeicao.getConfirmaPretensaoDia();
+						pretensaoRefeicaoCalculada.getConfirmaPretensaoDia();
 				
 				// Verifica dia da refeição.
 				DiaRefeicao diaRefeicao = DiaRefeicaoDAO.getInstance()
@@ -165,12 +165,33 @@ public class PretensaoRefeicaoController {
 				
 				if (diaRefeicao != null) {
 									
-					pretensaoRefeicao = verifyPretensao(diaRefeicao);
+					pretensaoRefeicaoCalculada = verifyPretensao(diaRefeicao);
 					
-					if (pretensaoRefeicao != null) {
+					if (pretensaoRefeicaoCalculada != null) {
 						
-						builder.status(Response.Status.OK).entity(
-								pretensaoRefeicao);
+						Date dataPretensao = pretensaoRefeicaoCalculada
+								.getConfirmaPretensaoDia()
+								.getDataPretensao();
+						int idDiaRefeicao = diaRefeicao.getId();
+						
+						// Recuperar pretensão já lançada para a refeição e data.
+						PretensaoRefeicao pretencaoRefeicaoLancada = 
+								PretensaoRefeicaoDAO.getInstance()
+									.getPretensaoRefeicaoByDiaRefeicao(
+											idDiaRefeicao, dataPretensao);
+						
+						if (pretencaoRefeicaoLancada != null) {
+							
+							// Pretensão já lançada.
+							builder.status(Response.Status.OK).entity(
+									pretencaoRefeicaoLancada);
+							
+						} else {
+							
+							// Pretensão calculada.
+							builder.status(Response.Status.OK).entity(
+									pretensaoRefeicaoCalculada);
+						}						
 						
 					} else {
 						

@@ -93,6 +93,11 @@ public class DiaRefeicaoController {
 						&& refeicao != null
 						&& funcionario != null) {
 					
+					// Verifica se existe dia de refeição ativo para a mesma refeição e dia.
+					boolean isDiaRefeicaoAtivo = DiaRefeicaoDAO.getInstance()
+							.isDiaRefeicaoAtivo(diaRefeicao);
+					logger.info("DiaRefeição ativo: " + isDiaRefeicaoAtivo);
+					
 					// Data e hora atual.
 					Date agora = new Date();
 					diaRefeicao.setDataInsercao(agora);
