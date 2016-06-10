@@ -23,10 +23,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".view.activitys.LoginActivity"
+            android:name=".view.activitys.EnterActivity"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".view.activitys.StartActivity"
+            android:name=".view.activitys.LoginActivity"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -43,18 +43,18 @@
         <activity
             android:name=".view.activitys.CadastroActivity"
             android:label="@string/title_activity_cadastro"
-            android:parentActivityName=".view.activitys.LoginActivity">
+            android:parentActivityName=".view.activitys.EnterActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="br.edu.ladoss.nutrif.view.activitys.LoginActivity" />
+                android:value="br.edu.ladoss.nutrif.view.activitys.EnterActivity" />
         </activity>
         <activity
             android:name=".view.activitys.ConfirmationActivity"
             android:label="@string/confirmacao"
-            android:parentActivityName=".view.activitys.LoginActivity">
+            android:parentActivityName=".view.activitys.EnterActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="br.edu.ladoss.nutrif.view.activitys.LoginActivity" />
+                android:value="br.edu.ladoss.nutrif.view.activitys.EnterActivity" />
         </activity>
         <activity
             android:name=".view.activitys.RefeicaoActivity"

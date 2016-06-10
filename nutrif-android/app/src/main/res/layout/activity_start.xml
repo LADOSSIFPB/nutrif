@@ -8,18 +8,27 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:orientation="vertical"
-    tools:context="br.edu.ladoss.nutrif.view.activitys.StartActivity"
+    tools:context="br.edu.ladoss.nutrif.view.activitys.LoginActivity"
     android:background="@color/colorPrimary"
     android:gravity="center">
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="130dp"
-        android:id="@+id/imageView"
+        android:id="@+id/imagem"
         android:src="@drawable/logobranca" />
+
+    <TextView
+        android:text="Inicializando login..."
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/informativo"
+        android:textColor="@color/gelo"
+        android:fontFamily="sans-serif" />
 
     <ProgressBar
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/progressBar" />
+        android:id="@+id/progressBar"
+        android:max="100" />
 </LinearLayout>

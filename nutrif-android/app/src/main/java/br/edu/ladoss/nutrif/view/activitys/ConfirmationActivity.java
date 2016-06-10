@@ -75,7 +75,7 @@ public class ConfirmationActivity extends AppCompatActivity implements Replyable
 
     @Override
     public void onSuccess(Aluno aluno) {
-        Intent intent = new Intent(ConfirmationActivity.this, LoginActivity.class);
+        Intent intent = new Intent(ConfirmationActivity.this, EnterActivity.class);
         Bundle bundle = this.getIntent().getExtras();
         intent.putExtras(bundle);
         startActivity(intent);

@@ -2,12 +2,14 @@ package br.edu.ladoss.nutrif.entitys;
 
 import android.graphics.Bitmap;
 
+import java.io.Serializable;
+
 import br.edu.ladoss.nutrif.util.ImageUtils;
 
 /**
  * Created by juan on 15/03/16.
  */
-public class Aluno extends Pessoa {
+public class Aluno extends Pessoa implements Serializable{
     private String matricula;
     private Curso curso;
     private String keyConfirmation;
@@ -38,11 +40,6 @@ public class Aluno extends Pessoa {
 
     public void setMatricula(String matricula) {
         this.matricula = matricula;
-    }
-
-
-    public void setPhoto(Bitmap pictureData) {
-        photo =  ImageUtils.BitmapToByteArray(pictureData);
     }
 
     public void setPhoto(byte[] photo){

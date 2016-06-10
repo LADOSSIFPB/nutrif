@@ -13,7 +13,6 @@ public class ConnectionServer {
 
     private static final String[] URL_BASES =
             {
-                    "http://192.168.0.106:8080/NutrIF_Service/",
                     "http://ladoss.com.br:8773/NutrIF_Service/",
                     "http://192.168.1.245:8773/NutrIF_Service/"
             };
