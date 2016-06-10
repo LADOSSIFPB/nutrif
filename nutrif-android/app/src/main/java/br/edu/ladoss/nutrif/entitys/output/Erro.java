@@ -31,7 +31,6 @@ public class Erro {
 	
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
 		return "Erro [codigo:" + codigo + "; mensagem:" + mensagem + "]";
 	}
 }

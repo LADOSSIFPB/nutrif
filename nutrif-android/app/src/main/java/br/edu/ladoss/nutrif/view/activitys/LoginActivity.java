@@ -43,52 +43,77 @@ public class LoginActivity extends AppCompatActivity {
             Aluno aluno = new Aluno();
             aluno.setEmail(bundle.getString("email"));
             aluno.setSenha(bundle.getString("senha"));
-            doLogin(aluno);
-        } else {
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    Aluno aluno = retriveFromDB();
-                    if (aluno == null) {
-                        startActivity(new Intent(LoginActivity.this, EnterActivity.class));
-                        finish();
-                    } else {
-                        doLogin(aluno);
-                    }
-                }
-            }).start();
+
+            if (!(aluno.getEmail() == null)){
+                doLogin(aluno);
+                return;
+            }
         }
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Aluno aluno = retriveFromDB();
+                if (aluno == null) {
+                    startActivity(new Intent(LoginActivity.this, EnterActivity.class));
+                    finish();
+                } else {
+                    doLogin(aluno);
+                }
+            }
+        }).start();
+
     }
 
     private Aluno retriveFromDB() {
         AlunoDAO alunoDAO = new AlunoDAO(this);
 
+        Log.i(getString(R.string.app_name), "tentando recuperar usuário");
+
         Aluno aluno = alunoDAO.findWithPhoto();
-        if(aluno != null)
+        if (aluno != null) {
+            Log.i(getString(R.string.app_name), "usuário recuperado");
             aluno.setKeyAuth(PreferencesUtils.getAccessKeyOnSharedPreferences(LoginActivity.this));
+        } else {
+            Log.i(getString(R.string.app_name), "usuário não encontrado");
+        }
 
         return aluno;
     }
 
-    private void changeMessage(){
+    private void changeMessage() {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 Random random = new Random();
                 String message = "Inicializando Aplicação...";
-                switch (random.nextInt(4)){
-                    case 0 : message = getString(R.string.funnylogin1);
+                switch (random.nextInt(4)) {
+                    case 0:
+                        message = getString(R.string.funnylogin1);
                         break;
-                    case 1: message = getString(R.string.funnylogin2);
+                    case 1:
+                        message = getString(R.string.funnylogin2);
                         break;
-                    case 2: message = getString(R.string.funnylogin3);
+                    case 2:
+                        message = getString(R.string.funnylogin3);
                         break;
-                    case 3: message = getString(R.string.funnylogin4);
+                    case 3:
+                        message = getString(R.string.funnylogin4);
                         break;
-                    case 4: message = getString(R.string.funnylogin5);
+                    case 4:
+                        message = getString(R.string.funnylogin5);
                         break;
                 }
                 messages.setText(message);
+            }
+        });
+    }
+
+
+    public void showMessage(final String message) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                AndroidUtil.showToast(LoginActivity.this, message);
             }
         });
     }
@@ -127,12 +152,7 @@ public class LoginActivity extends AppCompatActivity {
                 //Recupera foto
                 if (aluno.getPhoto() == null)
                     downloadPhoto(aluno);
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        AndroidUtil.showToast(LoginActivity.this, R.string.logindone);
-                    }
-                });
+                showMessage(getString(R.string.logindone));
                 startActivity(new Intent(LoginActivity.this, RefeitorioActivity.class));
                 finish();
             }
@@ -161,15 +181,14 @@ public class LoginActivity extends AppCompatActivity {
                 Erro erro = ErrorUtils.parseError(response, this);
                 //Gambiarra pois o servidor não retorna erro com mensagem
                 if (response.code() == 401) {
-                    AndroidUtil.showToast(this, R.string.campoerrado);
-                }
-                else {
-                    AndroidUtil.showToast(this, erro.getMensagem());
+                    showMessage(getString(R.string.campoerrado));
+                } else {
+                    showMessage(erro.getMensagem());
                 }
             }
         } catch (IOException e) {
             Log.e(getString(R.string.app_name), e.getMessage());
-            AndroidUtil.showToast(this, R.string.erroconexao);
+            showMessage(getString(R.string.erroconexao));
         }
 
         return aluno;
@@ -192,7 +211,7 @@ public class LoginActivity extends AppCompatActivity {
 
         } catch (IOException e) {
             Log.e(getString(R.string.app_name), e.getMessage());
-            AndroidUtil.showToast(this, R.string.erroconexao);
+            showMessage(getString(R.string.erroconexao));
             return false;
         }
         return true;
