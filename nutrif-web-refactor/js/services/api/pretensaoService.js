@@ -18,7 +18,8 @@ angular.module("NutrifApp").factory("pretensaoService", function($http, config, 
 	};
 
 	var _verifyChaveAcesso = function(code){
-		var pretensao = {funcionario: userService.getUser(), keyAccess: code};
+		//TODO: var pretensao = {funcionario: userService.getUser(), keyAccess: code};
+		var pretensao = {keyAccess: code};
 		return $http.post(_path + "/chaveacesso/verificar", pretensao);
 	};
 
