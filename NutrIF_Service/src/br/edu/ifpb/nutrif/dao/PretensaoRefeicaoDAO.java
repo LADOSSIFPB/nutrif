@@ -82,7 +82,19 @@ public class PretensaoRefeicaoDAO extends GenericDao<Integer, PretensaoRefeicao>
 		try {
 			
 			String hql = "from PretensaoRefeicao as pr"
-					+ " where pr.keyAccess = :keyAccess";
+					+ " where pr.keyAccess = :keyAccess"
+					+ " and pr.confirmaPretensaoDia.dataPretensao = CURRENT_DATE()"
+					+ " and pr.confirmaPretensaoDia.diaRefeicao.refeicao.id not in ("
+					+ "		select rr.confirmaRefeicaoDia.diaRefeicao.refeicao.id"
+					+ " 	from RefeicaoRealizada as rr"
+					+ "		where rr.confirmaRefeicaoDia.diaRefeicao.aluno.id"
+					+ "			 = pr.confirmaPretensaoDia.diaRefeicao.aluno.id"
+					+ "		and rr.confirmaRefeicaoDia.diaRefeicao.dia.id"
+					+ "			 = pr.confirmaPretensaoDia.diaRefeicao.dia.id"
+					+ "		and rr.confirmaRefeicaoDia.dataRefeicao = CURRENT_DATE()"
+					+ "		and rr.confirmaRefeicaoDia.diaRefeicao.refeicao.horaFinal"
+					+ "			>= CURRENT_TIME()"
+					+ ")";
 			
 			Query query = session.createQuery(hql);
 			query.setParameter("keyAccess", keyAccess);
