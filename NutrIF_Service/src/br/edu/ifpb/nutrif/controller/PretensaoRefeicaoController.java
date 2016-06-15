@@ -308,6 +308,8 @@ public class PretensaoRefeicaoController {
 				ConfirmaRefeicaoDia confirmaRefeicaoDia = new ConfirmaRefeicaoDia();
 				confirmaRefeicaoDia.setDiaRefeicao(
 						pretensaoRefeicao.getConfirmaPretensaoDia().getDiaRefeicao());
+				
+				// Dia de refeição
 				RefeicaoRealizada refeicaoRealizada = new RefeicaoRealizada();
 				refeicaoRealizada.setConfirmaRefeicaoDia(confirmaRefeicaoDia);
 				
@@ -317,8 +319,8 @@ public class PretensaoRefeicaoController {
 				
 				if (idRefeicaoRealizada != BancoUtil.IDVAZIO) {
 					
-					int status = openDoorPostRequest();
-                    logger.info("Catra ca: " + status);
+					//int status = openDoorPostRequest();
+                    //logger.info("Catraca: " + status);
                     
 					builder.status(Response.Status.OK);				
 				}

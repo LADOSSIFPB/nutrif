@@ -82,7 +82,19 @@ public class PretensaoRefeicaoDAO extends GenericDao<Integer, PretensaoRefeicao>
 		try {
 			
 			String hql = "from PretensaoRefeicao as pr"
-					+ " where pr.keyAccess = :keyAccess";
+					+ " where pr.keyAccess = :keyAccess"
+					+ " and pr.confirmaPretensaoDia.dataPretensao = CURRENT_DATE()"
+					+ " and pr.confirmaPretensaoDia.diaRefeicao.refeicao.id not in ("
+					+ "		select rr.confirmaRefeicaoDia.diaRefeicao.refeicao.id"
+					+ " 	from RefeicaoRealizada as rr"
+					+ "		where rr.confirmaRefeicaoDia.diaRefeicao.aluno.id"
+					+ "			 = pr.confirmaPretensaoDia.diaRefeicao.aluno.id"
+					+ "		and rr.confirmaRefeicaoDia.diaRefeicao.dia.id"
+					+ "			 = pr.confirmaPretensaoDia.diaRefeicao.dia.id"
+					+ "		and rr.confirmaRefeicaoDia.dataRefeicao = CURRENT_DATE()"
+					+ "		and rr.confirmaRefeicaoDia.diaRefeicao.refeicao.horaFinal"
+					+ "			>= CURRENT_TIME()"
+					+ ")";
 			
 			Query query = session.createQuery(hql);
 			query.setParameter("keyAccess", keyAccess);
@@ -154,17 +166,19 @@ public class PretensaoRefeicaoDAO extends GenericDao<Integer, PretensaoRefeicao>
 			
 			Dia dia = mapaPretensaoRefeicao.getDia();
 			Refeicao refeicao = mapaPretensaoRefeicao.getRefeicao();
-			Date dataPretensao = mapaPretensaoRefeicao.getDataPretensao();
+			Date dataInicio = mapaPretensaoRefeicao.getDataInicio();
+			Date dataFim = mapaPretensaoRefeicao.getDataFim();
 			
 			String hql = "from PretensaoRefeicao as pr"
 					+ " where pr.confirmaPretensaoDia.diaRefeicao.dia.id = :dia"
 					+ " and pr.confirmaPretensaoDia.diaRefeicao.refeicao.id = :refeicao"
-					+ " and pr.confirmaPretensaoDia.dataPretensao = :dataPretensao";
+					+ " and pr.confirmaPretensaoDia.dataPretensao between :dataInicio and :dataFim";
 			
 			Query query = session.createQuery(hql);
 			query.setParameter("dia", dia.getId());
 			query.setParameter("refeicao", refeicao.getId());
-			query.setParameter("dataPretensao", dataPretensao);
+			query.setParameter("dataInicio", dataInicio);
+			query.setParameter("dataFim", dataFim);
 			
 			refeicoesRealizadas = (List<PretensaoRefeicao>) query.list();
 	        
