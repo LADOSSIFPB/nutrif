@@ -32,61 +32,6 @@ import retrofit.Retrofit;
  */
 public class PessoaController {
 
-    public static void cadastrar(final Aluno aluno, final Context context, final Replyable<Aluno> ui) {
-
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-
-                Call<Aluno> call = ConnectionServer.getInstance()
-                        .getService()
-                        .inserir(aluno);
-                call.enqueue(new Callback<Aluno>() {
-                    @Override
-                    public void onResponse(Response<Aluno> response, Retrofit retrofit) {
-                        if (response.isSuccess()) {
-                            ui.onSuccess(response.body());
-                        } else {
-                            ui.onFailure(ErrorUtils.parseError(response, retrofit, context));
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Throwable t) {
-                        ui.failCommunication(t);
-                    }
-                });
-            }
-        }).start();
-    }
-
-    public static void validar(final ConfirmationKey key, final Context context, final Replyable<Aluno> ui) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Call<Void> call = ConnectionServer.getInstance()
-                        .getService()
-                        .confirmar(key);
-                call.enqueue(new Callback<Void>() {
-                    @Override
-                    public void onResponse(Response<Void> response, Retrofit retrofit) {
-                        if (response.isSuccess()) {
-                            ui.onSuccess(null);
-                        } else {
-                            ui.onFailure(ErrorUtils.parseError(response, retrofit, context));
-
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Throwable t) {
-                        ui.failCommunication(t);
-                    }
-                });
-            }
-        }).start();
-    }
-
     public static void uploadPhoto(final Context context, final Replyable<Aluno> ui, final File file) {
 
         String auth = PreferencesUtils.getAccessKeyOnSharedPreferences(context);

@@ -68,7 +68,7 @@ public class EnterActivity extends AppCompatActivity {
         String identificador = identificadorEditText.getText().toString();
         validated = Validate.identificador(identificador);
         if (!validated) {
-            identificadorEditText.setError("E-mail inválidos.");
+            identificadorEditText.setError("E-mail inválido.");
             identificadorEditText.setFocusable(true);
             identificadorEditText.requestFocus();
         }

@@ -21,7 +21,7 @@ public class Validate {
 		boolean isValidated = false;
 
 		if (emailValidator.validate(identificador)
-				|| stringValidator.validate(identificador, Pessoa.LENGHT_MATRICULA)) {
+				|| matricula(identificador)){
 
 			isValidated = true;
 		}
@@ -38,4 +38,13 @@ public class Validate {
 
 		return isValidated;
 	}
+
+	public static boolean matricula(String matricula){
+		return stringValidator.validate(matricula, Pessoa.LENGHT_MATRICULA);
+	}
+
+	public static boolean codigoAtivacao(String codigo){
+		return stringValidator.validate(codigo);
+	}
+
 }

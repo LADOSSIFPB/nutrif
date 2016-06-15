@@ -38,7 +38,7 @@ public class ErrorUtils {
                 .fromResponseBody(Erro.class, new Annotation[0]);
         Erro erro = null;
         try {
-            converter.convert(response.errorBody());
+            erro = converter.convert(response.errorBody());
             if(erro == null){
                 erro = new Erro(0, context.getString(R.string.undefinedError));
             }
