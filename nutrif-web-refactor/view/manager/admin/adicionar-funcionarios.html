@@ -1,19 +1,19 @@
 <md-card layout-padding style="padding-left: 6%; padding-right: 6%; padding-bottom: 4%; padding-top: 3% ">
-    <form layout="column" ng-submit="cadastrar.cadastrar(cadastrar.funcionario)">
+    <form layout="column" ng-submit="cadastrarFuncionarios.cadastrar(cadastrar.funcionario)">
 
         <md-input-container class="md-icon-float md-block">
             <label>Nome Completo</label>
-            <input ng-model="cadastrar.funcionario.nome" type="text">
+            <input ng-model="cadastrarFuncionarios.funcionario.nome" type="text">
         </md-input-container>
 
         <md-input-container class="md-icon-float md-block">
             <label>Email</label>
-            <input ng-model="cadastrar.funcionario.email" type="text">
+            <input ng-model="cadastrarFuncionarios.funcionario.email" type="text">
         </md-input-container>
 
         <md-input-container class="md-icon-float md-block">
             <label>Senha</label>
-            <input ng-model="cadastrar.funcionario.senha" type="password">
+            <input ng-model="cadastrarFuncionarios.funcionario.senha" type="password">
         </md-input-container>
 
         <md-button type="submit" layout-fill type="submit" class="md-raised md-primary md-hue-1" style="margin-top: 40px">Cadastrar Funcionario</md-button>
