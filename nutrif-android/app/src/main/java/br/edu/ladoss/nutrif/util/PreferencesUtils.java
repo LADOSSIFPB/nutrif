@@ -16,7 +16,7 @@ public class PreferencesUtils {
 
     public static String getAccessKeyOnSharedPreferences(Context context) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        String accesskey = sharedPreferences.getString(ACCESS_KEY_INDEX, null);
+        String accesskey = sharedPreferences.getString(ACCESS_KEY_INDEX, "");
 
         return accesskey;
     }

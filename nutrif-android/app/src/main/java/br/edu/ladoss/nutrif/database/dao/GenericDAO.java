@@ -12,9 +12,11 @@ import br.edu.ladoss.nutrif.database.DatabaseCore;
  */
 public abstract class GenericDAO<T> {
     protected SQLiteDatabase db;
+    protected Context context;
 
     public GenericDAO(Context context){
         db = new DatabaseCore(context).getWritableDatabase();
+        this.context = context;
     }
 
     protected void insert(String table, ContentValues values){

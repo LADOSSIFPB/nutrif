@@ -16,6 +16,12 @@
     <string name="logindone">Login Efetuado com Sucesso! Atualizando dados…</string>
     <string name="photo">Foto</string>
 
+    <string name="funnylogin1">Colocando o arroz no fogo...</string>
+    <string name="funnylogin2">Verificando estoque de alimentos...</string>
+    <string name="funnylogin3">Lavando as mãos...</string>
+    <string name="funnylogin4">Procurando receita de macarrão estantâneo...</string>
+    <string name="funnylogin5">Quebrando alguns ovos...</string>
+
     <string name="cut">Recorte a foto</string>
     <string name="atencao">Atenção!</string>
     <string name="aviso">Certifique-se de tirar uma foto adequada do seu rosto pois ela será utilizada ao entrar no refeitório e só poderá ser tirada uma vez. Qualquer foto julgada inadequada poderá acarretar em punição ao aluno.</string>
@@ -35,7 +41,7 @@
     <string name="validarcodigo">Validar Código</string>
     <string name="campoerrado">Senha ou Email Inválido</string>
     <string name="recuperaqrcode">Recuperando dados no celular</string>
-    <string name="logadooff">Você está logado no modo Offline. Não é possível atualizar os dados</string>
+    <string name="logadooff">Não foi possível realizar o login com o servidor. Contudo, você tem dados salvos localmente</string>
     <string name="dia">Dia:</string>
     <string name="tipo">Tipo:</string>
     <string name="disponivel">Disponível entre:</string>

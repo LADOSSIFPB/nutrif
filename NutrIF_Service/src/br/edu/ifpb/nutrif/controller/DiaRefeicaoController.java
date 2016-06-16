@@ -93,24 +93,35 @@ public class DiaRefeicaoController {
 						&& refeicao != null
 						&& funcionario != null) {
 					
-					// Data e hora atual.
-					Date agora = new Date();
-					diaRefeicao.setDataInsercao(agora);
+					// Verifica se existe dia de refeição ativo para a mesma refeição e dia.
+					boolean isDiaRefeicaoAtivo = DiaRefeicaoDAO.getInstance()
+							.isDiaRefeicaoAtivo(diaRefeicao);
+					logger.info("DiaRefeição ativo: " + isDiaRefeicaoAtivo);
 					
-					//Inserir o CronogramaRefeicao.
-					Integer idDiaRefeicao = DiaRefeicaoDAO.getInstance()
-							.insert(diaRefeicao);
-					
-					if (idDiaRefeicao != BancoUtil.IDVAZIO) {
-	
-						// Operação realizada com sucesso.
-						builder.status(Response.Status.OK);
-						builder.entity(diaRefeicao);
+					if (!isDiaRefeicaoAtivo) {
 						
+						// Data e hora atual.
+						Date agora = new Date();
+						diaRefeicao.setDataInsercao(agora);
+						
+						//Inserir o CronogramaRefeicao.
+						Integer idDiaRefeicao = DiaRefeicaoDAO.getInstance()
+								.insert(diaRefeicao);
+						
+						if (idDiaRefeicao != BancoUtil.IDVAZIO) {
+		
+							// Operação realizada com sucesso.
+							builder.status(Response.Status.OK);
+							builder.entity(diaRefeicao);
+							
+						} else {
+							
+							builder.status(Response.Status.NOT_MODIFIED);
+						}
+					
 					} else {
-						
-						builder.status(Response.Status.NOT_MODIFIED);
-					}
+						builder.status(Response.Status.CONFLICT);
+					}					
 				}
 			
 			} catch (SQLExceptionNutrIF exception) {

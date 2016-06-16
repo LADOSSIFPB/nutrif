@@ -7,7 +7,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "mapaRefeicoesRealizadas")
-public class MapaRefeicoesRealizadas {
+public class MapaRefeicaoRealizada {
 	
 	private List<RefeicaoRealizada> refeicoesRealizadas;
 	
@@ -15,7 +15,9 @@ public class MapaRefeicoesRealizadas {
 	
 	private Dia dia;
 
-	private Date dataRefeicao;
+	private Date dataInicio;
+	
+	private Date dataFim;
 
 	@XmlElement
 	public List<RefeicaoRealizada> getRefeicoesRealizadas() {
@@ -45,19 +47,29 @@ public class MapaRefeicoesRealizadas {
 	}
 	
 	@XmlElement
-	public Date getDataRefeicao() {
-		return dataRefeicao;
+	public Date getDataInicio() {
+		return dataInicio;
 	}
 
-	public void setDataRefeicao(Date dataRefeicao) {
-		this.dataRefeicao = dataRefeicao;
+	public void setDataInicio(Date dataInicio) {
+		this.dataInicio = dataInicio;
+	}
+
+	@XmlElement
+	public Date getDataFim() {
+		return dataFim;
+	}
+
+	public void setDataFim(Date dataFim) {
+		this.dataFim = dataFim;
 	}
 	
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return "MapaRefeicoesRealizadas[refeicao=" + refeicao 
+		return "MapaRefeicaoRealizada [refeicao=" + refeicao 
 				+ ", dia=" + dia 
-				+ ", dataRefeicao=" + dataRefeicao + "]";
+				+ ", dataInicio=" + dataInicio
+				+ ", dataFim=" + dataFim + "]";
 	}	
 }

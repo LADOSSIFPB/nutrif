@@ -6,7 +6,8 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.drawable.Drawable;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
@@ -25,7 +26,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.DrawerBuilder;
@@ -99,7 +99,7 @@ public class RefeitorioActivity extends AppCompatActivity implements RecycleButt
     }
 
     public void buildSlideBar(Toolbar toolbar, Bundle savedInstanceState) {
-        Aluno aluno = AlunoDAO.getInstance(this).find();
+        Aluno aluno = AlunoDAO.getInstance(this).findWithPhoto();
 
         ProfileDrawerItem profile = new ProfileDrawerItem()
                 .withName(aluno.getNome())
@@ -107,9 +107,9 @@ public class RefeitorioActivity extends AppCompatActivity implements RecycleButt
                 .withIsExpanded(true);
 
         if (aluno.getPhoto() == null)
-            profile.withIcon(GoogleMaterial.Icon.gmd_add_a_photo);
+            profile.withIcon(R.drawable.ic_account);
         else
-            profile.withIcon(ImageUtils.byteToDrawable(aluno.getPhoto()));
+            profile.withIcon(ImageUtils.byteArrayToBitmap(aluno.getPhoto()));
 
         headerResult = new AccountHeaderBuilder()
                 .withActivity(this)
@@ -169,11 +169,11 @@ public class RefeitorioActivity extends AppCompatActivity implements RecycleButt
 
             final CropImage.ActivityResult result = CropImage.getActivityResult(data);
             final IProfile profile = headerResult.getActiveProfile();
-            final Drawable drawable = Drawable.createFromPath(result.getUri().getPath());
+            final Bitmap bitmap = BitmapFactory.decodeFile(result.getUri().getPath());
             PessoaController.uploadPhoto(this, new Replyable<Aluno>() {
                 @Override
                 public void onSuccess(Aluno aluno) {
-                    AlunoDAO.getInstance(RefeitorioActivity.this).updatePhoto(drawable);
+                    AlunoDAO.getInstance(RefeitorioActivity.this).updatePhoto(aluno, bitmap);
                     profile.withIcon(result.getUri());
                     headerResult.updateProfile(profile);
                 }
@@ -233,10 +233,9 @@ public class RefeitorioActivity extends AppCompatActivity implements RecycleButt
 
     @Override
     public boolean onProfileImageClick(View view, IProfile profile, boolean current) {
-        //Aluno aluno = AlunoDAO.getInstance(this).find();
-        // if(aluno.getPhoto() == null)
-        tirarPhoto();
-        //AndroidUtil.showSnackbar(this,"Essa função ainda está em desenvolvimento. Aguarde novas atualizações.");
+        Aluno aluno = AlunoDAO.getInstance(this).findWithPhoto();
+        if(aluno.getPhoto() == null)
+            tirarPhoto();
         return true;
     }
 
@@ -264,7 +263,7 @@ public class RefeitorioActivity extends AppCompatActivity implements RecycleButt
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
                         PessoaController.logoff(RefeitorioActivity.this);
-                        startActivity(new Intent(RefeitorioActivity.this, LoginActivity.class));
+                        startActivity(new Intent(RefeitorioActivity.this, EnterActivity.class));
                         finish();
                     }
                 });

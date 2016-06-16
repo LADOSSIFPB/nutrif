@@ -143,7 +143,7 @@ public class ArquivoController {
 	}
 	
 	/**
-	 * Download do arquivo do perfil.
+	 * Download de arquivo.
 	 * 
 	 * @param tipoArquivo
 	 * @param nomeSistemaArquivo
@@ -151,10 +151,10 @@ public class ArquivoController {
 	 */
 	@PermitAll
 	@GET
-	@Path("/download/{tipoarquivo}/nome/{nome}")
+	@Path("/download/{tipoarquivo}/nome/{nomeSistemaArquivo}")
 	@Produces(MediaType.APPLICATION_OCTET_STREAM)
 	public Response download(@PathParam("tipoarquivo") TipoArquivo tipoArquivo, 
-			@PathParam("nome") String nomeSistemaArquivo) {
+			@PathParam("nomeSistemaArquivo") String nomeSistemaArquivo) {
 
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
 		builder.expires(new Date());
@@ -238,5 +238,67 @@ public class ArquivoController {
 		}		
 		
 		return builder.build();		
+	}
+	
+	/**
+	 * Download do arquivo do perfil.
+	 * 
+	 * @param tipoArquivo
+	 * @param nomeSistemaArquivo
+	 * @return
+	 */
+	@PermitAll
+	@GET
+	@Path("/download/perfil/aluno/{id}")
+	@Produces(MediaType.APPLICATION_OCTET_STREAM)
+	public Response downloadImagemPerfil(@PathParam("id") int idAluno) {
+
+		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
+		builder.expires(new Date());
+		
+		StreamingOutput stream = null;
+		
+		// Validação dos dados de entrada.
+		int validacao = Validate.downloadImagemPerfil(idAluno);
+		
+		if (validacao == Validate.VALIDATE_OK) {
+			
+			try {				
+			
+				// Recuperar registro persistente do arquivo da imagem para o perfil do aluno.
+				Arquivo arquivo = ArquivoDAO.getInstance().getImagemPerfilByIdAluno(
+						idAluno);
+				
+				if (arquivo != null) {
+	
+					stream = FileUtil.readStreamingOutput(TipoArquivo.ARQUIVO_FOTO_PERFIL,
+							arquivo.getNomeSistemaArquivo());
+					
+					// Arquivo para envio.
+					builder.entity(stream)
+						.status(Response.Status.OK)
+						.type(MediaType.APPLICATION_OCTET_STREAM)
+						.header("content-disposition", 
+								"attachment; filename=\"" 
+										+ arquivo.getNomeSistemaArquivo() + "\"");
+					
+				} else {
+					
+					// Arquivo inexistente.
+					builder.status(Response.Status.NOT_FOUND)
+						.type(MediaType.APPLICATION_JSON)
+						.entity(ErrorFactory.getErrorFromIndex(
+									ErrorFactory.ARQUIVO_PERFIL_INVALIDO));
+				}
+			
+			} catch (SQLExceptionNutrIF exception) {
+				
+				builder.status(Response.Status.INTERNAL_SERVER_ERROR)
+					.type(MediaType.APPLICATION_JSON)
+					.entity(exception.getError());
+			}
+		}
+		
+		return builder.build();
 	}
 }

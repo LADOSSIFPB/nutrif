@@ -2,11 +2,18 @@ angular.module("NutrifApp").controller("sideNavCtrl", function (userService, $md
 
     this.isOpened = true;
     this.typeUser = userService.getUserRole();
+    this.user = userService.getUser();
 
     this.logoutManager = function () {
         userService.removeUser();
         $state.go("login.gerenciamento");
     }
+
+    this.logoutAluno = function () {
+        userService.removeUser();
+        $state.go("login.pretensao");
+    }
+
 
     this.title = $state.current.title;
 

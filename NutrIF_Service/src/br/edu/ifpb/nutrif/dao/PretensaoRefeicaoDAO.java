@@ -1,5 +1,7 @@
 package br.edu.ifpb.nutrif.dao;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -10,8 +12,10 @@ import org.hibernate.Session;
 
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
 import br.edu.ifpb.nutrif.hibernate.HibernateUtil;
+import br.edu.ladoss.entity.Dia;
+import br.edu.ladoss.entity.MapaPretensaoRefeicao;
 import br.edu.ladoss.entity.PretensaoRefeicao;
-import br.edu.ladoss.entity.RefeicaoRealizada;
+import br.edu.ladoss.entity.Refeicao;
 
 public class PretensaoRefeicaoDAO extends GenericDao<Integer, PretensaoRefeicao>{
 	
@@ -78,7 +82,19 @@ public class PretensaoRefeicaoDAO extends GenericDao<Integer, PretensaoRefeicao>
 		try {
 			
 			String hql = "from PretensaoRefeicao as pr"
-					+ " where pr.keyAccess = :keyAccess";
+					+ " where pr.keyAccess = :keyAccess"
+					+ " and pr.confirmaPretensaoDia.dataPretensao = CURRENT_DATE()"
+					+ " and pr.confirmaPretensaoDia.diaRefeicao.refeicao.id not in ("
+					+ "		select rr.confirmaRefeicaoDia.diaRefeicao.refeicao.id"
+					+ " 	from RefeicaoRealizada as rr"
+					+ "		where rr.confirmaRefeicaoDia.diaRefeicao.aluno.id"
+					+ "			 = pr.confirmaPretensaoDia.diaRefeicao.aluno.id"
+					+ "		and rr.confirmaRefeicaoDia.diaRefeicao.dia.id"
+					+ "			 = pr.confirmaPretensaoDia.diaRefeicao.dia.id"
+					+ "		and rr.confirmaRefeicaoDia.dataRefeicao = CURRENT_DATE()"
+					+ "		and rr.confirmaRefeicaoDia.diaRefeicao.refeicao.horaFinal"
+					+ "			>= CURRENT_TIME()"
+					+ ")";
 			
 			Query query = session.createQuery(hql);
 			query.setParameter("keyAccess", keyAccess);
@@ -97,6 +113,87 @@ public class PretensaoRefeicaoDAO extends GenericDao<Integer, PretensaoRefeicao>
 		}
 		
 		return pretensaoRefeicao;		
+	}
+	
+	/**
+	 * Consultar pretensão da refeição através do dia da refeição e da data da
+	 * intensão da refeição.
+	 * 
+	 * @param idDiaRefeicao
+	 * @return
+	 */
+	public PretensaoRefeicao getPretensaoRefeicaoByDiaRefeicao(int idDiaRefeicao,
+			Date dataPretensao) {
+		
+		Session session = HibernateUtil.getSessionFactory().openSession();
+
+		PretensaoRefeicao pretensaoRefeicao = null;
+		
+		try {
+			
+			String hql = "from PretensaoRefeicao as pr"
+					+ " where pr.confirmaPretensaoDia.diaRefeicao.id = :idDiaRefeicao"
+					+ " and pr.confirmaPretensaoDia.dataPretensao = :dataPretensao";
+			
+			Query query = session.createQuery(hql);
+			query.setParameter("idDiaRefeicao", idDiaRefeicao);
+			query.setParameter("dataPretensao", dataPretensao);
+			
+			pretensaoRefeicao = (PretensaoRefeicao) query.uniqueResult();
+	        
+		} catch (HibernateException hibernateException) {
+			
+			session.getTransaction().rollback();
+			
+			throw new SQLExceptionNutrIF(hibernateException);
+			
+		} finally {
+		
+			session.close();
+		}
+		
+		return pretensaoRefeicao;		
+	}
+	
+	public List<PretensaoRefeicao> getMapaPretensaoRefeicao(
+			MapaPretensaoRefeicao mapaPretensaoRefeicao) {
+		
+		Session session = HibernateUtil.getSessionFactory().openSession();
+
+		List<PretensaoRefeicao> refeicoesRealizadas = new ArrayList<PretensaoRefeicao>();
+		
+		try {
+			
+			Dia dia = mapaPretensaoRefeicao.getDia();
+			Refeicao refeicao = mapaPretensaoRefeicao.getRefeicao();
+			Date dataInicio = mapaPretensaoRefeicao.getDataInicio();
+			Date dataFim = mapaPretensaoRefeicao.getDataFim();
+			
+			String hql = "from PretensaoRefeicao as pr"
+					+ " where pr.confirmaPretensaoDia.diaRefeicao.dia.id = :dia"
+					+ " and pr.confirmaPretensaoDia.diaRefeicao.refeicao.id = :refeicao"
+					+ " and pr.confirmaPretensaoDia.dataPretensao between :dataInicio and :dataFim";
+			
+			Query query = session.createQuery(hql);
+			query.setParameter("dia", dia.getId());
+			query.setParameter("refeicao", refeicao.getId());
+			query.setParameter("dataInicio", dataInicio);
+			query.setParameter("dataFim", dataFim);
+			
+			refeicoesRealizadas = (List<PretensaoRefeicao>) query.list();
+	        
+		} catch (HibernateException hibernateException) {
+			
+			session.getTransaction().rollback();
+			
+			throw new SQLExceptionNutrIF(hibernateException);
+			
+		} finally {
+		
+			session.close();
+		}
+		
+		return refeicoesRealizadas;		
 	}
 
 	@Override

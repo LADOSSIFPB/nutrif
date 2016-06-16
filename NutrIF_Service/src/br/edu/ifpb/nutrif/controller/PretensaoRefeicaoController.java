@@ -14,6 +14,9 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
@@ -33,6 +36,7 @@ import br.edu.ladoss.entity.ConfirmaPretensaoDia;
 import br.edu.ladoss.entity.ConfirmaRefeicaoDia;
 import br.edu.ladoss.entity.DiaRefeicao;
 import br.edu.ladoss.entity.Error;
+import br.edu.ladoss.entity.MapaPretensaoRefeicao;
 import br.edu.ladoss.entity.PretensaoRefeicao;
 import br.edu.ladoss.entity.Refeicao;
 import br.edu.ladoss.entity.RefeicaoRealizada;
@@ -128,7 +132,7 @@ public class PretensaoRefeicaoController {
 	 * - Analisar a diferença de tempo entre a data da solicitação e data da 
 	 * refeição menor ou igual a 24hs ou 48hs.
 	 * 
-	 * @param pretensaoRefeicao
+	 * @param pretensaoRefeicaoCalculada
 	 * @return
 	 */
 	@PermitAll
@@ -136,23 +140,23 @@ public class PretensaoRefeicaoController {
 	@Path("/diarefeicao/verificar")
 	@Consumes("application/json")
 	@Produces("application/json")
-	public Response verifyDiaRefeicao(PretensaoRefeicao pretensaoRefeicao) {
+	public Response verifyDiaRefeicao(PretensaoRefeicao pretensaoRefeicaoCalculada) {
 		
 		logger.info("Verificação da Pretensão para a Refeição: " 
-				+ pretensaoRefeicao);
+				+ pretensaoRefeicaoCalculada);
 		
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
 		builder.expires(new Date());
 		
 		// Validação dos dados de entrada.
-		int validacao = Validate.pretensaoRefeicao(pretensaoRefeicao);
+		int validacao = Validate.pretensaoRefeicao(pretensaoRefeicaoCalculada);
 		
 		if (validacao == Validate.VALIDATE_OK) {
 			
 			try {			
 				
 				ConfirmaPretensaoDia confirmaPretensaoDia = 
-						pretensaoRefeicao.getConfirmaPretensaoDia();
+						pretensaoRefeicaoCalculada.getConfirmaPretensaoDia();
 				
 				// Verifica dia da refeição.
 				DiaRefeicao diaRefeicao = DiaRefeicaoDAO.getInstance()
@@ -161,12 +165,33 @@ public class PretensaoRefeicaoController {
 				
 				if (diaRefeicao != null) {
 									
-					pretensaoRefeicao = verifyPretensao(diaRefeicao);
+					pretensaoRefeicaoCalculada = verifyPretensao(diaRefeicao);
 					
-					if (pretensaoRefeicao != null) {
+					if (pretensaoRefeicaoCalculada != null) {
 						
-						builder.status(Response.Status.OK).entity(
-								pretensaoRefeicao);
+						Date dataPretensao = pretensaoRefeicaoCalculada
+								.getConfirmaPretensaoDia()
+								.getDataPretensao();
+						int idDiaRefeicao = diaRefeicao.getId();
+						
+						// Recuperar pretensão já lançada para a refeição e data.
+						PretensaoRefeicao pretencaoRefeicaoLancada = 
+								PretensaoRefeicaoDAO.getInstance()
+									.getPretensaoRefeicaoByDiaRefeicao(
+											idDiaRefeicao, dataPretensao);
+						
+						if (pretencaoRefeicaoLancada != null) {
+							
+							// Pretensão já lançada.
+							builder.status(Response.Status.OK).entity(
+									pretencaoRefeicaoLancada);
+							
+						} else {
+							
+							// Pretensão calculada.
+							builder.status(Response.Status.OK).entity(
+									pretensaoRefeicaoCalculada);
+						}						
 						
 					} else {
 						
@@ -283,6 +308,8 @@ public class PretensaoRefeicaoController {
 				ConfirmaRefeicaoDia confirmaRefeicaoDia = new ConfirmaRefeicaoDia();
 				confirmaRefeicaoDia.setDiaRefeicao(
 						pretensaoRefeicao.getConfirmaPretensaoDia().getDiaRefeicao());
+				
+				// Dia de refeição
 				RefeicaoRealizada refeicaoRealizada = new RefeicaoRealizada();
 				refeicaoRealizada.setConfirmaRefeicaoDia(confirmaRefeicaoDia);
 				
@@ -292,6 +319,9 @@ public class PretensaoRefeicaoController {
 				
 				if (idRefeicaoRealizada != BancoUtil.IDVAZIO) {
 					
+					//int status = openDoorPostRequest();
+                    //logger.info("Catraca: " + status);
+                    
 					builder.status(Response.Status.OK);				
 				}
 				
@@ -309,6 +339,58 @@ public class PretensaoRefeicaoController {
 		}
 		
 		return builder.build();
+	}
+	
+	public int openDoorPostRequest() {
+		
+		Client client = ClientBuilder.newClient();
+		Response response = client.target("http://192.168.2.110:8080/IFOpenDoors_SERVICE/room/open")
+				.request().post(Entity.json("{\"person\":{\"id\":1}, \"room\":{\"id\":1}}"));
+		
+		return response.getStatus(); 
+	}
+	
+	@PermitAll
+	@POST
+	@Path("/mapa/consultar")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public Response getMapaPretensaoRefeicao(
+			MapaPretensaoRefeicao mapaPretensaoRefeicao) {
+		
+		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
+		builder.expires(new Date());
+		
+		// Validação dos dados de entrada.
+		int validacao = Validate.VALIDATE_OK; //TODO: Validate.pretensaoRefeicao(pretensaoRefeicao);
+		
+		if (validacao == Validate.VALIDATE_OK) {
+			
+			try {			
+				
+				List<PretensaoRefeicao> pretensoesRefeicoes = PretensaoRefeicaoDAO
+						.getInstance().getMapaPretensaoRefeicao(
+								mapaPretensaoRefeicao);
+				
+				mapaPretensaoRefeicao.setPretensoesRefeicoes(pretensoesRefeicoes);
+				
+				builder.status(Response.Status.OK).entity(
+						mapaPretensaoRefeicao);
+				
+			
+			} catch (SQLExceptionNutrIF exception) {
+
+				builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
+						exception.getError());			
+			}
+			
+		} else {
+			
+			Error erro = ErrorFactory.getErrorFromIndex(validacao);
+			builder.status(Response.Status.NOT_ACCEPTABLE).entity(erro);
+		}
+		
+		return builder.build();	
 	}
 	
 	@DenyAll	

@@ -17,6 +17,7 @@ import br.edu.ifpb.nutrif.util.StringUtil;
 import br.edu.ladoss.entity.Aluno;
 import br.edu.ladoss.entity.Dia;
 import br.edu.ladoss.entity.DiaRefeicao;
+import br.edu.ladoss.entity.Refeicao;
 
 public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 	
@@ -200,6 +201,52 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 		}
 		
 		return diasRefeicao;		
+	}
+	
+	public boolean isDiaRefeicaoAtivo(DiaRefeicao diaRefeicao){
+		
+		boolean isAtivo = false;
+		
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		
+		try {
+			
+			String hql = "from DiaRefeicao as dr"
+					+ " where dr.aluno.id = :idAluno"
+					+ " and dr.dia.id = :idDia"
+					+ " and dr.refeicao.id = :idRefeicao"
+					+ " and dr.ativo = :ativo"
+					+ " order by dr.dataInsercao DESC";
+			
+			Aluno aluno = diaRefeicao.getAluno();
+			Dia dia = diaRefeicao.getDia();
+			Refeicao refeicao = diaRefeicao.getRefeicao();
+			
+			Query query = session.createQuery(hql);			
+			query.setParameter("idAluno", aluno.getId());
+			query.setParameter("idDia", dia.getId());
+			query.setParameter("idRefeicao", refeicao.getId());
+			query.setParameter("ativo", BancoUtil.ATIVO);
+			
+			diaRefeicao = (DiaRefeicao) query.uniqueResult();
+			
+			if (diaRefeicao != null) {
+				
+				isAtivo = diaRefeicao.isAtivo();
+			}
+	        
+		} catch (HibernateException hibernateException) {
+			
+			session.getTransaction().rollback();
+			
+			throw new SQLExceptionNutrIF(hibernateException);
+			
+		} finally {
+		
+			session.close();
+		}
+		
+		return isAtivo;		
 	}
 	
 	@Override

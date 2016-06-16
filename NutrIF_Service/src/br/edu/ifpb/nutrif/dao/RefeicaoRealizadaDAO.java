@@ -13,7 +13,7 @@ import org.hibernate.Session;
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
 import br.edu.ifpb.nutrif.hibernate.HibernateUtil;
 import br.edu.ladoss.entity.Dia;
-import br.edu.ladoss.entity.MapaRefeicoesRealizadas;
+import br.edu.ladoss.entity.MapaRefeicaoRealizada;
 import br.edu.ladoss.entity.Refeicao;
 import br.edu.ladoss.entity.RefeicaoRealizada;
 
@@ -65,7 +65,7 @@ public class RefeicaoRealizadaDAO extends GenericDao<Integer, RefeicaoRealizada>
 	}
 	
 	public List<RefeicaoRealizada> getMapaRefeicoesRaelizadas(
-			MapaRefeicoesRealizadas mapaRefeicoesRealizadas) {
+			MapaRefeicaoRealizada mapaRefeicoesRealizadas) {
 		
 		Session session = HibernateUtil.getSessionFactory().openSession();
 
@@ -75,17 +75,19 @@ public class RefeicaoRealizadaDAO extends GenericDao<Integer, RefeicaoRealizada>
 			
 			Dia dia = mapaRefeicoesRealizadas.getDia();
 			Refeicao refeicao = mapaRefeicoesRealizadas.getRefeicao();
-			Date dataRefeicao = mapaRefeicoesRealizadas.getDataRefeicao();
+			Date dataInicio = mapaRefeicoesRealizadas.getDataInicio();
+			Date dataFim = mapaRefeicoesRealizadas.getDataFim();		
 			
 			String hql = "from RefeicaoRealizada as rr"
 					+ " where rr.confirmaRefeicaoDia.diaRefeicao.dia.id = :dia"
 					+ " and rr.confirmaRefeicaoDia.diaRefeicao.refeicao.id = :refeicao"
-					+ " and rr.confirmaRefeicaoDia.dataRefeicao = :dataRefeicao";
+					+ " and rr.confirmaRefeicaoDia.dataRefeicao between :dataInicio and :dataFim";
 			
 			Query query = session.createQuery(hql);
 			query.setParameter("dia", dia.getId());
 			query.setParameter("refeicao", refeicao.getId());
-			query.setParameter("dataRefeicao", dataRefeicao);
+			query.setParameter("dataInicio", dataInicio);
+			query.setParameter("dataFim", dataFim);
 			
 			refeicoesRealizadas = (List<RefeicaoRealizada>) query.list();
 	        
