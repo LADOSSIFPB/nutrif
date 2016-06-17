@@ -52,7 +52,7 @@ public class FuncionarioController {
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
 		builder.expires(new Date());
 		
-		// Validação dos dados de entrada.
+		// Validaï¿½ï¿½o dos dados de entrada.
 		int validacao = Validate.funcionario(funacionario);
 		
 		if (validacao == Validate.VALIDATE_OK) {
@@ -68,15 +68,15 @@ public class FuncionarioController {
 				String keyAuth = StringUtil.criptografarSha256(hoje.toString());
 				funacionario.setKeyAuth(keyAuth);
 				
-				// Roles do Funcionário.
+				// Roles do Funcionï¿½rio.
 				List<Role> roles = RoleDAO.getInstance().getRolesByRolesId(
 						funacionario.getRoles());
 				funacionario.setRoles(roles);
 				
-				// Ativar Funacionário.
+				// Ativar Funacionï¿½rio.
 				funacionario.setAtivo(true);
 				
-				//Inserir o usuário.
+				//Inserir o usuï¿½rio.
 				Integer idUsuario = FuncionarioDAO.getInstance().insert(
 						funacionario);
 				
@@ -85,7 +85,7 @@ public class FuncionarioController {
 					// Remover a senha.
 					funacionario.setSenha(StringUtil.STRING_VAZIO);
 					
-					// Operação realizada com sucesso.
+					// Operaï¿½ï¿½o realizada com sucesso.
 					builder.status(Response.Status.OK);
 					builder.entity(funacionario);
 				}
