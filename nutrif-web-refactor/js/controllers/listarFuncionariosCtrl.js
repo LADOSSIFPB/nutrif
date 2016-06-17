@@ -18,7 +18,7 @@ angular.module('NutrifApp').controller('listarFuncionariosCtrl', function ($scop
         var _message = '';
 
         if (!data) {
-            _message = 'Não foram encontrados funcionários com esses dados'
+            _message = 'Nenhum funcionário cadastrado'
         } else {
             _message = data.mensagem
         }
