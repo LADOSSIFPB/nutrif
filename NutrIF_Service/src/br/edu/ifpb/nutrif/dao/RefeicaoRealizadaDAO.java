@@ -73,18 +73,15 @@ public class RefeicaoRealizadaDAO extends GenericDao<Integer, RefeicaoRealizada>
 		
 		try {
 			
-			Dia dia = mapaRefeicoesRealizadas.getDia();
 			Refeicao refeicao = mapaRefeicoesRealizadas.getRefeicao();
 			Date dataInicio = mapaRefeicoesRealizadas.getDataInicio();
 			Date dataFim = mapaRefeicoesRealizadas.getDataFim();		
 			
 			String hql = "from RefeicaoRealizada as rr"
-					+ " where rr.confirmaRefeicaoDia.diaRefeicao.dia.id = :dia"
-					+ " and rr.confirmaRefeicaoDia.diaRefeicao.refeicao.id = :refeicao"
+					+ " where rr.confirmaRefeicaoDia.diaRefeicao.refeicao.id = :refeicao"
 					+ " and rr.confirmaRefeicaoDia.dataRefeicao between :dataInicio and :dataFim";
 			
 			Query query = session.createQuery(hql);
-			query.setParameter("dia", dia.getId());
 			query.setParameter("refeicao", refeicao.getId());
 			query.setParameter("dataInicio", dataInicio);
 			query.setParameter("dataFim", dataFim);
