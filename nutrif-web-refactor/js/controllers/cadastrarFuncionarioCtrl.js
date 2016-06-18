@@ -1,6 +1,8 @@
 angular.module('NutrifApp').controller('cadastrarFuncionarioCtrl', function ($scope, $mdToast, funcionarioService, $state) {
 
-    this.cadastrar = function (funcionario) {
+	$scope.roles = [];
+    
+	this.cadastrar = function (funcionario) {
         funcionarioService.cadastrarFuncionario(funcionario)
             .success(onSuccessCallback)
             .error(onErrorCallback);
@@ -35,5 +37,17 @@ angular.module('NutrifApp').controller('cadastrarFuncionarioCtrl', function ($sc
             .hideDelay(6000)
         );
     }
+    
+    function carregarRoles () {
+        funcionarioService.getRoles()
+            .success(function (data, status){
+                $scope.roles = data;
+            })
+            .error(function (data, status){
+                alert("Houve um erro ao carregar os cargos. Contate um administrador.");
+            });
+    }
+
+    carregarRoles();
 
 });

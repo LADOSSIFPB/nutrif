@@ -19,12 +19,19 @@ angular.module("NutrifApp").factory("funcionarioService", function($http, config
 		return $http.get(_path+ "/listar/nome/" + nome);
 		
 	}
+	
+	var _getRoles = function(){
+		
+		return $http.get(config.baseUrl() + "/role/listar");
+		
+	}
 
 	return {
 		cadastrarFuncionario: _cadastrarFuncionario,
 		getAll: _getAll,
 		getFuncionarioById: _getFuncionarioById,
-		getFuncionarioByNome : _getFuncionarioByNome 
+		getFuncionarioByNome : _getFuncionarioByNome ,
+		getRoles: _getRoles
 	};
 
 });

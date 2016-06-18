@@ -15,6 +15,15 @@
             <label>Senha</label>
             <input ng-model="cadastrarFuncionarios.funcionario.senha" type="password">
         </md-input-container>
+        
+        <md-input-container>
+            <label>Selecione seu cargo</label>
+            <md-select ng-model="cadastrarFuncionarios.funcionario.roles.id">
+                <md-option ng-repeat="role in roles" value="{{role.id}}">
+                    {{role.nome}}
+                </md-option>
+            </md-select>
+        </md-input-container>
 
         <md-button type="submit" layout-fill type="submit" class="md-raised md-primary md-hue-1" style="margin-top: 40px">Cadastrar Funcionario</md-button>
 
