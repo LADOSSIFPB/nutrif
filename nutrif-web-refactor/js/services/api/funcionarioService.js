@@ -13,11 +13,18 @@ angular.module("NutrifApp").factory("funcionarioService", function($http, config
 	var _getFuncionarioById = function (id){
 		return $http.get(_path + "/id/" + encodeURI(id))
 	};
+	
+	var _getFuncionarioByNome = function (nome){
+		
+		return $http.get(_path+ "/listar/nome/" + nome);
+		
+	}
 
 	return {
 		cadastrarFuncionario: _cadastrarFuncionario,
 		getAll: _getAll,
-		getFuncionarioById: _getFuncionarioById
+		getFuncionarioById: _getFuncionarioById,
+		getFuncionarioByNome : _getFuncionarioByNome 
 	};
 
 });

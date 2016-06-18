@@ -46,12 +46,7 @@ angular.module('NutrifApp').config(function ($stateProvider, $urlRouterProvider)
 			title: 'Listar Funcionarios',
 		    templateUrl: 'view/manager/admin/listar-funcionarios.html',
             controller: 'listarFuncionariosCtrl',
-			module: 'admin',
-			resolve:{
-				funcionarios: function(funcionarioService){
-					return funcionarioService.getAll();
-				}
-			}
+			module: 'admin'
 	  	})
 
 		.state('home.entrada-alunos', {

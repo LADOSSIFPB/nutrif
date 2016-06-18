@@ -1,13 +1,18 @@
 angular.module('NutrifApp').controller('listarFuncionariosCtrl', function ($scope, $mdToast, funcionarioService) {
 
- 
+    $scope.texto = "";
     $scope.funcionarios = [];
 
-    
-    $scope.getAll = function (){
-    	funcionarioService.getAll()
-    	.success(onSuccessCallback)
-		.error(onErrorCallback);
+    $scope.limparBusca = function () {
+        $scope.texto = "";
+        $scope.funcionarios = [];
+    };
+
+    $scope.pesquisar = function (texto){
+                funcionarioService.getFuncionarioByNome(texto)
+                    .success(onSuccessCallback)
+                    .error(onErrorCallback);
+            
     };
 
     function onSuccessCallback(data, status) {
@@ -37,6 +42,5 @@ angular.module('NutrifApp').controller('listarFuncionariosCtrl', function ($scop
         limit: 8,
         page: 1
     };
-    
 
 });

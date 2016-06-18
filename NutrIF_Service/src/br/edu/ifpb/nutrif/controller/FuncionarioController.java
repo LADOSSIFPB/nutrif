@@ -17,6 +17,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
+import br.edu.ifpb.nutrif.dao.AlunoDAO;
 import br.edu.ifpb.nutrif.dao.FuncionarioDAO;
 import br.edu.ifpb.nutrif.dao.RoleDAO;
 import br.edu.ifpb.nutrif.exception.ErrorFactory;
@@ -24,6 +25,7 @@ import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
 import br.edu.ifpb.nutrif.util.BancoUtil;
 import br.edu.ifpb.nutrif.util.StringUtil;
 import br.edu.ifpb.nutrif.validation.Validate;
+import br.edu.ladoss.entity.Aluno;
 import br.edu.ladoss.entity.Error;
 import br.edu.ladoss.entity.Funcionario;
 import br.edu.ladoss.entity.Role;
@@ -83,7 +85,7 @@ public class FuncionarioController {
 				if (idUsuario != BancoUtil.IDVAZIO) {
 
 					// Remover a senha.
-					funacionario.setSenha(StringUtil.STRING_VAZIO);
+					
 					
 					// Opera��o realizada com sucesso.
 					builder.status(Response.Status.OK);
@@ -112,7 +114,7 @@ public class FuncionarioController {
 		return builder.build();		
 	}
 	
-	@DenyAll
+	@PermitAll
 	@GET
 	@Path("/listar")
 	@Produces("application/json")
@@ -149,4 +151,34 @@ public class FuncionarioController {
 
 		return builder.build();
 	}
+	
+	@PermitAll
+	@GET
+	@Path("/listar/nome/{nome}")
+	@Produces("application/json")
+	public Response getByNome(@PathParam("nome") String nome) {
+		
+		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
+		builder.expires(new Date());
+
+		List<Funcionario> funcionarios = new ArrayList<Funcionario>();
+		
+		try {
+
+			funcionarios = FuncionarioDAO.getInstance().listByNome(nome);
+			
+			builder.status(Response.Status.OK);
+			builder.entity(funcionarios);
+
+		} catch (SQLExceptionNutrIF exception) {
+
+			builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
+					exception.getError());
+		}
+
+		return builder.build();
+		
+		
+	}
+
 }
