@@ -69,7 +69,7 @@ public class FuncionarioController {
 				String keyAuth = StringUtil.criptografarSha256(hoje.toString());
 				pessoaAcesso.setKeyAuth(keyAuth);
 				
-				// Roles do Funcionï¿½rio.
+				// Roles do Funcionário.
 				List<Role> roles = RoleDAO.getInstance().getRolesByRolesId(
 						pessoaAcesso.getRoles());
 				pessoaAcesso.setRoles(roles);
@@ -83,7 +83,7 @@ public class FuncionarioController {
 				
 				if (idUsuario != BancoUtil.IDVAZIO) {					
 					
-					// Operaï¿½ï¿½o realizada com sucesso.
+					// Operação realizada com sucesso.
 					builder.status(Response.Status.OK);
 					builder.entity(pessoaAcesso);
 				}
@@ -174,5 +174,4 @@ public class FuncionarioController {
 
 		return builder.build();		
 	}
-
 }
