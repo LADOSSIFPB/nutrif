@@ -17,6 +17,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
+import br.edu.ifpb.nutrif.dao.AlunoDAO;
 import br.edu.ifpb.nutrif.dao.FuncionarioDAO;
 import br.edu.ifpb.nutrif.dao.PessoaDAO;
 import br.edu.ifpb.nutrif.dao.RoleDAO;
@@ -25,6 +26,7 @@ import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
 import br.edu.ifpb.nutrif.util.BancoUtil;
 import br.edu.ifpb.nutrif.util.StringUtil;
 import br.edu.ifpb.nutrif.validation.Validate;
+import br.edu.ladoss.entity.Aluno;
 import br.edu.ladoss.entity.Error;
 import br.edu.ladoss.entity.Funcionario;
 import br.edu.ladoss.entity.PessoaAcesso;
@@ -53,7 +55,7 @@ public class FuncionarioController {
 		
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
 		builder.expires(new Date());
-		
+
 		// Validação dos dados de entrada.
 		int validacao = Validate.funcionario(pessoaAcesso);
 		
@@ -70,7 +72,7 @@ public class FuncionarioController {
 				String keyAuth = StringUtil.criptografarSha256(hoje.toString());
 				pessoaAcesso.setKeyAuth(keyAuth);
 				
-				// Roles do Funcionário.
+				// Roles do Funcionï¿½rio.
 				List<Role> roles = RoleDAO.getInstance().getRolesByRolesId(
 						pessoaAcesso.getRoles());
 				pessoaAcesso.setRoles(roles);
@@ -82,12 +84,9 @@ public class FuncionarioController {
 				Integer idUsuario = PessoaDAO.getInstance().insert(
 						pessoaAcesso);
 				
-				if (idUsuario != BancoUtil.IDVAZIO) {
-
-					// Remover a senha.
-					pessoaAcesso.setSenha(StringUtil.STRING_VAZIO);
+				if (idUsuario != BancoUtil.IDVAZIO) {					
 					
-					// Operação realizada com sucesso.
+					// Operaï¿½ï¿½o realizada com sucesso.
 					builder.status(Response.Status.OK);
 					builder.entity(pessoaAcesso);
 				}
@@ -114,7 +113,7 @@ public class FuncionarioController {
 		return builder.build();		
 	}
 	
-	@DenyAll
+	@PermitAll
 	@GET
 	@Path("/listar")
 	@Produces("application/json")
@@ -151,4 +150,34 @@ public class FuncionarioController {
 
 		return builder.build();
 	}
+	
+	@PermitAll
+	@GET
+	@Path("/listar/nome/{nome}")
+	@Produces("application/json")
+	public Response getByNome(@PathParam("nome") String nome) {
+		
+		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
+		builder.expires(new Date());
+
+		List<Funcionario> funcionarios = new ArrayList<Funcionario>();
+		
+		try {
+
+			funcionarios = FuncionarioDAO.getInstance().listByNome(nome);
+			
+			builder.status(Response.Status.OK);
+			builder.entity(funcionarios);
+
+		} catch (SQLExceptionNutrIF exception) {
+
+			builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
+					exception.getError());
+		}
+
+		return builder.build();
+		
+		
+	}
+
 }

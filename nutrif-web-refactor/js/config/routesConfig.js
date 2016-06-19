@@ -40,6 +40,14 @@ angular.module('NutrifApp').config(function ($stateProvider, $urlRouterProvider)
             controllerAs: 'cadastrarFuncionarios',
 			module: 'admin'
 	  	})
+	  	
+	  	.state('home.listar-funcionarios', {
+		    url: '/listar/funcionarios', 
+			title: 'Listar Funcionarios',
+		    templateUrl: 'view/manager/admin/listar-funcionarios.html',
+            controller: 'listarFuncionariosCtrl',
+			module: 'admin'
+	  	})
 
 		.state('home.entrada-alunos', {
 		    url: '/entrada',
