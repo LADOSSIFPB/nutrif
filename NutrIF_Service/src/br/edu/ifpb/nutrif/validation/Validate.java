@@ -35,7 +35,7 @@ public class Validate {
 	
 	public static int inserirAluno(Aluno aluno) {
 		
-		logger.info("Validaï¿½ï¿½o para Aluno.");
+		logger.info("Validação para Aluno.");
 		
 		if (!stringValidator.validateSomenteLetras(aluno.getNome()))
 			return ErrorFactory.NOME_ALUNO_INVALIDO;
@@ -54,7 +54,7 @@ public class Validate {
 	
 	public static int acessoAluno(Aluno aluno) {
 		
-		logger.info("Validaï¿½ï¿½o para acesso de Aluno.");
+		logger.info("Validação para acesso de Aluno.");
 		
 		if (!stringValidator.validate(aluno.getMatricula(), 11))
 			return ErrorFactory.MATRICULA_ALUNO_INVALIDA;
@@ -70,7 +70,7 @@ public class Validate {
 	
 	public static int acessoServicoKeyAuth(String keyAuth) {
 		
-		logger.info("Validaï¿½ï¿½o para Chave de Autenticaï¿½ï¿½o.");
+		logger.info("Validação para Chave de Autenticação.");
 		
 		if (!stringValidator.validate(keyAuth, 64))
 			return ErrorFactory.CHAVE_AUTORIZACAO_PESSOA_INVALIDA;
@@ -80,7 +80,7 @@ public class Validate {
 	
 	public static int confirmacaoChaveAluno(Aluno aluno) {
 		
-		logger.info("Validaï¿½ï¿½o para confirmaï¿½ï¿½o de aluno.");
+		logger.info("Validação para confirmação de aluno.");
 		
 		if (!stringValidator.validate(aluno.getMatricula(), 11))
 			return ErrorFactory.MATRICULA_ALUNO_INVALIDA;
@@ -93,7 +93,7 @@ public class Validate {
 
 	public static int curso(Curso curso) {		
 		
-		logger.info("Validaï¿½ï¿½o para Curso.");
+		logger.info("Validação para Curso.");
 		
 		String nome = curso.getNome();
 		
@@ -117,14 +117,14 @@ public class Validate {
 	
 	public static int refeicao(Refeicao refeicao) {
 		
-		logger.info("Validaï¿½ï¿½o para Refeiï¿½ï¿½o.");
-		//TODO: implementar a validaï¿½ï¿½o.
+		logger.info("Validação para Refeição.");
+		//TODO: implementar a validação.
 		return VALIDATE_OK;
 	}
 	
 	public static int pretensaoRefeicao(PretensaoRefeicao pretensaoRefeicao) {
 		
-		logger.info("Validaï¿½ï¿½o para Pretensï¿½o Refeiï¿½ï¿½o.");
+		logger.info("Validação para Pretensão Refeição.");
 		
 		ConfirmaPretensaoDia confirmaPretensaoDia = pretensaoRefeicao
 				.getConfirmaPretensaoDia();
@@ -151,7 +151,7 @@ public class Validate {
 	public static int pretensaoRefeicaoKeyAccess(
 			PretensaoRefeicao pretensaoRefeicao) {
 		
-		logger.info("Validaï¿½ï¿½o da chave de acesso para Pretensï¿½o da Refeicao.");
+		logger.info("Validação da chave de acesso para Pretensão da Refeicao.");
  
 		if (pretensaoRefeicao == null 
 				|| !(pretensaoRefeicao != null && stringValidator.validate(
@@ -163,14 +163,14 @@ public class Validate {
 	
 	public static int dia(Dia aluno) {
 		
-		logger.info("Validaï¿½ï¿½o para Dia.");
-		//TODO: implementar a validaï¿½ï¿½o para abertura de sala.
+		logger.info("Validação para Dia.");
+		//TODO: implementar a validação para abertura de sala.
 		return VALIDATE_OK;
 	}
 
 	public static int diaRefeicao(DiaRefeicao diaRefeicao) {
 		
-		logger.info("Validaï¿½ï¿½o para Dia da Refeiï¿½ï¿½o.");
+		logger.info("Validação para Dia da Refeição.");
 		
 		Aluno aluno = diaRefeicao.getAluno();
 		if (aluno == null || 
@@ -205,7 +205,7 @@ public class Validate {
 	
 	public static int refeicaoRealizada(RefeicaoRealizada refeicaoRealizada) {
 		
-		logger.info("Validaï¿½ï¿½o para Refeiï¿½ï¿½o Realizada.");
+		logger.info("Validação para Refeição Realizada.");
 		
 		ConfirmaRefeicaoDia confirmaRefeicaoDia = refeicaoRealizada
 				.getConfirmaRefeicaoDia();
@@ -240,7 +240,7 @@ public class Validate {
 	
 	public static int funcionario(PessoaAcesso usuario) {
 		
-		logger.info("Validaï¿½ï¿½o para Funcionï¿½rio.");
+		logger.info("Validação para Funcionãrio.");
 		
 		String nome = usuario.getNome();
 		if (!stringValidator.validateSomenteLetras(nome))
@@ -261,7 +261,7 @@ public class Validate {
 	
 	public static int acessoPessoa(PessoaAcesso pessoaAcesso) {
 		
-		logger.info("Validaï¿½ï¿½o para acesso de Funcionï¿½rio.");
+		logger.info("Validação para acesso de Funcionário.");
 		
 		if (!emailValidator.validate(pessoaAcesso.getEmail()))
 			return ErrorFactory.EMAIL_USUARIO_INVALIDO;
@@ -275,7 +275,7 @@ public class Validate {
 	public static int downloadArquivo(TipoArquivo tipoArquivo, 
 			String nomeRealArquivo) {
 		
-		logger.info("Validaï¿½ï¿½o para Download de Arquivo.");
+		logger.info("Validação para Download de Arquivo.");
 	
 		if (tipoArquivo == null) 
 			return ErrorFactory.TIPO_ARQUIVO_INVALIDO;
@@ -288,7 +288,7 @@ public class Validate {
 	
 	public static int downloadImagemPerfil(int idAluno) {
 		
-		logger.info("Validaï¿½ï¿½o para Download da Imagem do Perfil.");
+		logger.info("Validação para Download da Imagem do Perfil.");
 		
 		if (!numeroValidator.isMaiorZero(idAluno))
 			return ErrorFactory.ID_ALUNO_INVALIDO;
@@ -299,7 +299,7 @@ public class Validate {
 	public static int uploadArquivo(TipoArquivo tipoArquivo, 
 			FileUploadForm form) {
 		
-		logger.info("Validaï¿½ï¿½o para Upload de Arquivo.");
+		logger.info("Validação para Upload de Arquivo.");
 		
 		if (tipoArquivo == null) 
 			return ErrorFactory.TIPO_ARQUIVO_INVALIDO;
