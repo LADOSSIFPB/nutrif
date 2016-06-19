@@ -18,6 +18,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
 import br.edu.ifpb.nutrif.dao.FuncionarioDAO;
+import br.edu.ifpb.nutrif.dao.PessoaDAO;
 import br.edu.ifpb.nutrif.dao.RoleDAO;
 import br.edu.ifpb.nutrif.exception.ErrorFactory;
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
@@ -26,6 +27,7 @@ import br.edu.ifpb.nutrif.util.StringUtil;
 import br.edu.ifpb.nutrif.validation.Validate;
 import br.edu.ladoss.entity.Error;
 import br.edu.ladoss.entity.Funcionario;
+import br.edu.ladoss.entity.PessoaAcesso;
 import br.edu.ladoss.entity.Role;
 
 @Path("funcionario")
@@ -39,7 +41,7 @@ public class FuncionarioController {
 	 *  "email":"[a-z]"
 	 * }
 	 * 
-	 * @param funacionario
+	 * @param pessoaAcesso
 	 * @return
 	 */
 	@PermitAll
@@ -47,47 +49,47 @@ public class FuncionarioController {
 	@Path("/inserir")
 	@Consumes("application/json")
 	@Produces("application/json")
-	public Response insert(Funcionario funacionario) {
+	public Response insert(PessoaAcesso pessoaAcesso) {
 		
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
 		builder.expires(new Date());
 		
 		// Validação dos dados de entrada.
-		int validacao = Validate.funcionario(funacionario);
+		int validacao = Validate.funcionario(pessoaAcesso);
 		
 		if (validacao == Validate.VALIDATE_OK) {
 			
 			try {
 				// Criptografar senha.
 				String senhaCriptografada = StringUtil.criptografarBase64(
-						funacionario.getSenha());				
-				funacionario.setSenha(senhaCriptografada);
+						pessoaAcesso.getSenha());				
+				pessoaAcesso.setSenha(senhaCriptografada);
 				
 				// Gerar AuthKey.
 				Date hoje = new Date();
 				String keyAuth = StringUtil.criptografarSha256(hoje.toString());
-				funacionario.setKeyAuth(keyAuth);
+				pessoaAcesso.setKeyAuth(keyAuth);
 				
 				// Roles do Funcionário.
 				List<Role> roles = RoleDAO.getInstance().getRolesByRolesId(
-						funacionario.getRoles());
-				funacionario.setRoles(roles);
+						pessoaAcesso.getRoles());
+				pessoaAcesso.setRoles(roles);
 				
 				// Ativar Funacionário.
-				funacionario.setAtivo(true);
+				pessoaAcesso.setAtivo(true);
 				
 				//Inserir o usuário.
-				Integer idUsuario = FuncionarioDAO.getInstance().insert(
-						funacionario);
+				Integer idUsuario = PessoaDAO.getInstance().insert(
+						pessoaAcesso);
 				
 				if (idUsuario != BancoUtil.IDVAZIO) {
 
 					// Remover a senha.
-					funacionario.setSenha(StringUtil.STRING_VAZIO);
+					pessoaAcesso.setSenha(StringUtil.STRING_VAZIO);
 					
 					// Operação realizada com sucesso.
 					builder.status(Response.Status.OK);
-					builder.entity(funacionario);
+					builder.entity(pessoaAcesso);
 				}
 			
 			} catch (SQLExceptionNutrIF exception) {

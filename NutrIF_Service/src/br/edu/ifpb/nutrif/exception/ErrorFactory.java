@@ -85,6 +85,12 @@ public class ErrorFactory {
 	public static final int ARQUIVO_PERFIL_INVALIDO = 34;
 	
 	/*
+	 * Roles
+	 */
+	public static final int ROLES_INVALIDAS = 35;
+	public static final int NOME_ROLE_INVALIDO = 36;
+	
+	/*
 	 * Mapa de erros: código e mensagem.
 	 */
 	private static final Map<Integer, String> mapErrors = generateErrorMapping();
@@ -126,6 +132,8 @@ public class ErrorFactory {
 		hashMap.put(FORMULARIO_ARQUIVO_INVALIDO, "Formulário com dados da submissão do inválido.");
 		hashMap.put(MATRICULA_ALUNO_DUPLICADA, "Matrícula do aluno duplicada.");
 		hashMap.put(ARQUIVO_PERFIL_INVALIDO, "Arquivo do perfil não encontrado.");
+		hashMap.put(ROLES_INVALIDAS, "Perfis de usuário não informados.");
+		hashMap.put(NOME_ROLE_INVALIDO, "Nome do perfil inválido.");
 		
 		
 		return hashMap;
