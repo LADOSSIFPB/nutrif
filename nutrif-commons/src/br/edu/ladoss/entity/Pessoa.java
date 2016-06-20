@@ -64,6 +64,9 @@ public class Pessoa implements Serializable {
 	)
 	private List<Role> roles;
 	
+	public static String TIPO_FUNCIONARIO = "1";
+	public static String TIPO_ALUNO = "2";
+	
 	@XmlElement
 	public Integer getId() {
 		return id;

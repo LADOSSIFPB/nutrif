@@ -26,6 +26,22 @@ public class PessoaAcesso extends Pessoa {
 		return pessoaAcesso;
 	}
 	
+	public Pessoa getPessoa() {
+		
+		Pessoa pessoa = new Pessoa();
+		
+		pessoa.setId(getId());
+		pessoa.setNome(getNome());
+		pessoa.setEmail(getEmail());
+		pessoa.setSenha(getSenha());
+		pessoa.setKeyAuth(getKeyAuth());
+		pessoa.setRoles(getRoles());
+		pessoa.setAtivo(isAtivo());		
+		pessoa.setTipo(getTipo());
+		
+		return pessoa;		
+	}
+	
 	@Override
 	@XmlElement
 	public String getSenha() {

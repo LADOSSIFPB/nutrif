@@ -26,6 +26,7 @@ import br.edu.ifpb.nutrif.util.StringUtil;
 import br.edu.ifpb.nutrif.validation.Validate;
 import br.edu.ladoss.entity.Error;
 import br.edu.ladoss.entity.Funcionario;
+import br.edu.ladoss.entity.Pessoa;
 import br.edu.ladoss.entity.PessoaAcesso;
 import br.edu.ladoss.entity.Role;
 
@@ -74,18 +75,21 @@ public class FuncionarioController {
 						pessoaAcesso.getRoles());
 				pessoaAcesso.setRoles(roles);
 				
+				// Tipo Funcionário 
+				pessoaAcesso.setTipo(Funcionario.TIPO_FUNCIONARIO);
+				
 				// Ativar Funacionário.
 				pessoaAcesso.setAtivo(true);
 				
-				//Inserir o usuário.
-				Integer idUsuario = PessoaDAO.getInstance().insert(
-						pessoaAcesso);
+				//Inserir o Pessoa - Funcionário.
+				Pessoa pessoa = pessoaAcesso.getPessoa();
+				Integer idPessoa = PessoaDAO.getInstance().insert(pessoa);
 				
-				if (idUsuario != BancoUtil.IDVAZIO) {					
+				if (idPessoa != BancoUtil.IDVAZIO) {					
 					
 					// Operação realizada com sucesso.
 					builder.status(Response.Status.OK);
-					builder.entity(pessoaAcesso);
+					builder.entity(pessoa);
 				}
 			
 			} catch (SQLExceptionNutrIF exception) {
