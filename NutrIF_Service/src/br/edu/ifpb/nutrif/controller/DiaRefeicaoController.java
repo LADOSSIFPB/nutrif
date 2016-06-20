@@ -120,7 +120,10 @@ public class DiaRefeicaoController {
 						}
 					
 					} else {
-						builder.status(Response.Status.CONFLICT);
+						
+						builder.status(Response.Status.CONFLICT).entity(
+								ErrorFactory.getErrorFromIndex(
+										ErrorFactory.DIA_REFEICAO_DIPLICADO));
 					}					
 				}
 			
