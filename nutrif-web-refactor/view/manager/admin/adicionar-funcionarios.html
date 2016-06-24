@@ -18,8 +18,8 @@
         
         <md-input-container>
             <label>Selecione seu cargo</label>
-            <md-select ng-model="cadastrarFuncionarios.funcionario.roles.id">
-                <md-option ng-repeat="role in roles" value="{{role.id}}">
+            <md-select ng-model="cadastrarFuncionarios.funcionario.roles.role.id">
+                <md-option ng-repeat="role in roles" value="{{role.id}}" >
                     {{role.nome}}
                 </md-option>
             </md-select>

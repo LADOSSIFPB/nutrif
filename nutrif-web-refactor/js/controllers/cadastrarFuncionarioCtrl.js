@@ -1,8 +1,21 @@
 angular.module('NutrifApp').controller('cadastrarFuncionarioCtrl', function ($scope, $mdToast, funcionarioService, $state) {
 
 	$scope.roles = [];
+
+	
+
     
 	this.cadastrar = function (funcionario) {
+		
+		var _roles = $scope.roles;
+		var _length = _roles.length;
+		
+		
+		funcionario.roles.role = _roles[(funcionario.roles.role.id)-1];
+		
+		
+		console.log(funcionario.roles.role.nome);
+		
         funcionarioService.cadastrarFuncionario(funcionario)
             .success(onSuccessCallback)
             .error(onErrorCallback);

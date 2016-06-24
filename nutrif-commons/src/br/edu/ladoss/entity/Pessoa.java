@@ -23,6 +23,9 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonProperty;
+import org.codehaus.jackson.annotate.JsonTypeInfo;
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
 
 @XmlRootElement(name = "pessoa")
 @Entity
@@ -130,6 +133,8 @@ public class Pessoa implements Serializable {
 		this.ativo = ativo;
 	}
 	
+	@XmlElement
+	@JsonTypeInfo(use=JsonTypeInfo.Id.NAME, include=JsonTypeInfo.As.PROPERTY, property="type")
 	public List<Role> getRoles() {
 		return roles;
 	}

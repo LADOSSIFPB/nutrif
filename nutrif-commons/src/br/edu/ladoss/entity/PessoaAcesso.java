@@ -1,5 +1,7 @@
 package br.edu.ladoss.entity;
 
+import java.util.List;
+
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -48,6 +50,7 @@ public class PessoaAcesso extends Pessoa {
 		return super.getSenha();
 	}
 	
+	
 	@Override
 	public String getKeyAuth() {
 		return this.keyAuth;
@@ -60,4 +63,6 @@ public class PessoaAcesso extends Pessoa {
 		
 		this.keyAuth = keyAuth;
 	}
+	
+
 }
