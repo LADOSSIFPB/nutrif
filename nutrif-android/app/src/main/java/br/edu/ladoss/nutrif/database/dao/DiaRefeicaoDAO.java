@@ -43,7 +43,7 @@ public class DiaRefeicaoDAO extends GenericDAO<DiaRefeicao> {
     }
 
     public void delete(DiaRefeicao pretensaoRefeicao) {
-        db.delete(DIAREFEICAO_TABLE, " _id ='"+pretensaoRefeicao.getId()+"';", null);
+        db.delete(DIAREFEICAO_TABLE, " _id ='" + pretensaoRefeicao.getId()+"';", null);
     }
 
     public void deleteAll(){
@@ -82,6 +82,7 @@ public class DiaRefeicaoDAO extends GenericDAO<DiaRefeicao> {
     }
 
     public List<DiaRefeicao> findAll() {
+        //TODO: refatorar o código para remover email do BD
         String[] colums = new String[]{"_id", "tipo", "diadasemana", "hora_init", "hora_final", "_email"};
         Cursor cursor = db.query(DIAREFEICAO_TABLE, colums, null, null, null, null, "_id");
 

@@ -11,19 +11,15 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mikepenz.materialdrawer.AccountHeader;
@@ -35,37 +31,21 @@ import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.io.File;
-import java.util.List;
 
 import br.edu.ladoss.nutrif.R;
-import br.edu.ladoss.nutrif.controller.DiaRefeicaoController;
 import br.edu.ladoss.nutrif.controller.PessoaController;
 import br.edu.ladoss.nutrif.controller.Replyable;
 import br.edu.ladoss.nutrif.database.dao.AlunoDAO;
 import br.edu.ladoss.nutrif.entitys.Aluno;
-import br.edu.ladoss.nutrif.entitys.DiaRefeicao;
 import br.edu.ladoss.nutrif.entitys.output.Erro;
 import br.edu.ladoss.nutrif.util.AndroidUtil;
 import br.edu.ladoss.nutrif.util.ImageUtils;
-import br.edu.ladoss.nutrif.view.adapters.HorarioAdapter;
-import br.edu.ladoss.nutrif.view.callback.RecycleButtonClicked;
-import butterknife.Bind;
+import br.edu.ladoss.nutrif.view.callback.MessagingCallback;
+import br.edu.ladoss.nutrif.view.fragment.ListMealsFragment;
 import butterknife.ButterKnife;
 
-public class RefeitorioActivity extends AppCompatActivity implements RecycleButtonClicked, Replyable<List<DiaRefeicao>>, AccountHeader.OnAccountHeaderProfileImageListener {
+public class HomeActivity extends AppCompatActivity implements MessagingCallback, AccountHeader.OnAccountHeaderProfileImageListener {
     private static final int PERMISSIONS_REQUEST_CAMERA = 1;
-
-    @Bind(R.id.carregando_layout)
-    LinearLayout carregarLayout;
-
-    @Bind(R.id.content)
-    LinearLayout content;
-
-    @Bind(R.id.recycle)
-    RecyclerView recycle;
-
-    @Bind(R.id.swiperefresh)
-    SwipeRefreshLayout swipe;
 
     AccountHeader headerResult;
 
@@ -81,21 +61,23 @@ public class RefeitorioActivity extends AppCompatActivity implements RecycleButt
         toolbar.setTitle(R.string.app_name);
         setSupportActionBar(toolbar);
 
-        buildSlideBar(toolbar, savedInstanceState);
+        if(savedInstanceState == null){
+            ListMealsFragment newFragment = ListMealsFragment.getInstance(this);
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.add(R.id.tela,newFragment);
+            transaction.commit();
+        }
 
-        swipe.setColorSchemeColors(getResources().getColor(R.color.accent));
-        swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        buildSlideBar(toolbar, savedInstanceState);
+    }
+
+    public void showMessage(final String message) {
+        runOnUiThread(new Runnable() {
             @Override
-            public void onRefresh() {
-                swipe.requestDisallowInterceptTouchEvent(true);
-                DiaRefeicaoController.gerarHorario(RefeitorioActivity.this,RefeitorioActivity.this);
-                swipe.requestDisallowInterceptTouchEvent(false);
-                swipe.setRefreshing(false);
+            public void run() {
+                AndroidUtil.showToast(HomeActivity.this, message);
             }
         });
-
-        change(false);
-        DiaRefeicaoController.gerarHorario(this, this);
     }
 
     public void buildSlideBar(Toolbar toolbar, Bundle savedInstanceState) {
@@ -173,14 +155,14 @@ public class RefeitorioActivity extends AppCompatActivity implements RecycleButt
             PessoaController.uploadPhoto(this, new Replyable<Aluno>() {
                 @Override
                 public void onSuccess(Aluno aluno) {
-                    AlunoDAO.getInstance(RefeitorioActivity.this).updatePhoto(aluno, bitmap);
+                    AlunoDAO.getInstance(HomeActivity.this).updatePhoto(aluno, bitmap);
                     profile.withIcon(result.getUri());
                     headerResult.updateProfile(profile);
                 }
 
                 @Override
                 public void onFailure(Erro erro) {
-                    Toast.makeText(RefeitorioActivity.this, erro.getMensagem(),Toast.LENGTH_LONG).show();
+                    Toast.makeText(HomeActivity.this, erro.getMensagem(),Toast.LENGTH_LONG).show();
                 }
 
                 @Override
@@ -194,7 +176,7 @@ public class RefeitorioActivity extends AppCompatActivity implements RecycleButt
 
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         if(requestCode == PERMISSIONS_REQUEST_CAMERA && grantResults[0] == PackageManager.PERMISSION_GRANTED)
-            CropImage.startPickImageActivity(RefeitorioActivity.this);
+            CropImage.startPickImageActivity(HomeActivity.this);
 
         else if (mCropImageUri != null && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             // required permissions granted, start crop image activity
@@ -205,31 +187,7 @@ public class RefeitorioActivity extends AppCompatActivity implements RecycleButt
         }
     }
 
-    @Override
-    public void onClickCallback(View view, int position) {
-        Intent intent = new Intent(this, RefeicaoActivity.class);
-        intent.putExtra("position", position);
-        startActivity(intent);
-    }
 
-    @Override
-    public void onSuccess(List<DiaRefeicao> diaRefeicaos) {
-        montaTabela(diaRefeicaos);
-        change(true);
-    }
-
-    @Override
-    public void onFailure(Erro erro) {
-        AndroidUtil.showSnackbar(RefeitorioActivity.this, erro.getMensagem());
-        change(true);
-    }
-
-    @Override
-    public void failCommunication(Throwable throwable) {
-        AndroidUtil.showSnackbar(RefeitorioActivity.this, R.string.impossivelcarregar);
-        montaTabela(DiaRefeicaoController.getRefeicoes());
-        change(true);
-    }
 
     @Override
     public boolean onProfileImageClick(View view, IProfile profile, boolean current) {
@@ -244,16 +202,6 @@ public class RefeitorioActivity extends AppCompatActivity implements RecycleButt
         return false;
     }
 
-    public void change(final boolean ativo) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                carregarLayout.setVisibility(ativo ? View.GONE : View.VISIBLE);
-                content.setVisibility(!ativo ? View.GONE : View.VISIBLE);
-            }
-        });
-    }
-
     public void sair() {
         AlertDialog alertDialog = new AlertDialog.Builder(this).create();
         alertDialog.setTitle(R.string.sair);
@@ -262,8 +210,8 @@ public class RefeitorioActivity extends AppCompatActivity implements RecycleButt
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
-                        PessoaController.logoff(RefeitorioActivity.this);
-                        startActivity(new Intent(RefeitorioActivity.this, EnterActivity.class));
+                        PessoaController.logoff(HomeActivity.this);
+                        startActivity(new Intent(HomeActivity.this, EnterActivity.class));
                         finish();
                     }
                 });
@@ -297,18 +245,18 @@ public class RefeitorioActivity extends AppCompatActivity implements RecycleButt
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
-                        if (ContextCompat.checkSelfPermission(RefeitorioActivity.this,
+                        if (ContextCompat.checkSelfPermission(HomeActivity.this,
                                 Manifest.permission.CAMERA)
                                 != PackageManager.PERMISSION_GRANTED) {
-                            if (ActivityCompat.shouldShowRequestPermissionRationale(RefeitorioActivity.this,
+                            if (ActivityCompat.shouldShowRequestPermissionRationale(HomeActivity.this,
                                     Manifest.permission.CAMERA)) {
                             } else {
-                                ActivityCompat.requestPermissions(RefeitorioActivity.this,
+                                ActivityCompat.requestPermissions(HomeActivity.this,
                                         new String[]{Manifest.permission.CAMERA},
                                         PERMISSIONS_REQUEST_CAMERA)   ;
                             }
                         }else{
-                            CropImage.startPickImageActivity(RefeitorioActivity.this);
+                            CropImage.startPickImageActivity(HomeActivity.this);
                         }
                     }
                 });
@@ -323,20 +271,5 @@ public class RefeitorioActivity extends AppCompatActivity implements RecycleButt
 
     }
 
-    public void montaTabela(List<DiaRefeicao> refeicoes) {
-        LinearLayoutManager gridLayoutManager = new LinearLayoutManager(this);
-        gridLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        recycle.setLayoutManager(gridLayoutManager);
-        recycle.setAdapter(new HorarioAdapter(this, refeicoes, this));
-        if (recycle.getAdapter().getItemCount() == 0) {
-            recycle.setVisibility(View.GONE);
-            TextView textView = new TextView(this);
-            textView.setText(R.string.nodays);
-            textView.setGravity(Gravity.CENTER);
-            content.addView(textView);
-        } else
-            recycle.setVisibility(View.VISIBLE);
-
-    }
 
 }

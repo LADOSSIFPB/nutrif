@@ -8,7 +8,7 @@
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <uses-feature
         android:name="android.hardware.camera"
@@ -38,7 +38,7 @@
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Theme.AppCompat" />
         <activity
-            android:name=".view.activitys.RefeitorioActivity"
+            android:name=".view.activitys.HomeActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".view.activitys.CadastroActivity"
@@ -59,22 +59,24 @@
         <activity
             android:name=".view.activitys.RefeicaoActivity"
             android:label="@string/title_activity_refeicao"
-            android:parentActivityName=".view.activitys.RefeitorioActivity">
+            android:parentActivityName=".view.activitys.HomeActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="br.edu.ladoss.nutrif.view.activitys.RefeitorioActivity" />
+                android:value="br.edu.ladoss.nutrif.view.activitys.HomeActivity" />
         </activity>
         <activity android:name=".view.activitys.QRCodeActivity" />
 
         <receiver android:name=".broadcast.ConnectionBroadcast">
             <intent-filter>
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
         </receiver>
+
         <service
             android:name=".broadcast.ReconnectService"
             android:enabled="true"
-            android:exported="false"></service>
+            android:exported="false" />
+
     </application>
 
 </manifest>

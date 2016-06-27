@@ -1,7 +1,9 @@
 package br.edu.ladoss.nutrif.entitys;
 
 
-public class Refeicao {
+import java.io.Serializable;
+
+public class Refeicao implements Serializable{
 	private Integer id;
 	private String tipo;
 	private String horaInicio;

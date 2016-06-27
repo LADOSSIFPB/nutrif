@@ -1,6 +1,8 @@
 package br.edu.ladoss.nutrif.entitys;
 
-public class Curso {
+import java.io.Serializable;
+
+public class Curso implements Serializable{
 
 	private Integer id;
 

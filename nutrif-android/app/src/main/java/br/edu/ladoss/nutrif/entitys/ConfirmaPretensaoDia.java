@@ -20,24 +20,12 @@ public class ConfirmaPretensaoDia{
 		this.diaRefeicao = diaRefeicao;
 	}
 
-	public String getDataPretensao() {
-		Date date= new Date(dataPretensao.longValue());
-		SimpleDateFormat df2 = new SimpleDateFormat("dd/MM");
-		String dateText = df2.format(date);
-		return dateText;
+	public Long getDataPretensao(){
+		return dataPretensao;
 	}
 
 	public void setDataPretensao(Long dataPretensao) {
 		this.dataPretensao = dataPretensao;
-	}
-
-	public void setDataPretensao(String dataPretensao){
-		java.text.SimpleDateFormat dateformate = new SimpleDateFormat("dd/MM");
-		try {
-			this.dataPretensao = dateformate.parse(dataPretensao).getTime();
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
 	}
 
 }

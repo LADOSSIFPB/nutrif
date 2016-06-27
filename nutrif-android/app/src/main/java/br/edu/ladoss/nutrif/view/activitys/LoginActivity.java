@@ -153,7 +153,7 @@ public class LoginActivity extends AppCompatActivity {
                 if (aluno.getPhoto() == null)
                     downloadPhoto(aluno);
                 showMessage(getString(R.string.logindone));
-                startActivity(new Intent(LoginActivity.this, RefeitorioActivity.class));
+                startActivity(new Intent(LoginActivity.this, HomeActivity.class));
                 finish();
             }
         }).start();

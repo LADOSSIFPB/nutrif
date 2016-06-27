@@ -9,12 +9,13 @@ import br.edu.ladoss.nutrif.R;
 import br.edu.ladoss.nutrif.database.dao.AlunoDAO;
 import br.edu.ladoss.nutrif.database.dao.DiaRefeicaoDAO;
 import br.edu.ladoss.nutrif.database.dao.PretensaoRefeicaoDAO;
+import br.edu.ladoss.nutrif.util.PreferencesUtils;
 
 /**
  * Created by juan on 14/03/16.
  */
 public class DatabaseCore extends SQLiteOpenHelper {
-    private static final int VERSION = 4;
+    private static final int VERSION = 5;
 
     public DatabaseCore(Context context) {
         super(context, context.getString(R.string.app_name), null, VERSION);
@@ -32,6 +33,7 @@ public class DatabaseCore extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL(DiaRefeicaoDAO.DROP_TABLE);
         db.execSQL(AlunoDAO.DROP_TABLE);
+        db.execSQL(PretensaoRefeicaoDAO.DROP_TABLE);
         onCreate(db);
     }
 }

@@ -67,7 +67,6 @@ public class HorarioAdapter extends RecyclerView.Adapter<HorarioAdapter.RoomView
 
     public class RoomViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView natureza, horario, diadasemana;
-        // Button registrar;
 
         public RoomViewHolder(View item) {
             super(item);
@@ -79,7 +78,7 @@ public class HorarioAdapter extends RecyclerView.Adapter<HorarioAdapter.RoomView
 
         @Override
         public void onClick(View v) {
-            view.onClickCallback(v, getAdapterPosition());
+            view.onClickCallback(refeicoes.get(getAdapterPosition()));
         }
     }
 }

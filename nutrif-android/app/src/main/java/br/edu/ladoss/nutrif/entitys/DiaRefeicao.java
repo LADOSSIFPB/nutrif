@@ -1,6 +1,8 @@
 package br.edu.ladoss.nutrif.entitys;
 
-public class  DiaRefeicao {
+import java.io.Serializable;
+
+public class DiaRefeicao implements Serializable{
 
     private Aluno aluno;
     private Integer id;

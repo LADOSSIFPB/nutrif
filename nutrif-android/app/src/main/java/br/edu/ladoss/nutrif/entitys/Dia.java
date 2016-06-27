@@ -1,6 +1,8 @@
 package br.edu.ladoss.nutrif.entitys;
 
-public class Dia  {
+import java.io.Serializable;
+
+public class Dia  implements Serializable{
 
 	private Integer id;
 	private String nome;

@@ -3,16 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="br.edu.ladoss.nutrif.view.activitys.RefeitorioActivity">
+    tools:context="br.edu.ladoss.nutrif.view.activitys.HomeActivity">
 
     <LinearLayout
-        android:id="@+id/content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:background="#f3f3f3"
-        android:gravity="center_horizontal"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:id="@+id/tela">
 
         <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
@@ -24,41 +21,9 @@
                 style="@style/AppTheme"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorPrimary"
-                android:elevation="4dp" />
+                android:background="@color/colorPrimary" />
 
         </android.support.design.widget.AppBarLayout>
-            <TextView
-                android:id="@+id/textView2"
-                style="@style/TextAppearance.AppCompat.Display1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_margin="10dp"
-                android:password="false"
-                android:phoneNumber="false"
-                android:text="@string/refeicoesdireito"
-                android:textAlignment="center"
-                android:textColor="@color/colorPrimary"
-                android:textSize="20sp" />
-        <android.support.v4.widget.SwipeRefreshLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/swiperefresh">
-
-
-        <android.support.v7.widget.RecyclerView
-                android:id="@+id/recycle"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-            </android.support.v7.widget.RecyclerView>
-        </android.support.v4.widget.SwipeRefreshLayout>
     </LinearLayout>
-
-    <include
-        layout="@layout/layout_carregando"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
 
 </FrameLayout>
