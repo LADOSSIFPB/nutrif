@@ -31,6 +31,23 @@ angular.module('NutrifApp').config(function ($stateProvider, $urlRouterProvider)
 			abstract: true,
 		    templateUrl: 'view/manager/home.html'
 	  	})
+	  	
+	  	.state('home.adicionar-funcionarios', {
+		    url: '/adicionar/funcionario', 
+			title: 'Adicionar Funcionarios',
+		    templateUrl: 'view/manager/admin/adicionar-funcionarios.html',
+            controller: 'cadastrarFuncionarioCtrl',
+            controllerAs: 'cadastrarFuncionarios',
+			module: 'admin'
+	  	})
+	  	
+	  	.state('home.listar-funcionarios', {
+		    url: '/listar/funcionarios', 
+			title: 'Listar Funcionarios',
+		    templateUrl: 'view/manager/admin/listar-funcionarios.html',
+            controller: 'listarFuncionariosCtrl',
+			module: 'admin'
+	  	})
 
 		.state('home.entrada-alunos', {
 		    url: '/entrada',
@@ -91,4 +108,5 @@ angular.module('NutrifApp').config(function ($stateProvider, $urlRouterProvider)
 			controllerAs: 'listar',
 		    module: 'comensal'
 	  	});
+
 });

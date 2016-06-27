@@ -1,11 +1,12 @@
 package br.edu.ifpb.nutrif.validation;
 
+import java.util.List;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import br.edu.ifpb.nutrif.exception.ErrorFactory;
 import br.edu.ladoss.entity.Aluno;
-import br.edu.ladoss.entity.Arquivo;
 import br.edu.ladoss.entity.ConfirmaPretensaoDia;
 import br.edu.ladoss.entity.ConfirmaRefeicaoDia;
 import br.edu.ladoss.entity.Curso;
@@ -16,6 +17,7 @@ import br.edu.ladoss.entity.PessoaAcesso;
 import br.edu.ladoss.entity.PretensaoRefeicao;
 import br.edu.ladoss.entity.Refeicao;
 import br.edu.ladoss.entity.RefeicaoRealizada;
+import br.edu.ladoss.entity.Role;
 import br.edu.ladoss.enumeration.TipoArquivo;
 import br.edu.ladoss.form.FileUploadForm;
 
@@ -97,6 +99,18 @@ public class Validate {
 		
 		if (!stringValidator.validateSomenteLetras(nome))
 			return ErrorFactory.NOME_CURSO_INVALIDO;		
+		
+		return VALIDATE_OK;
+	}
+	
+	public static int role(Role role) {		
+		
+		logger.info("Validação para Role.");
+		
+		String nome = role.getNome();
+		
+		if (!stringValidator.validateSomenteLetras(nome))
+			return ErrorFactory.NOME_ROLE_INVALIDO;		
 		
 		return VALIDATE_OK;
 	}
@@ -224,17 +238,23 @@ public class Validate {
 		return VALIDATE_OK;
 	}
 	
-	public static int funcionario(Funcionario usuario) {
+	public static int funcionario(PessoaAcesso usuario) {
 		
-		logger.info("Validação para Funcionário.");
+		logger.info("Validação para Funcionãrio.");
 		
 		String nome = usuario.getNome();
 		if (!stringValidator.validateSomenteLetras(nome))
 			return ErrorFactory.NOME_USUARIO_INVALIDO;
 		
-		String senha = usuario.getSenha();
-		if (!stringValidator.validatePassword(senha))
+		
+		if (!stringValidator.validate(usuario.getSenha(), 5, 40))
 			return ErrorFactory.SENHA_USUARIO_INVALIDA;
+		
+		List<Role> roles = usuario.getRoles();
+		if (roles == null || (roles != null && roles.size() == 0)) {
+			
+			return ErrorFactory.ROLES_INVALIDAS;			
+		}
 		
 		return VALIDATE_OK;
 	}

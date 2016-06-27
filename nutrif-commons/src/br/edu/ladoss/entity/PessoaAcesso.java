@@ -1,5 +1,7 @@
 package br.edu.ladoss.entity;
 
+import java.util.List;
+
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -26,11 +28,28 @@ public class PessoaAcesso extends Pessoa {
 		return pessoaAcesso;
 	}
 	
+	public Pessoa getPessoa() {
+		
+		Pessoa pessoa = new Pessoa();
+		
+		pessoa.setId(getId());
+		pessoa.setNome(getNome());
+		pessoa.setEmail(getEmail());
+		pessoa.setSenha(getSenha());
+		pessoa.setKeyAuth(getKeyAuth());
+		pessoa.setRoles(getRoles());
+		pessoa.setAtivo(isAtivo());		
+		pessoa.setTipo(getTipo());
+		
+		return pessoa;		
+	}
+	
 	@Override
 	@XmlElement
 	public String getSenha() {
 		return super.getSenha();
 	}
+	
 	
 	@Override
 	public String getKeyAuth() {
@@ -44,4 +63,6 @@ public class PessoaAcesso extends Pessoa {
 		
 		this.keyAuth = keyAuth;
 	}
+	
+
 }

@@ -23,6 +23,9 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonProperty;
+import org.codehaus.jackson.annotate.JsonTypeInfo;
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
 
 @XmlRootElement(name = "pessoa")
 @Entity
@@ -63,6 +66,9 @@ public class Pessoa implements Serializable {
 		inverseJoinColumns = @JoinColumn(name = "fk_id_role")
 	)
 	private List<Role> roles;
+	
+	public static String TIPO_FUNCIONARIO = "1";
+	public static String TIPO_ALUNO = "2";
 	
 	@XmlElement
 	public Integer getId() {
@@ -127,6 +133,8 @@ public class Pessoa implements Serializable {
 		this.ativo = ativo;
 	}
 	
+	@XmlElement
+	@JsonTypeInfo(use=JsonTypeInfo.Id.NAME, include=JsonTypeInfo.As.PROPERTY, property="type")
 	public List<Role> getRoles() {
 		return roles;
 	}

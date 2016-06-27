@@ -10,6 +10,8 @@ import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.codehaus.jackson.annotate.JsonTypeInfo;
+
 @XmlRootElement(name = "role")
 @Entity
 @Table(name = "tb_role")

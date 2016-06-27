@@ -34,13 +34,14 @@ public class EmailUtil {
 		}
 	}
 
-	public void sendChaveConfirmacaoAluno(String to, String keyConfirmation) 
+	public void sendChaveConfirmacaoAluno(String to, String keyConfirmation, String nome) 
 			throws EmailExceptionNutrIF {
 		
 		String subject = "NutrIF - Ativação da conta do Aluno"; 
-		String message = "Bem-vindo(a) ao NutrIF! \n"
+		String message = nome + ", bem-vindo(a) ao NutrIF! \n"
 				+ "Sua chave de confirmação de acesso é " + keyConfirmation + ".\n"
-				+ "Utilize para habilitar o acesso ao NutrIF Móvel para Android.";
+				+ "Utilize para habilitar o acesso ao NutrIF Móvel para Android."
+				+ " Acesse a opção - Validar Código -";
 		
 		this.send(to, subject, message);
 	}
@@ -48,10 +49,10 @@ public class EmailUtil {
 	public void send(String to, String subject, String message) 
 			throws EmailExceptionNutrIF {
 
-		String from = "***@gmail.com"; // Sender Account.
+		String from = "******@gmail.com"; // Sender Account.
 
 		final String smtpServer = "smtp.gmail.com";
-		final String password = "***"; // Password -> Application Specific Password.
+		final String password = "*****"; // Password -> Application Specific Password.
 		final String SOCKET_FACTORY = "javax.net.ssl.SSLSocketFactory";
 		final String smtpPort = "587";
 		final String PORT = "465";

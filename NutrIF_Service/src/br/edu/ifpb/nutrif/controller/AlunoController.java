@@ -17,8 +17,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
-import org.hibernate.exception.ConstraintViolationException;
-
 import br.edu.ifpb.nutrif.dao.AlunoDAO;
 import br.edu.ifpb.nutrif.dao.CursoDAO;
 import br.edu.ifpb.nutrif.dao.RoleDAO;
@@ -32,7 +30,6 @@ import br.edu.ifpb.nutrif.validation.Validate;
 import br.edu.ladoss.entity.Aluno;
 import br.edu.ladoss.entity.AlunoAcesso;
 import br.edu.ladoss.entity.Curso;
-import br.edu.ladoss.entity.Error;
 import br.edu.ladoss.entity.Role;
 
 @Path("aluno")
@@ -330,6 +327,7 @@ public class AlunoController {
 						
 						// E-mail do Aluno.
 						aluno.setEmail(email);
+						
 					} else {
 						
 						email = aluno.getEmail();
@@ -364,7 +362,7 @@ public class AlunoController {
 						// Enviar e-mail com a chave de acesso.
 						EmailUtil emailUtil = new EmailUtil();
 						emailUtil.sendChaveConfirmacaoAluno(
-								email, keyConfirmation);
+								email, keyConfirmation, aluno.getNome());
 						
 						// Remover a senha.
 						aluno.setSenha(StringUtil.STRING_VAZIO);

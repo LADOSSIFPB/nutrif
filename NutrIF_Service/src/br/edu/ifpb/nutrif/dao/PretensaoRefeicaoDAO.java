@@ -170,8 +170,7 @@ public class PretensaoRefeicaoDAO extends GenericDao<Integer, PretensaoRefeicao>
 			Date dataFim = mapaPretensaoRefeicao.getDataFim();
 			
 			String hql = "from PretensaoRefeicao as pr"
-					+ " where pr.confirmaPretensaoDia.diaRefeicao.dia.id = :dia"
-					+ " and pr.confirmaPretensaoDia.diaRefeicao.refeicao.id = :refeicao"
+					+ " where pr.confirmaPretensaoDia.diaRefeicao.refeicao.id = :refeicao"
 					+ " and pr.confirmaPretensaoDia.dataPretensao between :dataInicio and :dataFim";
 			
 			Query query = session.createQuery(hql);

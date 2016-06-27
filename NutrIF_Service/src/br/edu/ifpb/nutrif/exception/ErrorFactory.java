@@ -42,47 +42,54 @@ public class ErrorFactory {
 	public static final int ID_ALUNO_INVALIDO = 16;
 	public static final int ID_DIA_INVALIDO = 17;
 	public static final int ID_REFEICAO_INVALIDA = 18;
+	public static final int DIA_REFEICAO_DIPLICADO = 19;
 	
 	/*
 	 * Confirmação da Refeição.
 	 */
-	public static final int CONFIRMACAO_REFEICAO_INVALIDA = 19;
+	public static final int CONFIRMACAO_REFEICAO_INVALIDA = 20;
 	
 	/*
 	 * Pretensão da Refeição
 	 */
-	public static final int PRETENSAO_REFEICAO_NAO_ENCONTRADA = 20;
-	public static final int PRETENSAO_REFEICAO_INVALIDA = 21;
-	public static final int CONFIRMACAO_PRETENSAO_INVALIDA = 22;
-	public static final int CHAVE_ACESSO_PRETENSAO_INVALIDA = 23;
+	public static final int PRETENSAO_REFEICAO_NAO_ENCONTRADA = 21;
+	public static final int PRETENSAO_REFEICAO_INVALIDA = 22;
+	public static final int CONFIRMACAO_PRETENSAO_INVALIDA = 23;
+	public static final int CHAVE_ACESSO_PRETENSAO_INVALIDA = 24;
 	
 	/*
 	 * Realização da Refeição
 	 */
-	public static final int REFEICAO_REALIZADA_NAO_ENCONTRADA = 24;
+	public static final int REFEICAO_REALIZADA_NAO_ENCONTRADA = 25;
 	
 	/*
 	 * Funcionário
 	 */
-	public static final int CODIGO_FUNCIONARIO_INSPETOR_INVALIDO = 25;
-	public static final int ID_FUNCIONARIO_INVALIDO = 26;
+	public static final int CODIGO_FUNCIONARIO_INSPETOR_INVALIDO = 26;
+	public static final int ID_FUNCIONARIO_INVALIDO = 27;
 	
 	/*
 	 * Pessoa
 	 */
-	public static final int CHAVE_AUTORIZACAO_PESSOA_INVALIDA = 27;
-	public static final int ID_PESSOA_INVALIDO = 28;
+	public static final int CHAVE_AUTORIZACAO_PESSOA_INVALIDA = 28;
+	public static final int ID_PESSOA_INVALIDO = 29;
 	
-	public static final int IMPOSSIVEL_CRIPTOGRAFAR_VALOR = 29;
+	public static final int IMPOSSIVEL_CRIPTOGRAFAR_VALOR = 30;
 	
 	/*
 	 * Arquivo
 	 */
-	public static final int TIPO_ARQUIVO_INVALIDO = 30;
-	public static final int NOME_ARQUIVO_INVALIDO = 31;
-	public static final int TAMANHO_ARQUIVO_INVALIDO = 32;
-	public static final int FORMULARIO_ARQUIVO_INVALIDO = 33;
-	public static final int ARQUIVO_PERFIL_INVALIDO = 34;
+	public static final int TIPO_ARQUIVO_INVALIDO = 31;
+	public static final int NOME_ARQUIVO_INVALIDO = 32;
+	public static final int TAMANHO_ARQUIVO_INVALIDO = 33;
+	public static final int FORMULARIO_ARQUIVO_INVALIDO = 34;
+	public static final int ARQUIVO_PERFIL_INVALIDO = 35;
+	
+	/*
+	 * Roles
+	 */
+	public static final int ROLES_INVALIDAS = 36;
+	public static final int NOME_ROLE_INVALIDO = 37;
 	
 	/*
 	 * Mapa de erros: código e mensagem.
@@ -126,6 +133,9 @@ public class ErrorFactory {
 		hashMap.put(FORMULARIO_ARQUIVO_INVALIDO, "Formulário com dados da submissão do inválido.");
 		hashMap.put(MATRICULA_ALUNO_DUPLICADA, "Matrícula do aluno duplicada.");
 		hashMap.put(ARQUIVO_PERFIL_INVALIDO, "Arquivo do perfil não encontrado.");
+		hashMap.put(ROLES_INVALIDAS, "Perfis de usuário não informados.");
+		hashMap.put(NOME_ROLE_INVALIDO, "Nome do perfil inválido.");
+		hashMap.put(DIA_REFEICAO_DIPLICADO, "Dia de refeição duplicado para o Aluno.");
 		
 		
 		return hashMap;
