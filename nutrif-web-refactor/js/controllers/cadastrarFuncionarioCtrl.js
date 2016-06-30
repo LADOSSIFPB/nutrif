@@ -10,11 +10,11 @@ angular.module('NutrifApp').controller('cadastrarFuncionarioCtrl', function ($sc
 		var _roles = $scope.roles;
 		var _length = _roles.length;
 		
+		var rolesFunc = [];
+		rolesFunc.push(_roles[(funcionario.roles.role.id)-1]);
 		
-		funcionario.roles.role = _roles[(funcionario.roles.role.id)-1];
+		funcionario.roles = rolesFunc;
 		
-		
-		console.log(funcionario.roles.role.nome);
 		
         funcionarioService.cadastrarFuncionario(funcionario)
             .success(onSuccessCallback)
@@ -30,7 +30,7 @@ angular.module('NutrifApp').controller('cadastrarFuncionarioCtrl', function ($sc
             .hideDelay(6000)
         );
 
-        $state.transitionTo('home');
+        $state.transitionTo('home.entrada-alunos');
     }
 
     function onErrorCallback (data, status) {

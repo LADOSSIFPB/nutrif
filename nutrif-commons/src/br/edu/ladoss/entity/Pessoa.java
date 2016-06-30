@@ -134,7 +134,6 @@ public class Pessoa implements Serializable {
 	}
 	
 	@XmlElement
-	@JsonTypeInfo(use=JsonTypeInfo.Id.NAME, include=JsonTypeInfo.As.PROPERTY, property="type")
 	public List<Role> getRoles() {
 		return roles;
 	}

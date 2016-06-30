@@ -83,9 +83,10 @@ public class FuncionarioController {
 				
 				//Inserir o Pessoa - Funcionário.
 				Pessoa pessoa = pessoaAcesso.getPessoa();
-				Integer idPessoa = PessoaDAO.getInstance().insert(pessoa);
+				Integer idFuncionario = FuncionarioDAO.getInstance().insert(
+						Funcionario.setFuncionario(pessoa));
 				
-				if (idPessoa != BancoUtil.IDVAZIO) {					
+				if (idFuncionario != BancoUtil.IDVAZIO) {					
 					
 					// Operação realizada com sucesso.
 					builder.status(Response.Status.OK);

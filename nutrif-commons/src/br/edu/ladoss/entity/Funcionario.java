@@ -18,6 +18,22 @@ public class Funcionario extends Pessoa {
 
 	private static final long serialVersionUID = 7914104914276090901L;
 
+	public static Funcionario setFuncionario(Pessoa pessoa) {
+		
+		Funcionario funcionario = new Funcionario();
+		
+		funcionario.setId(pessoa.getId());
+		funcionario.setNome(pessoa.getNome());
+		funcionario.setEmail(pessoa.getEmail());
+		funcionario.setSenha(pessoa.getSenha());
+		funcionario.setKeyAuth(pessoa.getKeyAuth());
+		funcionario.setRoles(pessoa.getRoles());
+		funcionario.setAtivo(pessoa.isAtivo());		
+		funcionario.setTipo(pessoa.getTipo());
+		
+		return funcionario;		
+	}
+
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_funcionario")
 	private Integer id;
