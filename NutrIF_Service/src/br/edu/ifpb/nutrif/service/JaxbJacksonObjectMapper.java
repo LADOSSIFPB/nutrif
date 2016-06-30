@@ -1,9 +1,5 @@
 package br.edu.ifpb.nutrif.service;
-<<<<<<< HEAD
-=======
 
-
->>>>>>> origin/master
 import org.codehaus.jackson.map.AnnotationIntrospector;
 import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -11,11 +7,6 @@ import org.codehaus.jackson.map.SerializationConfig.Feature;
 import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
 import org.codehaus.jackson.xc.JaxbAnnotationIntrospector;
 
-<<<<<<< HEAD
-=======
-
-
->>>>>>> origin/master
 public class JaxbJacksonObjectMapper extends ObjectMapper {
 
     public JaxbJacksonObjectMapper() {
