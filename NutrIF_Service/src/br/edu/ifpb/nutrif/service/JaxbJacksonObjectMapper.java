@@ -1,14 +1,10 @@
 package br.edu.ifpb.nutrif.service;
-import java.util.List;
-
 import org.codehaus.jackson.map.AnnotationIntrospector;
 import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.SerializationConfig.Feature;
 import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
 import org.codehaus.jackson.xc.JaxbAnnotationIntrospector;
-
-import br.edu.ladoss.entity.Role;
 
 public class JaxbJacksonObjectMapper extends ObjectMapper {
 
@@ -18,8 +14,6 @@ public class JaxbJacksonObjectMapper extends ObjectMapper {
         configure(Feature.WRITE_EMPTY_JSON_ARRAYS, true);
         configure(Feature.WRAP_EXCEPTIONS, true);
         configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        
-
 
         final AnnotationIntrospector introspector = new JaxbAnnotationIntrospector();
 
