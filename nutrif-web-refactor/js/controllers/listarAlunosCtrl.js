@@ -14,7 +14,7 @@ angular.module('NutrifApp').controller('listarAlunosCtrl', function ($scope, $md
                 alunoService.buscaAlunoPorNome(texto)
                     .success(onSuccessCallback)
                     .error(onErrorCallback);
-            } else if (texto.length === 11) {
+            } else if (texto.length === 11 || texto.length === 12) {
                 alunoService.buscaAlunoPorMatricula(texto)
                     .success(function (data, status) {
                         $scope.alunos = [];

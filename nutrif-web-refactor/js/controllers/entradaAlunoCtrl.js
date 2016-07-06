@@ -9,7 +9,7 @@ angular.module('NutrifApp').controller('entradaAlunoCtrl', function ($scope, use
                 diaRefeicaoService.buscaRefeicaoPorNome(texto)
                     .success(onSuccessCallback)
                     .error(onErrorCallback);
-            } else if (texto.length === 11) {
+            } else if (texto.length === 11 || texto.length === 12) {
                 diaRefeicaoService.buscaRefeicaoPorMatricula(texto)
                     .success(onSuccessCallback)
                     .error(onErrorCallback)
