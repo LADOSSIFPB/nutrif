@@ -90,4 +90,19 @@ public class StringUtil {
 			String replacement) {
 		return text.replaceFirst("(?s)(.*)" + regex, "$1" + replacement);
 	}
+	
+	public static String upperCaseFirstChar(String nomeCompleto) {
+		
+		String nomeRetorno = WordsCapitalizer.capitalizeEveryWord(nomeCompleto);
+		
+		nomeRetorno = nomeRetorno.replace(" De ", " de ");
+		nomeRetorno = nomeRetorno.replace(" Do ", " do ");        
+		nomeRetorno = nomeRetorno.replace(" Dos ", " dos ");
+		nomeRetorno = nomeRetorno.replace(" Da ", " da ");
+		nomeRetorno = nomeRetorno.replace(" Das ", " das ");
+		nomeRetorno = nomeRetorno.replace(" E ", " e ");
+		nomeRetorno = nomeRetorno.replace(" Para ", " para ");
+		
+		return nomeRetorno;
+	}
 }

@@ -64,6 +64,9 @@ public class AlunoController {
 		if (validacao == Validate.VALIDATE_OK) {
 			
 			try {
+				// Nome do aluno somente com a primeira letra em maiúsculo.
+				String nome = aluno.getNome();
+				aluno.setNome(StringUtil.upperCaseFirstChar(nome));
 				
 				// Recuperar Curso.
 				int idCurso = aluno.getCurso().getId();

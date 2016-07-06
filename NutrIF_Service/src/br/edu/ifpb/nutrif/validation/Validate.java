@@ -40,7 +40,8 @@ public class Validate {
 		if (!stringValidator.validateSomenteLetras(aluno.getNome()))
 			return ErrorFactory.NOME_ALUNO_INVALIDO;
 			
-		if (!numeroValidator.validate(aluno.getMatricula()))
+		if (!numeroValidator.validate(aluno.getMatricula()) 
+				&& stringValidator.validate(aluno.getMatricula(), 11, 12))
 			return ErrorFactory.MATRICULA_ALUNO_INVALIDA;
 			
 		Curso curso = aluno.getCurso();
