@@ -152,8 +152,9 @@ function adicionarRefeicaoCtrl (refeicoes, aluno, $state, $stateParams, userServ
                 .hideDelay(6000)
             );
         } else {
-            $mdDialog.hide();
-            refeicao.funcionario = userService.getUser();
+            $mdDialog.hide();	  
+            refeicao.funcionario = {};
+			refeicao.funcionario.id = userService.getUser().id;
             refeicao.aluno = $scope.aluno;
             diaRefeicaoService.cadastrarRefeicao(refeicao)
                 .success(onSuccessCallback)

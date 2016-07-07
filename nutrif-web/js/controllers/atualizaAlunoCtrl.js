@@ -27,16 +27,18 @@ angular.module("NutrifApp").controller("atualizaAlunoCtrl", function ($scope, $c
           return;
       }
 
-      var newRefeicao = {
+      var novaRefeicao = {
          refeicao: {id :refeicao.refeicao.id},
          dia: refeicao.dia,
-         aluno: aluno,
-         funcionario: $cookies.getObject('user')
+         aluno: aluno
       };
+	  
+	  novaRefeicao.funcionario = {};
+	  novaRefeicao.funcionario.id = $cookies.getObject('user').id;
 
       $('#adicionar-refeicao').closeModal();
 
-      diaRefeicaoService.cadastrarRefeicao(newRefeicao).success(function (data, status) {
+      diaRefeicaoService.cadastrarRefeicao(novaRefeicao).success(function (data, status) {
 
          Materialize.toast('Refeição agendada com sucesso', 6000);
 
