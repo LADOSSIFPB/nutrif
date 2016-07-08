@@ -3,17 +3,17 @@
 
         <md-input-container class="md-icon-float md-block">
             <label>Nome Completo</label>
-            <input ng-model="cadastrar.aluno.nome" type="text">
+            <input ng-model="cadastrar.aluno.nome" type="text" required>
         </md-input-container>
 
         <md-input-container class="md-icon-float md-block">
             <label>Matícula</label>
-            <input ng-model="cadastrar.aluno.matricula" type="number">
+            <input ng-model="cadastrar.aluno.matricula" type="number" required>
         </md-input-container>
 
         <md-input-container>
             <label>Selecione um curso</label>
-            <md-select ng-model="cadastrar.aluno.curso.id">
+            <md-select ng-model="cadastrar.aluno.curso.id" required="true">
                 <md-option ng-repeat="curso in cursos" value="{{curso.id}}">
                     {{curso.nome}}
                 </md-option>

@@ -41,13 +41,13 @@ public class Validate {
 			return ErrorFactory.NOME_ALUNO_INVALIDO;
 			
 		if (!numeroValidator.validate(aluno.getMatricula()) 
-				&& stringValidator.validate(aluno.getMatricula(), 11, 12))
+				|| !stringValidator.validate(aluno.getMatricula(), 11, 12))
 			return ErrorFactory.MATRICULA_ALUNO_INVALIDA;
 			
 		Curso curso = aluno.getCurso();
-		if (curso != null 
-				&& !numeroValidator.isMaiorZero(curso.getId())
-				&& !numeroValidator.isMaiorZero(curso.getId()))
+		if (curso == null 
+				|| (curso != null 
+					&& !numeroValidator.isMaiorZero(curso.getId())))
 			return ErrorFactory.ID_CURSO_INVALIDO;		
 		
 		return VALIDATE_OK;

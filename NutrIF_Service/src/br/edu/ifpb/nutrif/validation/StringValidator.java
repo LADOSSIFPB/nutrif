@@ -33,7 +33,7 @@ public class StringValidator implements NutrIFValidator {
 		
 		boolean isValidate = false;
 		
-		if (value != null && !value.trim().equals(StringUtil.STRING_VAZIO)) {
+		if (!StringUtil.isEmptyOrNull(value)) {
 		
 			matcher = pattern.matcher(value.trim());
 			isValidate = matcher.matches();
@@ -46,7 +46,7 @@ public class StringValidator implements NutrIFValidator {
 		
 		boolean isValidate = false;
 		
-		if (value != null && !value.trim().equals(StringUtil.STRING_VAZIO)) {
+		if (!StringUtil.isEmptyOrNull(value)) {
 			matcher = patternLetras.matcher(value.trim());
 			isValidate = matcher.matches();
 		}		
@@ -64,7 +64,8 @@ public class StringValidator implements NutrIFValidator {
 	public boolean validate(final String value, int tamanhoMenor,
 			int tamanhoMaior) {
 		
-		return (value.length() >= tamanhoMenor 
+		return (!StringUtil.isEmptyOrNull(value) 
+				&& value.length() >= tamanhoMenor 
 				&& value.length() <= tamanhoMaior);
 		
 	}

@@ -17,6 +17,7 @@ public class StringUtil {
 		
 		if (value == null 
 				|| (value != null && value.trim().equals(STRING_VAZIO))) {
+			
 			isEmptyOrNull = true;
 		}
 		
