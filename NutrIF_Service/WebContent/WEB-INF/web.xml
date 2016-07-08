@@ -5,7 +5,7 @@
 	id="WebApp_ID" 
 	version="3.1">
 	
-	<display-name>NutrIF_Service</display-name>
+	<display-name>NutrIF_Service_homologacao</display-name>
 	
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
