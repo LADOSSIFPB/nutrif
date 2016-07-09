@@ -115,6 +115,54 @@ public class FuncionarioController {
 		return builder.build();		
 	}
 	
+	
+	/**
+	 * Atualizar dados do funcionario.
+	 * 
+	 * 
+	 * @return
+	 */
+	@PermitAll
+	@POST
+	@Path("/atualizar")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public Response update(PessoaAcesso pessoaAcesso) {
+		
+		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
+		builder.expires(new Date());
+		
+		
+		
+		// Validação dos dados de entrada.
+		int validacao = Validate.funcionario(pessoaAcesso);
+		
+		if (validacao == Validate.VALIDATE_OK) {
+			
+			try {			
+				
+				
+				Funcionario funcionario = FuncionarioDAO.getInstance()
+						.update(Funcionario.setFuncionario(pessoaAcesso));
+				
+				if (funcionario != null) {
+
+					// Operação realizada com sucesso.
+					builder.status(Response.Status.OK);					
+					builder.entity(funcionario);
+				}
+			
+			} catch (SQLExceptionNutrIF exception) {
+
+				builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
+						exception.getError());			
+			
+			} 
+		}				
+		
+		return builder.build();		
+	}
+	
 	@PermitAll
 	@GET
 	@Path("/listar")
