@@ -10,7 +10,6 @@ import org.hibernate.Session;
 
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
 import br.edu.ifpb.nutrif.hibernate.HibernateUtil;
-import br.edu.ladoss.entity.Aluno;
 import br.edu.ladoss.entity.Funcionario;
 
 public class FuncionarioDAO extends GenericDao<Integer, Funcionario> {

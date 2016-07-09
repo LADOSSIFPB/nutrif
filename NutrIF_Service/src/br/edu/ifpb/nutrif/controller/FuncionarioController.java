@@ -127,29 +127,38 @@ public class FuncionarioController {
 	@Path("/atualizar")
 	@Consumes("application/json")
 	@Produces("application/json")
-	public Response update(PessoaAcesso pessoaAcesso) {
+	public Response update(Funcionario funcionario) {
 		
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
-		builder.expires(new Date());
-		
-		
+		builder.expires(new Date());		
 		
 		// Validação dos dados de entrada.
-		int validacao = Validate.funcionario(pessoaAcesso);
+		int validacao = Validate.atualizaFuncionario(funcionario);
 		
 		if (validacao == Validate.VALIDATE_OK) {
 			
-			try {			
+			try {				
 				
+				// Recuperar Senha e keyAuth.
+				int idPessoa = funcionario.getId();
+				Funcionario funcionarioAntigo = FuncionarioDAO.getInstance()
+						.getById(idPessoa);
+				String senha = funcionarioAntigo.getSenha();
+				String keyAuth = funcionarioAntigo.getKeyAuth();				
 				
-				Funcionario funcionario = FuncionarioDAO.getInstance()
-						.update(Funcionario.setFuncionario(pessoaAcesso));
+				// Reestabelece a senha e chave de autenticação.
+				funcionario.setSenha(senha);
+				funcionario.setKeyAuth(keyAuth);
 				
-				if (funcionario != null) {
+				// Atualiza funcionário
+				Funcionario funcionarioAtualizado = FuncionarioDAO.getInstance()
+						.update(Funcionario.setFuncionario(funcionario));
+				
+				if (funcionarioAtualizado != null) {
 
 					// Operação realizada com sucesso.
 					builder.status(Response.Status.OK);					
-					builder.entity(funcionario);
+					builder.entity(funcionarioAtualizado);
 				}
 			
 			} catch (SQLExceptionNutrIF exception) {

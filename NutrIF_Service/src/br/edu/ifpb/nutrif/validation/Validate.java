@@ -241,7 +241,7 @@ public class Validate {
 	
 	public static int funcionario(PessoaAcesso usuario) {
 		
-		logger.info("Validação para Funcionãrio.");
+		logger.info("Validação para Funcionário.");
 		
 		String nome = usuario.getNome();
 		if (!stringValidator.validateSomenteLetras(nome))
@@ -252,6 +252,23 @@ public class Validate {
 			return ErrorFactory.SENHA_USUARIO_INVALIDA;
 		
 		List<Role> roles = usuario.getRoles();
+		if (roles == null || (roles != null && roles.size() == 0)) {
+			
+			return ErrorFactory.ROLES_INVALIDAS;			
+		}
+		
+		return VALIDATE_OK;
+	}
+	
+	public static int atualizaFuncionario(Funcionario funcionario) {
+		
+		logger.info("Validação para Funcionário.");
+		
+		String nome = funcionario.getNome();
+		if (!stringValidator.validateSomenteLetras(nome))
+			return ErrorFactory.NOME_USUARIO_INVALIDO;
+		
+		List<Role> roles = funcionario.getRoles();
 		if (roles == null || (roles != null && roles.size() == 0)) {
 			
 			return ErrorFactory.ROLES_INVALIDAS;			
