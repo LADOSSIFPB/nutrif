@@ -100,6 +100,22 @@ public class PessoaController {
 		return builder.build();		
 	}
 	
+	
+	/**
+	 * Reiniciar senha para aluno e funcionário.
+	 * 
+	 * @param pessoaAcesso
+	 * @return
+	 */
+	@PermitAll
+	@POST
+	@Path("/login")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public Response requestResetSenha(PessoaAcesso pessoaAcesso) {
+		return null;		
+	}
+	
 	/**
 	 * Reiniciar senha para aluno e funcionário.
 	 * 

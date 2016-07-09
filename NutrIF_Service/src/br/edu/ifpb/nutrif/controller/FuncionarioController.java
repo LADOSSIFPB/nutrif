@@ -150,6 +150,11 @@ public class FuncionarioController {
 				funcionario.setSenha(senha);
 				funcionario.setKeyAuth(keyAuth);
 				
+				// Roles do Funcionário.
+				List<Role> roles = RoleDAO.getInstance().getRolesByRolesId(
+						funcionario.getRoles());
+				funcionario.setRoles(roles);
+				
 				// Atualiza funcionário
 				Funcionario funcionarioAtualizado = FuncionarioDAO.getInstance()
 						.update(Funcionario.setFuncionario(funcionario));
@@ -165,7 +170,6 @@ public class FuncionarioController {
 
 				builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
 						exception.getError());			
-			
 			} 
 		}				
 		
