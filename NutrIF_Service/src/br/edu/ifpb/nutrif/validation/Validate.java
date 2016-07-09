@@ -268,6 +268,9 @@ public class Validate {
 		if (!stringValidator.validateSomenteLetras(nome))
 			return ErrorFactory.NOME_USUARIO_INVALIDO;
 		
+		if (!emailValidator.validate(funcionario.getEmail()))
+			return ErrorFactory.EMAIL_USUARIO_INVALIDO;
+		
 		List<Role> roles = funcionario.getRoles();
 		if (roles == null || (roles != null && roles.size() == 0)) {
 			
