@@ -3,22 +3,22 @@
 
         <md-input-container class="md-icon-float md-block">
             <label>Nome Completo</label>
-            <input ng-model="cadastrarFuncionarios.funcionario.nome" type="text">
+            <input ng-model="cadastrarFuncionarios.funcionario.nome" type="text" required>
         </md-input-container>
 
         <md-input-container class="md-icon-float md-block">
             <label>Email</label>
-            <input ng-model="cadastrarFuncionarios.funcionario.email" type="text">
+            <input ng-model="cadastrarFuncionarios.funcionario.email" type="text" required>
         </md-input-container>
 
         <md-input-container class="md-icon-float md-block">
             <label>Senha</label>
-            <input ng-model="cadastrarFuncionarios.funcionario.senha" type="password">
+            <input ng-model="cadastrarFuncionarios.funcionario.senha" type="password" required>
         </md-input-container>
         
         <md-input-container>
             <label>Selecione seu cargo</label>
-            <md-select ng-model="cadastrarFuncionarios.funcionario.roles.role.id">
+            <md-select ng-model="cadastrarFuncionarios.funcionario.roles.role.id" required="true">
                 <md-option ng-repeat="role in roles" value="{{role.id}}" >
                     {{role.nome}}
                 </md-option>
