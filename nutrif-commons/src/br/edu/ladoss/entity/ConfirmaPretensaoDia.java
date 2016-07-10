@@ -42,7 +42,16 @@ public class ConfirmaPretensaoDia implements Serializable {
 	}
 
 	public void setDataPretensao(Date dataPretensao) {
-		this.dataPretensao = dataPretensao;
+		
+		if (dataPretensao != null) {
+			
+			System.out.println("time in mili: " + dataPretensao.getTime());
+	        this.dataPretensao = new Date(dataPretensao.getTime());
+	        
+	    } else {
+	    	
+	        this.dataPretensao = null;
+	    }
 	}
 
 	@Override
