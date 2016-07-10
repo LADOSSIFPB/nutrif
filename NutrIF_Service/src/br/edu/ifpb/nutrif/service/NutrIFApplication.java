@@ -30,7 +30,7 @@ public class NutrIFApplication extends Application {
 		CorsFilter filter = new CorsFilter();
 		filter.getAllowedOrigins().add("*");
 		filter.setAllowedMethods("POST, GET, DELETE, PUT, OPTIONS");
-		filter.setAllowedHeaders("Content-Type");
+		filter.setAllowedHeaders("Content-Type, Authorization");
 		
 		this.singletons.add(filter);
 		
