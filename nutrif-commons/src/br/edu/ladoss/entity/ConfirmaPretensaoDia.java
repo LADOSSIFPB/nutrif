@@ -38,14 +38,13 @@ public class ConfirmaPretensaoDia implements Serializable {
 
 	@XmlElement
 	public Date getDataPretensao() {
-		return dataPretensao;
+		return new Date(dataPretensao.getTime());
 	}
 
 	public void setDataPretensao(Date dataPretensao) {
 		
 		if (dataPretensao != null) {
 			
-			System.out.println("time in mili: " + dataPretensao.getTime());
 	        this.dataPretensao = new Date(dataPretensao.getTime());
 	        
 	    } else {
