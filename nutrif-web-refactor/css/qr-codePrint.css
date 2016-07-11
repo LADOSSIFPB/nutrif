@@ -1,0 +1,8 @@
+@media print {
+	body {
+		visibility: hidden;
+	}
+	.md-dialog-content {
+		visibility: visible;
+	}
+}
