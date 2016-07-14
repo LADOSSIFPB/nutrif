@@ -11,6 +11,9 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import br.edu.ifpb.nutrif.dao.LoginDAO;
 import br.edu.ifpb.nutrif.dao.PessoaDAO;
 import br.edu.ifpb.nutrif.exception.ErrorFactory;
@@ -23,6 +26,8 @@ import br.edu.ladoss.entity.PessoaAcesso;
 
 @Path("pessoa")
 public class PessoaController {
+	
+	private static Logger logger = LogManager.getLogger(PessoaController.class);
 	
 	/**
 	 * Login para Pessoa. Retorna a chave de autenticação caso o usuário esteja
@@ -40,6 +45,8 @@ public class PessoaController {
 		
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
 		builder.expires(new Date());
+		
+		logger.info("Login usuário");
 		
 		// Validação dos dados de entrada.
 		int validacao = Validate.acessoPessoa(pessoaAcesso);
