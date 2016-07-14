@@ -58,5 +58,4 @@ angular.module('NutrifApp').controller('entradaQrCtrl', function ($scope, userSe
             notify: true
         });
     }
-
 });

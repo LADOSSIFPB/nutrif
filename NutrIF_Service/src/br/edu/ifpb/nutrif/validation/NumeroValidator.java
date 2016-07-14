@@ -3,6 +3,8 @@ package br.edu.ifpb.nutrif.validation;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import br.edu.ifpb.nutrif.util.StringUtil;
+
 public class NumeroValidator implements NutrIFValidator{
 
 	private Pattern pattern;
@@ -16,13 +18,17 @@ public class NumeroValidator implements NutrIFValidator{
 
 	@Override
 	public boolean validate(final String value) {
-		if (value == null || value.trim().equals(""))
+		
+		if (StringUtil.isEmptyOrNull(value))
 			return false;
+		
 		matcher = pattern.matcher(value.trim());
+		
 		return matcher.matches();
 	}
 
 	public boolean validate(final String value, int tamanho) {
+		
 		return (validate(value) 
 				&& value.length() <= tamanho);
 	}

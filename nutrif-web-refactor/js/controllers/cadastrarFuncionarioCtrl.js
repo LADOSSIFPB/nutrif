@@ -30,7 +30,7 @@ angular.module('NutrifApp').controller('cadastrarFuncionarioCtrl', function ($sc
             .hideDelay(6000)
         );
 
-        $state.transitionTo('home.entrada-alunos');
+        $state.transitionTo('home.listar-funcionarios');
     }
 
     function onErrorCallback (data, status) {

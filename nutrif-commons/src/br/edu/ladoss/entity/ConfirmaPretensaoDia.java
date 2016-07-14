@@ -38,11 +38,19 @@ public class ConfirmaPretensaoDia implements Serializable {
 
 	@XmlElement
 	public Date getDataPretensao() {
-		return dataPretensao;
+		return new Date(dataPretensao.getTime());
 	}
 
 	public void setDataPretensao(Date dataPretensao) {
-		this.dataPretensao = dataPretensao;
+		
+		if (dataPretensao != null) {
+			
+	        this.dataPretensao = new Date(dataPretensao.getTime());
+	        
+	    } else {
+	    	
+	        this.dataPretensao = null;
+	    }
 	}
 
 	@Override

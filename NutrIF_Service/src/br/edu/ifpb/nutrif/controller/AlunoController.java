@@ -101,7 +101,12 @@ public class AlunoController {
 				builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
 						exception.getError());				
 			}
-		}				
+		
+		} else {
+			
+			builder.status(Response.Status.BAD_REQUEST).entity(
+					ErrorFactory.getErrorFromIndex(validacao));
+		}
 		
 		return builder.build();		
 	}

@@ -76,6 +76,16 @@ angular.module('NutrifApp').config(function ($stateProvider, $urlRouterProvider)
 			module: 'admin'
 	  	})
 
+	  	.state('home.editar-funcionario', {
+		    url: '/editar/funcionario/:id',
+			title: 'Editar Funcionario',
+		    templateUrl: 'view/manager/admin/editar-funcionario.html',
+			controller: 'editarFuncionarioCtrl',
+			controllerAs: 'editar',
+			module: 'admin'
+	  	})
+	  	
+	  	
 		.state('home.listar-alunos', {
 		    url: '/listar',
 			title: 'Listar Alunos',

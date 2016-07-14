@@ -17,7 +17,6 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
 import br.edu.ifpb.nutrif.dao.FuncionarioDAO;
-import br.edu.ifpb.nutrif.dao.PessoaDAO;
 import br.edu.ifpb.nutrif.dao.RoleDAO;
 import br.edu.ifpb.nutrif.exception.ErrorFactory;
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
@@ -111,6 +110,67 @@ public class FuncionarioController {
 			Error erro = ErrorFactory.getErrorFromIndex(validacao);
 			builder.status(Response.Status.NOT_ACCEPTABLE).entity(erro);
 		}
+		
+		return builder.build();		
+	}
+	
+	
+	/**
+	 * Atualizar dados do funcionario.
+	 * 
+	 * 
+	 * @return
+	 */
+	@PermitAll
+	@POST
+	@Path("/atualizar")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public Response update(Funcionario funcionario) {
+		
+		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
+		builder.expires(new Date());		
+		
+		// Validação dos dados de entrada.
+		int validacao = Validate.atualizaFuncionario(funcionario);
+		
+		if (validacao == Validate.VALIDATE_OK) {
+			
+			try {				
+				
+				// Recuperar Senha e keyAuth.
+				int idPessoa = funcionario.getId();
+				Funcionario funcionarioAntigo = FuncionarioDAO.getInstance()
+						.getById(idPessoa);
+				String senha = funcionarioAntigo.getSenha();
+				String keyAuth = funcionarioAntigo.getKeyAuth();				
+				
+				// Reestabelece a senha e chave de autenticação.
+				funcionario.setSenha(senha);
+				funcionario.setKeyAuth(keyAuth);
+				
+				// Roles do Funcionário.
+				List<Role> roles = RoleDAO.getInstance().getRolesByRolesId(
+						funcionario.getRoles());
+				funcionario.setRoles(roles);
+				
+				// Atualiza funcionário
+				Funcionario funcionarioAtualizado = FuncionarioDAO.getInstance()
+						.update(Funcionario.setFuncionario(funcionario));
+				
+				if (funcionarioAtualizado != null) {
+
+					// Operação realizada com sucesso.
+					builder.status(Response.Status.OK);					
+					builder.entity(funcionarioAtualizado);
+				}
+			
+			} catch (SQLExceptionNutrIF exception) {
+
+				builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
+						exception.getError());			
+			} 
+		}				
 		
 		return builder.build();		
 	}

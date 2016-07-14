@@ -24,7 +24,8 @@ angular.module("NutrifApp").controller("listarPretensaoCtrl", function ($scope, 
                         clickOutsideToClose:true,
                         fullscreen: false,
                         locals : {
-                            code: code
+                            code: code,
+                            pretensao: data
                         }
                     }).then(function(data) {
 
@@ -118,12 +119,15 @@ function confirmarPretensaoCtrl (pretensao, $scope, $mdDialog, $mdToast, pretens
 
 };
 
-function generateQrCtrl (code, $scope, $mdDialog) {
+function generateQrCtrl (pretensao, code, $scope, $mdDialog, userService) {
 
     $scope.code = code.keyAccess;
-
+    $scope.user = userService.getUser();
+    $scope.refeicao = pretensao.confirmaPretensaoDia.diaRefeicao.dia.nome;
+    $scope.dataRefeicao = pretensao.confirmaPretensaoDia.dataPretensao;
+    		
     $scope.hide = function() {
-        $mdDialog.hide();
+        window.print();
     };
 
     $scope.cancel = function() {
