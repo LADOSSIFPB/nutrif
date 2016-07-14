@@ -3,12 +3,9 @@ package br.edu.ifpb.nutrif.service;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.TimeZone;
 
 import javax.annotation.security.DenyAll;
 import javax.annotation.security.PermitAll;
@@ -44,6 +41,8 @@ public class SecurityInterceptor implements ContainerRequestFilter {
 	public void filter(ContainerRequestContext requestContext)
 			throws IOException {
 		
+		logger.info("Filter: roles verify.");
+		
 		MultivaluedMap<String, String> headers = requestContext.getHeaders();
 		
 		ResourceMethodInvoker methodInvoker = 
@@ -52,6 +51,8 @@ public class SecurityInterceptor implements ContainerRequestFilter {
         Method method = methodInvoker.getMethod();
         
         if(!method.isAnnotationPresent(PermitAll.class)) {
+        	
+        	logger.info("Verify authorization.");
         	
         	final List<String> authorization = headers.get(AUTHORIZATION_PROPERTY);
 
@@ -68,8 +69,7 @@ public class SecurityInterceptor implements ContainerRequestFilter {
 				requestContext.abortWith(Response.status(
 						Response.Status.UNAUTHORIZED).build());
 				return;
-			}
-			
+			}			
             
             // Analisar perfil do usuário.
 			if(method.isAnnotationPresent(RolesAllowed.class)){

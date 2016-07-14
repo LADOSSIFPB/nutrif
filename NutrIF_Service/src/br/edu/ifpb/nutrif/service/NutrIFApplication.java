@@ -34,8 +34,6 @@ public class NutrIFApplication extends Application {
 		
 		this.singletons.add(filter);
 		
-		//singletons.add(new JaxbJacksonObjectMapper());
-		
 		// ADD YOUR RESTFUL RESOURCES HERE
 		this.singletons.add(new AlunoController());
 		this.singletons.add(new FuncionarioController());
@@ -49,6 +47,7 @@ public class NutrIFApplication extends Application {
 		this.singletons.add(new PretensaoRefeicaoController());
 		this.singletons.add(new ArquivoController());
 		
+		// Information service.
 		this.singletons.add(new NutrIFRestIndex());
 		this.singletons.add(new NutrIFRestServices());		
 	}
