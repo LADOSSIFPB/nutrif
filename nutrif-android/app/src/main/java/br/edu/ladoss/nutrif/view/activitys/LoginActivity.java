@@ -122,6 +122,7 @@ public class LoginActivity extends AppCompatActivity {
         new Thread(new Runnable() {
             @Override
             public void run() {
+                ConnectionServer.getInstance().updateServiceAdress();
                 Aluno aluno = alunoReferencial;
 
                 LoginActivity.this.changeMessage();

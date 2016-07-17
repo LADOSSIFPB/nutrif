@@ -54,7 +54,7 @@ public interface APIService {
                                            @Path("matricula")String matricula);
 
     @POST("pretensaorefeicao/diarefeicao/verificar")
-    Call<PretensaoRefeicao> infoRefeicao(@Header("Authorization") String accessKey,
+    Call<PretensaoRefeicao>     infoRefeicao(@Header("Authorization") String accessKey,
                                          @Body PretensaoRefeicao refeicao);
     @Multipart
     @POST("arquivo/upload/ARQUIVO_FOTO_PERFIL")

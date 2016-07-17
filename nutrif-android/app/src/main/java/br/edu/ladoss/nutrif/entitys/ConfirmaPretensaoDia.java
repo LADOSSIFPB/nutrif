@@ -16,10 +16,6 @@ public class ConfirmaPretensaoDia{
 		return diaRefeicao;
 	}
 
-	public void setDiaRefeicao(DiaRefeicao diaRefeicao) {
-		this.diaRefeicao = diaRefeicao;
-	}
-
 	public Long getDataPretensao(){
 		return dataPretensao;
 	}

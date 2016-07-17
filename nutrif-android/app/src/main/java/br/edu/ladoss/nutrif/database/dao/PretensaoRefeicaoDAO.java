@@ -21,7 +21,7 @@ public class PretensaoRefeicaoDAO extends GenericDAO<br.edu.ladoss.nutrif.entity
             "dia text not null, " +
             "hora_init text not null, " +
             "hora_final text not null, " +
-            "data integer not null," +
+            "data long not null," +
             "tipo text not null, " +
             "keyAccess text );";
     public static final String DROP_TABLE = "drop table " + DIAREFEICAO_TABLE + ";";
