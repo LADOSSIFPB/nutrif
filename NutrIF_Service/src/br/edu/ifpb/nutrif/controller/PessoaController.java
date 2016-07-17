@@ -11,6 +11,9 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import br.edu.ifpb.nutrif.dao.LoginDAO;
 import br.edu.ifpb.nutrif.dao.PessoaDAO;
 import br.edu.ifpb.nutrif.exception.ErrorFactory;
@@ -23,6 +26,8 @@ import br.edu.ladoss.entity.PessoaAcesso;
 
 @Path("pessoa")
 public class PessoaController {
+	
+	private static Logger logger = LogManager.getLogger(PessoaController.class);
 	
 	/**
 	 * Login para Pessoa. Retorna a chave de autenticação caso o usuário esteja
@@ -40,6 +45,8 @@ public class PessoaController {
 		
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
 		builder.expires(new Date());
+		
+		logger.info("Login usuário");
 		
 		// Validação dos dados de entrada.
 		int validacao = Validate.acessoPessoa(pessoaAcesso);
@@ -100,20 +107,38 @@ public class PessoaController {
 		return builder.build();		
 	}
 	
-	
 	/**
-	 * Reiniciar senha para aluno e funcionário.
+	 * Gerar e-mail com url para reinicialização da senha para aluno e funcionário.
 	 * 
 	 * @param pessoaAcesso
 	 * @return
 	 */
 	@PermitAll
 	@POST
-	@Path("/login")
+	@Path("/login/request")
 	@Consumes("application/json")
 	@Produces("application/json")
 	public Response requestResetSenha(PessoaAcesso pessoaAcesso) {
-		return null;		
+		
+		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
+		builder.expires(new Date());
+		
+		logger.info("Reset senha usuário");
+		
+		//TODO: Validação dos dados de entrada.
+		int validacao = Validate.VALIDATE_OK;
+		
+		if (validacao == Validate.VALIDATE_OK) {
+			
+			//TODO: Mudar senha do usuário.
+			
+		} else {
+			
+			Error erro = ErrorFactory.getErrorFromIndex(validacao);
+			builder.status(Response.Status.NOT_ACCEPTABLE).entity(erro);
+		}
+		
+		return builder.build();		
 	}
 	
 	/**
@@ -124,10 +149,29 @@ public class PessoaController {
 	 */
 	@PermitAll
 	@POST
-	@Path("/login")
+	@Path("/login/reset")
 	@Consumes("application/json")
 	@Produces("application/json")
 	public Response resetSenha(PessoaAcesso pessoaAcesso) {
-		return null;		
+		
+		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
+		builder.expires(new Date());
+		
+		logger.info("Reset senha usuário");
+		
+		//TODO: Validação dos dados de entrada.
+		int validacao = Validate.VALIDATE_OK;
+		
+		if (validacao == Validate.VALIDATE_OK) {
+			
+			//TODO: Mudar senha do usuário.
+			
+		} else {
+			
+			Error erro = ErrorFactory.getErrorFromIndex(validacao);
+			builder.status(Response.Status.NOT_ACCEPTABLE).entity(erro);
+		}
+		
+		return builder.build();		
 	}
 }
