@@ -107,20 +107,38 @@ public class PessoaController {
 		return builder.build();		
 	}
 	
-	
 	/**
-	 * Reiniciar senha para aluno e funcionário.
+	 * Gerar e-mail com url para reinicialização da senha para aluno e funcionário.
 	 * 
 	 * @param pessoaAcesso
 	 * @return
 	 */
 	@PermitAll
 	@POST
-	@Path("/login")
+	@Path("/login/request")
 	@Consumes("application/json")
 	@Produces("application/json")
 	public Response requestResetSenha(PessoaAcesso pessoaAcesso) {
-		return null;		
+		
+		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
+		builder.expires(new Date());
+		
+		logger.info("Reset senha usuário");
+		
+		//TODO: Validação dos dados de entrada.
+		int validacao = Validate.VALIDATE_OK;
+		
+		if (validacao == Validate.VALIDATE_OK) {
+			
+			//TODO: Mudar senha do usuário.
+			
+		} else {
+			
+			Error erro = ErrorFactory.getErrorFromIndex(validacao);
+			builder.status(Response.Status.NOT_ACCEPTABLE).entity(erro);
+		}
+		
+		return builder.build();		
 	}
 	
 	/**
@@ -131,10 +149,29 @@ public class PessoaController {
 	 */
 	@PermitAll
 	@POST
-	@Path("/login")
+	@Path("/login/reset")
 	@Consumes("application/json")
 	@Produces("application/json")
 	public Response resetSenha(PessoaAcesso pessoaAcesso) {
-		return null;		
+		
+		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
+		builder.expires(new Date());
+		
+		logger.info("Reset senha usuário");
+		
+		//TODO: Validação dos dados de entrada.
+		int validacao = Validate.VALIDATE_OK;
+		
+		if (validacao == Validate.VALIDATE_OK) {
+			
+			//TODO: Mudar senha do usuário.
+			
+		} else {
+			
+			Error erro = ErrorFactory.getErrorFromIndex(validacao);
+			builder.status(Response.Status.NOT_ACCEPTABLE).entity(erro);
+		}
+		
+		return builder.build();		
 	}
 }
