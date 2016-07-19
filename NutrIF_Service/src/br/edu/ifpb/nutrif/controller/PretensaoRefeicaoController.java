@@ -353,11 +353,11 @@ public class PretensaoRefeicaoController {
 	}
 	
 	@PermitAll
-	@GET
+	@POST
 	@Path("/quantificar")
 	@Consumes("application/json")
 	@Produces("application/json")
-	public Response getQuantidadeHojePretensaoRefeicoes() {
+	public Response getQuantidadeHojePretensaoRefeicoes(DiaRefeicao diaRefeicao) {
 		
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
 		builder.expires(new Date());

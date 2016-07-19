@@ -56,6 +56,13 @@ public class DateUtil {
 		return new Dia(dayOfWeek, dayName);
 	}
 	
+	/**
+	 * Adicionar dia(s) a uma data.
+	 * 
+	 * @param date
+	 * @param days
+	 * @return
+	 */
 	public static Date addDays(Date date, int days) {
 		
 		Calendar cal = Calendar.getInstance();
@@ -63,6 +70,20 @@ public class DateUtil {
 		cal.add(Calendar.DATE, days); // minus number would decrement the days
 		
 		return cal.getTime();
+	}
+	
+	/**
+	 * Decrementar dias de uma data.
+	 * 
+	 * @param date
+	 * @param days
+	 * @return
+	 */
+	public static Date decreaseDays(Date date, int days) {
+		
+		int decreaseFactor = -1;
+		
+		return addDays(date, decreaseFactor * days);
 	}
 	
 	public static Period getPeriodBetweenDate (Date inicio, Date fim) {
