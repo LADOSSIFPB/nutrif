@@ -31,6 +31,7 @@ import br.edu.ladoss.entity.Aluno;
 import br.edu.ladoss.entity.AlunoAcesso;
 import br.edu.ladoss.entity.Curso;
 import br.edu.ladoss.entity.Role;
+import br.edu.ladoss.enumeration.TipoRole;
 
 @Path("aluno")
 public class AlunoController {
@@ -74,7 +75,7 @@ public class AlunoController {
 				aluno.setCurso(curso);
 				
 				// Role 
-				Role role = RoleDAO.getInstance().getById(Role.COMENSAL_ROLE);
+				Role role = RoleDAO.getInstance().getById(TipoRole.COMENSAL.getId());
 				List<Role> roles = new ArrayList<Role>();
 				roles.add(role);				
 				aluno.setRoles(roles);
@@ -510,7 +511,7 @@ public class AlunoController {
 			for (Aluno aluno: alunos) {
 				
 				// Inserir role Aluno aos registros antigos.
-				Role role = RoleDAO.getInstance().getById(Role.COMENSAL_ROLE);
+				Role role = RoleDAO.getInstance().getById(TipoRole.COMENSAL.getId());
 				List<Role> roles = new ArrayList<Role>();
 				roles.add(role);				
 				aluno.setRoles(roles);

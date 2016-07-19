@@ -16,12 +16,12 @@
 		<property name="hbm2ddl.auto">update</property>
 
 		<!-- JDBC connection pool (use the built-in) -->
-		<property name="connection.pool_size">10</property>
 		<property name="current_session_context_class">thread</property>
 
 		<!-- Produção -->
 		<property name="cache.provider_class">org.hibernate.cache.NoCacheProvider</property> 
 		<!-- <property name="hibernate.connection.provider_class">org.hibernate.connection.C3P0ConnectionProvider</property>  -->
+		<property name="connection.pool_size">10</property>
 		<property name="c3p0.min_size">5</property>
 		<property name="c3p0.max_size">20</property>
 		<property name="c3p0.timeout">300</property>
@@ -29,7 +29,6 @@
 		<property name="c3p0.idle_test_period">1</property>
 		<property name="hibernate.c3p0.preferredTestQuery">select 1;</property>
 		<property name="show_sql">true</property>
-		<property name="connection.pool_size">20</property>
 		
 		<!-- Entidades -->
 		<mapping class="br.edu.ladoss.entity.Pessoa" />
