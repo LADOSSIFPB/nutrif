@@ -77,7 +77,6 @@ public class MapaRefeicaoRealizada {
 	
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
 		return "MapaRefeicaoRealizada [refeicao=" + refeicao 
 				+ ", quantidade=" + quantidade
 				+ ", dia=" + dia 

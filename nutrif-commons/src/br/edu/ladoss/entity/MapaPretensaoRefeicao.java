@@ -11,6 +11,8 @@ public class MapaPretensaoRefeicao {
 	
 	private List<PretensaoRefeicao> pretensoesRefeicoes;
 	
+	private Integer quantidade;
+	
 	private Refeicao refeicao;
 	
 	private Dia dia;
@@ -64,11 +66,20 @@ public class MapaPretensaoRefeicao {
 		this.dataFim = dataFim;
 	}
 	
+	@XmlElement
+	public Integer getQuantidade() {
+		return quantidade;
+	}
+
+	public void setQuantidade(Integer quantidade) {
+		this.quantidade = quantidade;
+	}
+	
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
-		return "MapaPretensaoRefeicao[refeicao=" + refeicao 
-				+ ", dia=" + dia 
+		return "MapaPretensaoRefeicao[quantidade="+ quantidade 
+				+ ", refeicao=" + refeicao 
+				+ ", dia=" + dia
 				+ ", dataInicio=" + dataInicio
 				+ ", dataFim=" + dataFim + "]";
 	}	

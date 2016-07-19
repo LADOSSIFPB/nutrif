@@ -47,6 +47,10 @@ public class DiaRefeicao implements DataEntity {
 	private Refeicao refeicao;
 	
 	@OneToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "fk_id_edital")
+	private Edital edital;
+	
+	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "fk_id_funcionario")
 	private Funcionario funcionario;
 	
@@ -126,14 +130,22 @@ public class DiaRefeicao implements DataEntity {
 		this.funcionario = funcionario;
 	}
 
+	@XmlElement
+	public Edital getEdital() {
+		return edital;
+	}
+
+	public void setEdital(Edital edital) {
+		this.edital = edital;
+	}
+	
 	@Override
 	public String toString() {
 		return "DiaRefeicao [id=" + id + ", aluno=" + aluno 
 				+ ", dia=" + dia 
-				+ ", refeicao=" + refeicao 
+				+ ", refeicao=" + refeicao
+				+ ", edital=" + edital 
 				+ ", dataInsercao=" + dataInsercao 
 				+ ", funcionario=" + funcionario + "]";
-	}
-
-	
+	}	
 }

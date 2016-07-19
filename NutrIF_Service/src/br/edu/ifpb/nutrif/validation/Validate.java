@@ -12,6 +12,7 @@ import br.edu.ladoss.entity.ConfirmaRefeicaoDia;
 import br.edu.ladoss.entity.Curso;
 import br.edu.ladoss.entity.Dia;
 import br.edu.ladoss.entity.DiaRefeicao;
+import br.edu.ladoss.entity.Edital;
 import br.edu.ladoss.entity.Funcionario;
 import br.edu.ladoss.entity.PessoaAcesso;
 import br.edu.ladoss.entity.PretensaoRefeicao;
@@ -119,7 +120,18 @@ public class Validate {
 	public static int refeicao(Refeicao refeicao) {
 		
 		logger.info("Validação para Refeição.");
+		
 		//TODO: implementar a validação.
+		
+		return VALIDATE_OK;
+	}
+	
+	public static int edital(Edital refeicao) {
+		
+		logger.info("Validação para Edital.");
+		
+		//TODO: implementar a validação.
+		
 		return VALIDATE_OK;
 	}
 	
