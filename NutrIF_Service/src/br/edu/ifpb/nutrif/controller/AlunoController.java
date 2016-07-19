@@ -86,7 +86,7 @@ public class AlunoController {
 				//Inserir o Aluno.
 				Integer idAluno = AlunoDAO.getInstance().insert(aluno);
 				
-				if (idAluno != BancoUtil.IDVAZIO) {
+				if (idAluno != BancoUtil.ID_VAZIO) {
 
 					// Operação realizada com sucesso.
 					builder.status(Response.Status.OK);
@@ -329,7 +329,7 @@ public class AlunoController {
 				Aluno aluno = AlunoDAO.getInstance().getByMatricula(matricula);
 				
 				if (aluno != null 
-						&& aluno.getId() != BancoUtil.IDVAZIO) {
+						&& aluno.getId() != BancoUtil.ID_VAZIO) {
 
 					// Verificar se o usuário já tem acesso solicitado.					
 					if (!aluno.isAcesso()) {
@@ -366,7 +366,7 @@ public class AlunoController {
 					//Inserir o Aluno.
 					aluno = AlunoDAO.getInstance().update(aluno);
 					
-					if (aluno.getId() != BancoUtil.IDVAZIO) {
+					if (aluno.getId() != BancoUtil.ID_VAZIO) {
 
 						// Enviar e-mail com a chave de acesso.
 						EmailUtil emailUtil = new EmailUtil();

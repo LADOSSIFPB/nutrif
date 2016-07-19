@@ -11,6 +11,8 @@ public class MapaRefeicaoRealizada {
 	
 	private List<RefeicaoRealizada> refeicoesRealizadas;
 	
+	private int quantidade;
+	
 	private Refeicao refeicao;
 	
 	private Dia dia;
@@ -64,12 +66,22 @@ public class MapaRefeicaoRealizada {
 		this.dataFim = dataFim;
 	}
 	
+	@XmlElement
+	public int getQuantidade() {
+		return quantidade;
+	}
+
+	public void setQuantidade(int quantidade) {
+		this.quantidade = quantidade;
+	}
+	
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
 		return "MapaRefeicaoRealizada [refeicao=" + refeicao 
+				+ ", quantidade=" + quantidade
 				+ ", dia=" + dia 
 				+ ", dataInicio=" + dataInicio
 				+ ", dataFim=" + dataFim + "]";
-	}	
+	}		
 }

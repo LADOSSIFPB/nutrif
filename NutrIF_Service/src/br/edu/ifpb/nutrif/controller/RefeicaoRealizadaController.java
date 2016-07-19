@@ -21,8 +21,10 @@ import br.edu.ifpb.nutrif.dao.PretensaoRefeicaoDAO;
 import br.edu.ifpb.nutrif.dao.RefeicaoRealizadaDAO;
 import br.edu.ifpb.nutrif.exception.ErrorFactory;
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
+import br.edu.ifpb.nutrif.util.DateUtil;
 import br.edu.ifpb.nutrif.validation.Validate;
 import br.edu.ladoss.entity.ConfirmaRefeicaoDia;
+import br.edu.ladoss.entity.Dia;
 import br.edu.ladoss.entity.DiaRefeicao;
 import br.edu.ladoss.entity.Error;
 import br.edu.ladoss.entity.Funcionario;
@@ -186,6 +188,52 @@ public class RefeicaoRealizadaController {
 		return builder.build();
 	}
 	
+	@PermitAll
+	@GET
+	@Path("/quantificar")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public Response getQuantidadeHojeRefeicoesRealizadas() {
+		
+		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
+		builder.expires(new Date());
+		
+		// Validação dos dados de entrada.
+		int validacao = Validate.VALIDATE_OK; //TODO: Validate.pretensaoRefeicao(pretensaoRefeicao);
+		
+		if (validacao == Validate.VALIDATE_OK) {
+			
+			try {
+				
+				Date hoje = new Date();
+				Dia dia = DateUtil.getDayOfWeek(hoje);
+				
+				Long quantidadeDia = RefeicaoRealizadaDAO.getInstance()
+						.getQuantidadeDiaRefeicaoRealizada(hoje);
+				
+				MapaRefeicaoRealizada mapaRefeicaoRealizada = new MapaRefeicaoRealizada();
+				mapaRefeicaoRealizada.setQuantidade(
+						Integer.valueOf(quantidadeDia.toString()));
+				mapaRefeicaoRealizada.setDataInicio(hoje);
+				mapaRefeicaoRealizada.setDataFim(hoje);
+				mapaRefeicaoRealizada.setDia(dia);			
+				
+				builder.status(Response.Status.OK).entity(
+						mapaRefeicaoRealizada);
+			
+			} catch (SQLExceptionNutrIF exception) {
+
+				builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
+						exception.getError());			
+			}
+		} else {
+			
+			Error erro = ErrorFactory.getErrorFromIndex(validacao);
+			builder.status(Response.Status.NOT_ACCEPTABLE).entity(erro);
+		}
+		
+		return builder.build();
+	}
 	
 	@PermitAll
 	@POST

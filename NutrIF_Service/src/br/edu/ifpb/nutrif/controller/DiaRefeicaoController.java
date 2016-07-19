@@ -108,7 +108,7 @@ public class DiaRefeicaoController {
 						Integer idDiaRefeicao = DiaRefeicaoDAO.getInstance()
 								.insert(diaRefeicao);
 						
-						if (idDiaRefeicao != BancoUtil.IDVAZIO) {
+						if (idDiaRefeicao != BancoUtil.ID_VAZIO) {
 		
 							// Operação realizada com sucesso.
 							builder.status(Response.Status.OK);

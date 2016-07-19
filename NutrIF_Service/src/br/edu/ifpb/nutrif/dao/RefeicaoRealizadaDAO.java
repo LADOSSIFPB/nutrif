@@ -12,6 +12,7 @@ import org.hibernate.Session;
 
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
 import br.edu.ifpb.nutrif.hibernate.HibernateUtil;
+import br.edu.ifpb.nutrif.util.BancoUtil;
 import br.edu.ladoss.entity.Dia;
 import br.edu.ladoss.entity.MapaRefeicaoRealizada;
 import br.edu.ladoss.entity.Refeicao;
@@ -100,6 +101,44 @@ public class RefeicaoRealizadaDAO extends GenericDao<Integer, RefeicaoRealizada>
 		}
 		
 		return refeicoesRealizadas;		
+	}
+	
+	/**
+	 * Quantificar as refeições realizadas para uma data definida.
+	 * 
+	 * @param data
+	 * @return
+	 */
+	public Long getQuantidadeDiaRefeicaoRealizada(Date data) {
+		
+		Long quantidadeDia = Long.valueOf(BancoUtil.QUANTIDADE_ZERO);
+		
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		
+		try {	
+			
+			String hql = "select count(rr.id)"
+					+ " from RefeicaoRealizada as rr"
+					+ " where rr.confirmaRefeicaoDia.dataRefeicao = :data";
+			//TODO Definir tipo de refeicao
+			
+			Query query = session.createQuery(hql);
+			query.setParameter("data", data);
+			
+			quantidadeDia = (Long) query.uniqueResult();
+	        
+		} catch (HibernateException hibernateException) {
+			
+			session.getTransaction().rollback();
+			
+			throw new SQLExceptionNutrIF(hibernateException);
+			
+		} finally {
+		
+			session.close();
+		}
+		
+		return quantidadeDia;
 	}
 	
 	@Override

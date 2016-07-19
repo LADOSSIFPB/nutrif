@@ -34,9 +34,11 @@ import br.edu.ifpb.nutrif.util.StringUtil;
 import br.edu.ifpb.nutrif.validation.Validate;
 import br.edu.ladoss.entity.ConfirmaPretensaoDia;
 import br.edu.ladoss.entity.ConfirmaRefeicaoDia;
+import br.edu.ladoss.entity.Dia;
 import br.edu.ladoss.entity.DiaRefeicao;
 import br.edu.ladoss.entity.Error;
 import br.edu.ladoss.entity.MapaPretensaoRefeicao;
+import br.edu.ladoss.entity.MapaRefeicaoRealizada;
 import br.edu.ladoss.entity.PretensaoRefeicao;
 import br.edu.ladoss.entity.Refeicao;
 import br.edu.ladoss.entity.RefeicaoRealizada;
@@ -90,7 +92,7 @@ public class PretensaoRefeicaoController {
 						Integer idPretensaoRefeicao = PretensaoRefeicaoDAO.getInstance()
 								.insert(pretensaoRefeicao);
 						
-						if (idPretensaoRefeicao != BancoUtil.IDVAZIO) {
+						if (idPretensaoRefeicao != BancoUtil.ID_VAZIO) {
 
 							// Operação realizada com sucesso.
 							builder.status(Response.Status.OK);
@@ -317,7 +319,7 @@ public class PretensaoRefeicaoController {
 				int idRefeicaoRealizada = RefeicaoRealizadaDAO.getInstance()
 						.insert(refeicaoRealizada);
 				
-				if (idRefeicaoRealizada != BancoUtil.IDVAZIO) {
+				if (idRefeicaoRealizada != BancoUtil.ID_VAZIO) {
 					
 					//int status = openDoorPostRequest();
                     //logger.info("Catraca: " + status);
@@ -348,6 +350,53 @@ public class PretensaoRefeicaoController {
 				.request().post(Entity.json("{\"person\":{\"id\":1}, \"room\":{\"id\":1}}"));
 		
 		return response.getStatus(); 
+	}
+	
+	@PermitAll
+	@GET
+	@Path("/quantificar")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public Response getQuantidadeHojePretensaoRefeicoes() {
+		
+		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
+		builder.expires(new Date());
+		
+		// Validação dos dados de entrada.
+		int validacao = Validate.VALIDATE_OK; //TODO: Validate.pretensaoRefeicao(pretensaoRefeicao);
+		
+		if (validacao == Validate.VALIDATE_OK) {
+			
+			try {
+				
+				Date hoje = new Date();
+				Dia dia = DateUtil.getDayOfWeek(hoje);
+				
+				Long quantidadeDia = RefeicaoRealizadaDAO.getInstance()
+						.getQuantidadeDiaRefeicaoRealizada(hoje);
+				
+				MapaRefeicaoRealizada mapaRefeicaoRealizada = new MapaRefeicaoRealizada();
+				mapaRefeicaoRealizada.setQuantidade(
+						Integer.valueOf(quantidadeDia.toString()));
+				mapaRefeicaoRealizada.setDataInicio(hoje);
+				mapaRefeicaoRealizada.setDataFim(hoje);
+				mapaRefeicaoRealizada.setDia(dia);			
+				
+				builder.status(Response.Status.OK).entity(
+						mapaRefeicaoRealizada);
+			
+			} catch (SQLExceptionNutrIF exception) {
+
+				builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
+						exception.getError());			
+			}
+		} else {
+			
+			Error erro = ErrorFactory.getErrorFromIndex(validacao);
+			builder.status(Response.Status.NOT_ACCEPTABLE).entity(erro);
+		}
+		
+		return builder.build();
 	}
 	
 	@PermitAll

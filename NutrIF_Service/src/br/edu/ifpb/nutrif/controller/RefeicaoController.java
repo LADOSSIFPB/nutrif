@@ -43,7 +43,7 @@ public class RefeicaoController {
 				//Inserir o Aluno.
 				Integer idRefeicao = RefeicaoDAO.getInstance().insert(refeicao);
 				
-				if (idRefeicao != BancoUtil.IDVAZIO) {
+				if (idRefeicao != BancoUtil.ID_VAZIO) {
 
 					// Operação realizada com sucesso.
 					builder.status(Response.Status.OK);

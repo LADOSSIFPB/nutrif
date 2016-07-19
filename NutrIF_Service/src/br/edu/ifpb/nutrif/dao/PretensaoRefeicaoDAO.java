@@ -12,6 +12,7 @@ import org.hibernate.Session;
 
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
 import br.edu.ifpb.nutrif.hibernate.HibernateUtil;
+import br.edu.ifpb.nutrif.util.BancoUtil;
 import br.edu.ladoss.entity.Dia;
 import br.edu.ladoss.entity.MapaPretensaoRefeicao;
 import br.edu.ladoss.entity.PretensaoRefeicao;
@@ -153,6 +154,44 @@ public class PretensaoRefeicaoDAO extends GenericDao<Integer, PretensaoRefeicao>
 		}
 		
 		return pretensaoRefeicao;		
+	}
+	
+	/**
+	 * Quantificar as pretensoes das refeições para uma data definida.
+	 * 
+	 * @param data
+	 * @return
+	 */
+	public Long getQuantidadeDiaPretensaoRefeicao(Date data) {
+		
+		Long quantidadeDia = Long.valueOf(BancoUtil.QUANTIDADE_ZERO);
+		
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		
+		try {	
+			
+			String hql = "select count(pr.id)"
+					+ " from PretensaoRefeicao as pr"
+					+ " where rr.confirmaPretensaoDia. = :data";
+			//TODO Definir tipo de refeicao
+			
+			Query query = session.createQuery(hql);
+			query.setParameter("data", data);
+			
+			quantidadeDia = (Long) query.uniqueResult();
+	        
+		} catch (HibernateException hibernateException) {
+			
+			session.getTransaction().rollback();
+			
+			throw new SQLExceptionNutrIF(hibernateException);
+			
+		} finally {
+		
+			session.close();
+		}
+		
+		return quantidadeDia;
 	}
 	
 	public List<PretensaoRefeicao> getMapaPretensaoRefeicao(

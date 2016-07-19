@@ -44,7 +44,7 @@ public class DiaController {
 				//Inserir o Dia.
 				Integer idDia = DiaDAO.getInstance().insert(dia);
 				
-				if (idDia != BancoUtil.IDVAZIO) {
+				if (idDia != BancoUtil.ID_VAZIO) {
 
 					// Operação realizada com sucesso.
 					builder.status(Response.Status.OK);
