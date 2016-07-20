@@ -15,12 +15,14 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
 import br.edu.ifpb.nutrif.dao.EditalDAO;
+import br.edu.ifpb.nutrif.dao.FuncionarioDAO;
 import br.edu.ifpb.nutrif.exception.ErrorFactory;
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
 import br.edu.ifpb.nutrif.util.BancoUtil;
 import br.edu.ifpb.nutrif.validation.Validate;
 import br.edu.ladoss.entity.Edital;
 import br.edu.ladoss.entity.Error;
+import br.edu.ladoss.entity.Funcionario;
 
 @Path("edital")
 public class EditalController {
@@ -42,13 +44,28 @@ public class EditalController {
 			
 			try {			
 				
-				//Inserir o Aluno.
-				Integer idEdital = EditalDAO.getInstance().insert(edital);
+				// Funcionário
+				int idFuncionario = edital.getFuncionario().getId();
+				Funcionario funcionario = FuncionarioDAO.getInstance()
+						.getById(idFuncionario);
+				edital.setFuncionario(funcionario);
 				
-				if (idEdital != BancoUtil.ID_VAZIO) {
-
-					// Operação realizada com sucesso.
-					builder.status(Response.Status.OK).entity(edital);
+				Date agora = new Date();
+				edital.setDataInsercao(agora);
+				
+				if (idFuncionario != BancoUtil.ID_VAZIO) {
+				
+					//Inserir o Aluno.
+					Integer idEdital = EditalDAO.getInstance().insert(edital);
+					
+					if (idEdital != BancoUtil.ID_VAZIO) {
+	
+						// Operação realizada com sucesso.
+						builder.status(Response.Status.OK).entity(edital);
+					}
+				} else {
+					
+					//TODO: Mensagem de erro para Funcionário não encontrado.
 				}
 			
 			} catch (SQLExceptionNutrIF exception) {

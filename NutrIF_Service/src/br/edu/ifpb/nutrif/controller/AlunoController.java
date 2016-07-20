@@ -75,7 +75,8 @@ public class AlunoController {
 				aluno.setCurso(curso);
 				
 				// Role 
-				Role role = RoleDAO.getInstance().getById(TipoRole.COMENSAL.getId());
+				Role role = RoleDAO.getInstance().getById(
+						TipoRole.COMENSAL.getId());
 				List<Role> roles = new ArrayList<Role>();
 				roles.add(role);				
 				aluno.setRoles(roles);
@@ -154,7 +155,6 @@ public class AlunoController {
 
 				builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
 						exception.getError());			
-			
 			} 
 		}				
 		
@@ -511,7 +511,8 @@ public class AlunoController {
 			for (Aluno aluno: alunos) {
 				
 				// Inserir role Aluno aos registros antigos.
-				Role role = RoleDAO.getInstance().getById(TipoRole.COMENSAL.getId());
+				Role role = RoleDAO.getInstance().getById(
+						TipoRole.COMENSAL.getId());
 				List<Role> roles = new ArrayList<Role>();
 				roles.add(role);				
 				aluno.setRoles(roles);
