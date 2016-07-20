@@ -57,7 +57,7 @@ public class DateUtil {
 	}
 	
 	/**
-	 * Adicionar dia(s) a uma data.
+	 * Incrementar dia(s) a uma data.
 	 * 
 	 * @param date
 	 * @param days

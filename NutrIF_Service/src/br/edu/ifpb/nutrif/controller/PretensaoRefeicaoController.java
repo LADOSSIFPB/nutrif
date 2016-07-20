@@ -25,6 +25,7 @@ import org.apache.logging.log4j.Logger;
 
 import br.edu.ifpb.nutrif.dao.DiaRefeicaoDAO;
 import br.edu.ifpb.nutrif.dao.PretensaoRefeicaoDAO;
+import br.edu.ifpb.nutrif.dao.RefeicaoDAO;
 import br.edu.ifpb.nutrif.dao.RefeicaoRealizadaDAO;
 import br.edu.ifpb.nutrif.exception.ErrorFactory;
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
@@ -357,7 +358,7 @@ public class PretensaoRefeicaoController {
 	@Path("/quantificar")
 	@Consumes("application/json")
 	@Produces("application/json")
-	public Response getQuantidadeHojePretensaoRefeicoes(DiaRefeicao diaRefeicao) {
+	public Response getQuantidadePretensaoRefeicoes(DiaRefeicao diaRefeicao) {
 		
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
 		builder.expires(new Date());
@@ -369,17 +370,30 @@ public class PretensaoRefeicaoController {
 			
 			try {
 				
-				Date hoje = new Date();
-				Dia dia = DateUtil.getDayOfWeek(hoje);
+				// Recurar dados da refeição.
+				Refeicao refeicao = RefeicaoDAO.getInstance().getById(
+						diaRefeicao.getRefeicao().getId());
+				diaRefeicao.setRefeicao(refeicao);
 				
-				Long quantidadeDia = RefeicaoRealizadaDAO.getInstance()
-						.getQuantidadeDiaRefeicaoRealizada(hoje);
+				// Verificar pretensão baseado no dia e refeição.				
+				PretensaoRefeicao pretensaoRefeicao = verifyPretensao(diaRefeicao);
 				
+				// Cálculo da quantidade de pretensões lançadas para o próximo dia de refeição.
+				Long quantidadeDia = PretensaoRefeicaoDAO.getInstance()
+						.getQuantidadeDiaPretensaoRefeicao(pretensaoRefeicao);
+				
+				// Dia proposto para a pretensão e data da solicitação.
+				Dia dia = pretensaoRefeicao.getConfirmaPretensaoDia()
+						.getDiaRefeicao().getDia();
+				Date dataSolicitacaoPretensao = pretensaoRefeicao
+						.getDataSolicitacao();
+				
+				// Mapa com os dados quantificados.
 				MapaRefeicaoRealizada mapaRefeicaoRealizada = new MapaRefeicaoRealizada();
 				mapaRefeicaoRealizada.setQuantidade(
 						Integer.valueOf(quantidadeDia.toString()));
-				mapaRefeicaoRealizada.setDataInicio(hoje);
-				mapaRefeicaoRealizada.setDataFim(hoje);
+				mapaRefeicaoRealizada.setDataInicio(dataSolicitacaoPretensao);
+				mapaRefeicaoRealizada.setDataFim(dataSolicitacaoPretensao);
 				mapaRefeicaoRealizada.setDia(dia);			
 				
 				builder.status(Response.Status.OK).entity(

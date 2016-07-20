@@ -162,21 +162,29 @@ public class PretensaoRefeicaoDAO extends GenericDao<Integer, PretensaoRefeicao>
 	 * @param data
 	 * @return
 	 */
-	public Long getQuantidadeDiaPretensaoRefeicao(Date data) {
+	public Long getQuantidadeDiaPretensaoRefeicao(PretensaoRefeicao pretensaoRefeicao) {
 		
 		Long quantidadeDia = Long.valueOf(BancoUtil.QUANTIDADE_ZERO);
 		
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		
-		try {	
+		try {
+			
+			Date dataPretensao = pretensaoRefeicao.getConfirmaPretensaoDia()
+					.getDataPretensao();
+			int idRefeicao = pretensaoRefeicao.getConfirmaPretensaoDia()
+					.getDiaRefeicao().getRefeicao().getId();
 			
 			String hql = "select count(pr.id)"
 					+ " from PretensaoRefeicao as pr"
-					+ " where rr.confirmaPretensaoDia. = :data";
-			//TODO Definir tipo de refeicao
+					+ " where pr.confirmaPretensaoDia.dataPretensao = :dataPretensao"
+					+ " and pr.confirmaPretensaoDia.diaRefeicao.refeicao.id = :idRefeicao";
+			
+			//TODO Definir Refeição
 			
 			Query query = session.createQuery(hql);
-			query.setParameter("data", data);
+			query.setParameter("dataPretensao", dataPretensao);
+			query.setParameter("idRefeicao", idRefeicao);
 			
 			quantidadeDia = (Long) query.uniqueResult();
 	        
