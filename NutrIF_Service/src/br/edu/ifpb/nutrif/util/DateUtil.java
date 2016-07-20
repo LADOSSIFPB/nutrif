@@ -5,8 +5,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
 import org.joda.time.Minutes;
@@ -54,6 +52,20 @@ public class DateUtil {
 		int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
 		
 		return new Dia(dayOfWeek, dayName);
+	}
+	
+	/**
+	 * Retornar a data completa de um determinado dia da semana.
+	 * 
+	 * @param dayOfWeek
+	 * @return
+	 */
+	public static Date getDateOfDayWeek(int dayOfWeek) {
+		
+		Calendar c= Calendar.getInstance();
+		c.set(Calendar.DAY_OF_WEEK, dayOfWeek);
+		
+		return c.getTime();
 	}
 	
 	/**

@@ -23,6 +23,7 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import br.edu.ifpb.nutrif.dao.DiaDAO;
 import br.edu.ifpb.nutrif.dao.DiaRefeicaoDAO;
 import br.edu.ifpb.nutrif.dao.PretensaoRefeicaoDAO;
 import br.edu.ifpb.nutrif.dao.RefeicaoDAO;
@@ -80,7 +81,7 @@ public class PretensaoRefeicaoController {
 				
 				if (diaRefeicao != null) {					
 					
-					pretensaoRefeicao = verifyPretensao(diaRefeicao);
+					pretensaoRefeicao = verificarPretensao(diaRefeicao);
 					
 					if (pretensaoRefeicao != null) {
 						
@@ -143,7 +144,7 @@ public class PretensaoRefeicaoController {
 	@Path("/diarefeicao/verificar")
 	@Consumes("application/json")
 	@Produces("application/json")
-	public Response verifyDiaRefeicao(PretensaoRefeicao pretensaoRefeicaoCalculada) {
+	public Response verificarDiaRefeicao(PretensaoRefeicao pretensaoRefeicaoCalculada) {
 		
 		logger.info("Verificação da Pretensão para a Refeição: " 
 				+ pretensaoRefeicaoCalculada);
@@ -168,7 +169,7 @@ public class PretensaoRefeicaoController {
 				
 				if (diaRefeicao != null) {
 									
-					pretensaoRefeicaoCalculada = verifyPretensao(diaRefeicao);
+					pretensaoRefeicaoCalculada = verificarPretensao(diaRefeicao);
 					
 					if (pretensaoRefeicaoCalculada != null) {
 						
@@ -232,7 +233,7 @@ public class PretensaoRefeicaoController {
 	 * @param diaRefeicao
 	 * @return pretensaoRefeicao
 	 */
-	private PretensaoRefeicao verifyPretensao(DiaRefeicao diaRefeicao) {
+	private PretensaoRefeicao verificarPretensao(DiaRefeicao diaRefeicao) {
 		
 		logger.info("Analise da Pretensão de Refeição: " + diaRefeicao);
 		
@@ -284,6 +285,35 @@ public class PretensaoRefeicaoController {
 		}
 		
 		return pretensaoRefeicao;
+	}
+	
+	private PretensaoRefeicao calcularPretensao(DiaRefeicao diaRefeicao) {
+		
+		// Calcular data para o dia da refeição.
+		logger.info("Calcular a Pretensão de Refeição: " + diaRefeicao);
+		
+		PretensaoRefeicao pretensaoRefeicao = null;
+		
+		// Extrair da Refeição a hora máxima para solicitação da pretensão.
+		Refeicao refeicao = diaRefeicao.getRefeicao();
+		
+		// Dia da semana para lançar a pretensão.
+		int diaPretensao = diaRefeicao.getDia().getId();
+		Date dataPretensao = DateUtil.getDateOfDayWeek(diaPretensao);
+				
+		ConfirmaPretensaoDia confirmaPretensaoDia = 
+				new ConfirmaPretensaoDia();		
+		
+		// Atribuição das datas de pretensão e solicitação.
+		confirmaPretensaoDia.setDataPretensao(dataPretensao);
+		confirmaPretensaoDia.setDiaRefeicao(diaRefeicao);		
+		
+		// Pretensão
+		pretensaoRefeicao = new PretensaoRefeicao();
+		pretensaoRefeicao.setConfirmaPretensaoDia(
+				confirmaPretensaoDia);		
+		
+		return pretensaoRefeicao;		
 	}
 	
 	@PermitAll
@@ -358,7 +388,7 @@ public class PretensaoRefeicaoController {
 	@Path("/quantificar")
 	@Consumes("application/json")
 	@Produces("application/json")
-	public Response getQuantidadePretensaoRefeicoes(DiaRefeicao diaRefeicao) {
+	public Response getQuantidadePretensaoRefeicao(DiaRefeicao diaRefeicao) {
 		
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
 		builder.expires(new Date());
@@ -376,17 +406,19 @@ public class PretensaoRefeicaoController {
 				diaRefeicao.setRefeicao(refeicao);
 				
 				// Verificar pretensão baseado no dia e refeição.				
-				PretensaoRefeicao pretensaoRefeicao = verifyPretensao(diaRefeicao);
+				PretensaoRefeicao pretensaoRefeicao = calcularPretensao(diaRefeicao);
 				
 				// Cálculo da quantidade de pretensões lançadas para o próximo dia de refeição.
 				Long quantidadeDia = PretensaoRefeicaoDAO.getInstance()
 						.getQuantidadeDiaPretensaoRefeicao(pretensaoRefeicao);
 				
 				// Dia proposto para a pretensão e data da solicitação.
-				Dia dia = pretensaoRefeicao.getConfirmaPretensaoDia()
-						.getDiaRefeicao().getDia();
+				int idDia = pretensaoRefeicao.getConfirmaPretensaoDia()
+						.getDiaRefeicao().getDia().getId();
+				Dia dia = DiaDAO.getInstance().getById(idDia);
+				
 				Date dataSolicitacaoPretensao = pretensaoRefeicao
-						.getDataSolicitacao();
+						.getConfirmaPretensaoDia().getDataPretensao();
 				
 				// Mapa com os dados quantificados.
 				MapaRefeicaoRealizada mapaRefeicaoRealizada = new MapaRefeicaoRealizada();
