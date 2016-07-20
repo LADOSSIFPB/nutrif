@@ -119,7 +119,7 @@ function confirmarPretensaoCtrl (pretensao, $scope, $mdDialog, $mdToast, pretens
 
 };
 
-function generateQrCtrl (pretensao, code, $scope, $mdDialog, userService) {
+function generateQrCtrl (pretensao, code, $scope, $mdDialog, userService, $state) {
 
     $scope.code = code.keyAccess;
     $scope.user = userService.getUser();
@@ -128,10 +128,13 @@ function generateQrCtrl (pretensao, code, $scope, $mdDialog, userService) {
     		
     $scope.hide = function() {
         window.print();
+        
+        $mdDialog.cancel();
+        
+        userService.removeUser();
+        $state.go("login.pretensao");
     };
 
-    $scope.cancel = function() {
-        $mdDialog.cancel();
-    };
+
 
 };
