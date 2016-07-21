@@ -14,6 +14,7 @@ import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
 import br.edu.ifpb.nutrif.hibernate.HibernateUtil;
 import br.edu.ifpb.nutrif.util.BancoUtil;
 import br.edu.ladoss.entity.Dia;
+import br.edu.ladoss.entity.DiaRefeicao;
 import br.edu.ladoss.entity.MapaRefeicaoRealizada;
 import br.edu.ladoss.entity.Refeicao;
 import br.edu.ladoss.entity.RefeicaoRealizada;
@@ -109,7 +110,7 @@ public class RefeicaoRealizadaDAO extends GenericDao<Integer, RefeicaoRealizada>
 	 * @param data
 	 * @return
 	 */
-	public Long getQuantidadeDiaRefeicaoRealizada(Date data) {
+	public Long getQuantidadeDiaRefeicaoRealizada(Refeicao refeicao, Date data) {
 		
 		Long quantidadeDia = Long.valueOf(BancoUtil.QUANTIDADE_ZERO);
 		
@@ -119,11 +120,12 @@ public class RefeicaoRealizadaDAO extends GenericDao<Integer, RefeicaoRealizada>
 			
 			String hql = "select count(rr.id)"
 					+ " from RefeicaoRealizada as rr"
-					+ " where rr.confirmaRefeicaoDia.dataRefeicao = :data";
-			//TODO Definir tipo de refeicao
+					+ " where rr.confirmaRefeicaoDia.dataRefeicao = :data"
+					+ " and rr.confirmaRefeicaoDia.diaRefeicao.refeicao.id = :idRefeicao";
 			
 			Query query = session.createQuery(hql);
 			query.setParameter("data", data);
+			query.setParameter("idRefeicao", refeicao.getId());
 			
 			quantidadeDia = (Long) query.uniqueResult();
 	        

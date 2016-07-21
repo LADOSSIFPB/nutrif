@@ -360,4 +360,46 @@ public class Validate {
 		
 		return VALIDATE_OK;
 	}
+
+	public static int quantidadeRefeicaoRealizada(DiaRefeicao diaRefeicao) {
+		
+		logger.info("Validação para obter a quandidade de Refeições Realizadas.");
+		
+		Dia dia = diaRefeicao.getDia();
+		if (dia == null || 
+				(dia != null 
+					&& !numeroValidator.isInteiroPositivo(dia.getId()))) {
+			return ErrorFactory.ID_DIA_INVALIDO;
+		}
+		
+		Refeicao refeicao = diaRefeicao.getRefeicao();
+		if (refeicao == null || 
+				(refeicao != null 
+					&& !numeroValidator.isInteiroPositivo(refeicao.getId()))) {
+			return ErrorFactory.ID_REFEICAO_INVALIDA;
+		}
+		
+		return VALIDATE_OK;
+	}
+
+	public static int quantidadePretensaoRefeicao(DiaRefeicao diaRefeicao) {
+		
+		logger.info("Validação para obter a quandidade de Pretensões de Refeição.");
+		
+		Dia dia = diaRefeicao.getDia();
+		if (dia == null || 
+				(dia != null 
+					&& !numeroValidator.isInteiroPositivo(dia.getId()))) {
+			return ErrorFactory.ID_DIA_INVALIDO;
+		}
+		
+		Refeicao refeicao = diaRefeicao.getRefeicao();
+		if (refeicao == null || 
+				(refeicao != null 
+					&& !numeroValidator.isInteiroPositivo(refeicao.getId()))) {
+			return ErrorFactory.ID_REFEICAO_INVALIDA;
+		}
+		
+		return VALIDATE_OK;
+	}
 }

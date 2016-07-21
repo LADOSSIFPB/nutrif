@@ -294,9 +294,6 @@ public class PretensaoRefeicaoController {
 		
 		PretensaoRefeicao pretensaoRefeicao = null;
 		
-		// Extrair da Refeição a hora máxima para solicitação da pretensão.
-		Refeicao refeicao = diaRefeicao.getRefeicao();
-		
 		// Dia da semana para lançar a pretensão.
 		int diaPretensao = diaRefeicao.getDia().getId();
 		Date dataPretensao = DateUtil.getDateOfDayWeek(diaPretensao);
@@ -394,7 +391,7 @@ public class PretensaoRefeicaoController {
 		builder.expires(new Date());
 		
 		// Validação dos dados de entrada.
-		int validacao = Validate.VALIDATE_OK; //TODO: Validate.pretensaoRefeicao(pretensaoRefeicao);
+		int validacao = Validate.quantidadePretensaoRefeicao(diaRefeicao);
 		
 		if (validacao == Validate.VALIDATE_OK) {
 			
@@ -405,37 +402,40 @@ public class PretensaoRefeicaoController {
 						diaRefeicao.getRefeicao().getId());
 				diaRefeicao.setRefeicao(refeicao);
 				
+				// Dia proposto para a pretensão e data da solicitação.
+				int idDia = diaRefeicao.getDia().getId();
+				Dia dia = DiaDAO.getInstance().getById(idDia);
+				
 				// Verificar pretensão baseado no dia e refeição.				
 				PretensaoRefeicao pretensaoRefeicao = calcularPretensao(diaRefeicao);
 				
-				// Cálculo da quantidade de pretensões lançadas para o próximo dia de refeição.
-				Long quantidadeDia = PretensaoRefeicaoDAO.getInstance()
-						.getQuantidadeDiaPretensaoRefeicao(pretensaoRefeicao);
-				
-				// Dia proposto para a pretensão e data da solicitação.
-				int idDia = pretensaoRefeicao.getConfirmaPretensaoDia()
-						.getDiaRefeicao().getDia().getId();
-				Dia dia = DiaDAO.getInstance().getById(idDia);
-				
-				Date dataSolicitacaoPretensao = pretensaoRefeicao
-						.getConfirmaPretensaoDia().getDataPretensao();
-				
-				// Mapa com os dados quantificados.
-				MapaRefeicaoRealizada mapaRefeicaoRealizada = new MapaRefeicaoRealizada();
-				mapaRefeicaoRealizada.setQuantidade(
-						Integer.valueOf(quantidadeDia.toString()));
-				mapaRefeicaoRealizada.setDataInicio(dataSolicitacaoPretensao);
-				mapaRefeicaoRealizada.setDataFim(dataSolicitacaoPretensao);
-				mapaRefeicaoRealizada.setDia(dia);			
-				
-				builder.status(Response.Status.OK).entity(
-						mapaRefeicaoRealizada);
+				if (refeicao != null && dia != null) {
+					
+					// Cálculo da quantidade de pretensões lançadas para o próximo dia de refeição.
+					Long quantidadeDia = PretensaoRefeicaoDAO.getInstance()
+							.getQuantidadeDiaPretensaoRefeicao(pretensaoRefeicao);
+					
+					Date dataSolicitacaoPretensao = pretensaoRefeicao
+							.getConfirmaPretensaoDia().getDataPretensao();
+					
+					// Mapa com os dados quantificados.
+					MapaRefeicaoRealizada mapaRefeicaoRealizada = new MapaRefeicaoRealizada();
+					mapaRefeicaoRealizada.setQuantidade(
+							Integer.valueOf(quantidadeDia.toString()));
+					mapaRefeicaoRealizada.setDataInicio(dataSolicitacaoPretensao);
+					mapaRefeicaoRealizada.setDataFim(dataSolicitacaoPretensao);
+					mapaRefeicaoRealizada.setDia(dia);			
+					
+					builder.status(Response.Status.OK).entity(
+							mapaRefeicaoRealizada);
+				}
 			
 			} catch (SQLExceptionNutrIF exception) {
 
 				builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
 						exception.getError());			
 			}
+			
 		} else {
 			
 			Error erro = ErrorFactory.getErrorFromIndex(validacao);

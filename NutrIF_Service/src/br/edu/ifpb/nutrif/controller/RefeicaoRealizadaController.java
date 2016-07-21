@@ -15,9 +15,11 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
+import br.edu.ifpb.nutrif.dao.DiaDAO;
 import br.edu.ifpb.nutrif.dao.DiaRefeicaoDAO;
 import br.edu.ifpb.nutrif.dao.FuncionarioDAO;
 import br.edu.ifpb.nutrif.dao.PretensaoRefeicaoDAO;
+import br.edu.ifpb.nutrif.dao.RefeicaoDAO;
 import br.edu.ifpb.nutrif.dao.RefeicaoRealizadaDAO;
 import br.edu.ifpb.nutrif.exception.ErrorFactory;
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
@@ -30,6 +32,7 @@ import br.edu.ladoss.entity.Error;
 import br.edu.ladoss.entity.Funcionario;
 import br.edu.ladoss.entity.MapaRefeicaoRealizada;
 import br.edu.ladoss.entity.PretensaoRefeicao;
+import br.edu.ladoss.entity.Refeicao;
 import br.edu.ladoss.entity.RefeicaoRealizada;
 
 @Path("refeicaorealizada")
@@ -189,43 +192,61 @@ public class RefeicaoRealizadaController {
 	}
 	
 	@PermitAll
-	@GET
+	@POST
 	@Path("/quantificar")
 	@Consumes("application/json")
 	@Produces("application/json")
-	public Response getQuantidadeHojeRefeicoesRealizadas() {
+	public Response getQuantidadeRefeicoesRealizadas(DiaRefeicao diaRefeicao) {
 		
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
 		builder.expires(new Date());
 		
 		// Validação dos dados de entrada.
-		int validacao = Validate.VALIDATE_OK; //TODO: Validate.pretensaoRefeicao(pretensaoRefeicao);
+		int validacao = Validate.quantidadeRefeicaoRealizada(diaRefeicao);
 		
 		if (validacao == Validate.VALIDATE_OK) {
 			
 			try {
 				
-				Date hoje = new Date();
-				Dia dia = DateUtil.getDayOfWeek(hoje);
+				// Recurar dados da Refeição.
+				Refeicao refeicao = RefeicaoDAO.getInstance().getById(
+						diaRefeicao.getRefeicao().getId());
+				diaRefeicao.setRefeicao(refeicao);
 				
-				Long quantidadeDia = RefeicaoRealizadaDAO.getInstance()
-						.getQuantidadeDiaRefeicaoRealizada(hoje);
+				// Id do Dia da Refeicão Realizada.
+				int idDia = diaRefeicao.getDia().getId();
 				
-				MapaRefeicaoRealizada mapaRefeicaoRealizada = new MapaRefeicaoRealizada();
-				mapaRefeicaoRealizada.setQuantidade(
-						Integer.valueOf(quantidadeDia.toString()));
-				mapaRefeicaoRealizada.setDataInicio(hoje);
-				mapaRefeicaoRealizada.setDataFim(hoje);
-				mapaRefeicaoRealizada.setDia(dia);			
+				// Recuperar Dia.
+				Dia dia = DiaDAO.getInstance().getById(idDia);
 				
-				builder.status(Response.Status.OK).entity(
-						mapaRefeicaoRealizada);
+				// Dia da semana da(s) Refeicão(ões) Realizada(s).
+				Date dataRefeicaoRealizada = DateUtil.getDateOfDayWeek(idDia);
+						
+				if (refeicao != null && dia != null) {
+					
+					// Consultar Refeicão(ões) Realizada(s).
+					Long quantidadeDia = RefeicaoRealizadaDAO.getInstance()
+							.getQuantidadeDiaRefeicaoRealizada(refeicao,
+									dataRefeicaoRealizada);	
+					
+					// Mapa quantitativo da(s) Refeicão(ões) Realizada(s).
+					MapaRefeicaoRealizada mapaRefeicaoRealizada = new MapaRefeicaoRealizada();
+					mapaRefeicaoRealizada.setQuantidade(
+							Integer.valueOf(quantidadeDia.toString()));
+					mapaRefeicaoRealizada.setDataInicio(dataRefeicaoRealizada);
+					mapaRefeicaoRealizada.setDataFim(dataRefeicaoRealizada);
+					mapaRefeicaoRealizada.setDia(dia);			
+					
+					builder.status(Response.Status.OK).entity(
+							mapaRefeicaoRealizada);
+				}				
 			
 			} catch (SQLExceptionNutrIF exception) {
 
 				builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
 						exception.getError());			
 			}
+			
 		} else {
 			
 			Error erro = ErrorFactory.getErrorFromIndex(validacao);

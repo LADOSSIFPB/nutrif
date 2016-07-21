@@ -179,9 +179,7 @@ public class PretensaoRefeicaoDAO extends GenericDao<Integer, PretensaoRefeicao>
 					+ " from PretensaoRefeicao as pr"
 					+ " where pr.confirmaPretensaoDia.dataPretensao = :dataPretensao"
 					+ " and pr.confirmaPretensaoDia.diaRefeicao.refeicao.id = :idRefeicao";
-			
-			//TODO Definir Refeição
-			
+						
 			Query query = session.createQuery(hql);
 			query.setParameter("dataPretensao", dataPretensao);
 			query.setParameter("idRefeicao", idRefeicao);
