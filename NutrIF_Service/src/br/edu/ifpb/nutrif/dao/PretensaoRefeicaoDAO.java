@@ -219,7 +219,6 @@ public class PretensaoRefeicaoDAO extends GenericDao<Integer, PretensaoRefeicao>
 					+ " and pr.confirmaPretensaoDia.dataPretensao between :dataInicio and :dataFim";
 			
 			Query query = session.createQuery(hql);
-			query.setParameter("dia", dia.getId());
 			query.setParameter("refeicao", refeicao.getId());
 			query.setParameter("dataInicio", dataInicio);
 			query.setParameter("dataFim", dataFim);

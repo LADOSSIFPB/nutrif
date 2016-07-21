@@ -268,7 +268,7 @@ public class RefeicaoRealizadaController {
 		builder.expires(new Date());
 		
 		// Validação dos dados de entrada.
-		int validacao = Validate.VALIDATE_OK; //TODO: Validate.pretensaoRefeicao(pretensaoRefeicao);
+		int validacao = Validate.mapaRefeicaoRealizada(mapaRefeicoesRealizadas);
 		
 		if (validacao == Validate.VALIDATE_OK) {
 			
@@ -278,6 +278,7 @@ public class RefeicaoRealizadaController {
 						.getInstance().getMapaRefeicoesRaelizadas(
 								mapaRefeicoesRealizadas);
 				
+				mapaRefeicoesRealizadas.setQuantidade(refeicoesRealizadas.size());
 				mapaRefeicoesRealizadas.setRefeicoesRealizadas(refeicoesRealizadas);
 				
 				builder.status(Response.Status.OK).entity(mapaRefeicoesRealizadas);

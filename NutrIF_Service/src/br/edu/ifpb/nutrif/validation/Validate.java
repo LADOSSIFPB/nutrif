@@ -1,5 +1,6 @@
 package br.edu.ifpb.nutrif.validation;
 
+import java.util.Date;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -14,6 +15,7 @@ import br.edu.ladoss.entity.Dia;
 import br.edu.ladoss.entity.DiaRefeicao;
 import br.edu.ladoss.entity.Edital;
 import br.edu.ladoss.entity.Funcionario;
+import br.edu.ladoss.entity.MapaRefeicaoRealizada;
 import br.edu.ladoss.entity.PessoaAcesso;
 import br.edu.ladoss.entity.PretensaoRefeicao;
 import br.edu.ladoss.entity.Refeicao;
@@ -397,6 +399,24 @@ public class Validate {
 		if (refeicao == null || 
 				(refeicao != null 
 					&& !numeroValidator.isInteiroPositivo(refeicao.getId()))) {
+			return ErrorFactory.ID_REFEICAO_INVALIDA;
+		}
+		
+		return VALIDATE_OK;
+	}
+
+	public static int mapaRefeicaoRealizada(MapaRefeicaoRealizada mapaRefeicoesRealizadas) {
+		
+		Refeicao refeicao = mapaRefeicoesRealizadas.getRefeicao();
+		if (refeicao == null || 
+				(refeicao != null 
+					&& !numeroValidator.isInteiroPositivo(refeicao.getId()))) {
+			return ErrorFactory.ID_REFEICAO_INVALIDA;
+		}
+		
+		// TODO: Validar data.
+		Date dataInicial = mapaRefeicoesRealizadas.getDataInicio();
+		if (dataInicial == null) {
 			return ErrorFactory.ID_REFEICAO_INVALIDA;
 		}
 		

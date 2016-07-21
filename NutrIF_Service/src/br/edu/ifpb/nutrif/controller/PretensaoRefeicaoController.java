@@ -467,6 +467,7 @@ public class PretensaoRefeicaoController {
 						.getInstance().getMapaPretensaoRefeicao(
 								mapaPretensaoRefeicao);
 				
+				mapaPretensaoRefeicao.setQuantidade(pretensoesRefeicoes.size());
 				mapaPretensaoRefeicao.setPretensoesRefeicoes(pretensoesRefeicoes);
 				
 				builder.status(Response.Status.OK).entity(
