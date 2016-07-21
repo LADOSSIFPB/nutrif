@@ -2,23 +2,19 @@
     <form layout="column" ng-submit="cadastrar.cadastrar(cadastrar.aluno)">
 
         <md-input-container class="md-icon-float md-block">
-            <label>Nome Completo</label>
+            <label>Nome</label>
+            <input ng-model="cadastrar.aluno.nome" type="text" required>
+        </md-input-container>
+		
+		<md-input-container class="md-icon-float md-block">
+            <label>Descrição</label>
             <input ng-model="cadastrar.aluno.nome" type="text" required>
         </md-input-container>
 
-        <md-input-container class="md-icon-float md-block">
-            <label>Matrícula</label>
-            <input ng-model="cadastrar.aluno.matricula" type="number" required>
-        </md-input-container>
-
         <md-input-container>
-            <label>Selecione um curso</label>
-            <md-select ng-model="cadastrar.aluno.curso.id" required="true">
-                <md-option ng-repeat="curso in cursos" value="{{curso.id}}">
-                    {{curso.nome}}
-                </md-option>
-            </md-select>
-        </md-input-container>
+			<label>Validade</label>
+			<md-datepicker ng-model="myDate"></md-datepicker>
+		</md-input-container>
 
         <md-button type="submit" layout-fill type="submit" class="md-raised md-primary md-hue-1 flex" style="margin-top: 40px">Cadastrar Aluno</md-button>
 
