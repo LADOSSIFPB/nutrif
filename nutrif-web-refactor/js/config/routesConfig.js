@@ -32,6 +32,7 @@ angular.module('NutrifApp').config(function ($stateProvider, $urlRouterProvider)
 		    templateUrl: 'view/manager/home.html'
 	  	})
 	  	
+		/* Funcionário */
 	  	.state('home.adicionar-funcionarios', {
 		    url: '/adicionar/funcionario', 
 			title: 'Adicionar Funcionarios',
@@ -48,35 +49,8 @@ angular.module('NutrifApp').config(function ($stateProvider, $urlRouterProvider)
             controller: 'listarFuncionariosCtrl',
 			module: 'admin'
 	  	})
-
-		.state('home.entrada-alunos', {
-		    url: '/entrada',
-			title: 'Entrada de Alunos',
-		    templateUrl: 'view/manager/entrada-alunos.html',
-            controller: 'entradaAlunoCtrl',
-            controllerAs: 'entrada',
-			module: 'inspetor'
-	  	})
-
-		.state('home.qrcode', {
-		    url: '/qrcode',
-			title: 'Entrada de Alunos',
-		    templateUrl: 'view/manager/entrada-qrcode.html',
-			controller: 'entradaQrCtrl',
-            controllerAs: 'qr',
-			module: 'inspetor'
-	  	})
-
-		.state('home.adicionar-alunos', {
-		    url: '/adicionar',
-			title: 'Adicionar Alunos',
-		    templateUrl: 'view/manager/admin/adicionar-alunos.html',
-            controller: 'cadastrarAlunoCtrl',
-            controllerAs: 'cadastrar',
-			module: 'admin'
-	  	})
-
-	  	.state('home.editar-funcionario', {
+		
+		.state('home.editar-funcionario', {
 		    url: '/editar/funcionario/:id',
 			title: 'Editar Funcionario',
 		    templateUrl: 'view/manager/admin/editar-funcionario.html',
@@ -84,8 +58,17 @@ angular.module('NutrifApp').config(function ($stateProvider, $urlRouterProvider)
 			controllerAs: 'editar',
 			module: 'admin'
 	  	})
-	  	
-	  	
+
+		/* Aluno */
+	  	.state('home.adicionar-alunos', {
+		    url: '/adicionar',
+			title: 'Adicionar Alunos',
+		    templateUrl: 'view/manager/admin/adicionar-alunos.html',
+            controller: 'cadastrarAlunoCtrl',
+            controllerAs: 'cadastrar',
+			module: 'admin'
+	  	})
+		
 		.state('home.listar-alunos', {
 		    url: '/listar',
 			title: 'Listar Alunos',
@@ -103,7 +86,36 @@ angular.module('NutrifApp').config(function ($stateProvider, $urlRouterProvider)
 			controllerAs: 'editar',
 			module: 'admin'
 	  	})
+		
+		.state('home.entrada-alunos', {
+		    url: '/entrada',
+			title: 'Entrada de Alunos',
+		    templateUrl: 'view/manager/entrada-alunos.html',
+            controller: 'entradaAlunoCtrl',
+            controllerAs: 'entrada',
+			module: 'inspetor'
+	  	})
 
+		.state('home.qrcode', {
+		    url: '/qrcode',
+			title: 'Entrada de Alunos',
+		    templateUrl: 'view/manager/entrada-qrcode.html',
+			controller: 'entradaQrCtrl',
+            controllerAs: 'qr',
+			module: 'inspetor'
+	  	})
+		
+		/* Edital*/
+		.state('home.adicionar-edital', {
+		    url: '/adicionar/edital',
+			title: 'Adicionar Edital',
+		    templateUrl: 'view/manager/admin/adicionar-edital.html',
+            controller: 'cadastrarEditalCtrl',
+            controllerAs: 'cadastrarEdital',
+			module: 'admin'
+	  	})
+		
+		/* Pretensão */
 	  	.state('pretensao', {
 		    url: '/pretensao',
 		    templateUrl: 'view/pretensao/pretensao-home.html',
@@ -118,5 +130,4 @@ angular.module('NutrifApp').config(function ($stateProvider, $urlRouterProvider)
 			controllerAs: 'listar',
 		    module: 'comensal'
 	  	});
-
 });

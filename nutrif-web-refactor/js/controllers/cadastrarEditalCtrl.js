@@ -1,9 +1,7 @@
-angular.module('NutrifApp').controller('cadastrarAlunoCtrl', function ($scope, $mdToast, cursoService, alunoService, $state) {
+angular.module('NutrifApp').controller('cadastrarEditalCtrl', function ($scope, $mdToast, editalService, $state) {
 
-    $scope.cursos = [];
-
-    this.cadastrar = function (aluno) {
-        alunoService.cadastrarAluno(aluno)
+    this.cadastrar = function (edital) {
+        editalService.cadastrarEdital(edital)
             .success(onSuccessCallback)
             .error(onErrorCallback);
     }
@@ -37,17 +35,4 @@ angular.module('NutrifApp').controller('cadastrarAlunoCtrl', function ($scope, $
             .hideDelay(6000)
         );
     }
-
-    function carregarCursos () {
-        cursoService.listarCursos()
-            .success(function (data, status){
-                $scope.cursos = data;
-            })
-            .error(function (data, status){
-                alert("Houve um erro ao carregar os cursos. Contate um administrador.");
-            });
-    }
-
-    carregarCursos();
-
 });

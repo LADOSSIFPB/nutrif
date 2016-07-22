@@ -1,19 +1,24 @@
 ﻿<md-card layout-padding style="padding-left: 6%; padding-right: 6%; padding-bottom: 4%; padding-top: 3% ">
-    <form layout="column" ng-submit="cadastrar.cadastrar(cadastrar.aluno)">
+    <form layout="column" ng-submit="cadastrarEdital.cadastrar(cadastrarEdital.edital)">
 
         <md-input-container class="md-icon-float md-block">
             <label>Nome</label>
-            <input ng-model="cadastrar.aluno.nome" type="text" required>
+            <input ng-model="cadastrarEdital.edital.nome" type="text" required>
         </md-input-container>
 		
 		<md-input-container class="md-icon-float md-block">
             <label>Descrição</label>
-            <input ng-model="cadastrar.aluno.nome" type="text" required>
+            <input ng-model="cadastrarEdital.edital.descricao" type="text" required>
         </md-input-container>
 
         <md-input-container>
 			<label>Validade</label>
-			<md-datepicker ng-model="myDate"></md-datepicker>
+			<md-datepicker ng-model="cadastrarEdital.edital.dataInicial"></md-datepicker>
+		</md-input-container>
+		
+		<md-input-container>
+			<label>Final</label>
+			<md-datepicker ng-model="cadastrarEdital.edital.dataFinal"></md-datepicker>
 		</md-input-container>
 
         <md-button type="submit" layout-fill type="submit" class="md-raised md-primary md-hue-1 flex" style="margin-top: 40px">Cadastrar Aluno</md-button>
