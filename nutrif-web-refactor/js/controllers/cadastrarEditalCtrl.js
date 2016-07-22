@@ -1,7 +1,16 @@
-angular.module('NutrifApp').controller('cadastrarEditalCtrl', function ($scope, $mdToast, editalService, $state) {
+/**
+ * Cadastro do Edital.
+ */
+angular.module('NutrifApp').controller('cadastrarEditalCtrl', function ($scope, $mdToast, editalService, userService, $state) {
 
     this.cadastrar = function (edital) {
-        editalService.cadastrarEdital(edital)
+		
+		// Adicionar funcionário.
+		edital.funcionario = {};
+		edital.funcionario.id = userService.getUser().id;
+		
+		// Enviar para o serviço de cadastro de Edital.
+		editalService.cadastrarEdital(edital)
             .success(onSuccessCallback)
             .error(onErrorCallback);
     }
@@ -9,13 +18,11 @@ angular.module('NutrifApp').controller('cadastrarEditalCtrl', function ($scope, 
     function onSuccessCallback (data, status) {
         $mdToast.show(
             $mdToast.simple()
-            .textContent('Aluno(a) cadastrado(a) com sucesso! Agora você pode adicionar refeições para ele(a).')
+            .textContent('Edital(a) cadastrado(a) com sucesso!')
             .position('top right')
             .action('OK')
             .hideDelay(6000)
         );
-
-        $state.transitionTo('home.editar-aluno', {matricula: data.matricula}, {reload: true});
     }
 
     function onErrorCallback (data, status) {
