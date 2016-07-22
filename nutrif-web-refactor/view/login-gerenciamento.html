@@ -14,13 +14,13 @@
                 <md-input-container class="md-icon-float md-block">
                     <md-icon md-svg-src="img/icon/round-account-button-with-user-inside.svg"/></md-icon>
                     <label>Email</label>
-                    <input ng-model="login.funcionario.email" type="email">
+                    <input ng-model="login.funcionario.email" type="email" ng-required="true">
                 </md-input-container>
 
                 <md-input-container class="md-icon-float md-block">
                     <label>Senha</label>
                     <md-icon md-svg-src="img/icon/locked-padlock.svg" class="name"></md-icon>
-                    <input ng-model="login.funcionario.senha" type="password">
+                    <input ng-model="login.funcionario.senha" type="password" ng-required="true">
                 </md-input-container>
 
                 <md-button type="submit" class="md-raised md-primary md-hue-1">Entrar</md-button>
