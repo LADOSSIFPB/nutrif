@@ -231,7 +231,8 @@ public class RefeicaoRealizadaController {
 									dataRefeicaoRealizada);	
 					
 					// Mapa quantitativo da(s) Refeicão(ões) Realizada(s).
-					MapaRefeicaoRealizada mapaRefeicaoRealizada = new MapaRefeicaoRealizada();
+					MapaRefeicaoRealizada mapaRefeicaoRealizada = 
+							new MapaRefeicaoRealizada();
 					mapaRefeicaoRealizada.setQuantidade(
 							Integer.valueOf(quantidadeDia.toString()));
 					mapaRefeicaoRealizada.setData(dataRefeicaoRealizada);
@@ -296,13 +297,16 @@ public class RefeicaoRealizadaController {
 							.getInstance().getMapaRefeicoesRaelizadas(
 									mapaRefeicaoRealizada);
 					
-					mapaRefeicaoRealizada.setRefeicoesRealizadas(refeicoesRealizadas);
-					mapaRefeicaoRealizada.setQuantidade(refeicoesRealizadas.size());
+					mapaRefeicaoRealizada.setRefeicoesRealizadas(
+							refeicoesRealizadas);
+					mapaRefeicaoRealizada.setQuantidade(
+							refeicoesRealizadas.size());
 					
 					mapasRefeicoesRealizadas.add(mapaRefeicaoRealizada);
 				}				
 				
-				builder.status(Response.Status.OK).entity(mapasRefeicoesRealizadas);				
+				builder.status(Response.Status.OK).entity(
+						mapasRefeicoesRealizadas);				
 			
 			} catch (SQLExceptionNutrIF exception) {
 

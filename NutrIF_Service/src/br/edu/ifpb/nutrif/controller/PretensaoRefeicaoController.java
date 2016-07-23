@@ -41,6 +41,7 @@ import br.edu.ladoss.entity.DiaRefeicao;
 import br.edu.ladoss.entity.Error;
 import br.edu.ladoss.entity.MapaPretensaoRefeicao;
 import br.edu.ladoss.entity.MapaRefeicaoRealizada;
+import br.edu.ladoss.entity.PeriodoPretensaoRefeicao;
 import br.edu.ladoss.entity.PretensaoRefeicao;
 import br.edu.ladoss.entity.Refeicao;
 import br.edu.ladoss.entity.RefeicaoRealizada;
@@ -419,7 +420,7 @@ public class PretensaoRefeicaoController {
 							.getConfirmaPretensaoDia().getDataPretensao();
 					
 					// Mapa com os dados quantificados.
-					MapaRefeicaoRealizada mapaPretensaoRefeicao = new MapaRefeicaoRealizada();
+					MapaPretensaoRefeicao mapaPretensaoRefeicao = new MapaPretensaoRefeicao();
 					mapaPretensaoRefeicao.setQuantidade(
 							Integer.valueOf(quantidadeDia.toString()));
 					mapaPretensaoRefeicao.setData(dataSolicitacaoPretensao);
@@ -450,7 +451,7 @@ public class PretensaoRefeicaoController {
 	@Consumes("application/json")
 	@Produces("application/json")
 	public Response getMapaPretensaoRefeicao(
-			MapaPretensaoRefeicao mapaPretensaoRefeicao) {
+			PeriodoPretensaoRefeicao periodoPretensaoRefeicao) {
 		
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
 		builder.expires(new Date());
@@ -460,18 +461,39 @@ public class PretensaoRefeicaoController {
 		
 		if (validacao == Validate.VALIDATE_OK) {
 			
-			try {			
+			try {
 				
-				List<PretensaoRefeicao> pretensoesRefeicoes = PretensaoRefeicaoDAO
-						.getInstance().getMapaPretensaoRefeicao(
-								mapaPretensaoRefeicao);
+				List<MapaPretensaoRefeicao> mapasRefeicoesRealizadas = 
+						new ArrayList<MapaPretensaoRefeicao>();
 				
-				mapaPretensaoRefeicao.setQuantidade(pretensoesRefeicoes.size());
-				mapaPretensaoRefeicao.setPretensoesRefeicoes(pretensoesRefeicoes);
+				// Data entre o intervalo de dataInicio e dataFim.
+				List<Date> datas = DateUtil.getDaysBetweenDates(
+						periodoPretensaoRefeicao.getDataInicio(), 
+						periodoPretensaoRefeicao.getDataFim());
+				
+				for (Date data: datas) {
+					
+					// Inicializa o mapa para consulta dos dias das refeições.
+					MapaPretensaoRefeicao mapaPretensaoRefeicao = 
+							new MapaPretensaoRefeicao();				
+					mapaPretensaoRefeicao.setRefeicao(
+							periodoPretensaoRefeicao.getRefeicao());
+					mapaPretensaoRefeicao.setData(data);
+					
+					// Consulta dos dias das refeições.
+					List<PretensaoRefeicao> refeicoesRealizadas = PretensaoRefeicaoDAO
+							.getInstance().getMapaPretensaoRefeicao(
+									mapaPretensaoRefeicao);
+					
+					mapaPretensaoRefeicao.setPretensoesRefeicoes(refeicoesRealizadas);
+					mapaPretensaoRefeicao.setQuantidade(
+							refeicoesRealizadas.size());
+					
+					mapasRefeicoesRealizadas.add(mapaPretensaoRefeicao);
+				}				
 				
 				builder.status(Response.Status.OK).entity(
-						mapaPretensaoRefeicao);
-				
+						mapasRefeicoesRealizadas);				
 			
 			} catch (SQLExceptionNutrIF exception) {
 

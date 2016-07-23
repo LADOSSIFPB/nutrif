@@ -17,9 +17,7 @@ public class MapaPretensaoRefeicao {
 	
 	private Dia dia;
 
-	private Date dataInicio;
-	
-	private Date dataFim;
+	private Date data;
 
 	@XmlElement
 	public List<PretensaoRefeicao> getPretensoesRefeicoes() {
@@ -49,30 +47,21 @@ public class MapaPretensaoRefeicao {
 	}
 	
 	@XmlElement
-	public Date getDataInicio() {
-		return dataInicio;
-	}
-
-	public void setDataInicio(Date dataInicio) {
-		this.dataInicio = dataInicio;
-	}
-
-	@XmlElement
-	public Date getDataFim() {
-		return dataFim;
-	}
-
-	public void setDataFim(Date dataFim) {
-		this.dataFim = dataFim;
-	}
-	
-	@XmlElement
 	public Integer getQuantidade() {
 		return quantidade;
 	}
 
 	public void setQuantidade(Integer quantidade) {
 		this.quantidade = quantidade;
+	}	
+
+	@XmlElement
+	public Date getData() {
+		return data;
+	}
+
+	public void setData(Date data) {
+		this.data = data;
 	}
 	
 	@Override
@@ -80,7 +69,6 @@ public class MapaPretensaoRefeicao {
 		return "MapaPretensaoRefeicao[quantidade="+ quantidade 
 				+ ", refeicao=" + refeicao 
 				+ ", dia=" + dia
-				+ ", dataInicio=" + dataInicio
-				+ ", dataFim=" + dataFim + "]";
+				+ ", data=" + data + "]";
 	}	
 }
