@@ -58,6 +58,14 @@ angular.module('NutrifApp').config(function ($stateProvider, $urlRouterProvider)
 			controllerAs: 'editar',
 			module: 'admin'
 	  	})
+	  	
+	  	.state('home.perfil-aluno', {
+		    url: '/perfilAluno',
+			title: 'Perfil aluno',
+		    templateUrl: 'view/manager/admin/perfil-aluno.html',
+			controller: 'webcamCtrl',
+			module: 'admin'
+	  	})
 
 		/* Aluno */
 	  	.state('home.adicionar-alunos', {
@@ -112,6 +120,15 @@ angular.module('NutrifApp').config(function ($stateProvider, $urlRouterProvider)
 		    templateUrl: 'view/manager/admin/adicionar-edital.html',
             controller: 'cadastrarEditalCtrl',
             controllerAs: 'cadastrarEdital',
+			module: 'admin'
+	  	})
+		
+		.state('home.listar-edital', {
+		    url: '/listar/edital',
+			title: 'Listar Edital',
+		    templateUrl: 'view/manager/admin/listar-edital.html',
+            controller: 'listarEditalCtrl',
+            controllerAs: 'listarEdital',
 			module: 'admin'
 	  	})
 		
