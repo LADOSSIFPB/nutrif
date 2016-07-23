@@ -1,0 +1,26 @@
+<link rel="stylesheet" type="text/css" href="../../../css/ng-img-crop.css"/>
+<md-card>
+    <md-card-header>
+		<div class="alert alert-error ng-scope" ng-show="webcamError">
+			 <md-card-header-text>
+				<span>Webcam could not be started. Did you give access to it?</span>
+			</md-card-header-text>
+		</div>
+	</md-card-header>
+	<md-card-content>
+		<webcam channel="myChannel" 
+				on-streaming="onSuccess()" 
+				on-error="onError(err)" 
+				on-stream="onStream(stream)"></webcam>
+         <md-button  layout-fill ng-click="makeSnapshot()" class="md-raised md-primary md-hue-1 flex" style="margin-top: 40px">Tirar foto</md-button>
+   
+
+		<div class="cropArea" style="margin-top: 40px">
+				 <img-crop image="myImage" result-image="myCroppedImage"> 
+					<canvas></canvas>
+				 </img-crop>
+		  </div>
+		  <label>Imagem cortada:</label><br/><br/>
+		  <img ng-src="{{myCroppedImage}}" style="margin-top: 40px"/>
+  <md-card-content>
+</md-card>

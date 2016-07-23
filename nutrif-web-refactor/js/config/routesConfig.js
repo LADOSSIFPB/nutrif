@@ -58,6 +58,14 @@ angular.module('NutrifApp').config(function ($stateProvider, $urlRouterProvider)
 			controllerAs: 'editar',
 			module: 'admin'
 	  	})
+	  	
+	  	.state('home.perfil-aluno', {
+		    url: '/perfilAluno',
+			title: 'Perfil aluno',
+		    templateUrl: 'view/manager/admin/perfil-aluno.html',
+			controller: 'webcamCtrl',
+			module: 'admin'
+	  	})
 
 		/* Aluno */
 	  	.state('home.adicionar-alunos', {
