@@ -17,9 +17,7 @@ public class MapaRefeicaoRealizada {
 	
 	private Dia dia;
 
-	private Date dataInicio;
-	
-	private Date dataFim;
+	private Date data;
 
 	@XmlElement
 	public List<RefeicaoRealizada> getRefeicoesRealizadas() {
@@ -49,24 +47,6 @@ public class MapaRefeicaoRealizada {
 	}
 	
 	@XmlElement
-	public Date getDataInicio() {
-		return dataInicio;
-	}
-
-	public void setDataInicio(Date dataInicio) {
-		this.dataInicio = dataInicio;
-	}
-
-	@XmlElement
-	public Date getDataFim() {
-		return dataFim;
-	}
-
-	public void setDataFim(Date dataFim) {
-		this.dataFim = dataFim;
-	}
-	
-	@XmlElement
 	public int getQuantidade() {
 		return quantidade;
 	}
@@ -75,12 +55,20 @@ public class MapaRefeicaoRealizada {
 		this.quantidade = quantidade;
 	}
 	
+	@XmlElement
+	public Date getData() {
+		return data;
+	}
+
+	public void setData(Date data) {
+		this.data = data;
+	}	
+	
 	@Override
 	public String toString() {
 		return "MapaRefeicaoRealizada [refeicao=" + refeicao 
 				+ ", quantidade=" + quantidade
 				+ ", dia=" + dia 
-				+ ", dataInicio=" + dataInicio
-				+ ", dataFim=" + dataFim + "]";
-	}		
+				+ ", data=" + data + "]";
+	}	
 }

@@ -1,5 +1,29 @@
 ﻿<md-card layout-padding style="padding-left: 6%; padding-right: 6%; padding-bottom: 4%; padding-top: 3%">
-    <form layout="column" ng-submit="cadastrarEdital.cadastrar(cadastrarEdital.edital)">
+    <!-- Cabeçalho de opções -->
+	<md-card-header>
+
+        <md-card-avatar>
+            <md-icon class="md-avatar-icon" md-svg-icon="img/icon/view-list-button.svg"></md-icon>
+        </md-card-avatar>
+
+        <md-card-header-text>
+            <span class="md-title">Edital</span>
+            <span class="md-subhead">Digite a busca ou selecione a opção para adicionar um novo.</span>
+        </md-card-header-text>
+
+        <md-card-actions layout="row">
+            <md-card-icon-actions>
+                <md-button class="md-icon-button" aria-label="Adicionar Refeições" ng-click="adicionaRefeicao()">
+                    <md-tooltip md-direction="bottom">Adicionar Edital</md-tooltip>
+                    <md-icon md-svg-icon="img/icon/add-plus-button.svg"></md-icon>
+                </md-button>
+
+            </md-card-icon-actions>
+        </md-card-actions>
+    </md-card-header>
+	
+	<!-- Formulário -->
+	<form layout="column" ng-submit="cadastrarEdital.cadastrar(cadastrarEdital.edital)">
 
 		{{cadastrarEdital.edital}}
 		

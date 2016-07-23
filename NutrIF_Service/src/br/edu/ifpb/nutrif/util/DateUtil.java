@@ -1,9 +1,11 @@
 package br.edu.ifpb.nutrif.util;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
@@ -138,5 +140,24 @@ public class DateUtil {
 				Calendar.HOUR_OF_DAY), 
 				calendar.get(Calendar.MINUTE),
 				calendar.get(Calendar.SECOND));		
+	}
+	
+	public static List<Date> getDaysBetweenDates(Date startdate, Date enddate) {
+		
+		List<Date> dates = new ArrayList<Date>();
+		
+		Calendar calendar = new GregorianCalendar();		
+		calendar.setTime(startdate);
+		
+		enddate = addDays(enddate, UM_DIA);
+
+		while (calendar.getTime().before(enddate)) {
+			
+			Date result = calendar.getTime();
+			dates.add(result);
+			calendar.add(Calendar.DATE, 1);
+		}
+		
+		return dates;
 	}
 }

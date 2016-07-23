@@ -15,7 +15,7 @@ import br.edu.ladoss.entity.Dia;
 import br.edu.ladoss.entity.DiaRefeicao;
 import br.edu.ladoss.entity.Edital;
 import br.edu.ladoss.entity.Funcionario;
-import br.edu.ladoss.entity.MapaRefeicaoRealizada;
+import br.edu.ladoss.entity.PeriodoRefeicaoRealizada;
 import br.edu.ladoss.entity.PessoaAcesso;
 import br.edu.ladoss.entity.PretensaoRefeicao;
 import br.edu.ladoss.entity.Refeicao;
@@ -405,7 +405,7 @@ public class Validate {
 		return VALIDATE_OK;
 	}
 
-	public static int mapaRefeicaoRealizada(MapaRefeicaoRealizada mapaRefeicoesRealizadas) {
+	public static int periodoRefeicaoRealizada(PeriodoRefeicaoRealizada mapaRefeicoesRealizadas) {
 		
 		Refeicao refeicao = mapaRefeicoesRealizadas.getRefeicao();
 		if (refeicao == null || 
@@ -414,10 +414,18 @@ public class Validate {
 			return ErrorFactory.ID_REFEICAO_INVALIDA;
 		}
 		
-		// TODO: Validar data.
 		Date dataInicial = mapaRefeicoesRealizadas.getDataInicio();
-		if (dataInicial == null) {
-			return ErrorFactory.ID_REFEICAO_INVALIDA;
+		if (dataValidator.validateFormat(dataInicial, 
+				DataValidator.FORMATO_DATA)) {
+			
+			return ErrorFactory.DATA_INVALIDA;
+		}
+		
+		Date dataFinal = mapaRefeicoesRealizadas.getDataFim();
+		if (dataValidator.validateFormat(dataFinal, 
+				DataValidator.FORMATO_DATA)) {
+			
+			return ErrorFactory.DATA_INVALIDA;
 		}
 		
 		return VALIDATE_OK;

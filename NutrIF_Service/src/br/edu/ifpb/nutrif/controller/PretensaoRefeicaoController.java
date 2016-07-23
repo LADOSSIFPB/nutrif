@@ -419,15 +419,14 @@ public class PretensaoRefeicaoController {
 							.getConfirmaPretensaoDia().getDataPretensao();
 					
 					// Mapa com os dados quantificados.
-					MapaRefeicaoRealizada mapaRefeicaoRealizada = new MapaRefeicaoRealizada();
-					mapaRefeicaoRealizada.setQuantidade(
+					MapaRefeicaoRealizada mapaPretensaoRefeicao = new MapaRefeicaoRealizada();
+					mapaPretensaoRefeicao.setQuantidade(
 							Integer.valueOf(quantidadeDia.toString()));
-					mapaRefeicaoRealizada.setDataInicio(dataSolicitacaoPretensao);
-					mapaRefeicaoRealizada.setDataFim(dataSolicitacaoPretensao);
-					mapaRefeicaoRealizada.setDia(dia);			
+					mapaPretensaoRefeicao.setData(dataSolicitacaoPretensao);
+					mapaPretensaoRefeicao.setDia(dia);
 					
 					builder.status(Response.Status.OK).entity(
-							mapaRefeicaoRealizada);
+							mapaPretensaoRefeicao);
 				}
 			
 			} catch (SQLExceptionNutrIF exception) {

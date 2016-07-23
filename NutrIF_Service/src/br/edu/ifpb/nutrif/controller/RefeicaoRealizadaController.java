@@ -31,6 +31,7 @@ import br.edu.ladoss.entity.DiaRefeicao;
 import br.edu.ladoss.entity.Error;
 import br.edu.ladoss.entity.Funcionario;
 import br.edu.ladoss.entity.MapaRefeicaoRealizada;
+import br.edu.ladoss.entity.PeriodoRefeicaoRealizada;
 import br.edu.ladoss.entity.PretensaoRefeicao;
 import br.edu.ladoss.entity.Refeicao;
 import br.edu.ladoss.entity.RefeicaoRealizada;
@@ -233,8 +234,7 @@ public class RefeicaoRealizadaController {
 					MapaRefeicaoRealizada mapaRefeicaoRealizada = new MapaRefeicaoRealizada();
 					mapaRefeicaoRealizada.setQuantidade(
 							Integer.valueOf(quantidadeDia.toString()));
-					mapaRefeicaoRealizada.setDataInicio(dataRefeicaoRealizada);
-					mapaRefeicaoRealizada.setDataFim(dataRefeicaoRealizada);
+					mapaRefeicaoRealizada.setData(dataRefeicaoRealizada);
 					mapaRefeicaoRealizada.setDia(dia);			
 					
 					builder.status(Response.Status.OK).entity(
@@ -262,27 +262,47 @@ public class RefeicaoRealizadaController {
 	@Consumes("application/json")
 	@Produces("application/json")
 	public Response getMapaRefeicoesRealizadas(
-			MapaRefeicaoRealizada mapaRefeicoesRealizadas) {
+			PeriodoRefeicaoRealizada periodoRefeicaoRealizada) {
 		
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
 		builder.expires(new Date());
 		
 		// Validação dos dados de entrada.
-		int validacao = Validate.mapaRefeicaoRealizada(mapaRefeicoesRealizadas);
+		int validacao = Validate.periodoRefeicaoRealizada(periodoRefeicaoRealizada);
 		
 		if (validacao == Validate.VALIDATE_OK) {
 			
-			try {			
+			try {
 				
-				List<RefeicaoRealizada> refeicoesRealizadas = RefeicaoRealizadaDAO
-						.getInstance().getMapaRefeicoesRaelizadas(
-								mapaRefeicoesRealizadas);
+				List<MapaRefeicaoRealizada> mapasRefeicoesRealizadas = 
+						new ArrayList<MapaRefeicaoRealizada>();
 				
-				mapaRefeicoesRealizadas.setQuantidade(refeicoesRealizadas.size());
-				mapaRefeicoesRealizadas.setRefeicoesRealizadas(refeicoesRealizadas);
+				// Data entre o intervalo de dataInicio e dataFim.
+				List<Date> datas = DateUtil.getDaysBetweenDates(
+						periodoRefeicaoRealizada.getDataInicio(), 
+						periodoRefeicaoRealizada.getDataFim());
 				
-				builder.status(Response.Status.OK).entity(mapaRefeicoesRealizadas);
+				for (Date data: datas) {
+					
+					// Inicializa o mapa para consulta dos dias das refeições.
+					MapaRefeicaoRealizada mapaRefeicaoRealizada = 
+							new MapaRefeicaoRealizada();				
+					mapaRefeicaoRealizada.setRefeicao(
+							periodoRefeicaoRealizada.getRefeicao());
+					mapaRefeicaoRealizada.setData(data);
+					
+					// Consulta dos dias das refeições.
+					List<RefeicaoRealizada> refeicoesRealizadas = RefeicaoRealizadaDAO
+							.getInstance().getMapaRefeicoesRaelizadas(
+									mapaRefeicaoRealizada);
+					
+					mapaRefeicaoRealizada.setRefeicoesRealizadas(refeicoesRealizadas);
+					mapaRefeicaoRealizada.setQuantidade(refeicoesRealizadas.size());
+					
+					mapasRefeicoesRealizadas.add(mapaRefeicaoRealizada);
+				}				
 				
+				builder.status(Response.Status.OK).entity(mapasRefeicoesRealizadas);				
 			
 			} catch (SQLExceptionNutrIF exception) {
 

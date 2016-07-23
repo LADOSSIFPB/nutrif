@@ -90,6 +90,7 @@ public class ErrorFactory {
 	 */
 	public static final int ROLES_INVALIDAS = 36;
 	public static final int NOME_ROLE_INVALIDO = 37;
+	public static final int DATA_INVALIDA = 38;
 	
 	/*
 	 * Mapa de erros: código e mensagem.
@@ -136,7 +137,7 @@ public class ErrorFactory {
 		hashMap.put(ROLES_INVALIDAS, "Perfis de usuário não informados.");
 		hashMap.put(NOME_ROLE_INVALIDO, "Nome do perfil inválido.");
 		hashMap.put(DIA_REFEICAO_DIPLICADO, "Dia de refeição duplicado para o Aluno.");
-		
+		hashMap.put(DATA_INVALIDA, "Data inválida.");
 		
 		return hashMap;
 	}
