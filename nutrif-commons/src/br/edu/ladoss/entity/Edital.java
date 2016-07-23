@@ -31,8 +31,9 @@ public class Edital {
 	@Column(name = "nm_edital")
 	private String nome;
 	
-	@Column(name = "nm_descricao")
-	private String descricao;
+	@OneToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "fk_id_campus")
+	private Campus campus;
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "dt_inicial", insertable = true, updatable = false)
@@ -72,14 +73,14 @@ public class Edital {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-
+	
 	@XmlElement
-	public String getDescricao() {
-		return descricao;
+	public Campus getCampus() {
+		return campus;
 	}
 
-	public void setDescricao(String descricao) {
-		this.descricao = descricao;
+	public void setCampus(Campus campus) {
+		this.campus = campus;
 	}
 
 	@XmlElement
@@ -131,10 +132,8 @@ public class Edital {
 	public String toString() {
 		return "Edital [id=" + id 
 				+ ", nome=" + nome
+				+ ", campus=" + campus
 				+ ", dataInicial=" + dataInicial
-				+ ", dataFinal=" + dataFinal
-				+ ", dataInsercao=" + dataInsercao 
-				+ ", funcionario=" + funcionario 
-				+ ", ativo=" + ativo + "]";
-	}
+				+ ", dataFinal=" + dataFinal + "]";
+	}	
 }

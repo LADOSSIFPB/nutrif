@@ -6,7 +6,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
-import br.edu.ladoss.entity.Curso;
 import br.edu.ladoss.entity.Edital;
 
 public class EditalDAO extends GenericDao<Integer, Edital>{
@@ -27,7 +26,7 @@ public class EditalDAO extends GenericDao<Integer, Edital>{
 
 	@Override
 	public Class<?> getEntityClass() {
-		return Curso.class;
+		return Edital.class;
 	}
 
 	@Override

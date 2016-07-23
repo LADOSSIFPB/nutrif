@@ -9,6 +9,7 @@ import org.jboss.resteasy.plugins.interceptors.CorsFilter;
 
 import br.edu.ifpb.nutrif.controller.AlunoController;
 import br.edu.ifpb.nutrif.controller.ArquivoController;
+import br.edu.ifpb.nutrif.controller.CampusController;
 import br.edu.ifpb.nutrif.controller.CursoController;
 import br.edu.ifpb.nutrif.controller.DiaController;
 import br.edu.ifpb.nutrif.controller.DiaRefeicaoController;
@@ -39,6 +40,7 @@ public class NutrIFApplication extends Application {
 		this.singletons.add(new AlunoController());
 		this.singletons.add(new FuncionarioController());
 		this.singletons.add(new PessoaController());
+		this.singletons.add(new CampusController());
 		this.singletons.add(new EditalController());
 		this.singletons.add(new DiaRefeicaoController());
 		this.singletons.add(new CursoController());
