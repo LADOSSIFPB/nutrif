@@ -11,8 +11,13 @@ angular.module("NutrifApp").factory("refeicaoRealizadaService", function($http, 
 		return $http.post(_path + "/inserir", refeicao)
 	};
 
+    var _mapaRefeicao = function(peirodoPretensao){
+		return $http.post(_path + "/mapa/consultar", peirodoPretensao);
+	};
+
 	return {
-		inserirRefeicao: _inserirRefeicao
+		inserirRefeicao: _inserirRefeicao,
+        mapaRefeicao: _mapaRefeicao
 	};
 
 });

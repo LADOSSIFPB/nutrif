@@ -10,3 +10,7 @@ angular.module('NutrifApp').config(function($mdThemingProvider) {
         .backgroundPalette('grey');
 
 });
+
+angular.module('NutrifApp').config(function (ChartJsProvider) {
+    ChartJsProvider.setOptions({ colors : ['#DCDCDC', '#46BFBD', '#FDB45C', '#4D5360'] });
+});
