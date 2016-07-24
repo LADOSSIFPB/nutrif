@@ -4,7 +4,7 @@
 	<md-card-header>
 
         <md-card-avatar>
-            <md-icon class="md-avatar-icon" md-svg-icon="img/icon/view-list-button.svg">
+            <md-icon class="md-avatar-icon" md-svg-icon="img/icon/copy-content.svg">
 			</md-icon>
         </md-card-avatar>
 
@@ -23,5 +23,49 @@
             </md-card-icon-actions>
         </md-card-actions>
     </md-card-header>
+	
+	<!-- Listar Edital -->
+	<md-table-container>
+        <md-toolbar class="md-table-toolbar md-default">
+            <div class="md-toolbar-tools">
+
+                <md-icon style="fill: rgba(0,0,0,.54);" md-svg-icon="img/icon/searching-magnifying-glass.svg"></md-icon>
+
+                <div class="toolbar-input" flex>
+                    <input type="text" ng-model="texto" ng-keyup="pesquisar(texto)" 
+						placeholder="Digite o nome do Edital">
+                </div>
+
+                <md-button aria-label="Limpar Busca" class="md-icon-button" ng-click="limparBusca(texto)">
+                    <md-tooltip md-direction="bottom">Refazer busca</md-tooltip>
+                    <md-icon style="fill: rgba(0,0,0,.54);" md-svg-icon="img/icon/replay-arrow.svg"></md-icon>
+                </md-button>
+				
+            </div>
+        </md-toolbar>
+
+        <table md-table>
+
+            <thead md-head>
+                <tr md-row>
+                    <th md-column>Edital</th>
+                    <th md-column>Campus</th>
+					<th md-column>Início</th>
+					<th md-column>Fim</th>
+                </tr>
+            </thead>
+
+             <tbody md-body>
+                <tr md-row ng-repeat="edital in editais | limitTo: query.limit: (query.page - 1) * query.limit">
+                    <td md-cell>{{edital.nome | uppercase}}</td>
+                    <td md-cell>{{edital.campus.cidade | uppercase}}</td>
+					<td md-cell>{{edital.dataInicial | date:'dd/MM/yyyy h:mma'}}</td>
+					<td md-cell>{{edital.dataFinal | date:'dd/MM/yyyy h:mma'}}</td>                    
+                </tr>
+            </tbody>
+        </table>
+    </md-table-container>
+    <md-table-pagination md-limit="query.limit" md-page="query.page" md-total="{{edital.length}}" md-page-select></md-table-pagination>
+
 
 </md-card>

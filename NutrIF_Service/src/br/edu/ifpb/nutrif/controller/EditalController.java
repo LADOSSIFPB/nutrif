@@ -14,12 +14,14 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
+import br.edu.ifpb.nutrif.dao.CampusDAO;
 import br.edu.ifpb.nutrif.dao.EditalDAO;
 import br.edu.ifpb.nutrif.dao.FuncionarioDAO;
 import br.edu.ifpb.nutrif.exception.ErrorFactory;
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
 import br.edu.ifpb.nutrif.util.BancoUtil;
 import br.edu.ifpb.nutrif.validation.Validate;
+import br.edu.ladoss.entity.Campus;
 import br.edu.ladoss.entity.Edital;
 import br.edu.ladoss.entity.Error;
 import br.edu.ladoss.entity.Funcionario;
@@ -50,10 +52,15 @@ public class EditalController {
 						.getById(idFuncionario);
 				edital.setFuncionario(funcionario);
 				
+				// Campus
+				int idCampus = edital.getCampus().getId();
+				Campus campus = CampusDAO.getInstance().getById(idCampus);
+				edital.setCampus(campus);
+				
 				Date agora = new Date();
 				edital.setDataInsercao(agora);
 				
-				if (idFuncionario != BancoUtil.ID_VAZIO) {
+				if (campus != null && funcionario != null) {
 				
 					//Inserir o Aluno.
 					Integer idEdital = EditalDAO.getInstance().insert(edital);
@@ -63,6 +70,7 @@ public class EditalController {
 						// Operação realizada com sucesso.
 						builder.status(Response.Status.OK).entity(edital);
 					}
+					
 				} else {
 					
 					//TODO: Mensagem de erro para Funcionário não encontrado.
@@ -100,7 +108,7 @@ public class EditalController {
 	@GET
 	@Path("/id/{id}")
 	@Produces("application/json")
-	public Response getCursoById(@PathParam("id") int idEdital) {
+	public Response getEditalById(@PathParam("id") int idEdital) {
 		
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
 		builder.expires(new Date());
@@ -111,15 +119,38 @@ public class EditalController {
 			
 			builder.status(Response.Status.OK).entity(edital);
 
-		} catch (SQLExceptionNutrIF qme) {
+		} catch (SQLExceptionNutrIF exception) {
 
-			Error erro = new Error();
-			erro.setCodigo(qme.getErrorCode());
-			erro.setMensagem(qme.getMessage());
-
-			builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(erro);
+			builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
+					exception.getError());
 		}
 
 		return builder.build();
+	}
+	
+	@PermitAll
+	@GET
+	@Path("/listar/nome/{nome}")
+	@Produces("application/json")
+	public Response getByNome(@PathParam("nome") String nome) {
+		
+		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
+		builder.expires(new Date());
+
+		List<Edital> edital = new ArrayList<Edital>();
+		
+		try {
+
+			edital = EditalDAO.getInstance().listByNome(nome);
+			
+			builder.status(Response.Status.OK).entity(edital);
+
+		} catch (SQLExceptionNutrIF exception) {
+
+			builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
+					exception.getError());
+		}
+
+		return builder.build();		
 	}
 }

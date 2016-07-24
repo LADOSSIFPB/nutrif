@@ -11,7 +11,7 @@ angular.module('NutrifApp').controller('listarEditalCtrl', function ($scope, $md
     $scope.pesquisar = function (texto){
         if(texto.length > 2) {
             if (texto.match(/[a-zA-Z]/i) != null) {
-                alunoService.buscaAlunoPorNome(texto)
+                editalService.buscarEditalPorNome(texto)
                     .success(onSuccessCallback)
                     .error(onErrorCallback);
             }
@@ -28,7 +28,7 @@ angular.module('NutrifApp').controller('listarEditalCtrl', function ($scope, $md
         var _message = '';
 
         if (!data) {
-            _message = 'Não foram encontrados alunos com esses dados'
+            _message = 'Não foram encontrados Editais'
         } else {
             _message = data.mensagem
         }

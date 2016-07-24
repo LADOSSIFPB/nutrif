@@ -6,11 +6,12 @@ angular.module("NutrifApp").factory("editalService", function($http, config){
 		return $http.post(_path + "/inserir", edital)
 	};
 	
-	var _buscaEditalPorNome = function (nome){
+	var _buscarEditalPorNome = function (nome){
 		return $http.get(_path + "/listar/nome/" + encodeURI(nome))
 	};
 
 	return {
-		cadastrarEdital: _cadastrarEdital
+		cadastrarEdital: _cadastrarEdital,
+		buscarEditalPorNome: _buscarEditalPorNome
 	};
 });
