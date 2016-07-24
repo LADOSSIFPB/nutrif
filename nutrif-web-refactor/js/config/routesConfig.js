@@ -127,8 +127,6 @@ angular.module('NutrifApp').config(function ($stateProvider, $urlRouterProvider)
 		    url: '/listar/edital',
 			title: 'Listar Edital',
 		    templateUrl: 'view/manager/admin/listar-edital.html',
-            controller: 'listarEditalCtrl',
-            controllerAs: 'listarEdital',
 			module: 'admin'
 	  	})
 
