@@ -1,17 +1,47 @@
 <div layout="row">
+    <md-card>
+        <md-card-header>
 
-    <canvas class="chart chart-line" flex="50"
-        chart-data="pretensaoChart.data"
-        chart-labels="pretensaoChart.labels"
-        chart-colors="pretensaoChart.colors"
-        chart-series="pretensaoChart.series">
-    </canvas>
+            <md-card-avatar>
+                <md-icon class="md-avatar-icon" md-svg-icon="img/icon/padnote.svg"></md-icon>
+            </md-card-avatar>
 
-    <canvas class="chart chart-line" flex="50"
-        chart-data="refeicaoRealizadaChart.data"
-        chart-labels="refeicaoRealizadaChart.labels"
-        chart-colors="refeicaoRealizadaChart.colors"
-        chart-series="refeicaoRealizadaChart.series">
-    </canvas>
+            <md-card-header-text>
+                <span class="md-title">Pretensões de refeição</span>
+                <span class="md-subhead">Clique em um ponto para listar as refeições solicitadas neste dia</span>
+            </md-card-header-text>
 
+        </md-card-header>
+        <md-card-content layout="column">
+            <canvas class="chart chart-line" flex="50"
+                chart-data="pretensaoChart.data"
+                chart-labels="pretensaoChart.labels"
+                chart-colors="pretensaoChart.colors"
+                chart-series="pretensaoChart.series">
+            </canvas>
+        </md-card-content>
+    </md-card>
+
+    <md-card>
+        <md-card-header>
+
+            <md-card-avatar>
+                <md-icon class="md-avatar-icon" md-svg-icon="img/icon/deliver-food.svg"></md-icon>
+            </md-card-avatar>
+
+            <md-card-header-text>
+                <span class="md-title">Refeições realizadas</span>
+                <span class="md-subhead">Clique em um ponto para listar as refeições realizadas neste dia</span>
+            </md-card-header-text>
+
+        </md-card-header>
+        <md-card-content layout="column">
+            <canvas class="chart chart-line" flex="50"
+                chart-data="refeicaoRealizadaChart.data"
+                chart-labels="refeicaoRealizadaChart.labels"
+                chart-colors="refeicaoRealizadaChart.colors"
+                chart-series="refeicaoRealizadaChart.series">
+            </canvas>
+        </md-card-content>
+    </md-card>
 </div>
