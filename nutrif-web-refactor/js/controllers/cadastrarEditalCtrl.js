@@ -1,8 +1,10 @@
 /**
  * Cadastro do Edital.
  */
-angular.module('NutrifApp').controller('cadastrarEditalCtrl', function ($scope, $mdToast, editalService, userService, $state) {
+angular.module('NutrifApp').controller('cadastrarEditalCtrl', function ($scope, $mdToast, editalService, userService, campusService, $state) {
 
+	$scope.campi = [];
+	
     this.cadastrar = function (edital) {
 		
 		// Adicionar funcionário.
@@ -42,4 +44,16 @@ angular.module('NutrifApp').controller('cadastrarEditalCtrl', function ($scope, 
             .hideDelay(6000)
         );
     }
+	
+	function carregarCampi () {
+        campusService.listarCampus()
+            .success(function (data, status){
+                $scope.campi = data;
+            })
+            .error(function (data, status){
+                alert("Houve um erro ao carregar os cargos. Contate um administrador.");
+            });
+    }
+
+    carregarCampi();
 });
