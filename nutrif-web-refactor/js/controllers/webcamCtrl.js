@@ -1,6 +1,6 @@
 angular.module('NutrifApp').controller('webcamCtrl', function($scope, $mdToast) {
 	
-	$scope.myImage='';
+	$scope.myImage=null;
       
 	  
 	$scope.myChannel = {
@@ -12,12 +12,11 @@ angular.module('NutrifApp').controller('webcamCtrl', function($scope, $mdToast) 
     var _video = null;
 	
     $scope.patData = null;
-	
-	$scope.teste=null;
+
 	
 	$scope.snapshotData = null;
 
-	$scope.myCroppedImage='';
+	$scope.myCroppedImage= null;
 
     $scope.patOpts = {x: 0, y: 0, w: 25, h: 25};
 
@@ -78,8 +77,7 @@ angular.module('NutrifApp').controller('webcamCtrl', function($scope, $mdToast) 
 
 
             sendSnapshotToServer(patCanvas.toDataURL());
-			
-			var teste = patCanvas.toDataURL();
+	
 			
             $scope.patData = idata;
 			
