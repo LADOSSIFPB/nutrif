@@ -1,12 +1,12 @@
-angular.module('NutrifApp').controller('webcamCtrl', function($scope) {
+angular.module('NutrifApp').controller('webcamCtrl', function($scope, $mdToast) {
 	
 	$scope.myImage='';
       
 	  
 	$scope.myChannel = {
     // the fields below are all optional
-    videoHeight: 1000,
-    videoWidth: 800,
+    videoHeight: 400,
+    videoWidth: 600,
     video: null // Will reference the video element on success
     };
     var _video = null;
@@ -26,11 +26,21 @@ angular.module('NutrifApp').controller('webcamCtrl', function($scope) {
     // See the HTML binding in main.html
     $scope.channel = {};
 
-    $scope.webcamError = false;
-    $scope.onError = function (err) {
+   
+    $scope.onError = function () {
         $scope.$apply(
             function() {
-                $scope.webcamError = err;
+              var _err = 'Webcam não pode ser iniciada. Você permitiu o acesso?';
+              
+              $mdToast.show(
+                      $mdToast.simple()
+                      .textContent(_err)
+                      .position('top right')
+                      .action('OK')
+                      .hideDelay(6000)
+                  );
+              
+              
             }
         );
     };

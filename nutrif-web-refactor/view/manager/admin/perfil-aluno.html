@@ -1,5 +1,5 @@
 <link rel="stylesheet" type="text/css" href="../../../css/ng-img-crop.css"/>
-<link rel="stylesheet" type="text/css" href="../../../css/webcam.css"/>
+
 <md-card>
     <md-card-header>
 		<div class="alert alert-error ng-scope" ng-show="webcamError">
@@ -9,6 +9,7 @@
 		</div>
 	</md-card-header>
 	<md-card-content>
+	<div  layout="horizontal">
 		<webcam class="webcam-layout"  
 				channel="myChannel" 
 				on-streaming="onSuccess()" 
@@ -16,15 +17,16 @@
 				on-stream="onStream(stream)"></webcam>
 				
 				
-			<div class="cropArea" style="margin-top: 40px">
+			<div class="cropArea"  >
 					 <img-crop image="myImage" result-image="myCroppedImage"> 
-						<canvas></canvas>
+						<canvas width="600px" height="450px"> </canvas>
 					 </img-crop>
 			  </div>
+	    </div>
          <md-button  layout-fill ng-click="makeSnapshot()" class="md-raised md-primary md-hue-1 flex" style="margin-top: 40px">Tirar foto</md-button>
    
 
 		
 
-  <md-card-content>
+  </md-card-content>
 </md-card>
