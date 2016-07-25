@@ -1,6 +1,32 @@
 ﻿<md-card>
     <md-table-container>
+		
+		
+		<!-- Cabeçalho de opções -->
+	<md-card-header>
 
+        <md-card-avatar>
+            <md-icon class="md-avatar-icon" md-svg-icon="img/icon/user-shape.svg">
+			</md-icon>
+        </md-card-avatar>
+
+        <md-card-header-text>
+            <span class="md-title">Aluno</span>
+            <span class="md-subhead">Digite a busca ou selecione a opção para adicionar um novo.</span>
+        </md-card-header-text>
+
+        <md-card-actions layout="row">
+            <md-card-icon-actions>
+                <md-button class="md-icon-button" aria-label="Adicionar Aluno" ui-sref="home.adicionar-alunos">
+                    <md-tooltip md-direction="bottom">Adicionar Aluno</md-tooltip>
+                    <md-icon md-svg-icon="img/icon/add-plus-button.svg"></md-icon>
+                </md-button>
+
+            </md-card-icon-actions>
+        </md-card-actions>
+    </md-card-header>
+    
+    
         <md-toolbar class="md-table-toolbar md-default">
             <div class="md-toolbar-tools">
 
