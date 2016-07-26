@@ -1,8 +1,8 @@
 angular.module('NutrifApp').controller('estatisticasCtrl', function ($scope, config, pretensaoService, refeicaoRealizadaService) {
 
     $scope.periodoPretensao = {
-        dataInicio: Date.parse('-6').toString('yyyy-M-d'),
-        dataFim: Date.parse('today').toString('yyyy-M-d')
+        dataInicio: Date.parse('-5').toString('yyyy-M-d'),
+        dataFim: Date.parse('tomorrow').add(1).toString('yyyy-M-d')
     };
 
     $scope.pretensaoChart = {
@@ -30,7 +30,7 @@ angular.module('NutrifApp').controller('estatisticasCtrl', function ($scope, con
 
             .success(function (data, status){
                 for (var i = 0; i < data.length; i++) {
-                    $scope.pretensaoChart.labels.push(moment(data[i].data).locale("pt-br").add(1, 'days').format('DD/MM'));
+                    $scope.pretensaoChart.labels.push(moment(data[i].data).locale("pt-br").format('DD/MM'));
                     _dadosPretensaoAlmoco.push(data[i].quantidade);
                 }
 
@@ -67,7 +67,7 @@ angular.module('NutrifApp').controller('estatisticasCtrl', function ($scope, con
 
             .success(function (data, status){
                 for (var i = 0; i < data.length; i++) {
-                    $scope.refeicaoRealizadaChart.labels.push(moment(data[i].data).locale("pt-br").add(1, 'days').format('DD/MM'));
+                    $scope.refeicaoRealizadaChart.labels.push(moment(data[i].data).locale("pt-br").format('DD/MM'));
                     _dadosPretensaoAlmoco.push(data[i].quantidade);
                 }
 
