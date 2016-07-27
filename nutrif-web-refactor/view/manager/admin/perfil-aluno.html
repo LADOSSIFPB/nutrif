@@ -2,13 +2,13 @@
 
 <md-card>
     <md-card-header>
-		<div class="alert alert-error ng-scope" ng-show="webcamError">
-			 <md-card-header-text>
-				<span>Webcam could not be started. Did you give access to it?</span>
-			</md-card-header-text>
-		</div>
-	</md-card-header>
+		<md-card-header-text>
+            <span class="md-title">Nome: {{aluno.nome}}</span>
+            <span class="md-subhead">Matrícula:{{aluno.matricula}}</span>
+        </md-card-header-text>
+       </md-card-header>
 	<md-card-content>
+
 	<div  layout="horizontal">
 		<webcam class="webcam-layout"  
 				channel="myChannel" 
@@ -19,14 +19,17 @@
 				
 			<div class="cropArea"  >
 					 <img-crop image="myImage" result-image="myCroppedImage"> 
-						<canvas width="600px" height="450px"> </canvas>
+						<canvas> </canvas>
 					 </img-crop>
 			  </div>
 	    </div>
+	    
+	    
+	    
          <md-button  ng-click="makeSnapshot()" class="md-raised md-primary md-hue-1 flex" style="margin-top: 40px">Tirar foto</md-button>
          
      
-          <md-button  ng-show="myImage!=null" class="md-raised md-primary md-hue-1 flex" style="margin-top: 40px">Enviar</md-button>
+          <md-button ng-click="enviar(myCroppedImage.toDataURL())"  ng-show="myImage!=null" class="md-raised md-primary md-hue-1 flex" style="margin-top: 40px">Enviar</md-button>
           
         
    

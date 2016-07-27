@@ -1,12 +1,14 @@
-angular.module('NutrifApp').controller('webcamCtrl', function($scope, $mdToast) {
+angular.module('NutrifApp').controller('webcamCtrl', function($scope, $mdToast,arquivoService,$http, alunoService, $stateParams) {
 	
 	$scope.myImage=null;
+	
+	$scope.aluno={};
       
 	  
 	$scope.myChannel = {
     // the fields below are all optional
-    videoHeight: 400,
-    videoWidth: 600,
+    videoHeight: 600,
+    videoWidth: 450,
     video: null // Will reference the video element on success
     };
     var _video = null;
@@ -115,8 +117,61 @@ angular.module('NutrifApp').controller('webcamCtrl', function($scope, $mdToast) 
         $scope.snapshotData = imgBase64;
     };
 	
-			 
+    
+    $scope.enviar = function(img){
+    	
+    	var typeFile = {
+    			id: 1
+    	};
+    	
+    	arquivoService.upload(img,typeFile)
+        .success(onSuccessCallback)
+        .error(onErrorCallback);
+    	
+    	
+    }
+    
+    function onSuccessCallback (data, status) {
+        $mdToast.show(
+            $mdToast.simple()
+            .textContent('Perfil do Aluno alterado com sucesso')
+            .position('top right')
+            .action('OK')
+            .hideDelay(6000)
+        );
+
+        $state.transitionTo('home.listar-alunos',  {reload: true});
+    }
+    
+    function onErrorCallback (data, status) {
+        var _message = '';
+
+        if (!data) {
+            _message = 'Ocorreu um erro na comunicação com o servidor, favor chamar o suporte.'
+        } else {
+            _message = data.mensagem
+        }
+
+        $mdToast.show(
+            $mdToast.simple()
+            .textContent(_message)
+            .position('top right')
+            .action('OK')
+            .hideDelay(6000)
+        );
+    }
+		
+    function carregamentoInicial() {
+    	
+    	  var _matricula = $stateParams.matricula;
+    	
+		    alunoService.buscaAlunoPorMatricula(_matricula)
+		    .success(function (data, status) {
+		        $scope.aluno = data;
+		    })
+		    .error(onErrorCallback);
+    }
   
 
-    
+    carregamentoInicial();
 });

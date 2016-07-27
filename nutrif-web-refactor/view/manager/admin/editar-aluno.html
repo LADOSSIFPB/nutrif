@@ -1,4 +1,4 @@
-ï»¿<md-card>
+<md-card>
     <md-card-header>
 
         <md-card-avatar>
@@ -6,20 +6,20 @@
         </md-card-avatar>
 
         <md-card-header-text>
-            <span class="md-title">Editar informaÃ§Ãµes do aluno</span>
-            <span class="md-subhead">Clique em salvar para alterar as informaÃ§Ãµes</span>
+            <span class="md-title">Editar informações do aluno</span>
+            <span class="md-subhead">Clique em salvar para alterar as informações</span>
         </md-card-header-text>
         
         <md-card-icon-actions>
-            <md-button class="md-icon-button" aria-label="Perfil Aluno" ui-sref="home.perfil-aluno">
+            <md-button class="md-icon-button" aria-label="Perfil Aluno" ng-click="perfilAluno()" >
                 <md-tooltip md-direction="bottom">Perfil Aluno</md-tooltip>
                 <md-icon md-svg-icon="img/icon/camera.svg"></md-icon>
             </md-button>
         </md-card-icon-actions>
 
         <md-card-icon-actions>
-            <md-button class="md-icon-button" aria-label="Salvar alteraÃ§Ãµes" ng-click="atualizar(alunoCopy)">
-                <md-tooltip md-direction="bottom">Salvar AlteraÃ§Ãµes</md-tooltip>
+            <md-button class="md-icon-button" aria-label="Salvar alterações" ng-click="atualizar(alunoCopy)">
+                <md-tooltip md-direction="bottom">Salvar Alterações</md-tooltip>
                 <md-icon md-svg-icon="img/icon/save-button.svg"></md-icon>
             </md-button>
         </md-card-icon-actions>
@@ -33,7 +33,7 @@
         </md-input-container>
 
         <md-input-container class="md-icon-float md-block">
-            <label>MatrÃ­cula</label>
+            <label>Matrícula</label>
             <input ng-model="alunoCopy.matricula">
         </md-input-container>
 
@@ -57,20 +57,20 @@
         </md-card-avatar>
 
         <md-card-header-text>
-            <span class="md-title">Gerenciar refeiÃ§Ãµes</span>
-            <span class="md-subhead">Selecione as refeiÃ§Ãµes para remover ou adicione uma nova</span>
+            <span class="md-title">Gerenciar refeições</span>
+            <span class="md-subhead">Selecione as refeições para remover ou adicione uma nova</span>
         </md-card-header-text>
 
         <md-card-actions layout="row">
             <md-card-icon-actions>
 
-                <md-button class="md-icon-button" aria-label="Apagar RefeiÃ§Ãµes" ng-click="apagarAlunos(selected)">
-                    <md-tooltip md-direction="bottom">Apagar RefeiÃ§Ãµes</md-tooltip>
+                <md-button class="md-icon-button" aria-label="Apagar Refeições" ng-click="apagarAlunos(selected)">
+                    <md-tooltip md-direction="bottom">Apagar Refeições</md-tooltip>
                     <md-icon md-svg-icon="img/icon/rubbish-bin-delete-button.svg"></md-icon>
                 </md-button>
 
-                <md-button class="md-icon-button" aria-label="Adicionar RefeiÃ§Ãµes" ng-click="adicionaRefeicao()">
-                    <md-tooltip md-direction="bottom">Adicionar RefeiÃ§Ãµes</md-tooltip>
+                <md-button class="md-icon-button" aria-label="Adicionar Refeições" ng-click="adicionaRefeicao()">
+                    <md-tooltip md-direction="bottom">Adicionar Refeições</md-tooltip>
                     <md-icon md-svg-icon="img/icon/add-plus-button.svg"></md-icon>
                 </md-button>
 
@@ -82,8 +82,8 @@
         <table md-table md-row-select multiple ng-model="selected">
             <thead md-head>
                 <tr md-row>
-                    <th md-column>Tipo da RefeiÃ§Ã£o</th>
-                    <th md-column>Dia da RefeiÃ§Ã£o</th>
+                    <th md-column>Tipo da Refeição</th>
+                    <th md-column>Dia da Refeição</th>
                 </tr>
             </thead>
             <tbody md-body>

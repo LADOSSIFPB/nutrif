@@ -60,7 +60,7 @@ angular.module('NutrifApp').config(function ($stateProvider, $urlRouterProvider)
 	  	})
 
 	  	.state('home.perfil-aluno', {
-		    url: '/perfilAluno',
+		    url: '/perfilAluno/:matricula',
 			title: 'Perfil aluno',
 		    templateUrl: 'view/manager/admin/perfil-aluno.html',
 			controller: 'webcamCtrl',

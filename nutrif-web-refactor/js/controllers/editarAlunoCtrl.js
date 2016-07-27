@@ -125,6 +125,10 @@ angular.module('NutrifApp').controller('editarAlunoCtrl', function ($scope, alun
     }
 
     carregamentoInicial();
+    
+    $scope.perfilAluno= function(){
+    	$state.transitionTo('home.perfil-aluno', {matricula: $scope.aluno.matricula}, {reload: true});
+    } 
 
 });
 
@@ -203,6 +207,8 @@ function adicionarRefeicaoCtrl (refeicoes, aluno, $state, $stateParams, userServ
         });
     }
 
+  
+    
     function carregamentoInicial() {
 
         diaService.listarDias()
