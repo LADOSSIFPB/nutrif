@@ -60,7 +60,8 @@ public class EditalController {
 				Date agora = new Date();
 				edital.setDataInsercao(agora);
 				
-				if (campus != null && funcionario != null) {
+				if (campus != null 
+						&& funcionario != null) {
 				
 					//Inserir o Aluno.
 					Integer idEdital = EditalDAO.getInstance().insert(edital);

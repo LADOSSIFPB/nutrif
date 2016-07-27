@@ -93,6 +93,18 @@ public class ErrorFactory {
 	public static final int DATA_INVALIDA = 38;
 	
 	/*
+	 * Campus
+	 */
+	public static final int ID_CAMPUS_INVALIDO = 39;
+	
+	/*
+	 * Edital
+	 */
+	public static final int ID_EDITAL_INVALIDO = 40;
+	public static final int QTD_COMTEMPLADO_INVALIDO = 41;
+	public static final int INTERVALO_DATA_INVALIDO = 42;
+	
+	/*
 	 * Mapa de erros: código e mensagem.
 	 */
 	private static final Map<Integer, String> mapErrors = generateErrorMapping();
@@ -138,6 +150,10 @@ public class ErrorFactory {
 		hashMap.put(NOME_ROLE_INVALIDO, "Nome do perfil inválido.");
 		hashMap.put(DIA_REFEICAO_DIPLICADO, "Dia de refeição duplicado para o Aluno.");
 		hashMap.put(DATA_INVALIDA, "Data inválida.");
+		hashMap.put(ID_CAMPUS_INVALIDO, "Campus inválido.");
+		hashMap.put(QTD_COMTEMPLADO_INVALIDO, "Quantidade de contemplados inválido.");
+		hashMap.put(INTERVALO_DATA_INVALIDO, "Intervalo de datas inválido.");
+		hashMap.put(ID_EDITAL_INVALIDO, "Edital inválido.");		
 		
 		return hashMap;
 	}

@@ -1,11 +1,23 @@
 <md-dialog aria-label="Confirmar Refeição"  ng-cloak>
     <md-dialog-content>
         <div class="md-dialog-content">
-            <h2>Informe qual refeição deseja adicionar</h2>
+            <h2>Adicione a Refeição para o Aluno</h2> {{aluno.nome}}
             
             <div layout="column">
-                <md-input-container>
-                    <label>Selecione um dia</label>
+                
+				<!-- Edital -->
+				<md-input-container>
+                    <label>Edital</label>
+                    <md-select ng-model="refeicao.edital.id">
+                        <md-option ng-repeat="edital in editais" value="{{edital.id}}">
+                            {{edital.nome}}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+				
+				<!-- Dia -->
+				<md-input-container>
+                    <label>Dia</label>
                     <md-select ng-model="refeicao.dia.id">
                         <md-option ng-repeat="dia in dias" value="{{dia.id}}">
                             {{dia.nome}}
@@ -13,8 +25,9 @@
                     </md-select>
                 </md-input-container>
 
+				<!-- Refeição -->
                 <md-input-container>
-                    <label>Selecione uma refeição</label>
+                    <label>Refeição</label>
                     <md-select ng-model="refeicao.refeicao.id">
                         <md-option ng-repeat="tipoRefeicao in tiposRefeicao" value="{{tipoRefeicao.id}}">
                             {{tipoRefeicao.tipo}}

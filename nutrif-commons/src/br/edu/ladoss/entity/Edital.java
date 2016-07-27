@@ -35,6 +35,9 @@ public class Edital {
 	@JoinColumn(name = "fk_id_campus")
 	private Campus campus;
 	
+	@Column(name = "qtd_contemplados")
+	private int quantidadeContemplados;
+	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "dt_inicial", insertable = true, updatable = false)
 	private Date dataInicial;
@@ -128,11 +131,21 @@ public class Edital {
 		this.ativo = ativo;
 	}
 	
+	@XmlElement
+	public int getQuantidadeContemplados() {
+		return quantidadeContemplados;
+	}
+
+	public void setQuantidadeContemplados(int quantidadeContemplados) {
+		this.quantidadeContemplados = quantidadeContemplados;
+	}
+	
 	@Override
 	public String toString() {
 		return "Edital [id=" + id 
 				+ ", nome=" + nome
 				+ ", campus=" + campus
+				+ ", quantidadeContemplados=" + quantidadeContemplados
 				+ ", dataInicial=" + dataInicial
 				+ ", dataFinal=" + dataFinal + "]";
 	}	

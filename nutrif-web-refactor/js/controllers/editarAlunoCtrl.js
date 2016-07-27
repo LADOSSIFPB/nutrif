@@ -3,6 +3,7 @@ angular.module('NutrifApp').controller('editarAlunoCtrl', function ($scope, alun
     $scope.selected = [];
     $scope.cursos = [];
     $scope.refeicoes = [];
+	$scope.editais = [];
     $scope.alunoCopy = {};
 
     $scope.atualizar = function (aluno) {
@@ -218,5 +219,4 @@ function adicionarRefeicaoCtrl (refeicoes, aluno, $state, $stateParams, userServ
     }
 
     carregamentoInicial();
-
 };

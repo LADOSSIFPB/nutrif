@@ -17,7 +17,12 @@
                     {{campus.cidade}}
                 </md-option>
             </md-select>
-        </md-input-container>	
+        </md-input-container>
+		
+		<md-input-container class="md-icon-float md-block">
+            <label>Quantidade de contemplados</label>
+            <input ng-model="cadastrarEdital.edital.quantidadeContemplados" type="text" required>
+        </md-input-container>
 	
         <md-content>
 			<label>Validade</label>
