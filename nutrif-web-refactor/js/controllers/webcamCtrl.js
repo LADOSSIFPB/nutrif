@@ -18,7 +18,7 @@ angular.module('NutrifApp').controller('webcamCtrl', function($scope, $mdToast,a
 	
 	$scope.snapshotData = null;
 
-	$scope.myCroppedImage= null;
+	$scope.myCroppedImage= '';
 
     $scope.patOpts = {x: 0, y: 0, w: 25, h: 25};
 
