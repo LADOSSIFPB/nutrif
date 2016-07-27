@@ -8,7 +8,7 @@ angular.module('NutrifApp').controller('editarFuncionarioCtrl', function ($scope
 			
 			
 			var rolesFunc = [];
-			rolesFunc.push(_roles[(funcionario.roles.role.id)-1]);
+			rolesFunc.push(_roles[(funcionario.roles[0].id)-1]);
 			
 			console.log(funcionario)
 			
@@ -17,7 +17,7 @@ angular.module('NutrifApp').controller('editarFuncionarioCtrl', function ($scope
 	            .success(function (data, status) {
 	                $scope.funcionario = data;
 	                $scope.funcionarioCopy = angular.copy($scope.funcionario);
-	                //$state.transitionTo('home.editar-aluno', {matricula: aluno.matricula}, {reload: true});
+	                $state.transitionTo('home.listar-funcionarios', {reload: true});
 	                $mdToast.show(
 	                    $mdToast.simple()
 	                    .textContent('Funcionario atualizado com sucesso!')
