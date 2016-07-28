@@ -1,51 +1,52 @@
 <md-dialog aria-label="Confirmar Refeição"  ng-cloak>
-    <md-dialog-content>
-        <div class="md-dialog-content">
-            <h2>Adicione a Refeição para o Aluno</h2> {{aluno.nome}}
-            
-            <div layout="column">
-                
-				<!-- Edital -->
-				<md-input-container>
-                    <label>Edital</label>
-                    <md-select ng-model="refeicao.edital.id">
-                        <md-option ng-repeat="edital in editais" value="{{edital.id}}">
-                            {{edital.nome}}
-                        </md-option>
-                    </md-select>
-                </md-input-container>
-				
-				<!-- Dia -->
-				<md-input-container>
-                    <label>Dia</label>
-                    <md-select ng-model="refeicao.dia.id">
-                        <md-option ng-repeat="dia in dias" value="{{dia.id}}">
-                            {{dia.nome}}
-                        </md-option>
-                    </md-select>
-                </md-input-container>
+  <md-dialog-content>
+    <div class="md-dialog-content">
+      <h2>Adicione a Refeição para o Aluno</h2>
+      {{aluno.nome}}
 
-				<!-- Refeição -->
-                <md-input-container>
-                    <label>Refeição</label>
-                    <md-select ng-model="refeicao.refeicao.id">
-                        <md-option ng-repeat="tipoRefeicao in tiposRefeicao" value="{{tipoRefeicao.id}}">
-                            {{tipoRefeicao.tipo}}
-                        </md-option>
-                    </md-select>
-                </md-input-container>
-            </div>
+      <div layout="column">
 
-        </div>
-    </md-dialog-content>
+        <!-- Edital -->
+        <md-input-container>
+          <label>Edital</label>
+          <md-select ng-model="refeicao.edital.id">
+            <md-option ng-repeat="edital in editais" value="{{edital.id}}">
+              {{edital.nome}}
+            </md-option>
+          </md-select>
+        </md-input-container>
 
-    <md-dialog-actions layout="row">
-        <span flex></span>
-        <md-button ng-click="cancel()" class="md-warn">
-            Cancelar
-        </md-button>
-        <md-button ng-click="hide(refeicao)" class="md-primary" style="margin-right:20px;">
-            Confirmar
-        </md-button>
-    </md-dialog-actions>
+        <!-- Dia -->
+        <md-input-container>
+          <label>Dia</label>
+          <md-select ng-model="refeicao.dia.id">
+            <md-option ng-repeat="dia in dias" value="{{dia.id}}">
+              {{dia.nome}}
+            </md-option>
+          </md-select>
+        </md-input-container>
+
+        <!-- Refeição -->
+        <md-input-container>
+          <label>Refeição</label>
+          <md-select ng-model="refeicao.refeicao.id">
+            <md-option ng-repeat="tipoRefeicao in tiposRefeicao" value="{{tipoRefeicao.id}}">
+              {{tipoRefeicao.tipo}}
+            </md-option>
+          </md-select>
+        </md-input-container>
+      </div>
+
+    </div>
+  </md-dialog-content>
+
+  <md-dialog-actions layout="row">
+    <span flex></span>
+    <md-button ng-click="cancel()" class="md-warn">
+      Cancelar
+    </md-button>
+    <md-button ng-click="hide(refeicao)" class="md-primary" style="margin-right:20px;">
+      Confirmar
+    </md-button>
+  </md-dialog-actions>
 </md-dialog>

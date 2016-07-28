@@ -1,6 +1,7 @@
 angular.module("NutrifApp").controller("sideNavCtrl", function (userService, $mdMedia, $mdSidenav, $state) {
 
     this.isOpened = true;
+
     this.typeUser = userService.getUserRole();
     this.user = userService.getUser();
 
@@ -13,7 +14,6 @@ angular.module("NutrifApp").controller("sideNavCtrl", function (userService, $md
         userService.removeUser();
         $state.go("login.pretensao");
     }
-
 
     this.title = $state.current.title;
 
