@@ -17,10 +17,15 @@ md-toolbar.md-table-toolbar div.toolbar-input > input {
     outline: 0;
 }
 
-.layout-padding {
-	padding-left: 6%; 
-	padding-right: 6%; 
-	padding-bottom: 4%; 
-	padding-top: 3%
+/* Plano de fundo do md-card das Entidades | 224,238,224 */
+.nutrif-md-card-header {
+	background-color: rgb(245,245,245);
 }
 
+
+.layout-padding {
+	padding-left: 6%;
+	padding-right: 6%;
+	padding-bottom: 4%;
+	padding-top: 3%
+}
