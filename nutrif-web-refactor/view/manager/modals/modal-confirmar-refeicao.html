@@ -1,10 +1,14 @@
-<md-dialog aria-label="Confirmar Refeição"  ng-cloak>
+<md-dialog aria-label="Confirmar Refeição"  style="width:50%;" ng-cloak>
   <md-dialog-content>
     <div class="md-dialog-content">
-      <h2>Adicione a Refeição para o Aluno</h2>
-      {{aluno.nome}}
-
+      <h2>Adicione a Refeição</h2>
+      
       <div layout="column">
+        <!-- Aluno -->
+        <md-input-container>
+            <label>Aluno</label>
+            <input ng-model="aluno.nome" type="text" disabled>
+        </md-input-container>
 
         <!-- Edital -->
         <md-input-container>

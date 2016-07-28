@@ -1,7 +1,8 @@
-angular.module('NutrifApp').controller('editarAlunoCtrl', function ($scope, alunoService, diaRefeicaoService, cursoService, $stateParams, $state, $mdToast, $mdDialog) {
+angular.module('NutrifApp').controller('editarAlunoCtrl', function ($scope, alunoService, diaRefeicaoService, cursoService, editalService, $stateParams, $state, $mdToast, $mdDialog) {
 
   $scope.selected = [];
   $scope.cursos = [];
+  $scope.editais = [];
   $scope.refeicoes = [];
   $scope.alunoCopy = {};
 
@@ -131,6 +132,7 @@ angular.module('NutrifApp').controller('editarAlunoCtrl', function ($scope, alun
 
 });
 
+// Controller Adicionar Refeição.
 function adicionarRefeicaoCtrl (refeicoes, aluno, $state, $stateParams, userService, editalService, $scope, $mdDialog, $mdToast, diaRefeicaoService, refeicaoService, diaService) {
 
   $scope.editais = [];
@@ -142,7 +144,8 @@ function adicionarRefeicaoCtrl (refeicoes, aluno, $state, $stateParams, userServ
   $scope.hide = function(refeicao) {
 
     var encontrarRefeicao = function (element, index, array) {
-      if (element.refeicao.id === parseInt(refeicao.refeicao.id) && element.dia.id === parseInt(refeicao.dia.id)) {
+      if (element.refeicao.id === parseInt(refeicao.refeicao.id)
+        && element.dia.id === parseInt(refeicao.dia.id)) {
         return true;
       }
       return false;
@@ -207,6 +210,7 @@ function adicionarRefeicaoCtrl (refeicoes, aluno, $state, $stateParams, userServ
     });
   }
 
+  // Carregar itens do modal de inserção do Dia da Refeção.
   function carregamentoInicial() {
 
     editalService.listarEdital()

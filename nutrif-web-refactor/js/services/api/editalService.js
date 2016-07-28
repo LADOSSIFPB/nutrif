@@ -16,7 +16,7 @@ angular.module("NutrifApp").factory("editalService", function($http, config){
 
 	return {
 		cadastrarEdital: _cadastrarEdital,
-		listarEdital: _listarEdital;
+		listarEdital: _listarEdital,
 		buscarEditalPorNome: _buscarEditalPorNome
 	};
 });
