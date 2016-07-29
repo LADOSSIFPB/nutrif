@@ -1,22 +1,8 @@
 angular.module('NutrifApp').controller('estatisticasCtrl', function ($scope, config, pretensaoService, refeicaoRealizadaService) {
 
     $scope.periodoPretensao = {
-        dataInicio: Date.parse('-5').toString('yyyy-M-d'),
-        dataFim: Date.parse('tomorrow').add(1).toString('yyyy-M-d')
-    };
-
-    $scope.pretensaoChart = {
-        colors: config.chartColors,
-        labels: [],
-        series: ['Almoço', 'Jantar'],
-        data: []
-    };
-
-    $scope.refeicaoRealizadaChart = {
-        colors: config.chartColors,
-        labels: [],
-        series: ['Almoço', 'Jantar'],
-        data: []
+        dataInicio: Date.parse('-6'),
+        dataFim: Date.parse('today')
     };
 
     function carregaGraficoPretensao (periodoPretensao) {
@@ -92,8 +78,28 @@ angular.module('NutrifApp').controller('estatisticasCtrl', function ($scope, con
                 alert("Houve um erro ao carregar os gráficos. Contate um administrador.");
             });
     };
-
-    carregaGraficoPretensao($scope.periodoPretensao);
-    carregaGraficoRefeicaoRealizada($scope.periodoPretensao);
+    
+    
+    $scope.carregaGraficos = function () {
+        
+        $scope.pretensaoChart = {
+            colors: config.chartColors,
+            labels: [],
+            series: ['Almoço', 'Jantar'],
+            data: []
+        };
+    
+        $scope.refeicaoRealizadaChart = {
+            colors: config.chartColors,
+            labels: [],
+            series: ['Almoço', 'Jantar'],
+            data: []
+        };
+        
+        carregaGraficoPretensao($scope.periodoPretensao);
+        carregaGraficoRefeicaoRealizada($scope.periodoPretensao);
+    };
+    
+    $scope.carregaGraficos();
 
 });
