@@ -19,13 +19,22 @@ md-toolbar.md-table-toolbar div.toolbar-input > input {
 
 /* Plano de fundo do md-card das Entidades | 224,238,224 */
 .nutrif-md-card-header {
-	background-color: rgb(245,245,245);
+	background-color: #F0F0F0
 }
 
+.home-background {
+    background-color: #F7F7F7;
+}
 
 .layout-padding {
 	padding-left: 6%;
 	padding-right: 6%;
 	padding-bottom: 4%;
 	padding-top: 3%
+}
+
+.modal-footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
 }

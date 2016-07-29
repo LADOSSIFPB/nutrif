@@ -100,6 +100,10 @@ angular.module('NutrifApp').controller('estatisticasCtrl', function ($scope, con
         carregaGraficoRefeicaoRealizada($scope.periodoPretensao);
     };
     
+    $scope.onClick = function (points, evt) {
+        console.log(points[0].value); // 0 -> Series A, 1 -> Series B
+    };
+    
     $scope.carregaGraficos();
 
 });
