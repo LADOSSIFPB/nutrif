@@ -5,7 +5,7 @@
 <hibernate-configuration>
 	<session-factory>
 
-		<property name="connection.url">jdbc:mysql://localhost:3306/nutrif_homologacao</property>
+		<property name="connection.url">jdbc:mysql://localhost:3306/nutrif</property>
 		<property name="connection.username">root</property>
 		<property name="connection.password">ifpbinfo</property>
 		<property name="connection.driver_class">com.mysql.jdbc.Driver</property>
@@ -20,18 +20,15 @@
 
 		<!-- Produção -->
 		<property name="cache.provider_class">org.hibernate.cache.NoCacheProvider</property> 
-		<property name="c3p0.maxStatements">5</property>
-		<property name="c3p0.maxIdleTime">10</property>
-		<property name="c3p0.numHelperThreads">3</property>
-		<property name="c3p0.testConnectionOnCheckout">true</property>
-		<property name="c3p0.preferredTestQuery">SELECT 1</property>
-		<property name="c3p0.initialPoolSize">1</property>
-		<property name="c3p0.minPoolSize">1</property>
-		<property name="c3p0.maxPoolSize">1</property>
-		<property name="c3p0.acquireIncrement">1</property>
-		<property name="c3p0.idleConnectionTestPeriod">1</property>
-		<property name="c3p0.maxAdministrativeTaskTime">1</property>
-		
+		<!-- <property name="hibernate.connection.provider_class">org.hibernate.connection.C3P0ConnectionProvider</property>  -->
+		<property name="connection.pool_size">10</property>
+		<property name="c3p0.min_size">5</property>
+		<property name="c3p0.max_size">20</property>
+		<property name="c3p0.timeout">300</property>
+		<property name="c3p0.max_statements">50</property>
+		<property name="c3p0.idle_test_period">1</property>
+		<property name="hibernate.c3p0.preferredTestQuery">select 1;</property>
+		<property name="show_sql">true</property>
 		
 		<!-- Entidades -->
 		<mapping class="br.edu.ladoss.entity.Pessoa" />
@@ -41,6 +38,8 @@
 		<mapping class="br.edu.ladoss.entity.Dia" />
 		<mapping class="br.edu.ladoss.entity.Refeicao" />
 		<mapping class="br.edu.ladoss.entity.DiaRefeicao" />
+		<mapping class="br.edu.ladoss.entity.Campus" />
+		<mapping class="br.edu.ladoss.entity.Edital" />
 		<mapping class="br.edu.ladoss.entity.RefeicaoRealizada" />
 		<mapping class="br.edu.ladoss.entity.ConfirmaRefeicaoDia" />
 		<mapping class="br.edu.ladoss.entity.PretensaoRefeicao" />
