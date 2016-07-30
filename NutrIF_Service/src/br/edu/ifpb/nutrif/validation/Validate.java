@@ -1,5 +1,6 @@
 package br.edu.ifpb.nutrif.validation;
 
+import java.util.Date;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -7,12 +8,15 @@ import org.apache.logging.log4j.Logger;
 
 import br.edu.ifpb.nutrif.exception.ErrorFactory;
 import br.edu.ladoss.entity.Aluno;
+import br.edu.ladoss.entity.Campus;
 import br.edu.ladoss.entity.ConfirmaPretensaoDia;
 import br.edu.ladoss.entity.ConfirmaRefeicaoDia;
 import br.edu.ladoss.entity.Curso;
 import br.edu.ladoss.entity.Dia;
 import br.edu.ladoss.entity.DiaRefeicao;
+import br.edu.ladoss.entity.Edital;
 import br.edu.ladoss.entity.Funcionario;
+import br.edu.ladoss.entity.PeriodoRefeicaoRealizada;
 import br.edu.ladoss.entity.PessoaAcesso;
 import br.edu.ladoss.entity.PretensaoRefeicao;
 import br.edu.ladoss.entity.Refeicao;
@@ -119,7 +123,44 @@ public class Validate {
 	public static int refeicao(Refeicao refeicao) {
 		
 		logger.info("Validação para Refeição.");
+		
 		//TODO: implementar a validação.
+		
+		return VALIDATE_OK;
+	}
+	
+	public static int edital(Edital edital) {
+		
+		logger.info("Validação para Edital.");
+		
+		Funcionario funcionario = edital.getFuncionario();
+		if (funcionario == null || 
+				(funcionario != null 
+					&& !numeroValidator.isInteiroPositivo(funcionario.getId()))) {
+			return ErrorFactory.ID_FUNCIONARIO_INVALIDO;
+		}
+		
+		Campus campus = edital.getCampus();
+		if (campus == null 
+				|| (campus != null
+				&& !numeroValidator.isInteiroPositivo(campus.getId()))) {
+			
+			return ErrorFactory.ID_CAMPUS_INVALIDO;
+		}
+		
+		int quantidadeContemplado = edital.getQuantidadeContemplados();
+		if (!numeroValidator.isMaiorZero(quantidadeContemplado)) {
+			
+			return ErrorFactory.QTD_COMTEMPLADO_INVALIDO;
+		}
+		
+		Date dataInicial = edital.getDataInicial();
+		Date dataFinal = edital.getDataFinal();
+		if (!dataValidator.datesInOrder(dataInicial, dataFinal)) {
+			
+			return ErrorFactory.INTERVALO_DATA_INVALIDO;
+		}
+				
 		return VALIDATE_OK;
 	}
 	
@@ -177,13 +218,23 @@ public class Validate {
 		if (aluno == null || 
 				(aluno != null 
 					&& !numeroValidator.isMaiorZero(aluno.getId()))) {
+			
 			return ErrorFactory.ID_ALUNO_INVALIDO;
+		}
+		
+		Edital edital = diaRefeicao.getEdital();
+		if (edital == null || 
+				(edital != null 
+					&& !numeroValidator.isMaiorZero(edital.getId()))) {
+			
+			return ErrorFactory.ID_EDITAL_INVALIDO;
 		}
 		
 		Dia dia = diaRefeicao.getDia();
 		if (dia == null || 
 				(dia != null 
 					&& !numeroValidator.isInteiroPositivo(dia.getId()))) {
+			
 			return ErrorFactory.ID_DIA_INVALIDO;
 		}
 		
@@ -191,6 +242,7 @@ public class Validate {
 		if (refeicao == null || 
 				(refeicao != null 
 					&& !numeroValidator.isInteiroPositivo(refeicao.getId()))) {
+			
 			return ErrorFactory.ID_REFEICAO_INVALIDA;
 		}		
 		
@@ -198,6 +250,7 @@ public class Validate {
 		if (funcionario == null || 
 				(funcionario != null 
 					&& !numeroValidator.isInteiroPositivo(funcionario.getId()))) {
+			
 			return ErrorFactory.ID_FUNCIONARIO_INVALIDO;
 		}
 		
@@ -344,6 +397,74 @@ public class Validate {
 		
 		} else {
 			return ErrorFactory.FORMULARIO_ARQUIVO_INVALIDO;
+		}
+		
+		return VALIDATE_OK;
+	}
+
+	public static int quantidadeRefeicaoRealizada(DiaRefeicao diaRefeicao) {
+		
+		logger.info("Validação para obter a quandidade de Refeições Realizadas.");
+		
+		Dia dia = diaRefeicao.getDia();
+		if (dia == null || 
+				(dia != null 
+					&& !numeroValidator.isInteiroPositivo(dia.getId()))) {
+			return ErrorFactory.ID_DIA_INVALIDO;
+		}
+		
+		Refeicao refeicao = diaRefeicao.getRefeicao();
+		if (refeicao == null || 
+				(refeicao != null 
+					&& !numeroValidator.isInteiroPositivo(refeicao.getId()))) {
+			return ErrorFactory.ID_REFEICAO_INVALIDA;
+		}
+		
+		return VALIDATE_OK;
+	}
+
+	public static int quantidadePretensaoRefeicao(DiaRefeicao diaRefeicao) {
+		
+		logger.info("Validação para obter a quandidade de Pretensões de Refeição.");
+		
+		Dia dia = diaRefeicao.getDia();
+		if (dia == null || 
+				(dia != null 
+					&& !numeroValidator.isInteiroPositivo(dia.getId()))) {
+			return ErrorFactory.ID_DIA_INVALIDO;
+		}
+		
+		Refeicao refeicao = diaRefeicao.getRefeicao();
+		if (refeicao == null || 
+				(refeicao != null 
+					&& !numeroValidator.isInteiroPositivo(refeicao.getId()))) {
+			return ErrorFactory.ID_REFEICAO_INVALIDA;
+		}
+		
+		return VALIDATE_OK;
+	}
+
+	public static int periodoRefeicaoRealizada(PeriodoRefeicaoRealizada mapaRefeicoesRealizadas) {
+		
+		Refeicao refeicao = mapaRefeicoesRealizadas.getRefeicao();
+		if (refeicao == null || 
+				(refeicao != null 
+					&& !numeroValidator.isInteiroPositivo(refeicao.getId()))) {
+			return ErrorFactory.ID_REFEICAO_INVALIDA;
+		}
+		
+		Date dataInicial = mapaRefeicoesRealizadas.getDataInicio();
+		if (dataValidator.validateFormat(dataInicial, 
+				DataValidator.FORMATO_DATA)) {
+			
+			return ErrorFactory.DATA_INVALIDA;
+		}
+		
+		Date dataFinal = mapaRefeicoesRealizadas.getDataFim();
+		if (dataValidator.validateFormat(dataFinal, 
+				DataValidator.FORMATO_DATA)) {
+			
+			return ErrorFactory.DATA_INVALIDA;
 		}
 		
 		return VALIDATE_OK;

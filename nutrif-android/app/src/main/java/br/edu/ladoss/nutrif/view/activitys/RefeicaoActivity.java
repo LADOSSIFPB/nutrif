@@ -9,6 +9,8 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import br.edu.ladoss.nutrif.R;
@@ -81,8 +83,7 @@ public class RefeicaoActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(Response<PretensaoRefeicao> response, Retrofit retrofit) {
                         if (response.isSuccess()) {
-                            PretensaoRefeicaoDAO dao = new PretensaoRefeicaoDAO(RefeicaoActivity.this);
-                            dao.insertOrUpdate(response.body());
+                            PretensaoRefeicaoDAO.getInstance(getBaseContext()).insertOrUpdate(response.body());
                             RefeicaoActivity.this.organizarTela(response.body());
                         } else {
                             Erro erro = ErrorUtils.parseError(response, getBaseContext());
@@ -115,11 +116,12 @@ public class RefeicaoActivity extends AppCompatActivity {
 
         if (pretensao != null) {
             Date now = new Date();
-            Date refeicaoDate = new Date(pretensao.getConfirmaPretensaoDia().getDataPretensao());
-            if (!now.after(refeicaoDate)) {
-                organizarTela(pretensao);
-                return true;
-            }
+            Date refeicaoDate =  new Date(pretensao.getConfirmaPretensaoDia().getDataPretensao());
+                if (!now.after(refeicaoDate)) {
+                    organizarTela(pretensao);
+                    return true;
+                }
+
         }
         return false;
     }
@@ -128,8 +130,14 @@ public class RefeicaoActivity extends AppCompatActivity {
         dia.setText(pretencaoRefeicao.getConfirmaPretensaoDia().getDiaRefeicao().getDia().getNome());
         hora_final.setText(pretencaoRefeicao.getConfirmaPretensaoDia().getDiaRefeicao().getRefeicao().getHoraFinal());
         hora_inicial.setText(pretencaoRefeicao.getConfirmaPretensaoDia().getDiaRefeicao().getRefeicao().getHoraInicio());
-        data.setText(AndroidUtil.convertLongToString(pretencaoRefeicao.getConfirmaPretensaoDia().getDataPretensao()));
+
+        Date date = new Date(pretencaoRefeicao.getConfirmaPretensaoDia().getDataPretensao());
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM");
+
+        data.setText(format.format(date));
         tipo.setText(pretencaoRefeicao.getConfirmaPretensaoDia().getDiaRefeicao().getRefeicao().getTipo());
+
+        this.pretensaoRefeicao = pretencaoRefeicao;
 
         if (pretencaoRefeicao.getKeyAccess() == null) {
             pedirBtn.setVisibility(View.VISIBLE);
@@ -155,16 +163,21 @@ public class RefeicaoActivity extends AppCompatActivity {
     public void pedirRefeicao(View view) {
         change(false);
 
+        PretensaoRefeicao refeicao = new PretensaoRefeicao();
+        refeicao.getConfirmaPretensaoDia().getDiaRefeicao().setId(
+                pretensaoRefeicao.getConfirmaPretensaoDia().getDiaRefeicao().getId()
+        );
+
         Call<br.edu.ladoss.nutrif.entitys.PretensaoRefeicao> call = ConnectionServer
                 .getInstance()
                 .getService()
-                .pedirRefeicao(PreferencesUtils.getAccessKeyOnSharedPreferences(this), pretensaoRefeicao);
+                .pedirRefeicao(PreferencesUtils.getAccessKeyOnSharedPreferences(this), refeicao);
         call.enqueue(new Callback<br.edu.ladoss.nutrif.entitys.PretensaoRefeicao>() {
             @Override
             public void onResponse(Response<br.edu.ladoss.nutrif.entitys.PretensaoRefeicao> response, Retrofit retrofit) {
                 if (response.isSuccess()) {
                     PretensaoRefeicaoDAO.getInstance(getBaseContext()).insertOrUpdate(response.body());
-                    organizarTela(pretensaoRefeicao);
+                    organizarTela(response.body());
                 } else {
                     Erro erro = ErrorUtils.parseError(response,getBaseContext());
                     AndroidUtil.showSnackbar(RefeicaoActivity.this, erro.getMensagem());

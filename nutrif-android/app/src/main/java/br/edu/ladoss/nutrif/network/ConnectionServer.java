@@ -13,7 +13,7 @@ public class ConnectionServer {
 
     private static final String[] URL_BASES =
             {
-                    "http://ladoss.com.br:8773/NutrIF_Service/",
+                    "http://ladoss.com.br:8773/NutrIF_Service_homologacao/",
                     "http://192.168.1.245:8773/NutrIF_Service/"
             };
     private static APIService service;

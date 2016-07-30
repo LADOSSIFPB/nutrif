@@ -21,6 +21,7 @@ import org.apache.logging.log4j.Logger;
 import br.edu.ifpb.nutrif.dao.AlunoDAO;
 import br.edu.ifpb.nutrif.dao.DiaDAO;
 import br.edu.ifpb.nutrif.dao.DiaRefeicaoDAO;
+import br.edu.ifpb.nutrif.dao.EditalDAO;
 import br.edu.ifpb.nutrif.dao.FuncionarioDAO;
 import br.edu.ifpb.nutrif.dao.RefeicaoDAO;
 import br.edu.ifpb.nutrif.exception.ErrorFactory;
@@ -30,6 +31,7 @@ import br.edu.ifpb.nutrif.validation.Validate;
 import br.edu.ladoss.entity.Aluno;
 import br.edu.ladoss.entity.Dia;
 import br.edu.ladoss.entity.DiaRefeicao;
+import br.edu.ladoss.entity.Edital;
 import br.edu.ladoss.entity.Error;
 import br.edu.ladoss.entity.Funcionario;
 import br.edu.ladoss.entity.Refeicao;
@@ -72,6 +74,11 @@ public class DiaRefeicaoController {
 				Aluno aluno = AlunoDAO.getInstance().getById(idAluno);
 				diaRefeicao.setAluno(aluno);
 				
+				// Recuperar Edital
+				int idEdital = diaRefeicao.getEdital().getId();
+				Edital edital = EditalDAO.getInstance().getById(idEdital);
+				diaRefeicao.setEdital(edital);
+				
 				// Recuperar Dia.
 				int idDia = diaRefeicao.getDia().getId();
 				Dia dia = DiaDAO.getInstance().getById(idDia);
@@ -88,12 +95,14 @@ public class DiaRefeicaoController {
 						.getById(idFuncionario);
 				diaRefeicao.setFuncionario(funcionario);
 				
-				if (aluno != null 
+				if (aluno != null
+						&& edital != null
 						&& dia != null 
 						&& refeicao != null
 						&& funcionario != null) {
 					
-					// Verifica se existe dia de refeição ativo para a mesma refeição e dia.
+					// Verifica se existe dia de refeição ativo para a mesma
+					// refeição e dia.
 					boolean isDiaRefeicaoAtivo = DiaRefeicaoDAO.getInstance()
 							.isDiaRefeicaoAtivo(diaRefeicao);
 					logger.info("DiaRefeição ativo: " + isDiaRefeicaoAtivo);
@@ -108,7 +117,7 @@ public class DiaRefeicaoController {
 						Integer idDiaRefeicao = DiaRefeicaoDAO.getInstance()
 								.insert(diaRefeicao);
 						
-						if (idDiaRefeicao != BancoUtil.IDVAZIO) {
+						if (idDiaRefeicao != BancoUtil.ID_VAZIO) {
 		
 							// Operação realizada com sucesso.
 							builder.status(Response.Status.OK);

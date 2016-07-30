@@ -23,8 +23,10 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import br.edu.ifpb.nutrif.dao.DiaDAO;
 import br.edu.ifpb.nutrif.dao.DiaRefeicaoDAO;
 import br.edu.ifpb.nutrif.dao.PretensaoRefeicaoDAO;
+import br.edu.ifpb.nutrif.dao.RefeicaoDAO;
 import br.edu.ifpb.nutrif.dao.RefeicaoRealizadaDAO;
 import br.edu.ifpb.nutrif.exception.ErrorFactory;
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
@@ -34,9 +36,12 @@ import br.edu.ifpb.nutrif.util.StringUtil;
 import br.edu.ifpb.nutrif.validation.Validate;
 import br.edu.ladoss.entity.ConfirmaPretensaoDia;
 import br.edu.ladoss.entity.ConfirmaRefeicaoDia;
+import br.edu.ladoss.entity.Dia;
 import br.edu.ladoss.entity.DiaRefeicao;
 import br.edu.ladoss.entity.Error;
 import br.edu.ladoss.entity.MapaPretensaoRefeicao;
+import br.edu.ladoss.entity.MapaRefeicaoRealizada;
+import br.edu.ladoss.entity.PeriodoPretensaoRefeicao;
 import br.edu.ladoss.entity.PretensaoRefeicao;
 import br.edu.ladoss.entity.Refeicao;
 import br.edu.ladoss.entity.RefeicaoRealizada;
@@ -77,7 +82,7 @@ public class PretensaoRefeicaoController {
 				
 				if (diaRefeicao != null) {					
 					
-					pretensaoRefeicao = verifyPretensao(diaRefeicao);
+					pretensaoRefeicao = verificarPretensao(diaRefeicao);
 					
 					if (pretensaoRefeicao != null) {
 						
@@ -90,7 +95,7 @@ public class PretensaoRefeicaoController {
 						Integer idPretensaoRefeicao = PretensaoRefeicaoDAO.getInstance()
 								.insert(pretensaoRefeicao);
 						
-						if (idPretensaoRefeicao != BancoUtil.IDVAZIO) {
+						if (idPretensaoRefeicao != BancoUtil.ID_VAZIO) {
 
 							// Operação realizada com sucesso.
 							builder.status(Response.Status.OK);
@@ -140,7 +145,7 @@ public class PretensaoRefeicaoController {
 	@Path("/diarefeicao/verificar")
 	@Consumes("application/json")
 	@Produces("application/json")
-	public Response verifyDiaRefeicao(PretensaoRefeicao pretensaoRefeicaoCalculada) {
+	public Response verificarDiaRefeicao(PretensaoRefeicao pretensaoRefeicaoCalculada) {
 		
 		logger.info("Verificação da Pretensão para a Refeição: " 
 				+ pretensaoRefeicaoCalculada);
@@ -165,7 +170,7 @@ public class PretensaoRefeicaoController {
 				
 				if (diaRefeicao != null) {
 									
-					pretensaoRefeicaoCalculada = verifyPretensao(diaRefeicao);
+					pretensaoRefeicaoCalculada = verificarPretensao(diaRefeicao);
 					
 					if (pretensaoRefeicaoCalculada != null) {
 						
@@ -229,7 +234,7 @@ public class PretensaoRefeicaoController {
 	 * @param diaRefeicao
 	 * @return pretensaoRefeicao
 	 */
-	private PretensaoRefeicao verifyPretensao(DiaRefeicao diaRefeicao) {
+	private PretensaoRefeicao verificarPretensao(DiaRefeicao diaRefeicao) {
 		
 		logger.info("Analise da Pretensão de Refeição: " + diaRefeicao);
 		
@@ -283,6 +288,32 @@ public class PretensaoRefeicaoController {
 		return pretensaoRefeicao;
 	}
 	
+	private PretensaoRefeicao calcularPretensao(DiaRefeicao diaRefeicao) {
+		
+		// Calcular data para o dia da refeição.
+		logger.info("Calcular a Pretensão de Refeição: " + diaRefeicao);
+		
+		PretensaoRefeicao pretensaoRefeicao = null;
+		
+		// Dia da semana para lançar a pretensão.
+		int diaPretensao = diaRefeicao.getDia().getId();
+		Date dataPretensao = DateUtil.getDateOfDayWeek(diaPretensao);
+				
+		ConfirmaPretensaoDia confirmaPretensaoDia = 
+				new ConfirmaPretensaoDia();		
+		
+		// Atribuição das datas de pretensão e solicitação.
+		confirmaPretensaoDia.setDataPretensao(dataPretensao);
+		confirmaPretensaoDia.setDiaRefeicao(diaRefeicao);		
+		
+		// Pretensão
+		pretensaoRefeicao = new PretensaoRefeicao();
+		pretensaoRefeicao.setConfirmaPretensaoDia(
+				confirmaPretensaoDia);		
+		
+		return pretensaoRefeicao;		
+	}
+	
 	@PermitAll
 	@POST
 	@Path("/chaveacesso/verificar")
@@ -317,7 +348,7 @@ public class PretensaoRefeicaoController {
 				int idRefeicaoRealizada = RefeicaoRealizadaDAO.getInstance()
 						.insert(refeicaoRealizada);
 				
-				if (idRefeicaoRealizada != BancoUtil.IDVAZIO) {
+				if (idRefeicaoRealizada != BancoUtil.ID_VAZIO) {
 					
 					//int status = openDoorPostRequest();
                     //logger.info("Catraca: " + status);
@@ -352,11 +383,75 @@ public class PretensaoRefeicaoController {
 	
 	@PermitAll
 	@POST
+	@Path("/quantificar")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public Response getQuantidadePretensaoRefeicao(DiaRefeicao diaRefeicao) {
+		
+		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
+		builder.expires(new Date());
+		
+		// Validação dos dados de entrada.
+		int validacao = Validate.quantidadePretensaoRefeicao(diaRefeicao);
+		
+		if (validacao == Validate.VALIDATE_OK) {
+			
+			try {
+				
+				// Recurar dados da refeição.
+				Refeicao refeicao = RefeicaoDAO.getInstance().getById(
+						diaRefeicao.getRefeicao().getId());
+				diaRefeicao.setRefeicao(refeicao);
+				
+				// Dia proposto para a pretensão e data da solicitação.
+				int idDia = diaRefeicao.getDia().getId();
+				Dia dia = DiaDAO.getInstance().getById(idDia);
+				
+				// Verificar pretensão baseado no dia e refeição.				
+				PretensaoRefeicao pretensaoRefeicao = calcularPretensao(diaRefeicao);
+				
+				if (refeicao != null && dia != null) {
+					
+					// Cálculo da quantidade de pretensões lançadas para o próximo dia de refeição.
+					Long quantidadeDia = PretensaoRefeicaoDAO.getInstance()
+							.getQuantidadeDiaPretensaoRefeicao(pretensaoRefeicao);
+					
+					Date dataSolicitacaoPretensao = pretensaoRefeicao
+							.getConfirmaPretensaoDia().getDataPretensao();
+					
+					// Mapa com os dados quantificados.
+					MapaPretensaoRefeicao mapaPretensaoRefeicao = new MapaPretensaoRefeicao();
+					mapaPretensaoRefeicao.setQuantidade(
+							Integer.valueOf(quantidadeDia.toString()));
+					mapaPretensaoRefeicao.setData(dataSolicitacaoPretensao);
+					mapaPretensaoRefeicao.setDia(dia);
+					
+					builder.status(Response.Status.OK).entity(
+							mapaPretensaoRefeicao);
+				}
+			
+			} catch (SQLExceptionNutrIF exception) {
+
+				builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
+						exception.getError());			
+			}
+			
+		} else {
+			
+			Error erro = ErrorFactory.getErrorFromIndex(validacao);
+			builder.status(Response.Status.NOT_ACCEPTABLE).entity(erro);
+		}
+		
+		return builder.build();
+	}
+	
+	@PermitAll
+	@POST
 	@Path("/mapa/consultar")
 	@Consumes("application/json")
 	@Produces("application/json")
 	public Response getMapaPretensaoRefeicao(
-			MapaPretensaoRefeicao mapaPretensaoRefeicao) {
+			PeriodoPretensaoRefeicao periodoPretensaoRefeicao) {
 		
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
 		builder.expires(new Date());
@@ -366,17 +461,39 @@ public class PretensaoRefeicaoController {
 		
 		if (validacao == Validate.VALIDATE_OK) {
 			
-			try {			
+			try {
 				
-				List<PretensaoRefeicao> pretensoesRefeicoes = PretensaoRefeicaoDAO
-						.getInstance().getMapaPretensaoRefeicao(
-								mapaPretensaoRefeicao);
+				List<MapaPretensaoRefeicao> mapasRefeicoesRealizadas = 
+						new ArrayList<MapaPretensaoRefeicao>();
 				
-				mapaPretensaoRefeicao.setPretensoesRefeicoes(pretensoesRefeicoes);
+				// Data entre o intervalo de dataInicio e dataFim.
+				List<Date> datas = DateUtil.getDaysBetweenDates(
+						periodoPretensaoRefeicao.getDataInicio(), 
+						periodoPretensaoRefeicao.getDataFim());
+				
+				for (Date data: datas) {
+					
+					// Inicializa o mapa para consulta dos dias das refeições.
+					MapaPretensaoRefeicao mapaPretensaoRefeicao = 
+							new MapaPretensaoRefeicao();				
+					mapaPretensaoRefeicao.setRefeicao(
+							periodoPretensaoRefeicao.getRefeicao());
+					mapaPretensaoRefeicao.setData(data);
+					
+					// Consulta dos dias das refeições.
+					List<PretensaoRefeicao> refeicoesRealizadas = PretensaoRefeicaoDAO
+							.getInstance().getMapaPretensaoRefeicao(
+									mapaPretensaoRefeicao);
+					
+					mapaPretensaoRefeicao.setPretensoesRefeicoes(refeicoesRealizadas);
+					mapaPretensaoRefeicao.setQuantidade(
+							refeicoesRealizadas.size());
+					
+					mapasRefeicoesRealizadas.add(mapaPretensaoRefeicao);
+				}				
 				
 				builder.status(Response.Status.OK).entity(
-						mapaPretensaoRefeicao);
-				
+						mapasRefeicoesRealizadas);				
 			
 			} catch (SQLExceptionNutrIF exception) {
 

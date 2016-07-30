@@ -1,21 +1,24 @@
-﻿<link rel="stylesheet" type="text/css" href="../../css/qr-codePrint.css"/>
+﻿<!-- Modal - Gerar e imprimir QR-Code -->
+<link rel="stylesheet" type="text/css" href="css/qr-codePrint.css"/>
 <md-dialog aria-label="Confirmar solicitação de refeição"  ng-cloak>    
 		<md-dialog-content class="md-dialog-content">
-			<p><b>Nome: </b>{{user.nome}}</br>
-			<b>Matrícula: </b>{{user.matricula}}</br>
-			<b>Dia: </b>{{refeicao}}</br>
-			{{dataRefeicao | date}}</p>
+			<p>
+				<b> Nome: </b> {{user.nome}} </br>
+				<b> Matrícula: </b> {{user.matricula}} </br>
+				<b> Dia: </b> {{refeicao}} - {{dataRefeicao | date:'dd/MM/yyyy'}}
+				
+			</p>
 			<div>
 				<qr text="code"></qr>
+			</div>
+			<div>
+				<i> A impressão desse ticket não é obrigatória </i>
 			</div>
 		</md-dialog-content>
 		<md-dialog-actions layout="row">
 			<span flex></span>
-			<md-button ng-click="cancel()" class="md-warn">
-				Fechar
-			</md-button>
 			<md-button ng-click="hide()" class="md-primary" style="margin-right:20px;">
-				Confirmar
+				Imprimir
 			</md-button>
 		</md-dialog-actions>	
 </md-dialog>

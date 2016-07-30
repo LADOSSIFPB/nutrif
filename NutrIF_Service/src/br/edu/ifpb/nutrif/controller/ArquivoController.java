@@ -112,7 +112,7 @@ public class ArquivoController {
 					// Persistência do metadado do arquivo no banco de dados.	
 					int idArquivo = ArquivoDAO.getInstance().insert(arquivo);
 
-					if (idArquivo != BancoUtil.IDVAZIO) {
+					if (idArquivo != BancoUtil.ID_VAZIO) {
 						
 						arquivo.setId(idArquivo);
 						arquivo.setFile(null);

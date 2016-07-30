@@ -15,7 +15,7 @@ public class PretensaoRefeicao {
 
     private String keyAccess;
 
-    
+
     public Integer getId() {
         return id;
     }
@@ -24,25 +24,9 @@ public class PretensaoRefeicao {
         this.id = id;
     }
 
-    
     public ConfirmaPretensaoDia getConfirmaPretensaoDia() {
         return confirmaPretensaoDia;
     }
-
-    public void setConfirmaPretensaoDia(ConfirmaPretensaoDia confirmaPretensaoDia) {
-        this.confirmaPretensaoDia = confirmaPretensaoDia;
-    }
-
-    
-    public Date getHoraPretensao() {
-
-        return new Date(dataSolicitacao);
-    }
-
-    public void setHoraPretensao(Long horaPretensao) {
-        this.dataSolicitacao = horaPretensao;
-    }
-
     
     public String getKeyAccess() {
         return keyAccess;

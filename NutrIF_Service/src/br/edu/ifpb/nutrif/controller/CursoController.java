@@ -45,7 +45,7 @@ public class CursoController {
 				//Inserir o Aluno.
 				Integer idCurso = CursoDAO.getInstance().insert(curso);
 				
-				if (idCurso != BancoUtil.IDVAZIO) {
+				if (idCurso != BancoUtil.ID_VAZIO) {
 
 					// Operação realizada com sucesso.
 					builder.status(Response.Status.OK);

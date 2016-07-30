@@ -11,13 +11,13 @@ public class MapaPretensaoRefeicao {
 	
 	private List<PretensaoRefeicao> pretensoesRefeicoes;
 	
+	private Integer quantidade;
+	
 	private Refeicao refeicao;
 	
 	private Dia dia;
 
-	private Date dataInicio;
-	
-	private Date dataFim;
+	private Date data;
 
 	@XmlElement
 	public List<PretensaoRefeicao> getPretensoesRefeicoes() {
@@ -47,29 +47,28 @@ public class MapaPretensaoRefeicao {
 	}
 	
 	@XmlElement
-	public Date getDataInicio() {
-		return dataInicio;
+	public Integer getQuantidade() {
+		return quantidade;
 	}
 
-	public void setDataInicio(Date dataInicio) {
-		this.dataInicio = dataInicio;
-	}
+	public void setQuantidade(Integer quantidade) {
+		this.quantidade = quantidade;
+	}	
 
 	@XmlElement
-	public Date getDataFim() {
-		return dataFim;
+	public Date getData() {
+		return data;
 	}
 
-	public void setDataFim(Date dataFim) {
-		this.dataFim = dataFim;
+	public void setData(Date data) {
+		this.data = data;
 	}
 	
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
-		return "MapaPretensaoRefeicao[refeicao=" + refeicao 
-				+ ", dia=" + dia 
-				+ ", dataInicio=" + dataInicio
-				+ ", dataFim=" + dataFim + "]";
+		return "MapaPretensaoRefeicao[quantidade="+ quantidade 
+				+ ", refeicao=" + refeicao 
+				+ ", dia=" + dia
+				+ ", data=" + data + "]";
 	}	
 }

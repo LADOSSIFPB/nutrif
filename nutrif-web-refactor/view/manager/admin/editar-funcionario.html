@@ -1,4 +1,4 @@
-﻿<md-card>
+<md-card>
     <md-card-header>
 
         <md-card-avatar>
@@ -32,7 +32,7 @@
         
         <md-input-container flex>
             <label>Cargo:</label>
-            <md-select ng-model="funcionarioCopy.roles.role.id" aria-label="Selecione o cargo">
+            <md-select ng-model="funcionarioCopy.roles[0].id" aria-label="Selecione o cargo">
                 <md-option ng-repeat="role in roles" value="{{role.id}}">
                     {{role.nome}}
                 </md-option>

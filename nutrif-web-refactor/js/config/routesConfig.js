@@ -31,21 +31,67 @@ angular.module('NutrifApp').config(function ($stateProvider, $urlRouterProvider)
 			abstract: true,
 		    templateUrl: 'view/manager/home.html'
 	  	})
-	  	
+
+		/* Funcionário */
 	  	.state('home.adicionar-funcionarios', {
-		    url: '/adicionar/funcionario', 
+		    url: '/adicionar/funcionario',
 			title: 'Adicionar Funcionarios',
 		    templateUrl: 'view/manager/admin/adicionar-funcionarios.html',
             controller: 'cadastrarFuncionarioCtrl',
             controllerAs: 'cadastrarFuncionarios',
 			module: 'admin'
 	  	})
-	  	
+
 	  	.state('home.listar-funcionarios', {
-		    url: '/listar/funcionarios', 
+		    url: '/listar/funcionarios',
 			title: 'Listar Funcionarios',
 		    templateUrl: 'view/manager/admin/listar-funcionarios.html',
             controller: 'listarFuncionariosCtrl',
+			module: 'admin'
+	  	})
+
+		.state('home.editar-funcionario', {
+		    url: '/editar/funcionario/:id',
+			title: 'Editar Funcionario',
+		    templateUrl: 'view/manager/admin/editar-funcionario.html',
+			controller: 'editarFuncionarioCtrl',
+			controllerAs: 'editar',
+			module: 'admin'
+	  	})
+
+	  	.state('home.perfil-aluno', {
+		    url: '/perfilAluno/:matricula',
+			title: 'Perfil aluno',
+		    templateUrl: 'view/manager/admin/perfil-aluno.html',
+			controller: 'webcamCtrl',
+			module: 'admin'
+	  	})
+
+		/* Aluno */
+	  	.state('home.adicionar-alunos', {
+		    url: '/adicionar',
+			title: 'Adicionar Alunos',
+		    templateUrl: 'view/manager/admin/adicionar-alunos.html',
+            controller: 'cadastrarAlunoCtrl',
+            controllerAs: 'cadastrar',
+			module: 'admin'
+	  	})
+
+		.state('home.listar-alunos', {
+		    url: '/listar',
+			title: 'Listar Alunos',
+		    templateUrl: 'view/manager/admin/listar-alunos.html',
+            controller: 'listarAlunosCtrl',
+            controllerAs: 'listar',
+			module: 'admin'
+	  	})
+
+		.state('home.editar-aluno', {
+		    url: '/editar/:matricula',
+			title: 'Editar Aluno',
+		    templateUrl: 'view/manager/admin/editar-aluno.html',
+			controller: 'editarAlunoCtrl',
+			controllerAs: 'editar',
 			module: 'admin'
 	  	})
 
@@ -67,43 +113,35 @@ angular.module('NutrifApp').config(function ($stateProvider, $urlRouterProvider)
 			module: 'inspetor'
 	  	})
 
-		.state('home.adicionar-alunos', {
-		    url: '/adicionar',
-			title: 'Adicionar Alunos',
-		    templateUrl: 'view/manager/admin/adicionar-alunos.html',
-            controller: 'cadastrarAlunoCtrl',
-            controllerAs: 'cadastrar',
+		/* Edital*/
+		.state('home.adicionar-edital', {
+		    url: '/adicionar/edital',
+			title: 'Adicionar Edital',
+		    templateUrl: 'view/manager/admin/adicionar-edital.html',
+            controller: 'cadastrarEditalCtrl',
+            controllerAs: 'cadastrarEdital',
 			module: 'admin'
 	  	})
 
-	  	.state('home.editar-funcionario', {
-		    url: '/editar/funcionario/:id',
-			title: 'Editar Funcionario',
-		    templateUrl: 'view/manager/admin/editar-funcionario.html',
-			controller: 'editarFuncionarioCtrl',
-			controllerAs: 'editar',
-			module: 'admin'
-	  	})
-	  	
-	  	
-		.state('home.listar-alunos', {
-		    url: '/listar',
-			title: 'Listar Alunos',
-		    templateUrl: 'view/manager/admin/listar-alunos.html',
-            controller: 'listarAlunosCtrl',
-            controllerAs: 'listar',
+		.state('home.listar-edital', {
+		    url: '/listar/edital',
+			title: 'Listar Edital',
+		    templateUrl: 'view/manager/admin/listar-edital.html',
+			controller: 'listarEditalCtrl',
+            controllerAs: 'listarEdital',
 			module: 'admin'
 	  	})
 
-		.state('home.editar-aluno', {
-		    url: '/editar/:matricula',
-			title: 'Editar Aluno',
-		    templateUrl: 'view/manager/admin/editar-aluno.html',
-			controller: 'editarAlunoCtrl',
-			controllerAs: 'editar',
+		.state('home.estatisticas', {
+		    url: '/estatisticas',
+			title: 'Estatisticas',
+		    templateUrl: 'view/manager/admin/estatisticas.html',
+            controller: 'estatisticasCtrl',
+            controllerAs: 'estatisticas',
 			module: 'admin'
 	  	})
 
+		/* Pretensão */
 	  	.state('pretensao', {
 		    url: '/pretensao',
 		    templateUrl: 'view/pretensao/pretensao-home.html',
@@ -118,5 +156,4 @@ angular.module('NutrifApp').config(function ($stateProvider, $urlRouterProvider)
 			controllerAs: 'listar',
 		    module: 'comensal'
 	  	});
-
 });

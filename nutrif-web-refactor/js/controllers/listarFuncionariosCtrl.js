@@ -11,8 +11,7 @@ angular.module('NutrifApp').controller('listarFuncionariosCtrl', function ($scop
     $scope.pesquisar = function (texto){
                 funcionarioService.getFuncionarioByNome(texto)
                     .success(onSuccessCallback)
-                    .error(onErrorCallback);
-            
+                    .error(onErrorCallback);            
     };
 
     function onSuccessCallback(data, status) {
@@ -23,7 +22,7 @@ angular.module('NutrifApp').controller('listarFuncionariosCtrl', function ($scop
         var _message = '';
 
         if (!data) {
-            _message = 'Nenhum funcionário cadastrado'
+            _message = 'Não foram encontrados Funcionários'
         } else {
             _message = data.mensagem
         }

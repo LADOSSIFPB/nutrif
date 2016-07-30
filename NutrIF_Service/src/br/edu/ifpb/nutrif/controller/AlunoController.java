@@ -31,6 +31,7 @@ import br.edu.ladoss.entity.Aluno;
 import br.edu.ladoss.entity.AlunoAcesso;
 import br.edu.ladoss.entity.Curso;
 import br.edu.ladoss.entity.Role;
+import br.edu.ladoss.enumeration.TipoRole;
 
 @Path("aluno")
 public class AlunoController {
@@ -74,7 +75,8 @@ public class AlunoController {
 				aluno.setCurso(curso);
 				
 				// Role 
-				Role role = RoleDAO.getInstance().getById(Role.COMENSAL_ROLE);
+				Role role = RoleDAO.getInstance().getById(
+						TipoRole.COMENSAL.getId());
 				List<Role> roles = new ArrayList<Role>();
 				roles.add(role);				
 				aluno.setRoles(roles);
@@ -85,7 +87,7 @@ public class AlunoController {
 				//Inserir o Aluno.
 				Integer idAluno = AlunoDAO.getInstance().insert(aluno);
 				
-				if (idAluno != BancoUtil.IDVAZIO) {
+				if (idAluno != BancoUtil.ID_VAZIO) {
 
 					// Operação realizada com sucesso.
 					builder.status(Response.Status.OK);
@@ -153,7 +155,6 @@ public class AlunoController {
 
 				builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
 						exception.getError());			
-			
 			} 
 		}				
 		
@@ -328,7 +329,7 @@ public class AlunoController {
 				Aluno aluno = AlunoDAO.getInstance().getByMatricula(matricula);
 				
 				if (aluno != null 
-						&& aluno.getId() != BancoUtil.IDVAZIO) {
+						&& aluno.getId() != BancoUtil.ID_VAZIO) {
 
 					// Verificar se o usuário já tem acesso solicitado.					
 					if (!aluno.isAcesso()) {
@@ -365,7 +366,7 @@ public class AlunoController {
 					//Inserir o Aluno.
 					aluno = AlunoDAO.getInstance().update(aluno);
 					
-					if (aluno.getId() != BancoUtil.IDVAZIO) {
+					if (aluno.getId() != BancoUtil.ID_VAZIO) {
 
 						// Enviar e-mail com a chave de acesso.
 						EmailUtil emailUtil = new EmailUtil();
@@ -510,7 +511,8 @@ public class AlunoController {
 			for (Aluno aluno: alunos) {
 				
 				// Inserir role Aluno aos registros antigos.
-				Role role = RoleDAO.getInstance().getById(Role.COMENSAL_ROLE);
+				Role role = RoleDAO.getInstance().getById(
+						TipoRole.COMENSAL.getId());
 				List<Role> roles = new ArrayList<Role>();
 				roles.add(role);				
 				aluno.setRoles(roles);

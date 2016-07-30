@@ -1,0 +1,61 @@
+<md-card>
+    <md-card-header class="nutrif-md-card-header">
+        
+        <md-card-avatar>
+            <md-icon class="md-avatar-icon" md-svg-icon="img/icon/padnote.svg"></md-icon>
+        </md-card-avatar>
+        
+        <md-card-header-text>
+            <span class="md-title">Estatísticas do refeitório</span>
+            <span class="md-subhead">Selecione abaixo as datas do início e do fim do intervalo a ser mostrado nos gráficos</span>
+        </md-card-header-text>
+        
+    </md-card-header>
+    <md-card-content layout="column">
+        <div layout=row flex layout-align="center center">
+            <md-datepicker ng-model="periodoPretensao.dataInicio" ng-change="carregaGraficos()" md-placeholder="Data inicial"></md-datepicker>
+            <md-datepicker ng-model="periodoPretensao.dataFim" ng-change="carregaGraficos()" md-placeholder="Data final"></md-datepicker>
+        </div>
+        <div style="margin-top: 5px" layout="row">
+            <md-card>
+                <md-card-header>
+        
+                    <md-card-header-text>
+                        <span class="md-title">Pretensões de refeição</span>
+                        <span class="md-subhead">Passe o mouse em um ponto do gráfico exibir detalhes das refeições solicitadas nesse dia</span>
+                    </md-card-header-text>
+        
+                </md-card-header>
+                <md-card-content layout="column">
+                    <canvas class="chart chart-line" flex="50"
+                        chart-data="pretensaoChart.data"
+                        chart-labels="pretensaoChart.labels"
+                        chart-colors="pretensaoChart.colors"
+                        chart-series="pretensaoChart.series">
+                    </canvas>
+                    <span style="font-size: 12px; margin-top: 10px">* Clique sobre um ponto do gráfico para listar as refeições solicitadas nesse dia</span>
+                </md-card-content>
+            </md-card>
+        
+            <md-card>
+                <md-card-header>
+        
+                    <md-card-header-text>
+                        <span class="md-title">Refeições realizadas</span>
+                        <span class="md-subhead">Passe o mouse em um ponto do gráfico exibir detalhes das refeições realizadas nesse dia</span>
+                    </md-card-header-text>
+        
+                </md-card-header>
+                <md-card-content layout="column">
+                    <canvas class="chart chart-line" flex="50"
+                        chart-data="refeicaoRealizadaChart.data"
+                        chart-labels="refeicaoRealizadaChart.labels"
+                        chart-colors="refeicaoRealizadaChart.colors"
+                        chart-series="refeicaoRealizadaChart.series">
+                    </canvas>
+                    <span style="font-size: 12px; margin-top: 10px">* Clique sobre um ponto do gráfico para listar as refeições realizadas nesse dia</span>
+                </md-card-content>
+            </md-card>
+        </div>
+    </md-card-content>
+</md-card>

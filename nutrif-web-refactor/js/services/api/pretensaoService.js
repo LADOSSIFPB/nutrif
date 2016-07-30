@@ -23,9 +23,14 @@ angular.module("NutrifApp").factory("pretensaoService", function($http, config, 
 		return $http.post(_path + "/chaveacesso/verificar", pretensao);
 	};
 
+    var _mapaRefeicao = function(peirodoPretensao){
+		return $http.post(_path + "/mapa/consultar", peirodoPretensao);
+	};
+
 	return {
 		verifyDiaRefeicao : _verifyDiaRefeicao,
 		verifyChaveAcesso: _verifyChaveAcesso,
+        mapaRefeicao: _mapaRefeicao,
 		insertPretensao: _insertPretensao
 	};
 

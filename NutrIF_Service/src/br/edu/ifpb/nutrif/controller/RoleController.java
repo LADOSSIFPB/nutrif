@@ -44,7 +44,7 @@ public class RoleController {
 				//Inserir o Aluno.
 				Integer idCurso = RoleDAO.getInstance().insert(role);
 				
-				if (idCurso != BancoUtil.IDVAZIO) {
+				if (idCurso != BancoUtil.ID_VAZIO) {
 
 					// Operação realizada com sucesso.
 					builder.status(Response.Status.OK);

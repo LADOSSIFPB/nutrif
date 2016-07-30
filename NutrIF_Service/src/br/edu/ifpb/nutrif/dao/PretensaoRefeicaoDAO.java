@@ -12,6 +12,7 @@ import org.hibernate.Session;
 
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
 import br.edu.ifpb.nutrif.hibernate.HibernateUtil;
+import br.edu.ifpb.nutrif.util.BancoUtil;
 import br.edu.ladoss.entity.Dia;
 import br.edu.ladoss.entity.MapaPretensaoRefeicao;
 import br.edu.ladoss.entity.PretensaoRefeicao;
@@ -155,6 +156,50 @@ public class PretensaoRefeicaoDAO extends GenericDao<Integer, PretensaoRefeicao>
 		return pretensaoRefeicao;		
 	}
 	
+	/**
+	 * Quantificar as pretensoes das refeições para uma data definida.
+	 * 
+	 * @param data
+	 * @return
+	 */
+	public Long getQuantidadeDiaPretensaoRefeicao(PretensaoRefeicao pretensaoRefeicao) {
+		
+		Long quantidadeDia = Long.valueOf(BancoUtil.QUANTIDADE_ZERO);
+		
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		
+		try {
+			
+			Date dataPretensao = pretensaoRefeicao.getConfirmaPretensaoDia()
+					.getDataPretensao();
+			int idRefeicao = pretensaoRefeicao.getConfirmaPretensaoDia()
+					.getDiaRefeicao().getRefeicao().getId();
+			
+			String hql = "select count(pr.id)"
+					+ " from PretensaoRefeicao as pr"
+					+ " where pr.confirmaPretensaoDia.dataPretensao = :dataPretensao"
+					+ " and pr.confirmaPretensaoDia.diaRefeicao.refeicao.id = :idRefeicao";
+						
+			Query query = session.createQuery(hql);
+			query.setParameter("dataPretensao", dataPretensao);
+			query.setParameter("idRefeicao", idRefeicao);
+			
+			quantidadeDia = (Long) query.uniqueResult();
+	        
+		} catch (HibernateException hibernateException) {
+			
+			session.getTransaction().rollback();
+			
+			throw new SQLExceptionNutrIF(hibernateException);
+			
+		} finally {
+		
+			session.close();
+		}
+		
+		return quantidadeDia;
+	}
+	
 	public List<PretensaoRefeicao> getMapaPretensaoRefeicao(
 			MapaPretensaoRefeicao mapaPretensaoRefeicao) {
 		
@@ -166,18 +211,15 @@ public class PretensaoRefeicaoDAO extends GenericDao<Integer, PretensaoRefeicao>
 			
 			Dia dia = mapaPretensaoRefeicao.getDia();
 			Refeicao refeicao = mapaPretensaoRefeicao.getRefeicao();
-			Date dataInicio = mapaPretensaoRefeicao.getDataInicio();
-			Date dataFim = mapaPretensaoRefeicao.getDataFim();
+			Date dataPretensao = mapaPretensaoRefeicao.getData();
 			
 			String hql = "from PretensaoRefeicao as pr"
 					+ " where pr.confirmaPretensaoDia.diaRefeicao.refeicao.id = :refeicao"
-					+ " and pr.confirmaPretensaoDia.dataPretensao between :dataInicio and :dataFim";
+					+ " and pr.confirmaPretensaoDia.dataPretensao = :dataPretensao";
 			
 			Query query = session.createQuery(hql);
-			query.setParameter("dia", dia.getId());
 			query.setParameter("refeicao", refeicao.getId());
-			query.setParameter("dataInicio", dataInicio);
-			query.setParameter("dataFim", dataFim);
+			query.setParameter("dataPretensao", dataPretensao);
 			
 			refeicoesRealizadas = (List<PretensaoRefeicao>) query.list();
 	        

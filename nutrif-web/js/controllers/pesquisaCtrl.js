@@ -1,6 +1,6 @@
 angular.module('NutrifApp').controller("pesquisaCtrl", function ($scope, diaRefeicaoService, refeicaoRealizadaService, $cookies) {
 
-	var TAM_MIN_BUSCA_MATRICULA = 11;
+	var TAM_MIN_BUSCA_MATRICULA = 12;
 	var TAM_MIN_BUSCA_NOME = 3;
 
 	$scope.refeicoes = [];

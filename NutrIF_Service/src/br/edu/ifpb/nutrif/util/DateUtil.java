@@ -1,12 +1,12 @@
 package br.edu.ifpb.nutrif.util;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
 import org.joda.time.Minutes;
@@ -56,6 +56,27 @@ public class DateUtil {
 		return new Dia(dayOfWeek, dayName);
 	}
 	
+	/**
+	 * Retornar a data completa de um determinado dia da semana.
+	 * 
+	 * @param dayOfWeek
+	 * @return
+	 */
+	public static Date getDateOfDayWeek(int dayOfWeek) {
+		
+		Calendar c= Calendar.getInstance();
+		c.set(Calendar.DAY_OF_WEEK, dayOfWeek);
+		
+		return c.getTime();
+	}
+	
+	/**
+	 * Incrementar dia(s) a uma data.
+	 * 
+	 * @param date
+	 * @param days
+	 * @return
+	 */
 	public static Date addDays(Date date, int days) {
 		
 		Calendar cal = Calendar.getInstance();
@@ -63,6 +84,20 @@ public class DateUtil {
 		cal.add(Calendar.DATE, days); // minus number would decrement the days
 		
 		return cal.getTime();
+	}
+	
+	/**
+	 * Decrementar dias de uma data.
+	 * 
+	 * @param date
+	 * @param days
+	 * @return
+	 */
+	public static Date decreaseDays(Date date, int days) {
+		
+		int decreaseFactor = -1;
+		
+		return addDays(date, decreaseFactor * days);
 	}
 	
 	public static Period getPeriodBetweenDate (Date inicio, Date fim) {
@@ -105,5 +140,24 @@ public class DateUtil {
 				Calendar.HOUR_OF_DAY), 
 				calendar.get(Calendar.MINUTE),
 				calendar.get(Calendar.SECOND));		
+	}
+	
+	public static List<Date> getDaysBetweenDates(Date startdate, Date enddate) {
+		
+		List<Date> dates = new ArrayList<Date>();
+		
+		Calendar calendar = new GregorianCalendar();		
+		calendar.setTime(startdate);
+		
+		enddate = addDays(enddate, UM_DIA);
+
+		while (calendar.getTime().before(enddate)) {
+			
+			Date result = calendar.getTime();
+			dates.add(result);
+			calendar.add(Calendar.DATE, 1);
+		}
+		
+		return dates;
 	}
 }

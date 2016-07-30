@@ -12,7 +12,7 @@ import org.hibernate.Session;
 
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
 import br.edu.ifpb.nutrif.hibernate.HibernateUtil;
-import br.edu.ladoss.entity.Dia;
+import br.edu.ifpb.nutrif.util.BancoUtil;
 import br.edu.ladoss.entity.MapaRefeicaoRealizada;
 import br.edu.ladoss.entity.Refeicao;
 import br.edu.ladoss.entity.RefeicaoRealizada;
@@ -65,7 +65,7 @@ public class RefeicaoRealizadaDAO extends GenericDao<Integer, RefeicaoRealizada>
 	}
 	
 	public List<RefeicaoRealizada> getMapaRefeicoesRaelizadas(
-			MapaRefeicaoRealizada mapaRefeicoesRealizadas) {
+			MapaRefeicaoRealizada periodoRefeicaoRealizada) {
 		
 		Session session = HibernateUtil.getSessionFactory().openSession();
 
@@ -73,18 +73,16 @@ public class RefeicaoRealizadaDAO extends GenericDao<Integer, RefeicaoRealizada>
 		
 		try {
 			
-			Refeicao refeicao = mapaRefeicoesRealizadas.getRefeicao();
-			Date dataInicio = mapaRefeicoesRealizadas.getDataInicio();
-			Date dataFim = mapaRefeicoesRealizadas.getDataFim();		
+			Refeicao refeicao = periodoRefeicaoRealizada.getRefeicao();
+			Date dataRefeicao = periodoRefeicaoRealizada.getData();	
 			
 			String hql = "from RefeicaoRealizada as rr"
 					+ " where rr.confirmaRefeicaoDia.diaRefeicao.refeicao.id = :refeicao"
-					+ " and rr.confirmaRefeicaoDia.dataRefeicao between :dataInicio and :dataFim";
+					+ " and rr.confirmaRefeicaoDia.dataRefeicao = :dataRefeicao";
 			
 			Query query = session.createQuery(hql);
 			query.setParameter("refeicao", refeicao.getId());
-			query.setParameter("dataInicio", dataInicio);
-			query.setParameter("dataFim", dataFim);
+			query.setParameter("dataRefeicao", dataRefeicao);
 			
 			refeicoesRealizadas = (List<RefeicaoRealizada>) query.list();
 	        
@@ -100,6 +98,45 @@ public class RefeicaoRealizadaDAO extends GenericDao<Integer, RefeicaoRealizada>
 		}
 		
 		return refeicoesRealizadas;		
+	}
+	
+	/**
+	 * Quantificar as refeições realizadas para uma data definida.
+	 * 
+	 * @param data
+	 * @return
+	 */
+	public Long getQuantidadeDiaRefeicaoRealizada(Refeicao refeicao, Date data) {
+		
+		Long quantidadeDia = Long.valueOf(BancoUtil.QUANTIDADE_ZERO);
+		
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		
+		try {	
+			
+			String hql = "select count(rr.id)"
+					+ " from RefeicaoRealizada as rr"
+					+ " where rr.confirmaRefeicaoDia.dataRefeicao = :data"
+					+ " and rr.confirmaRefeicaoDia.diaRefeicao.refeicao.id = :idRefeicao";
+			
+			Query query = session.createQuery(hql);
+			query.setParameter("data", data);
+			query.setParameter("idRefeicao", refeicao.getId());
+			
+			quantidadeDia = (Long) query.uniqueResult();
+	        
+		} catch (HibernateException hibernateException) {
+			
+			session.getTransaction().rollback();
+			
+			throw new SQLExceptionNutrIF(hibernateException);
+			
+		} finally {
+		
+			session.close();
+		}
+		
+		return quantidadeDia;
 	}
 	
 	@Override

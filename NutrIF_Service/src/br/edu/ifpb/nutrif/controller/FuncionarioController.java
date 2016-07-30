@@ -85,7 +85,7 @@ public class FuncionarioController {
 				Integer idFuncionario = FuncionarioDAO.getInstance().insert(
 						Funcionario.setFuncionario(pessoa));
 				
-				if (idFuncionario != BancoUtil.IDVAZIO) {					
+				if (idFuncionario != BancoUtil.ID_VAZIO) {					
 					
 					// Operação realizada com sucesso.
 					builder.status(Response.Status.OK);

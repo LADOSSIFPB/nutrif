@@ -1,5 +1,7 @@
 angular.module("NutrifApp").value("config", {
 
+	chartColors: ['#DE3641', '#4BAE4F'],
+
 	baseUrl: function() {
 
 		var _protocol = "http://"
