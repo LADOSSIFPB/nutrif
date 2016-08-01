@@ -1,6 +1,6 @@
 angular.module("NutrifApp").value("config", {
 
-	chartColors: ['Red', 'Green', 'Yellow'],
+	chartColors: ['#DE3641', '#4BAE4F'],
 
 	baseUrl: function() {
 

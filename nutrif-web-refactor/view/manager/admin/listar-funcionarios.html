@@ -9,7 +9,7 @@
 
       <md-card-header-text>
         <span class="md-title">Funcionário</span>
-        <span class="md-subhead">Digite a busca ou selecione a opção para adicionar um novo.</span>
+        <span class="md-subhead">Digite o nome do funcionário no campo abaixo para buscar ou selecione a opção para adicionar um novo.</span>
       </md-card-header-text>
 
       <md-card-actions layout="row">
@@ -30,7 +30,7 @@
         <md-icon style="fill: rgba(0,0,0,.54);" md-svg-icon="img/icon/searching-magnifying-glass.svg"></md-icon>
 
         <div class="toolbar-input" flex>
-          <input type="text" ng-model="texto" ng-keyup="pesquisar(texto)" placeholder="Digite o nome do funcionario">
+          <input type="text" ng-model="texto" ng-keyup="pesquisar(texto)" placeholder="Nome do funcionario">
         </div>
 
         <md-button aria-label="Limpar Busca" class="md-icon-button" ng-click="limparBusca(texto)">
