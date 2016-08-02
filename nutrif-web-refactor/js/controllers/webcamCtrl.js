@@ -1,8 +1,10 @@
-angular.module('NutrifApp').controller('webcamCtrl', function($scope, $mdToast,arquivoService,$http, alunoService, $stateParams) {
+angular.module('NutrifApp').controller('webcamCtrl', function($scope, $mdToast,arquivoService,$http, alunoService, $stateParams,$state) {
 
 	$scope.myImage=null;
 
 	$scope.aluno={};
+	
+	var file;
 
 	$scope.myChannel = {
 		// the fields below are all optional
@@ -106,27 +108,7 @@ angular.module('NutrifApp').controller('webcamCtrl', function($scope, $mdToast,a
 
 		$scope.snapshotData = imgBase64;
 
-		// Conversão para arquivo da imagem capturada.
-		var blob = dataURItoBlob(imgBase64);
-
-		var file = new File([blob], 'fileName.jpeg', {type: "'image/jpeg"});
-
-		var img = new Image(file);
-
-		previewFile(file);
-
-		console.log(file);
-		console.log(img);
 	};
-
-	var handleFiles = function handleFiles(img) {
-
-		var ctx = document.getElementById('canvas').getContext('2d');
-
-		img.onload = function() {
-			ctx.drawImage(img, 20, 20);
-		}
-	}
 
 	var previewFile = function previewFile(file) {
 		var preview = document.getElementById('teste');
@@ -166,15 +148,17 @@ angular.module('NutrifApp').controller('webcamCtrl', function($scope, $mdToast,a
 		return new Blob([ia], {type:mimeString});
 	}
 
-	$scope.enviar = function(img){
+	$scope.enviar = function(){
 
-		var typeFile = {
-			id: 1
-		};
+		// Conversão para arquivo da imagem capturada.
+		var blob = dataURItoBlob($scope.snapshotData);
 
-		arquivoService.upload(img,typeFile)
-		.success(onSuccessCallback)
-		.error(onErrorCallback);
+		file = new File([blob], 'foto_perfil_'+$scope.aluno.id+'.jpg', {type: "'image/jpeg"});
+		
+		arquivoService.upload(file,'foto_perfil_'+$scope.aluno.id+'.jpg',$scope.aluno.id)
+        .success(onSuccessCallback)
+        .error(onErrorCallback);
+    	
 	}
 
 	function onSuccessCallback (data, status) {
