@@ -45,8 +45,11 @@ public class EditalController {
 		if (validacao == Validate.VALIDATE_OK) {
 			
 			try {			
+				// Evento
 				
-				// Funcionário
+				// Responsável pelos atos do Edital.
+				
+				// Funcionário que cadastrou o Edital.
 				int idFuncionario = edital.getFuncionario().getId();
 				Funcionario funcionario = FuncionarioDAO.getInstance()
 						.getById(idFuncionario);
