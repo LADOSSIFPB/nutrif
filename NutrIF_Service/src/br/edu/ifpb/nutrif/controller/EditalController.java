@@ -16,6 +16,7 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 
 import br.edu.ifpb.nutrif.dao.CampusDAO;
 import br.edu.ifpb.nutrif.dao.EditalDAO;
+import br.edu.ifpb.nutrif.dao.EventoDAO;
 import br.edu.ifpb.nutrif.dao.FuncionarioDAO;
 import br.edu.ifpb.nutrif.exception.ErrorFactory;
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
@@ -24,6 +25,7 @@ import br.edu.ifpb.nutrif.validation.Validate;
 import br.edu.ladoss.entity.Campus;
 import br.edu.ladoss.entity.Edital;
 import br.edu.ladoss.entity.Error;
+import br.edu.ladoss.entity.Evento;
 import br.edu.ladoss.entity.Funcionario;
 
 @Path("edital")
@@ -45,9 +47,16 @@ public class EditalController {
 		if (validacao == Validate.VALIDATE_OK) {
 			
 			try {			
-				// Evento
+				//TODO: Evento
+				int idEvento = edital.getEvento().getId(); 
+				Evento evento = EventoDAO.getInstance().getById(idEvento);
+				edital.setEvento(evento);
 				
-				// Responsável pelos atos do Edital.
+				//TODO: Responsável pelos atos do Edital.
+				int idResponsavel = edital.getResponsavel().getId();
+				Funcionario responsavel = FuncionarioDAO.getInstance()
+						.getById(idResponsavel);
+				edital.setFuncionario(responsavel);
 				
 				// Funcionário que cadastrou o Edital.
 				int idFuncionario = edital.getFuncionario().getId();
@@ -101,11 +110,11 @@ public class EditalController {
 	@Produces("application/json")
 	public List<Edital> getAll() {
 		
-		List<Edital> edital = new ArrayList<Edital>();
+		List<Edital> editais = new ArrayList<Edital>();
 		
-		edital = EditalDAO.getInstance().getAll();
+		editais = EditalDAO.getInstance().getAll();
 		
-		return edital;
+		return editais;
 	}
 	
 	@PermitAll

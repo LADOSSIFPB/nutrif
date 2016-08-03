@@ -14,6 +14,7 @@ import br.edu.ifpb.nutrif.controller.CursoController;
 import br.edu.ifpb.nutrif.controller.DiaController;
 import br.edu.ifpb.nutrif.controller.DiaRefeicaoController;
 import br.edu.ifpb.nutrif.controller.EditalController;
+import br.edu.ifpb.nutrif.controller.EventoController;
 import br.edu.ifpb.nutrif.controller.FuncionarioController;
 import br.edu.ifpb.nutrif.controller.PessoaController;
 import br.edu.ifpb.nutrif.controller.PretensaoRefeicaoController;
@@ -36,12 +37,13 @@ public class NutrIFApplication extends Application {
 		
 		this.singletons.add(filter);
 		
-		// ADD YOUR RESTFUL RESOURCES HERE
+		// Controllers disponíveis no serviço.
 		this.singletons.add(new AlunoController());
 		this.singletons.add(new FuncionarioController());
 		this.singletons.add(new PessoaController());
 		this.singletons.add(new CampusController());
 		this.singletons.add(new EditalController());
+		this.singletons.add(new EventoController());
 		this.singletons.add(new DiaRefeicaoController());
 		this.singletons.add(new CursoController());
 		this.singletons.add(new RefeicaoController());

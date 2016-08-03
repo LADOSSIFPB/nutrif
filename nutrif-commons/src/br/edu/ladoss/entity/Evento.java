@@ -56,7 +56,7 @@ public class Evento {
 	
 	@Override
 	public String toString() {
-		return "TipoEdital [id=" + id 
+		return "Evento [id=" + id 
 				+ ", nome=" + nome
 				+ ", descricao=" + descricao + "]";
 	}
