@@ -8,7 +8,42 @@
       <input ng-model="cadastrarEdital.edital.nome" type="text" required>
     </md-input-container>
 
-    <md-input-container>
+    <!-- Evento -->
+    <md-input-container class="md-icon-float md-block">
+      <label>Evento</label>
+      <md-select ng-model="cadastrarEdital.edital.evento.id" required>
+        <md-option ng-repeat="evento in eventos" value="{{evento.id}}" >
+          {{evento.nome}}
+        </md-option>
+      </md-select>
+    </md-input-container>
+
+    <pre>{{responsaveis}}</pre>
+    <pre>{{cadastrarEdital}}</pre>
+    <pre>{{cadastrarEdital.searchText}}</pre>
+    <pre>{{cadastrarEdital.selectedItem}}</pre>
+
+    <!-- Responsável -->
+    <md-input-container class="md-icon-float md-block">
+      <label>Reponsável</label>
+      <md-chips ng-model="cadastrarEdital.responsaveis"
+        md-autocomplete-snap=""
+        md-require-match="cadastrarEdital.autocompleteDemoRequireMatch">
+        <md-autocomplete
+          md-selected-item="cadastrarEdital.selectedItem"
+          md-search-text="cadastrarEdital.searchText"
+          md-items="responsavel in cadastrarEdital.buscarResponsaveis(cadastrarEdital.searchText)"
+          md-item-text="responsavel.nome"
+          placeholder="Responsável">
+          <md-chip-template>
+            <span md-highlight-text="cadastrarEdital.searchText">{{responsavel.nome}}</span>
+          </md-chip-template>
+        </md-autocomplete>
+      </md-chips>
+    </md-input-container>
+
+    <!-- Campus -->
+    <md-input-container class="md-icon-float md-block">
       <label>Campus</label>
       <md-select ng-model="cadastrarEdital.edital.campus.id" required="true">
         <md-option ng-repeat="campus in campi" value="{{campus.id}}" >
