@@ -86,6 +86,7 @@ angular.module('NutrifApp').controller('cadastrarEditalCtrl', function ($scope, 
 
 		function transformChip(responsavel) {
       // If it is an object, it's already a known chip
+			console.log("transformChip");
       if (angular.isObject(responsavel)) {
 				console.log(responsavel);
         return responsavel;
