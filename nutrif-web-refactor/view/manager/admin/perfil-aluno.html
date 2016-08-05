@@ -1,4 +1,3 @@
-<link rel="stylesheet" type="text/css" href="../../../css/ng-img-crop.css"/>
 
 <md-card>
   <md-card-header>
@@ -8,27 +7,14 @@
     </md-card-header-text>
   </md-card-header>
   <md-card-content>
-
-    <div  layout="horizontal">
       <webcam class="webcam-layout"
       channel="myChannel"
       on-streaming="onSuccess()"
       on-error="onError(err)"
       on-stream="onStream(stream)"></webcam>
+      <canvas style="visibility: hidden;"></canvas>
 
-
-      <div class="cropArea"  >
-        <img-crop image="myImage" result-image="myCroppedImage">
-        <canvas> </canvas>
-      </img-crop>
-    </div>
-  </div>
-
-  <img layout="vertical" style="margin-left:400px;" width="330" ng-src="{{myCroppedImage}}"/>
-
-  <md-button  ng-click="makeSnapshot()" class="md-raised md-primary md-hue-1 flex" style="margin-top: 40px">Tirar foto</md-button>
-
-  <md-button ng-click="enviar(myCroppedImage.toDataURL())"  ng-show="myImage!=null" class="md-raised md-primary md-hue-1 flex" style="margin-top: 40px">Enviar</md-button>
+      <md-button  ng-click="makeSnapshot()" class="md-raised md-primary md-hue-1" style="margin-top:40px;">Tirar foto</md-button>
 
 
 </md-card-content>

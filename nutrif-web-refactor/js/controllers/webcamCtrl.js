@@ -1,9 +1,9 @@
-angular.module('NutrifApp').controller('webcamCtrl', function($scope, $mdToast,arquivoService,$http, alunoService, $stateParams,$state) {
+angular.module('NutrifApp').controller('webcamCtrl', function($scope, $mdToast,arquivoService,$http, alunoService, $stateParams,$state, $mdDialog) {
 
-	$scope.myImage=null;
+	$scope.myImage='';
 
 	$scope.aluno={};
-	
+
 	var file;
 
 	$scope.myChannel = {
@@ -76,8 +76,20 @@ angular.module('NutrifApp').controller('webcamCtrl', function($scope, $mdToast,a
 
 			$scope.patData = idata;
 
-			$scope.myImage=patCanvas.toDataURL();
+			$scope.myImage= patCanvas.toDataURL();
 
+			$mdDialog.show({
+				controller: enviarImagemCtrl,
+	      templateUrl: 'view/manager/modals/modal-foto-perfil.html',
+	      parent: angular.element(document.body),
+	      clickOutsideToClose:true,
+	      fullscreen: false,
+				locals : {
+						myImage: $scope.myImage,
+						aluno: $scope.aluno
+				}
+	    })
+	    .then(function() {}, function() {});
 		}
 	};
 
@@ -98,98 +110,92 @@ angular.module('NutrifApp').controller('webcamCtrl', function($scope, $mdToast,a
 		return ctx.getImageData(x, y, w, h);
 	};
 
-	/**
-	* This function could be used to send the image data
-	* to a backend server that expects base64 encoded images.
-	*
-	* In this example, we simply store it in the scope for display.
-	*/
 	var sendSnapshotToServer = function sendSnapshotToServer(imgBase64) {
 
 		$scope.snapshotData = imgBase64;
 
 	};
 
-	var previewFile = function previewFile(file) {
-		var preview = document.getElementById('teste');
-		var reader  = new FileReader();
+function enviarImagemCtrl (myImage,$scope, $mdDialog, $mdToast, arquivoService,aluno) {
 
-		reader.onloadend = function () {
-			console.log("onloadend");
-			preview.src = reader.result;
-		}
+	    $scope.myImage = myImage;
 
-		if (file) {
-			reader.readAsDataURL(file);
-			preview.src = reader.result;
-		} else {
-			preview.src = "";
-		}
-	}
+			$scope.aluno=aluno;
 
-	var dataURItoBlob = function dataURItoBlob(dataURI) {
+			$scope.myCroppedImage = '';
 
-		// convert base64/URLEncoded data component to raw binary data held in a string
-		var byteString;
-		if (dataURI.split(',')[0].indexOf('base64') >= 0)
-		byteString = atob(dataURI.split(',')[1]);
-		else
-		byteString = unescape(dataURI.split(',')[1]);
 
-		// separate out the mime component
-		var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+	    $scope.hide = function() {
 
-		// write the bytes of the string to a typed array
-		var ia = new Uint8Array(byteString.length);
-		for (var i = 0; i < byteString.length; i++) {
-			ia[i] = byteString.charCodeAt(i);
-		}
+				// Conversão para arquivo da imagem capturada.
 
-		return new Blob([ia], {type:mimeString});
-	}
+				var blob = dataURItoBlob($scope.myCroppedImage);
 
-	$scope.enviar = function(){
+				file = new File([blob], 'foto_perfil_'+$scope.aluno.id+'.jpg', {type: "'image/jpeg"});
 
-		// Conversão para arquivo da imagem capturada.
-		var blob = dataURItoBlob($scope.snapshotData);
+				arquivoService.upload(file,'foto_perfil_'+$scope.aluno.id+'.jpg',$scope.aluno.id)
+						.success(onSuccessCallback)
+						.error(onErrorCallback);
 
-		file = new File([blob], 'foto_perfil_'+$scope.aluno.id+'.jpg', {type: "'image/jpeg"});
-		
-		arquivoService.upload(file,'foto_perfil_'+$scope.aluno.id+'.jpg',$scope.aluno.id)
-        .success(onSuccessCallback)
-        .error(onErrorCallback);
-    	
-	}
+			}
 
-	function onSuccessCallback (data, status) {
-		$mdToast.show(
-			$mdToast.simple()
-			.textContent('Perfil do Aluno alterado com sucesso')
-			.position('top right')
-			.action('OK')
-			.hideDelay(6000)
-		);
+			function onSuccessCallback (data, status) {
+				$mdToast.show(
+					$mdToast.simple()
+					.textContent('Perfil do Aluno alterado com sucesso')
+					.position('top right')
+					.action('OK')
+					.hideDelay(6000)
+				);
+        $mdDialog.cancel();
+				$state.transitionTo('home.listar-alunos',  {reload: true});
+			}
 
-		$state.transitionTo('home.listar-alunos',  {reload: true});
-	}
+			function onErrorCallback (data, status) {
+				var _message = '';
 
-	function onErrorCallback (data, status) {
-		var _message = '';
+				if (!data) {
+					_message = 'Ocorreu um erro na comunicação com o servidor, favor chamar o suporte.'
+				} else {
+					_message = data.mensagem
+				}
 
-		if (!data) {
-			_message = 'Ocorreu um erro na comunicação com o servidor, favor chamar o suporte.'
-		} else {
-			_message = data.mensagem
-		}
+				$mdToast.show(
+					$mdToast.simple()
+					.textContent(_message)
+					.position('top right')
+					.action('OK')
+					.hideDelay(6000)
+				);
 
-		$mdToast.show(
-			$mdToast.simple()
-			.textContent(_message)
-			.position('top right')
-			.action('OK')
-			.hideDelay(6000)
-		);
-	}
+	    };
+
+	    $scope.cancel = function() {
+	        $mdDialog.cancel();
+	    };
+
+			var dataURItoBlob = function dataURItoBlob(dataURI) {
+
+				// convert base64/URLEncoded data component to raw binary data held in a string
+				var byteString;
+				if (dataURI.split(',')[0].indexOf('base64') >= 0)
+				byteString = atob(dataURI.split(',')[1]);
+				else
+				byteString = unescape(dataURI.split(',')[1]);
+
+				// separate out the mime component
+				var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+
+				// write the bytes of the string to a typed array
+				var ia = new Uint8Array(byteString.length);
+				for (var i = 0; i < byteString.length; i++) {
+					ia[i] = byteString.charCodeAt(i);
+				}
+
+				return new Blob([ia], {type:mimeString});
+			}
+
+	};
 
 	function carregamentoInicial() {
 
@@ -200,6 +206,16 @@ angular.module('NutrifApp').controller('webcamCtrl', function($scope, $mdToast,a
 			$scope.aluno = data;
 		})
 		.error(onErrorCallback);
+	}
+
+	function onErrorCallback (data, status) {
+		var _message = '';
+
+		if (!data) {
+			_message = 'Ocorreu um erro na comunicação com o servidor, favor chamar o suporte.'
+		} else {
+			_message = data.mensagem
+		}
 	}
 
 

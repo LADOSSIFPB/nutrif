@@ -1,0 +1,27 @@
+
+<!-- <md-button  ng-click="makeSnapshot()" class="md-raised md-primary md-hue-1 flex" style="margin-top: 40px">Tirar foto</md-button>
+
+<md-button ng-click="enviar(myCroppedImage)"  ng-show="myImage!=null" class="md-raised md-primary md-hue-1 flex" style="margin-top: 40px">Enviar</md-button> -->
+<link rel="stylesheet" type="text/css" href="../../../css/ng-img-crop.css"/>
+<md-dialog aria-label="Cortar imagem">
+		<md-dialog-content class="md-dialog-content">
+			<h2>Cortar imagem</h2>
+      <div class="dialog" layout="horizontal">
+  			<div class="cropArea">
+              <img-crop image="myImage" result-image="myCroppedImage">
+              	<canvas> </canvas>
+            </img-crop>
+  			</div>
+  		<img ng-src="{{myCroppedImage}}"/>
+    </div>
+		</md-dialog-content>
+		<md-dialog-actions layout="row">
+			<span flex></span>
+			<md-button ng-click="hide()" class="md-primary" style="margin-right:20px;">
+				enviar
+			</md-button>
+      <md-button ng-click="cancel()" class="md-warn">
+        Cancelar
+      </md-button>
+		</md-dialog-actions>
+</md-dialog>
