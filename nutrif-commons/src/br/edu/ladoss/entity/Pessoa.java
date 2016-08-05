@@ -18,14 +18,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
-import org.codehaus.jackson.annotate.JsonProperty;
-import org.codehaus.jackson.annotate.JsonTypeInfo;
-import org.codehaus.jackson.map.annotate.JsonDeserialize;
 
 @XmlRootElement(name = "pessoa")
 @Entity
@@ -53,6 +51,10 @@ public class Pessoa implements Serializable {
 
 	@Column(name = "nm_email", unique = true)
 	private String email;
+	
+	@OneToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "fk_id_campus")
+	private Campus campus;
 	
 	@Column(name = "tp_pessoa", insertable = false, updatable = false)
     private String tipo;
@@ -142,9 +144,23 @@ public class Pessoa implements Serializable {
 		this.roles = roles;
 	}
 	
+	@XmlElement
+	public Campus getCampus() {
+		return campus;
+	}
+
+	public void setCampus(Campus campus) {
+		this.campus = campus;
+	}
+	
 	@Override
 	public String toString() {
-		return "Pessoa [id=" + id + ", nome=" + nome + ", email=" + email 
-				+ ", tipo=" + tipo + ", ativo=" + ativo + ", roles=" + roles + "]";
+		return "Pessoa [id=" + id 
+				+ ", nome=" + nome 
+				+ ", email=" + email 
+				+ ", campus=" + campus 
+				+ ", tipo=" + tipo				
+				+ ", ativo=" + ativo 
+				+ ", roles=" + roles + "]";
 	}	
 }

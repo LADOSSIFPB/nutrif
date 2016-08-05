@@ -47,6 +47,20 @@ public class Edital {
 	private Date dataFinal;
 	
 	@OneToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "fk_id_evento")
+	private Evento evento;
+	
+	/**
+	 * Responsável pelos atos do Edital.
+	 */
+	@OneToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "fk_id_responsavel")
+	private Funcionario responsavel;
+	
+	/**
+	 * Responsável pelo cadastramento do Edital.
+	 */
+	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "fk_id_funcionario")
 	private Funcionario funcionario;
 	
@@ -140,6 +154,24 @@ public class Edital {
 		this.quantidadeContemplados = quantidadeContemplados;
 	}
 	
+	@XmlElement
+	public Evento getEvento() {
+		return evento;
+	}
+
+	public void setEvento(Evento evento) {
+		this.evento = evento;
+	}
+	
+	@XmlElement
+	public Funcionario getResponsavel() {
+		return responsavel;
+	}
+
+	public void setResponsavel(Funcionario responsavel) {
+		this.responsavel = responsavel;
+	}	
+	
 	@Override
 	public String toString() {
 		return "Edital [id=" + id 
@@ -147,6 +179,8 @@ public class Edital {
 				+ ", campus=" + campus
 				+ ", quantidadeContemplados=" + quantidadeContemplados
 				+ ", dataInicial=" + dataInicial
-				+ ", dataFinal=" + dataFinal + "]";
+				+ ", dataFinal=" + dataFinal 
+				+ ", evento=" + evento 
+				+ ", responsavel=" + responsavel + "]";
 	}	
 }

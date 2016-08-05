@@ -21,14 +21,13 @@ angular.module("NutrifApp").controller("listarPretensaoCtrl", function ($scope, 
                         controller: generateQrCtrl,
                         templateUrl: 'view/manager/modals/modal-show-qrcode.html',
                         parent: angular.element(document.body),
-                        clickOutsideToClose:true,
+                        clickOutsideToClose:false,
                         fullscreen: false,
                         locals : {
                             code: code,
                             pretensao: data
                         }
                     }).then(function(data) {
-
                     }, function() {})
                 }, function() {});
             })
@@ -64,9 +63,7 @@ angular.module("NutrifApp").controller("listarPretensaoCtrl", function ($scope, 
         );
     }
 
-
     carregarDiaRefeicaoAluno();
-
 });
 
 function confirmarPretensaoCtrl (pretensao, $scope, $mdDialog, $mdToast, pretensaoService) {
@@ -85,6 +82,7 @@ function confirmarPretensaoCtrl (pretensao, $scope, $mdDialog, $mdToast, pretens
     };
 
     function onSuccessCallback (data, status) {
+
         $mdToast.show(
             $mdToast.simple()
             .textContent('Refeição solicitada com sucesso')
@@ -98,6 +96,7 @@ function confirmarPretensaoCtrl (pretensao, $scope, $mdDialog, $mdToast, pretens
 
     function onErrorCallback (data, status){
         var _message = '';
+
         if (!data) {
             _message = 'Erro no servidor, por favor chamar administração ou suporte.'
         } else {
@@ -116,7 +115,6 @@ function confirmarPretensaoCtrl (pretensao, $scope, $mdDialog, $mdToast, pretens
     $scope.cancel = function() {
         $mdDialog.cancel();
     };
-
 };
 
 function generateQrCtrl (pretensao, code, $scope, $mdDialog, userService, $state) {
@@ -125,16 +123,25 @@ function generateQrCtrl (pretensao, code, $scope, $mdDialog, userService, $state
     $scope.user = userService.getUser();
     $scope.refeicao = pretensao.confirmaPretensaoDia.diaRefeicao.dia.nome;
     $scope.dataRefeicao = pretensao.confirmaPretensaoDia.dataPretensao;
-    		
-    $scope.hide = function() {
+
+    // Imprimir qr-code e finalizar acesso do aluno.
+    $scope.imprimir = function() {
+
+        // Abrir gerenciador de impressão do sistema operacional.
         window.print();
-        
-        $mdDialog.cancel();
-        
-        userService.removeUser();
-        $state.go("login.pretensao");
+
+        // Retornar ao login.
+        this.finalizar();
     };
 
+    // Finalizar acesso do aluno retornando ao Login.
+    $scope.finalizar = function() {
 
+        $mdDialog.cancel();
 
+        // Remover dados do usuário do cookie.
+        userService.removeUser();
+
+        $state.go("login.pretensao");
+    };
 };
