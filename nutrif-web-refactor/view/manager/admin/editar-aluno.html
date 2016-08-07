@@ -9,7 +9,7 @@
             <span class="md-title">Editar informações do aluno</span>
             <span class="md-subhead">Clique em salvar para alterar as informações</span>
         </md-card-header-text>
-        
+
         <md-card-icon-actions>
             <md-button class="md-icon-button" aria-label="Perfil Aluno" ng-click="perfilAluno()" >
                 <md-tooltip md-direction="bottom">Perfil Aluno</md-tooltip>
@@ -84,12 +84,14 @@
                 <tr md-row>
                     <th md-column>Tipo da Refeição</th>
                     <th md-column>Dia da Refeição</th>
+                    <th md-column>Edital</th>
                 </tr>
             </thead>
             <tbody md-body>
                 <tr md-row md-select="refeicao" md-select-id="id" md-auto-select ng-repeat="refeicao in refeicoes">
                     <td md-cell>{{refeicao.refeicao.tipo | uppercase}}</td>
                     <td md-cell>{{refeicao.dia.nome | uppercase}}</td>
+                    <td md-cell>{{refeicao.edital.nome | uppercase}}</td>
                 </tr>
             </tbody>
         </table>
