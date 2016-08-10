@@ -30,6 +30,8 @@
           md-search-text="cadastrarEdital.searchText"
           md-items="responsavel in cadastrarEdital.buscarResponsaveis(cadastrarEdital.searchText)"
           md-item-text="responsavel.nome"
+          md-min-length="3"
+          md-no-cache="true"
           placeholder="Responsável">
           <md-chip-template>
             <span md-highlight-text="cadastrarEdital.searchText">

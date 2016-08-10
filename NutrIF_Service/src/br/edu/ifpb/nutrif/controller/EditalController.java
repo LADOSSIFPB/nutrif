@@ -119,6 +119,19 @@ public class EditalController {
 	
 	@PermitAll
 	@GET
+	@Path("/listar/vigentes")
+	@Produces("application/json")
+	public List<Edital> getVigentes() {
+		
+		List<Edital> editais = new ArrayList<Edital>();
+		
+		editais = EditalDAO.getInstance().listVigentes();
+		
+		return editais;
+	}
+	
+	@PermitAll
+	@GET
 	@Path("/id/{id}")
 	@Produces("application/json")
 	public Response getEditalById(@PathParam("id") int idEdital) {
