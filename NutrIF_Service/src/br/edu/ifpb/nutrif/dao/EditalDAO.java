@@ -10,6 +10,7 @@ import org.hibernate.Session;
 
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
 import br.edu.ifpb.nutrif.hibernate.HibernateUtil;
+import br.edu.ifpb.nutrif.util.BancoUtil;
 import br.edu.ladoss.entity.Edital;
 
 public class EditalDAO extends GenericDao<Integer, Edital>{
@@ -27,7 +28,7 @@ public class EditalDAO extends GenericDao<Integer, Edital>{
 		
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		
-		List<Edital> edital = null;
+		List<Edital> editais = null;
 		
 		try {
 			
@@ -37,7 +38,7 @@ public class EditalDAO extends GenericDao<Integer, Edital>{
 			Query query = session.createQuery(hql);
 			query.setParameter("nome", "%" + nome + "%");
 			
-			edital = (List<Edital>) query.list();
+			editais = (List<Edital>) query.list();
 	        
 		} catch (HibernateException hibernateException) {
 			
@@ -50,9 +51,40 @@ public class EditalDAO extends GenericDao<Integer, Edital>{
 			session.close();
 		}
 		
-		return edital;
+		return editais;
 	}
 
+	public List<Edital> listVigentes() {
+		
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		
+		List<Edital> editais = null;
+		
+		try {
+			
+			String hql = "from Edital as e"
+					+ " where CURRENT_TIMESTAMP() between e.dataInicial and e.dataFinal"
+					+ " and e.ativo = :ativo";
+			
+			Query query = session.createQuery(hql);
+			query.setParameter("ativo", BancoUtil.ATIVO);
+			
+			editais = (List<Edital>) query.list();
+	        
+		} catch (HibernateException hibernateException) {
+			
+			session.getTransaction().rollback();
+			
+			throw new SQLExceptionNutrIF(hibernateException);
+			
+		} finally {
+		
+			session.close();
+		}
+		
+		return editais;
+	}
+	
 	@Override
 	public List<Edital> getAll() throws SQLExceptionNutrIF {
 		return super.getAll("Edital.getAll");

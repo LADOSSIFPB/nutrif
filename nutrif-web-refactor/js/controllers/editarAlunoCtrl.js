@@ -213,7 +213,7 @@ function adicionarRefeicaoCtrl (refeicoes, aluno, $state, $stateParams, userServ
   // Carregar itens do modal de inserção do Dia da Refeção.
   function carregamentoInicial() {
 
-    editalService.listarEdital()
+    editalService.listarEditalVigentes()
     .success(function (data, status) {
       $scope.editais = data;
     })

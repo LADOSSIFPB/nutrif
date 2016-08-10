@@ -66,29 +66,29 @@ angular.module('NutrifApp').controller('cadastrarEditalCtrl', function ($scope, 
 
 			console.log(lowerCaseQuery);
 
-			var results = listarFuncionario(lowerCaseQuery);
+			var results = this.listarFuncionario(lowerCaseQuery);
 
 			return results || [];
 		}
 
 		// Consultar responsável no serviço.
-		var listarFuncionario = function(query) {
+		this.listarFuncionario = function listarFuncionario(query) {
 
 			funcionarioService.getFuncionarioByNome(query)
-		      .success(onSuccessListarFuncionario);
+		      .success(onSuccessListarFuncionario)
+					.error(onErrorCallback);
 
 			return $scope.responsaveis;
 		}
 
 		function onSuccessListarFuncionario(data, status) {
-		  $scope.responsaveis = data;
+		  return $scope.responsaveis = data;
 		}
 
 		function transformChip(responsavel) {
       // If it is an object, it's already a known chip
-			console.log("transformChip");
       if (angular.isObject(responsavel)) {
-				console.log(responsavel);
+				console.log("Responsá" + responsavel);
         return responsavel;
       }
     }
