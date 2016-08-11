@@ -8,9 +8,9 @@ angular.module('NutrifApp').controller('cadastrarEditalCtrl', function ($scope, 
 		$scope.eventos = [];
 
 		// Responsáveis
-    this.selectedItem = null;
-    this.searchText = null;
-    this.autocompleteDemoRequireMatch = true;
+		this.selectedItem = null;
+		this.searchText = null;
+		this.autocompleteDemoRequireMatch = true;
 		$scope.responsaveis = [];
 
 		this.cadastrar = function (edital) {
@@ -25,8 +25,8 @@ angular.module('NutrifApp').controller('cadastrarEditalCtrl', function ($scope, 
 
 			// Enviar para o serviço de cadastro de Edital.
 			editalService.cadastrarEdital(edital)
-				.success(onSuccessCallback)
-				.error(onErrorCallback);
+			.success(onSuccessCallback)
+			.error(onErrorCallback);
 		}
 
 		function onSuccessCallback (data, status) {
@@ -75,23 +75,23 @@ angular.module('NutrifApp').controller('cadastrarEditalCtrl', function ($scope, 
 		this.listarFuncionario = function listarFuncionario(query) {
 
 			funcionarioService.getFuncionarioByNome(query)
-		      .success(onSuccessListarFuncionario)
-					.error(onErrorCallback);
+			.success(onSuccessListarFuncionario)
+			.error(onErrorCallback);
 
 			return $scope.responsaveis;
 		}
 
 		function onSuccessListarFuncionario(data, status) {
-		  return $scope.responsaveis = data;
+			return $scope.responsaveis = data;
 		}
 
 		function transformChip(responsavel) {
-      // If it is an object, it's already a known chip
-      if (angular.isObject(responsavel)) {
+			// If it is an object, it's already a known chip
+			if (angular.isObject(responsavel)) {
 				console.log("Responsá" + responsavel);
-        return responsavel;
-      }
-    }
+				return responsavel;
+			}
+		}
 
 		// Carregar os Campi para seleção no Edital
 		function carregarCampi () {
@@ -117,4 +117,4 @@ angular.module('NutrifApp').controller('cadastrarEditalCtrl', function ($scope, 
 
 		carregarEventos();
 		carregarCampi();
-	});
+});
