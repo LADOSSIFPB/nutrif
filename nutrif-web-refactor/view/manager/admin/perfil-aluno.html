@@ -6,18 +6,19 @@
       <span class="md-subhead">Matrícula:{{aluno.matricula}}</span>
     </md-card-header-text>
   </md-card-header>
-  <md-card-content layout-fill>
-      <webcam class="webcam-layout"
+  <md-card-content>
+      <webcam layout-fill
+      class="webcam-layout"
       channel="myChannel"
       on-streaming="onSuccess()"
       on-error="onError(err)"
       on-stream="onStream(stream)"></webcam>
-      
+
       <md-button type="submit" ng-click="makeSnapshot()" layout-fill type="submit" class="md-raised md-primary md-hue-1 flex" style="margin-top: 40px">Tirar foto</md-button>
       
       <canvas style="visibility: hidden;"></canvas>
 
-      
+
 
 
 </md-card-content>

@@ -8,8 +8,8 @@ angular.module('NutrifApp').controller('webcamCtrl', function($scope, $mdToast,a
 
 	$scope.myChannel = {
 		// the fields below are all optional
-		videoHeight: 600,
-		videoWidth: 450,
+		videoHeight: 230,
+		videoWidth: 780,
 		video: null // Will reference the video element on success
 	};
 	var _video = null;
@@ -116,7 +116,7 @@ angular.module('NutrifApp').controller('webcamCtrl', function($scope, $mdToast,a
 
 	};
 
-function enviarImagemCtrl (myImage,$scope, $mdDialog, $mdToast, arquivoService,aluno) {
+  function enviarImagemCtrl (myImage,$scope, $mdDialog, $mdToast, arquivoService,aluno) {
 
 	    $scope.myImage = myImage;
 
@@ -151,7 +151,7 @@ function enviarImagemCtrl (myImage,$scope, $mdDialog, $mdToast, arquivoService,a
 				$state.transitionTo('home.listar-alunos',  {reload: true});
 			}
 
-			function onErrorCallback (data, status) {
+	   function onErrorCallback (data, status) {
 				var _message = '';
 
 				if (!data) {
@@ -170,11 +170,11 @@ function enviarImagemCtrl (myImage,$scope, $mdDialog, $mdToast, arquivoService,a
 
 	    };
 
-	    $scope.cancel = function() {
+    $scope.cancel = function() {
 	        $mdDialog.cancel();
-	    };
+	 };
 
-			var dataURItoBlob = function dataURItoBlob(dataURI) {
+	 var dataURItoBlob = function dataURItoBlob(dataURI) {
 
 				// convert base64/URLEncoded data component to raw binary data held in a string
 				var byteString;
