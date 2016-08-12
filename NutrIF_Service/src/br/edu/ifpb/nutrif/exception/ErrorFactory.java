@@ -67,42 +67,48 @@ public class ErrorFactory {
 	 */
 	public static final int CODIGO_FUNCIONARIO_INSPETOR_INVALIDO = 26;
 	public static final int ID_FUNCIONARIO_INVALIDO = 27;
+	public static final int ID_RESPONSAVEL_INVALIDO = 28;
 	
 	/*
 	 * Pessoa
 	 */
-	public static final int CHAVE_AUTORIZACAO_PESSOA_INVALIDA = 28;
-	public static final int ID_PESSOA_INVALIDO = 29;
+	public static final int CHAVE_AUTORIZACAO_PESSOA_INVALIDA = 29;
+	public static final int ID_PESSOA_INVALIDO = 30;
 	
-	public static final int IMPOSSIVEL_CRIPTOGRAFAR_VALOR = 30;
+	public static final int IMPOSSIVEL_CRIPTOGRAFAR_VALOR = 31;
 	
 	/*
 	 * Arquivo
 	 */
-	public static final int TIPO_ARQUIVO_INVALIDO = 31;
-	public static final int NOME_ARQUIVO_INVALIDO = 32;
-	public static final int TAMANHO_ARQUIVO_INVALIDO = 33;
-	public static final int FORMULARIO_ARQUIVO_INVALIDO = 34;
-	public static final int ARQUIVO_PERFIL_INVALIDO = 35;
+	public static final int TIPO_ARQUIVO_INVALIDO = 32;
+	public static final int NOME_ARQUIVO_INVALIDO = 33;
+	public static final int TAMANHO_ARQUIVO_INVALIDO = 34;
+	public static final int FORMULARIO_ARQUIVO_INVALIDO = 35;
+	public static final int ARQUIVO_PERFIL_INVALIDO = 36;
 	
 	/*
 	 * Roles
 	 */
-	public static final int ROLES_INVALIDAS = 36;
-	public static final int NOME_ROLE_INVALIDO = 37;
-	public static final int DATA_INVALIDA = 38;
+	public static final int ROLES_INVALIDAS = 37;
+	public static final int NOME_ROLE_INVALIDO = 38;
+	public static final int DATA_INVALIDA = 39;
 	
 	/*
 	 * Campus
 	 */
-	public static final int ID_CAMPUS_INVALIDO = 39;
+	public static final int ID_CAMPUS_INVALIDO = 40;
 	
 	/*
 	 * Edital
 	 */
-	public static final int ID_EDITAL_INVALIDO = 40;
-	public static final int QTD_COMTEMPLADO_INVALIDO = 41;
-	public static final int INTERVALO_DATA_INVALIDO = 42;
+	public static final int ID_EDITAL_INVALIDO = 41;
+	public static final int QTD_COMTEMPLADO_INVALIDO = 42;
+	public static final int INTERVALO_DATA_INVALIDO = 43;
+	
+	/*
+	 * Evento
+	 */
+	public static final int ID_EVENTO_INVALIDO = 44;
 	
 	/*
 	 * Mapa de erros: código e mensagem.
