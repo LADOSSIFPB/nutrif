@@ -9,7 +9,7 @@ angular.module('NutrifApp').controller('webcamCtrl', function($scope, $mdToast,a
 	$scope.myChannel = {
 		// the fields below are all optional
 		videoHeight: 230,
-		videoWidth: 780,
+		videoWidth: 500,
 		video: null // Will reference the video element on success
 	};
 	var _video = null;
