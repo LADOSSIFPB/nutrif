@@ -205,6 +205,40 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 		return diasRefeicao;		
 	}
 	
+	public Long getQuantidadeAlunoDiaRefeicao(int idEdital) {
+		
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		
+		Long quantidadeBeneficiados = Long.valueOf(BancoUtil.QUANTIDADE_ZERO);
+		
+		try {
+			
+			String hql = "select count(distinct dr.aluno.id)"
+					+ " from DiaRefeicao as dr"
+					+ " where dr.edital.id = :idEdital"
+					+ " and dr.edital.ativo = :ativo"
+					+ " and dr.ativo = :ativo";
+			
+			Query query = session.createQuery(hql);			
+			query.setParameter("idEdital", idEdital);
+			query.setParameter("ativo", BancoUtil.ATIVO);
+			
+			quantidadeBeneficiados = (Long) query.uniqueResult();
+	        
+		} catch (HibernateException hibernateException) {
+			
+			session.getTransaction().rollback();
+			
+			throw new SQLExceptionNutrIF(hibernateException);
+			
+		} finally {
+		
+			session.close();
+		}
+		
+		return quantidadeBeneficiados;		
+	}
+	
 	public boolean isDiaRefeicaoAtivo(DiaRefeicao diaRefeicao){
 		
 		boolean isAtivo = false;
