@@ -17,11 +17,16 @@ angular.module("NutrifApp").factory("editalService", function($http, config){
 	var _buscarEditalPorNome = function (nome){
 		return $http.get(_path + "/listar/nome/" + encodeURI(nome))
 	};
+	
+	var _getEditalById = function (id){
+		return $http.get(_path + "/id/" + encodeURI(id))
+	};
 
 	return {
 		cadastrarEdital: _cadastrarEdital,
 		listarEditalVigentes: _listarEditalVigentes,
 		listarEdital: _listarEdital,
-		buscarEditalPorNome: _buscarEditalPorNome
+		buscarEditalPorNome: _buscarEditalPorNome,
+		getEditalById: _getEditalById
 	};
 });
