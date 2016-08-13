@@ -42,17 +42,17 @@ public class EditalController {
 		builder.expires(new Date());
 		
 		// Validação dos dados de entrada.
-		int validacao = Validate.edital(edital);
+		int validacao = Validate.inserirEdital(edital);
 		
 		if (validacao == Validate.VALIDATE_OK) {
 			
 			try {			
-				//TODO: Evento
+				// Evento
 				int idEvento = edital.getEvento().getId(); 
 				Evento evento = EventoDAO.getInstance().getById(idEvento);
 				edital.setEvento(evento);
 				
-				//TODO: Responsável pelos atos do Edital.
+				// Responsável pelos atos do Edital.
 				int idResponsavel = edital.getResponsavel().getId();
 				Funcionario responsavel = FuncionarioDAO.getInstance()
 						.getById(idResponsavel);
@@ -72,7 +72,9 @@ public class EditalController {
 				Date agora = new Date();
 				edital.setDataInsercao(agora);
 				
-				if (campus != null 
+				if (campus != null
+						&& responsavel != null
+						&& evento != null
 						&& funcionario != null) {
 				
 					//Inserir o Aluno.
@@ -82,11 +84,14 @@ public class EditalController {
 	
 						// Operação realizada com sucesso.
 						builder.status(Response.Status.OK).entity(edital);
+					} else {
+						
+						builder.status(Response.Status.NOT_MODIFIED);
 					}
 					
 				} else {
 					
-					//TODO: Mensagem de erro para Funcionário não encontrado.
+					//TODO: Mensagem de erro para Funcionário ou Campus não encontrados.
 				}
 			
 			} catch (SQLExceptionNutrIF exception) {

@@ -18,6 +18,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
 import br.edu.ifpb.nutrif.dao.AlunoDAO;
+import br.edu.ifpb.nutrif.dao.CampusDAO;
 import br.edu.ifpb.nutrif.dao.CursoDAO;
 import br.edu.ifpb.nutrif.dao.RoleDAO;
 import br.edu.ifpb.nutrif.exception.EmailExceptionNutrIF;
@@ -29,6 +30,7 @@ import br.edu.ifpb.nutrif.util.StringUtil;
 import br.edu.ifpb.nutrif.validation.Validate;
 import br.edu.ladoss.entity.Aluno;
 import br.edu.ladoss.entity.AlunoAcesso;
+import br.edu.ladoss.entity.Campus;
 import br.edu.ladoss.entity.Curso;
 import br.edu.ladoss.entity.Role;
 import br.edu.ladoss.enumeration.TipoRole;
@@ -81,22 +83,36 @@ public class AlunoController {
 				roles.add(role);				
 				aluno.setRoles(roles);
 				
+				// Campus
+				int idCampus = aluno.getCampus().getId();
+				Campus campus = CampusDAO.getInstance().getById(idCampus);
+				aluno.setCampus(campus);
+				
 				// Inativar o Aluno.
 				aluno.setAtivo(BancoUtil.INATIVO);
 				
 				//Inserir o Aluno.
 				Integer idAluno = AlunoDAO.getInstance().insert(aluno);
 				
-				if (idAluno != BancoUtil.ID_VAZIO) {
+				if (curso != null
+						&& campus != null
+						&& roles.size() > 0) {
+					
+					if (idAluno != BancoUtil.ID_VAZIO) {
 
-					// Operação realizada com sucesso.
-					builder.status(Response.Status.OK);
-					builder.entity(aluno);
+						// Operação realizada com sucesso.
+						builder.status(Response.Status.OK);
+						builder.entity(aluno);
+						
+					} else {
+						
+						builder.status(Response.Status.NOT_MODIFIED);
+					}
 					
 				} else {
 					
-					builder.status(Response.Status.NOT_MODIFIED);
-				}
+					//TODO: Mensagem de erro para Curso, Campus ou Roles não encontrados.
+				}				
 			
 			} catch (SQLExceptionNutrIF exception) {
 

@@ -1,6 +1,8 @@
-angular.module('NutrifApp').controller('cadastrarAlunoCtrl', function ($scope, $mdToast, cursoService, alunoService, $state) {
+angular.module('NutrifApp').controller('cadastrarAlunoCtrl', function ($scope, $mdToast, $state,
+    cursoService, alunoService, campusService) {
 
     $scope.cursos = [];
+    $scope.campi = [];
 
     this.cadastrar = function (aluno) {
         alunoService.cadastrarAluno(aluno)
@@ -38,6 +40,7 @@ angular.module('NutrifApp').controller('cadastrarAlunoCtrl', function ($scope, $
         );
     }
 
+    // Carregar Cursos para seleção no cadastro do Aluno.
     function carregarCursos () {
         cursoService.listarCursos()
             .success(function (data, status){
@@ -48,6 +51,18 @@ angular.module('NutrifApp').controller('cadastrarAlunoCtrl', function ($scope, $
             });
     }
 
-    carregarCursos();
+    // Carregar os Campi para seleção no cadastro do Aluno.
+		function carregarCampi () {
+			campusService.listarCampi()
+			.success(function (data, status){
+				$scope.campi = data;
+			})
+			.error(function (data, status){
+				alert("Houve um problema ao carregar os Campus.");
+			});
+		}
 
+    // Inicializar listagem de cursos e campi.
+    carregarCursos();
+    carregarCampi();
 });
