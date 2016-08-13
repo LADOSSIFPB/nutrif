@@ -23,6 +23,8 @@ angular.module('NutrifApp').controller('cadastrarEditalCtrl', function ($scope, 
 			console.log(this.selectedItem);
 			edital.responsavel = this.selectedItem;
 
+			console.log(edital);
+			
 			// Enviar para o serviço de cadastro de Edital.
 			editalService.cadastrarEdital(edital)
 				.success(onSuccessCallback)
