@@ -4,7 +4,7 @@ angular.module("NutrifApp").factory("arquivoService", function($http, config){
 
    var _upload = function(file, fileName,idPessoa){
 
-	  
+
 	        var fd = new FormData();
 	        fd.append('uploadedFile',file);
 	        fd.append('fileName',fileName);
@@ -14,18 +14,17 @@ angular.module("NutrifApp").factory("arquivoService", function($http, config){
 	            headers: {
 	            	'Content-Type': undefined
 	            	}
-	            	
+
 	        })
    };
-   
 
-   
-
-   
-  
+   var _getImage = function(id){
+	   return $http.get(_path + "/download/ARQUIVO_FOTO_PERFIL/nome/"+ id);
+   }
 
    return {
-		upload: _upload
+		upload: _upload,
+		getImage: _getImage
 	};
 
 
