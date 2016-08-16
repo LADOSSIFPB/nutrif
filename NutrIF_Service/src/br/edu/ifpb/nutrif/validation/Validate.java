@@ -15,6 +15,7 @@ import br.edu.ladoss.entity.Curso;
 import br.edu.ladoss.entity.Dia;
 import br.edu.ladoss.entity.DiaRefeicao;
 import br.edu.ladoss.entity.Edital;
+import br.edu.ladoss.entity.Evento;
 import br.edu.ladoss.entity.Funcionario;
 import br.edu.ladoss.entity.PeriodoRefeicaoRealizada;
 import br.edu.ladoss.entity.PessoaAcesso;
@@ -52,7 +53,13 @@ public class Validate {
 		if (curso == null 
 				|| (curso != null 
 					&& !numeroValidator.isMaiorZero(curso.getId())))
-			return ErrorFactory.ID_CURSO_INVALIDO;		
+			return ErrorFactory.ID_CURSO_INVALIDO;
+		
+		Campus campus = aluno.getCampus();
+		if (campus==null 
+				|| (campus != null && !numeroValidator.isMaiorZero(campus.getId()))) {
+			return ErrorFactory.ID_CAMPUS_INVALIDO;
+		}
 		
 		return VALIDATE_OK;
 	}
@@ -129,15 +136,26 @@ public class Validate {
 		return VALIDATE_OK;
 	}
 	
-	public static int edital(Edital edital) {
+	public static int inserirEdital(Edital edital) {
 		
 		logger.info("Validação para Edital.");
 		
-		Funcionario funcionario = edital.getFuncionario();
-		if (funcionario == null || 
-				(funcionario != null 
-					&& !numeroValidator.isInteiroPositivo(funcionario.getId()))) {
-			return ErrorFactory.ID_FUNCIONARIO_INVALIDO;
+		// Evento
+		Evento evento = edital.getEvento();
+		if (evento == null 
+				|| (evento != null
+				&& !numeroValidator.isInteiroPositivo(evento.getId()))) {
+			
+			return ErrorFactory.ID_EVENTO_INVALIDO;
+		}
+		
+		// Responsável
+		Funcionario responsavel = edital.getResponsavel();
+		if (responsavel == null 
+				|| (responsavel != null
+				&& !numeroValidator.isInteiroPositivo(responsavel.getId()))) {
+			
+			return ErrorFactory.ID_RESPONSAVEL_INVALIDO;
 		}
 		
 		Campus campus = edital.getCampus();
@@ -159,6 +177,13 @@ public class Validate {
 		if (!dataValidator.datesInOrder(dataInicial, dataFinal)) {
 			
 			return ErrorFactory.INTERVALO_DATA_INVALIDO;
+		}
+		
+		Funcionario funcionario = edital.getFuncionario();
+		if (funcionario == null || 
+				(funcionario != null 
+					&& !numeroValidator.isInteiroPositivo(funcionario.getId()))) {
+			return ErrorFactory.ID_FUNCIONARIO_INVALIDO;
 		}
 				
 		return VALIDATE_OK;

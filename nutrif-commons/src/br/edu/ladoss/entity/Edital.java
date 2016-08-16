@@ -14,6 +14,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -37,6 +38,9 @@ public class Edital {
 	
 	@Column(name = "qtd_contemplados")
 	private int quantidadeContemplados;
+	
+	@Transient
+	private int quantidadeBeneficados;
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "dt_inicial", insertable = true, updatable = false)
@@ -170,7 +174,15 @@ public class Edital {
 
 	public void setResponsavel(Funcionario responsavel) {
 		this.responsavel = responsavel;
-	}	
+	}
+	
+	public int getQuantidadeBeneficados() {
+		return quantidadeBeneficados;
+	}
+
+	public void setQuantidadeBeneficados(int quantidadeBeneficados) {
+		this.quantidadeBeneficados = quantidadeBeneficados;
+	}
 	
 	@Override
 	public String toString() {
@@ -178,6 +190,7 @@ public class Edital {
 				+ ", nome=" + nome
 				+ ", campus=" + campus
 				+ ", quantidadeContemplados=" + quantidadeContemplados
+				+ ", quantidadeBeneficados=" + quantidadeBeneficados
 				+ ", dataInicial=" + dataInicial
 				+ ", dataFinal=" + dataFinal 
 				+ ", evento=" + evento 

@@ -95,6 +95,7 @@ public class DiaRefeicaoController {
 						.getById(idFuncionario);
 				diaRefeicao.setFuncionario(funcionario);
 				
+				// Validar Edital: vigencia e quantidade de contemplados.
 				if (aluno != null
 						&& edital != null
 						&& dia != null 
@@ -368,5 +369,32 @@ public class DiaRefeicaoController {
 		}		
 		
 		return builder.build();		
+	}
+	
+	@PermitAll
+	@GET
+	@Path("/quantidadebeneficiado/edital/{id}")
+	@Produces("application/json")
+	public Response getQuantidadeAlunoDiaRefeicao(
+			@PathParam("id") int idEdital) {
+		
+		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
+		builder.expires(new Date());
+		
+		try {
+
+			Long quantidadeBeneficados = DiaRefeicaoDAO.getInstance()
+					.getQuantidadeAlunoDiaRefeicao(idEdital);
+			
+			builder.status(Response.Status.OK);
+			builder.entity(quantidadeBeneficados);
+
+		} catch (SQLExceptionNutrIF qme) {
+
+			builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
+					qme.getError());
+		}		
+		
+		return builder.build();	
 	}
 }

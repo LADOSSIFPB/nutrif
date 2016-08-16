@@ -46,8 +46,9 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 					+ " where dr.aluno.nome like :nome"
 					+ " and dr.dia.id = :dia"
 					+ " and dr.ativo = :ativo"
-					+ "	and dr.refeicao.horaInicio <= CURRENT_TIME()"
-					+ "	and dr.refeicao.horaFinal >= CURRENT_TIME()"
+					+ "	and CURRENT_TIME() between dr.refeicao.horaInicio and dr.refeicao.horaFinal"
+					+ " and CURRENT_TIMESTAMP() between dr.edital.dataInicial and dr.edital.dataFinal"
+					+ " and dr.edital.ativo = :ativo"
 					+ " and dr.refeicao.id not in ("
 					+ "		select rr.confirmaRefeicaoDia.diaRefeicao.refeicao.id"
 					+ " 	from RefeicaoRealizada as rr"
@@ -96,8 +97,9 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 					+ " where dr.aluno.matricula = :matricula"
 					+ " and dr.dia.id = :dia"
 					+ " and dr.ativo = :ativo"
-					+ "	and dr.refeicao.horaInicio <= CURRENT_TIME()"
-					+ "	and dr.refeicao.horaFinal >= CURRENT_TIME()"
+					+ "	and CURRENT_TIME() between dr.refeicao.horaInicio and dr.refeicao.horaFinal"
+					+ " and CURRENT_TIMESTAMP() between dr.edital.dataInicial and dr.edital.dataFinal"
+					+ " and dr.edital.ativo = :ativo"
 					+ " and dr.refeicao.id not in ("
 					+ "		select rr.confirmaRefeicaoDia.diaRefeicao.refeicao.id"
 					+ " 	from RefeicaoRealizada as rr"
@@ -201,6 +203,40 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 		}
 		
 		return diasRefeicao;		
+	}
+	
+	public Long getQuantidadeAlunoDiaRefeicao(int idEdital) {
+		
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		
+		Long quantidadeBeneficiados = Long.valueOf(BancoUtil.QUANTIDADE_ZERO);
+		
+		try {
+			
+			String hql = "select count(distinct dr.aluno.id)"
+					+ " from DiaRefeicao as dr"
+					+ " where dr.edital.id = :idEdital"
+					+ " and dr.edital.ativo = :ativo"
+					+ " and dr.ativo = :ativo";
+			
+			Query query = session.createQuery(hql);			
+			query.setParameter("idEdital", idEdital);
+			query.setParameter("ativo", BancoUtil.ATIVO);
+			
+			quantidadeBeneficiados = (Long) query.uniqueResult();
+	        
+		} catch (HibernateException hibernateException) {
+			
+			session.getTransaction().rollback();
+			
+			throw new SQLExceptionNutrIF(hibernateException);
+			
+		} finally {
+		
+			session.close();
+		}
+		
+		return quantidadeBeneficiados;		
 	}
 	
 	public boolean isDiaRefeicaoAtivo(DiaRefeicao diaRefeicao){

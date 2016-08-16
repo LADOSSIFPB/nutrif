@@ -8,9 +8,9 @@ angular.module('NutrifApp').controller('cadastrarEditalCtrl', function ($scope, 
 		$scope.eventos = [];
 
 		// Responsáveis
-    this.selectedItem = null;
-    this.searchText = null;
-    this.autocompleteDemoRequireMatch = true;
+		this.selectedItem = null;
+		this.searchText = null;
+		this.autocompleteDemoRequireMatch = true;
 		$scope.responsaveis = [];
 
 		this.cadastrar = function (edital) {
@@ -23,10 +23,12 @@ angular.module('NutrifApp').controller('cadastrarEditalCtrl', function ($scope, 
 			console.log(this.selectedItem);
 			edital.responsavel = this.selectedItem;
 
+			console.log(edital);
+			
 			// Enviar para o serviço de cadastro de Edital.
 			editalService.cadastrarEdital(edital)
-				.success(onSuccessCallback)
-				.error(onErrorCallback);
+			.success(onSuccessCallback)
+			.error(onErrorCallback);
 		}
 
 		function onSuccessCallback (data, status) {
@@ -66,32 +68,32 @@ angular.module('NutrifApp').controller('cadastrarEditalCtrl', function ($scope, 
 
 			console.log(lowerCaseQuery);
 
-			var results = listarFuncionario(lowerCaseQuery);
+			var results = this.listarFuncionario(lowerCaseQuery);
 
 			return results || [];
 		}
 
 		// Consultar responsável no serviço.
-		var listarFuncionario = function(query) {
+		this.listarFuncionario = function listarFuncionario(query) {
 
 			funcionarioService.getFuncionarioByNome(query)
-		      .success(onSuccessListarFuncionario);
+			.success(onSuccessListarFuncionario)
+			.error(onErrorCallback);
 
 			return $scope.responsaveis;
 		}
 
 		function onSuccessListarFuncionario(data, status) {
-		  $scope.responsaveis = data;
+			return $scope.responsaveis = data;
 		}
 
 		function transformChip(responsavel) {
-      // If it is an object, it's already a known chip
-			console.log("transformChip");
-      if (angular.isObject(responsavel)) {
-				console.log(responsavel);
-        return responsavel;
-      }
-    }
+			// If it is an object, it's already a known chip
+			if (angular.isObject(responsavel)) {
+				console.log("Responsá" + responsavel);
+				return responsavel;
+			}
+		}
 
 		// Carregar os Campi para seleção no Edital
 		function carregarCampi () {
@@ -117,4 +119,4 @@ angular.module('NutrifApp').controller('cadastrarEditalCtrl', function ($scope, 
 
 		carregarEventos();
 		carregarCampi();
-	});
+});
