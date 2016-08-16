@@ -64,7 +64,7 @@ angular.module('NutrifApp').controller('entradaAlunoCtrl', function ($scope, use
     }
 });
 
-function DialogController($scope, $mdDialog, $mdToast, refeicao, refeicaoRealizadaService, userService) {
+function DialogController($scope, $mdDialog, $mdToast, refeicao, refeicaoRealizadaService, userService, arquivoService) {
 
     $scope.refeicao = refeicao;
 
@@ -74,6 +74,7 @@ function DialogController($scope, $mdDialog, $mdToast, refeicao, refeicaoRealiza
     };
 
     _refeicaoRealizada.confirmaRefeicaoDia.diaRefeicao = refeicao;
+    console.log(refeicao);
 
     $scope.hide = function() {
         $mdDialog.hide();
@@ -108,6 +109,30 @@ function DialogController($scope, $mdDialog, $mdToast, refeicao, refeicaoRealiza
             .hideDelay(6000)
         );
     }
+
+
+    $scope.img = function(id){
+        arquivoService.getImage(id)
+        .success(function (data, status) {})
+        .error(onErrorImageCallback);
+    }
+
+    function onErrorImageCallback (data, status){
+            var _message = '';
+            if (!data) {
+                _message = 'Erro ao carregar imagem, tente novamente ou contate os administradores.'
+            } else {
+                _message = data.mensagem
+            }
+
+            $mdToast.show(
+                $mdToast.simple()
+                .textContent(_message)
+                .position('top right')
+                .action('OK')
+                .hideDelay(6000)
+            );
+        }
 
     $scope.cancel = function() {
         $mdDialog.cancel();

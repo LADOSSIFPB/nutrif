@@ -30,7 +30,7 @@ angular.module('NutrifApp').controller('webcamCtrl', function($scope, $mdToast,a
 	$scope.onError = function () {
 		$scope.$apply(
 			function() {
-				var _err = 'Webcam não pode ser iniciada. Você permitiu o acesso?';
+				var _err = 'Erro ao usar câmera, ative permissões no navegador ou reinicie a página.';
 
 				$mdToast.show(
 					$mdToast.simple()
