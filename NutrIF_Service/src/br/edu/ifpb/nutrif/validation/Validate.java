@@ -166,7 +166,7 @@ public class Validate {
 			return ErrorFactory.ID_CAMPUS_INVALIDO;
 		}
 		
-		int quantidadeContemplado = edital.getQuantidadeContemplados();
+		int quantidadeContemplado = edital.getQuantidadeBeneficiadosPrevista();
 		if (!numeroValidator.isMaiorZero(quantidadeContemplado)) {
 			
 			return ErrorFactory.QTD_COMTEMPLADO_INVALIDO;

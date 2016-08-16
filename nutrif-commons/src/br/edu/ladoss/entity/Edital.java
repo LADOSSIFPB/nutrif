@@ -36,11 +36,11 @@ public class Edital {
 	@JoinColumn(name = "fk_id_campus")
 	private Campus campus;
 	
-	@Column(name = "qtd_contemplados")
-	private int quantidadeContemplados;
+	@Column(name = "qtd_beneficiados_prevista")
+	private int quantidadeBeneficiadosPrevista;
 	
 	@Transient
-	private int quantidadeBeneficados;
+	private int quantidadeBeneficiadosReal;
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "dt_inicial", insertable = true, updatable = false)
@@ -150,15 +150,6 @@ public class Edital {
 	}
 	
 	@XmlElement
-	public int getQuantidadeContemplados() {
-		return quantidadeContemplados;
-	}
-
-	public void setQuantidadeContemplados(int quantidadeContemplados) {
-		this.quantidadeContemplados = quantidadeContemplados;
-	}
-	
-	@XmlElement
 	public Evento getEvento() {
 		return evento;
 	}
@@ -176,12 +167,22 @@ public class Edital {
 		this.responsavel = responsavel;
 	}
 	
-	public int getQuantidadeBeneficados() {
-		return quantidadeBeneficados;
+	@XmlElement
+	public int getQuantidadeBeneficiadosPrevista() {
+		return quantidadeBeneficiadosPrevista;
 	}
 
-	public void setQuantidadeBeneficados(int quantidadeBeneficados) {
-		this.quantidadeBeneficados = quantidadeBeneficados;
+	public void setQuantidadeBeneficiadosPrevista(int quantidadeBeneficiadosPrevista) {
+		this.quantidadeBeneficiadosPrevista = quantidadeBeneficiadosPrevista;
+	}
+
+	@XmlElement
+	public int getQuantidadeBeneficiadosReal() {
+		return quantidadeBeneficiadosReal;
+	}
+
+	public void setQuantidadeBeneficiadosReal(int quantidadeBeneficiadosReal) {
+		this.quantidadeBeneficiadosReal = quantidadeBeneficiadosReal;
 	}
 	
 	@Override
@@ -189,8 +190,8 @@ public class Edital {
 		return "Edital [id=" + id 
 				+ ", nome=" + nome
 				+ ", campus=" + campus
-				+ ", quantidadeContemplados=" + quantidadeContemplados
-				+ ", quantidadeBeneficados=" + quantidadeBeneficados
+				+ ", quantidadeBeneficiadosPrevista=" + quantidadeBeneficiadosPrevista
+				+ ", quantidadeBeneficiadosReal=" + quantidadeBeneficiadosReal
 				+ ", dataInicial=" + dataInicial
 				+ ", dataFinal=" + dataFinal 
 				+ ", evento=" + evento 

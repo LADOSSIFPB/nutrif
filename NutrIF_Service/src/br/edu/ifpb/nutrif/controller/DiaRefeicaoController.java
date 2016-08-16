@@ -96,6 +96,10 @@ public class DiaRefeicaoController {
 				diaRefeicao.setFuncionario(funcionario);
 				
 				// Validar Edital: vigencia e quantidade de contemplados.
+				long quantidadeBeneficiadosPrevista = DiaRefeicaoDAO
+						.getInstance().getQuantidadeAlunoDiaRefeicao(
+								idEdital);
+				
 				if (aluno != null
 						&& edital != null
 						&& dia != null 
@@ -383,11 +387,20 @@ public class DiaRefeicaoController {
 		
 		try {
 
-			Long quantidadeBeneficados = DiaRefeicaoDAO.getInstance()
-					.getQuantidadeAlunoDiaRefeicao(idEdital);
+			Edital edital = EditalDAO.getInstance().getById(idEdital);
 			
-			builder.status(Response.Status.OK);
-			builder.entity(quantidadeBeneficados);
+			if (edital != null) {
+				
+				Long quantidadeBeneficados = DiaRefeicaoDAO.getInstance()
+						.getQuantidadeAlunoDiaRefeicao(idEdital);
+				
+				
+				edital.setQuantidadeBeneficiadosReal(
+						Integer.valueOf(quantidadeBeneficados.toString()));
+				
+				builder.status(Response.Status.OK);
+				builder.entity(edital);
+			}			
 
 		} catch (SQLExceptionNutrIF qme) {
 
