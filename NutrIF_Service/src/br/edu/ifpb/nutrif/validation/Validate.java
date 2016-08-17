@@ -317,7 +317,7 @@ public class Validate {
 		return VALIDATE_OK;
 	}
 	
-	public static int funcionario(PessoaAcesso usuario) {
+	public static int inserirFuncionario(PessoaAcesso usuario) {
 		
 		logger.info("Validação para Funcionário.");
 		
@@ -333,6 +333,13 @@ public class Validate {
 		if (roles == null || (roles != null && roles.size() == 0)) {
 			
 			return ErrorFactory.ROLES_INVALIDAS;			
+		}
+		
+		Campus campus = usuario.getCampus();
+		if (campus == null 
+				|| (campus != null && !numeroValidator.isMaiorZero(
+						campus.getId()))) {
+			return ErrorFactory.ID_CAMPUS_INVALIDO;
 		}
 		
 		return VALIDATE_OK;

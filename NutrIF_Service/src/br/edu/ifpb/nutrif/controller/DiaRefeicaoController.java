@@ -96,7 +96,7 @@ public class DiaRefeicaoController {
 				diaRefeicao.setFuncionario(funcionario);
 				
 				// Validar Edital: vigencia e quantidade de contemplados.
-				long quantidadeBeneficiadosPrevista = DiaRefeicaoDAO
+				int quantidadeBeneficiadosReal = DiaRefeicaoDAO
 						.getInstance().getQuantidadeAlunoDiaRefeicao(
 								idEdital);
 				
@@ -391,12 +391,11 @@ public class DiaRefeicaoController {
 			
 			if (edital != null) {
 				
-				Long quantidadeBeneficados = DiaRefeicaoDAO.getInstance()
-						.getQuantidadeAlunoDiaRefeicao(idEdital);
-				
+				int quantidadeBeneficiadosReal = DiaRefeicaoDAO.getInstance()
+						.getQuantidadeAlunoDiaRefeicao(idEdital);				
 				
 				edital.setQuantidadeBeneficiadosReal(
-						Integer.valueOf(quantidadeBeneficados.toString()));
+						Integer.valueOf(quantidadeBeneficiadosReal));
 				
 				builder.status(Response.Status.OK);
 				builder.entity(edital);

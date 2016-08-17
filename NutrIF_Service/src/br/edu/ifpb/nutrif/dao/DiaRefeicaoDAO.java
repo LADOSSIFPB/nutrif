@@ -205,7 +205,7 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 		return diasRefeicao;		
 	}
 	
-	public Long getQuantidadeAlunoDiaRefeicao(int idEdital) {
+	public int getQuantidadeAlunoDiaRefeicao(int idEdital) {
 		
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		
@@ -236,7 +236,8 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 			session.close();
 		}
 		
-		return quantidadeBeneficiados;		
+		return quantidadeBeneficiados!=null ? Integer.valueOf(
+				quantidadeBeneficiados.toString()): 0;		
 	}
 	
 	public boolean isDiaRefeicaoAtivo(DiaRefeicao diaRefeicao){

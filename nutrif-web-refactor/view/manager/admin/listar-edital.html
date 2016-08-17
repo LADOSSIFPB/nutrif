@@ -47,6 +47,8 @@
         <tr md-row>
           <th md-column>Edital</th>
           <th md-column>Campus</th>
+          <th md-column>Previsão</th>
+          <th md-column>Real</th>
           <th md-column>Início</th>
           <th md-column>Fim</th>
         </tr>
@@ -56,6 +58,8 @@
         <tr md-row ng-repeat="edital in editais | limitTo: query.limit: (query.page - 1) * query.limit">
           <td md-cell>{{edital.nome | uppercase}}</td>
           <td md-cell>{{edital.campus.cidade | uppercase}}</td>
+          <td md-cell>{{edital.quantidadeBeneficiadosPrevista}}</td>
+          <td md-cell>{{edital.quantidadeBeneficiadosReal}}</td>
           <td md-cell>{{edital.dataInicial | date:'dd/MM/yyyy h:mma'}}</td>
           <td md-cell>{{edital.dataFinal | date:'dd/MM/yyyy h:mma'}}</td>
 		  <td md-cell>

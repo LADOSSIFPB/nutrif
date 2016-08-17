@@ -15,6 +15,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
 import br.edu.ifpb.nutrif.dao.CampusDAO;
+import br.edu.ifpb.nutrif.dao.DiaRefeicaoDAO;
 import br.edu.ifpb.nutrif.dao.EditalDAO;
 import br.edu.ifpb.nutrif.dao.EventoDAO;
 import br.edu.ifpb.nutrif.dao.FuncionarioDAO;
@@ -148,7 +149,17 @@ public class EditalController {
 
 			Edital edital = EditalDAO.getInstance().getById(idEdital); 
 			
-			builder.status(Response.Status.OK).entity(edital);
+			if (edital != null) {
+				
+				int quantidadeBeneficiadosReal = DiaRefeicaoDAO
+						.getInstance().getQuantidadeAlunoDiaRefeicao(
+								idEdital);
+				edital.setQuantidadeBeneficiadosReal(
+						quantidadeBeneficiadosReal);
+				
+				builder.status(Response.Status.OK).entity(edital);
+			}
+			
 
 		} catch (SQLExceptionNutrIF exception) {
 
@@ -168,13 +179,24 @@ public class EditalController {
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
 		builder.expires(new Date());
 
-		List<Edital> edital = new ArrayList<Edital>();
+		List<Edital> editais = new ArrayList<Edital>();
 		
 		try {
 
-			edital = EditalDAO.getInstance().listByNome(nome);
+			editais = EditalDAO.getInstance().listByNome(nome);
 			
-			builder.status(Response.Status.OK).entity(edital);
+			for (Edital edital: editais) {
+				
+				int idEdital = edital.getId();
+				
+				int quantidadeBeneficiadosReal = DiaRefeicaoDAO
+						.getInstance().getQuantidadeAlunoDiaRefeicao(
+								idEdital);
+				edital.setQuantidadeBeneficiadosReal(
+						quantidadeBeneficiadosReal);				
+			}
+			
+			builder.status(Response.Status.OK).entity(editais);
 
 		} catch (SQLExceptionNutrIF exception) {
 
