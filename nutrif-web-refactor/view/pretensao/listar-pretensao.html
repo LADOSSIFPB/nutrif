@@ -1,23 +1,24 @@
-<md-card>
+ï»¿<md-card>
 	<md-card-header>
       	<md-card-avatar>
     	    <md-icon md-svg-icon="img/icon/switch-vertical-orientation-arrows.svg" style="width: 18px; height: 18px;"></md-icon>
       	</md-card-avatar>
     	<md-card-header-text>
-      	    <span class="md-title">Olá <b>{{sideNav.user.nome}}</b>, estas são as refeições que você tem direito.</span>
-            <span class="md-subhead">Você pode selecionar a refeição que fará amanhã para informar que irá realizá-la</span>
+      	    <span class="md-title">OlÃ¡ <b>{{sideNav.user.nome}}</b>, estas sÃ£o as refeiÃ§Ãµes que vocÃª tem direito.</span>
+            <span class="md-subhead">VocÃª pode selecionar a refeiÃ§Ã£o que farÃ¡ amanhÃ£ para informar que irÃ¡ realizÃ¡-la</span>
      	</md-card-header-text>
     </md-card-header>
     <md-table-container>
     
-       <img ng-src="{{image}}"/>Oii
+       <canvas id="canvasAluno"></canvas>
+	   <img ng-src="{{image}}"/>
        
         <table md-table>
 
             <thead md-head>
                 <tr md-row>
-                    <th md-column>Dia da refeição</th>
-                    <th md-column>Tipo da Refeição</th>
+                    <th md-column>Dia da refeiÃ§Ã£o</th>
+                    <th md-column>Tipo da RefeiÃ§Ã£o</th>
                 </tr>
             </thead>
 
@@ -27,7 +28,7 @@
                     <td md-cell>{{refeicao.dia.nome | uppercase}}</td>
                     <td md-cell>
                     	<md-button ng-click="solicitarRefeicao(refeicao)" class="md-icon-button" aria-label="Editar">
-	                        <md-tooltip md-direction="left">Solicitar refeição</md-tooltip>
+	                        <md-tooltip md-direction="left">Solicitar refeiÃ§Ã£o</md-tooltip>
 	                        <md-icon md-svg-icon="img/icon/send-button.svg" style="width: 18px; height: 18px;"></md-icon>
                     	</md-button>
                     </td>
