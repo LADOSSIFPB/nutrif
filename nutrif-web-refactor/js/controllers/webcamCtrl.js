@@ -120,9 +120,9 @@ angular.module('NutrifApp').controller('webcamCtrl', function($scope, $mdToast,a
 
 	    $scope.myImage = myImage;
 
-			$scope.aluno=aluno;
+		$scope.aluno=aluno;
 
-			$scope.myCroppedImage = '';
+		$scope.myCroppedImage = '';
 
 
 	    $scope.hide = function() {
