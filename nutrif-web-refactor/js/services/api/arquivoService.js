@@ -19,7 +19,7 @@ angular.module("NutrifApp").factory("arquivoService", function($http, config){
    };
 
    var _getImage = function(id){
-	   return $http.get(_path + "/download/ARQUIVO_FOTO_PERFIL/nome/"+ id);
+	   return $http.get(_path + "/download/perfil/aluno/"+ id);
    }
 
    return {
