@@ -23,6 +23,9 @@ public class Role {
 
 	@Column(name = "nm_role")
 	private String nome;
+	
+	@Column(name = "nm_descricao")
+	private String descricao;
 
 	@XmlElement
 	public Integer getId() {
@@ -42,9 +45,17 @@ public class Role {
 		this.nome = nome;
 	}
 	
+	public String getDescricao() {
+		return descricao;
+	}
+
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
+	}
+	
 	@Override
 	public String toString() {
-		return "Role [id=" + id +", nome=" + nome + "]";
+		return "Role [id=" + id + ", nome=" + nome + "]";
 	}
 	
 	@Override

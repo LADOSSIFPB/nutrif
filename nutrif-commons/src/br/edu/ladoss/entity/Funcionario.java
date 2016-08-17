@@ -25,6 +25,7 @@ public class Funcionario extends Pessoa {
 		funcionario.setId(pessoa.getId());
 		funcionario.setNome(pessoa.getNome());
 		funcionario.setEmail(pessoa.getEmail());
+		funcionario.setCampus(pessoa.getCampus());
 		funcionario.setSenha(pessoa.getSenha());
 		funcionario.setKeyAuth(pessoa.getKeyAuth());
 		funcionario.setRoles(pessoa.getRoles());

@@ -16,6 +16,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
+import br.edu.ifpb.nutrif.dao.CampusDAO;
 import br.edu.ifpb.nutrif.dao.FuncionarioDAO;
 import br.edu.ifpb.nutrif.dao.RoleDAO;
 import br.edu.ifpb.nutrif.exception.ErrorFactory;
@@ -23,6 +24,7 @@ import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
 import br.edu.ifpb.nutrif.util.BancoUtil;
 import br.edu.ifpb.nutrif.util.StringUtil;
 import br.edu.ifpb.nutrif.validation.Validate;
+import br.edu.ladoss.entity.Campus;
 import br.edu.ladoss.entity.Error;
 import br.edu.ladoss.entity.Funcionario;
 import br.edu.ladoss.entity.Pessoa;
@@ -54,7 +56,7 @@ public class FuncionarioController {
 		builder.expires(new Date());
 
 		// Validação dos dados de entrada.
-		int validacao = Validate.funcionario(pessoaAcesso);
+		int validacao = Validate.inserirFuncionario(pessoaAcesso);
 		
 		if (validacao == Validate.VALIDATE_OK) {
 			
@@ -73,6 +75,11 @@ public class FuncionarioController {
 				List<Role> roles = RoleDAO.getInstance().getRolesByRolesId(
 						pessoaAcesso.getRoles());
 				pessoaAcesso.setRoles(roles);
+				
+				// Campus
+				int idCampus = pessoaAcesso.getCampus().getId();
+				Campus campus = CampusDAO.getInstance().getById(idCampus);
+				pessoaAcesso.setCampus(campus);
 				
 				// Tipo Funcionário 
 				pessoaAcesso.setTipo(Funcionario.TIPO_FUNCIONARIO);
