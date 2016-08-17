@@ -4,11 +4,11 @@ angular.module("NutrifApp").value("config", {
 
 	baseUrl: function() {
 
-		var _protocol = "http://"
-		var _externalDNS = "localhost";
-		var _externalIP = "localhost";
-		var _internalIP = "localhost";
-		var _port = "8080";
+		var _protocol = "//"
+		var _externalDNS = "ladoss.com.br";
+		var _externalIP = "ladoss.com.br";
+		var _internalIP = "ladoss.com.br";
+		var _port = "8773";
 		var _context = "/NutrIF_Service";
 
 		var url = location.href;
