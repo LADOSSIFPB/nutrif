@@ -1,8 +1,9 @@
-angular.module("NutrifApp").controller("listarPretensaoCtrl", function ($scope, pretensaoService, diaRefeicaoService, userService, $mdToast, $mdDialog) {
+angular.module("NutrifApp").controller("listarPretensaoCtrl", function ($scope, pretensaoService, diaRefeicaoService, userService, $mdToast, $mdDialog, arquivoService) {
 
     $scope.refeicoes = [];
     $scope.refeicaoSelecionada = {};
     $scope.pretensao = {};
+    $scope.image = null; 
 
     $scope.solicitarRefeicao = function (refeicao) {
         pretensaoService.verifyDiaRefeicao(refeicao)
@@ -64,6 +65,38 @@ angular.module("NutrifApp").controller("listarPretensaoCtrl", function ($scope, 
     }
 
     carregarDiaRefeicaoAluno();
+    
+    var getImage = function(){
+    	console.log(userService.getUser().id);
+    	
+        arquivoService.getImage(userService.getUser().id)
+        .success(function (data, status) {
+        	
+        	$scope.image = data;
+        	      
+        	 
+        })
+        .error(onErrorImageCallback);
+    }
+    getImage();
+
+    function onErrorImageCallback (data, status){
+            var _message = '';
+            if (!data) {
+                _message = 'Erro ao carregar imagem, tente novamente ou contate os administradores.'
+            } else {
+                _message = data.mensagem
+            }
+
+            $mdToast.show(
+                $mdToast.simple()
+                .textContent(_message)
+                .position('top right')
+                .action('OK')
+                .hideDelay(6000)
+            );
+        }
+    
 });
 
 function confirmarPretensaoCtrl (pretensao, $scope, $mdDialog, $mdToast, pretensaoService) {
