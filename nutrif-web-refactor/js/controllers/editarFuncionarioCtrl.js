@@ -49,7 +49,6 @@ angular.module('NutrifApp').controller('editarFuncionarioCtrl', function ($scope
 
 		campusService.listarCampi()
 			.success(function (data, status){
-				console.log(data)
 				$scope.campi = data;
 			})
 			.error(onErrorLoadCallback);

@@ -1,9 +1,13 @@
-angular.module('NutrifApp').controller('editarAlunoCtrl', function ($scope, alunoService, diaRefeicaoService, cursoService, editalService, $stateParams, $state, $mdToast, $mdDialog) {
+angular.module('NutrifApp').controller('editarAlunoCtrl', function ($scope,
+  $stateParams, $state, $mdToast, $mdDialog,
+  alunoService, diaRefeicaoService, cursoService, editalService, campusService) {
 
   $scope.selected = [];
   $scope.cursos = [];
   $scope.editais = [];
   $scope.refeicoes = [];
+  var _campi = $scope.campi;
+
   $scope.alunoCopy = {};
 
   $scope.atualizar = function (aluno) {
@@ -75,6 +79,7 @@ angular.module('NutrifApp').controller('editarAlunoCtrl', function ($scope, alun
   }
 
   function carregamentoInicial() {
+
     var _matricula = $stateParams.matricula;
 
     if (_matricula == ''){
@@ -82,23 +87,29 @@ angular.module('NutrifApp').controller('editarAlunoCtrl', function ($scope, alun
     }
 
     alunoService.buscaAlunoPorMatricula(_matricula)
-    .success(function (data, status) {
-      $scope.aluno = data;
-      $scope.alunoCopy = angular.copy($scope.aluno);
-    })
-    .error(onErrorLoadCallback);
+      .success(function (data, status) {
+        $scope.aluno = data;
+        $scope.alunoCopy = angular.copy($scope.aluno);
+      })
+      .error(onErrorLoadCallback);
 
     diaRefeicaoService.listaRefeicaoPorMatricula(_matricula)
-    .success(function (data, status) {
-      $scope.refeicoes = data;
-    })
-    .error(onErrorLoadCallback);
+      .success(function (data, status) {
+        $scope.refeicoes = data;
+      })
+      .error(onErrorLoadCallback);
 
     cursoService.listarCursos()
-    .success(function (data, status){
-      $scope.cursos = data;
-    })
-    .error(onErrorLoadCallback);
+      .success(function (data, status){
+        $scope.cursos = data;
+      })
+      .error(onErrorLoadCallback);
+
+    campusService.listarCampi()
+			.success(function (data, status){
+				$scope.campi = data;
+			})
+			.error(onErrorCallback);
   }
 
   function onErrorCallback(data, status) {
@@ -133,7 +144,8 @@ angular.module('NutrifApp').controller('editarAlunoCtrl', function ($scope, alun
 });
 
 // Controller Adicionar Refeição.
-function adicionarRefeicaoCtrl (refeicoes, aluno, $state, $stateParams, userService, editalService, $scope, $mdDialog, $mdToast, diaRefeicaoService, refeicaoService, diaService) {
+function adicionarRefeicaoCtrl ($scope, $mdDialog, $mdToast, $state, $stateParams, userService,
+  editalService,  diaRefeicaoService, refeicoes, aluno, refeicaoService, diaService) {
 
   $scope.editais = [];
   $scope.tiposRefeicao = [];
@@ -145,7 +157,7 @@ function adicionarRefeicaoCtrl (refeicoes, aluno, $state, $stateParams, userServ
 
     var encontrarRefeicao = function (element, index, array) {
       if (element.refeicao.id === parseInt(refeicao.refeicao.id)
-        && element.dia.id === parseInt(refeicao.dia.id)) {
+      && element.dia.id === parseInt(refeicao.dia.id)) {
         return true;
       }
       return false;
@@ -214,22 +226,22 @@ function adicionarRefeicaoCtrl (refeicoes, aluno, $state, $stateParams, userServ
   function carregamentoInicial() {
 
     editalService.listarEditalVigentes()
-    .success(function (data, status) {
-      $scope.editais = data;
-    })
-    .error(onErrorCallback);
+      .success(function (data, status) {
+        $scope.editais = data;
+      })
+      .error(onErrorCallback);
 
     diaService.listarDias()
-    .success(function (data, status) {
-      $scope.dias = data;
-    })
-    .error(onErrorCallback);
+      .success(function (data, status) {
+        $scope.dias = data;
+      })
+      .error(onErrorCallback);
 
     refeicaoService.listarRefeicoes()
-    .success(function (data, status) {
-      $scope.tiposRefeicao = data;
-    })
-    .error(onErrorCallback);
+      .success(function (data, status) {
+        $scope.tiposRefeicao = data;
+      })
+      .error(onErrorCallback);
   }
 
   carregamentoInicial();
