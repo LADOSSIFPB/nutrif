@@ -80,13 +80,13 @@ angular.module('NutrifApp').controller('webcamCtrl', function($scope, $mdToast,a
 
 			$mdDialog.show({
 				controller: enviarImagemCtrl,
-	      templateUrl: 'view/manager/modals/modal-foto-perfil.html',
-	      parent: angular.element(document.body),
-	      clickOutsideToClose:true,
-	      fullscreen: false,
-				locals : {
-						myImage: $scope.myImage,
-						aluno: $scope.aluno
+				templateUrl: 'view/manager/modals/modal-foto-perfil.html',
+				 parent: angular.element(document.body),
+				 clickOutsideToClose:true,
+				 fullscreen: false,
+						locals : {
+							myImage: $scope.myImage,
+							aluno: $scope.aluno
 				}
 	    })
 	    .then(function() {}, function() {});
@@ -120,9 +120,9 @@ angular.module('NutrifApp').controller('webcamCtrl', function($scope, $mdToast,a
 
 	    $scope.myImage = myImage;
 
-			$scope.aluno=aluno;
+		$scope.aluno=aluno;
 
-			$scope.myCroppedImage = '';
+		$scope.myCroppedImage = '';
 
 
 	    $scope.hide = function() {

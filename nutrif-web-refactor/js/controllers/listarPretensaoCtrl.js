@@ -69,12 +69,20 @@ angular.module("NutrifApp").controller("listarPretensaoCtrl", function ($scope, 
     var getImage = function(){
     	console.log(userService.getUser().id);
     	
+		
+
         arquivoService.getImage(userService.getUser().id)
         .success(function (data, status) {
-        	
-        	$scope.image = data;
-        	      
-        	 
+			var blob = new Blob([data.toString('base64')], {type: 'image/jpeg'});
+			var reader = new window.FileReader();
+				reader.readAsDataURL(blob); 
+				reader.onloadend = function() {
+                base64data = reader.result; 
+				$scope.image = base64data;				
+                
+				}
+			
+			
         })
         .error(onErrorImageCallback);
     }
