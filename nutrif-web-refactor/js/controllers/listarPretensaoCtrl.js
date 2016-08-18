@@ -3,7 +3,7 @@ angular.module("NutrifApp").controller("listarPretensaoCtrl", function ($scope, 
     $scope.refeicoes = [];
     $scope.refeicaoSelecionada = {};
     $scope.pretensao = {};
-    $scope.image = null; 
+    $scope.image = "";
 
     $scope.solicitarRefeicao = function (refeicao) {
         pretensaoService.verifyDiaRefeicao(refeicao)
@@ -65,27 +65,28 @@ angular.module("NutrifApp").controller("listarPretensaoCtrl", function ($scope, 
     }
 
     carregarDiaRefeicaoAluno();
-    
-    var getImage = function(){
-    	console.log(userService.getUser().id);
-    	
-		
 
-        arquivoService.getImage(userService.getUser().id)
+    var getImage = function(){
+
+      console.log("Aluno: " + userService.getUser().id);
+
+      arquivoService.getPerfilById(userService.getUser().id)
         .success(function (data, status) {
-			var blob = new Blob([data.toString('base64')], {type: 'image/jpeg'});
-			var reader = new window.FileReader();
-				reader.readAsDataURL(blob); 
-				reader.onloadend = function() {
-                base64data = reader.result; 
-				$scope.image = base64data;				
-                
-				}
-			
-			
+
+          console.log("Data: " + data);
+
+          var blob = new Blob([data], {type: 'application/octet-stream'});
+
+          var reader = new FileReader();
+
+          reader.readAsDataURL(blob);
+          base64data = reader.result;
+          $scope.image = base64data;
+
         })
         .error(onErrorImageCallback);
     }
+
     getImage();
 
     function onErrorImageCallback (data, status){
@@ -104,7 +105,7 @@ angular.module("NutrifApp").controller("listarPretensaoCtrl", function ($scope, 
                 .hideDelay(6000)
             );
         }
-    
+
 });
 
 function confirmarPretensaoCtrl (pretensao, $scope, $mdDialog, $mdToast, pretensaoService) {
