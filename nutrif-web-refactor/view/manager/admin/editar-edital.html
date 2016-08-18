@@ -19,7 +19,7 @@
 
     </md-card-header>
     <md-card-content layout="column">
-		
+
 		<!-- Nome -->
         <md-input-container class="md-icon-float md-block">
             <label>Nome</label>
@@ -36,32 +36,30 @@
             </md-select>
         </md-input-container>
 
-		<!-- Responsável -->
-		
-		<md-input-container class="md-icon-float md-block">
-			<label>Reponsável</label>
-			<md-chips ng-model="editarEdital.responsaveis"
-				md-autocomplete-snap=""
-				md-transform-chip="editarEdital.transformChip($responsavel)"
-				md-require-match="editarEdital.autocompleteDemoRequireMatch">
-				<md-autocomplete
-					ng-model="editarEdital.responsavel"
-					md-selected-item="editarEdital.selectedItem"
-					md-search-text="editarEdital.searchText"
-					md-items="responsavel in editarEdital.buscarResponsaveis(editarEdital.searchText)"
-					md-item-text="responsavel.nome"
-					md-min-length="3"
-					md-no-cache="true"
-					placeholder="Responsável">
-					<md-chip-template>
-						<span md-highlight-text="editarEdital.searchText">
-							{{responsavel.nome}}
-						</span>
-					</md-chip-template>
-				</md-autocomplete>
-			</md-chips>
-		</md-input-container>
-		
+        <!-- Responsável -->
+        <md-input-container class="md-icon-float md-block">
+          <label>Responsável</label>
+          <md-chips ng-model="editarEdital.responsaveis"
+            md-autocomplete-snap=""
+            md-transform-chip="editarEdital.transformChip($responsavel)"
+            md-require-match="editarEdital.autocompleteDemoRequireMatch">
+            <md-autocomplete
+              md-selected-item="cadastrarEdital.selectedItem"
+              md-search-text="editarEdital.searchText"
+              md-items="responsavel in editarEdital.buscarResponsaveis(editarEdital.searchText)"
+              md-item-text="responsavel.nome"
+              md-min-length="3"
+              md-no-cache="true"
+              placeholder="Responsável">
+              <md-chip-template>
+                <span md-highlight-text="editarEdital.searchText">
+                  {{responsavel.nome}}
+                </span>
+              </md-chip-template>
+            </md-autocomplete>
+          </md-chips>
+        </md-input-container>
+
 		<!-- Campus -->
         <md-input-container flex>
             <label>Campus</label>
@@ -71,13 +69,13 @@
                 </md-option>
             </md-select>
         </md-input-container>
-		
+
 		<!-- Quantidade de contemplados -->
 		<md-input-container class="md-icon-float md-block">
 			<label>Quantidade de contemplados</label>
-			<input ng-model="editalCopy.quantidadeContemplados" type="text" required>
+			<input ng-model="editalCopy.quantidadeBeneficiadosPrevista" type="text" required>
 		</md-input-container>
-		
+
 		<!-- Validade -->
 		<md-content>
 			<label>Validade</label>

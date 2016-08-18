@@ -6,8 +6,8 @@ angular.module('NutrifApp').controller('editarEditalCtrl', function ($scope, edi
   $scope.validade = [];
   $scope.editalCopy = {};
   $scope.edital = {};
-  $scope.responsavel = $scope.edital.responsavel;
-  
+  $scope.responsavel = {};
+
   // Responsáveis
   this.selectedItem = null;
   this.searchText = null;
@@ -15,7 +15,7 @@ angular.module('NutrifApp').controller('editarEditalCtrl', function ($scope, edi
   $scope.responsaveis = [];
 
   this.editar = function (edital) {
-	// Adicionar funcionário.
+	// Funcionário.
 	edital.funcionario = {};
 	edital.funcionario.id = userService.getUser().id;
 
@@ -25,7 +25,7 @@ angular.module('NutrifApp').controller('editarEditalCtrl', function ($scope, edi
 
 	console.log(edital);
   }
-  
+
   function carregamentoInicial() {
         var _id = $stateParams.id;
 
@@ -37,6 +37,11 @@ angular.module('NutrifApp').controller('editarEditalCtrl', function ($scope, edi
             .success(function (data, status) {
                 $scope.edital = data;
                 $scope.editalCopy = angular.copy($scope.edital);
+                var inicialData =$scope.editalCopy.dataInicial;
+                var finalData =$scope.editalCopy.dataFinal;
+				$scope.editalCopy.dataInicial = new Date(inicialData);
+				$scope.editalCopy.dataFinal = new Date(finalData);
+                $scope.responsavel = $scope.editalCopy.responsavel.nome;
             })
             .error(onErrorLoadCallback);
 
@@ -46,21 +51,21 @@ angular.module('NutrifApp').controller('editarEditalCtrl', function ($scope, edi
                 $scope.campi = data;
             })
             .error(onErrorLoadCallback);
-			
+
 		eventoService.listarEvento()
             .success(function (data, status){
                 $scope.eventos = data;
             })
             .error(onErrorLoadCallback);
     }
-	
+
 	carregamentoInicial();
-	
+
 	function onErrorLoadCallback(data, status) {
     onErrorCallback(data, status);
     $state.transitionTo('home.listar-edital', {reload: true});
   }
-  
+
   function onErrorCallback (data, status){
     var _message = '';
     if (!data) {
@@ -77,13 +82,13 @@ angular.module('NutrifApp').controller('editarEditalCtrl', function ($scope, edi
       .hideDelay(6000)
     );
   }
-	
+
 	// Selecionar responsável pelo Edital.
 	this.buscarResponsaveis = function buscarResponsaveis(query) {
 		var lowerCaseQuery = angular.lowercase(query);
-		
+
 		console.log(lowerCaseQuery);
-		
+
 		var results = this.listarFuncionario(lowerCaseQuery);
 
 		return results || [];
@@ -97,6 +102,7 @@ angular.module('NutrifApp').controller('editarEditalCtrl', function ($scope, edi
 				.error(onErrorCallback);
 
 		return $scope.responsaveis;
+
 	}
 
 	function onSuccessListarFuncionario(data, status) {
@@ -110,5 +116,5 @@ angular.module('NutrifApp').controller('editarEditalCtrl', function ($scope, edi
 			return responsavel;
 		}
     }
-  
+
 });
