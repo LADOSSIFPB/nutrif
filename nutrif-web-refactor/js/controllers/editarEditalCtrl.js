@@ -21,7 +21,7 @@ angular.module('NutrifApp').controller('editarEditalCtrl', function ($scope, edi
 
 	// Responsável
 	console.log(this.selectedItem);
-	edital.responsavel = this.selectedItem;
+	editalCopy.responsavel = this.selectedItem;
 
 	console.log(edital);
   }
@@ -37,11 +37,15 @@ angular.module('NutrifApp').controller('editarEditalCtrl', function ($scope, edi
             .success(function (data, status) {
                 $scope.edital = data;
                 $scope.editalCopy = angular.copy($scope.edital);
-                var inicialData =$scope.editalCopy.dataInicial;
+                var inicialData = $scope.editalCopy.dataInicial;
                 var finalData =$scope.editalCopy.dataFinal;
 				$scope.editalCopy.dataInicial = new Date(inicialData);
 				$scope.editalCopy.dataFinal = new Date(finalData);
-                $scope.responsavel = $scope.editalCopy.responsavel.nome;
+
+                console.log('Responsável '+ $scope.editalCopy.responsavel);
+                this.selectedItem = $scope.editalCopy.responsavel;
+                this.searchText = $scope.editalCopy.responsavel.nome;
+                $scope.responsaveis.push($scope.editalCopy.responsavel);
             })
             .error(onErrorLoadCallback);
 

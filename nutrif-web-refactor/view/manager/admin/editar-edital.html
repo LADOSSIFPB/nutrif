@@ -38,21 +38,20 @@
 
         <!-- Responsável -->
         <md-input-container class="md-icon-float md-block">
-          <label>Responsável</label>
           <md-chips ng-model="editarEdital.responsaveis"
             md-autocomplete-snap=""
             md-transform-chip="editarEdital.transformChip($responsavel)"
             md-require-match="editarEdital.autocompleteDemoRequireMatch">
             <md-autocomplete
-              md-selected-item="cadastrarEdital.selectedItem"
+              md-selected-item="editarEdital.selectedItem"
               md-search-text="editarEdital.searchText"
-              md-items="responsavel in editarEdital.buscarResponsaveis(editarEdital.searchText)"
+              md-items="responsavel in editarEdital.responsaveis"
               md-item-text="responsavel.nome"
               md-min-length="3"
               md-no-cache="true"
               placeholder="Responsável">
               <md-chip-template>
-                <span md-highlight-text="editarEdital.searchText">
+                <span md-highlight-text="editarEdital.searchText" value="{{responsavel.id}}">
                   {{responsavel.nome}}
                 </span>
               </md-chip-template>
