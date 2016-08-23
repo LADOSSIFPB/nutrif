@@ -63,7 +63,7 @@ public class EditalDAO extends GenericDao<Integer, Edital>{
 		try {
 			
 			String hql = "from Edital as e"
-					+ " where CURRENT_TIMESTAMP() between e.dataInicial and e.dataFinal"
+					+ " where CURRENT_TIMESTAMP() <= e.dataFinal"
 					+ " and e.ativo = :ativo";
 			
 			Query query = session.createQuery(hql);
