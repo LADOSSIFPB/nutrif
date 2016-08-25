@@ -117,8 +117,9 @@ function DialogController($scope, $mdDialog, $mdToast, refeicao,
     );
   }
 
-
+  // Imagem do perfil do aluno.
   $scope.img = function(id){
+
     arquivoService.getImage(id)
       .success(function (data, status) {})
       .error(onErrorImageCallback);
