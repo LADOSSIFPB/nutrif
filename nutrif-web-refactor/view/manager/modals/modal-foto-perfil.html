@@ -2,28 +2,26 @@
 <md-dialog aria-label="Editar Imagem"  style="width:80%;" ng-cloak>
 	<md-dialog-content class="md-dialog-content">
 		<h2>Editar Imagem</h2>
-		<div class="dialog" layout="horizontal">
-			<div class="perfil-wrapper">
-				<div class="perfil-completo">
-					<img-crop image="myImage" result-image="myCroppedImage">
-						<canvas></canvas>
-					</img-crop>
-				</div>
-				<div class="perfil-crop">
-					<img ng-src="{{myCroppedImage}}"/>
-				</div>
+		<div class="perfil-wrapper">
+			<div class="perfil-completo">
+				<img-crop image="myImage" result-image="myCroppedImage">
+					<canvas class="receive-snapshot"></canvas>
+				</img-crop>
+			</div>
+			<div class="perfil-crop">
+				<img ng-src="{{myCroppedImage}}"/>
+			</div>
 		</div>
-	</div>
-</md-dialog-content>
+	</md-dialog-content>
 
-<!-- Opções de botão -->
-<md-dialog-actions layout="row">
-	<span flex></span>
-	<md-button ng-click="cancel()" class="md-warn">
-		Cancelar
-	</md-button>
-	<md-button ng-click="hide()" class="md-primary" style="margin-right:20px;">
-		Enviar
-	</md-button>
-</md-dialog-actions>
+	<!-- Opções de botão -->
+	<md-dialog-actions layout="row">
+		<span flex></span>
+		<md-button ng-click="cancel()" class="md-warn">
+			Cancelar
+		</md-button>
+		<md-button ng-click="hide()" class="md-primary" style="margin-right:20px;">
+			Enviar
+		</md-button>
+	</md-dialog-actions>
 </md-dialog>
