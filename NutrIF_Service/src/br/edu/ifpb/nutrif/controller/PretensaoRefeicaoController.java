@@ -40,7 +40,6 @@ import br.edu.ladoss.entity.Dia;
 import br.edu.ladoss.entity.DiaRefeicao;
 import br.edu.ladoss.entity.Error;
 import br.edu.ladoss.entity.MapaPretensaoRefeicao;
-import br.edu.ladoss.entity.MapaRefeicaoRealizada;
 import br.edu.ladoss.entity.PeriodoPretensaoRefeicao;
 import br.edu.ladoss.entity.PretensaoRefeicao;
 import br.edu.ladoss.entity.Refeicao;
