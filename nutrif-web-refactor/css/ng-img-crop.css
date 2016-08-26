@@ -11,7 +11,7 @@ img-crop canvas {
 
 .perfil-wrapper {
 	width: 100%;
-	display: table;
+	margin: 0px auto;
 }
 
 .perfil-completo {
@@ -21,6 +21,6 @@ img-crop canvas {
 
 .perfil-crop {
 	float: right;
-	padding: 10px;
+	margin: 10px;
 	width: 45%;
 }

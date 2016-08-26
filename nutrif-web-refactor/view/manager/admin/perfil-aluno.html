@@ -1,4 +1,6 @@
-<md-card>
+<md-card layout-padding
+  style="padding-left: 6%; padding-right: 6%; padding-bottom: 4%; padding-top: 3% ">
+
   <!-- Informaçãoes básicas do Aluno -->
   <md-card-header>
     <md-card-header-text>
@@ -25,11 +27,13 @@
     </canvas>
 
     <!-- Make Snapshot -->
-    <md-button type="submit" ng-click="makeSnapshot()" layout-fill
-      type="submit" class="md-raised md-primary md-hue-1 flex"
+    <md-button type="submit"
+      ng-click="makeSnapshot()"
+      layout-fill
+      type="submit"
+      class="md-raised md-primary md-hue-1 flex"
       style="margin-top: 40px">
         Tirar foto
     </md-button>
-
   </md-card-content>
 </md-card>
