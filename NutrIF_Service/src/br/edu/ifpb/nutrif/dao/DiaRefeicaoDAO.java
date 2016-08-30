@@ -103,11 +103,11 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 					+ " and dr.refeicao.id not in ("
 					+ "		select rr.confirmaRefeicaoDia.diaRefeicao.refeicao.id"
 					+ " 	from RefeicaoRealizada as rr"
-					+ "		where rr.confirmaRefeicaoDia.diaRefeicao.aluno.id = dr.aluno.id"
+					+ "		where rr.confirmaRefeicaoDia.diaRefeicao.aluno.matricula = :matricula"
 					+ "		and rr.confirmaRefeicaoDia.diaRefeicao.dia.id = :dia"
 					+ "		and rr.confirmaRefeicaoDia.dataRefeicao = CURRENT_DATE()"
-					+ "		and rr.confirmaRefeicaoDia.diaRefeicao.refeicao.horaFinal"
-					+ "			>= CURRENT_TIME()"
+					+ "		and CURRENT_TIME() between rr.confirmaRefeicaoDia.diaRefeicao.refeicao.horaInicio"
+					+ "			and rr.confirmaRefeicaoDia.diaRefeicao.refeicao.horaFinal"
 					+ ")";
 			
 			Query query = session.createQuery(hql);			

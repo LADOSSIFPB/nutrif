@@ -294,7 +294,7 @@ public class RefeicaoRealizadaController {
 					
 					// Consulta dos dias das refeições.
 					List<RefeicaoRealizada> refeicoesRealizadas = RefeicaoRealizadaDAO
-							.getInstance().getMapaRefeicoesRaelizadas(
+							.getInstance().getMapaRefeicoesRealizadas(
 									mapaRefeicaoRealizada);
 					
 					mapaRefeicaoRealizada.setRefeicoesRealizadas(

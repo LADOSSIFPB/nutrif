@@ -1,4 +1,5 @@
-angular.module('NutrifApp').controller('listarAlunosCtrl', function ($scope, $mdToast, alunoService) {
+angular.module('NutrifApp').controller('listarAlunosCtrl', function ($scope, $mdToast, 
+  alunoService) {
 
     $scope.texto = "";
     $scope.alunos = [];

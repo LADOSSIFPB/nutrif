@@ -24,6 +24,7 @@ import br.edu.ifpb.nutrif.dao.DiaRefeicaoDAO;
 import br.edu.ifpb.nutrif.dao.EditalDAO;
 import br.edu.ifpb.nutrif.dao.FuncionarioDAO;
 import br.edu.ifpb.nutrif.dao.RefeicaoDAO;
+import br.edu.ifpb.nutrif.dao.RefeicaoRealizadaDAO;
 import br.edu.ifpb.nutrif.exception.ErrorFactory;
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
 import br.edu.ifpb.nutrif.util.BancoUtil;
@@ -35,6 +36,7 @@ import br.edu.ladoss.entity.Edital;
 import br.edu.ladoss.entity.Error;
 import br.edu.ladoss.entity.Funcionario;
 import br.edu.ladoss.entity.Refeicao;
+import br.edu.ladoss.entity.RefeicaoRealizada;
 
 @Path("diarefeicao")
 public class DiaRefeicaoController {
@@ -260,10 +262,10 @@ public class DiaRefeicaoController {
 				builder.status(Response.Status.NOT_FOUND);
 			}			
 
-		} catch (SQLExceptionNutrIF qme) {
+		} catch (SQLExceptionNutrIF exception) {
 
 			builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
-					qme.getError());
+					exception.getError());
 		}
 
 		return builder.build();
@@ -287,17 +289,27 @@ public class DiaRefeicaoController {
 		builder.expires(new Date());
 		
 		try {
-
-			List<DiaRefeicao> diasRefeicao = DiaRefeicaoDAO
-					.getInstance().getDiaRefeicaoRealizadaByAlunoNome(nome);
 			
-			builder.status(Response.Status.OK);
-			builder.entity(diasRefeicao);
+			if (RefeicaoDAO.getInstance().isPeriodoRefeicao()) {
+				
+				List<DiaRefeicao> diasRefeicao = DiaRefeicaoDAO
+						.getInstance().getDiaRefeicaoRealizadaByAlunoNome(nome);
+				
+				builder.status(Response.Status.OK);
+				builder.entity(diasRefeicao);
+			
+			} else {
+				
+				// Solicitação fora do período de uma refeição.
+				builder.status(Response.Status.FORBIDDEN).entity(
+						ErrorFactory.getErrorFromIndex(
+								ErrorFactory.PERIODO_REFEICAO_INVALIDO));
+			}
 
-		} catch (SQLExceptionNutrIF qme) {
+		} catch (SQLExceptionNutrIF exception) {
 
 			builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
-					qme.getError());
+					exception.getError());
 		}		
 		
 		return builder.build();		
@@ -323,17 +335,62 @@ public class DiaRefeicaoController {
 		
 		try {
 
-			List<DiaRefeicao> diasRefeicao = DiaRefeicaoDAO
-					.getInstance().getDiaRefeicaoRealizadaByAlunoMatricula(
-							matricula);
+			if (RefeicaoDAO.getInstance().isPeriodoRefeicao()) {
+				
+				List<DiaRefeicao> diasRefeicao = DiaRefeicaoDAO
+						.getInstance().getDiaRefeicaoRealizadaByAlunoMatricula(
+								matricula);
+				
+				if (diasRefeicao.size() > BancoUtil.QUANTIDADE_ZERO) {
+					
+					// Dia de refeição encontrado.
+					builder.status(Response.Status.OK);
+					builder.entity(diasRefeicao);
+				
+				} else {
+					
+					// Verificar dia de refeição realizado.
+					RefeicaoRealizada refeicaoRealizada = 
+							RefeicaoRealizadaDAO.getInstance()
+								.getRefeicaoRealizadaCorrente(matricula);
+					
+					if (refeicaoRealizada != null) {
+						
+						Error error = ErrorFactory.getErrorFromIndex(
+								ErrorFactory.REFEICAO_JA_REALIZADA);
+						
+						String nome = refeicaoRealizada.getConfirmaRefeicaoDia()
+								.getDiaRefeicao().getAluno().getNome();
+						String mensagem = nome + ". " + error.getMensagem();
+						
+						error.setMensagem(mensagem);
+						
+						// Solicitação fora do período de uma refeição.
+						builder.status(Response.Status.FORBIDDEN).entity(
+								error);
+					} else {
+						
+						// Dia de refeição não existente.
+						builder.status(Response.Status.FORBIDDEN).entity(
+								ErrorFactory.getErrorFromIndex(
+										ErrorFactory.DIA_REFEICAO_NAO_DEFINIDO));
+					}
+				}
+				
 			
-			builder.status(Response.Status.OK);
-			builder.entity(diasRefeicao);
+			} else {
+				
+				// Solicitação fora do período de uma refeição.
+				builder.status(Response.Status.FORBIDDEN).entity(
+						ErrorFactory.getErrorFromIndex(
+								ErrorFactory.PERIODO_REFEICAO_INVALIDO));
+			}
+			
 
-		} catch (SQLExceptionNutrIF qme) {
+		} catch (SQLExceptionNutrIF exception) {
 
 			builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
-					qme.getError());
+					exception.getError());
 		}		
 		
 		return builder.build();		
@@ -366,10 +423,10 @@ public class DiaRefeicaoController {
 			builder.status(Response.Status.OK);
 			builder.entity(diasRefeicao);
 
-		} catch (SQLExceptionNutrIF qme) {
+		} catch (SQLExceptionNutrIF exception) {
 
 			builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
-					qme.getError());
+					exception.getError());
 		}		
 		
 		return builder.build();		
@@ -401,10 +458,10 @@ public class DiaRefeicaoController {
 				builder.entity(edital);
 			}			
 
-		} catch (SQLExceptionNutrIF qme) {
+		} catch (SQLExceptionNutrIF exception) {
 
 			builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
-					qme.getError());
+					exception.getError());
 		}		
 		
 		return builder.build();	

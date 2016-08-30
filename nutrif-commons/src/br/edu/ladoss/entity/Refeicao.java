@@ -47,6 +47,10 @@ public class Refeicao implements DataEntity {
 	
 	@Column(name = "is_previsto_pretensao", columnDefinition = "tinyint default false")
 	private boolean isPrevistoPretensao;
+	
+	@Column(name = "is_ativo", columnDefinition = "boolean default true", 
+			nullable = false, insertable = false, updatable = true)
+	private boolean ativo;
 
 	public Refeicao() {
 		super();
@@ -115,11 +119,24 @@ public class Refeicao implements DataEntity {
 		this.isPrevistoPretensao = isPrevistoPretensao;
 	}
 	
+	@XmlElement
+	public boolean isAtivo() {
+		return ativo;
+	}
+
+	public void setAtivo(boolean ativo) {
+		this.ativo = ativo;
+	}
+	
 	@Override
 	public String toString() {
-		return "Refeicao [id=" + id + ", tipo=" + tipo + ", horaInicio=" 
-				+ horaInicio + ", horaFim=" + horaFinal + ", horaPretensao="
-				+ horaPretensao + ", diPrevistoPretensao=" + diaPrevistoPretensao 
-				+ ", isPrevistoPretensao=" + isPrevistoPretensao + "]";
+		return "Refeicao [id=" + id 
+				+ ", tipo=" + tipo
+				+ ", horaInicio=" + horaInicio 
+				+ ", horaFim=" + horaFinal 
+				+ ", horaPretensao=" + horaPretensao 
+				+ ", diPrevistoPretensao=" + diaPrevistoPretensao 
+				+ ", isPrevistoPretensao=" + isPrevistoPretensao 
+				+ ", isAtivo=" + ativo + "]";
 	}
 }

@@ -1,36 +1,48 @@
 angular.module('NutrifApp').controller('entradaAlunoCtrl', function ($scope, $mdDialog,
-    userService, diaRefeicaoService) {
+  $mdToast, userService, diaRefeicaoService) {
 
   $scope.refeicoes = [];
   $scope.refeicaoSelecionada = [];
 
   this.pesquisar = function (texto) {
+
     if(texto.length > 2) {
+
       if (texto.match(/[a-zA-Z]/i) != null) {
+
         diaRefeicaoService.buscaRefeicaoPorNome(texto)
-        .success(onSuccessCallback)
-        .error(onErrorCallback);
+          .success(onSuccessCallback)
+          .error(onErrorCallback);
+
       } else if (texto.length === 11 || texto.length === 12) {
+
         diaRefeicaoService.buscaRefeicaoPorMatricula(texto)
-        .success(onSuccessCallback)
-        .error(onErrorCallback)
+          .success(onSuccessCallback)
+          .error(onErrorCallback)
       }
+
     } else if (texto.length === 0) {
+
       $scope.refeicoes = [];
     }
   }
 
   function onSuccessCallback(data, status) {
+
     $scope.refeicoes = data;
   }
 
   function onErrorCallback(data, status) {
+
     var _message = '';
 
     if (!data) {
-      _message = 'Ocorreu um erro na comunicação com o servidor, favor chamar o suporte.'
+
+      _message = 'Ocorreu um erro na comunicação com o servidor, favor chamar o suporte.';
+
     } else {
-      _message = data.mensagem
+
+      _message = data.mensagem;
     }
 
     $mdToast.show(

@@ -13,6 +13,8 @@ import org.hibernate.Session;
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
 import br.edu.ifpb.nutrif.hibernate.HibernateUtil;
 import br.edu.ifpb.nutrif.util.BancoUtil;
+import br.edu.ifpb.nutrif.util.DateUtil;
+import br.edu.ladoss.entity.Dia;
 import br.edu.ladoss.entity.MapaRefeicaoRealizada;
 import br.edu.ladoss.entity.Refeicao;
 import br.edu.ladoss.entity.RefeicaoRealizada;
@@ -64,7 +66,7 @@ public class RefeicaoRealizadaDAO extends GenericDao<Integer, RefeicaoRealizada>
 		return id;
 	}
 	
-	public List<RefeicaoRealizada> getMapaRefeicoesRaelizadas(
+	public List<RefeicaoRealizada> getMapaRefeicoesRealizadas(
 			MapaRefeicaoRealizada periodoRefeicaoRealizada) {
 		
 		Session session = HibernateUtil.getSessionFactory().openSession();
@@ -98,6 +100,43 @@ public class RefeicaoRealizadaDAO extends GenericDao<Integer, RefeicaoRealizada>
 		}
 		
 		return refeicoesRealizadas;		
+	}
+	
+	public RefeicaoRealizada getRefeicaoRealizadaCorrente(String matricula) {
+		
+		Session session = HibernateUtil.getSessionFactory().openSession();
+
+		RefeicaoRealizada refeicaoRealizada = null;
+		
+		try {
+			
+			Dia dia = DateUtil.getCurrentDayOfWeek();
+			
+			String hql = "from RefeicaoRealizada as rr"
+					+ "	where rr.confirmaRefeicaoDia.diaRefeicao.aluno.matricula = :matricula"
+					+ "	and rr.confirmaRefeicaoDia.diaRefeicao.dia.id = :dia"
+					+ "	and rr.confirmaRefeicaoDia.dataRefeicao = CURRENT_DATE()"
+					+ "	and CURRENT_TIME() between rr.confirmaRefeicaoDia.diaRefeicao.refeicao.horaInicio"
+					+ "		and rr.confirmaRefeicaoDia.diaRefeicao.refeicao.horaFinal";
+			
+			Query query = session.createQuery(hql);
+			query.setParameter("matricula", matricula);
+			query.setParameter("dia", dia.getId());
+			
+			refeicaoRealizada = (RefeicaoRealizada) query.uniqueResult();
+	        
+		} catch (HibernateException hibernateException) {
+			
+			session.getTransaction().rollback();
+			
+			throw new SQLExceptionNutrIF(hibernateException);
+			
+		} finally {
+		
+			session.close();
+		}
+		
+		return refeicaoRealizada;		
 	}
 	
 	/**
