@@ -22,6 +22,7 @@ import br.edu.ifpb.nutrif.dao.FuncionarioDAO;
 import br.edu.ifpb.nutrif.exception.ErrorFactory;
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
 import br.edu.ifpb.nutrif.util.BancoUtil;
+import br.edu.ifpb.nutrif.util.DateUtil;
 import br.edu.ifpb.nutrif.validation.Validate;
 import br.edu.ladoss.entity.Campus;
 import br.edu.ladoss.entity.Edital;
@@ -70,6 +71,18 @@ public class EditalController {
 				Campus campus = CampusDAO.getInstance().getById(idCampus);
 				edital.setCampus(campus);
 				
+				// Período de validade com a hora inicial e final do dia.
+				Date dataInicial = edital.getDataInicial();
+				dataInicial = DateUtil.setTimeInDate(dataInicial, 
+						DateUtil.INICIO_DIA);
+				edital.setDataInicial(dataInicial);
+				
+				Date dataFinal = edital.getDataFinal();
+				dataFinal = DateUtil.setTimeInDate(dataFinal, 
+						DateUtil.FIM_DIA);
+				edital.setDataFinal(dataFinal);
+				
+				// Data de inserção do registro
 				Date agora = new Date();
 				edital.setDataInsercao(agora);
 				

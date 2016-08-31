@@ -24,7 +24,7 @@ angular.module('NutrifApp').controller('cadastrarEditalCtrl', function ($scope, 
 			edital.responsavel = this.selectedItem;
 
 			console.log(edital);
-			
+
 			// Enviar para o serviço de cadastro de Edital.
 			editalService.cadastrarEdital(edital)
 			.success(onSuccessCallback)
@@ -32,6 +32,7 @@ angular.module('NutrifApp').controller('cadastrarEditalCtrl', function ($scope, 
 		}
 
 		function onSuccessCallback (data, status) {
+
 			$mdToast.show(
 				$mdToast.simple()
 				.textContent('Edital cadastrado com sucesso!')
@@ -39,6 +40,8 @@ angular.module('NutrifApp').controller('cadastrarEditalCtrl', function ($scope, 
 				.action('OK')
 				.hideDelay(6000)
 			);
+
+			$state.transitionTo('home.listar-edital');
 		}
 
 		function onErrorCallback (data, status) {

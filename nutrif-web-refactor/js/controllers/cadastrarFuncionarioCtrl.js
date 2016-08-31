@@ -20,6 +20,7 @@ angular.module('NutrifApp').controller('cadastrarFuncionarioCtrl', function ($sc
 	}
 
 	function onSuccessCallback (data, status) {
+
 		$mdToast.show(
 			$mdToast.simple()
 			.textContent('Funcionario(a) cadastrado(a) com sucesso!')

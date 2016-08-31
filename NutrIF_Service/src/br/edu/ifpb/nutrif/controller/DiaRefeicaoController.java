@@ -295,8 +295,18 @@ public class DiaRefeicaoController {
 				List<DiaRefeicao> diasRefeicao = DiaRefeicaoDAO
 						.getInstance().getDiaRefeicaoRealizadaByAlunoNome(nome);
 				
-				builder.status(Response.Status.OK);
-				builder.entity(diasRefeicao);
+				if (diasRefeicao.size() > BancoUtil.QUANTIDADE_ZERO) {
+					
+					builder.status(Response.Status.OK);
+					builder.entity(diasRefeicao);
+					
+				} else {
+					
+					// Dia de refeição não existente.
+					builder.status(Response.Status.FORBIDDEN).entity(
+							ErrorFactory.getErrorFromIndex(
+									ErrorFactory.DIA_REFEICAO_NAO_DEFINIDO));
+				}				
 			
 			} else {
 				
