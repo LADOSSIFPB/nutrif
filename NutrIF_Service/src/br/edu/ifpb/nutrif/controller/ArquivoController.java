@@ -19,6 +19,8 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.StreamingOutput;
 
+import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.codec.binary.StringUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
@@ -250,13 +252,13 @@ public class ArquivoController {
 	@PermitAll
 	@GET
 	@Path("/download/perfil/aluno/{id}")
-	@Produces(MediaType.APPLICATION_OCTET_STREAM)
+	@Produces(MediaType.APPLICATION_FORM_URLENCODED)
 	public Response downloadImagemPerfil(@PathParam("id") int idAluno) {
 
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
 		builder.expires(new Date());
 		
-		StreamingOutput stream = null;
+		StreamingOutput streamOutput = null;
 		
 		// Validação dos dados de entrada.
 		int validacao = Validate.downloadImagemPerfil(idAluno);
@@ -270,17 +272,23 @@ public class ArquivoController {
 						idAluno);
 				
 				if (arquivo != null) {
-	
-					stream = FileUtil.readStreamingOutput(TipoArquivo.ARQUIVO_FOTO_PERFIL,
-							arquivo.getNomeSistemaArquivo());
+					
+					StringBuilder base64StringBuilder = new StringBuilder();
+					base64StringBuilder.append("data:image/jpg;base64,");
+					base64StringBuilder.append(FileUtil.readBase64(TipoArquivo.ARQUIVO_FOTO_PERFIL,
+							arquivo.getNomeSistemaArquivo()));
 					
 					// Arquivo para envio.
-					builder.entity(stream)
+					String fileName = arquivo.getNomeSistemaArquivo().toUpperCase();
+					
+					builder.entity(base64StringBuilder.toString())
 						.status(Response.Status.OK)
-						.type(MediaType.APPLICATION_OCTET_STREAM)
-						.header("content-disposition", 
-								"attachment; filename=\"" 
-										+ arquivo.getNomeSistemaArquivo() + "\"");
+						.type(MediaType.APPLICATION_FORM_URLENCODED)
+						.header("Content-Disposition", 
+								"attachment; filename=\"" + fileName + "\"")
+						.header("Content-Type", "image/jpg; \"" 
+								+ fileName + "\"")
+						.header("Content-Transfer-Encoding", "base64");
 					
 				} else {
 					

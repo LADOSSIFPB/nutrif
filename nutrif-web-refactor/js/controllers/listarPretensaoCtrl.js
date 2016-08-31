@@ -73,16 +73,7 @@ angular.module("NutrifApp").controller("listarPretensaoCtrl", function ($scope, 
       arquivoService.getPerfilById(userService.getUser().id)
         .success(function (data, status) {
 
-          console.log("Data: " + data);
-
-          var blob = new Blob([data], {type: 'application/octet-stream'});
-
-          var reader = new FileReader();
-
-          reader.readAsDataURL(blob);
-          base64data = reader.result;
-          $scope.image = base64data;
-
+          $scope.image = data;
         })
         .error(onErrorImageCallback);
     }
