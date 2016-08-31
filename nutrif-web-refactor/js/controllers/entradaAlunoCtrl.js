@@ -130,12 +130,18 @@ function DialogController($scope, $mdDialog, $mdToast, refeicao,
   }
 
   // Imagem do perfil do aluno.
-  $scope.img = function(id){
+  var getImage = function(){
 
-    arquivoService.getImage(id)
-      .success(function (data, status) {})
+    console.log(refeicao);
+    arquivoService.getPerfilById(refeicao.aluno.id)
+      .success(function (data, status) {
+
+        $scope.image = data;
+      })
       .error(onErrorImageCallback);
   }
+
+  getImage();
 
   function onErrorImageCallback (data, status){
 

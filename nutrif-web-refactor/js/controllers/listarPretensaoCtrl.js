@@ -1,4 +1,6 @@
-angular.module("NutrifApp").controller("listarPretensaoCtrl", function ($scope, pretensaoService, diaRefeicaoService, userService, $mdToast, $mdDialog, arquivoService) {
+angular.module("NutrifApp").controller("listarPretensaoCtrl", function ($scope,
+    $mdToast, $mdDialog, pretensaoService, diaRefeicaoService, userService,
+    arquivoService) {
 
     $scope.refeicoes = [];
     $scope.refeicaoSelecionada = {};
@@ -66,9 +68,8 @@ angular.module("NutrifApp").controller("listarPretensaoCtrl", function ($scope, 
 
     carregarDiaRefeicaoAluno();
 
+    // Imagem do perfil do aluno.
     var getImage = function(){
-
-      console.log("Aluno: " + userService.getUser().id);
 
       arquivoService.getPerfilById(userService.getUser().id)
         .success(function (data, status) {
