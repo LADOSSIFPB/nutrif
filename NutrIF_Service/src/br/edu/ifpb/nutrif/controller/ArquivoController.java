@@ -258,8 +258,6 @@ public class ArquivoController {
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
 		builder.expires(new Date());
 		
-		StreamingOutput streamOutput = null;
-		
 		// Validação dos dados de entrada.
 		int validacao = Validate.downloadImagemPerfil(idAluno);
 		
