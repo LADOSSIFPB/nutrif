@@ -1,6 +1,9 @@
 angular.module('NutrifApp').controller('entradaAlunoCtrl', function ($scope, $mdDialog,
   $mdToast, userService, diaRefeicaoService) {
 
+  var TAM_MATRICULA_11 = 11;
+  var TAM_MATRICULA_12 = 12;
+
   $scope.refeicoes = [];
   $scope.refeicaoSelecionada = [];
 
@@ -14,7 +17,10 @@ angular.module('NutrifApp').controller('entradaAlunoCtrl', function ($scope, $md
           .success(onSuccessCallback)
           .error(onErrorCallback);
 
-      } else if (texto.length === 11 || texto.length === 12) {
+      } else if ((parseInt(texto.substring(0,4))<=2015 && texto.length == TAM_MATRICULA_11)
+        || ((parseInt(texto.substring(0,4))>=2016 && texto.length == TAM_MATRICULA_12))) {
+
+        console.log('Buscar: ' + texto.substring(0,4));
 
         diaRefeicaoService.buscaRefeicaoPorMatricula(texto)
           .success(onSuccessCallback)
@@ -34,6 +40,10 @@ angular.module('NutrifApp').controller('entradaAlunoCtrl', function ($scope, $md
 
   function onErrorCallback(data, status) {
 
+    // Limpar dia de refeição listados anteriormente.
+    $scope.refeicoes = [];
+
+    // Mensagem de erro.
     var _message = '';
 
     if (!data) {

@@ -300,13 +300,16 @@ public class DiaRefeicaoController {
 					builder.status(Response.Status.OK);
 					builder.entity(diasRefeicao);
 					
-				} else {
+				} 
+				/*
+				else {
 					
 					// Dia de refeição não existente.
 					builder.status(Response.Status.FORBIDDEN).entity(
 							ErrorFactory.getErrorFromIndex(
 									ErrorFactory.DIA_REFEICAO_NAO_DEFINIDO));
-				}				
+				}
+				*/				
 			
 			} else {
 				
@@ -343,65 +346,70 @@ public class DiaRefeicaoController {
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
 		builder.expires(new Date());
 		
-		try {
+		// Validação dos dados de entrada.
+		int validacao = Validate.matricula(matricula);
+		
+		if (validacao == Validate.VALIDATE_OK) {
+			
+			try {
 
-			if (RefeicaoDAO.getInstance().isPeriodoRefeicao()) {
-				
-				List<DiaRefeicao> diasRefeicao = DiaRefeicaoDAO
-						.getInstance().getDiaRefeicaoRealizadaByAlunoMatricula(
-								matricula);
-				
-				if (diasRefeicao.size() > BancoUtil.QUANTIDADE_ZERO) {
+				if (RefeicaoDAO.getInstance().isPeriodoRefeicao()) {
 					
-					// Dia de refeição encontrado.
-					builder.status(Response.Status.OK);
-					builder.entity(diasRefeicao);
+					List<DiaRefeicao> diasRefeicao = DiaRefeicaoDAO
+							.getInstance().getDiaRefeicaoRealizadaByAlunoMatricula(
+									matricula);
+					
+					if (diasRefeicao.size() > BancoUtil.QUANTIDADE_ZERO) {
+						
+						// Dia de refeição encontrado.
+						builder.status(Response.Status.OK);
+						builder.entity(diasRefeicao);
+					
+					} else {
+						
+						// Verificar dia de refeição realizado.
+						RefeicaoRealizada refeicaoRealizada = 
+								RefeicaoRealizadaDAO.getInstance()
+									.getRefeicaoRealizadaCorrente(matricula);
+						
+						if (refeicaoRealizada != null) {
+							
+							Error error = ErrorFactory.getErrorFromIndex(
+									ErrorFactory.REFEICAO_JA_REALIZADA);
+							
+							String nome = refeicaoRealizada.getConfirmaRefeicaoDia()
+									.getDiaRefeicao().getAluno().getNome();
+							String mensagem = nome + ". " + error.getMensagem();
+							
+							error.setMensagem(mensagem);
+							
+							// Solicitação fora do período de uma refeição.
+							builder.status(Response.Status.FORBIDDEN).entity(
+									error);
+						} else {
+							
+							// Dia de refeição não existente.
+							builder.status(Response.Status.FORBIDDEN).entity(
+									ErrorFactory.getErrorFromIndex(
+											ErrorFactory.DIA_REFEICAO_NAO_DEFINIDO));
+						}
+					}					
 				
 				} else {
 					
-					// Verificar dia de refeição realizado.
-					RefeicaoRealizada refeicaoRealizada = 
-							RefeicaoRealizadaDAO.getInstance()
-								.getRefeicaoRealizadaCorrente(matricula);
-					
-					if (refeicaoRealizada != null) {
-						
-						Error error = ErrorFactory.getErrorFromIndex(
-								ErrorFactory.REFEICAO_JA_REALIZADA);
-						
-						String nome = refeicaoRealizada.getConfirmaRefeicaoDia()
-								.getDiaRefeicao().getAluno().getNome();
-						String mensagem = nome + ". " + error.getMensagem();
-						
-						error.setMensagem(mensagem);
-						
-						// Solicitação fora do período de uma refeição.
-						builder.status(Response.Status.FORBIDDEN).entity(
-								error);
-					} else {
-						
-						// Dia de refeição não existente.
-						builder.status(Response.Status.FORBIDDEN).entity(
-								ErrorFactory.getErrorFromIndex(
-										ErrorFactory.DIA_REFEICAO_NAO_DEFINIDO));
-					}
+					// Solicitação fora do período de uma refeição.
+					builder.status(Response.Status.FORBIDDEN).entity(
+							ErrorFactory.getErrorFromIndex(
+									ErrorFactory.PERIODO_REFEICAO_INVALIDO));
 				}
 				
-			
-			} else {
-				
-				// Solicitação fora do período de uma refeição.
-				builder.status(Response.Status.FORBIDDEN).entity(
-						ErrorFactory.getErrorFromIndex(
-								ErrorFactory.PERIODO_REFEICAO_INVALIDO));
+
+			} catch (SQLExceptionNutrIF exception) {
+
+				builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
+						exception.getError());
 			}
-			
-
-		} catch (SQLExceptionNutrIF exception) {
-
-			builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
-					exception.getError());
-		}		
+		}				
 		
 		return builder.build();		
 	}
@@ -424,20 +432,29 @@ public class DiaRefeicaoController {
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
 		builder.expires(new Date());
 		
-		try {
-
-			List<DiaRefeicao> diasRefeicao = DiaRefeicaoDAO
-					.getInstance().getAllByAlunoMatricula(matricula);
-			logger.debug("Dias das Refeições: " + diasRefeicao);
+		// Validação dos dados de entrada.
+		int validacao = Validate.matricula(matricula);
+		
+		if (validacao == Validate.VALIDATE_OK) {
 			
-			builder.status(Response.Status.OK);
-			builder.entity(diasRefeicao);
+			try {
 
-		} catch (SQLExceptionNutrIF exception) {
+				List<DiaRefeicao> diasRefeicao = DiaRefeicaoDAO
+						.getInstance().getAllByAlunoMatricula(matricula);
+				logger.debug("Dias das Refeições: " + diasRefeicao);
+				
+				builder.status(Response.Status.OK);
+				builder.entity(diasRefeicao);
 
-			builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
-					exception.getError());
-		}		
+			} catch (SQLExceptionNutrIF exception) {
+
+				builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
+						exception.getError());
+			}
+		} else {
+			
+			//TODO
+		}
 		
 		return builder.build();		
 	}

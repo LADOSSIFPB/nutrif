@@ -97,4 +97,31 @@ public class RefeicaoController {
 
 		return builder.build();
 	}
+	
+	@PermitAll
+	@GET
+	@Path("/listar/tipo/{tipo}")
+	@Produces("application/json")
+	public Response listByTipo(@PathParam("tipo") String tipo) {
+		
+		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
+		builder.expires(new Date());
+
+		List<Refeicao> refeicoes = new ArrayList<Refeicao>();
+		
+		try {
+
+			refeicoes = RefeicaoDAO.getInstance().listByTipo(tipo);
+			
+			builder.status(Response.Status.OK);
+			builder.entity(refeicoes);
+
+		} catch (SQLExceptionNutrIF exception) {
+
+			builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
+					exception.getError());
+		}
+
+		return builder.build();
+	}
 }

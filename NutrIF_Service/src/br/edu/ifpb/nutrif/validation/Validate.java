@@ -36,7 +36,9 @@ public class Validate {
 	private static ImageValidator imageValidator = new ImageValidator();
 	private static DataValidator dataValidator = new DataValidator();
 
-	public static int VALIDATE_OK = 0;	
+	public static int VALIDATE_OK = 0;
+	
+	public static int ANO_MATRICULA_12_DIGITOS = 2016;
 	
 	public static int inserirAluno(Aluno aluno) {
 		
@@ -497,6 +499,29 @@ public class Validate {
 				DataValidator.FORMATO_DATA)) {
 			
 			return ErrorFactory.DATA_INVALIDA;
+		}
+		
+		return VALIDATE_OK;
+	}
+
+	public static int matricula(String matricula) {
+		
+		Integer ano = Integer.valueOf(matricula.substring(0, 4));
+		
+		// No ano de 2016 a matrícula passou a ter 12 dígitos.
+		if (ano >= ANO_MATRICULA_12_DIGITOS) {
+			
+			if (!numeroValidator.validate(matricula, 12)) {
+				
+				return ErrorFactory.MATRICULA_ALUNO_INVALIDA;
+			}
+			
+		} else {
+			
+			if (!numeroValidator.validate(matricula, 11)) {
+				
+				return ErrorFactory.MATRICULA_ALUNO_INVALIDA;
+			}
 		}
 		
 		return VALIDATE_OK;

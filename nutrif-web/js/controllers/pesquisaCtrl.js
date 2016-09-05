@@ -16,82 +16,41 @@ angular.module('NutrifApp').controller("pesquisaCtrl", function ($scope, diaRefe
 		var _matricula = refeicao.aluno.matricula;
 		var _nome = refeicao.aluno.nome;
 
-		if (_matricula != undefined 
-			&& (_matricula.length == TAM_MATRICULA_11
-				|| _matricula.length == TAM_MATRICULA_12)) {
+		if (_matricula != undefined
+			&& ((parseInt(_matricula.substring(0,4))<=2015 && _matricula.length == TAM_MATRICULA_11)
+			|| (parseInt(_matricula.substring(0,4))>=2016 && _matricula.length == TAM_MATRICULA_12))) {
 
-					diaRefeicaoService.buscaRefeicaoPorMatricula(_matricula).success(function (data, status) {
+				diaRefeicaoService.buscaRefeicaoPorMatricula(_matricula).success(function (data, status) {
 
-						$scope.refeicoes = data;
+					$scope.refeicoes = data;
 
-					}).error(function (data, status) {
+				}).error(function (data, status) {
 
-						if (!data) {
+					// Limpar dia de refeição listados anteriormente.
+			    $scope.refeicoes = [];
+					
+					if (!data) {
 
-							alert("Ocorreu um erro na comunicação com o servidor, favor chamar o suporte.");
+						alert("Ocorreu um erro na comunicação com o servidor, favor chamar o suporte.");
 
-						} else {
+					} else {
 
-							alert(data.mensagem);
+						alert(data.mensagem);
+					}
 
-						}
+				});
 
-					});
+			} else if (_nome != undefined && _nome.length >= TAM_MIN_BUSCA_NOME) {
 
-				} else if (_nome != undefined && _nome.length >= TAM_MIN_BUSCA_NOME) {
+				diaRefeicaoService.buscaRefeicaoPorNome(_nome).success(function (data, status) {
 
-					diaRefeicaoService.buscaRefeicaoPorNome(_nome).success(function (data, status) {
+					$scope.refeicoes = data;
 
-						$scope.refeicoes = data;
-
-					}).error(function (data, status) {
-
-						if (!data) {
-
-							alert("Ocorreu um erro na comunicação com o servidor, favor chamar o suporte.");
-
-						} else {
-
-							alert(data.mensagem);
-
-						}
-
-					});
-
-				}
-
-			}
-
-			$scope.selecionarRefeicao = function (refeicao) {
-				$scope.refeicaoSelecionada = refeicao;
-				$('#confirmar-refeicao').openModal();
-			}
-
-			$scope.registrarRefeicao = function (refeicaoSelecionada) {
-
-				var _refeicaoRealizada = {};
-				_refeicaoRealizada.confirmaRefeicaoDia = {};
-				_refeicaoRealizada.confirmaRefeicaoDia.diaRefeicao = refeicaoSelecionada;
-				_refeicaoRealizada.inspetor = {};
-				_refeicaoRealizada.inspetor.id = $cookies.getObject('user').id;
-
-				delete _refeicaoRealizada.confirmaRefeicaoDia.diaRefeicao.refeicao.horaInicio;
-				delete _refeicaoRealizada.confirmaRefeicaoDia.diaRefeicao.refeicao.horaFinal;
-				delete _refeicaoRealizada.confirmaRefeicaoDia.diaRefeicao.refeicao.horaPretensao;
-
-				refeicaoRealizadaService.inserirRefeicao(_refeicaoRealizada).success(function (data, status) {
-
-					$scope.refeicaoSelecionada = {};
-					$scope.refeicoes = [];
-					$scope.refeicao = {};
-
-					Materialize.toast('Refeição realizada com sucesso', 6000);
-
-				}).error(function (data, status){
+				}).error(function (data, status) {
 
 					if (!data) {
 
-						alert("Erro ao registrar refeição, tente novamente ou contate os administradores.");
+						alert("Ocorreu um erro na comunicação com o servidor, favor chamar o suporte.");
 
 					} else {
 
@@ -103,4 +62,47 @@ angular.module('NutrifApp').controller("pesquisaCtrl", function ($scope, diaRefe
 
 			}
 
-		});
+		}
+
+		$scope.selecionarRefeicao = function (refeicao) {
+			$scope.refeicaoSelecionada = refeicao;
+			$('#confirmar-refeicao').openModal();
+		}
+
+		$scope.registrarRefeicao = function (refeicaoSelecionada) {
+
+			var _refeicaoRealizada = {};
+			_refeicaoRealizada.confirmaRefeicaoDia = {};
+			_refeicaoRealizada.confirmaRefeicaoDia.diaRefeicao = refeicaoSelecionada;
+			_refeicaoRealizada.inspetor = {};
+			_refeicaoRealizada.inspetor.id = $cookies.getObject('user').id;
+
+			delete _refeicaoRealizada.confirmaRefeicaoDia.diaRefeicao.refeicao.horaInicio;
+			delete _refeicaoRealizada.confirmaRefeicaoDia.diaRefeicao.refeicao.horaFinal;
+			delete _refeicaoRealizada.confirmaRefeicaoDia.diaRefeicao.refeicao.horaPretensao;
+
+			refeicaoRealizadaService.inserirRefeicao(_refeicaoRealizada).success(function (data, status) {
+
+				$scope.refeicaoSelecionada = {};
+				$scope.refeicoes = [];
+				$scope.refeicao = {};
+
+				Materialize.toast('Refeição realizada com sucesso', 6000);
+
+			}).error(function (data, status){
+
+				if (!data) {
+
+					alert("Erro ao registrar refeição, tente novamente ou contate os administradores.");
+
+				} else {
+
+					alert(data.mensagem);
+
+				}
+
+			});
+
+		}
+
+	});
