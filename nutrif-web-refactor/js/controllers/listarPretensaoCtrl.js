@@ -5,7 +5,7 @@ angular.module("NutrifApp").controller("listarPretensaoCtrl", function ($scope,
     $scope.refeicoes = [];
     $scope.refeicaoSelecionada = {};
     $scope.pretensao = {};
-    $scope.image = "";
+    $scope.image = "img/icon/user-shape.svg";
 
     $scope.solicitarRefeicao = function (refeicao) {
         pretensaoService.verifyDiaRefeicao(refeicao)
