@@ -288,42 +288,54 @@ public class DiaRefeicaoController {
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
 		builder.expires(new Date());
 		
-		try {
-			
-			if (RefeicaoDAO.getInstance().isPeriodoRefeicao()) {
+		// Validação dos dados de entrada.
+		int validacao = Validate.nomeAlunoBusca(nome);
+		
+		if (validacao == Validate.VALIDATE_OK) {
+			try {
 				
-				List<DiaRefeicao> diasRefeicao = DiaRefeicaoDAO
-						.getInstance().getDiaRefeicaoRealizadaByAlunoNome(nome);
+				if (RefeicaoDAO.getInstance().isPeriodoRefeicao()) {
+					
+					List<DiaRefeicao> diasRefeicao = DiaRefeicaoDAO
+							.getInstance().getDiaRefeicaoRealizadaByAlunoNome(nome);
+					
+					if (diasRefeicao.size() > BancoUtil.QUANTIDADE_ZERO) {
+						
+						builder.status(Response.Status.OK);
+						builder.entity(diasRefeicao);
+						
+					} 
+					/*
+					else {
+						
+						// Dia de refeição não existente.
+						builder.status(Response.Status.FORBIDDEN).entity(
+								ErrorFactory.getErrorFromIndex(
+										ErrorFactory.DIA_REFEICAO_NAO_DEFINIDO));
+					}
+					*/				
 				
-				if (diasRefeicao.size() > BancoUtil.QUANTIDADE_ZERO) {
+				} else {
 					
-					builder.status(Response.Status.OK);
-					builder.entity(diasRefeicao);
-					
-				} 
-				/*
-				else {
-					
-					// Dia de refeição não existente.
+					// Solicitação fora do período de uma refeição.
 					builder.status(Response.Status.FORBIDDEN).entity(
 							ErrorFactory.getErrorFromIndex(
-									ErrorFactory.DIA_REFEICAO_NAO_DEFINIDO));
+									ErrorFactory.PERIODO_REFEICAO_INVALIDO));
 				}
-				*/				
-			
-			} else {
-				
-				// Solicitação fora do período de uma refeição.
-				builder.status(Response.Status.FORBIDDEN).entity(
-						ErrorFactory.getErrorFromIndex(
-								ErrorFactory.PERIODO_REFEICAO_INVALIDO));
+
+			} catch (SQLExceptionNutrIF exception) {
+
+				// Erro na manipulação dos dados.
+				builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
+						exception.getError());
 			}
-
-		} catch (SQLExceptionNutrIF exception) {
-
-			builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
-					exception.getError());
-		}		
+		
+		} else {
+			
+			// Solicitação fora do período de uma refeição.
+			builder.status(Response.Status.FORBIDDEN).entity(
+					ErrorFactory.getErrorFromIndex(validacao));
+		}
 		
 		return builder.build();		
 	}	

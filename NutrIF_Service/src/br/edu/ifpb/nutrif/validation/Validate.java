@@ -526,4 +526,14 @@ public class Validate {
 		
 		return VALIDATE_OK;
 	}
+	
+	public static int nomeAlunoBusca(String nome) {
+		
+		if (!stringValidator.validate(nome, 3, 255)) {
+			
+			return ErrorFactory.NOME_ALUNO_INVALIDO;			
+		}
+		
+		return VALIDATE_OK;
+	}
 }
