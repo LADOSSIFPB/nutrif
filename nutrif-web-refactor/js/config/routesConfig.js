@@ -150,6 +150,17 @@ angular.module('NutrifApp').config(function ($stateProvider, $urlRouterProvider)
 		module: 'admin'
 	})
 
+	/* Curso */
+	.state('home.listar-cursos', {
+		url: '/listar/curso',
+		title: 'curso',
+		templateUrl: 'view/manager/admin/listar-cursos.html',
+		controller: 'listarCursoCtrl',
+		controllerAs: 'listarCurso',
+		module: 'admin'
+	})
+
+
 	/* Pretensão */
 	.state('pretensao', {
 		url: '/pretensao',
