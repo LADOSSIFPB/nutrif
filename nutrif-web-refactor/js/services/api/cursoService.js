@@ -6,8 +6,13 @@ angular.module("NutrifApp").factory("cursoService", function($http, config){
 		return $http.get(_path + "/listar");
 	};
 
+  var _cadastrarCurso = function (curso){
+		return $http.post(_path + "/inserir", curso);
+	}
+
 	return {
-		listarCursos: _listarCursos
+		listarCursos: _listarCursos,
+    cadastrarCurso: _cadastrarCurso
 	};
 
 });

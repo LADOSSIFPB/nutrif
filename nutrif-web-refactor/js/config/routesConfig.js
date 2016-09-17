@@ -153,10 +153,39 @@ angular.module('NutrifApp').config(function ($stateProvider, $urlRouterProvider)
 	/* Curso */
 	.state('home.listar-cursos', {
 		url: '/listar/curso',
-		title: 'curso',
+		title: 'Curso',
 		templateUrl: 'view/manager/admin/listar-cursos.html',
 		controller: 'listarCursoCtrl',
 		controllerAs: 'listarCurso',
+		module: 'admin'
+	})
+
+	.state('home.adicionar-cursos', {
+		url: '/adicionar/curso',
+		title: 'Adicionar curso',
+		templateUrl: 'view/manager/admin/adicionar-curso.html',
+		controller: 'cadastrarCursoCtrl',
+		controllerAs: 'cadastrarCurso',
+		module: 'admin'
+	})
+
+	/* Evento */
+
+	.state('home.listar-eventos', {
+		url: '/listar/evento',
+		title: 'Evento',
+		templateUrl: 'view/manager/admin/listar-eventos.html',
+		controller: 'listarEventoCtrl',
+		controllerAs: 'listarEvento',
+		module: 'admin'
+	})
+
+	.state('home.adicionar-eventos', {
+		url: '/adicionar/evento',
+		title: 'Adicionar Evento',
+		templateUrl: 'view/manager/admin/adicionar-evento.html',
+		controller: 'cadstrarEventoCtrl',
+		controllerAs: 'cadastrarEvento',
 		module: 'admin'
 	})
 
