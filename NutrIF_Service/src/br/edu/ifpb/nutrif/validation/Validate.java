@@ -536,4 +536,21 @@ public class Validate {
 		
 		return VALIDATE_OK;
 	}
+	
+	public static int evento(Evento evento) {
+		
+		String nome = evento.getNome();
+		if (!stringValidator.validate(nome)) {
+			
+			return ErrorFactory.NOME_EVENTO_INVALIDO;			
+		}
+		
+		String descricao = evento.getNome();
+		if (!stringValidator.validate(descricao)) {
+			
+			return ErrorFactory.DESCRICAO_EVENTO_INVALIDO;			
+		}
+		
+		return VALIDATE_OK;
+	}
 }

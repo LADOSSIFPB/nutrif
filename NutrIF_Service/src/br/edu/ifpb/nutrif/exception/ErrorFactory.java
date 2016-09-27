@@ -111,11 +111,13 @@ public class ErrorFactory {
 	 * Evento
 	 */
 	public static final int ID_EVENTO_INVALIDO = 46;
+	public static final int NOME_EVENTO_INVALIDO = 47;
+	public static final int DESCRICAO_EVENTO_INVALIDO = 48;
 	
 	/*
 	 * Refeição
 	 */
-	public static final int PERIODO_REFEICAO_INVALIDO = 47;
+	public static final int PERIODO_REFEICAO_INVALIDO = 49;
 	
 	/*
 	 * Mapa de erros: código e mensagem.
@@ -170,7 +172,9 @@ public class ErrorFactory {
 		hashMap.put(ID_EVENTO_INVALIDO, "Evento inválido.");
 		hashMap.put(PERIODO_REFEICAO_INVALIDO, "Período de Refeição inválido.");
 		hashMap.put(REFEICAO_JA_REALIZADA, "Refeição já realizada.");
-		hashMap.put(DIA_REFEICAO_NAO_DEFINIDO, "Dia de Refeição não definido para o Aluno.");		
+		hashMap.put(DIA_REFEICAO_NAO_DEFINIDO, "Dia de Refeição não definido para o Aluno.");
+		hashMap.put(NOME_EVENTO_INVALIDO, "Nome do evento inválido.");
+		hashMap.put(DESCRICAO_EVENTO_INVALIDO, "Descrição do evento inválido.");
 		
 		return hashMap;
 	}

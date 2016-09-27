@@ -27,7 +27,7 @@ public class AlunoDAO extends GenericDao<Integer, Aluno> {
 		
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		
-		List<Aluno> aluno = null;
+		List<Aluno> alunos = null;
 		
 		try {
 			
@@ -37,7 +37,7 @@ public class AlunoDAO extends GenericDao<Integer, Aluno> {
 			Query query = session.createQuery(hql);
 			query.setParameter("nome", "%" + nome + "%");
 			
-			aluno = (List<Aluno>) query.list();
+			alunos = (List<Aluno>) query.list();
 	        
 		} catch (HibernateException hibernateException) {
 			
@@ -50,7 +50,7 @@ public class AlunoDAO extends GenericDao<Integer, Aluno> {
 			session.close();
 		}
 		
-		return aluno;
+		return alunos;
 	}
 	
 	public Aluno getByMatricula(String matricula) {

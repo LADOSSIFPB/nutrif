@@ -4,8 +4,12 @@ import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.hibernate.HibernateException;
+import org.hibernate.Query;
+import org.hibernate.Session;
 
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
+import br.edu.ifpb.nutrif.hibernate.HibernateUtil;
 import br.edu.ladoss.entity.Evento;
 
 public class EventoDAO extends GenericDao<Integer, Evento>{
@@ -17,6 +21,36 @@ public class EventoDAO extends GenericDao<Integer, Evento>{
 	public static EventoDAO getInstance() {
 		instance = new EventoDAO();
 		return instance;
+	}
+	
+	public List<Evento> listByNome(String nome) {
+		
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		
+		List<Evento> eventos = null;
+		
+		try {
+			
+			String hql = "from Evento as e"
+					+ " where e.nome like :nome";
+			
+			Query query = session.createQuery(hql);
+			query.setParameter("nome", "%" + nome + "%");
+			
+			eventos = (List<Evento>) query.list();
+	        
+		} catch (HibernateException hibernateException) {
+			
+			session.getTransaction().rollback();
+			
+			throw new SQLExceptionNutrIF(hibernateException);
+			
+		} finally {
+		
+			session.close();
+		}
+		
+		return eventos;
 	}
 
 	@Override
