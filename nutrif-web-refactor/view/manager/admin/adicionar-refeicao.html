@@ -1,0 +1,46 @@
+<md-card layout-padding style="padding-left: 6%; padding-right: 6%; padding-bottom: 4%; padding-top: 3%">
+  <form layout="column" ng-submit="cadastrarRefeicao.cadastrar(cadastrarRefeicao.refeicao)">
+
+    <!-- Nome -->
+    <md-input-container class="md-icon-float md-block">
+      <label>Nome</label>
+      <input ng-model="cadastrarRefeicao.refeicao.tipo" type="text" required>
+    </md-input-container>
+
+    <!-- Horário de Início -->
+    <md-input-container flex-gt-md="30">
+      <label>Horário de Início</label>
+        <input mdc-datetime-picker date="false" time="true" type="text" id="time" short-time="true"
+               placeholder="Time"
+               min-date="minDate"
+               format="hh:mm:ss"
+               ng-model="cadastrarRefeicao.refeicao.horaInicio">
+    </md-input-container>
+
+    <!-- Horário de Fim -->
+    <md-input-container flex-gt-md="30">
+      <label>Horário de Fim</label>
+        <input mdc-datetime-picker date="false" time="true" type="text" id="time" short-time="true"
+               placeholder="Time"
+               min-date="minDate"
+               format="hh:mm:ss"
+               ng-model="cadastrarRefeicao.refeicao.horaFinal">
+    </md-input-container>
+
+    <!-- Previsto a Pretensão -->
+    <!-- Não to entendendo -->
+
+    <!-- Horário Máximo Para Pretensão -->
+    <md-input-container flex-gt-md="30">
+      <label>Horário Máximo Para Pretensão</label>
+        <input mdc-datetime-picker date="false" time="true" type="text" id="time" short-time="true"
+               placeholder="Time"
+               min-date="minDate"
+               format="hh:mm:ss"
+               ng-model="cadastrarRefeicao.refeicao.horaPretensao">
+    </md-input-container>
+
+    <md-button type="submit" layout-fill type="submit" class="md-raised md-primary md-hue-1 flex" style="margin-top: 40px">Cadastrar Refeição</md-button>
+
+  </form>
+</md-card>

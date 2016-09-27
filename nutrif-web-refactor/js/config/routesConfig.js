@@ -205,4 +205,23 @@ angular.module('NutrifApp').config(function ($stateProvider, $urlRouterProvider)
 		controllerAs: 'listar',
 		module: 'comensal'
 	});
-});
+
+	/* Refeição */
+
+	.state('home.adicionar-refeicao', {
+		url: '/adicionar/refeicao',
+		title: 'Adicionar Refeicao',
+		templateUrl: 'view/manager/admin/adicionar-refeicao.html',
+		controller: 'cadastrarRefeicaoCtrl',
+		controllerAs: 'cadastrarRefeicao',
+		module: 'admin'
+	})
+
+	.state('home.listar-refeicoes', {
+		url: '/listar/refeicao',
+		title: 'Refeicao',
+		templateUrl: 'view/manager/admin/listar-refeicoes.html',
+		controller: 'listarRefeicaoCtrl',
+		controllerAs: 'listarRefeicao',
+		module: 'admin'
+	})

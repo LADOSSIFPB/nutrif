@@ -8,14 +8,14 @@
       </md-card-avatar>
 
       <md-card-header-text>
-        <span class="md-title">Edital</span>
-        <span class="md-subhead">Digite o nome do edital no campo abaixo para buscar ou selecione a opção ao lado para adicionar um novo.</span>
+        <span class="md-title">Refeição</span>
+        <span class="md-subhead">Digite o nome da refeição no campo abaixo para buscar ou selecione a opção ao lado para adicionar um novo.</span>
       </md-card-header-text>
 
       <md-card-actions layout="row">
         <md-card-icon-actions>
-          <md-button class="md-icon-button" aria-label="Adicionar Edital" ui-sref="home.adicionar-edital">
-            <md-tooltip md-direction="bottom">Adicionar Edital</md-tooltip>
+          <md-button class="md-icon-button" aria-label="Adicionar Refeições" ui-sref="home.adicionar-refeicao">
+            <md-tooltip md-direction="bottom">Adicionar Refeição</md-tooltip>
             <md-icon md-svg-icon="img/icon/add-plus-button.svg"></md-icon>
           </md-button>
 
@@ -23,7 +23,7 @@
       </md-card-actions>
     </md-card-header>
 
-    <!-- Listar Edital -->
+    <!-- Listar Refeição -->
     <md-toolbar class="md-table-toolbar md-default">
       <div class="md-toolbar-tools">
 
@@ -31,7 +31,7 @@
 
         <div class="toolbar-input" flex>
           <input type="text" ng-model="texto" ng-keyup="pesquisar(texto)"
-          placeholder="Nome do edital">
+          placeholder="Nome da refeição">
         </div>
 
         <md-button aria-label="Limpar Busca" class="md-icon-button" ng-click="limparBusca(texto)">
@@ -45,26 +45,20 @@
     <table md-table>
       <thead md-head>
         <tr md-row>
-          <th md-column>Edital</th>
-          <th md-column>Campus</th>
-          <th md-column>Previsão</th>
-          <th md-column>Real</th>
-          <th md-column>Início</th>
-          <th md-column>Fim</th>
+          <th md-column>Refeição</th>
+          <th md-column>Horário Inicial</th>
+          <th md-column>Horário Final</th>
         </tr>
       </thead>
 
       <tbody md-body>
-        <tr md-row ng-repeat="edital in editais | limitTo: query.limit: (query.page - 1) * query.limit">
-          <td md-cell>{{edital.nome | uppercase}}</td>
-          <td md-cell>{{edital.campus.cidade | uppercase}}</td>
-          <td md-cell>{{edital.quantidadeBeneficiadosPrevista}}</td>
-          <td md-cell>{{edital.quantidadeBeneficiadosReal}}</td>
-          <td md-cell>{{edital.dataInicial | date:'dd/MM/yyyy h:mma'}}</td>
-          <td md-cell>{{edital.dataFinal | date:'dd/MM/yyyy h:mma'}}</td>
+        <tr md-row ng-repeat="refeicao in refeicoes | limitTo: query.limit: (query.page - 1) * query.limit">
+          <td md-cell>{{refeicao.tipo | uppercase}}</td>
+          <td md-cell>{{refeicao.horaInicio | time:'hh:mm:ss'}}</td>
+          <td md-cell>{{refeicao.horaFinal | time:'hh:mm:ss'}}</td>
 		  <td md-cell>
-			<md-button class="md-icon-button" aria-label="Editar" ui-sref="home.editar-edital({id: edital.id})" ui-sref-opts="{reload: true}">
-				<md-tooltip md-direction="left">Editar Edital</md-tooltip>
+			<md-button class="md-icon-button" aria-label="Editar" ui-sref="home.editar-refeicao({id: edital.id})" ui-sref-opts="{reload: true}">
+				<md-tooltip md-direction="left">Editar Refeição</md-tooltip>
 				<md-icon md-svg-icon="img/icon/create-new-pencil-button.svg" style="width: 18px; height: 18px;"></md-icon>
 			</md-button>
 		  </td>
@@ -72,5 +66,5 @@
       </tbody>
     </table>
   </md-table-container>
-  <md-table-pagination md-limit="query.limit" md-page="query.page" md-total="{{edital.length}}" md-page-select></md-table-pagination>
+  <md-table-pagination md-limit="query.limit" md-page="query.page" md-total="{{refeicao.length}}" md-page-select></md-table-pagination>
 </md-card>
