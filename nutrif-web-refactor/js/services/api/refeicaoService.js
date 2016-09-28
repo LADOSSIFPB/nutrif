@@ -15,8 +15,8 @@ angular.module("NutrifApp").factory("refeicaoService", function($http, config){
 	};
 
 	return {
-		listarRefeicoes: _listarRefeicoes
-    cadastrarRefeicao: _cadastrarRefeicao,
+		listarRefeicoes: _listarRefeicoes,
+		cadastrarRefeicao: _cadastrarRefeicao,
 		buscarRefeicaoPorNome: _buscarRefeicaoPorNome
 	};
 

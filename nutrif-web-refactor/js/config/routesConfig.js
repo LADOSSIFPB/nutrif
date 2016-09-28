@@ -204,7 +204,7 @@ angular.module('NutrifApp').config(function ($stateProvider, $urlRouterProvider)
 		controller: 'listarPretensaoCtrl',
 		controllerAs: 'listar',
 		module: 'comensal'
-	});
+	})
 
 	/* Refeição */
 
@@ -224,4 +224,5 @@ angular.module('NutrifApp').config(function ($stateProvider, $urlRouterProvider)
 		controller: 'listarRefeicaoCtrl',
 		controllerAs: 'listarRefeicao',
 		module: 'admin'
-	})
+	});
+});
