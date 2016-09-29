@@ -9,6 +9,18 @@ angular.module('NutrifApp').controller('listarEventoCtrl', function ($scope, $md
     };
 
 
+    $scope.pesquisar = function (texto){
+        if(texto.length > 2) {
+            if (texto.match(/[a-zA-Z]/i) != null) {
+                eventoService.buscarEventoPorNome(texto)
+                    .success(onSuccessCallback)
+                    .error(onErrorCallback);
+            }
+        } else if (texto.length === 0) {
+            $scope.carregarEventos();
+        }
+    };
+
     $scope.carregarEventos = function() {
           eventoService.listarEvento()
                     .success(onSuccessCallback)

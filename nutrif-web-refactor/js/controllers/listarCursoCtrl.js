@@ -15,6 +15,18 @@ angular.module('NutrifApp').controller('listarCursoCtrl', function ($scope, $mdT
                     .error(onErrorCallback);
     }
 
+    $scope.pesquisar = function (texto){
+        if(texto.length > 2) {
+            if (texto.match(/[a-zA-Z]/i) != null) {
+                cursoService.buscarCursoPorNome(texto)
+                    .success(onSuccessCallback)
+                    .error(onErrorCallback);
+            }
+        } else if (texto.length === 0) {
+            $scope.carregarCursos();
+        }
+    };
+
 
     function onSuccessCallback(data, status) {
         $scope.cursos = data;

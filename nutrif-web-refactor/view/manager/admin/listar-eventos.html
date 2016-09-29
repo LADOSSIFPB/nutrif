@@ -14,7 +14,7 @@
 
       <md-card-actions layout="row">
         <md-card-icon-actions>
-          <md-button class="md-icon-button" aria-label="Adicionar Evento" ui-sref="home.adicionar-evento">
+          <md-button class="md-icon-button" aria-label="Adicionar Evento" ui-sref="home.adicionar-eventos">
             <md-tooltip md-direction="bottom">Adicionar Evento</md-tooltip>
             <md-icon md-svg-icon="img/icon/add-plus-button.svg"></md-icon>
           </md-button>
@@ -58,7 +58,7 @@
         <tr md-row ng-repeat="evento in eventos | limitTo: query.limit: (query.page - 1) * query.limit">
           <td md-cell>{{evento.nome | uppercase}}</td>
           <td md-cell>{{evento.descricao | uppercase}}</td>
-          <td md-cell><md-button class="md-icon-button" aria-label="Editar" ui-sref="home.editar-evento({matricula: aluno.matricula})" ui-sref-opts="{reload: true}">
+          <td md-cell><md-button class="md-icon-button" aria-label="Editar" ui-sref="home.editar-evento({id: evento.id})" ui-sref-opts="{reload: true}">
             <md-tooltip md-direction="left">Editar Evento</md-tooltip>
             <md-icon md-svg-icon="img/icon/create-new-pencil-button.svg" style="width: 18px; height: 18px;"></md-icon>
           </md-button></td>

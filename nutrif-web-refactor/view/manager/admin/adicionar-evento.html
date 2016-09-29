@@ -1,7 +1,7 @@
 <md-card layout-padding style="padding-left: 6%; padding-right: 6%; padding-bottom: 4%; padding-top: 3%">
 
   <!-- Formulário -->
-  <form layout="column" ng-submit="cadastrarEvento.cadastrar(cadastrarEvento.edital)">
+  <form layout="column" ng-submit="cadastrarEvento.cadastrar(cadastrarEvento.evento)">
 
     <md-input-container class="md-icon-float md-block">
       <label>Nome</label>
@@ -12,6 +12,11 @@
       <label>Descrição</label>
       <input ng-model="cadastrarEvento.evento.descricao" type="text" required>
     </md-input-container>
+
+    <md-button type="submit" layout-fill type="submit" class="md-raised md-primary md-hue-1 flex"
+    style="margin-top: 40px">
+        Cadastrar Evento
+    </md-button>
 
     </form>
 
