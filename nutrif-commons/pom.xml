@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>br.edu.ifpb.ladoss</groupId>
 	<artifactId>NutrIF_Commons</artifactId>
-	<version>1.0</version>
+	<version>2.0</version>
 	<name>NutrIF</name>
 	
 	<build>
