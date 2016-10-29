@@ -33,6 +33,12 @@ public class Login {
 	@JoinColumn(name = "fk_id_pessoa", referencedColumnName="id_pessoa")
 	private Pessoa pessoa;
 	
+	@Column(name = "nm_keyauth")
+	private String keyAuth;
+	
+	@Column(name = "nm_useragent")
+	private String userAgent;
+	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "dt_registro", insertable = true, updatable = false)
 	private Date registro;
@@ -64,9 +70,29 @@ public class Login {
 		this.registro = registro;
 	}
 	
+	@XmlElement
+	public String getKeyAuth() {
+		return keyAuth;
+	}
+
+	public void setKeyAuth(String keyAuth) {
+		this.keyAuth = keyAuth;
+	}
+
+	@XmlElement
+	public String getUserAgent() {
+		return userAgent;
+	}
+
+	public void setUserAgent(String userAgent) {
+		this.userAgent = userAgent;
+	}
+	
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
-		return super.toString();
+		return "Login[pessoa=" + pessoa.getEmail()
+				+ ", registro=" + registro
+				+ ", userAgent" + userAgent
+				+ "]";
 	}
 }

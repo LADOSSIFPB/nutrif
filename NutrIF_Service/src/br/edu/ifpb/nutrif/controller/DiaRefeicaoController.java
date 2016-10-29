@@ -304,16 +304,13 @@ public class DiaRefeicaoController {
 						builder.status(Response.Status.OK);
 						builder.entity(diasRefeicao);
 						
-					} 
-					/*
-					else {
+					} else {
 						
 						// Dia de refeição não existente.
 						builder.status(Response.Status.FORBIDDEN).entity(
 								ErrorFactory.getErrorFromIndex(
 										ErrorFactory.DIA_REFEICAO_NAO_DEFINIDO));
-					}
-					*/				
+					}			
 				
 				} else {
 					

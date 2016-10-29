@@ -1,13 +1,17 @@
 package br.edu.ifpb.nutrif.controller;
 
 import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 
 import javax.annotation.security.PermitAll;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
@@ -18,6 +22,7 @@ import br.edu.ifpb.nutrif.dao.LoginDAO;
 import br.edu.ifpb.nutrif.dao.PessoaDAO;
 import br.edu.ifpb.nutrif.exception.ErrorFactory;
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
+import br.edu.ifpb.nutrif.util.StringUtil;
 import br.edu.ifpb.nutrif.validation.Validate;
 import br.edu.ladoss.entity.Error;
 import br.edu.ladoss.entity.Login;
@@ -41,7 +46,8 @@ public class PessoaController {
 	@Path("/login")
 	@Consumes("application/json")
 	@Produces("application/json")
-	public Response login(PessoaAcesso pessoaAcesso) {
+	public Response login(@HeaderParam("user-agent") String userAgent, 
+			PessoaAcesso pessoaAcesso) {
 		
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
 		builder.expires(new Date());
@@ -65,9 +71,16 @@ public class PessoaController {
 					// Registro do Login
 					Date agora = new Date();
 					
+					// Gerar AuthKey.
+					String keyAuth = StringUtil.criptografarSha256(
+							agora.toString());
+					pessoaAcesso.setKeyAuth(keyAuth);
+					
 					Login login = new Login();
 					login.setPessoa(pessoa);
 					login.setRegistro(agora);
+					login.setUserAgent(userAgent);
+					login.setKeyAuth(keyAuth);
 					
 					// Registro de Login para a Pessoa.
 					LoginDAO.getInstance().insert(login);
@@ -96,6 +109,12 @@ public class PessoaController {
 				builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
 						ErrorFactory.getErrorFromIndex(
 								ErrorFactory.IMPOSSIVEL_CRIPTOGRAFAR_VALOR));			
+			
+			} catch (NoSuchAlgorithmException e) {
+
+				builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
+						ErrorFactory.getErrorFromIndex(
+								ErrorFactory.IMPOSSIVEL_CRIPTOGRAFAR_VALOR));
 			}
 			
 		} else {

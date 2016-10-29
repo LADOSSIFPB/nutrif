@@ -1,56 +1,98 @@
-angular.module('NutrifApp').controller("pesquisaCtrl", function ($scope, diaRefeicaoService, refeicaoRealizadaService, $cookies) {
+	angular.module('NutrifApp').controller("pesquisaCtrl", function ($scope, diaRefeicaoService, refeicaoRealizadaService, $cookies) {
 
-	var TAM_MATRICULA_11 = 11;
-	var TAM_MATRICULA_12 = 12;
-	var TAM_MIN_BUSCA_NOME = 3;
+		var TAM_MATRICULA_11 = 11;
+		var TAM_MATRICULA_12 = 12;
+		var TAM_MIN_BUSCA_NOME = 3;
 
-	$scope.refeicoes = [];
-
-	$scope.limparBusca = function () {
 		$scope.refeicoes = [];
-		delete $scope.refeicao;
-	}
 
-	$scope.buscarRefeicoes = function (refeicao) {
+		$scope.limparBusca = function () {
+			$scope.refeicoes = [];
+			delete $scope.refeicao;
+		}
 
-		var _matricula = refeicao.aluno.matricula;
-		var _nome = refeicao.aluno.nome;
+		$scope.buscarRefeicoes = function (refeicao) {
 
-		if (_matricula != undefined
-			&& ((parseInt(_matricula.substring(0,4))<=2015 && _matricula.length == TAM_MATRICULA_11)
-			|| (parseInt(_matricula.substring(0,4))>=2016 && _matricula.length == TAM_MATRICULA_12))) {
+			var _matricula = refeicao.aluno.matricula;
+			var _nome = refeicao.aluno.nome;
 
-				diaRefeicaoService.buscaRefeicaoPorMatricula(_matricula).success(function (data, status) {
+			if (_matricula != undefined
+				&& ((parseInt(_matricula.substring(0,4))<=2015 && _matricula.length == TAM_MATRICULA_11)
+				|| (parseInt(_matricula.substring(0,4))>=2016 && _matricula.length == TAM_MATRICULA_12))) {
 
-					$scope.refeicoes = data;
+					diaRefeicaoService.buscaRefeicaoPorMatricula(_matricula)
+						.success(function (data, status) {
+								$scope.refeicoes = data;
+							})
+						.error(function (data, status) {
 
-				}).error(function (data, status) {
+							// Limpar dia de refeição listados anteriormente.
+					    $scope.refeicoes = [];
 
-					// Limpar dia de refeição listados anteriormente.
-			    $scope.refeicoes = [];
-					
+							if (!data) {
+
+								alert("Ocorreu um erro na comunicação com o servidor, favor chamar o suporte.");
+
+							} else {
+
+								alert(data.mensagem);
+							}
+						});
+
+				} else if (_nome != undefined && _nome.length >= TAM_MIN_BUSCA_NOME) {
+
+					diaRefeicaoService.buscaRefeicaoPorNome(_nome).success(function (data, status) {
+
+						$scope.refeicoes = data;
+
+					}).error(function (data, status) {
+
+						if (!data) {
+
+							alert("Ocorreu um erro na comunicação com o servidor, favor chamar o suporte.");
+
+						} else {
+
+							alert(data.mensagem);
+
+						}
+
+					});
+
+				}
+
+			}
+
+			$scope.selecionarRefeicao = function (refeicao) {
+				$scope.refeicaoSelecionada = refeicao;
+				$('#confirmar-refeicao').openModal();
+			}
+
+			$scope.registrarRefeicao = function (refeicaoSelecionada) {
+
+				var _refeicaoRealizada = {};
+				_refeicaoRealizada.confirmaRefeicaoDia = {};
+				_refeicaoRealizada.confirmaRefeicaoDia.diaRefeicao = refeicaoSelecionada;
+				_refeicaoRealizada.inspetor = {};
+				_refeicaoRealizada.inspetor.id = $cookies.getObject('user').id;
+
+				delete _refeicaoRealizada.confirmaRefeicaoDia.diaRefeicao.refeicao.horaInicio;
+				delete _refeicaoRealizada.confirmaRefeicaoDia.diaRefeicao.refeicao.horaFinal;
+				delete _refeicaoRealizada.confirmaRefeicaoDia.diaRefeicao.refeicao.horaPretensao;
+
+				refeicaoRealizadaService.inserirRefeicao(_refeicaoRealizada).success(function (data, status) {
+
+					$scope.refeicaoSelecionada = {};
+					$scope.refeicoes = [];
+					$scope.refeicao = {};
+
+					Materialize.toast('Refeição realizada com sucesso', 6000);
+
+				}).error(function (data, status){
+
 					if (!data) {
 
-						alert("Ocorreu um erro na comunicação com o servidor, favor chamar o suporte.");
-
-					} else {
-
-						alert(data.mensagem);
-					}
-
-				});
-
-			} else if (_nome != undefined && _nome.length >= TAM_MIN_BUSCA_NOME) {
-
-				diaRefeicaoService.buscaRefeicaoPorNome(_nome).success(function (data, status) {
-
-					$scope.refeicoes = data;
-
-				}).error(function (data, status) {
-
-					if (!data) {
-
-						alert("Ocorreu um erro na comunicação com o servidor, favor chamar o suporte.");
+						alert("Erro ao registrar refeição, tente novamente ou contate os administradores.");
 
 					} else {
 
@@ -62,47 +104,4 @@ angular.module('NutrifApp').controller("pesquisaCtrl", function ($scope, diaRefe
 
 			}
 
-		}
-
-		$scope.selecionarRefeicao = function (refeicao) {
-			$scope.refeicaoSelecionada = refeicao;
-			$('#confirmar-refeicao').openModal();
-		}
-
-		$scope.registrarRefeicao = function (refeicaoSelecionada) {
-
-			var _refeicaoRealizada = {};
-			_refeicaoRealizada.confirmaRefeicaoDia = {};
-			_refeicaoRealizada.confirmaRefeicaoDia.diaRefeicao = refeicaoSelecionada;
-			_refeicaoRealizada.inspetor = {};
-			_refeicaoRealizada.inspetor.id = $cookies.getObject('user').id;
-
-			delete _refeicaoRealizada.confirmaRefeicaoDia.diaRefeicao.refeicao.horaInicio;
-			delete _refeicaoRealizada.confirmaRefeicaoDia.diaRefeicao.refeicao.horaFinal;
-			delete _refeicaoRealizada.confirmaRefeicaoDia.diaRefeicao.refeicao.horaPretensao;
-
-			refeicaoRealizadaService.inserirRefeicao(_refeicaoRealizada).success(function (data, status) {
-
-				$scope.refeicaoSelecionada = {};
-				$scope.refeicoes = [];
-				$scope.refeicao = {};
-
-				Materialize.toast('Refeição realizada com sucesso', 6000);
-
-			}).error(function (data, status){
-
-				if (!data) {
-
-					alert("Erro ao registrar refeição, tente novamente ou contate os administradores.");
-
-				} else {
-
-					alert(data.mensagem);
-
-				}
-
-			});
-
-		}
-
-	});
+		});
