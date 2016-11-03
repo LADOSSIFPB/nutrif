@@ -10,8 +10,6 @@ import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
@@ -100,11 +98,11 @@ public class PessoaController {
 			
 			} catch (SQLExceptionNutrIF exception) {
 
+				logger.error("SQL: " + exception.getMessage());
 				builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
 						exception.getError());
 				
-			} catch (UnsupportedEncodingException 
-					exception) {
+			} catch (UnsupportedEncodingException exception) {
 
 				builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
 						ErrorFactory.getErrorFromIndex(

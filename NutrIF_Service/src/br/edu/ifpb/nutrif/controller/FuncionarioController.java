@@ -89,8 +89,13 @@ public class FuncionarioController {
 				
 				//Inserir o Pessoa - Funcionário.
 				Pessoa pessoa = pessoaAcesso.getPessoa();
-				Integer idFuncionario = FuncionarioDAO.getInstance().insert(
-						Funcionario.setFuncionario(pessoa));
+				Funcionario funcionario = Funcionario.getFuncionario(pessoa);
+				
+				// Data de inserção do registro do funcionário.
+				funcionario.setDataInsercao(hoje);
+				
+				Integer idFuncionario = FuncionarioDAO.getInstance()
+						.insert(funcionario);
 				
 				if (idFuncionario != BancoUtil.ID_VAZIO) {					
 					
@@ -149,28 +154,37 @@ public class FuncionarioController {
 				int idPessoa = funcionario.getId();
 				Funcionario funcionarioAntigo = FuncionarioDAO.getInstance()
 						.getById(idPessoa);
-				String senha = funcionarioAntigo.getSenha();
-				String keyAuth = funcionarioAntigo.getKeyAuth();				
 				
-				// Reestabelece a senha e chave de autenticação.
-				funcionario.setSenha(senha);
-				funcionario.setKeyAuth(keyAuth);
-				
-				// Roles do Funcionário.
-				List<Role> roles = RoleDAO.getInstance().getRolesByRolesId(
-						funcionario.getRoles());
-				funcionario.setRoles(roles);
-				
-				// Atualiza funcionário
-				Funcionario funcionarioAtualizado = FuncionarioDAO.getInstance()
-						.update(Funcionario.setFuncionario(funcionario));
-				
-				if (funcionarioAtualizado != null) {
+				if (funcionario != null) {
+					
+					String senha = funcionarioAntigo.getSenha();
+					String keyAuth = funcionarioAntigo.getKeyAuth();				
+					
+					// Reestabelece a senha e chave de autenticação.
+					funcionario.setSenha(senha);
+					funcionario.setKeyAuth(keyAuth);
+					
+					// Roles do Funcionário.
+					List<Role> roles = RoleDAO.getInstance().getRolesByRolesId(
+							funcionario.getRoles());
+					funcionario.setRoles(roles);
+					
+					// Data de atualização do registro do funcionário.
+					Date hoje = new Date();
+					funcionario.setDataInsercao(hoje);
+					
+					// Atualiza funcionário				
+					Funcionario funcionarioAtualizado = FuncionarioDAO.getInstance()
+							.update(funcionario);
+					
+					if (funcionarioAtualizado != null) {
 
-					// Operação realizada com sucesso.
-					builder.status(Response.Status.OK);					
-					builder.entity(funcionarioAtualizado);
+						// Operação realizada com sucesso.
+						builder.status(Response.Status.OK);					
+						builder.entity(funcionarioAtualizado);
+					}
 				}
+				
 			
 			} catch (SQLExceptionNutrIF exception) {
 
@@ -276,7 +290,7 @@ public class FuncionarioController {
 				
 				//Inserir o Pessoa - Funcionário.
 				Pessoa pessoa = pessoaAcesso.getPessoa();
-				Funcionario funcionario = Funcionario.setFuncionario(pessoa);
+				Funcionario funcionario = Funcionario.getFuncionario(pessoa);
 				Integer idFuncionario = FuncionarioDAO.getInstance().insert(
 						funcionario);
 				
