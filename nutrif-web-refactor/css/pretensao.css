@@ -3,17 +3,17 @@
  width: 780px;
  margin: 0px auto;
 }
-.conteudoImg{
+.conteudoImg {
     width: 210px;
     float: left;
 }
 
-#tamImg{
+#tamImg {
     width: 200px;
     height: 200px;
 }
 
-.table{
+.table {
     width: 520px;
     float: right;
 }
