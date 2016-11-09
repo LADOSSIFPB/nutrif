@@ -19,7 +19,6 @@ public class PessoaAcesso extends Pessoa {
 		pessoaAcesso.setNome(pessoa.getNome());
 		pessoaAcesso.setTipo(pessoa.getTipo());
 		pessoaAcesso.setEmail(pessoa.getEmail());
-		pessoaAcesso.setKeyAuth(pessoa.getKeyAuth());
 		pessoaAcesso.setRoles(pessoa.getRoles());
 		pessoaAcesso.setAtivo(pessoa.isAtivo());
 		

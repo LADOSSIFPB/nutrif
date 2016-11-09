@@ -16,6 +16,21 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQuery(name = "Role.getAll", query = "from Role")
 public class Role {
 
+	public enum Tipo {
+		
+		ADMIN(1), INSPETOR(2), COMENSAL(3);
+		
+		private int id;
+		
+		private Tipo(int id){
+			this.id = id;
+		}
+		
+		public int getId() {
+			return id;
+		}
+	}
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_role")

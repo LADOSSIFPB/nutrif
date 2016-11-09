@@ -2,6 +2,8 @@ package br.edu.ifpb.nutrif.dao;
 
 import java.util.List;
 
+import javax.persistence.criteria.CriteriaBuilder;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.HibernateException;
@@ -13,6 +15,7 @@ import br.edu.ifpb.nutrif.hibernate.HibernateUtil;
 import br.edu.ifpb.nutrif.util.BancoUtil;
 import br.edu.ladoss.entity.Aluno;
 import br.edu.ladoss.entity.Refeicao;
+import br.edu.ladoss.entity.Setor;
 
 public class RefeicaoDAO extends GenericDao<Integer, Refeicao>{
 	
@@ -78,8 +81,6 @@ public class RefeicaoDAO extends GenericDao<Integer, Refeicao>{
 			
 			Query query = session.createQuery(hql);
 			query.setParameter("tipo", "%" + tipo + "%");
-			
-			refeicoes = (List<Refeicao>) query.list();
 	        
 		} catch (HibernateException hibernateException) {
 			

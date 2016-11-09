@@ -78,7 +78,7 @@ public class AlunoController {
 				
 				// Role 
 				Role role = RoleDAO.getInstance().getById(
-						TipoRole.COMENSAL.getId());
+						Role.Tipo.COMENSAL.getId());
 				List<Role> roles = new ArrayList<Role>();
 				roles.add(role);				
 				aluno.setRoles(roles);
@@ -528,7 +528,7 @@ public class AlunoController {
 				
 				// Inserir role Aluno aos registros antigos.
 				Role role = RoleDAO.getInstance().getById(
-						TipoRole.COMENSAL.getId());
+						Role.Tipo.COMENSAL.getId());
 				List<Role> roles = new ArrayList<Role>();
 				roles.add(role);				
 				aluno.setRoles(roles);

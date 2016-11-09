@@ -23,6 +23,7 @@ import br.edu.ladoss.entity.PretensaoRefeicao;
 import br.edu.ladoss.entity.Refeicao;
 import br.edu.ladoss.entity.RefeicaoRealizada;
 import br.edu.ladoss.entity.Role;
+import br.edu.ladoss.entity.Setor;
 import br.edu.ladoss.enumeration.TipoArquivo;
 import br.edu.ladoss.form.FileUploadForm;
 
@@ -367,9 +368,9 @@ public class Validate {
 		return VALIDATE_OK;
 	}
 	
-	public static int acessoPessoa(PessoaAcesso pessoaAcesso) {
+	public static int loginPessoa(PessoaAcesso pessoaAcesso) {
 		
-		logger.info("Validação para acesso de Funcionário.");
+		logger.info("Validação para login de Funcionário.");
 		
 		if (!emailValidator.validate(pessoaAcesso.getEmail()))
 			return ErrorFactory.EMAIL_USUARIO_INVALIDO;
@@ -378,6 +379,11 @@ public class Validate {
 			return ErrorFactory.SENHA_USUARIO_INVALIDA;
 		
 		return VALIDATE_OK;
+	}
+	
+	public static int logoutPessoa(String authorization) {
+		logger.info("Validação para logout de Funcionário.");
+		return 0;
 	}
 	
 	public static int downloadArquivo(TipoArquivo tipoArquivo, 
@@ -551,6 +557,10 @@ public class Validate {
 			return ErrorFactory.DESCRICAO_EVENTO_INVALIDO;			
 		}
 		
+		return VALIDATE_OK;
+	}
+
+	public static int setor(Setor setor) {
 		return VALIDATE_OK;
 	}
 }

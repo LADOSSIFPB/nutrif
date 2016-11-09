@@ -21,6 +21,7 @@ import br.edu.ifpb.nutrif.controller.PretensaoRefeicaoController;
 import br.edu.ifpb.nutrif.controller.RefeicaoController;
 import br.edu.ifpb.nutrif.controller.RefeicaoRealizadaController;
 import br.edu.ifpb.nutrif.controller.RoleController;
+import br.edu.ifpb.nutrif.controller.SetorController;
 
 public class NutrIFApplication extends Application {
 
@@ -41,6 +42,7 @@ public class NutrIFApplication extends Application {
 		this.singletons.add(new AlunoController());
 		this.singletons.add(new FuncionarioController());
 		this.singletons.add(new PessoaController());
+		this.singletons.add(new SetorController());
 		this.singletons.add(new CampusController());
 		this.singletons.add(new EditalController());
 		this.singletons.add(new EventoController());

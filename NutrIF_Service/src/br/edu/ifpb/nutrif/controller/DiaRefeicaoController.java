@@ -37,6 +37,7 @@ import br.edu.ladoss.entity.Error;
 import br.edu.ladoss.entity.Funcionario;
 import br.edu.ladoss.entity.Refeicao;
 import br.edu.ladoss.entity.RefeicaoRealizada;
+import br.edu.ladoss.enumeration.TipoRole;
 
 @Path("diarefeicao")
 public class DiaRefeicaoController {
@@ -54,7 +55,7 @@ public class DiaRefeicaoController {
 	 * @param diaRefeicao
 	 * @return builder
 	 */
-	@PermitAll
+	@RolesAllowed({TipoRole.ADMIN})
 	@POST
 	@Path("/inserir")
 	@Consumes("application/json")
