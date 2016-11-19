@@ -1,20 +1,20 @@
-.container-margin{
-    margin-right: 10%;
-    margin-left: 10%;
-    margin-top: 3%;
-    margin-bottom: 3%;
+.container-margin {
+	margin-right: 10%;
+	margin-left: 10%;
+	margin-top: 3%;
+	margin-bottom: 3%;
 }
 
 .toolbar-input {
-    margin-left: 15px;
+	margin-left: 15px;
 }
 
-md-toolbar.md-table-toolbar div.toolbar-input > input {
-    width: 100%;
-    margin: 0;
-    border: none;
-    color: rgba(0, 0, 0, 0.87);
-    outline: 0;
+md-toolbar.md-table-toolbar div.toolbar-input>input {
+	width: 100%;
+	margin: 0;
+	border: none;
+	color: rgba(0, 0, 0, 0.87);
+	outline: 0;
 }
 
 /* Plano de fundo do md-card das Entidades | 224,238,224 */
@@ -23,7 +23,7 @@ md-toolbar.md-table-toolbar div.toolbar-input > input {
 }
 
 .home-background {
-    background-color: #F7F7F7;
+	background-color: #F7F7F7;
 }
 
 .layout-padding {
@@ -34,7 +34,7 @@ md-toolbar.md-table-toolbar div.toolbar-input > input {
 }
 
 .modal-footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
+	position: absolute;
+	bottom: 0;
+	width: 100%;
 }

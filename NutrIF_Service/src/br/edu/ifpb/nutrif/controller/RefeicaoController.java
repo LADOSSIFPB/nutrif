@@ -1,5 +1,7 @@
 package br.edu.ifpb.nutrif.controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -33,7 +35,7 @@ public class RefeicaoController {
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
 		builder.expires(new Date());
 		
-		// Validação dos dados de entrada.
+		// Validaï¿½ï¿½o dos dados de entrada.
 		int validacao = Validate.refeicao(refeicao);
 		
 		if (validacao == Validate.VALIDATE_OK) {
@@ -45,7 +47,7 @@ public class RefeicaoController {
 				
 				if (idRefeicao != BancoUtil.ID_VAZIO) {
 
-					// Operação realizada com sucesso.
+					// Operaï¿½ï¿½o realizada com sucesso.
 					builder.status(Response.Status.OK);
 					builder.entity(refeicao);
 				}
@@ -54,7 +56,7 @@ public class RefeicaoController {
 
 				builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
 						exception.getError());			
-			}
+			} 
 		}				
 		
 		return builder.build();		

@@ -11,7 +11,7 @@
     <md-input-container flex-gt-md="30">
       <label>Horário de Início</label>
         <input mdc-datetime-picker date="false" time="true" type="text" id="time" short-time="true"
-               placeholder="Time"
+               placeholder="hh:mm:ss"
                min-date="minDate"
                format="hh:mm:ss"
                ng-model="cadastrarRefeicao.refeicao.horaInicio">
@@ -21,20 +21,17 @@
     <md-input-container flex-gt-md="30">
       <label>Horário de Fim</label>
         <input mdc-datetime-picker date="false" time="true" type="text" id="time" short-time="true"
-               placeholder="Time"
+               placeholder="hh:mm:ss"
                min-date="minDate"
                format="hh:mm:ss"
                ng-model="cadastrarRefeicao.refeicao.horaFinal">
     </md-input-container>
-
-    <!-- Previsto a Pretensão -->
-    <!-- Não to entendendo -->
-
+    
     <!-- Horário Máximo Para Pretensão -->
     <md-input-container flex-gt-md="30">
       <label>Horário Máximo Para Pretensão</label>
         <input mdc-datetime-picker date="false" time="true" type="text" id="time" short-time="true"
-               placeholder="Time"
+               placeholder="hh:mm:ss"
                min-date="minDate"
                format="hh:mm:ss"
                ng-model="cadastrarRefeicao.refeicao.horaPretensao">

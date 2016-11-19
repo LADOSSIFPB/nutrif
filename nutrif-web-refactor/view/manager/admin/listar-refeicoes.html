@@ -3,7 +3,7 @@
     <!-- Cabeçalho de opções -->
     <md-card-header class="nutrif-md-card-header">
       <md-card-avatar>
-        <md-icon class="md-avatar-icon" md-svg-icon="img/icon/copy-content.svg">
+        <md-icon class="md-avatar-icon" md-svg-icon="img/icon/restaurant_white.svg">
         </md-icon>
       </md-card-avatar>
 
@@ -54,8 +54,8 @@
       <tbody md-body>
         <tr md-row ng-repeat="refeicao in refeicoes | limitTo: query.limit: (query.page - 1) * query.limit">
           <td md-cell>{{refeicao.tipo | uppercase}}</td>
-          <td md-cell>{{refeicao.horaInicio | time:'hh:mm:ss'}}</td>
-          <td md-cell>{{refeicao.horaFinal | time:'hh:mm:ss'}}</td>
+          <td md-cell>{{refeicao.horaInicio | date: hh:mm:ss : timezone}}</td>
+          <td md-cell>{{refeicao.horaFinal | date: hh:mm:ss : timezone}}</td>
 		  <td md-cell>
 			<md-button class="md-icon-button" aria-label="Editar" ui-sref="home.editar-refeicao({id: edital.id})" ui-sref-opts="{reload: true}">
 				<md-tooltip md-direction="left">Editar Refeição</md-tooltip>

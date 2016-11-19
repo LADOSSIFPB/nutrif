@@ -11,7 +11,8 @@ angular.module('NutrifApp').controller('listarRefeicaoCtrl', function ($scope, $
     $scope.pesquisar = function (texto){
         if(texto.length > 2) {
             if (texto.match(/[a-zA-Z]/i) != null) {
-                refeicaoService.buscarRefeicaoPorNome(texto)
+            	
+                refeicaoService.buscarRefeicaoPorTipo(texto)
                     .success(onSuccessCallback)
                     .error(onErrorCallback);
             }

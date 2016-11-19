@@ -14,6 +14,7 @@ import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
 import br.edu.ifpb.nutrif.hibernate.HibernateUtil;
 import br.edu.ifpb.nutrif.util.BancoUtil;
 import br.edu.ladoss.entity.Aluno;
+import br.edu.ladoss.entity.Curso;
 import br.edu.ladoss.entity.Refeicao;
 import br.edu.ladoss.entity.Setor;
 
@@ -29,7 +30,7 @@ public class RefeicaoDAO extends GenericDao<Integer, Refeicao>{
 	}
 	
 	/**
-	 * Verificar a refeição de acordo com o período do dia.
+	 * Verificar a refeiï¿½ï¿½o de acordo com o perï¿½odo do dia.
 	 * 
 	 * @return
 	 */
@@ -82,6 +83,8 @@ public class RefeicaoDAO extends GenericDao<Integer, Refeicao>{
 			Query query = session.createQuery(hql);
 			query.setParameter("tipo", "%" + tipo + "%");
 	        
+			refeicoes = (List<Refeicao>) query.list();
+			
 		} catch (HibernateException hibernateException) {
 			
 			session.getTransaction().rollback();

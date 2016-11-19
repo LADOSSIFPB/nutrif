@@ -3,7 +3,15 @@ angular.module('NutrifApp').controller('cadastrarRefeicaoCtrl', function ($scope
 	  // Enviar para o serviço de cadastro de refeição.
 
     this.cadastrar = function (refeicao) {
-      alunoService.cadastrarRefeicao(refeicao)
+    	
+   
+    refeicao.horaInicio = Date.parse(refeicao.horaInicio);
+    refeicao.horaFinal = Date.parse(refeicao.horaFinal);
+    refeicao.horaPretensao = Date.parse(refeicao.horaPretensao);
+ 
+    console.log(refeicao);
+    
+    refeicaoService.cadastrarRefeicao(refeicao)
       .success(onSuccessCallback)
       .error(onErrorCallback);
     }
@@ -16,6 +24,9 @@ angular.module('NutrifApp').controller('cadastrarRefeicaoCtrl', function ($scope
         .action('OK')
         .hideDelay(6000)
       );
+      
+      $state.transitionTo('home.listar-refeicoes');
+      
     }
 
 		function onErrorCallback (data, status) {
