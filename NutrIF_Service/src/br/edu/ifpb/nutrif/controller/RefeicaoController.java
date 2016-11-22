@@ -1,7 +1,5 @@
 package br.edu.ifpb.nutrif.controller;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -16,10 +14,14 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
+import br.edu.ifpb.nutrif.dao.AlunoDAO;
+import br.edu.ifpb.nutrif.dao.CursoDAO;
 import br.edu.ifpb.nutrif.dao.RefeicaoDAO;
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
 import br.edu.ifpb.nutrif.util.BancoUtil;
 import br.edu.ifpb.nutrif.validation.Validate;
+import br.edu.ladoss.entity.Aluno;
+import br.edu.ladoss.entity.Curso;
 import br.edu.ladoss.entity.Refeicao;
 
 @Path("refeicao")
@@ -35,7 +37,7 @@ public class RefeicaoController {
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
 		builder.expires(new Date());
 		
-		// Validaï¿½ï¿½o dos dados de entrada.
+		// Validação dos dados de entrada.
 		int validacao = Validate.refeicao(refeicao);
 		
 		if (validacao == Validate.VALIDATE_OK) {
@@ -47,7 +49,7 @@ public class RefeicaoController {
 				
 				if (idRefeicao != BancoUtil.ID_VAZIO) {
 
-					// Operaï¿½ï¿½o realizada com sucesso.
+					// Operação realizada com sucesso.
 					builder.status(Response.Status.OK);
 					builder.entity(refeicao);
 				}
@@ -56,7 +58,7 @@ public class RefeicaoController {
 
 				builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
 						exception.getError());			
-			} 
+			}
 		}				
 		
 		return builder.build();		
@@ -125,5 +127,48 @@ public class RefeicaoController {
 		}
 
 		return builder.build();
+	}
+	
+	/**
+	 * Atualizar dados do Aluno.
+	 * 
+	 * @param refeicao
+	 * @return
+	 */
+	@PermitAll
+	@POST
+	@Path("/atualizar")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public Response update(Refeicao refeicao) {
+		
+		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
+		builder.expires(new Date());
+		
+		// Validação dos dados de entrada.
+		int validacao = Validate.refeicao(refeicao);
+		
+		if (validacao == Validate.VALIDATE_OK) {
+			
+			try {
+				
+				//Atualizar o Aluno.
+				refeicao = RefeicaoDAO.getInstance().update(refeicao);
+				
+				if (refeicao != null) {
+
+					// Operação realizada com sucesso.
+					builder.status(Response.Status.OK);					
+					builder.entity(refeicao);
+				}
+			
+			} catch (SQLExceptionNutrIF exception) {
+
+				builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
+						exception.getError());			
+			} 
+		}				
+		
+		return builder.build();		
 	}
 }
