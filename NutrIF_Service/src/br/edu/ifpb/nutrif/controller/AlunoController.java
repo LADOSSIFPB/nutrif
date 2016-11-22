@@ -91,12 +91,12 @@ public class AlunoController {
 				// Inativar o Aluno.
 				aluno.setAtivo(BancoUtil.INATIVO);
 				
-				//Inserir o Aluno.
-				Integer idAluno = AlunoDAO.getInstance().insert(aluno);
-				
 				if (curso != null
 						&& campus != null
 						&& roles.size() > 0) {
+					
+					//Inserir o Aluno.
+					Integer idAluno = AlunoDAO.getInstance().insert(aluno);
 					
 					if (idAluno != BancoUtil.ID_VAZIO) {
 
