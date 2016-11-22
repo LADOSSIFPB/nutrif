@@ -43,11 +43,11 @@
             md-transform-chip="editarEdital.transformChip($responsavel)"
             md-require-match="editarEdital.autocompleteDemoRequireMatch">
             <md-autocomplete
-              md-selected-item="editarEdital.selectedItem"
+              md-selected-item="selectedItem"
               md-search-text="editarEdital.searchText"
-              md-items="responsavel in editarEdital.responsaveis"
+              md-items="responsavel in editarEdital.buscarResponsaveis(editarEdital.searchText) "
               md-item-text="responsavel.nome"
-              md-min-length="3"
+              md-input-minlength="3"
               md-no-cache="true"
               placeholder="Responsável">
               <md-chip-template>

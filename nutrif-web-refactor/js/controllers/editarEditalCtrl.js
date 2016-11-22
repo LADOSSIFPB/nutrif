@@ -7,12 +7,13 @@ angular.module('NutrifApp').controller('editarEditalCtrl', function ($scope, edi
   $scope.editalCopy = {};
   $scope.edital = {};
   $scope.responsavel = {};
+  $scope.selectedItem = null;
 
   // Responsáveis
-  this.selectedItem = null;
   this.searchText = null;
   this.autocompleteDemoRequireMatch = true;
   $scope.responsaveis = [];
+  var teste;
 
   this.editar = function (edital) {
 	// Funcionário.
@@ -22,9 +23,12 @@ angular.module('NutrifApp').controller('editarEditalCtrl', function ($scope, edi
 	// Responsável
 	console.log(this.selectedItem);
 	editalCopy.responsavel = this.selectedItem;
+	
+	//Serviço não está pronto.
 
-	console.log(edital);
+	
   }
+ 
 
   function carregamentoInicial() {
         var _id = $stateParams.id;
@@ -42,9 +46,9 @@ angular.module('NutrifApp').controller('editarEditalCtrl', function ($scope, edi
 				$scope.editalCopy.dataInicial = new Date(inicialData);
 				$scope.editalCopy.dataFinal = new Date(finalData);
 
-                console.log('Responsável '+ $scope.editalCopy.responsavel);
-                this.selectedItem = $scope.editalCopy.responsavel;
-                this.searchText = $scope.editalCopy.responsavel.nome;
+			
+				$scope.selectedItem = $scope.editalCopy.responsavel.nome;
+				console.log($scope.selectedItem);
                 $scope.responsaveis.push($scope.editalCopy.responsavel);
             })
             .error(onErrorLoadCallback);
@@ -63,7 +67,11 @@ angular.module('NutrifApp').controller('editarEditalCtrl', function ($scope, edi
             .error(onErrorLoadCallback);
     }
 
+  
 	carregamentoInicial();
+	
+
+
 
 	function onErrorLoadCallback(data, status) {
     onErrorCallback(data, status);
