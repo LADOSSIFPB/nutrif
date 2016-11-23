@@ -6,13 +6,13 @@
         </md-card-avatar>
 
         <md-card-header-text>
-            <span class="md-title">Editar informações da refeição</span>
-            <span class="md-subhead">Clique em salvar para alterar as informações</span>
+            <span class="md-title">Editar informa��es da refei��o</span>
+            <span class="md-subhead">Clique em salvar para alterar as informaa��es</span>
         </md-card-header-text>
 
         <md-card-icon-actions>
             <md-button class="md-icon-button" aria-label="Salvar altera��es" ng-click="atualizar(refeicao)">
-                <md-tooltip md-direction="bottom">Salvar Alterações</md-tooltip>
+                <md-tooltip md-direction="bottom">Salvar Alteraa��es</md-tooltip>
                 <md-icon md-svg-icon="img/icon/save-button.svg"></md-icon>
             </md-button>
         </md-card-icon-actions>
@@ -26,9 +26,9 @@
       <input ng-model="refeicao.tipo" type="text" required>
     </md-input-container>
 
-    <!-- Horário de Início -->
+    <!-- Horário de Inicio -->
     <md-input-container flex-gt-md="30">
-      <label>Horário de Início</label>
+      <label>Horario de Inicio</label>
         <input mdc-datetime-picker date="false" time="true" type="text" id="time" short-time="true"
                placeholder="hh:mm:ss"
                min-date="minDate"
@@ -38,7 +38,7 @@
 
     <!-- Horário de Fim -->
     <md-input-container flex-gt-md="30">
-      <label>Horário de Fim</label>
+      <label>Horario de Fim</label>
         <input mdc-datetime-picker date="false" time="true" type="text" id="time" short-time="true"
                placeholder="hh:mm:ss"
                min-date="minDate"
@@ -46,9 +46,9 @@
                ng-model="refeicao.horaFinal">
     </md-input-container>
     
-    <!-- Horário Máximo Para Pretensão -->
+    <!-- Horario Maximo Para Pretensao -->
     <md-input-container flex-gt-md="30">
-      <label>Horário Máximo Para Pretensão</label>
+      <label>Horario Maximo Para Pretensao</label>
         <input mdc-datetime-picker date="false" time="true" type="text" id="time" short-time="true"
                placeholder="hh:mm:ss"
                min-date="minDate"
