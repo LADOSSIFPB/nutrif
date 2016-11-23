@@ -1,0 +1,61 @@
+<md-card>
+    <md-card-header>
+
+        <md-card-avatar>
+            <md-icon class="md-avatar-icon" md-svg-icon="img/icon/create-new-pencil-button.svg"></md-icon>
+        </md-card-avatar>
+
+        <md-card-header-text>
+            <span class="md-title">Editar informações da refeição</span>
+            <span class="md-subhead">Clique em salvar para alterar as informações</span>
+        </md-card-header-text>
+
+        <md-card-icon-actions>
+            <md-button class="md-icon-button" aria-label="Salvar altera��es" ng-click="atualizar(refeicao)">
+                <md-tooltip md-direction="bottom">Salvar Alterações</md-tooltip>
+                <md-icon md-svg-icon="img/icon/save-button.svg"></md-icon>
+            </md-button>
+        </md-card-icon-actions>
+
+    </md-card-header>
+    
+    <md-card-content layout="column">
+   <!-- Nome -->
+    <md-input-container class="md-icon-float md-block">
+      <label>Nome</label>
+      <input ng-model="refeicao.tipo" type="text" required>
+    </md-input-container>
+
+    <!-- Horário de Início -->
+    <md-input-container flex-gt-md="30">
+      <label>Horário de Início</label>
+        <input mdc-datetime-picker date="false" time="true" type="text" id="time" short-time="true"
+               placeholder="hh:mm:ss"
+               min-date="minDate"
+               format="hh:mm:ss"
+               ng-model="refeicao.horaInicio">
+    </md-input-container>
+
+    <!-- Horário de Fim -->
+    <md-input-container flex-gt-md="30">
+      <label>Horário de Fim</label>
+        <input mdc-datetime-picker date="false" time="true" type="text" id="time" short-time="true"
+               placeholder="hh:mm:ss"
+               min-date="minDate"
+               format="hh:mm:ss"
+               ng-model="refeicao.horaFinal">
+    </md-input-container>
+    
+    <!-- Horário Máximo Para Pretensão -->
+    <md-input-container flex-gt-md="30">
+      <label>Horário Máximo Para Pretensão</label>
+        <input mdc-datetime-picker date="false" time="true" type="text" id="time" short-time="true"
+               placeholder="hh:mm:ss"
+               min-date="minDate"
+               format="hh:mm:ss"
+               ng-model="refeicao.horaPretensao">
+    </md-input-container>
+    
+    </md-card-content>
+  
+</md-card>

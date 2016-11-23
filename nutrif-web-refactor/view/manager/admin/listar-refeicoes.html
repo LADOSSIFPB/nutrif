@@ -57,7 +57,7 @@
           <td md-cell>{{refeicao.horaInicio | date: hh:mm:ss : timezone}}</td>
           <td md-cell>{{refeicao.horaFinal | date: hh:mm:ss : timezone}}</td>
 		  <td md-cell>
-			<md-button class="md-icon-button" aria-label="Editar" ui-sref="home.editar-refeicao({id: edital.id})" ui-sref-opts="{reload: true}">
+			<md-button class="md-icon-button" aria-label="Editar" ui-sref="home.editar-refeicao({id: refeicao.id})" ui-sref-opts="{reload: true}">
 				<md-tooltip md-direction="left">Editar Refeição</md-tooltip>
 				<md-icon md-svg-icon="img/icon/create-new-pencil-button.svg" style="width: 18px; height: 18px;"></md-icon>
 			</md-button>

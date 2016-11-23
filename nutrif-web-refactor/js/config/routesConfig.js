@@ -237,10 +237,20 @@ angular.module('NutrifApp').config(function ($stateProvider, $urlRouterProvider)
 
 	.state('home.listar-refeicoes', {
 		url: '/listar/refeicao',
-		title: 'Refeicao',
+		title: 'Listar Refeicao',
 		templateUrl: 'view/manager/admin/listar-refeicoes.html',
 		controller: 'listarRefeicaoCtrl',
 		controllerAs: 'listarRefeicao',
 		module: 'admin'
-	});
+	})
+	.state('home.editar-refeicao', {
+		url: '/editar/refeicao/:id',
+		title: 'Editar Refeicao',
+		templateUrl: 'view/manager/admin/editar-refeicao.html',
+		controller: 'editarRefeicaoCtrl',
+		controllerAs: 'editar',
+		module: 'admin'
+	})
+	
+	
 });
