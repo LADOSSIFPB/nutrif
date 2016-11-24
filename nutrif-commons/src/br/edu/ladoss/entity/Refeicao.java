@@ -46,7 +46,7 @@ public class Refeicao implements DataEntity {
 	private int diaPrevistoPretensao;
 	
 	@Column(name = "is_previsto_pretensao", columnDefinition = "tinyint default false")
-	private boolean isPrevistoPretensao;
+	private boolean previstoPretensao;
 	
 	@Column(name = "is_ativo", columnDefinition = "boolean default true", 
 			nullable = false, insertable = false, updatable = true)
@@ -112,11 +112,11 @@ public class Refeicao implements DataEntity {
 	
 	@XmlElement
 	public boolean isPrevistoPretensao() {
-		return isPrevistoPretensao;
+		return previstoPretensao;
 	}
 
-	public void setPrevistoPretensao(boolean isPrevistoPretensao) {
-		this.isPrevistoPretensao = isPrevistoPretensao;
+	public void setPrevistoPretensao(boolean previstoPretensao) {
+		this.previstoPretensao = previstoPretensao;
 	}
 	
 	@XmlElement
@@ -136,7 +136,7 @@ public class Refeicao implements DataEntity {
 				+ ", horaFim=" + horaFinal 
 				+ ", horaPretensao=" + horaPretensao 
 				+ ", diPrevistoPretensao=" + diaPrevistoPretensao 
-				+ ", isPrevistoPretensao=" + isPrevistoPretensao 
+				+ ", isPrevistoPretensao=" + previstoPretensao 
 				+ ", isAtivo=" + ativo + "]";
 	}
 }

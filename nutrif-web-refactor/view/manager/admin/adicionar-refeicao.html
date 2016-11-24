@@ -26,7 +26,20 @@
                format="hh:mm:ss"
                ng-model="cadastrarRefeicao.refeicao.horaFinal">
     </md-input-container>
-    
+
+    <!-- Previsão da pretensão -->
+    <!-- Nome -->
+    <md-checkbox ng-model="cadastrarRefeicao.refeicao.previstoPretensao" aria-label="Pretensão">
+            É previsto pretensão? {{ cadastrarRefeicao.refeicao.previstoPretensao }}
+    </md-checkbox>
+
+    <!-- Dias de lançamento da pretensão -->
+    <md-input-container class="md-icon-float md-block">
+      <label>Quantos dias antecedem a refeição para lançar a pretensão?</label>
+      <input ng-model="cadastrarRefeicao.refeicao.diaPrevistoPretensao" type="text"
+        ng-pattern="/^[0-9]{2}$/" md-maxlength="2" required>
+    </md-input-container>
+
     <!-- Horário Máximo Para Pretensão -->
     <md-input-container flex-gt-md="30">
       <label>Horário Máximo Para Pretensão</label>

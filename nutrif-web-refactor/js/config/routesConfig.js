@@ -153,7 +153,7 @@ angular.module('NutrifApp').config(function ($stateProvider, $urlRouterProvider)
 	/* Curso */
 	.state('home.listar-cursos', {
 		url: '/listar/curso',
-		title: 'Curso',
+		title: 'Listar Curso',
 		templateUrl: 'view/manager/admin/listar-cursos.html',
 		controller: 'listarCursoCtrl',
 		controllerAs: 'listarCurso',
