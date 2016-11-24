@@ -179,10 +179,9 @@ angular.module('NutrifApp').config(function ($stateProvider, $urlRouterProvider)
 	})
 
 	/* Evento */
-
 	.state('home.listar-eventos', {
 		url: '/listar/evento',
-		title: 'Evento',
+		title: 'Listar Evento',
 		templateUrl: 'view/manager/admin/listar-eventos.html',
 		controller: 'listarEventoCtrl',
 		controllerAs: 'listarEvento',
@@ -225,10 +224,9 @@ angular.module('NutrifApp').config(function ($stateProvider, $urlRouterProvider)
 	})
 
 	/* Refeição */
-
 	.state('home.adicionar-refeicao', {
 		url: '/adicionar/refeicao',
-		title: 'Adicionar Refeicao',
+		title: 'Adicionar Refeição',
 		templateUrl: 'view/manager/admin/adicionar-refeicao.html',
 		controller: 'cadastrarRefeicaoCtrl',
 		controllerAs: 'cadastrarRefeicao',
@@ -237,20 +235,20 @@ angular.module('NutrifApp').config(function ($stateProvider, $urlRouterProvider)
 
 	.state('home.listar-refeicoes', {
 		url: '/listar/refeicao',
-		title: 'Listar Refeicao',
+		title: 'Listar Refeição',
 		templateUrl: 'view/manager/admin/listar-refeicoes.html',
 		controller: 'listarRefeicaoCtrl',
 		controllerAs: 'listarRefeicao',
 		module: 'admin'
 	})
+
 	.state('home.editar-refeicao', {
 		url: '/editar/refeicao/:id',
 		title: 'Editar Refeicao',
 		templateUrl: 'view/manager/admin/editar-refeicao.html',
 		controller: 'editarRefeicaoCtrl',
-		controllerAs: 'editar',
+		controllerAs: 'editarRefeicao',
 		module: 'admin'
 	})
-	
-	
+
 });
