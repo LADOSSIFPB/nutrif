@@ -118,6 +118,8 @@ public class ErrorFactory {
 	 * Refeição
 	 */
 	public static final int PERIODO_REFEICAO_INVALIDO = 49;
+	public static final int TIPO_REFEICAO_INVALIDO = 50;
+	public static final int DIA_PREVISTO_PRETENSAO_INVALIDO = 51;
 	
 	/*
 	 * Mapa de erros: código e mensagem.
@@ -175,6 +177,8 @@ public class ErrorFactory {
 		hashMap.put(DIA_REFEICAO_NAO_DEFINIDO, "Dia de Refeição não definido para o Aluno.");
 		hashMap.put(NOME_EVENTO_INVALIDO, "Nome do evento inválido.");
 		hashMap.put(DESCRICAO_EVENTO_INVALIDO, "Descrição do evento inválido.");
+		hashMap.put(TIPO_REFEICAO_INVALIDO, "Tipo que descreve a refeição inválido.");	
+		hashMap.put(DIA_PREVISTO_PRETENSAO_INVALIDO, "Quantidade de dia(s) previtos para a pretensão da refeição inválido.");
 		
 		return hashMap;
 	}
