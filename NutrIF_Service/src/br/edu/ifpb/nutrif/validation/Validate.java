@@ -134,7 +134,22 @@ public class Validate {
 		
 		logger.info("Validação para Refeição.");
 		
-		//TODO: implementar a validação.
+		String tipo = refeicao.getTipo();
+		if (!stringValidator.validateSomenteLetras(tipo))
+			return ErrorFactory.TIPO_REFEICAO_INVALIDO;		
+		
+		Date horaInicio = refeicao.getHoraInicio();		
+		Date horaFim = refeicao.getHoraFinal();		
+		if (!dataValidator.isGrowingDate(horaInicio, horaInicio)) {
+			
+			return ErrorFactory.PERIODO_REFEICAO_INVALIDO;
+		}
+		
+		Date horaPretensao = refeicao.getHoraPretensao();
+		
+		int diaPrevistoPretensao = refeicao.getDiaPrevistoPretensao();
+		if (!numeroValidator.isInteiroPositivo(diaPrevistoPretensao)) 
+			return ErrorFactory.PERIODO_REFEICAO_INVALIDO;
 		
 		return VALIDATE_OK;
 	}
@@ -177,7 +192,7 @@ public class Validate {
 		
 		Date dataInicial = edital.getDataInicial();
 		Date dataFinal = edital.getDataFinal();
-		if (!dataValidator.datesInOrder(dataInicial, dataFinal)) {
+		if (!dataValidator.isGrowingDate(dataInicial, dataFinal)) {
 			
 			return ErrorFactory.INTERVALO_DATA_INVALIDO;
 		}
