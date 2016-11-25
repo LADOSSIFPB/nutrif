@@ -26,6 +26,16 @@
       <label>Nome</label>
       <input ng-model="curso.nome" type="text">
     </md-input-container>
+    
+    <!-- Campus -->
+        <md-input-container flex>
+            <label>Campus</label>
+            <md-select ng-model="curso.campus.id" aria-label="Selecione o campus">
+                <md-option ng-repeat="campus in campi" value="{{campus.id}}">
+                    {{campus.cidade}}
+                </md-option>
+            </md-select>
+        </md-input-container>
 
   </md-card-content>
 </md-card>

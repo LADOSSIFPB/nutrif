@@ -6,8 +6,15 @@ angular.module("NutrifApp").factory("campusService", function($http, config){
 
 		return $http.get(_path + "/listar");
 	}
+	
+	var _getById = function(id){
+		
+		return $http.get(_path +"/id/" + id);
+		
+	}
 
 	return {
-		listarCampi: _listarCampi
+		listarCampi: _listarCampi,
+		getById: _getById
 	};
 });

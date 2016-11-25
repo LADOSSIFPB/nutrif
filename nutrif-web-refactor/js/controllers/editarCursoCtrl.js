@@ -1,6 +1,8 @@
 angular.module('NutrifApp').controller('editarCursoCtrl', function ($scope,
-	$stateParams, $state, $mdToast, cursoService) {
+	$stateParams, $state, $mdToast, cursoService, campusService) {
 
+	$scope.campi = [];
+	
 	$scope.atualizar = function (curso) {
 
 		cursoService.atualizarCurso(curso)
@@ -30,6 +32,14 @@ angular.module('NutrifApp').controller('editarCursoCtrl', function ($scope,
 				$scope.curso = data;
 			})
 			.error(onErrorLoadCallback);
+
+		campusService.listarCampi()
+			.success(function (data, status){
+				$scope.campi = data;
+			})
+			.error(onErrorLoadCallback);
+		
+		
 	}
 
 	function onErrorCallback(data, status) {
