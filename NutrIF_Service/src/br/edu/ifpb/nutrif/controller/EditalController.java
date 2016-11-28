@@ -19,6 +19,7 @@ import br.edu.ifpb.nutrif.dao.DiaRefeicaoDAO;
 import br.edu.ifpb.nutrif.dao.EditalDAO;
 import br.edu.ifpb.nutrif.dao.EventoDAO;
 import br.edu.ifpb.nutrif.dao.FuncionarioDAO;
+import br.edu.ifpb.nutrif.dao.RefeicaoDAO;
 import br.edu.ifpb.nutrif.exception.ErrorFactory;
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
 import br.edu.ifpb.nutrif.util.BancoUtil;
@@ -29,6 +30,7 @@ import br.edu.ladoss.entity.Edital;
 import br.edu.ladoss.entity.Error;
 import br.edu.ladoss.entity.Evento;
 import br.edu.ladoss.entity.Funcionario;
+import br.edu.ladoss.entity.Refeicao;
 
 @Path("edital")
 public class EditalController {
@@ -217,6 +219,104 @@ public class EditalController {
 					exception.getError());
 		}
 
+		return builder.build();		
+	}
+	
+	
+	/**
+	 * Atualizar dados da Refeição.
+	 * 
+	 * @param refeicao
+	 * @return
+	 */
+	@PermitAll
+	@POST
+	@Path("/atualizar")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public Response update(Edital edital) {
+		
+		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
+		builder.expires(new Date());
+		
+		// Validação dos dados de entrada.
+		int validacao = Validate.atualizarEdital(edital);
+		
+		if (validacao == Validate.VALIDATE_OK) {
+			
+			try {			
+				// Evento
+				int idEvento = edital.getEvento().getId(); 
+				Evento evento = EventoDAO.getInstance().getById(idEvento);
+				edital.setEvento(evento);
+				
+				// Responsável pelos atos do Edital.
+				int idResponsavel = edital.getResponsavel().getId();
+				Funcionario responsavel = FuncionarioDAO.getInstance()
+						.getById(idResponsavel);
+				edital.setFuncionario(responsavel);
+				
+				// Funcionário que cadastrou o Edital.
+				int idFuncionario = edital.getFuncionario().getId();
+				Funcionario funcionario = FuncionarioDAO.getInstance()
+						.getById(idFuncionario);
+				edital.setFuncionario(funcionario);
+				
+				// Campus
+				int idCampus = edital.getCampus().getId();
+				Campus campus = CampusDAO.getInstance().getById(idCampus);
+				edital.setCampus(campus);
+				
+				// Período de validade com a hora inicial e final do dia.
+				Date dataInicial = edital.getDataInicial();
+				dataInicial = DateUtil.setTimeInDate(dataInicial, 
+						DateUtil.INICIO_DIA);
+				edital.setDataInicial(dataInicial);
+				
+				Date dataFinal = edital.getDataFinal();
+				dataFinal = DateUtil.setTimeInDate(dataFinal, 
+						DateUtil.FIM_DIA);
+				edital.setDataFinal(dataFinal);
+				
+				// Data de inserção do registro
+				Date agora = new Date();
+				edital.setDataInsercao(agora);
+				
+				if (campus != null
+						&& responsavel != null
+						&& evento != null
+						&& funcionario != null) {
+				
+					//Inserir o Aluno.
+					edital = EditalDAO.getInstance().update(edital);
+					
+					if (edital != null) {
+	
+						// Operação realizada com sucesso.
+						builder.status(Response.Status.OK).entity(edital);
+						
+					} else {
+						
+						builder.status(Response.Status.NOT_MODIFIED);
+					}
+					
+				} else {
+					
+					//TODO: Mensagem de erro para Funcionário ou Campus não encontrados.
+				}
+			
+			} catch (SQLExceptionNutrIF exception) {
+
+				builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
+						exception.getError());			
+			}
+			
+		} else {
+			
+			Error erro = ErrorFactory.getErrorFromIndex(validacao);
+			builder.status(Response.Status.NOT_ACCEPTABLE).entity(erro);
+		}				
+		
 		return builder.build();		
 	}
 }

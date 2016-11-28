@@ -14,14 +14,10 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
-import br.edu.ifpb.nutrif.dao.AlunoDAO;
-import br.edu.ifpb.nutrif.dao.CursoDAO;
 import br.edu.ifpb.nutrif.dao.RefeicaoDAO;
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
 import br.edu.ifpb.nutrif.util.BancoUtil;
 import br.edu.ifpb.nutrif.validation.Validate;
-import br.edu.ladoss.entity.Aluno;
-import br.edu.ladoss.entity.Curso;
 import br.edu.ladoss.entity.Refeicao;
 
 @Path("refeicao")
@@ -130,7 +126,7 @@ public class RefeicaoController {
 	}
 	
 	/**
-	 * Atualizar dados do Aluno.
+	 * Atualizar dados da Refeição.
 	 * 
 	 * @param refeicao
 	 * @return

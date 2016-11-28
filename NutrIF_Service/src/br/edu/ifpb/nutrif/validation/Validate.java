@@ -207,6 +207,21 @@ public class Validate {
 		return VALIDATE_OK;
 	}
 	
+	
+	public static int atualizarEdital(Edital edital) {
+		
+		logger.info("Validação para atualizar o Edital.");
+		
+		int idEdital = edital.getId();
+		
+		if (!numeroValidator.isMaiorZero(idEdital)) {
+			return ErrorFactory.ID_EDITAL_INVALIDO;
+		}		
+		
+		// Evento				
+		return inserirEdital(edital);
+	}
+	
 	public static int pretensaoRefeicao(PretensaoRefeicao pretensaoRefeicao) {
 		
 		logger.info("Validação para Pretensão Refeição.");
