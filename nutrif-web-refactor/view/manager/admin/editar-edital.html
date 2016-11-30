@@ -11,7 +11,7 @@
         </md-card-header-text>
 
         <md-card-icon-actions>
-            <md-button class="md-icon-button" aria-label="Salvar alterações" ng-click="atualizar(editalCopy)">
+            <md-button class="md-icon-button" aria-label="Salvar alterações" ng-click="editarEdital.editar(editalCopy)">
                 <md-tooltip md-direction="bottom">Salvar Alterações</md-tooltip>
                 <md-icon md-svg-icon="img/icon/save-button.svg"></md-icon>
             </md-button>
@@ -37,28 +37,23 @@
         </md-input-container>
 
         <!-- Responsável -->
-        <md-input-container class="md-icon-float md-block">
-          <md-chips ng-model="editarEdital.responsaveis"
-            md-autocomplete-snap=""
-            md-transform-chip="editarEdital.transformChip($responsavel)"
-            md-require-match="editarEdital.autocompleteDemoRequireMatch">
-            <md-autocomplete
+            <md-autocomplete flex
               md-selected-item="selectedItem"
               md-search-text="editarEdital.searchText"
               md-items="responsavel in editarEdital.buscarResponsaveis(editarEdital.searchText) "
               md-item-text="responsavel.nome"
               md-input-minlength="3"
               md-no-cache="true"
+              md-auto-focus="false"
+              md-floating-label="Responsavel"
               placeholder="Responsável">
-              <md-chip-template>
-                <span md-highlight-text="editarEdital.searchText" value="{{responsavel.id}}">
-                  {{responsavel.nome}}
-                </span>
-              </md-chip-template>
+              <md-item-template>
+	            <span md-highlight-text="editarEdital.searchText">
+	             {{responsavel.nome}}
+	            </span>
+              </md-item-template>
             </md-autocomplete>
-          </md-chips>
-        </md-input-container>
-
+            
 		<!-- Campus -->
         <md-input-container flex>
             <label>Campus</label>

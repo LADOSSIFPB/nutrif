@@ -1,4 +1,6 @@
-angular.module('NutrifApp').controller('editarEditalCtrl', function ($scope, editalService, campusService, eventoService, userService, funcionarioService, $stateParams, $state, $mdToast, $mdDialog) {
+angular.module('NutrifApp').controller('editarEditalCtrl', function ($scope, 
+		editalService, campusService, eventoService, userService,
+		funcionarioService, $stateParams, $state, $mdToast, $mdDialog) {
 
   $scope.nomes = [];
   $scope.campi = [];
@@ -8,23 +10,40 @@ angular.module('NutrifApp').controller('editarEditalCtrl', function ($scope, edi
   $scope.edital = {};
   $scope.responsavel = {};
   $scope.selectedItem = null;
+  $scope.legal={};
 
   // Responsáveis
   this.searchText = null;
   this.autocompleteDemoRequireMatch = true;
   $scope.responsaveis = [];
-  var teste;
 
   this.editar = function (edital) {
-	// Funcionário.
-	edital.funcionario = {};
+  
+	  
+	  
+	  console.log($scope.responsavel);
+	  // Funcionário.
+   edital.funcionario = {};
 	edital.funcionario.id = userService.getUser().id;
 
-	// Responsável
-	console.log(this.selectedItem);
-	editalCopy.responsavel = this.selectedItem;
 	
-	//Serviço não está pronto.
+	edital.responsavel = $scope.selectedItem;
+	
+	console.log($scope.responsavel);
+	
+	editalService.atualizarEdital(edital)
+	.success(function (data, status) {
+
+		$state.transitionTo('home.listar-edital', {reload: true});
+		$mdToast.show(
+			$mdToast.simple()
+			.textContent('Edital atualizado com sucesso!')
+			.position('top right')
+			.action('OK')
+			.hideDelay(6000)
+		);
+	})
+	.error(onErrorCallback);
 
 	
   }
@@ -47,9 +66,8 @@ angular.module('NutrifApp').controller('editarEditalCtrl', function ($scope, edi
 				$scope.editalCopy.dataFinal = new Date(finalData);
 
 			
-				$scope.selectedItem = $scope.editalCopy.responsavel.nome;
-				console.log($scope.selectedItem);
-                $scope.responsaveis.push($scope.editalCopy.responsavel);
+				$scope.selectedItem = $scope.editalCopy.responsavel;
+				
             })
             .error(onErrorLoadCallback);
 
@@ -128,5 +146,7 @@ angular.module('NutrifApp').controller('editarEditalCtrl', function ($scope, edi
 			return responsavel;
 		}
     }
+		
 
+	
 });

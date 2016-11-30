@@ -16,7 +16,7 @@
         <td><p>When called, it scrolls to the element related to the specified <code>hash</code> or (if omitted) to the
 current value of <a href="api/ng/service/$location#hash">$location.hash()</a>, according to the rules specified
 in the
-<a href="http://www.w3.org/html/wg/drafts/html/master/browsers.html#the-indicated-part-of-the-document">HTML5 spec</a>.</p>
+<a href="http://www.w3.org/html/wg/drafts/html/master/browsers.html#an-indicated-part-of-the-document">HTML5 spec</a>.</p>
 </td>
       </tr>
       
@@ -133,6 +133,14 @@ interpolation markup.</p>
         <td><a href="api/ng/service/$interval">$interval</a></td>
         <td><p>Angular&#39;s wrapper for <code>window.setInterval</code>. The <code>fn</code> function is executed every <code>delay</code>
 milliseconds.</p>
+</td>
+      </tr>
+      
+      <tr>
+        <td><a href="api/ng/service/$jsonpCallbacks">$jsonpCallbacks</a></td>
+        <td><p>This service handles the lifecycle of callbacks to handle JSONP requests.
+Override this service if you wish to customise where the callbacks are stored and
+how they vary compared to the requested url.</p>
 </td>
       </tr>
       

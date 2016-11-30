@@ -21,12 +21,17 @@ angular.module("NutrifApp").factory("editalService", function($http, config){
 	var _getEditalById = function (id){
 		return $http.get(_path + "/id/" + encodeURI(id))
 	};
+	
+	var _atualizarEdital = function (edital){
+		return $http.post(_path + "/atualizar", edital)
+	};
 
 	return {
 		cadastrarEdital: _cadastrarEdital,
 		listarEditalVigentes: _listarEditalVigentes,
 		listarEdital: _listarEdital,
 		buscarEditalPorNome: _buscarEditalPorNome,
-		getEditalById: _getEditalById
+		getEditalById: _getEditalById,
+		atualizarEdital: _atualizarEdital
 	};
 });

@@ -1,3 +1,5 @@
+'use strict';
+
 // Meta data used by the AngularJS docs app
 angular.module('navData', [])
   .value('NG_NAVIGATION', {
@@ -111,11 +113,6 @@ angular.module('navData', [])
             "type": "function"
           },
           {
-            "name": "angular.lowercase",
-            "href": "api/ng/function/angular.lowercase",
-            "type": "function"
-          },
-          {
             "name": "angular.merge",
             "href": "api/ng/function/angular.merge",
             "type": "function"
@@ -138,11 +135,6 @@ angular.module('navData', [])
           {
             "name": "angular.toJson",
             "href": "api/ng/function/angular.toJson",
-            "type": "function"
-          },
-          {
-            "name": "angular.uppercase",
-            "href": "api/ng/function/angular.uppercase",
             "type": "function"
           },
           {
@@ -198,6 +190,11 @@ angular.module('navData', [])
           {
             "name": "input[radio]",
             "href": "api/ng/input/input[radio]",
+            "type": "input"
+          },
+          {
+            "name": "input[range]",
+            "href": "api/ng/input/input[range]",
             "type": "input"
           },
           {
@@ -371,6 +368,16 @@ angular.module('navData', [])
             "type": "directive"
           },
           {
+            "name": "ngMaxlength",
+            "href": "api/ng/directive/ngMaxlength",
+            "type": "directive"
+          },
+          {
+            "name": "ngMinlength",
+            "href": "api/ng/directive/ngMinlength",
+            "type": "directive"
+          },
+          {
             "name": "ngModel",
             "href": "api/ng/directive/ngModel",
             "type": "directive"
@@ -431,6 +438,11 @@ angular.module('navData', [])
             "type": "directive"
           },
           {
+            "name": "ngPattern",
+            "href": "api/ng/directive/ngPattern",
+            "type": "directive"
+          },
+          {
             "name": "ngPluralize",
             "href": "api/ng/directive/ngPluralize",
             "type": "directive"
@@ -443,6 +455,11 @@ angular.module('navData', [])
           {
             "name": "ngRepeat",
             "href": "api/ng/directive/ngRepeat",
+            "type": "directive"
+          },
+          {
+            "name": "ngRequired",
+            "href": "api/ng/directive/ngRequired",
             "type": "directive"
           },
           {
@@ -626,6 +643,11 @@ angular.module('navData', [])
             "type": "provider"
           },
           {
+            "name": "$templateRequestProvider",
+            "href": "api/ng/provider/$templateRequestProvider",
+            "type": "provider"
+          },
+          {
             "name": "service",
             "type": "section",
             "href": "api/ng/service"
@@ -703,6 +725,11 @@ angular.module('navData', [])
           {
             "name": "$interval",
             "href": "api/ng/service/$interval",
+            "type": "service"
+          },
+          {
+            "name": "$jsonpCallbacks",
+            "href": "api/ng/service/$jsonpCallbacks",
             "type": "service"
           },
           {
@@ -855,6 +882,21 @@ angular.module('navData', [])
         "type": "group",
         "navItems": [
           {
+            "name": "directive",
+            "type": "section",
+            "href": "api/ngAnimate/directive"
+          },
+          {
+            "name": "ngAnimateChildren",
+            "href": "api/ngAnimate/directive/ngAnimateChildren",
+            "type": "directive"
+          },
+          {
+            "name": "ngAnimateSwap",
+            "href": "api/ngAnimate/directive/ngAnimateSwap",
+            "type": "directive"
+          },
+          {
             "name": "service",
             "type": "section",
             "href": "api/ngAnimate/service"
@@ -899,10 +941,87 @@ angular.module('navData', [])
         ]
       },
       {
+        "name": "ngComponentRouter",
+        "href": "api/ngComponentRouter",
+        "type": "group",
+        "navItems": [
+          {
+            "name": "type",
+            "type": "section",
+            "href": "api/ngComponentRouter/type"
+          },
+          {
+            "name": "ChildRouter",
+            "href": "api/ngComponentRouter/type/ChildRouter",
+            "type": "type"
+          },
+          {
+            "name": "ComponentInstruction",
+            "href": "api/ngComponentRouter/type/ComponentInstruction",
+            "type": "type"
+          },
+          {
+            "name": "RootRouter",
+            "href": "api/ngComponentRouter/type/RootRouter",
+            "type": "type"
+          },
+          {
+            "name": "RouteDefinition",
+            "href": "api/ngComponentRouter/type/RouteDefinition",
+            "type": "type"
+          },
+          {
+            "name": "RouteParams",
+            "href": "api/ngComponentRouter/type/RouteParams",
+            "type": "type"
+          },
+          {
+            "name": "Router",
+            "href": "api/ngComponentRouter/type/Router",
+            "type": "type"
+          },
+          {
+            "name": "directive",
+            "type": "section",
+            "href": "api/ngComponentRouter/directive"
+          },
+          {
+            "name": "ngOutlet",
+            "href": "api/ngComponentRouter/directive/ngOutlet",
+            "type": "directive"
+          },
+          {
+            "name": "service",
+            "type": "section",
+            "href": "api/ngComponentRouter/service"
+          },
+          {
+            "name": "$rootRouter",
+            "href": "api/ngComponentRouter/service/$rootRouter",
+            "type": "service"
+          },
+          {
+            "name": "$routerRootComponent",
+            "href": "api/ngComponentRouter/service/$routerRootComponent",
+            "type": "service"
+          }
+        ]
+      },
+      {
         "name": "ngCookies",
         "href": "api/ngCookies",
         "type": "group",
         "navItems": [
+          {
+            "name": "provider",
+            "type": "section",
+            "href": "api/ngCookies/provider"
+          },
+          {
+            "name": "$cookiesProvider",
+            "href": "api/ngCookies/provider/$cookiesProvider",
+            "type": "provider"
+          },
           {
             "name": "service",
             "type": "section",
@@ -917,16 +1036,6 @@ angular.module('navData', [])
             "name": "$cookies",
             "href": "api/ngCookies/service/$cookies",
             "type": "service"
-          },
-          {
-            "name": "provider",
-            "type": "section",
-            "href": "api/ngCookies/provider"
-          },
-          {
-            "name": "$cookiesProvider",
-            "href": "api/ngCookies/provider/$cookiesProvider",
-            "type": "provider"
           }
         ]
       },
@@ -934,18 +1043,7 @@ angular.module('navData', [])
         "name": "ngMessageFormat",
         "href": "api/ngMessageFormat",
         "type": "group",
-        "navItems": [
-          {
-            "name": "service",
-            "type": "section",
-            "href": "api/ngMessageFormat/service"
-          },
-          {
-            "name": "$$messageFormat",
-            "href": "api/ngMessageFormat/service/$$messageFormat",
-            "type": "service"
-          }
-        ]
+        "navItems": []
       },
       {
         "name": "ngMessages",
@@ -1008,6 +1106,16 @@ angular.module('navData', [])
             "name": "service",
             "type": "section",
             "href": "api/ngMock/service"
+          },
+          {
+            "name": "$animate",
+            "href": "api/ngMock/service/$animate",
+            "type": "service"
+          },
+          {
+            "name": "$componentController",
+            "href": "api/ngMock/service/$componentController",
+            "type": "service"
           },
           {
             "name": "$controller",
@@ -1073,6 +1181,11 @@ angular.module('navData', [])
             "name": "angular.mock.module",
             "href": "api/ngMock/function/angular.mock.module",
             "type": "function"
+          },
+          {
+            "name": "angular.mock.module.sharedInjector",
+            "href": "api/ngMock/function/angular.mock.module.sharedInjector",
+            "type": "function"
           }
         ]
       },
@@ -1094,10 +1207,26 @@ angular.module('navData', [])
         ]
       },
       {
+        "name": "ngParseExt",
+        "href": "api/ngParseExt",
+        "type": "group",
+        "navItems": []
+      },
+      {
         "name": "ngResource",
         "href": "api/ngResource",
         "type": "group",
         "navItems": [
+          {
+            "name": "provider",
+            "type": "section",
+            "href": "api/ngResource/provider"
+          },
+          {
+            "name": "$resourceProvider",
+            "href": "api/ngResource/provider/$resourceProvider",
+            "type": "provider"
+          },
           {
             "name": "service",
             "type": "section",
@@ -1176,6 +1305,16 @@ angular.module('navData', [])
             "name": "$sanitize",
             "href": "api/ngSanitize/service/$sanitize",
             "type": "service"
+          },
+          {
+            "name": "provider",
+            "type": "section",
+            "href": "api/ngSanitize/provider"
+          },
+          {
+            "name": "$sanitizeProvider",
+            "href": "api/ngSanitize/provider/$sanitizeProvider",
+            "type": "provider"
           }
         ]
       },
@@ -1213,6 +1352,21 @@ angular.module('navData', [])
             "name": "$swipe",
             "href": "api/ngTouch/service/$swipe",
             "type": "service"
+          },
+          {
+            "name": "$touch",
+            "href": "api/ngTouch/service/$touch",
+            "type": "service"
+          },
+          {
+            "name": "provider",
+            "type": "section",
+            "href": "api/ngTouch/provider"
+          },
+          {
+            "name": "$touchProvider",
+            "href": "api/ngTouch/provider/$touchProvider",
+            "type": "provider"
           }
         ]
       }
@@ -1268,6 +1422,11 @@ angular.module('navData', [])
             "type": "error"
           },
           {
+            "name": "infchng",
+            "href": "error/$compile/infchng",
+            "type": "error"
+          },
+          {
             "name": "iscp",
             "href": "error/$compile/iscp",
             "type": "error"
@@ -1295,6 +1454,11 @@ angular.module('navData', [])
           {
             "name": "nonassign",
             "href": "error/$compile/nonassign",
+            "type": "error"
+          },
+          {
+            "name": "reqslot",
+            "href": "error/$compile/reqslot",
             "type": "error"
           },
           {
@@ -1483,6 +1647,11 @@ angular.module('navData', [])
             "type": "section"
           },
           {
+            "name": "badpath",
+            "href": "error/$location/badpath",
+            "type": "error"
+          },
+          {
             "name": "ipthprfx",
             "href": "error/$location/ipthprfx",
             "type": "error"
@@ -1506,6 +1675,11 @@ angular.module('navData', [])
             "name": "$parse",
             "href": "error/$parse",
             "type": "section"
+          },
+          {
+            "name": "isecaf",
+            "href": "error/$parse/isecaf",
+            "type": "error"
           },
           {
             "name": "isecdom",
@@ -1613,8 +1787,13 @@ angular.module('navData', [])
             "type": "section"
           },
           {
-            "name": "badparse",
-            "href": "error/$sanitize/badparse",
+            "name": "noinert",
+            "href": "error/$sanitize/noinert",
+            "type": "error"
+          },
+          {
+            "name": "uinput",
+            "href": "error/$sanitize/uinput",
             "type": "error"
           },
           {
@@ -1688,6 +1867,16 @@ angular.module('navData', [])
             "type": "error"
           },
           {
+            "name": "linky",
+            "href": "error/linky",
+            "type": "section"
+          },
+          {
+            "name": "notstring",
+            "href": "error/linky/notstring",
+            "type": "error"
+          },
+          {
             "name": "ng",
             "href": "error/ng",
             "type": "section"
@@ -1745,6 +1934,11 @@ angular.module('navData', [])
           {
             "name": "nonassign",
             "href": "error/ngModel/nonassign",
+            "type": "error"
+          },
+          {
+            "name": "nopromise",
+            "href": "error/ngModel/nopromise",
             "type": "error"
           },
           {
@@ -1806,6 +2000,16 @@ angular.module('navData', [])
             "name": "orphan",
             "href": "error/ngTransclude/orphan",
             "type": "error"
+          },
+          {
+            "name": "orderBy",
+            "href": "error/orderBy",
+            "type": "section"
+          },
+          {
+            "name": "notarray",
+            "href": "error/orderBy/notarray",
+            "type": "error"
           }
         ]
       }
@@ -1823,6 +2027,11 @@ angular.module('navData', [])
           {
             "name": "Introduction",
             "href": "guide/introduction",
+            "type": "page"
+          },
+          {
+            "name": "External Resources",
+            "href": "guide/external-resources",
             "type": "page"
           },
           {
@@ -1866,6 +2075,11 @@ angular.module('navData', [])
             "type": "page"
           },
           {
+            "name": "Interpolation",
+            "href": "guide/interpolation",
+            "type": "page"
+          },
+          {
             "name": "Filters",
             "href": "guide/filter",
             "type": "page"
@@ -1878,6 +2092,16 @@ angular.module('navData', [])
           {
             "name": "Directives",
             "href": "guide/directive",
+            "type": "page"
+          },
+          {
+            "name": "Components",
+            "href": "guide/component",
+            "type": "page"
+          },
+          {
+            "name": "Component Router",
+            "href": "guide/component-router",
             "type": "page"
           },
           {
@@ -1898,6 +2122,11 @@ angular.module('navData', [])
           {
             "name": "Providers",
             "href": "guide/providers",
+            "type": "page"
+          },
+          {
+            "name": "Decorators",
+            "href": "guide/decorators",
             "type": "page"
           },
           {
@@ -2020,63 +2249,75 @@ angular.module('navData', [])
             "type": "tutorial"
           },
           {
-            "name": "3 - Filtering Repeaters",
+            "name": "3 - Components",
             "step": 3,
             "href": "tutorial/step_03",
             "type": "tutorial"
           },
           {
-            "name": "4 - Two-way Data Binding",
+            "name": "4 - Directory and File Organization",
             "step": 4,
             "href": "tutorial/step_04",
             "type": "tutorial"
           },
           {
-            "name": "5 - XHRs & Dependency Injection",
+            "name": "5 - Filtering Repeaters",
             "step": 5,
             "href": "tutorial/step_05",
             "type": "tutorial"
           },
           {
-            "name": "6 - Templating Links & Images",
+            "name": "6 - Two-way Data Binding",
             "step": 6,
             "href": "tutorial/step_06",
             "type": "tutorial"
           },
           {
-            "name": "7 - Routing & Multiple Views",
+            "name": "7 - XHR & Dependency Injection",
             "step": 7,
             "href": "tutorial/step_07",
             "type": "tutorial"
           },
           {
-            "name": "8 - More Templating",
+            "name": "8 - Templating Links & Images",
             "step": 8,
             "href": "tutorial/step_08",
             "type": "tutorial"
           },
           {
-            "name": "9 - Filters",
+            "name": "9 - Routing & Multiple Views",
             "step": 9,
             "href": "tutorial/step_09",
             "type": "tutorial"
           },
           {
-            "name": "10 - Event Handlers",
+            "name": "10 - More Templating",
             "step": 10,
             "href": "tutorial/step_10",
             "type": "tutorial"
           },
           {
-            "name": "11 - REST and Custom Services",
+            "name": "11 - Custom Filters",
             "step": 11,
             "href": "tutorial/step_11",
             "type": "tutorial"
           },
           {
-            "name": "12 - Applying Animations",
+            "name": "12 - Event Handlers",
             "step": 12,
             "href": "tutorial/step_12",
+            "type": "tutorial"
+          },
+          {
+            "name": "13 - REST and Custom Services",
+            "step": 13,
+            "href": "tutorial/step_13",
+            "type": "tutorial"
+          },
+          {
+            "name": "14 - Animations",
+            "step": 14,
+            "href": "tutorial/step_14",
             "type": "tutorial"
           },
           {
