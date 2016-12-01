@@ -3,11 +3,11 @@ angular.module("NutrifApp").factory("diaRefeicaoService", function($http, config
     var _path = config.baseUrl() + "/diarefeicao";
 
 	var _buscaRefeicaoPorNome = function (nome){
-		return $http.get(_path + "/buscar/refeicaorealizada/aluno/nome/" + encodeURI(nome))
+		return $http.get(_path + "/buscar/aluno/nome/" + encodeURI(nome))
 	};
 
 	var _buscaRefeicaoPorMatricula = function (matricula){
-		return $http.get(_path + "/buscar/refeicaorealizada/aluno/matricula/" + encodeURI(matricula))
+		return $http.get(_path + "/buscar/aluno/matricula/" + encodeURI(matricula))
 	};
 
 	var _cadastrarRefeicao = function (refeicao) {
