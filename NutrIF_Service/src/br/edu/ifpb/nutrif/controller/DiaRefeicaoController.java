@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -171,7 +170,7 @@ public class DiaRefeicaoController {
 	 * @param diaRefeicao
 	 * @return builder
 	 */
-	@PermitAll
+	@RolesAllowed({TipoRole.ADMIN})
 	@POST
 	@Path("/remover")
 	@Consumes("application/json")
@@ -219,7 +218,7 @@ public class DiaRefeicaoController {
 		return builder.build();
 	}
 	
-	@RolesAllowed({"admin"})
+	@RolesAllowed({TipoRole.ADMIN})
 	@GET
 	@Path("/listar")
 	@Produces("application/json")
@@ -238,7 +237,7 @@ public class DiaRefeicaoController {
 	 * @param idCronogramaRefeicao
 	 * @return
 	 */
-	@PermitAll
+	@RolesAllowed({TipoRole.ADMIN, TipoRole.INSPETOR})
 	@GET
 	@Path("/id/{id}")
 	@Produces("application/json")
@@ -279,9 +278,9 @@ public class DiaRefeicaoController {
 	 * @param nome
 	 * @return
 	 */
-	@PermitAll
+	@RolesAllowed({TipoRole.ADMIN, TipoRole.INSPETOR})
 	@GET
-	@Path("/buscar/refeicaorealizada/aluno/nome/{nome}")
+	@Path("/buscar/aluno/nome/{nome}")
 	@Produces("application/json")
 	public Response getDiaRefeicaoRealizacaoByAlunoNome(
 			@PathParam("nome") String nome) {
@@ -346,9 +345,9 @@ public class DiaRefeicaoController {
 	 * @param matricula
 	 * @return
 	 */
-	@PermitAll
+	@RolesAllowed({TipoRole.ADMIN, TipoRole.INSPETOR})
 	@GET
-	@Path("/buscar/refeicaorealizada/aluno/matricula/{matricula}")
+	@Path("/buscar/aluno/matricula/{matricula}")
 	@Produces("application/json")
 	public Response getDiaRefeicaoRealizacaoByAlunoMatricula(
 			@PathParam("matricula") String matricula) {
@@ -413,7 +412,6 @@ public class DiaRefeicaoController {
 									ErrorFactory.PERIODO_REFEICAO_INVALIDO));
 				}
 				
-
 			} catch (SQLExceptionNutrIF exception) {
 
 				builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
@@ -430,7 +428,7 @@ public class DiaRefeicaoController {
 	 * @param matricula
 	 * @return diasRefeicao
 	 */
-	@PermitAll
+	@RolesAllowed({TipoRole.ADMIN, TipoRole.COMENSAL})
 	@GET
 	@Path("/listar/aluno/matricula/{matricula}")
 	@Produces("application/json")
@@ -461,6 +459,7 @@ public class DiaRefeicaoController {
 				builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
 						exception.getError());
 			}
+			
 		} else {
 			
 			//TODO
@@ -469,7 +468,7 @@ public class DiaRefeicaoController {
 		return builder.build();		
 	}
 	
-	@PermitAll
+	@RolesAllowed({TipoRole.ADMIN})
 	@GET
 	@Path("/quantidadebeneficiado/edital/{id}")
 	@Produces("application/json")

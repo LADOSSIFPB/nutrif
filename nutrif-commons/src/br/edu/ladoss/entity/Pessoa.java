@@ -20,6 +20,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -46,7 +47,7 @@ public class Pessoa implements Serializable {
 	@Column(name = "nm_senha")
 	private String senha;
 	
-	@Column(name = "nm_keyauth")
+	@Transient
 	private String keyAuth;
 
 	@Column(name = "nm_email", unique = true)

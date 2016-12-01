@@ -309,6 +309,7 @@ public class AlunoController {
 	
 	/**
 	 * Inserir acesso do Aluno ao sistema via dispositivo móvel.
+	 * TODO: Reavaliar processo de login do aluno. Usar o login do PessoaController.
 	 * 
 	 * Entrada:
 	 * {

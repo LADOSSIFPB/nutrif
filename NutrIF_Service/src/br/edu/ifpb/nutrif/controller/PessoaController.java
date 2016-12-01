@@ -50,7 +50,6 @@ public class PessoaController {
 	@Consumes("application/json")
 	@Produces("application/json")
 	public Response login(@HeaderParam("user-agent") String userAgent,
-			@HeaderParam("forwarded") String host,
 			@Context HttpServletRequest req,
 			PessoaAcesso pessoaAcesso) {
 		
@@ -165,6 +164,9 @@ public class PessoaController {
 						.getLoginByKeyAuth(authorization);
 				
 				if (login != null) {
+					
+					// Invalidando Login
+					login.setLoged(BancoUtil.INATIVO);
 					
 					// Registro do Login
 					Date agora = new Date();

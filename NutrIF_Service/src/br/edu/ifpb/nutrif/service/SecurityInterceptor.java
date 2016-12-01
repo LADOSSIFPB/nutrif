@@ -21,7 +21,6 @@ import org.apache.logging.log4j.Logger;
 import org.jboss.resteasy.core.ResourceMethodInvoker;
 
 import br.edu.ifpb.nutrif.dao.LoginDAO;
-import br.edu.ifpb.nutrif.dao.PessoaDAO;
 import br.edu.ifpb.nutrif.validation.Validate;
 import br.edu.ladoss.entity.Login;
 import br.edu.ladoss.entity.Pessoa;
