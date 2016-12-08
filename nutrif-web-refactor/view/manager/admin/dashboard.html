@@ -1,0 +1,58 @@
+<md-input-container class="md-icon-float md-block">
+				<label>Dia</label>
+				<md-select ng-model="dashboard.dias.id">
+					<md-option ng-repeat="dia in dias" value="{{dia.id}}" >
+						{{dia.nome}}
+					</md-option>
+			    </md-select>
+</md-input-container>
+	
+<md-input-container class="md-icon-float md-block">
+				<label>Refeicao</label>
+				<md-select ng-model="dashboard.refeicoes.id">
+					<md-option ng-repeat="refeicao in refeicoes" value="{{refeicao.id}}" >
+						{{refeicao.tipo}}
+					</md-option>
+			    </md-select>
+</md-input-container>
+
+<div style="margin-top: 5px" layout="row">
+    <md-card>
+        <md-card-header>
+            <md-card-header-text>
+                <span class="md-title">Quantidade de Pretensões para refeição</span>
+            </md-card-header-text>
+        </md-card-header>
+        <md-card-content layout="column">
+            <span style="font-size: 100px;">0</span>
+            <span style="font-size: 12px; margin-top: 10px">{{dataHoje | date : "dd/MM/yyyy"}}</span>
+        </md-card-content>
+    </md-card>
+    
+    <md-card>
+                <md-card-header>
+                    <md-card-header-text>
+                        <span class="md-title">Quantidade de Refeições para os beneficiados de hoje</span>
+                    </md-card-header-text>
+                </md-card-header>
+                <md-card-content layout="column">
+                    <span style="font-size: 100px;">0</span>
+                    <span style="font-size: 12px; margin-top: 10px">{{dataHoje | date : "dd/MM/yyyy"}}</span>
+                </md-card-content>
+    </md-card>
+	
+ </div>  
+    <md-card>
+        <md-card-header>
+            <md-card-header-text>
+                <span class="md-title">Quantidade de Refeições realizadas</span>
+            </md-card-header-text>
+        </md-card-header>
+        <md-card-content layout="column">
+		    <span style="font-size: 100px;">0</span>
+            <span style="font-size: 12px; margin-top: 10px">{{dataHoje | date : "dd/MM/yyyy"}}</span>
+        </md-card-content>
+    </md-card>
+       
+
+    

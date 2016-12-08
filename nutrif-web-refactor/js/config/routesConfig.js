@@ -250,5 +250,14 @@ angular.module('NutrifApp').config(function ($stateProvider, $urlRouterProvider)
 		controllerAs: 'editarRefeicao',
 		module: 'admin'
 	})
+	
+	.state('home.dashboard', {
+		url: '/dashboard',
+		title: 'Dashboard',
+		templateUrl: 'view/manager/admin/dashboard.html',
+		controller: 'dashboardCtrl',
+		controllerAs: 'dashboard',
+		module: 'admin'
+	})
 
 });

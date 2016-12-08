@@ -5,6 +5,8 @@ angular.module('NutrifApp').controller('cadastrarCursoCtrl', function ($scope,
 	    $scope.campi = [];
 
 		this.cadastrar = function (curso) {
+			
+			console.log(curso);
 
 			// Enviar para o serviço de cadastro de curso.
 			cursoService.cadastrarCurso(curso)
