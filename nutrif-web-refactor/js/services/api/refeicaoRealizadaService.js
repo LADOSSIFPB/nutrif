@@ -14,10 +14,17 @@ angular.module("NutrifApp").factory("refeicaoRealizadaService", function($http, 
     var _mapaRefeicao = function(peirodoPretensao){
 		return $http.post(_path + "/mapa/consultar", peirodoPretensao);
 	};
+	
+	var _getQuantidadeRefeicoesRealizadas = function(diaRefeicao){
+		
+		return $http.post(_path+ "/quantificar" , diaRefeicao);
+		
+	} 
 
 	return {
 		inserirRefeicao: _inserirRefeicao,
-        mapaRefeicao: _mapaRefeicao
+        mapaRefeicao: _mapaRefeicao,
+		getQuantidadeRefeicoesRealizadas: _getQuantidadeRefeicoesRealizadas
 	};
 
 });

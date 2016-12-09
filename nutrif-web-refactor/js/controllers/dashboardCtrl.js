@@ -1,16 +1,15 @@
 angular.module('NutrifApp').controller('dashboardCtrl', function (
-		$scope, $mdToast, diaService, refeicaoService) {
+		$scope, $mdToast, diaService, refeicaoService,$timeout,pretensaoService,refeicaoRealizadaService) {
 
   
     $scope.dias = [];
 	$scope.refeicoes = [];
 	$scope.dataHoje = new Date();
+	$scope.diaRefeicao={};
+	$scope.mapaPretensao={};
+	$scope.mapaRefeicaoRealizada={};
 
-    $scope.limparBusca = function () {
-        $scope.texto = "";
-        $scope.cursos = [];
-    };
-
+   
     $scope.carregarDia = function() {
           diaService.listarDias()
             .success(function (data, status){
@@ -51,7 +50,41 @@ angular.module('NutrifApp').controller('dashboardCtrl', function (
             .hideDelay(6000)
         );
     }
+	
+	$scope.getQuantidadePretensao = function(){
+		
+		pretensaoService.getQuantidadePretensao($scope.diaRefeicao).
+		    success(function (data, status){
+				$scope.mapaPretensao = data;
+				console.log($scope.mapaPretensao);
+			})
+            .error(onErrorCallback);
+		
+	}
+	
+	$scope.getQuantidadeRefeicoesRealizadas = function(){
+		
+		refeicaoRealizadaService.getQuantidadeRefeicoesRealizadas($scope.diaRefeicao).
+		    success(function (data, status){
+				$scope.mapaRefeicaoRealizada = data;
+				console.log($scope.mapaRefeicaoRealizada);
+			})
+            .error(onErrorCallback);
+		
+	}
 
     $scope.carregarDia();
-	$scope.carregarRefeicao();
+	$scope.carregarRefeicao();	
+	
+	
+	//Enquanto o usuário estiver na página
+	/*
+	$scope.atualizar = function() {
+	    $scope.getQuantidadePretensao();
+		$scope.getQuantidadeRefeicoesRealizadas();
+        $timeout($scope.increment, 6000);
+    };
+    $scope.atualizar();
+	*/
+	
 });

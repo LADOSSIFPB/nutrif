@@ -35,6 +35,7 @@
     function onSuccessCallback(data, status) {
       if (status == 200) {
         $mdToast.hide(mensagemToast);
+        console.log(data);
         $scope.refeicoes = data;
       }
     }
