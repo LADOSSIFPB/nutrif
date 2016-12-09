@@ -22,6 +22,12 @@ angular.module("NutrifApp").factory("pretensaoService", function($http, config, 
 		var pretensao = {keyAccess: code};
 		return $http.post(_path + "/chaveacesso/verificar", pretensao);
 	};
+	
+	var _getQuantidadePretensao = function(diaRefeicao){
+		
+		return $http.post(_path + "/quantificar",diaRefeicao);
+		
+	}
 
     var _mapaRefeicao = function(peirodoPretensao){
 		return $http.post(_path + "/mapa/consultar", peirodoPretensao);
@@ -31,7 +37,8 @@ angular.module("NutrifApp").factory("pretensaoService", function($http, config, 
 		verifyDiaRefeicao : _verifyDiaRefeicao,
 		verifyChaveAcesso: _verifyChaveAcesso,
         mapaRefeicao: _mapaRefeicao,
-		insertPretensao: _insertPretensao
+		insertPretensao: _insertPretensao,
+		getQuantidadePretensao:_getQuantidadePretensao
 	};
 
 });
