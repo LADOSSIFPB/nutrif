@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.EditText;
 
 import br.edu.ladoss.nutrif.R;
-import br.edu.ladoss.nutrif.entitys.Aluno;
+import br.edu.ladoss.nutrif.model.Aluno;
 import br.edu.ladoss.nutrif.validation.Validate;
 import butterknife.*;
 

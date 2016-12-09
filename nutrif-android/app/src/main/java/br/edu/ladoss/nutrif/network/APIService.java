@@ -5,15 +5,13 @@ package br.edu.ladoss.nutrif.network;
 import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.ResponseBody;
 
-import java.io.File;
 import java.util.List;
 
-import br.edu.ladoss.nutrif.entitys.Aluno;
-import br.edu.ladoss.nutrif.entitys.DiaRefeicao;
-import br.edu.ladoss.nutrif.entitys.Pessoa;
-import br.edu.ladoss.nutrif.entitys.PretensaoRefeicao;
-import br.edu.ladoss.nutrif.entitys.input.ConfirmationKey;
-import okhttp3.MultipartBody;
+import br.edu.ladoss.nutrif.model.Aluno;
+import br.edu.ladoss.nutrif.model.DiaRefeicao;
+import br.edu.ladoss.nutrif.model.Pessoa;
+import br.edu.ladoss.nutrif.model.PretensaoRefeicao;
+import br.edu.ladoss.nutrif.model.input.ConfirmationKey;
 import retrofit.Call;
 import retrofit.http.Body;
 import retrofit.http.GET;
@@ -22,7 +20,6 @@ import retrofit.http.Multipart;
 import retrofit.http.POST;
 import retrofit.http.Part;
 import retrofit.http.Path;
-import retrofit.http.Query;
 import retrofit.http.Streaming;
 
 /**

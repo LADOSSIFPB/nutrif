@@ -1,6 +1,6 @@
 package br.edu.ladoss.nutrif.validation;
 
-import br.edu.ladoss.nutrif.entitys.Pessoa;
+import br.edu.ladoss.nutrif.model.Pessoa;
 
 public class Validate {
 	

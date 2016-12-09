@@ -11,8 +11,8 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 
 import br.edu.ladoss.nutrif.R;
-import br.edu.ladoss.nutrif.entitys.Aluno;
-import br.edu.ladoss.nutrif.entitys.output.Erro;
+import br.edu.ladoss.nutrif.model.Aluno;
+import br.edu.ladoss.nutrif.model.output.Erro;
 import br.edu.ladoss.nutrif.network.ConnectionServer;
 import br.edu.ladoss.nutrif.util.AndroidUtil;
 import br.edu.ladoss.nutrif.util.ErrorUtils;

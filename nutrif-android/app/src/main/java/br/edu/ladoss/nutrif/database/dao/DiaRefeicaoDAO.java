@@ -7,7 +7,7 @@ import android.database.Cursor;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.edu.ladoss.nutrif.entitys.DiaRefeicao;
+import br.edu.ladoss.nutrif.model.DiaRefeicao;
 
 /**
  * Created by juan on 25/03/16.

@@ -1,22 +1,17 @@
-package br.edu.ladoss.nutrif.entitys;
+package br.edu.ladoss.nutrif.model;
 
 import java.io.Serializable;
 
-public class Dia  implements Serializable{
+public class Curso implements Serializable{
 
 	private Integer id;
-	private String nome;
 
-	public Dia() {
-		super();
-	}
-	
-	public Dia (Integer id, String nome) {
+	public Curso(Integer id) {
 		this.id = id;
-		this.nome = nome;
 	}
 
 	public Integer getId() {
+
 		return id;
 	}
 
@@ -31,4 +26,6 @@ public class Dia  implements Serializable{
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
+
+	private String nome;
 }

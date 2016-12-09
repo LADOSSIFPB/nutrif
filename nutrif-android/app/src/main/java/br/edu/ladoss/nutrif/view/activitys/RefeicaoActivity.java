@@ -9,15 +9,14 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import br.edu.ladoss.nutrif.R;
 import br.edu.ladoss.nutrif.database.dao.PretensaoRefeicaoDAO;
-import br.edu.ladoss.nutrif.entitys.DiaRefeicao;
-import br.edu.ladoss.nutrif.entitys.PretensaoRefeicao;
-import br.edu.ladoss.nutrif.entitys.output.Erro;
+import br.edu.ladoss.nutrif.model.DiaRefeicao;
+import br.edu.ladoss.nutrif.model.PretensaoRefeicao;
+import br.edu.ladoss.nutrif.model.output.Erro;
 import br.edu.ladoss.nutrif.network.ConnectionServer;
 import br.edu.ladoss.nutrif.util.AndroidUtil;
 import br.edu.ladoss.nutrif.util.ErrorUtils;
@@ -168,13 +167,13 @@ public class RefeicaoActivity extends AppCompatActivity {
                 pretensaoRefeicao.getConfirmaPretensaoDia().getDiaRefeicao().getId()
         );
 
-        Call<br.edu.ladoss.nutrif.entitys.PretensaoRefeicao> call = ConnectionServer
+        Call<br.edu.ladoss.nutrif.model.PretensaoRefeicao> call = ConnectionServer
                 .getInstance()
                 .getService()
                 .pedirRefeicao(PreferencesUtils.getAccessKeyOnSharedPreferences(this), refeicao);
-        call.enqueue(new Callback<br.edu.ladoss.nutrif.entitys.PretensaoRefeicao>() {
+        call.enqueue(new Callback<br.edu.ladoss.nutrif.model.PretensaoRefeicao>() {
             @Override
-            public void onResponse(Response<br.edu.ladoss.nutrif.entitys.PretensaoRefeicao> response, Retrofit retrofit) {
+            public void onResponse(Response<br.edu.ladoss.nutrif.model.PretensaoRefeicao> response, Retrofit retrofit) {
                 if (response.isSuccess()) {
                     PretensaoRefeicaoDAO.getInstance(getBaseContext()).insertOrUpdate(response.body());
                     organizarTela(response.body());

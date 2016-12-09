@@ -1,8 +1,4 @@
-package br.edu.ladoss.nutrif.entitys;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+package br.edu.ladoss.nutrif.model;
 
 public class ConfirmaPretensaoDia{
 

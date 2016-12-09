@@ -1,4 +1,4 @@
-package br.edu.ladoss.nutrif.entitys;
+package br.edu.ladoss.nutrif.model;
 
 import java.io.Serializable;
 
