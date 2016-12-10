@@ -1,5 +1,5 @@
 angular.module('NutrifApp').controller('dashboardCtrl', function (
-		$scope, $mdToast, diaService, refeicaoService,$timeout,pretensaoService,refeicaoRealizadaService) {
+		$scope, $mdToast, diaService, refeicaoService,$timeout,pretensaoService,refeicaoRealizadaService,$state,$interval) {
 
   
     $scope.dias = [];
@@ -76,15 +76,12 @@ angular.module('NutrifApp').controller('dashboardCtrl', function (
     $scope.carregarDia();
 	$scope.carregarRefeicao();	
 	
-	
 	//Enquanto o usuário estiver na página
-	/*
-	$scope.atualizar = function() {
-	    $scope.getQuantidadePretensao();
-		$scope.getQuantidadeRefeicoesRealizadas();
-        $timeout($scope.increment, 6000);
-    };
-    $scope.atualizar();
-	*/
-	
+        $interval(function() {
+				var currentCtrl = $state.current.controller;
+				if (currentCtrl === "dashboardCtrl") {
+					   $scope.getQuantidadePretensao();
+					   $scope.getQuantidadeRefeicoesRealizadas();
+				}
+            }, 6000);
 });

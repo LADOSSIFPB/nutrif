@@ -16,7 +16,7 @@
 	    </md-select>
 </md-input-container>
 
-<div style="margin-top: 5px" layout="row">
+<div style="margin-top: 5px" layout="row" ui-sref-opts="{reload: true}">
     <md-card>
         <md-card-header>
             <md-card-header-text>
@@ -48,7 +48,7 @@
                 <span class="md-title">Quantidade de Refeições realizadas</span>
             </md-card-header-text>
         </md-card-header>
-        <md-card-content layout="column">
+        <md-card-content layout="column" ui-sref-opts="{reload: true}">
 		    <span style="font-size: 100px;">{{mapaRefeicaoRealizada.quantidade}}</span>
             <span style="font-size: 12px; margin-top: 10px">{{dataHoje | date : "dd/MM/yyyy"}}</span>
         </md-card-content>
