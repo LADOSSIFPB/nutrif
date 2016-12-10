@@ -27,6 +27,12 @@ angular.module('NutrifApp').controller('dashboardCtrl', function (
 			})
             .error(onErrorCallback);
     }
+	
+	//inicia a quantidade de mapas 
+	$scope.initMapas = function(){
+		$scope.mapaRefeicaoRealizada.quantidade = 0;
+		$scope.mapaPretensao.quantidade = 0;
+	}
 
    
     function onSuccessCallback(data, status) {
@@ -75,6 +81,7 @@ angular.module('NutrifApp').controller('dashboardCtrl', function (
 
     $scope.carregarDia();
 	$scope.carregarRefeicao();	
+	$scope.initMapas();
 	
 	//Enquanto o usuário estiver na página
         $interval(function() {
@@ -83,5 +90,5 @@ angular.module('NutrifApp').controller('dashboardCtrl', function (
 					   $scope.getQuantidadePretensao();
 					   $scope.getQuantidadeRefeicoesRealizadas();
 				}
-            }, 6000);
+            }, 10000);
 });
