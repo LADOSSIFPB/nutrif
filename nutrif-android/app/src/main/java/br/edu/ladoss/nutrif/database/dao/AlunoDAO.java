@@ -4,13 +4,12 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
 import java.io.File;
 
-import br.edu.ladoss.nutrif.entitys.Aluno;
+import br.edu.ladoss.nutrif.model.Aluno;
 import br.edu.ladoss.nutrif.util.ImageUtils;
 import br.edu.ladoss.nutrif.util.StorageUtil;
 

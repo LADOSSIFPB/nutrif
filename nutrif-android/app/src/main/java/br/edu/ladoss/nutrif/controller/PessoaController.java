@@ -1,29 +1,20 @@
 package br.edu.ladoss.nutrif.controller;
 
 import android.content.Context;
-import android.graphics.BitmapFactory;
 
 import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.RequestBody;
 
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
 
-import br.edu.ladoss.nutrif.R;
 import br.edu.ladoss.nutrif.database.dao.AlunoDAO;
 import br.edu.ladoss.nutrif.database.dao.DiaRefeicaoDAO;
-import br.edu.ladoss.nutrif.entitys.Aluno;
-import br.edu.ladoss.nutrif.entitys.Pessoa;
-import br.edu.ladoss.nutrif.entitys.input.ConfirmationKey;
-import br.edu.ladoss.nutrif.entitys.output.Erro;
+import br.edu.ladoss.nutrif.model.Aluno;
 import br.edu.ladoss.nutrif.network.ConnectionServer;
 import br.edu.ladoss.nutrif.util.ErrorUtils;
-import br.edu.ladoss.nutrif.util.ImageUtils;
 import br.edu.ladoss.nutrif.util.PreferencesUtils;
 import retrofit.Call;
 import retrofit.Callback;
-import retrofit.GsonConverterFactory;
 import retrofit.Response;
 import retrofit.Retrofit;
 

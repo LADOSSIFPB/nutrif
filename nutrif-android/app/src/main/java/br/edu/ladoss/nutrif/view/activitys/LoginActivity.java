@@ -14,9 +14,9 @@ import java.util.Random;
 
 import br.edu.ladoss.nutrif.R;
 import br.edu.ladoss.nutrif.database.dao.AlunoDAO;
-import br.edu.ladoss.nutrif.entitys.Aluno;
-import br.edu.ladoss.nutrif.entitys.Pessoa;
-import br.edu.ladoss.nutrif.entitys.output.Erro;
+import br.edu.ladoss.nutrif.model.Aluno;
+import br.edu.ladoss.nutrif.model.Pessoa;
+import br.edu.ladoss.nutrif.model.output.Erro;
 import br.edu.ladoss.nutrif.network.ConnectionServer;
 import br.edu.ladoss.nutrif.util.AndroidUtil;
 import br.edu.ladoss.nutrif.util.ErrorUtils;
@@ -42,7 +42,7 @@ public class LoginActivity extends AppCompatActivity {
         if (bundle != null && !bundle.isEmpty()) {
             Aluno aluno = new Aluno();
             aluno.setEmail(bundle.getString("email"));
-            aluno.setSenha(bundle.getString("senha"));
+            aluno.setSenha(bundle.getString("validaSenha"));
 
             if (!(aluno.getEmail() == null)){
                 doLogin(aluno);

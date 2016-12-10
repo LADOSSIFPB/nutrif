@@ -5,15 +5,13 @@ package br.edu.ladoss.nutrif.network;
 import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.ResponseBody;
 
-import java.io.File;
 import java.util.List;
 
-import br.edu.ladoss.nutrif.entitys.Aluno;
-import br.edu.ladoss.nutrif.entitys.DiaRefeicao;
-import br.edu.ladoss.nutrif.entitys.Pessoa;
-import br.edu.ladoss.nutrif.entitys.PretensaoRefeicao;
-import br.edu.ladoss.nutrif.entitys.input.ConfirmationKey;
-import okhttp3.MultipartBody;
+import br.edu.ladoss.nutrif.model.Aluno;
+import br.edu.ladoss.nutrif.model.DiaRefeicao;
+import br.edu.ladoss.nutrif.model.Pessoa;
+import br.edu.ladoss.nutrif.model.PretensaoRefeicao;
+import br.edu.ladoss.nutrif.model.input.ConfirmationKey;
 import retrofit.Call;
 import retrofit.http.Body;
 import retrofit.http.GET;
@@ -22,7 +20,6 @@ import retrofit.http.Multipart;
 import retrofit.http.POST;
 import retrofit.http.Part;
 import retrofit.http.Path;
-import retrofit.http.Query;
 import retrofit.http.Streaming;
 
 /**
@@ -49,9 +46,9 @@ public interface APIService {
     Call<PretensaoRefeicao> pedirRefeicao(@Header("Authorization") String accessKey,
                                           @Body PretensaoRefeicao pretencaoRefeicao);
 
-    @GET("diarefeicao/listar/aluno/matricula/{matricula}")
+    @GET("diarefeicao/listar/aluno/validaMatricula/{validaMatricula}")
     Call<List<DiaRefeicao>> listaRefeicoes(@Header("Authorization") String accessKey,
-                                           @Path("matricula")String matricula);
+                                           @Path("validaMatricula")String matricula);
 
     @POST("pretensaorefeicao/diarefeicao/verificar")
     Call<PretensaoRefeicao>     infoRefeicao(@Header("Authorization") String accessKey,

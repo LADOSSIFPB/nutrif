@@ -1,6 +1,6 @@
 package br.edu.ladoss.nutrif.validation;
 
-import br.edu.ladoss.nutrif.entitys.Pessoa;
+import br.edu.ladoss.nutrif.model.Pessoa;
 
 public class Validate {
 	
@@ -16,12 +16,20 @@ public class Validate {
 
 	public static int VALIDATE_OK = 0;
 
-	public static boolean identificador(String identificador) {
+	/**
+	 * Recebe um identificador e verifica se ele obedece a regra.
+	 * Um identificador obedece a duas formatações, a de email e a de matrícula.
+	 * É tentado identificar os dois padrões, se nenhum deles for encontrado, é retornado
+	 * falso.
+	 * @param identificador representa email ou matrícula a ser checada
+	 * @return true se for encontrado o padrão
+     */
+	public static boolean validaIdentificador(String identificador) {
 
 		boolean isValidated = false;
 
 		if (emailValidator.validate(identificador)
-				|| matricula(identificador)){
+				|| validaMatricula(identificador)){
 
 			isValidated = true;
 		}
@@ -29,7 +37,12 @@ public class Validate {
 		return isValidated;
 	}
 
-	public static boolean senha(String senha) {
+	/**
+	 * Valida uma validaSenha recebida como parâmetro.
+	 * @param senha
+	 * @return true se a validaSenha estiver correta.
+	 */
+	public static boolean validaSenha(String senha) {
 
 		boolean isValidated = false;
 
@@ -39,11 +52,16 @@ public class Validate {
 		return isValidated;
 	}
 
-	public static boolean matricula(String matricula){
+	/**
+	 * Valida uma matrícula recebida como parâmetro.
+	 * @param matricula
+	 * @return true se a matrícula estiver correta.
+     */
+	public static boolean validaMatricula(String matricula){
 		return stringValidator.validate(matricula, Pessoa.LENGHT_MATRICULA);
 	}
 
-	public static boolean codigoAtivacao(String codigo){
+	public static boolean validaCodigoAtivacao(String codigo){
 		return stringValidator.validate(codigo);
 	}
 

@@ -5,7 +5,8 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.1.2'
+        classpath 'com.squareup.gradle:gradle-android-test-plugin:0.9.+'
+        classpath 'com.android.tools.build:gradle:2.2.2'
     }
 }
 
