@@ -46,9 +46,9 @@ public interface APIService {
     Call<PretensaoRefeicao> pedirRefeicao(@Header("Authorization") String accessKey,
                                           @Body PretensaoRefeicao pretencaoRefeicao);
 
-    @GET("diarefeicao/listar/aluno/matricula/{matricula}")
+    @GET("diarefeicao/listar/aluno/validaMatricula/{validaMatricula}")
     Call<List<DiaRefeicao>> listaRefeicoes(@Header("Authorization") String accessKey,
-                                           @Path("matricula")String matricula);
+                                           @Path("validaMatricula")String matricula);
 
     @POST("pretensaorefeicao/diarefeicao/verificar")
     Call<PretensaoRefeicao>     infoRefeicao(@Header("Authorization") String accessKey,

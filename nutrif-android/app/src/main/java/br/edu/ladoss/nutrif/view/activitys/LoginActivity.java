@@ -42,7 +42,7 @@ public class LoginActivity extends AppCompatActivity {
         if (bundle != null && !bundle.isEmpty()) {
             Aluno aluno = new Aluno();
             aluno.setEmail(bundle.getString("email"));
-            aluno.setSenha(bundle.getString("senha"));
+            aluno.setSenha(bundle.getString("validaSenha"));
 
             if (!(aluno.getEmail() == null)){
                 doLogin(aluno);

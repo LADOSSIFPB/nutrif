@@ -49,7 +49,7 @@ public class EnterActivity extends AppCompatActivity {
             Bundle bundle = new Bundle();
 
             bundle.putString("email", aluno.getEmail());
-            bundle.putString("senha", aluno.getSenha());
+            bundle.putString("validaSenha", aluno.getSenha());
             intent.putExtras(bundle);
 
             startActivity(intent);
@@ -66,7 +66,7 @@ public class EnterActivity extends AppCompatActivity {
         boolean validated = true;
 
         String identificador = identificadorEditText.getText().toString();
-        validated = Validate.identificador(identificador);
+        validated = Validate.validaIdentificador(identificador);
         if (!validated) {
             identificadorEditText.setError("E-mail inválido.");
             identificadorEditText.setFocusable(true);
@@ -74,7 +74,7 @@ public class EnterActivity extends AppCompatActivity {
         }
 
         String senha = senhaEditText.getText().toString();
-        validated = Validate.senha(senha);
+        validated = Validate.validaSenha(senha);
         if (!validated) {
             senhaEditText.setError("Senha inválida.");
             senhaEditText.setFocusable(true);
