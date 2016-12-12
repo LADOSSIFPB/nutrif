@@ -205,7 +205,13 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 		return diasRefeicao;		
 	}
 	
-	public int getQuantidadeAlunoDiaRefeicao(int idEdital) {
+	/**
+	 * Quantificar a quantidade de refeições servidas para um determinado edital.
+	 * 
+	 * @param idEdital
+	 * @return
+	 */
+	public int getQuantidadeDiaRefeicaoEdital(int idEdital) {
 		
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		
@@ -221,6 +227,51 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 			
 			Query query = session.createQuery(hql);			
 			query.setParameter("idEdital", idEdital);
+			query.setParameter("ativo", BancoUtil.ATIVO);
+			
+			quantidadeBeneficiados = (Long) query.uniqueResult();
+	        
+		} catch (HibernateException hibernateException) {
+			
+			session.getTransaction().rollback();
+			
+			throw new SQLExceptionNutrIF(hibernateException);
+			
+		} finally {
+		
+			session.close();
+		}
+		
+		return quantidadeBeneficiados!=null ? Integer.valueOf(
+				quantidadeBeneficiados.toString()): BancoUtil.QUANTIDADE_ZERO;		
+	}
+	
+	/**
+	 * Quantificar as refeição que serão servidas num determinado dia da semana
+	 * para os editais ativos e dentro do prazo de validade.
+	 *  
+	 * @param diaRefeicao
+	 * @return
+	 */
+	public int getQuantidadeDiaRefeicao(DiaRefeicao diaRefeicao) {
+		
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		
+		Long quantidadeBeneficiados = Long.valueOf(BancoUtil.QUANTIDADE_ZERO);
+		
+		try {
+			
+			String hql = "select count(distinct dr.aluno.id)"
+					+ " from DiaRefeicao as dr"
+					+ " where dr.dia.id = :idDia"
+					+ " 	and dr.refeicao.id = :idRefeicao"
+					+ "		and CURRENT_TIME() between dr.edital.dataInicial and dr.edital.dataFinal"
+					+ " 	and dr.edital.ativo = :ativo"
+					+ " 	and dr.ativo = :ativo";
+			
+			Query query = session.createQuery(hql);			
+			query.setParameter("idDia", diaRefeicao.getDia().getId());
+			query.setParameter("idRefeicao", diaRefeicao.getRefeicao().getId());
 			query.setParameter("ativo", BancoUtil.ATIVO);
 			
 			quantidadeBeneficiados = (Long) query.uniqueResult();

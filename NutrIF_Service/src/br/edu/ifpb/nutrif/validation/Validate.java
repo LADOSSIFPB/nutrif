@@ -315,6 +315,29 @@ public class Validate {
 		return VALIDATE_OK;
 	}
 	
+	public static int quantidadeDiaRefeicao(DiaRefeicao diaRefeicao) {
+		
+		logger.info("Validação para quantificar o Dia da Refeição.");
+		
+		Dia dia = diaRefeicao.getDia();
+		if (dia == null || 
+				(dia != null 
+					&& !numeroValidator.isInteiroPositivo(dia.getId()))) {
+			
+			return ErrorFactory.ID_DIA_INVALIDO;
+		}
+		
+		Refeicao refeicao = diaRefeicao.getRefeicao();
+		if (refeicao == null || 
+				(refeicao != null 
+					&& !numeroValidator.isInteiroPositivo(refeicao.getId()))) {
+			
+			return ErrorFactory.ID_REFEICAO_INVALIDA;
+		}
+		
+		return VALIDATE_OK;
+	}
+	
 	public static int refeicaoRealizada(RefeicaoRealizada refeicaoRealizada) {
 		
 		logger.info("Validação para Refeição Realizada.");

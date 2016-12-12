@@ -167,7 +167,7 @@ public class EditalController {
 			if (edital != null) {
 				
 				int quantidadeBeneficiadosReal = DiaRefeicaoDAO
-						.getInstance().getQuantidadeAlunoDiaRefeicao(
+						.getInstance().getQuantidadeDiaRefeicaoEdital(
 								idEdital);
 				edital.setQuantidadeBeneficiadosReal(
 						quantidadeBeneficiadosReal);
@@ -205,7 +205,7 @@ public class EditalController {
 				int idEdital = edital.getId();
 				
 				int quantidadeBeneficiadosReal = DiaRefeicaoDAO
-						.getInstance().getQuantidadeAlunoDiaRefeicao(
+						.getInstance().getQuantidadeDiaRefeicaoEdital(
 								idEdital);
 				edital.setQuantidadeBeneficiadosReal(
 						quantidadeBeneficiadosReal);				
