@@ -8,7 +8,7 @@
 
 		<!-- database connection properties -->
         <property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
-        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/nutrif?useUnicode=true&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=UTC</property>
+        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/nutrif?useUnicode=true&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=America/Recife</property>
         <property name="hibernate.connection.username">root</property>
         <property name="hibernate.connection.password">ifpbinfo</property>
         <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
