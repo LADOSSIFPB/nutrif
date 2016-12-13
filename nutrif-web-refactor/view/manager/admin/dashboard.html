@@ -1,3 +1,4 @@
+<b>* Para ter acesso as informações abaixo selecione o dia da refeição e o tipo da mesma </b>
 <md-input-container class="md-icon-float md-block">
 	<label>Dia</label>
 	    <md-select ng-model="diaRefeicao.dia.id" required>
@@ -36,7 +37,7 @@
                     </md-card-header-text>
                 </md-card-header>
                 <md-card-content layout="column">
-                    <span style="font-size: 100px;">0</span>
+                    <span style="font-size: 100px;">{{ mapaDiaRefeicao.quantidade }}</span>
                     <span style="font-size: 12px;">{{dataHoje | date : "dd/MM/yyyy"}}</span>
                 </md-card-content>
     </md-card>
@@ -48,7 +49,7 @@
             </md-card-header-text>
         </md-card-header>
         <md-card-content layout="column" ui-sref-opts="{reload: true}">
-		    <span style="font-size: 100px;">{{mapaRefeicaoRealizada.quantidade}}</span>
+		    <span style="font-size: 100px;">{{ mapaRefeicaoRealizada.quantidade }}</span>
             <span style="font-size: 12px;">{{dataHoje | date : "dd/MM/yyyy"}}</span>
         </md-card-content>
     </md-card>

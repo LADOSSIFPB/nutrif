@@ -1,5 +1,5 @@
 angular.module('NutrifApp').controller('dashboardCtrl', function (
-		$scope, $mdToast, diaService, refeicaoService,$timeout,pretensaoService,refeicaoRealizadaService,$state,$interval) {
+		$scope, $mdToast, diaService, refeicaoService,$timeout,pretensaoService,refeicaoRealizadaService,$state,$interval,diaRefeicaoService) {
 
   
     $scope.dias = [];
@@ -8,6 +8,7 @@ angular.module('NutrifApp').controller('dashboardCtrl', function (
 	$scope.diaRefeicao={};
 	$scope.mapaPretensao={};
 	$scope.mapaRefeicaoRealizada={};
+	$scope.mapaDiaRefeicao={};
 
    
     $scope.carregarDia = function() {
@@ -32,6 +33,7 @@ angular.module('NutrifApp').controller('dashboardCtrl', function (
 	$scope.initMapas = function(){
 		$scope.mapaRefeicaoRealizada.quantidade = 0;
 		$scope.mapaPretensao.quantidade = 0;
+		$scope.mapaDiaRefeicao.quantidade = 0;
 	}
 
    
@@ -62,7 +64,6 @@ angular.module('NutrifApp').controller('dashboardCtrl', function (
 		pretensaoService.getQuantidadePretensao($scope.diaRefeicao).
 		    success(function (data, status){
 				$scope.mapaPretensao = data;
-				console.log($scope.mapaPretensao);
 			})
             .error(onErrorCallback);
 		
@@ -73,7 +74,17 @@ angular.module('NutrifApp').controller('dashboardCtrl', function (
 		refeicaoRealizadaService.getQuantidadeRefeicoesRealizadas($scope.diaRefeicao).
 		    success(function (data, status){
 				$scope.mapaRefeicaoRealizada = data;
-				console.log($scope.mapaRefeicaoRealizada);
+			})
+            .error(onErrorCallback);
+		
+	}
+	
+	$scope.getQuantidadeRefeicoesDoDia = function(){
+		
+		diaRefeicaoService.getQuantidadeRefeicoes($scope.diaRefeicao).
+		    success(function (data, status){
+				$scope.mapaDiaRefeicao = data;
+				console.log($scope.mapaDiaRefeicao);
 			})
             .error(onErrorCallback);
 		
@@ -89,6 +100,7 @@ angular.module('NutrifApp').controller('dashboardCtrl', function (
 				if (currentCtrl === "dashboardCtrl") {
 					   $scope.getQuantidadePretensao();
 					   $scope.getQuantidadeRefeicoesRealizadas();
+					   $scope.getQuantidadeRefeicoesDoDia();
 				}
             }, 10000);
 });

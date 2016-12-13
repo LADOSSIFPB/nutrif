@@ -27,13 +27,20 @@ angular.module("NutrifApp").factory("diaRefeicaoService", function($http, config
 	var _listaRefeicaoPorMatricula = function (matricula){
 		return $http.get(_path + "/listar/aluno/matricula/" + encodeURI(matricula))
 	};
+	
+	 var _getQuantidadeRefeicoes = function(diaRefeicao){
+		
+		return $http.post(_path+ "/quantificar" , diaRefeicao);
+		
+	} 
 
 	return {
 		buscaRefeicaoPorNome: _buscaRefeicaoPorNome,
 		buscaRefeicaoPorMatricula: _buscaRefeicaoPorMatricula,
 		cadastrarRefeicao: _cadastrarRefeicao,
 		removerRefeicao: _removerRefeicao,
-		listaRefeicaoPorMatricula: _listaRefeicaoPorMatricula
+		listaRefeicaoPorMatricula: _listaRefeicaoPorMatricula,
+		getQuantidadeRefeicoes: _getQuantidadeRefeicoes
 	};
 
 });
