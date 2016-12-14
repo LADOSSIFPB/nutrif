@@ -34,6 +34,10 @@ angular.module('NutrifApp').controller('dashboardCtrl', function (
 		$scope.mapaRefeicaoRealizada.quantidade = 0;
 		$scope.mapaPretensao.quantidade = 0;
 		$scope.mapaDiaRefeicao.quantidade = 0;
+		
+		$scope.mapaRefeicaoRealizada.data = new Date();
+		$scope.mapaPretensao.data = new Date();
+		$scope.mapaDiaRefeicao.data = new Date();
 	}
 
    
@@ -74,6 +78,7 @@ angular.module('NutrifApp').controller('dashboardCtrl', function (
 		refeicaoRealizadaService.getQuantidadeRefeicoesRealizadas($scope.diaRefeicao).
 		    success(function (data, status){
 				$scope.mapaRefeicaoRealizada = data;
+				console.log(data);
 			})
             .error(onErrorCallback);
 		
@@ -89,18 +94,22 @@ angular.module('NutrifApp').controller('dashboardCtrl', function (
             .error(onErrorCallback);
 		
 	}
+	$scope.consulta = function(){
+		 $scope.getQuantidadePretensao();
+		 $scope.getQuantidadeRefeicoesRealizadas();
+		 $scope.getQuantidadeRefeicoesDoDia();
+	}
 
     $scope.carregarDia();
 	$scope.carregarRefeicao();	
 	$scope.initMapas();
 	
-	//Enquanto o usuário estiver na página
-        $interval(function() {
+	$scope.consultaAutomatica = $interval(function() {
 				var currentCtrl = $state.current.controller;
 				if (currentCtrl === "dashboardCtrl") {
 					   $scope.getQuantidadePretensao();
 					   $scope.getQuantidadeRefeicoesRealizadas();
 					   $scope.getQuantidadeRefeicoesDoDia();
 				}
-            }, 10000);
+            }, 10000)
 });

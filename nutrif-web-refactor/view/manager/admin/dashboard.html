@@ -1,4 +1,3 @@
-<b>* Para ter acesso as informações abaixo selecione o dia da refeição e o tipo da mesma </b>
 <md-input-container class="md-icon-float md-block">
 	<label>Dia</label>
 	    <md-select ng-model="diaRefeicao.dia.id" required>
@@ -17,6 +16,16 @@
 	    </md-select>
 </md-input-container>
 
+<md-button ng-click="consulta()" class="md-raised md-primary md-hue-1"
+      style="margin-top: 10px">
+      Consultar
+</md-button>
+<md-button type="submit"   ng-click="consultaAutomatica" class="md-raised md-primary md-hue-1 flex"
+      style="margin-top: 10px">
+      Consultar automaticamente
+</md-button>
+	
+
 <div style="margin-top: 5px" layout="row">
     <md-card>
         <md-card-header>
@@ -26,7 +35,7 @@
         </md-card-header>
         <md-card-content layout="column">
             <span style="font-size: 100px;">{{ mapaPretensao.quantidade }}</span>
-            <span style="font-size: 12px; margin-top: 10px">{{dataHoje | date : "dd/MM/yyyy"}}</span>
+            <span style="font-size: 12px; margin-top: 10px">{{mapaPretensao.data | date : "dd/MM/yyyy" : timestamp }}</span>
         </md-card-content>
     </md-card>
     
@@ -38,7 +47,7 @@
                 </md-card-header>
                 <md-card-content layout="column">
                     <span style="font-size: 100px;">{{ mapaDiaRefeicao.quantidade }}</span>
-                    <span style="font-size: 12px;">{{dataHoje | date : "dd/MM/yyyy"}}</span>
+                    <span style="font-size: 12px;">{{mapaDiaRefeicao.data | date : "dd/MM/yyyy" : timestamp }}</span>
                 </md-card-content>
     </md-card>
 	
@@ -50,7 +59,7 @@
         </md-card-header>
         <md-card-content layout="column" ui-sref-opts="{reload: true}">
 		    <span style="font-size: 100px;">{{ mapaRefeicaoRealizada.quantidade }}</span>
-            <span style="font-size: 12px;">{{dataHoje | date : "dd/MM/yyyy"}}</span>
+            <span style="font-size: 12px;">{{  mapaRefeicaoRealizada.data | date : "dd/MM/yyyy" : timestamp}}</span>
         </md-card-content>
     </md-card>
 	
