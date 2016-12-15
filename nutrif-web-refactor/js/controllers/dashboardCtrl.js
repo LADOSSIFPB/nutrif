@@ -103,13 +103,24 @@ angular.module('NutrifApp').controller('dashboardCtrl', function (
     $scope.carregarDia();
 	$scope.carregarRefeicao();	
 	$scope.initMapas();
+		
+	/*Metodo que faz com que a informação seja atualizada periodicamente, parando de atualizala, 
+	quando o usuário muda de página, onde seu controller é alterado.*/
+	this.consultaAutomatica = function(){ 
+		var timer;
+		timer = $interval(function() {
+			var currentCtrl = $state.current.controller;
+			if (currentCtrl === "dashboardCtrl") {
+				$scope.consulta();
+			}else{
+				console.log(currentCtrl);
+			    $interval.cancel(timer);
+			}
+		},10000);
+	}
 	
-	$scope.consultaAutomatica = $interval(function() {
-				var currentCtrl = $state.current.controller;
-				if (currentCtrl === "dashboardCtrl") {
-					   $scope.getQuantidadePretensao();
-					   $scope.getQuantidadeRefeicoesRealizadas();
-					   $scope.getQuantidadeRefeicoesDoDia();
-				}
-            }, 10000)
+    
+	
+	
+	
 });
