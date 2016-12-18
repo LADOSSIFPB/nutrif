@@ -35,7 +35,7 @@ public class RefeicaoRealizada {
 	private Date horaRefeicao;
 
 	@OneToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "fk_id_funcionario", referencedColumnName="id_funcionario")
+	@JoinColumn(name = "fk_id_funcionario")
 	private Funcionario inspetor;
 	
 	@XmlElement

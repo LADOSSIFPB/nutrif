@@ -1,8 +1,8 @@
-<a href='https://github.com/angular/angular.js/edit/v1.4.x/src/ng/http.js?message=docs($httpProvider)%3A%20describe%20your%20change...#L246' class='improve-docs btn btn-primary'><i class="glyphicon glyphicon-edit">&nbsp;</i>Improve this Doc</a>
+<a href='https://github.com/angular/angular.js/edit/v1.5.x/src/ng/http.js?message=docs($httpProvider)%3A%20describe%20your%20change...#L249' class='improve-docs btn btn-primary'><i class="glyphicon glyphicon-edit">&nbsp;</i>Improve this Doc</a>
 
 
 
-<a href='https://github.com/angular/angular.js/tree/v1.4.8/src/ng/http.js#L246' class='view-source pull-right btn btn-primary'>
+<a href='https://github.com/angular/angular.js/tree/v1.5.9/src/ng/http.js#L249' class='view-source pull-right btn btn-primary'>
   <i class="glyphicon glyphicon-zoom-in">&nbsp;</i>View Source
 </a>
 
@@ -31,10 +31,12 @@
 
 
 
+
+
 <div>
   
 
-    
+  
 
   
 
@@ -89,7 +91,7 @@ concurrently (common during application bootstrap).</p>
     
 
     
-    
+
     
     <h4>Returns</h4>
     <table class="variables-matrix return-arguments">
@@ -148,7 +150,7 @@ This should be used to make sure that applications work without these methods.</
     
 
     
-    
+
     
     <h4>Returns</h4>
     <table class="variables-matrix return-arguments">
@@ -174,10 +176,9 @@ This should be used to make sure that applications work without these methods.</
     <td></td>
     <td><p>Object containing default values for all <a href="api/ng/service/$http">$http</a> requests.</p>
 <ul>
-<li><p><strong><code>defaults.cache</code></strong> - {Object} - an object built with <a href="api/ng/service/$cacheFactory"><code>$cacheFactory</code></a>
-that will provide the cache for all requests who set their <code>cache</code> property to <code>true</code>.
-If you set the <code>defaults.cache = false</code> then only requests that specify their own custom
-cache object will be cached. See <a href="api/ng/service/$http#caching">$http Caching</a> for more information.</p>
+<li><p><strong><code>defaults.cache</code></strong> - {boolean|Object} - A boolean value or object created with
+<a href="api/ng/service/$cacheFactory"><code>$cacheFactory</code></a> to enable or disable caching of HTTP responses
+by default. See <a href="api/ng/service/$http#caching">$http Caching</a> for more information.</p>
 </li>
 <li><p><strong><code>defaults.xsrfCookieName</code></strong> - {string} - Name of cookie containing the XSRF token.
 Defaults value is <code>&#39;XSRF-TOKEN&#39;</code>.</p>

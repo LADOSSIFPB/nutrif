@@ -1,8 +1,6 @@
 package br.edu.ladoss.nutrif.view.callback;
 
-import android.view.View;
-
-import br.edu.ladoss.nutrif.entitys.DiaRefeicao;
+import br.edu.ladoss.nutrif.model.DiaRefeicao;
 
 /**
  * Created by juan on 19/03/16.

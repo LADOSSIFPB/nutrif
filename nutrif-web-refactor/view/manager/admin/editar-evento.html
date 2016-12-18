@@ -1,0 +1,37 @@
+<md-card>
+  <md-card-header>
+
+    <md-card-avatar>
+      <md-icon class="md-avatar-icon" md-svg-icon="img/icon/create-new-pencil-button.svg"></md-icon>
+    </md-card-avatar>
+
+    <md-card-header-text>
+      <span class="md-title">Editar informações do Evento</span>
+      <span class="md-subhead">Clique em salvar para alterar as informações</span>
+    </md-card-header-text>
+
+    <!-- Salvar alterações -->
+    <md-card-icon-actions>
+      <md-button class="md-icon-button" aria-label="Salvar alterações" ng-click="atualizar(evento)">
+        <md-tooltip md-direction="bottom">Salvar Alterações</md-tooltip>
+        <md-icon md-svg-icon="img/icon/save-button.svg"></md-icon>
+      </md-button>
+    </md-card-icon-actions>
+
+  </md-card-header>
+  <md-card-content layout="column">
+
+    <!-- Nome -->
+    <md-input-container class="md-icon-float md-block">
+      <label>Nome</label>
+      <input ng-model="evento.nome" type="text">
+    </md-input-container>
+
+    <!-- Descrição -->
+    <md-input-container class="md-icon-float md-block">
+      <label>Descrição</label>
+      <input ng-model="evento.descricao" type="text">
+    </md-input-container>
+
+  </md-card-content>
+</md-card>

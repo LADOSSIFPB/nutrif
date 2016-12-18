@@ -10,8 +10,8 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 
 import br.edu.ladoss.nutrif.R;
-import br.edu.ladoss.nutrif.entitys.input.ConfirmationKey;
-import br.edu.ladoss.nutrif.entitys.output.Erro;
+import br.edu.ladoss.nutrif.model.input.ConfirmationKey;
+import br.edu.ladoss.nutrif.model.output.Erro;
 import br.edu.ladoss.nutrif.network.ConnectionServer;
 import br.edu.ladoss.nutrif.util.AndroidUtil;
 import br.edu.ladoss.nutrif.util.ErrorUtils;
@@ -48,8 +48,8 @@ public class ConfirmationActivity extends AppCompatActivity{
 
         Bundle bundle = this.getIntent().getExtras();
 
-        if (bundle != null && bundle.getString("matricula") != null) {
-            matricula.setText(bundle.getString("matricula"));
+        if (bundle != null && bundle.getString("validaMatricula") != null) {
+            matricula.setText(bundle.getString("validaMatricula"));
             codigo.requestFocus();
         }
     }
@@ -126,7 +126,7 @@ public class ConfirmationActivity extends AppCompatActivity{
 
         Log.i(this.getLocalClassName(),"validando matrícula");
         String mat = matricula.getText().toString();
-        validated = Validate.matricula(mat);
+        validated = Validate.validaMatricula(mat);
         if (!validated) {
             Log.i(this.getLocalClassName(),"matrícula inválida");
             matricula.setError(getString(R.string.invalido));
@@ -137,7 +137,7 @@ public class ConfirmationActivity extends AppCompatActivity{
 
         Log.i(this.getLocalClassName(),"validando código");
         String cod = codigo.getText().toString();
-        validated = Validate.codigoAtivacao(cod);
+        validated = Validate.validaCodigoAtivacao(cod);
         if (!validated) {
             Log.i(this.getLocalClassName(),"código inválido");
             codigo.setError(getString(R.string.invalido));

@@ -200,18 +200,14 @@ public class PretensaoRefeicaoDAO extends GenericDao<Integer, PretensaoRefeicao>
 		return quantidadeDia;
 	}
 	
-	public List<PretensaoRefeicao> getMapaPretensaoRefeicao(
-			MapaPretensaoRefeicao mapaPretensaoRefeicao) {
+	public List<PretensaoRefeicao> getMapaPretensaoRefeicao(Refeicao refeicao, 
+			Date dataPretensao) {
 		
 		Session session = HibernateUtil.getSessionFactory().openSession();
 
 		List<PretensaoRefeicao> refeicoesRealizadas = new ArrayList<PretensaoRefeicao>();
 		
 		try {
-			
-			Dia dia = mapaPretensaoRefeicao.getDia();
-			Refeicao refeicao = mapaPretensaoRefeicao.getRefeicao();
-			Date dataPretensao = mapaPretensaoRefeicao.getData();
 			
 			String hql = "from PretensaoRefeicao as pr"
 					+ " where pr.confirmaPretensaoDia.diaRefeicao.refeicao.id = :refeicao"

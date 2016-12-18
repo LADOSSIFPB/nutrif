@@ -1,4 +1,4 @@
-angular.module("NutrifApp").controller("loginPretensaoCtrl", function (userService, $state, alunoService, $mdToast) {
+angular.module("NutrifApp").controller("loginPretensaoCtrl", function (userService, $state, alunoService, $mdToast, $scope) {
 
     this.fazerLogin = function (matricula) {
         alunoService.buscaAlunoPorMatricula(matricula)
@@ -28,5 +28,4 @@ angular.module("NutrifApp").controller("loginPretensaoCtrl", function (userServi
                 );
             });
     };
-
 });

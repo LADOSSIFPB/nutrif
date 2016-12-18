@@ -8,6 +8,7 @@ import java.util.List;
 
 import javax.annotation.security.DenyAll;
 import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -40,11 +41,12 @@ import br.edu.ladoss.entity.Dia;
 import br.edu.ladoss.entity.DiaRefeicao;
 import br.edu.ladoss.entity.Error;
 import br.edu.ladoss.entity.MapaPretensaoRefeicao;
-import br.edu.ladoss.entity.MapaRefeicaoRealizada;
+import br.edu.ladoss.entity.MapaRefeicao;
 import br.edu.ladoss.entity.PeriodoPretensaoRefeicao;
 import br.edu.ladoss.entity.PretensaoRefeicao;
 import br.edu.ladoss.entity.Refeicao;
 import br.edu.ladoss.entity.RefeicaoRealizada;
+import br.edu.ladoss.enumeration.TipoRole;
 
 @Path("pretensaorefeicao")
 public class PretensaoRefeicaoController {
@@ -381,7 +383,7 @@ public class PretensaoRefeicaoController {
 		return response.getStatus(); 
 	}
 	
-	@PermitAll
+	@RolesAllowed({TipoRole.ADMIN})
 	@POST
 	@Path("/quantificar")
 	@Consumes("application/json")
@@ -445,7 +447,7 @@ public class PretensaoRefeicaoController {
 		return builder.build();
 	}
 	
-	@PermitAll
+	@RolesAllowed({TipoRole.ADMIN})
 	@POST
 	@Path("/mapa/consultar")
 	@Consumes("application/json")
@@ -457,43 +459,53 @@ public class PretensaoRefeicaoController {
 		builder.expires(new Date());
 		
 		// Validação dos dados de entrada.
-		int validacao = Validate.VALIDATE_OK; //TODO: Validate.pretensaoRefeicao(pretensaoRefeicao);
+		int validacao = Validate.periodoPretensaoRefeicao(periodoPretensaoRefeicao);
 		
 		if (validacao == Validate.VALIDATE_OK) {
 			
 			try {
 				
-				List<MapaPretensaoRefeicao> mapasRefeicoesRealizadas = 
-						new ArrayList<MapaPretensaoRefeicao>();
+				List<MapaRefeicao> mapasPretensoesRefeicoes = 
+						new ArrayList<MapaRefeicao>();
 				
 				// Data entre o intervalo de dataInicio e dataFim.
 				List<Date> datas = DateUtil.getDaysBetweenDates(
 						periodoPretensaoRefeicao.getDataInicio(), 
 						periodoPretensaoRefeicao.getDataFim());
 				
-				for (Date data: datas) {
-					
-					// Inicializa o mapa para consulta dos dias das refeições.
-					MapaPretensaoRefeicao mapaPretensaoRefeicao = 
-							new MapaPretensaoRefeicao();				
-					mapaPretensaoRefeicao.setRefeicao(
-							periodoPretensaoRefeicao.getRefeicao());
-					mapaPretensaoRefeicao.setData(data);
-					
-					// Consulta dos dias das refeições.
-					List<PretensaoRefeicao> refeicoesRealizadas = PretensaoRefeicaoDAO
-							.getInstance().getMapaPretensaoRefeicao(
-									mapaPretensaoRefeicao);
-					
-					mapaPretensaoRefeicao.setPretensoesRefeicoes(refeicoesRealizadas);
-					mapaPretensaoRefeicao.setQuantidade(
-							refeicoesRealizadas.size());
-					
-					mapasRefeicoesRealizadas.add(mapaPretensaoRefeicao);
-				}				
+				Refeicao refeicao = RefeicaoDAO.getInstance().getById(
+						periodoPretensaoRefeicao.getRefeicao().getId());				
 				
-				builder.status(Response.Status.OK).entity(
-						mapasRefeicoesRealizadas);				
+				if (refeicao != null) {					
+				
+					for (Date data: datas) {					
+											
+						// Consulta dos dias das refeições.
+						List<PretensaoRefeicao> refeicoesRealizadas = PretensaoRefeicaoDAO
+								.getInstance().getMapaPretensaoRefeicao(
+										refeicao, data);
+						
+						// Mapa para resultado com as pretensões das refeições.
+						MapaRefeicao<PretensaoRefeicao> mapaPretensaoRefeicao = 
+								new MapaRefeicao<PretensaoRefeicao>();				
+						mapaPretensaoRefeicao.setRefeicao(refeicao);
+						mapaPretensaoRefeicao.setData(data);
+						mapaPretensaoRefeicao.setLista(refeicoesRealizadas);
+						mapaPretensaoRefeicao.setQuantidade(
+								refeicoesRealizadas.size());
+						
+						mapasPretensoesRefeicoes.add(mapaPretensaoRefeicao);
+					}
+					
+					builder.status(Response.Status.OK).entity(
+							mapasPretensoesRefeicoes);
+					
+				} else {
+					
+					builder.status(Response.Status.NOT_FOUND).entity(
+							ErrorFactory.getErrorFromIndex(
+									ErrorFactory.ID_REFEICAO_INVALIDA));					
+				}								
 			
 			} catch (SQLExceptionNutrIF exception) {
 

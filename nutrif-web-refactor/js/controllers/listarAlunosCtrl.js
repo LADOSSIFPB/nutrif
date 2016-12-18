@@ -1,5 +1,9 @@
-angular.module('NutrifApp').controller('listarAlunosCtrl', function ($scope, $mdToast, alunoService) {
+angular.module('NutrifApp').controller('listarAlunosCtrl', function ($scope, $mdToast,
+  alunoService) {
 
+    var TAM_MATRICULA_11 = 11;
+    var TAM_MATRICULA_12 = 12;
+    
     $scope.texto = "";
     $scope.alunos = [];
 
@@ -14,7 +18,8 @@ angular.module('NutrifApp').controller('listarAlunosCtrl', function ($scope, $md
                 alunoService.buscaAlunoPorNome(texto)
                     .success(onSuccessCallback)
                     .error(onErrorCallback);
-            } else if (texto.length === 11 || texto.length === 12) {
+            } else if ((parseInt(texto.substring(0,4))<=2015 && texto.length == TAM_MATRICULA_11)
+              || ((parseInt(texto.substring(0,4))>=2016 && texto.length == TAM_MATRICULA_12))) {
                 alunoService.buscaAlunoPorMatricula(texto)
                     .success(function (data, status) {
                         $scope.alunos = [];
@@ -54,5 +59,4 @@ angular.module('NutrifApp').controller('listarAlunosCtrl', function ($scope, $md
         limit: 8,
         page: 1
     };
-
 });

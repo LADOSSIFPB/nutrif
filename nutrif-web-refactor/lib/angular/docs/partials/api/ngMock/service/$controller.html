@@ -1,8 +1,8 @@
-<a href='https://github.com/angular/angular.js/edit/v1.4.x/src/ngMock/angular-mocks.js?message=docs($controller)%3A%20describe%20your%20change...#L1809' class='improve-docs btn btn-primary'><i class="glyphicon glyphicon-edit">&nbsp;</i>Improve this Doc</a>
+<a href='https://github.com/angular/angular.js/edit/v1.5.x/src/ngMock/angular-mocks.js?message=docs($controller)%3A%20describe%20your%20change...#L2155' class='improve-docs btn btn-primary'><i class="glyphicon glyphicon-edit">&nbsp;</i>Improve this Doc</a>
 
 
 
-<a href='https://github.com/angular/angular.js/tree/v1.4.8/src/ngMock/angular-mocks.js#L1809' class='view-source pull-right btn btn-primary'>
+<a href='https://github.com/angular/angular.js/tree/v1.5.9/src/ngMock/angular-mocks.js#L2155' class='view-source pull-right btn btn-primary'>
   <i class="glyphicon glyphicon-zoom-in">&nbsp;</i>View Source
 </a>
 
@@ -37,9 +37,9 @@ myMod.directive(&#39;myDirective&#39;, {
 
 // Controller definition ...
 
-myMod.controller(&#39;MyDirectiveController&#39;, [&#39;log&#39;, function($log) {
+myMod.controller(&#39;MyDirectiveController&#39;, [&#39;$log&#39;, function($log) {
   $log.info(this.name);
-})];
+}]);
 
 
 // In a test ...
@@ -49,7 +49,7 @@ describe(&#39;myDirectiveController&#39;, function() {
     var ctrl = $controller(&#39;MyDirectiveController&#39;, { /* no locals */ }, { name: &#39;Clark Kent&#39; });
     expect(ctrl.name).toEqual(&#39;Clark Kent&#39;);
     expect($log.info.logs).toEqual([&#39;Clark Kent&#39;]);
-  });
+  }));
 });
 </code></pre>
 
@@ -58,10 +58,12 @@ describe(&#39;myDirectiveController&#39;, function() {
 
 
 
+
+
 <div>
   
 
-    
+  
 
   <h2 id="usage">Usage</h2>
     

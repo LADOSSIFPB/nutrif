@@ -1,6 +1,6 @@
 package br.edu.ladoss.nutrif.controller;
 
-import br.edu.ladoss.nutrif.entitys.output.Erro;
+import br.edu.ladoss.nutrif.model.output.Erro;
 
 /**
  * Created by juan on 21/03/16.

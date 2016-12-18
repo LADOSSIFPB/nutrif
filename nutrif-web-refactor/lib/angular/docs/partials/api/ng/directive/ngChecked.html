@@ -1,8 +1,8 @@
-<a href='https://github.com/angular/angular.js/edit/v1.4.x/src/ng/directive/attrs.js?message=docs(ngChecked)%3A%20describe%20your%20change...#L202' class='improve-docs btn btn-primary'><i class="glyphicon glyphicon-edit">&nbsp;</i>Improve this Doc</a>
+<a href='https://github.com/angular/angular.js/edit/v1.5.x/src/ng/directive/attrs.js?message=docs(ngChecked)%3A%20describe%20your%20change...#L189' class='improve-docs btn btn-primary'><i class="glyphicon glyphicon-edit">&nbsp;</i>Improve this Doc</a>
 
 
 
-<a href='https://github.com/angular/angular.js/tree/v1.4.8/src/ng/directive/attrs.js#L202' class='view-source pull-right btn btn-primary'>
+<a href='https://github.com/angular/angular.js/tree/v1.5.9/src/ng/directive/attrs.js#L189' class='view-source pull-right btn btn-primary'>
   <i class="glyphicon glyphicon-zoom-in">&nbsp;</i>View Source
 </a>
 
@@ -23,16 +23,12 @@
   <p>Sets the <code>checked</code> attribute on the element, if the expression inside <code>ngChecked</code> is truthy.</p>
 <p>Note that this directive should not be used together with <a href="api/ng/directive/ngModel"><code>ngModel</code></a>,
 as this can lead to unexpected behavior.</p>
-<h3 id="why-do-we-need-ngchecked-">Why do we need <code>ngChecked</code>?</h3>
-<p>The HTML specification does not require browsers to preserve the values of boolean attributes
-such as checked. (Their presence means true and their absence means false.)
-If we put an Angular interpolation expression into such an attribute then the
-binding information would be lost when the browser removes the attribute.
-The <code>ngChecked</code> directive solves this problem for the <code>checked</code> attribute.
-This complementary directive is not removed by the browser and so provides
-a permanent reliable place to store the binding information.</p>
+<p>A special directive is necessary because we cannot use interpolation inside the <code>checked</code>
+attribute. See the <a href="guide/interpolation">interpolation guide</a> for more info.</p>
 
 </div>
+
+
 
 
 
@@ -100,12 +96,11 @@ a permanent reliable place to store the binding information.</p>
   <h2 id="example">Example</h2><p>
 
 <div>
-  <a ng-click="openPlunkr('examples/example-example55', $event)" class="btn pull-right">
-    <i class="glyphicon glyphicon-edit">&nbsp;</i>
-    Edit in Plunker</a>
+  <plnkr-opener example-path="examples/example-ng-checked"></plnkr-opener>
 
   <div class="runnable-example"
-      path="examples/example-example55">
+      path="examples/example-ng-checked"
+      name="ng-checked">
 
   
     <div class="runnable-example-file" 
@@ -123,7 +118,7 @@ a permanent reliable place to store the binding information.</p>
     </div>
   
 
-    <iframe class="runnable-example-frame" src="examples/example-example55/index.html" name="example-example55"></iframe>
+    <iframe class="runnable-example-frame" src="examples/example-ng-checked/index.html" name="example-ng-checked"></iframe>
   </div>
 </div>
 

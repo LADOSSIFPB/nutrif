@@ -1,11 +1,9 @@
 package br.edu.ifpb.nutrif.util;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -17,6 +15,7 @@ import java.util.Map;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.StreamingOutput;
 
+import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -78,6 +77,7 @@ public class FileUtil {
 			logger.info("Salvando o arquivo em disco: " + file.getName());
 			
 			if (!file.exists()) {
+				
 				file.createNewFile();
 			}
 
@@ -107,8 +107,9 @@ public class FileUtil {
 			
 			in = Files.newInputStream(file);
 				    
-		} catch (IOException x) {
-		    System.err.println(x);
+		} catch (IOException exception) {
+		    
+			logger.error(exception.getMessage());
 		}		
 		
 		return in;
@@ -136,6 +137,26 @@ public class FileUtil {
 		};
 		
 		return stream;		
+	}
+
+	public static String readBase64(TipoArquivo tipoArquivo, 
+			String fileName) {
+		
+		String content = null;
+		
+		try {
+			final InputStream is = FileUtil.readFile(tipoArquivo, fileName);
+
+			byte[] bytes64bytes = Base64.encodeBase64(IOUtils.toByteArray(is));
+			
+			content = new String(bytes64bytes);
+		
+		} catch (IOException exception) {
+			
+		}
+		
+		
+		return content;		
 	}
 	
 	public static String getNomeSistemaArquivo(String prefix, String extension) {

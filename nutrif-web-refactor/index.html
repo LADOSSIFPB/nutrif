@@ -3,98 +3,137 @@
 
 <head>
 
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-	<!-- Charser Encoding -->
-	<meta charset="utf-8">
+<!-- Charser Encoding -->
+<meta charset="utf-8">
 
-	<!-- No Cache -->
-	<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-	<meta http-equiv="Pragma" content="no-cache" />
-	<meta http-equiv="Expires" content="0" />
+<!-- No Cache -->
+<meta http-equiv="Cache-Control"
+	content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
 
-	<!-- AngularJS & Lib imports -->
-	<script type="text/javascript" src="lib/angular/angular.min.js"></script>
-	<script type="text/javascript" src="lib/angular/angular-route.min.js"></script>
-	<script type="text/javascript" src="lib/angular/angular-messages.min.js"></script>
-	<script type="text/javascript" src="lib/angular/angular-aria.min.js"></script>
-	<script type="text/javascript" src="lib/angular/angular-animate.min.js"></script>
-	<script type="text/javascript" src="lib/angular/angular-cookies.min.js"></script>
-	<script type='text/javascript' src="lib/loading-bar/loading-bar.js"></script>
-	<link rel="stylesheet" type="text/css" href="lib/loading-bar/loading-bar.css">
-	<script type="text/javascript" src="lib/qr-code-scanner/jsqrcode-combined.min.js"></script>
-	<script type="text/javascript" src="lib/qr-code-scanner/qr-scanner.js"></script>
-	<script type="text/javascript" src="lib/qr-code-generator/qrcode.js"></script>
-	<script type="text/javascript" src="lib/qr-code-generator/angular-qr.min.js"></script>
-	<script type='text/javascript' src="lib/md-data-table/md-data-table.js"></script>
-	<link rel="stylesheet" type="text/css" href="lib/md-data-table/md-data-table.css">
-	<script type='text/javascript' src="lib/ui-router.js"></script>
-	<link rel="stylesheet" type="text/css" href="lib/angular-material/angular-material.min.css">
-	<script type="text/javascript" src="lib/datejs/date-pt-BR.js"></script>
-	<script type="text/javascript" src="lib/datejs/moment.js"></script>
-	<script type="text/javascript" src="lib/angular-chart/charts.js"></script>
-	<script type="text/javascript" src="lib/angular-chart/angular-chart.min.js"></script>
-	<script type="text/javascript" src="lib/angular-material/angular-material.min.js"></script>
+<!-- AngularJS & Lib imports -->
+<script type="text/javascript" src="lib/angular/angular.min.js"></script>
+<script type="text/javascript" src="lib/angular/angular-route.min.js"></script>
+<script type="text/javascript" src="lib/angular/angular-messages.min.js"></script>
+<script type="text/javascript" src="lib/angular/angular-aria.min.js"></script>
+<script type="text/javascript" src="lib/angular/angular-animate.min.js"></script>
+<script type="text/javascript" src="lib/angular/angular-cookies.min.js"></script>
+<script type='text/javascript' src="lib/loading-bar/loading-bar.js"></script>
+<link rel="stylesheet" type="text/css"
+	href="lib/loading-bar/loading-bar.css">
+<script type="text/javascript"
+	src="lib/qr-code-scanner/jsqrcode-combined.min.js"></script>
+<script type="text/javascript" src="lib/qr-code-scanner/qr-scanner.js"></script>
+<script type="text/javascript" src="lib/qr-code-generator/qrcode.js"></script>
+<script type="text/javascript"
+	src="lib/qr-code-generator/angular-qr.min.js"></script>
+<script type='text/javascript' src="lib/md-data-table/md-data-table.js"></script>
+<link rel="stylesheet" type="text/css"
+	href="lib/md-data-table/md-data-table.css">
+<script type='text/javascript' src="lib/ui-router.js"></script>
+<link rel="stylesheet" type="text/css"
+	href="lib/angular-material/angular-material.min.css">
+<script type="text/javascript" src="lib/datejs/date-pt-BR.js"></script>
+<script type="text/javascript" src="lib/datejs/moment.js"></script>
+<script type="text/javascript" src="lib/angular-chart/charts.js"></script>
+<script type="text/javascript"
+	src="lib/angular-chart/angular-chart.min.js"></script>
+<script type="text/javascript"
+	src="lib/angular-material/angular-material.min.js"></script>
 
-	<!-- Webcam -->
-	<script type="text/javascript" src="lib/webcam/webcam.min.js"></script>
+<!-- Webcam -->
+<script type="text/javascript" src="lib/webcam/webcam.min.js"></script>
 
-	<!-- Crop images -->
-	<script type="text/javascript" src="lib/ng-img-cropper/init.js"></script>
-	<script type="text/javascript" src="lib/ng-img-cropper/ng-img-crop.js"></script>
-	<script type="text/javascript" src="lib/ng-img-cropper/crop-area-circle.js"></script>
-	<script type="text/javascript" src="lib/ng-img-cropper/crop-area-square.js"></script>
-	<script type="text/javascript" src="lib/ng-img-cropper/crop-area.js"></script>
-	<script type="text/javascript" src="lib/ng-img-cropper/crop-canvas.js"></script>
-	<script type="text/javascript" src="lib/ng-img-cropper/crop-exif.js"></script>
-	<script type="text/javascript" src="lib/ng-img-cropper/crop-host.js"></script>
-	<script type="text/javascript" src="lib/ng-img-cropper/crop-pubsub.js"></script>
+<!-- Crop images -->
+<script type="text/javascript" src="lib/ng-img-cropper/init.js"></script>
+<script type="text/javascript" src="lib/ng-img-cropper/ng-img-crop.js"></script>
+<script type="text/javascript"
+	src="lib/ng-img-cropper/crop-area-circle.js"></script>
+<script type="text/javascript"
+	src="lib/ng-img-cropper/crop-area-square.js"></script>
+<script type="text/javascript" src="lib/ng-img-cropper/crop-area.js"></script>
+<script type="text/javascript" src="lib/ng-img-cropper/crop-canvas.js"></script>
+<script type="text/javascript" src="lib/ng-img-cropper/crop-exif.js"></script>
+<script type="text/javascript" src="lib/ng-img-cropper/crop-host.js"></script>
+<script type="text/javascript" src="lib/ng-img-cropper/crop-pubsub.js"></script>
 
-	<!-- Our AngularJS scripts imports -->
-	<script type="text/javascript" src="js/app.js"></script>
-	<script type="text/javascript" src="js/config/themeConfig.js"></script>
-	<script type="text/javascript" src="js/config/routesConfig.js"></script>
-	<script type="text/javascript" src="js/config/valuesConfig.js"></script>
-	<script type="text/javascript" src="js/config/filterRoutes.js"></script>
-	<script type="text/javascript" src="js/services/api/loginService.js"></script>
-	<script type="text/javascript" src="js/services/api/diaRefeicaoService.js"></script>
-	<script type="text/javascript" src="js/services/api/refeicaoRealizadaService.js"></script>
-	<script type="text/javascript" src="js/services/api/cursoService.js"></script>
-	<script type="text/javascript" src="js/services/api/pretensaoService.js"></script>
-	<script type="text/javascript" src="js/services/api/alunoService.js"></script>
-	<script type="text/javascript" src="js/services/api/diaService.js"></script>
-	<script type="text/javascript" src="js/services/api/refeicaoService.js"></script>
-	<script type="text/javascript" src="js/services/api/funcionarioService.js"></script>
-	<script type="text/javascript" src="js/services/api/editalService.js"></script>
-	<script type="text/javascript" src="js/services/api/campusService.js"></script>
-	<script type="text/javascript" src="js/services/userService.js"></script>
-	<script type="text/javascript" src="js/services/api/arquivoService.js"></script>
-	<script type="text/javascript" src="js/config/authConfig.js"></script>
-	<script type="text/javascript" src="js/controllers/sideNavCtrl.js"></script>
-	<script type="text/javascript" src="js/controllers/loginManagerCtrl.js"></script>
-	<script type="text/javascript" src="js/controllers/loginPretensaoCtrl.js"></script>
-	<script type="text/javascript" src="js/controllers/listarPretensaoCtrl.js"></script>
-	<script type="text/javascript" src="js/controllers/entradaAlunoCtrl.js"></script>
-	<script type="text/javascript" src="js/controllers/entradaQrCtrl.js"></script>
-	<script type="text/javascript" src="js/controllers/cadastrarAlunoCtrl.js"></script>
-	<script type="text/javascript" src="js/controllers/listarAlunosCtrl.js"></script>
-	<script type="text/javascript" src="js/controllers/listarFuncionariosCtrl.js"></script>
-	<script type="text/javascript" src="js/controllers/listarEditalCtrl.js"></script>
-	<script type="text/javascript" src="js/controllers/editarAlunoCtrl.js"></script>
-	<script type="text/javascript" src="js/controllers/cadastrarFuncionarioCtrl.js"></script>
-	<script type="text/javascript" src="js/controllers/editarFuncionarioCtrl.js"></script>
-	<script type="text/javascript" src="js/controllers/cadastrarEditalCtrl.js"></script>
-	<script type="text/javascript" src="js/controllers/estatisticasCtrl.js"></script>
-	<script type="text/javascript" src="js/controllers/webcamCtrl.js"></script>
+<!-- Our AngularJS scripts imports -->
+<script type="text/javascript" src="js/app.js"></script>
+<script type="text/javascript" src="js/config/themeConfig.js"></script>
+<script type="text/javascript" src="js/config/routesConfig.js"></script>
+<script type="text/javascript" src="js/config/valuesConfig.js"></script>
+<script type="text/javascript" src="js/config/filterRoutes.js"></script>
+<script type="text/javascript" src="js/services/api/loginService.js"></script>
+<script type="text/javascript"
+	src="js/services/api/diaRefeicaoService.js"></script>
+<script type="text/javascript"
+	src="js/services/api/refeicaoRealizadaService.js"></script>
+<script type="text/javascript" src="js/services/api/cursoService.js"></script>
+<script type="text/javascript" src="js/services/api/pretensaoService.js"></script>
+<script type="text/javascript" src="js/services/api/alunoService.js"></script>
+<script type="text/javascript" src="js/services/api/diaService.js"></script>
+<script type="text/javascript" src="js/services/api/refeicaoService.js"></script>
+<script type="text/javascript"
+	src="js/services/api/funcionarioService.js"></script>
+<script type="text/javascript" src="js/services/api/editalService.js"></script>
+<script type="text/javascript" src="js/services/api/campusService.js"></script>
+<script type="text/javascript" src="js/services/api/eventoService.js"></script>
+<script type="text/javascript" src="js/services/userService.js"></script>
+<script type="text/javascript" src="js/services/api/arquivoService.js"></script>
+<script type="text/javascript" src="js/config/authConfig.js"></script>
+<script type="text/javascript" src="js/controllers/sideNavCtrl.js"></script>
+<script type="text/javascript" src="js/controllers/loginManagerCtrl.js"></script>
+<script type="text/javascript"
+	src="js/controllers/loginPretensaoCtrl.js"></script>
+<script type="text/javascript"
+	src="js/controllers/listarPretensaoCtrl.js"></script>
+<script type="text/javascript" src="js/controllers/listarCursoCtrl.js"></script>
+<script type="text/javascript" src="js/controllers/listarEventoCtrl.js"></script>
+<script type="text/javascript" src="js/controllers/entradaAlunoCtrl.js"></script>
+<script type="text/javascript" src="js/controllers/entradaQrCtrl.js"></script>
+<script type="text/javascript"
+	src="js/controllers/cadastrarAlunoCtrl.js"></script>
+<script type="text/javascript"
+	src="js/controllers/cadastrarCursoCtrl.js"></script>
+<script type="text/javascript" src="js/controllers/listarAlunosCtrl.js"></script>
+<script type="text/javascript"
+	src="js/controllers/listarFuncionariosCtrl.js"></script>
+<script type="text/javascript" src="js/controllers/listarEditalCtrl.js"></script>
+<script type="text/javascript" src="js/controllers/editarEditalCtrl.js"></script>
+<script type="text/javascript" src="js/controllers/editarAlunoCtrl.js"></script>
+<script type="text/javascript"
+	src="js/controllers/cadastrarFuncionarioCtrl.js"></script>
+<script type="text/javascript"
+	src="js/controllers/editarFuncionarioCtrl.js"></script>
+<script type="text/javascript"
+	src="js/controllers/cadastrarEditalCtrl.js"></script>
+<script type="text/javascript" src="js/controllers/estatisticasCtrl.js"></script>
+<script type="text/javascript"
+	src="js/controllers/cadastrarEventoCtrl.js"></script>
+<script type="text/javascript" src="js/controllers/editarCursoCtrl.js"></script>
+<script type="text/javascript" src="js/controllers/editarEventoCtrl.js"></script>
+<script type="text/javascript" src="js/controllers/webcamCtrl.js"></script>
+<script type="text/javascript"
+	src="js/controllers/cadastrarRefeicaoCtrl.js"></script>
+<script type="text/javascript"
+	src="js/controllers/editarRefeicaoCtrl.js"></script>
+<script type="text/javascript"
+	src="js/controllers/listarRefeicaoCtrl.js"></script>
+<script type="text/javascript"
+	src="js/controllers/dashboardCtrl.js"></script>
 
-	<!-- App -->
-	<title>NutrIF</title>
-	<link rel="shortcut icon" href="img/fav.png" />
-	<link rel="stylesheet" type="text/css" href="css/app.css">
+
+<!-- App -->
+<title>NutrIF</title>
+<link rel="shortcut icon" href="img/fav.png" />
+<link rel="stylesheet" type="text/css" href="css/app.css">
 </head>
 
 <body ng-cloak layout="column">
-	
+
 	<div ui-view layout="column" flex></div>
 
 </body>

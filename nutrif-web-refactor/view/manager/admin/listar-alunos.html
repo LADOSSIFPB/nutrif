@@ -39,13 +39,14 @@
       </div>
     </md-toolbar>
 
+    <!-- Tabela -->
     <table md-table>
-
       <thead md-head>
         <tr md-row>
           <th md-column>Matrícula</th>
           <th md-column>Nome Completo</th>
           <th md-column>Curso</th>
+          <th md-column>Campus</th>
         </tr>
       </thead>
 
@@ -54,6 +55,7 @@
           <td md-cell>{{aluno.matricula}}</td>
           <td md-cell>{{aluno.nome | uppercase}}</td>
           <td md-cell>{{aluno.curso.nome | uppercase}}</td>
+          <td md-cell>{{aluno.campus.cidade | uppercase}}</td>
           <td md-cell><md-button class="md-icon-button" aria-label="Editar" ui-sref="home.editar-aluno({matricula: aluno.matricula})" ui-sref-opts="{reload: true}">
             <md-tooltip md-direction="left">Editar Aluno</md-tooltip>
             <md-icon md-svg-icon="img/icon/create-new-pencil-button.svg" style="width: 18px; height: 18px;"></md-icon>

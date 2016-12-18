@@ -6,13 +6,11 @@ import android.util.Log;
 import com.google.gson.GsonBuilder;
 import com.squareup.okhttp.ResponseBody;
 
-import java.io.IOException;
 import java.lang.annotation.Annotation;
 
 import br.edu.ladoss.nutrif.R;
-import br.edu.ladoss.nutrif.entitys.output.Erro;
+import br.edu.ladoss.nutrif.model.output.Erro;
 import retrofit.Converter;
-import retrofit.GsonConverterFactory;
 import retrofit.Response;
 import retrofit.Retrofit;
 

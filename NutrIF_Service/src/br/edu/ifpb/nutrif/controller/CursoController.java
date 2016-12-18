@@ -107,4 +107,80 @@ public class CursoController {
 
 		return builder.build();
 	}
+	
+	/**
+	 * Atualizar dados de um Curso.
+	 * 
+	 * @param curso
+	 * @return
+	 */
+	@PermitAll
+	@POST
+	@Path("/atualizar")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public Response update(Curso curso) {
+		
+		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
+		builder.expires(new Date());
+		
+		// Validação dos dados de entrada.
+		int validacao = Validate.curso(curso);
+		
+		if (validacao == Validate.VALIDATE_OK) {
+			
+			try {
+				
+				//Atualizar o Curso.
+				curso = CursoDAO.getInstance().update(curso);
+				
+				if (curso != null) {
+
+					// Operação realizada com sucesso.
+					builder.status(Response.Status.OK);					
+					builder.entity(curso);
+				}
+			
+			} catch (SQLExceptionNutrIF exception) {
+
+				builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
+						exception.getError());			
+			} 
+		}				
+		
+		return builder.build();		
+	}
+	
+	/**
+	 * Listar Curso(s) pelo nome.
+	 * 
+	 * @param nome
+	 * @return
+	 */
+	@PermitAll
+	@GET
+	@Path("/listar/nome/{nome}")
+	@Produces("application/json")
+	public Response listByNome(@PathParam("nome") String nome) {
+		
+		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
+		builder.expires(new Date());
+
+		List<Curso> cursos = new ArrayList<Curso>();
+		
+		try {
+
+			cursos = CursoDAO.getInstance().listByNome(nome);
+			
+			builder.status(Response.Status.OK);
+			builder.entity(cursos);
+
+		} catch (SQLExceptionNutrIF exception) {
+
+			builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
+					exception.getError());
+		}
+
+		return builder.build();
+	}	
 }

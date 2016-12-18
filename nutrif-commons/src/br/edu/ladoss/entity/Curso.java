@@ -2,10 +2,13 @@ package br.edu.ladoss.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -22,6 +25,10 @@ public class Curso implements DataEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_curso")
 	private Integer id;
+	
+	@OneToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "fk_id_campus")
+	private Campus campus;
 
 	@Column(name = "nm_curso")
 	private String nome;
@@ -46,6 +53,15 @@ public class Curso implements DataEntity {
 
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+	
+	@XmlElement
+	public Campus getCampus() {
+		return campus;
+	}
+
+	public void setCampus(Campus campus) {
+		this.campus = campus;
 	}
 
 	@Override

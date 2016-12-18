@@ -33,9 +33,21 @@ public class Login {
 	@JoinColumn(name = "fk_id_pessoa", referencedColumnName="id_pessoa")
 	private Pessoa pessoa;
 	
+	@Column(name = "nm_keyauth")
+	private String keyAuth;
+	
+	@Column(name = "nm_useragent")
+	private String userAgent;
+	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "dt_registro", insertable = true, updatable = false)
 	private Date registro;
+	
+	@Column(name = "nm_remoteaddr")
+	private String remoteAddr;
+	
+	@Column(name = "is_loged", columnDefinition = "boolean default true")
+	private boolean loged;
 
 	@XmlElement
 	public Integer getId() {
@@ -64,9 +76,47 @@ public class Login {
 		this.registro = registro;
 	}
 	
+	@XmlElement
+	public String getKeyAuth() {
+		return keyAuth;
+	}
+
+	public void setKeyAuth(String keyAuth) {
+		this.keyAuth = keyAuth;
+	}
+
+	@XmlElement
+	public String getUserAgent() {
+		return userAgent;
+	}
+
+	public void setUserAgent(String userAgent) {
+		this.userAgent = userAgent;
+	}
+	
+	@XmlElement
+	public String getRemoteAddr() {
+		return remoteAddr;
+	}
+
+	public void setRemoteAddr(String remoteAddr) {
+		this.remoteAddr = remoteAddr;
+	}
+
+	@XmlElement
+	public boolean isLoged() {
+		return loged;
+	}
+
+	public void setLoged(boolean loged) {
+		this.loged = loged;
+	}
+	
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
-		return super.toString();
+		return "Login[pessoa=" + pessoa.getEmail()
+				+ ", registro=" + registro
+				+ ", userAgent" + userAgent
+				+ "]";
 	}
 }

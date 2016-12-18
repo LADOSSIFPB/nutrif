@@ -20,8 +20,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jboss.resteasy.core.ResourceMethodInvoker;
 
-import br.edu.ifpb.nutrif.dao.PessoaDAO;
+import br.edu.ifpb.nutrif.dao.LoginDAO;
 import br.edu.ifpb.nutrif.validation.Validate;
+import br.edu.ladoss.entity.Login;
 import br.edu.ladoss.entity.Pessoa;
 import br.edu.ladoss.entity.Role;
 
@@ -108,20 +109,28 @@ public class SecurityInterceptor implements ContainerRequestFilter {
 		int validacao = Validate.acessoServicoKeyAuth(keyAuth);
 		
 		if (validacao == Validate.VALIDATE_OK) {
-			Pessoa pessoa = PessoaDAO.getInstance().getByKeyAuth(keyAuth);
 			
-			if (pessoa != null) {
+			Login login = LoginDAO.getInstance().getLoginByKeyAuth(keyAuth);
+			
+			// Verificar a requisição possui usuário autenticado.
+			if (login != null) {
 				
-				List<Role> rolesPessoa = pessoa.getRoles();
-				
-				for (Role rolePessoa: rolesPessoa) {
+				// Verificar credenciais do usuário logado.
+				Pessoa pessoa = login.getPessoa();
+			
+				if (pessoa != null) {
 					
-					isAllowed = rolesSet.contains(rolePessoa.getNome());
+					List<Role> rolesPessoa = pessoa.getRoles();
 					
-					if (isAllowed)
-						break;
-				}				
-			}			
+					for (Role rolePessoa: rolesPessoa) {
+						
+						isAllowed = rolesSet.contains(rolePessoa.getNome());
+						
+						if (isAllowed)
+							break;
+					}				
+				}
+			}
 		}
 		
 		return isAllowed;

@@ -21,25 +21,33 @@
     <md-card-content layout="column">
 
         <md-input-container class="md-icon-float md-block">
-            <label>Nome Completo:</label>
+            <label>Nome Completo</label>
             <input ng-model="funcionarioCopy.nome" type="text">
         </md-input-container>
 
         <md-input-container class="md-icon-float md-block">
-            <label>Email</label>
+            <label>E-mail</label>
             <input ng-model="funcionarioCopy.email" type="text">
         </md-input-container>
-        
+
+        <!-- Campus -->
+        <md-input-container class="md-icon-float md-block">
+          <label>Campus</label>
+          <md-select ng-model="funcionarioCopy.campus.id" required="true">
+            <md-option ng-repeat="campus in campi" value="{{campus.id}}" >
+              {{campus.cidade}}
+            </md-option>
+          </md-select>
+        </md-input-container>
+
         <md-input-container flex>
-            <label>Cargo:</label>
+            <label>Perfil</label>
             <md-select ng-model="funcionarioCopy.roles[0].id" aria-label="Selecione o cargo">
                 <md-option ng-repeat="role in roles" value="{{role.id}}">
-                    {{role.nome}}
+                    {{role.descricao}}
                 </md-option>
             </md-select>
         </md-input-container>
 
     </md-card-content>
 </md-card>
-
-

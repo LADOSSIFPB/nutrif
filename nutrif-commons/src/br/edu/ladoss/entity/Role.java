@@ -16,6 +16,21 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQuery(name = "Role.getAll", query = "from Role")
 public class Role {
 
+	public enum Tipo {
+		
+		ADMIN(1), INSPETOR(2), COMENSAL(3);
+		
+		private int id;
+		
+		private Tipo(int id){
+			this.id = id;
+		}
+		
+		public int getId() {
+			return id;
+		}
+	}
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_role")
@@ -23,6 +38,9 @@ public class Role {
 
 	@Column(name = "nm_role")
 	private String nome;
+	
+	@Column(name = "nm_descricao")
+	private String descricao;
 
 	@XmlElement
 	public Integer getId() {
@@ -42,9 +60,17 @@ public class Role {
 		this.nome = nome;
 	}
 	
+	public String getDescricao() {
+		return descricao;
+	}
+
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
+	}
+	
 	@Override
 	public String toString() {
-		return "Role [id=" + id +", nome=" + nome + "]";
+		return "Role [id=" + id + ", nome=" + nome + "]";
 	}
 	
 	@Override

@@ -43,66 +43,83 @@ public class ErrorFactory {
 	public static final int ID_DIA_INVALIDO = 17;
 	public static final int ID_REFEICAO_INVALIDA = 18;
 	public static final int DIA_REFEICAO_DIPLICADO = 19;
+	public static final int DIA_REFEICAO_NAO_DEFINIDO = 20;
 	
 	/*
 	 * Confirmação da Refeição.
 	 */
-	public static final int CONFIRMACAO_REFEICAO_INVALIDA = 20;
+	public static final int CONFIRMACAO_REFEICAO_INVALIDA = 21;
 	
 	/*
 	 * Pretensão da Refeição
 	 */
-	public static final int PRETENSAO_REFEICAO_NAO_ENCONTRADA = 21;
-	public static final int PRETENSAO_REFEICAO_INVALIDA = 22;
-	public static final int CONFIRMACAO_PRETENSAO_INVALIDA = 23;
-	public static final int CHAVE_ACESSO_PRETENSAO_INVALIDA = 24;
+	public static final int PRETENSAO_REFEICAO_NAO_ENCONTRADA = 22;
+	public static final int PRETENSAO_REFEICAO_INVALIDA = 23;
+	public static final int CONFIRMACAO_PRETENSAO_INVALIDA = 24;
+	public static final int CHAVE_ACESSO_PRETENSAO_INVALIDA = 25;
 	
 	/*
 	 * Realização da Refeição
 	 */
-	public static final int REFEICAO_REALIZADA_NAO_ENCONTRADA = 25;
+	public static final int REFEICAO_REALIZADA_NAO_ENCONTRADA = 26;
+	public static final int REFEICAO_JA_REALIZADA = 27;
 	
 	/*
 	 * Funcionário
 	 */
-	public static final int CODIGO_FUNCIONARIO_INSPETOR_INVALIDO = 26;
-	public static final int ID_FUNCIONARIO_INVALIDO = 27;
+	public static final int CODIGO_FUNCIONARIO_INSPETOR_INVALIDO = 28;
+	public static final int ID_FUNCIONARIO_INVALIDO = 29;
+	public static final int ID_RESPONSAVEL_INVALIDO = 30;
 	
 	/*
 	 * Pessoa
 	 */
-	public static final int CHAVE_AUTORIZACAO_PESSOA_INVALIDA = 28;
-	public static final int ID_PESSOA_INVALIDO = 29;
+	public static final int CHAVE_AUTORIZACAO_PESSOA_INVALIDA = 31;
+	public static final int ID_PESSOA_INVALIDO = 32;
 	
-	public static final int IMPOSSIVEL_CRIPTOGRAFAR_VALOR = 30;
+	public static final int IMPOSSIVEL_CRIPTOGRAFAR_VALOR = 33;
 	
 	/*
 	 * Arquivo
 	 */
-	public static final int TIPO_ARQUIVO_INVALIDO = 31;
-	public static final int NOME_ARQUIVO_INVALIDO = 32;
-	public static final int TAMANHO_ARQUIVO_INVALIDO = 33;
-	public static final int FORMULARIO_ARQUIVO_INVALIDO = 34;
-	public static final int ARQUIVO_PERFIL_INVALIDO = 35;
+	public static final int TIPO_ARQUIVO_INVALIDO = 34;
+	public static final int NOME_ARQUIVO_INVALIDO = 35;
+	public static final int TAMANHO_ARQUIVO_INVALIDO = 36;
+	public static final int FORMULARIO_ARQUIVO_INVALIDO = 37;
+	public static final int ARQUIVO_PERFIL_INVALIDO = 38;
 	
 	/*
 	 * Roles
 	 */
-	public static final int ROLES_INVALIDAS = 36;
-	public static final int NOME_ROLE_INVALIDO = 37;
-	public static final int DATA_INVALIDA = 38;
+	public static final int ROLES_INVALIDAS = 39;
+	public static final int NOME_ROLE_INVALIDO = 40;
+	public static final int DATA_INVALIDA = 41;
 	
 	/*
 	 * Campus
 	 */
-	public static final int ID_CAMPUS_INVALIDO = 39;
+	public static final int ID_CAMPUS_INVALIDO = 42;
 	
 	/*
 	 * Edital
 	 */
-	public static final int ID_EDITAL_INVALIDO = 40;
-	public static final int QTD_COMTEMPLADO_INVALIDO = 41;
-	public static final int INTERVALO_DATA_INVALIDO = 42;
+	public static final int ID_EDITAL_INVALIDO = 43;
+	public static final int QTD_COMTEMPLADO_INVALIDO = 44;
+	public static final int INTERVALO_DATA_INVALIDO = 45;
+	
+	/*
+	 * Evento
+	 */
+	public static final int ID_EVENTO_INVALIDO = 46;
+	public static final int NOME_EVENTO_INVALIDO = 47;
+	public static final int DESCRICAO_EVENTO_INVALIDO = 48;
+	
+	/*
+	 * Refeição
+	 */
+	public static final int PERIODO_REFEICAO_INVALIDO = 49;
+	public static final int TIPO_REFEICAO_INVALIDO = 50;
+	public static final int DIA_PREVISTO_PRETENSAO_INVALIDO = 51;
 	
 	/*
 	 * Mapa de erros: código e mensagem.
@@ -153,7 +170,15 @@ public class ErrorFactory {
 		hashMap.put(ID_CAMPUS_INVALIDO, "Campus inválido.");
 		hashMap.put(QTD_COMTEMPLADO_INVALIDO, "Quantidade de contemplados inválido.");
 		hashMap.put(INTERVALO_DATA_INVALIDO, "Intervalo de datas inválido.");
-		hashMap.put(ID_EDITAL_INVALIDO, "Edital inválido.");		
+		hashMap.put(ID_EDITAL_INVALIDO, "Edital inválido.");
+		hashMap.put(ID_EVENTO_INVALIDO, "Evento inválido.");
+		hashMap.put(PERIODO_REFEICAO_INVALIDO, "Período de Refeição inválido.");
+		hashMap.put(REFEICAO_JA_REALIZADA, "Refeição já realizada.");
+		hashMap.put(DIA_REFEICAO_NAO_DEFINIDO, "Dia de Refeição não definido para o Aluno.");
+		hashMap.put(NOME_EVENTO_INVALIDO, "Nome do evento inválido.");
+		hashMap.put(DESCRICAO_EVENTO_INVALIDO, "Descrição do evento inválido.");
+		hashMap.put(TIPO_REFEICAO_INVALIDO, "Tipo que descreve a refeição inválido.");	
+		hashMap.put(DIA_PREVISTO_PRETENSAO_INVALIDO, "Quantidade de dia(s) previtos para a pretensão da refeição inválido.");
 		
 		return hashMap;
 	}

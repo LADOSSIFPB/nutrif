@@ -22,6 +22,10 @@ public class DateUtil {
 	
 	public static int UM_DIA = 1;
 	
+	public static Date INICIO_DIA = setTime(0, 0, 0);
+	
+	public static Date FIM_DIA = setTime(23, 59, 0);
+	
 	public static Dia getCurrentDayOfWeek() {		
 		
 		Date current = new Date();		
@@ -140,6 +144,19 @@ public class DateUtil {
 				Calendar.HOUR_OF_DAY), 
 				calendar.get(Calendar.MINUTE),
 				calendar.get(Calendar.SECOND));		
+	}
+	
+	public static Date setTime(int hora, int minuto, 
+			int segundo) {
+		
+		Calendar calendar = Calendar.getInstance();
+		
+        calendar.set(Calendar.MILLISECOND, 0);
+        calendar.set(Calendar.SECOND, segundo);
+        calendar.set(Calendar.MINUTE, minuto);
+        calendar.set(Calendar.HOUR_OF_DAY, hora);
+
+        return calendar.getTime();	
 	}
 	
 	public static List<Date> getDaysBetweenDates(Date startdate, Date enddate) {

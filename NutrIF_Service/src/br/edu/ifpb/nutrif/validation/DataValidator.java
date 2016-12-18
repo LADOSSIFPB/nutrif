@@ -22,7 +22,7 @@ public class DataValidator implements NutrIFValidator {
 		return false;
 	}
 
-	public boolean datesInOrder(final Date dataMenor, final Date dataMaior) {
+	public boolean isGrowingDate(final Date dataMenor, final Date dataMaior) {
 
 		if (dataMenor == null || dataMaior == null)
 			return false;

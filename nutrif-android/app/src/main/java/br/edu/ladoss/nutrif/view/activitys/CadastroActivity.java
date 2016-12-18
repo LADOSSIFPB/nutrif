@@ -11,8 +11,9 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 
 import br.edu.ladoss.nutrif.R;
-import br.edu.ladoss.nutrif.entitys.Aluno;
-import br.edu.ladoss.nutrif.entitys.output.Erro;
+import br.edu.ladoss.nutrif.exceptions.DadoInvalidoException;
+import br.edu.ladoss.nutrif.model.Aluno;
+import br.edu.ladoss.nutrif.model.output.Erro;
 import br.edu.ladoss.nutrif.network.ConnectionServer;
 import br.edu.ladoss.nutrif.util.AndroidUtil;
 import br.edu.ladoss.nutrif.util.ErrorUtils;
@@ -57,18 +58,24 @@ public class CadastroActivity extends AppCompatActivity {
     public void registrar(View v) {
         change(false);
         if (isValid()) {
-            final Aluno aluno = new Aluno(
-                            matricula.getText().toString(),
-                            email.getText().toString(),
-                            senha.getText().toString());
+            Aluno aluno = null;
+            try {
+                aluno = new Aluno(
+                                matricula.getText().toString(),
+                                email.getText().toString(),
+                                senha.getText().toString());
+            } catch (DadoInvalidoException e) {
+                e.printStackTrace();
+            }
 
+            final Aluno finalAluno = aluno;
             new Thread(new Runnable() {
                 @Override
                 public void run() {
 
                     Call<Aluno> call = ConnectionServer.getInstance()
                             .getService()
-                            .inserir(aluno);
+                            .inserir(finalAluno);
 
                     Log.i(this.getClass().getName(),"realizando chamada ao serviço de cadastro");
 
@@ -80,9 +87,9 @@ public class CadastroActivity extends AppCompatActivity {
                                 Log.i(this.getClass().getName(),"cadastro realizado com sucesso!");
 
                                 Bundle bundle = new Bundle();
-                                bundle.putString("matricula", matricula.getText().toString());
+                                bundle.putString("validaMatricula", matricula.getText().toString());
                                 bundle.putString("email", email.getText().toString());
-                                bundle.putString("senha", senha.getText().toString());
+                                bundle.putString("validaSenha", senha.getText().toString());
                                 Intent intent = new Intent(CadastroActivity.this, ConfirmationActivity.class);
                                 intent.putExtras(bundle);
                                 startActivity(intent);
@@ -121,7 +128,7 @@ public class CadastroActivity extends AppCompatActivity {
     private boolean isValid() {
         Log.i(this.getLocalClassName(),"validando matrícula");
         String mat = matricula.getText().toString();
-        boolean validated = Validate.matricula(mat);
+        boolean validated = Validate.validaMatricula(mat);
         if (!validated) {
             Log.i(this.getLocalClassName(),"matrícula inválida");
             matricula.setError(getString(R.string.invalido));
@@ -131,7 +138,7 @@ public class CadastroActivity extends AppCompatActivity {
         }
 
         String emailText = email.getText().toString();
-        validated = Validate.identificador(emailText);
+        validated = Validate.validaIdentificador(emailText);
         if (!validated) {
             email.setError("E-mail inválido.");
             email.setFocusable(true);
@@ -140,9 +147,9 @@ public class CadastroActivity extends AppCompatActivity {
         }
 
         String senhaText = senha.getText().toString();
-        validated = Validate.senha(senhaText);
+        validated = Validate.validaSenha(senhaText);
         if (!validated) {
-            senha.setError("Esta senha é inválida");
+            senha.setError("Esta validaSenha é inválida");
             senha.setFocusable(true);
             senha.requestFocus();
         }

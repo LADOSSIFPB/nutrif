@@ -46,16 +46,17 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 					+ " where dr.aluno.nome like :nome"
 					+ " and dr.dia.id = :dia"
 					+ " and dr.ativo = :ativo"
-					+ "	and dr.refeicao.horaInicio <= CURRENT_TIME()"
-					+ "	and dr.refeicao.horaFinal >= CURRENT_TIME()"
+					+ "	and CURRENT_TIME() between dr.refeicao.horaInicio and dr.refeicao.horaFinal"
+					+ " and CURRENT_TIMESTAMP() between dr.edital.dataInicial and dr.edital.dataFinal"
+					+ " and dr.edital.ativo = :ativo"
 					+ " and dr.refeicao.id not in ("
 					+ "		select rr.confirmaRefeicaoDia.diaRefeicao.refeicao.id"
 					+ " 	from RefeicaoRealizada as rr"
-					+ "		where rr.confirmaRefeicaoDia.diaRefeicao.aluno.id = dr.aluno.id"
+					+ "		where rr.confirmaRefeicaoDia.diaRefeicao.aluno.nome like :nome"
 					+ "		and rr.confirmaRefeicaoDia.diaRefeicao.dia.id = :dia"
 					+ "		and rr.confirmaRefeicaoDia.dataRefeicao = CURRENT_DATE()"
-					+ "		and rr.confirmaRefeicaoDia.diaRefeicao.refeicao.horaFinal"
-					+ "			>= CURRENT_TIME()"
+					+ "		and CURRENT_TIME() between rr.confirmaRefeicaoDia.diaRefeicao.refeicao.horaInicio"
+					+ "			and rr.confirmaRefeicaoDia.diaRefeicao.refeicao.horaFinal"
 					+ ")";
 			
 			Query query = session.createQuery(hql);			
@@ -96,16 +97,17 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 					+ " where dr.aluno.matricula = :matricula"
 					+ " and dr.dia.id = :dia"
 					+ " and dr.ativo = :ativo"
-					+ "	and dr.refeicao.horaInicio <= CURRENT_TIME()"
-					+ "	and dr.refeicao.horaFinal >= CURRENT_TIME()"
+					+ "	and CURRENT_TIME() between dr.refeicao.horaInicio and dr.refeicao.horaFinal"
+					+ " and CURRENT_TIMESTAMP() between dr.edital.dataInicial and dr.edital.dataFinal"
+					+ " and dr.edital.ativo = :ativo"
 					+ " and dr.refeicao.id not in ("
 					+ "		select rr.confirmaRefeicaoDia.diaRefeicao.refeicao.id"
 					+ " 	from RefeicaoRealizada as rr"
-					+ "		where rr.confirmaRefeicaoDia.diaRefeicao.aluno.id = dr.aluno.id"
+					+ "		where rr.confirmaRefeicaoDia.diaRefeicao.aluno.matricula = :matricula"
 					+ "		and rr.confirmaRefeicaoDia.diaRefeicao.dia.id = :dia"
 					+ "		and rr.confirmaRefeicaoDia.dataRefeicao = CURRENT_DATE()"
-					+ "		and rr.confirmaRefeicaoDia.diaRefeicao.refeicao.horaFinal"
-					+ "			>= CURRENT_TIME()"
+					+ "		and CURRENT_TIME() between rr.confirmaRefeicaoDia.diaRefeicao.refeicao.horaInicio"
+					+ "			and rr.confirmaRefeicaoDia.diaRefeicao.refeicao.horaFinal"
 					+ ")";
 			
 			Query query = session.createQuery(hql);			
@@ -201,6 +203,92 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 		}
 		
 		return diasRefeicao;		
+	}
+	
+	/**
+	 * Quantificar a quantidade de refeições servidas para um determinado edital.
+	 * 
+	 * @param idEdital
+	 * @return
+	 */
+	public int getQuantidadeDiaRefeicaoEdital(int idEdital) {
+		
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		
+		Long quantidadeBeneficiados = Long.valueOf(BancoUtil.QUANTIDADE_ZERO);
+		
+		try {
+			
+			String hql = "select count(distinct dr.aluno.id)"
+					+ " from DiaRefeicao as dr"
+					+ " where dr.edital.id = :idEdital"
+					+ " and dr.edital.ativo = :ativo"
+					+ " and dr.ativo = :ativo";
+			
+			Query query = session.createQuery(hql);			
+			query.setParameter("idEdital", idEdital);
+			query.setParameter("ativo", BancoUtil.ATIVO);
+			
+			quantidadeBeneficiados = (Long) query.uniqueResult();
+	        
+		} catch (HibernateException hibernateException) {
+			
+			session.getTransaction().rollback();
+			
+			throw new SQLExceptionNutrIF(hibernateException);
+			
+		} finally {
+		
+			session.close();
+		}
+		
+		return quantidadeBeneficiados!=null ? Integer.valueOf(
+				quantidadeBeneficiados.toString()): BancoUtil.QUANTIDADE_ZERO;		
+	}
+	
+	/**
+	 * Quantificar as refeição que serão servidas num determinado dia da semana
+	 * para os editais ativos e dentro do prazo de validade.
+	 *  
+	 * @param diaRefeicao
+	 * @return
+	 */
+	public int getQuantidadeDiaRefeicao(DiaRefeicao diaRefeicao) {
+		
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		
+		Long quantidadeBeneficiados = Long.valueOf(BancoUtil.QUANTIDADE_ZERO);
+		
+		try {
+			
+			String hql = "select count(distinct dr.aluno.id)"
+					+ " from DiaRefeicao as dr"
+					+ " where dr.dia.id = :idDia"
+					+ " 	and dr.refeicao.id = :idRefeicao"
+					+ "		and CURRENT_TIME() between dr.edital.dataInicial and dr.edital.dataFinal"
+					+ " 	and dr.edital.ativo = :ativo"
+					+ " 	and dr.ativo = :ativo";
+			
+			Query query = session.createQuery(hql);			
+			query.setParameter("idDia", diaRefeicao.getDia().getId());
+			query.setParameter("idRefeicao", diaRefeicao.getRefeicao().getId());
+			query.setParameter("ativo", BancoUtil.ATIVO);
+			
+			quantidadeBeneficiados = (Long) query.uniqueResult();
+	        
+		} catch (HibernateException hibernateException) {
+			
+			session.getTransaction().rollback();
+			
+			throw new SQLExceptionNutrIF(hibernateException);
+			
+		} finally {
+		
+			session.close();
+		}
+		
+		return quantidadeBeneficiados!=null ? Integer.valueOf(
+				quantidadeBeneficiados.toString()): BancoUtil.QUANTIDADE_ZERO;		
 	}
 	
 	public boolean isDiaRefeicaoAtivo(DiaRefeicao diaRefeicao){

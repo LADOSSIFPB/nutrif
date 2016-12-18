@@ -4,17 +4,12 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
-import br.edu.ladoss.nutrif.entitys.PretensaoRefeicao;
+import br.edu.ladoss.nutrif.model.PretensaoRefeicao;
 
 /**
  * Created by juan on 10/04/16.
  */
-public class PretensaoRefeicaoDAO extends GenericDAO<br.edu.ladoss.nutrif.entitys.PretensaoRefeicao> {
+public class PretensaoRefeicaoDAO extends GenericDAO<br.edu.ladoss.nutrif.model.PretensaoRefeicao> {
     public static final String DIAREFEICAO_TABLE = "tb_pretensao";
     public static final String CREATE_TABLE = "create table IF NOT EXISTS " + DIAREFEICAO_TABLE + "(" +
             "_id integer primary key unique, " +

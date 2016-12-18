@@ -97,4 +97,74 @@ public class RefeicaoController {
 
 		return builder.build();
 	}
+	
+	@PermitAll
+	@GET
+	@Path("/listar/tipo/{tipo}")
+	@Produces("application/json")
+	public Response listByTipo(@PathParam("tipo") String tipo) {
+		
+		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
+		builder.expires(new Date());
+
+		List<Refeicao> refeicoes = new ArrayList<Refeicao>();
+		
+		try {
+
+			refeicoes = RefeicaoDAO.getInstance().listByTipo(tipo);
+			
+			builder.status(Response.Status.OK);
+			builder.entity(refeicoes);
+
+		} catch (SQLExceptionNutrIF exception) {
+
+			builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
+					exception.getError());
+		}
+
+		return builder.build();
+	}
+	
+	/**
+	 * Atualizar dados da Refeição.
+	 * 
+	 * @param refeicao
+	 * @return
+	 */
+	@PermitAll
+	@POST
+	@Path("/atualizar")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public Response update(Refeicao refeicao) {
+		
+		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
+		builder.expires(new Date());
+		
+		// Validação dos dados de entrada.
+		int validacao = Validate.refeicao(refeicao);
+		
+		if (validacao == Validate.VALIDATE_OK) {
+			
+			try {
+				
+				//Atualizar o Aluno.
+				refeicao = RefeicaoDAO.getInstance().update(refeicao);
+				
+				if (refeicao != null) {
+
+					// Operação realizada com sucesso.
+					builder.status(Response.Status.OK);					
+					builder.entity(refeicao);
+				}
+			
+			} catch (SQLExceptionNutrIF exception) {
+
+				builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
+						exception.getError());			
+			} 
+		}				
+		
+		return builder.build();		
+	}
 }

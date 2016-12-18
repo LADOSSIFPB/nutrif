@@ -46,7 +46,11 @@ public class Refeicao implements DataEntity {
 	private int diaPrevistoPretensao;
 	
 	@Column(name = "is_previsto_pretensao", columnDefinition = "tinyint default false")
-	private boolean isPrevistoPretensao;
+	private boolean previstoPretensao;
+	
+	@Column(name = "is_ativo", columnDefinition = "boolean default true", 
+			nullable = false, insertable = false, updatable = true)
+	private boolean ativo;
 
 	public Refeicao() {
 		super();
@@ -108,18 +112,31 @@ public class Refeicao implements DataEntity {
 	
 	@XmlElement
 	public boolean isPrevistoPretensao() {
-		return isPrevistoPretensao;
+		return previstoPretensao;
 	}
 
-	public void setPrevistoPretensao(boolean isPrevistoPretensao) {
-		this.isPrevistoPretensao = isPrevistoPretensao;
+	public void setPrevistoPretensao(boolean previstoPretensao) {
+		this.previstoPretensao = previstoPretensao;
+	}
+	
+	@XmlElement
+	public boolean isAtivo() {
+		return ativo;
+	}
+
+	public void setAtivo(boolean ativo) {
+		this.ativo = ativo;
 	}
 	
 	@Override
 	public String toString() {
-		return "Refeicao [id=" + id + ", tipo=" + tipo + ", horaInicio=" 
-				+ horaInicio + ", horaFim=" + horaFinal + ", horaPretensao="
-				+ horaPretensao + ", diPrevistoPretensao=" + diaPrevistoPretensao 
-				+ ", isPrevistoPretensao=" + isPrevistoPretensao + "]";
+		return "Refeicao [id=" + id 
+				+ ", tipo=" + tipo
+				+ ", horaInicio=" + horaInicio 
+				+ ", horaFim=" + horaFinal 
+				+ ", horaPretensao=" + horaPretensao 
+				+ ", diPrevistoPretensao=" + diaPrevistoPretensao 
+				+ ", isPrevistoPretensao=" + previstoPretensao 
+				+ ", isAtivo=" + ativo + "]";
 	}
 }

@@ -14,6 +14,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -35,8 +36,11 @@ public class Edital {
 	@JoinColumn(name = "fk_id_campus")
 	private Campus campus;
 	
-	@Column(name = "qtd_contemplados")
-	private int quantidadeContemplados;
+	@Column(name = "qtd_beneficiados_prevista")
+	private int quantidadeBeneficiadosPrevista;
+	
+	@Transient
+	private int quantidadeBeneficiadosReal;
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "dt_inicial", insertable = true, updatable = false)
@@ -46,6 +50,20 @@ public class Edital {
 	@Column(name = "dt_final", insertable = true, updatable = false)
 	private Date dataFinal;
 	
+	@OneToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "fk_id_evento")
+	private Evento evento;
+	
+	/**
+	 * Responsável pelos atos do Edital.
+	 */
+	@OneToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "fk_id_responsavel")
+	private Funcionario responsavel;
+	
+	/**
+	 * Responsável pelo cadastramento do Edital.
+	 */
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "fk_id_funcionario")
 	private Funcionario funcionario;
@@ -132,12 +150,39 @@ public class Edital {
 	}
 	
 	@XmlElement
-	public int getQuantidadeContemplados() {
-		return quantidadeContemplados;
+	public Evento getEvento() {
+		return evento;
 	}
 
-	public void setQuantidadeContemplados(int quantidadeContemplados) {
-		this.quantidadeContemplados = quantidadeContemplados;
+	public void setEvento(Evento evento) {
+		this.evento = evento;
+	}
+	
+	@XmlElement
+	public Funcionario getResponsavel() {
+		return responsavel;
+	}
+
+	public void setResponsavel(Funcionario responsavel) {
+		this.responsavel = responsavel;
+	}
+	
+	@XmlElement
+	public int getQuantidadeBeneficiadosPrevista() {
+		return quantidadeBeneficiadosPrevista;
+	}
+
+	public void setQuantidadeBeneficiadosPrevista(int quantidadeBeneficiadosPrevista) {
+		this.quantidadeBeneficiadosPrevista = quantidadeBeneficiadosPrevista;
+	}
+
+	@XmlElement
+	public int getQuantidadeBeneficiadosReal() {
+		return quantidadeBeneficiadosReal;
+	}
+
+	public void setQuantidadeBeneficiadosReal(int quantidadeBeneficiadosReal) {
+		this.quantidadeBeneficiadosReal = quantidadeBeneficiadosReal;
 	}
 	
 	@Override
@@ -145,8 +190,11 @@ public class Edital {
 		return "Edital [id=" + id 
 				+ ", nome=" + nome
 				+ ", campus=" + campus
-				+ ", quantidadeContemplados=" + quantidadeContemplados
+				+ ", quantidadeBeneficiadosPrevista=" + quantidadeBeneficiadosPrevista
+				+ ", quantidadeBeneficiadosReal=" + quantidadeBeneficiadosReal
 				+ ", dataInicial=" + dataInicial
-				+ ", dataFinal=" + dataFinal + "]";
+				+ ", dataFinal=" + dataFinal 
+				+ ", evento=" + evento 
+				+ ", responsavel=" + responsavel + "]";
 	}	
 }

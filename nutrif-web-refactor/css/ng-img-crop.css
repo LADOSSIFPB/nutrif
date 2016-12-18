@@ -1,1 +1,26 @@
-img-crop{width:100%;height:100%;display:block;position:relative;overflow:hidden}img-crop canvas{display:block;position:absolute;top:50%;left:50%;outline:0;-webkit-tap-highlight-color:transparent}.cropArea {overflow: hidden;width:500px;height:350px;}
+.perfil-completo * {
+	margin: 0;
+	padding: 0;
+	vertical-align: baseline;
+}
+
+img-crop canvas {
+	margin-top: 10px !important;
+	margin-left: 10px !important;
+}
+
+.perfil-wrapper {
+	width: 100%;
+	margin: 0px auto;
+}
+
+.perfil-completo {
+	float: left;
+	width: 50%;
+}
+
+.perfil-crop {
+	float: right;
+	margin: 10px;
+	width: 45%;
+}

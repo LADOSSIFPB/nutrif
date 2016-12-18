@@ -9,5 +9,9 @@ public class BancoUtil {
 	public static boolean ATIVO = true;
 	
 	public static boolean INATIVO = false;
+	
+	public static boolean VALIDO = true;
+	
+	public static boolean INVALIDO = false;
 
 }

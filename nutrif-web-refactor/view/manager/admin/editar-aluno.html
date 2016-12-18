@@ -1,98 +1,116 @@
-﻿<md-card>
-    <md-card-header>
+<md-card>
+  <md-card-header>
 
-        <md-card-avatar>
-            <md-icon class="md-avatar-icon" md-svg-icon="img/icon/create-new-pencil-button.svg"></md-icon>
-        </md-card-avatar>
+    <md-card-avatar>
+      <md-icon class="md-avatar-icon" md-svg-icon="img/icon/create-new-pencil-button.svg"></md-icon>
+    </md-card-avatar>
 
-        <md-card-header-text>
-            <span class="md-title">Editar informações do aluno</span>
-            <span class="md-subhead">Clique em salvar para alterar as informações</span>
-        </md-card-header-text>
-        
-        <md-card-icon-actions>
-            <md-button class="md-icon-button" aria-label="Perfil Aluno" ng-click="perfilAluno()" >
-                <md-tooltip md-direction="bottom">Perfil Aluno</md-tooltip>
-                <md-icon md-svg-icon="img/icon/camera.svg"></md-icon>
-            </md-button>
-        </md-card-icon-actions>
+    <md-card-header-text>
+      <span class="md-title">Editar informações do aluno</span>
+      <span class="md-subhead">Clique em salvar para alterar as informações</span>
+    </md-card-header-text>
 
-        <md-card-icon-actions>
-            <md-button class="md-icon-button" aria-label="Salvar alterações" ng-click="atualizar(alunoCopy)">
-                <md-tooltip md-direction="bottom">Salvar Alterações</md-tooltip>
-                <md-icon md-svg-icon="img/icon/save-button.svg"></md-icon>
-            </md-button>
-        </md-card-icon-actions>
+    <!-- Foto do Perfil -->
+    <md-card-icon-actions>
+      <md-button class="md-icon-button" aria-label="Perfil Aluno" ng-click="perfilAluno()" >
+        <md-tooltip md-direction="bottom">Perfil Aluno</md-tooltip>
+        <md-icon md-svg-icon="img/icon/camera.svg"></md-icon>
+      </md-button>
+    </md-card-icon-actions>
 
-    </md-card-header>
-    <md-card-content layout="column">
+    <!-- Salvar alterações -->
+    <md-card-icon-actions>
+      <md-button class="md-icon-button" aria-label="Salvar alterações" ng-click="atualizar(alunoCopy)">
+        <md-tooltip md-direction="bottom">Salvar Alterações</md-tooltip>
+        <md-icon md-svg-icon="img/icon/save-button.svg"></md-icon>
+      </md-button>
+    </md-card-icon-actions>
 
-        <md-input-container class="md-icon-float md-block">
-            <label>Nome Completo</label>
-            <input ng-model="alunoCopy.nome" type="text">
-        </md-input-container>
+  </md-card-header>
+  <md-card-content layout="column">
 
-        <md-input-container class="md-icon-float md-block">
-            <label>Matrícula</label>
-            <input ng-model="alunoCopy.matricula">
-        </md-input-container>
+    <!-- Nome -->
+    <md-input-container class="md-icon-float md-block">
+      <label>Nome</label>
+      <input ng-model="alunoCopy.nome" type="text">
+    </md-input-container>
 
-        <md-input-container flex>
-            <label>Curso</label>
-            <md-select ng-model="alunoCopy.curso.id" aria-label="Selecione o curso">
-                <md-option ng-repeat="curso in cursos" value="{{curso.id}}">
-                    {{curso.nome}}
-                </md-option>
-            </md-select>
-        </md-input-container>
+    <!-- Matrícula -->
+    <md-input-container class="md-icon-float md-block">
+      <label>Matrícula</label>
+      <input ng-model="alunoCopy.matricula">
+    </md-input-container>
 
-    </md-card-content>
+    <!-- Curso -->
+    <md-input-container flex>
+      <label>Curso</label>
+      <md-select ng-model="alunoCopy.curso.id" aria-label="Selecione o curso">
+        <md-option ng-repeat="curso in cursos" value="{{curso.id}}">
+          {{curso.nome}}
+        </md-option>
+      </md-select>
+    </md-input-container>
+
+    <!-- Campus -->
+    <md-input-container class="md-icon-float md-block">
+      <label>Campus</label>
+      <md-select ng-model="alunoCopy.campus.id" required="true">
+        <md-option ng-repeat="campus in campi" value="{{campus.id}}" >
+          {{campus.cidade}}
+        </md-option>
+      </md-select>
+    </md-input-container>
+
+  </md-card-content>
 </md-card>
 
+<!-- Adição e remoção de Dia de refeição -->
 <md-card>
-    <md-card-header>
+  <md-card-header>
 
-        <md-card-avatar>
-            <md-icon class="md-avatar-icon" md-svg-icon="img/icon/view-list-button.svg"></md-icon>
-        </md-card-avatar>
+    <md-card-avatar>
+      <md-icon class="md-avatar-icon" md-svg-icon="img/icon/view-list-button.svg"></md-icon>
+    </md-card-avatar>
 
-        <md-card-header-text>
-            <span class="md-title">Gerenciar refeições</span>
-            <span class="md-subhead">Selecione as refeições para remover ou adicione uma nova</span>
-        </md-card-header-text>
+    <md-card-header-text>
+      <span class="md-title">Gerenciar refeições</span>
+      <span class="md-subhead">Selecione as refeições para remover ou adicione uma nova</span>
+    </md-card-header-text>
 
-        <md-card-actions layout="row">
-            <md-card-icon-actions>
+    <md-card-actions layout="row">
+      <md-card-icon-actions>
 
-                <md-button class="md-icon-button" aria-label="Apagar Refeições" ng-click="apagarAlunos(selected)">
-                    <md-tooltip md-direction="bottom">Apagar Refeições</md-tooltip>
-                    <md-icon md-svg-icon="img/icon/rubbish-bin-delete-button.svg"></md-icon>
-                </md-button>
+        <md-button class="md-icon-button" aria-label="Apagar Refeições" ng-click="apagarAlunos(selected)">
+          <md-tooltip md-direction="bottom">Apagar Refeições</md-tooltip>
+          <md-icon md-svg-icon="img/icon/rubbish-bin-delete-button.svg"></md-icon>
+        </md-button>
 
-                <md-button class="md-icon-button" aria-label="Adicionar Refeições" ng-click="adicionaRefeicao()">
-                    <md-tooltip md-direction="bottom">Adicionar Refeições</md-tooltip>
-                    <md-icon md-svg-icon="img/icon/add-plus-button.svg"></md-icon>
-                </md-button>
+        <md-button class="md-icon-button" aria-label="Adicionar Refeições" ng-click="adicionaRefeicao()">
+          <md-tooltip md-direction="bottom">Adicionar Refeições</md-tooltip>
+          <md-icon md-svg-icon="img/icon/add-plus-button.svg"></md-icon>
+        </md-button>
 
-            </md-card-icon-actions>
-        </md-card-actions>
-    </md-card-header>
+      </md-card-icon-actions>
+    </md-card-actions>
+  </md-card-header>
 
-    <md-table-container>
-        <table md-table md-row-select multiple ng-model="selected">
-            <thead md-head>
-                <tr md-row>
-                    <th md-column>Tipo da Refeição</th>
-                    <th md-column>Dia da Refeição</th>
-                </tr>
-            </thead>
-            <tbody md-body>
-                <tr md-row md-select="refeicao" md-select-id="id" md-auto-select ng-repeat="refeicao in refeicoes">
-                    <td md-cell>{{refeicao.refeicao.tipo | uppercase}}</td>
-                    <td md-cell>{{refeicao.dia.nome | uppercase}}</td>
-                </tr>
-            </tbody>
-        </table>
-    </md-table-container>
+  <md-table-container>
+    <table md-table md-row-select multiple ng-model="selected">
+      <thead md-head>
+        <tr md-row>
+          <th md-column>Tipo da Refeição</th>
+          <th md-column>Dia da Refeição</th>
+          <th md-column>Edital</th>
+        </tr>
+      </thead>
+      <tbody md-body>
+        <tr md-row md-select="refeicao" md-select-id="id" md-auto-select ng-repeat="refeicao in refeicoes">
+          <td md-cell>{{refeicao.refeicao.tipo | uppercase}}</td>
+          <td md-cell>{{refeicao.dia.nome | uppercase}}</td>
+          <td md-cell>{{refeicao.edital.nome | uppercase}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </md-table-container>
 
 </md-card>

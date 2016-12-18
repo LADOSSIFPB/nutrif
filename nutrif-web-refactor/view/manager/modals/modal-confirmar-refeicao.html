@@ -2,7 +2,7 @@
   <md-dialog-content>
     <div class="md-dialog-content">
       <h2>Adicione a Refeição</h2>
-      
+
       <div layout="column">
         <!-- Aluno -->
         <md-input-container>
@@ -16,6 +16,8 @@
           <md-select ng-model="refeicao.edital.id">
             <md-option ng-repeat="edital in editais" value="{{edital.id}}">
               {{edital.nome}}
+                - {{edital.responsavel.nome}}
+                - {{edital.evento.nome}}
             </md-option>
           </md-select>
         </md-input-container>

@@ -20,6 +20,7 @@
         android:description="@string/description"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:name=".NutrifApplication"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
@@ -65,17 +66,6 @@
                 android:value="br.edu.ladoss.nutrif.view.activitys.HomeActivity" />
         </activity>
         <activity android:name=".view.activitys.QRCodeActivity" />
-
-        <receiver android:name=".broadcast.ConnectionBroadcast">
-            <intent-filter>
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
-            </intent-filter>
-        </receiver>
-
-        <service
-            android:name=".broadcast.ReconnectService"
-            android:enabled="true"
-            android:exported="false" />
 
     </application>
 

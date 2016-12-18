@@ -11,11 +11,7 @@ import retrofit.Retrofit;
  */
 public class ConnectionServer {
 
-    private static final String[] URL_BASES =
-            {
-                    "http://ladoss.com.br:8773/NutrIF_Service_homologacao/",
-                    "http://192.168.1.245:8773/NutrIF_Service/"
-            };
+    private static final String URL_BASE = "http://ladoss.com.br:8773/NutrIF_Service_homologacao/";
     private static APIService service;
     private static ConnectionServer ourInstance = new ConnectionServer();
 
@@ -32,22 +28,18 @@ public class ConnectionServer {
     }
 
     public void updateServiceAdress() {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(URL_BASE)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
 
-        for (String endereco : URL_BASES) {
-            Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl(endereco)
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build();
+        service = retrofit.create(APIService.class);
 
-            service = retrofit.create(APIService.class);
-
-            try {
-                Response<Void> response = service.status().execute();
-                if (response.isSuccess())
-                    break;
-            } catch (IOException e) {
-                continue;
-            }
+        Response<Void> response = null;
+        try {
+            response = service.status().execute();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

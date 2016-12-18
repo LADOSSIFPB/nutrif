@@ -16,6 +16,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
+import br.edu.ifpb.nutrif.dao.CampusDAO;
 import br.edu.ifpb.nutrif.dao.FuncionarioDAO;
 import br.edu.ifpb.nutrif.dao.RoleDAO;
 import br.edu.ifpb.nutrif.exception.ErrorFactory;
@@ -23,6 +24,7 @@ import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
 import br.edu.ifpb.nutrif.util.BancoUtil;
 import br.edu.ifpb.nutrif.util.StringUtil;
 import br.edu.ifpb.nutrif.validation.Validate;
+import br.edu.ladoss.entity.Campus;
 import br.edu.ladoss.entity.Error;
 import br.edu.ladoss.entity.Funcionario;
 import br.edu.ladoss.entity.Pessoa;
@@ -54,7 +56,7 @@ public class FuncionarioController {
 		builder.expires(new Date());
 
 		// Validação dos dados de entrada.
-		int validacao = Validate.funcionario(pessoaAcesso);
+		int validacao = Validate.inserirFuncionario(pessoaAcesso);
 		
 		if (validacao == Validate.VALIDATE_OK) {
 			
@@ -74,6 +76,11 @@ public class FuncionarioController {
 						pessoaAcesso.getRoles());
 				pessoaAcesso.setRoles(roles);
 				
+				// Campus
+				int idCampus = pessoaAcesso.getCampus().getId();
+				Campus campus = CampusDAO.getInstance().getById(idCampus);
+				pessoaAcesso.setCampus(campus);
+				
 				// Tipo Funcionário 
 				pessoaAcesso.setTipo(Funcionario.TIPO_FUNCIONARIO);
 				
@@ -82,8 +89,13 @@ public class FuncionarioController {
 				
 				//Inserir o Pessoa - Funcionário.
 				Pessoa pessoa = pessoaAcesso.getPessoa();
-				Integer idFuncionario = FuncionarioDAO.getInstance().insert(
-						Funcionario.setFuncionario(pessoa));
+				Funcionario funcionario = Funcionario.getFuncionario(pessoa);
+				
+				// Data de inserção do registro do funcionário.
+				funcionario.setDataInsercao(hoje);
+				
+				Integer idFuncionario = FuncionarioDAO.getInstance()
+						.insert(funcionario);
 				
 				if (idFuncionario != BancoUtil.ID_VAZIO) {					
 					
@@ -142,28 +154,37 @@ public class FuncionarioController {
 				int idPessoa = funcionario.getId();
 				Funcionario funcionarioAntigo = FuncionarioDAO.getInstance()
 						.getById(idPessoa);
-				String senha = funcionarioAntigo.getSenha();
-				String keyAuth = funcionarioAntigo.getKeyAuth();				
 				
-				// Reestabelece a senha e chave de autenticação.
-				funcionario.setSenha(senha);
-				funcionario.setKeyAuth(keyAuth);
-				
-				// Roles do Funcionário.
-				List<Role> roles = RoleDAO.getInstance().getRolesByRolesId(
-						funcionario.getRoles());
-				funcionario.setRoles(roles);
-				
-				// Atualiza funcionário
-				Funcionario funcionarioAtualizado = FuncionarioDAO.getInstance()
-						.update(Funcionario.setFuncionario(funcionario));
-				
-				if (funcionarioAtualizado != null) {
+				if (funcionario != null) {
+					
+					String senha = funcionarioAntigo.getSenha();
+					String keyAuth = funcionarioAntigo.getKeyAuth();				
+					
+					// Reestabelece a senha e chave de autenticação.
+					funcionario.setSenha(senha);
+					funcionario.setKeyAuth(keyAuth);
+					
+					// Roles do Funcionário.
+					List<Role> roles = RoleDAO.getInstance().getRolesByRolesId(
+							funcionario.getRoles());
+					funcionario.setRoles(roles);
+					
+					// Data de atualização do registro do funcionário.
+					Date hoje = new Date();
+					funcionario.setDataInsercao(hoje);
+					
+					// Atualiza funcionário				
+					Funcionario funcionarioAtualizado = FuncionarioDAO.getInstance()
+							.update(funcionario);
+					
+					if (funcionarioAtualizado != null) {
 
-					// Operação realizada com sucesso.
-					builder.status(Response.Status.OK);					
-					builder.entity(funcionarioAtualizado);
+						// Operação realizada com sucesso.
+						builder.status(Response.Status.OK);					
+						builder.entity(funcionarioAtualizado);
+					}
 				}
+				
 			
 			} catch (SQLExceptionNutrIF exception) {
 
@@ -238,5 +259,53 @@ public class FuncionarioController {
 		}
 
 		return builder.build();		
+	}
+	
+	@PermitAll
+	@POST
+	@Path("/migrar")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public Response migrarFuncionarios(List<PessoaAcesso> pessoasAcesso){
+		
+		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
+		builder.expires(new Date());
+		
+		List<Funcionario> funcionarios = new ArrayList<Funcionario>();
+		
+		try {
+
+			for(PessoaAcesso pessoaAcesso: pessoasAcesso) {
+				
+				// Campus
+				int idCampus = pessoaAcesso.getCampus().getId();
+				Campus campus = CampusDAO.getInstance().getById(idCampus);
+				pessoaAcesso.setCampus(campus);
+				
+				// Tipo Funcionário 
+				pessoaAcesso.setTipo(Funcionario.TIPO_FUNCIONARIO);
+				
+				// Ativar Funacionário.
+				pessoaAcesso.setAtivo(true);
+				
+				//Inserir o Pessoa - Funcionário.
+				Pessoa pessoa = pessoaAcesso.getPessoa();
+				Funcionario funcionario = Funcionario.getFuncionario(pessoa);
+				Integer idFuncionario = FuncionarioDAO.getInstance().insert(
+						funcionario);
+				
+				funcionarios.add(funcionario);
+			}
+			
+			builder.status(Response.Status.OK);
+			builder.entity(funcionarios);
+
+		} catch (SQLExceptionNutrIF exception) {
+
+			builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
+					exception.getError());
+		}
+
+		return builder.build();			
 	}
 }

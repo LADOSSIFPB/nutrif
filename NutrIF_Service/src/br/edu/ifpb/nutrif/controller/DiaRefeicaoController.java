@@ -24,9 +24,11 @@ import br.edu.ifpb.nutrif.dao.DiaRefeicaoDAO;
 import br.edu.ifpb.nutrif.dao.EditalDAO;
 import br.edu.ifpb.nutrif.dao.FuncionarioDAO;
 import br.edu.ifpb.nutrif.dao.RefeicaoDAO;
+import br.edu.ifpb.nutrif.dao.RefeicaoRealizadaDAO;
 import br.edu.ifpb.nutrif.exception.ErrorFactory;
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
 import br.edu.ifpb.nutrif.util.BancoUtil;
+import br.edu.ifpb.nutrif.util.DateUtil;
 import br.edu.ifpb.nutrif.validation.Validate;
 import br.edu.ladoss.entity.Aluno;
 import br.edu.ladoss.entity.Dia;
@@ -34,7 +36,10 @@ import br.edu.ladoss.entity.DiaRefeicao;
 import br.edu.ladoss.entity.Edital;
 import br.edu.ladoss.entity.Error;
 import br.edu.ladoss.entity.Funcionario;
+import br.edu.ladoss.entity.MapaRefeicao;
 import br.edu.ladoss.entity.Refeicao;
+import br.edu.ladoss.entity.RefeicaoRealizada;
+import br.edu.ladoss.enumeration.TipoRole;
 
 @Path("diarefeicao")
 public class DiaRefeicaoController {
@@ -52,7 +57,7 @@ public class DiaRefeicaoController {
 	 * @param diaRefeicao
 	 * @return builder
 	 */
-	@PermitAll
+	@RolesAllowed({TipoRole.ADMIN})
 	@POST
 	@Path("/inserir")
 	@Consumes("application/json")
@@ -94,6 +99,11 @@ public class DiaRefeicaoController {
 				Funcionario funcionario = FuncionarioDAO.getInstance()
 						.getById(idFuncionario);
 				diaRefeicao.setFuncionario(funcionario);
+				
+				// Validar Edital: vigencia e quantidade de contemplados.
+				int quantidadeBeneficiadosReal = DiaRefeicaoDAO
+						.getInstance().getQuantidadeDiaRefeicaoEdital(
+								idEdital);
 				
 				if (aluno != null
 						&& edital != null
@@ -163,7 +173,7 @@ public class DiaRefeicaoController {
 	 * @param diaRefeicao
 	 * @return builder
 	 */
-	@PermitAll
+	@RolesAllowed({TipoRole.ADMIN})
 	@POST
 	@Path("/remover")
 	@Consumes("application/json")
@@ -211,7 +221,7 @@ public class DiaRefeicaoController {
 		return builder.build();
 	}
 	
-	@RolesAllowed({"admin"})
+	@RolesAllowed({TipoRole.ADMIN})
 	@GET
 	@Path("/listar")
 	@Produces("application/json")
@@ -230,7 +240,7 @@ public class DiaRefeicaoController {
 	 * @param idCronogramaRefeicao
 	 * @return
 	 */
-	@PermitAll
+	@RolesAllowed({TipoRole.ADMIN, TipoRole.INSPETOR})
 	@GET
 	@Path("/id/{id}")
 	@Produces("application/json")
@@ -255,10 +265,10 @@ public class DiaRefeicaoController {
 				builder.status(Response.Status.NOT_FOUND);
 			}			
 
-		} catch (SQLExceptionNutrIF qme) {
+		} catch (SQLExceptionNutrIF exception) {
 
 			builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
-					qme.getError());
+					exception.getError());
 		}
 
 		return builder.build();
@@ -271,9 +281,9 @@ public class DiaRefeicaoController {
 	 * @param nome
 	 * @return
 	 */
-	@PermitAll
+	@RolesAllowed({TipoRole.ADMIN, TipoRole.INSPETOR})
 	@GET
-	@Path("/buscar/refeicaorealizada/aluno/nome/{nome}")
+	@Path("/buscar/aluno/nome/{nome}")
 	@Produces("application/json")
 	public Response getDiaRefeicaoRealizacaoByAlunoNome(
 			@PathParam("nome") String nome) {
@@ -281,19 +291,51 @@ public class DiaRefeicaoController {
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
 		builder.expires(new Date());
 		
-		try {
+		// Validação dos dados de entrada.
+		int validacao = Validate.nomeAlunoBusca(nome);
+		
+		if (validacao == Validate.VALIDATE_OK) {
+			try {
+				
+				if (RefeicaoDAO.getInstance().isPeriodoRefeicao()) {
+					
+					List<DiaRefeicao> diasRefeicao = DiaRefeicaoDAO
+							.getInstance().getDiaRefeicaoRealizadaByAlunoNome(nome);
+					
+					if (diasRefeicao.size() > BancoUtil.QUANTIDADE_ZERO) {
+						
+						builder.status(Response.Status.OK);
+						builder.entity(diasRefeicao);
+						
+					} else {
+						
+						// Dia de refeição não existente.
+						builder.status(Response.Status.FORBIDDEN).entity(
+								ErrorFactory.getErrorFromIndex(
+										ErrorFactory.DIA_REFEICAO_NAO_DEFINIDO));
+					}			
+				
+				} else {
+					
+					// Solicitação fora do período de uma refeição.
+					builder.status(Response.Status.FORBIDDEN).entity(
+							ErrorFactory.getErrorFromIndex(
+									ErrorFactory.PERIODO_REFEICAO_INVALIDO));
+				}
 
-			List<DiaRefeicao> diasRefeicao = DiaRefeicaoDAO
-					.getInstance().getDiaRefeicaoRealizadaByAlunoNome(nome);
+			} catch (SQLExceptionNutrIF exception) {
+
+				// Erro na manipulação dos dados.
+				builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
+						exception.getError());
+			}
+		
+		} else {
 			
-			builder.status(Response.Status.OK);
-			builder.entity(diasRefeicao);
-
-		} catch (SQLExceptionNutrIF qme) {
-
-			builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
-					qme.getError());
-		}		
+			// Solicitação fora do período de uma refeição.
+			builder.status(Response.Status.NOT_ACCEPTABLE).entity(
+					ErrorFactory.getErrorFromIndex(validacao));
+		}
 		
 		return builder.build();		
 	}	
@@ -306,9 +348,9 @@ public class DiaRefeicaoController {
 	 * @param matricula
 	 * @return
 	 */
-	@PermitAll
+	@RolesAllowed({TipoRole.ADMIN, TipoRole.INSPETOR})
 	@GET
-	@Path("/buscar/refeicaorealizada/aluno/matricula/{matricula}")
+	@Path("/buscar/aluno/matricula/{matricula}")
 	@Produces("application/json")
 	public Response getDiaRefeicaoRealizacaoByAlunoMatricula(
 			@PathParam("matricula") String matricula) {
@@ -316,20 +358,69 @@ public class DiaRefeicaoController {
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
 		builder.expires(new Date());
 		
-		try {
-
-			List<DiaRefeicao> diasRefeicao = DiaRefeicaoDAO
-					.getInstance().getDiaRefeicaoRealizadaByAlunoMatricula(
-							matricula);
+		// Validação dos dados de entrada.
+		int validacao = Validate.matricula(matricula);
+		
+		if (validacao == Validate.VALIDATE_OK) {
 			
-			builder.status(Response.Status.OK);
-			builder.entity(diasRefeicao);
+			try {
 
-		} catch (SQLExceptionNutrIF qme) {
+				if (RefeicaoDAO.getInstance().isPeriodoRefeicao()) {
+					
+					List<DiaRefeicao> diasRefeicao = DiaRefeicaoDAO
+							.getInstance().getDiaRefeicaoRealizadaByAlunoMatricula(
+									matricula);
+					
+					if (diasRefeicao.size() > BancoUtil.QUANTIDADE_ZERO) {
+						
+						// Dia de refeição encontrado.
+						builder.status(Response.Status.OK);
+						builder.entity(diasRefeicao);
+					
+					} else {
+						
+						// Verificar dia de refeição realizado.
+						RefeicaoRealizada refeicaoRealizada = 
+								RefeicaoRealizadaDAO.getInstance()
+									.getRefeicaoRealizadaCorrente(matricula);
+						
+						if (refeicaoRealizada != null) {
+							
+							Error error = ErrorFactory.getErrorFromIndex(
+									ErrorFactory.REFEICAO_JA_REALIZADA);
+							
+							String nome = refeicaoRealizada.getConfirmaRefeicaoDia()
+									.getDiaRefeicao().getAluno().getNome();
+							String mensagem = nome + ". " + error.getMensagem();
+							
+							error.setMensagem(mensagem);
+							
+							// Solicitação fora do período de uma refeição.
+							builder.status(Response.Status.FORBIDDEN).entity(
+									error);
+						} else {
+							
+							// Dia de refeição não existente.
+							builder.status(Response.Status.FORBIDDEN).entity(
+									ErrorFactory.getErrorFromIndex(
+											ErrorFactory.DIA_REFEICAO_NAO_DEFINIDO));
+						}
+					}					
+				
+				} else {
+					
+					// Solicitação fora do período de uma refeição.
+					builder.status(Response.Status.FORBIDDEN).entity(
+							ErrorFactory.getErrorFromIndex(
+									ErrorFactory.PERIODO_REFEICAO_INVALIDO));
+				}
+				
+			} catch (SQLExceptionNutrIF exception) {
 
-			builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
-					qme.getError());
-		}		
+				builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
+						exception.getError());
+			}
+		}				
 		
 		return builder.build();		
 	}
@@ -352,21 +443,141 @@ public class DiaRefeicaoController {
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
 		builder.expires(new Date());
 		
-		try {
-
-			List<DiaRefeicao> diasRefeicao = DiaRefeicaoDAO
-					.getInstance().getAllByAlunoMatricula(matricula);
-			logger.debug("Dias das Refeições: " + diasRefeicao);
+		// Validação dos dados de entrada.
+		int validacao = Validate.matricula(matricula);
+		
+		if (validacao == Validate.VALIDATE_OK) {
 			
-			builder.status(Response.Status.OK);
-			builder.entity(diasRefeicao);
+			try {
 
-		} catch (SQLExceptionNutrIF qme) {
+				List<DiaRefeicao> diasRefeicao = DiaRefeicaoDAO
+						.getInstance().getAllByAlunoMatricula(matricula);
+				logger.debug("Dias das Refeições: " + diasRefeicao);
+				
+				builder.status(Response.Status.OK);
+				builder.entity(diasRefeicao);
 
-			builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
-					qme.getError());
-		}		
+			} catch (SQLExceptionNutrIF exception) {
+
+				builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
+						exception.getError());
+			}
+			
+		} else {
+			
+			Error erro = ErrorFactory.getErrorFromIndex(validacao);
+			builder.status(Response.Status.NOT_ACCEPTABLE).entity(erro);
+		}
 		
 		return builder.build();		
+	}
+	
+	@RolesAllowed({TipoRole.ADMIN})
+	@GET
+	@Path("/quantificar/edital/{id}")
+	@Produces("application/json")
+	public Response getQuantidadeAlunoDiaRefeicao(
+			@PathParam("id") int idEdital) {
+		
+		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
+		builder.expires(new Date());
+		
+		try {
+
+			Edital edital = EditalDAO.getInstance().getById(idEdital);
+			
+			if (edital != null) {
+				
+				int quantidadeBeneficiadosReal = DiaRefeicaoDAO.getInstance()
+						.getQuantidadeDiaRefeicaoEdital(idEdital);				
+				
+				edital.setQuantidadeBeneficiadosReal(
+						Integer.valueOf(quantidadeBeneficiadosReal));
+				
+				builder.status(Response.Status.OK);
+				builder.entity(edital);
+			}			
+
+		} catch (SQLExceptionNutrIF exception) {
+
+			builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
+					exception.getError());
+		}		
+		
+		return builder.build();	
+	}
+	
+	@RolesAllowed({TipoRole.ADMIN})
+	@POST
+	@Path("/quantificar")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public Response getQuantidadeDiaRefeicao(DiaRefeicao diaRefeicao) {
+		
+		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
+		builder.expires(new Date());
+		
+		// Validação dos dados de entrada.
+		int validacao = Validate.quantidadeDiaRefeicao(diaRefeicao);
+		
+		if (validacao == Validate.VALIDATE_OK) {
+			
+			try {
+				
+				// Recuperar dados da refeição.
+				Refeicao refeicao = RefeicaoDAO.getInstance().getById(
+						diaRefeicao.getRefeicao().getId());
+				diaRefeicao.setRefeicao(refeicao);
+				
+				// Dia proposto para a pretensão e data da solicitação.
+				int idDia = diaRefeicao.getDia().getId();
+				Dia dia = DiaDAO.getInstance().getById(idDia);
+				
+				// Verificar pretensão baseado no dia e refeição.				
+				Date dataDiaRefeicao = calcularDataDiaRefeicao(diaRefeicao);
+				
+				if (refeicao != null && dia != null) {
+					
+					// Cálculo da quantidade de pretensões lançadas para o próximo dia de refeição.
+					int quantidadeDia = DiaRefeicaoDAO.getInstance()
+							.getQuantidadeDiaRefeicao(diaRefeicao);
+					
+					// Mapa com os dados quantificados.
+					MapaRefeicao<DiaRefeicao> mapaRefeicao = 
+							new MapaRefeicao<DiaRefeicao>();
+					mapaRefeicao.setQuantidade(quantidadeDia);
+					mapaRefeicao.setData(dataDiaRefeicao);
+					mapaRefeicao.setDia(dia);
+					mapaRefeicao.setRefeicao(refeicao);
+					
+					builder.status(Response.Status.OK).entity(
+							mapaRefeicao);
+				}
+			
+			} catch (SQLExceptionNutrIF exception) {
+
+				builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
+						exception.getError());			
+			}
+			
+		} else {
+			
+			Error erro = ErrorFactory.getErrorFromIndex(validacao);
+			builder.status(Response.Status.NOT_ACCEPTABLE).entity(erro);
+		}
+		
+		return builder.build();
+	}
+	
+	private Date calcularDataDiaRefeicao(DiaRefeicao diaRefeicao) {
+		
+		// Calcular data para o dia da refeição.
+		logger.info("Calcular a data do dia da Refeição: " + diaRefeicao);
+		
+		// Dia da semana para lançar a pretensão.
+		int diaPretensao = diaRefeicao.getDia().getId();
+		Date dataDiaRefeicao = DateUtil.getDateOfDayWeek(diaPretensao);
+		
+		return dataDiaRefeicao;		
 	}
 }

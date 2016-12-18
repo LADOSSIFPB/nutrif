@@ -1,13 +1,17 @@
 package br.edu.ifpb.nutrif.controller;
 
 import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 
 import javax.annotation.security.PermitAll;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
@@ -15,12 +19,16 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import br.edu.ifpb.nutrif.dao.LoginDAO;
+import br.edu.ifpb.nutrif.dao.LogoutDAO;
 import br.edu.ifpb.nutrif.dao.PessoaDAO;
 import br.edu.ifpb.nutrif.exception.ErrorFactory;
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
+import br.edu.ifpb.nutrif.util.BancoUtil;
+import br.edu.ifpb.nutrif.util.StringUtil;
 import br.edu.ifpb.nutrif.validation.Validate;
 import br.edu.ladoss.entity.Error;
 import br.edu.ladoss.entity.Login;
+import br.edu.ladoss.entity.Logout;
 import br.edu.ladoss.entity.Pessoa;
 import br.edu.ladoss.entity.PessoaAcesso;
 
@@ -41,15 +49,18 @@ public class PessoaController {
 	@Path("/login")
 	@Consumes("application/json")
 	@Produces("application/json")
-	public Response login(PessoaAcesso pessoaAcesso) {
+	public Response login(@HeaderParam("user-agent") String userAgent,
+			@Context HttpServletRequest req,
+			PessoaAcesso pessoaAcesso) {
 		
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
 		builder.expires(new Date());
 		
-		logger.info("Login usuário");
+		logger.info("Login usuário: " + pessoaAcesso.getNome());
+		logger.info("Host: " + req.getRemoteAddr());
 		
 		// Validação dos dados de entrada.
-		int validacao = Validate.acessoPessoa(pessoaAcesso);
+		int validacao = Validate.loginPessoa(pessoaAcesso);
 		
 		if (validacao == Validate.VALIDATE_OK) {
 			
@@ -65,20 +76,35 @@ public class PessoaController {
 					// Registro do Login
 					Date agora = new Date();
 					
+					// Gerar AuthKey.
+					String keyAuth = StringUtil.criptografarSha256(
+							agora.toString());
+					pessoaAcesso.setKeyAuth(keyAuth);
+					
 					Login login = new Login();
 					login.setPessoa(pessoa);
 					login.setRegistro(agora);
+					login.setUserAgent(userAgent);
+					login.setRemoteAddr(req.getRemoteAddr());
+					login.setKeyAuth(keyAuth);
+					login.setLoged(true);
 					
 					// Registro de Login para a Pessoa.
 					LoginDAO.getInstance().insert(login);
 					
-					// Pessoa
-					pessoaAcesso = PessoaAcesso.getInstance(
-							pessoa);
-					
-					// Operação realizada com sucesso.
-					builder.status(Response.Status.OK);
-					builder.entity(pessoaAcesso);
+					if (login != null) {
+						
+						// Pessoa
+						pessoaAcesso = PessoaAcesso.getInstance(
+								pessoa);
+						
+						// Chave de autenticação gerada.
+						pessoaAcesso.setKeyAuth(login.getKeyAuth());
+						
+						// Operação realizada com sucesso.
+						builder.status(Response.Status.OK);
+						builder.entity(pessoaAcesso);
+					}					
 				
 				} else {
 					
@@ -87,15 +113,86 @@ public class PessoaController {
 			
 			} catch (SQLExceptionNutrIF exception) {
 
+				logger.error("SQL: " + exception.getMessage());
 				builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
 						exception.getError());
 				
-			} catch (UnsupportedEncodingException 
-					exception) {
+			} catch (UnsupportedEncodingException exception) {
 
 				builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
 						ErrorFactory.getErrorFromIndex(
 								ErrorFactory.IMPOSSIVEL_CRIPTOGRAFAR_VALOR));			
+			
+			} catch (NoSuchAlgorithmException e) {
+
+				builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
+						ErrorFactory.getErrorFromIndex(
+								ErrorFactory.IMPOSSIVEL_CRIPTOGRAFAR_VALOR));
+			}
+			
+		} else {
+			
+			Error erro = ErrorFactory.getErrorFromIndex(validacao);
+			builder.status(Response.Status.NOT_ACCEPTABLE).entity(erro);
+		}
+		
+		return builder.build();		
+	}
+	
+	@PermitAll
+	@POST
+	@Path("/logout")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public Response logout(@HeaderParam("authorization") String authorization) {
+		
+		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
+		builder.expires(new Date());
+		
+		logger.info("Logout usuário");
+		logger.info("Authorization: " + authorization);
+		
+		// Validação dos dados de entrada.
+		int validacao = Validate.logoutPessoa(authorization);
+		
+		if (validacao == Validate.VALIDATE_OK) {
+			
+			try {
+				
+				// Login
+				Login login = LoginDAO.getInstance()
+						.getLoginByKeyAuth(authorization);
+				
+				if (login != null) {
+					
+					// Invalidando Login
+					login.setLoged(BancoUtil.INATIVO);
+					
+					// Registro do Login
+					Date agora = new Date();
+					
+					Logout logout = new Logout();
+					logout.setLogin(login);
+					logout.setRegistro(agora);
+					
+					int idLogout = LogoutDAO.getInstance().insert(logout);
+					
+					if (idLogout != BancoUtil.ID_VAZIO) {
+						
+						// Operação realizada com sucesso.
+						builder.status(Response.Status.OK);
+					}					
+				
+				} else {
+					
+					builder.status(Response.Status.NOT_FOUND);
+				}
+			
+			} catch (SQLExceptionNutrIF exception) {
+
+				logger.error("SQL: " + exception.getMessage());
+				builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
+						exception.getError());
 			}
 			
 		} else {

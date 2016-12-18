@@ -19,7 +19,6 @@ public class PessoaAcesso extends Pessoa {
 		pessoaAcesso.setNome(pessoa.getNome());
 		pessoaAcesso.setTipo(pessoa.getTipo());
 		pessoaAcesso.setEmail(pessoa.getEmail());
-		pessoaAcesso.setKeyAuth(pessoa.getKeyAuth());
 		pessoaAcesso.setRoles(pessoa.getRoles());
 		pessoaAcesso.setAtivo(pessoa.isAtivo());
 		
@@ -33,6 +32,7 @@ public class PessoaAcesso extends Pessoa {
 		pessoa.setId(getId());
 		pessoa.setNome(getNome());
 		pessoa.setEmail(getEmail());
+		pessoa.setCampus(getCampus());
 		pessoa.setSenha(getSenha());
 		pessoa.setKeyAuth(getKeyAuth());
 		pessoa.setRoles(getRoles());
