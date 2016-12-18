@@ -67,16 +67,13 @@ public class RefeicaoRealizadaDAO extends GenericDao<Integer, RefeicaoRealizada>
 	}
 	
 	public List<RefeicaoRealizada> getMapaRefeicoesRealizadas(
-			MapaRefeicaoRealizada periodoRefeicaoRealizada) {
+			Refeicao refeicao, Date dataRefeicao) {
 		
 		Session session = HibernateUtil.getSessionFactory().openSession();
 
 		List<RefeicaoRealizada> refeicoesRealizadas = new ArrayList<RefeicaoRealizada>();
 		
 		try {
-			
-			Refeicao refeicao = periodoRefeicaoRealizada.getRefeicao();
-			Date dataRefeicao = periodoRefeicaoRealizada.getData();	
 			
 			String hql = "from RefeicaoRealizada as rr"
 					+ " where rr.confirmaRefeicaoDia.diaRefeicao.refeicao.id = :refeicao"

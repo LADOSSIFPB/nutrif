@@ -17,6 +17,7 @@ import br.edu.ladoss.entity.DiaRefeicao;
 import br.edu.ladoss.entity.Edital;
 import br.edu.ladoss.entity.Evento;
 import br.edu.ladoss.entity.Funcionario;
+import br.edu.ladoss.entity.PeriodoPretensaoRefeicao;
 import br.edu.ladoss.entity.PeriodoRefeicaoRealizada;
 import br.edu.ladoss.entity.PessoaAcesso;
 import br.edu.ladoss.entity.PretensaoRefeicao;
@@ -614,6 +615,27 @@ public class Validate {
 	}
 
 	public static int setor(Setor setor) {
+		return VALIDATE_OK;
+	}
+
+	public static int periodoPretensaoRefeicao(PeriodoPretensaoRefeicao periodoPretensaoRefeicao) {
+		
+		Refeicao refeicao = periodoPretensaoRefeicao.getRefeicao();
+		if (refeicao == null || 
+				(refeicao != null 
+					&& !numeroValidator.isInteiroPositivo(refeicao.getId()))) {
+			return ErrorFactory.ID_REFEICAO_INVALIDA;
+		}
+		
+		Date inicio = periodoPretensaoRefeicao.getDataInicio();
+		
+		Date fim = periodoPretensaoRefeicao.getDataFim();
+		
+		if (!dataValidator.isGrowingDate(inicio, fim)) {
+			
+			return ErrorFactory.PERIODO_REFEICAO_INVALIDO;
+		}
+		
 		return VALIDATE_OK;
 	}
 }

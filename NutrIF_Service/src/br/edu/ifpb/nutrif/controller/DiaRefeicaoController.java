@@ -507,7 +507,7 @@ public class DiaRefeicaoController {
 		return builder.build();	
 	}
 	
-	@PermitAll
+	@RolesAllowed({TipoRole.ADMIN})
 	@POST
 	@Path("/quantificar")
 	@Consumes("application/json")

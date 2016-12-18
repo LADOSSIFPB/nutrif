@@ -23,7 +23,7 @@ angular.module('NutrifApp').controller('estatisticasCtrl', function ($scope, con
                 for (var i = 0; i < data.length; i++) {
                     $scope.pretensaoChart.labels.push(moment(data[i].data).locale("pt-br").format('DD/MM'));
                     _dadosPretensaoAlmoco.push(data[i].quantidade);
-                    _listaPretensaoAlmoco.push(data[i].pretensoesRefeicoes);
+                    _listaPretensaoAlmoco.push(data[i].lista);
                 }
 
                 $scope.pretensaoChart.data.push(_dadosPretensaoAlmoco)
@@ -34,7 +34,7 @@ angular.module('NutrifApp').controller('estatisticasCtrl', function ($scope, con
                     .success(function (data, status){
                         for (var i = 0; i < data.length; i++) {
                             _dadosPretensaoJantar.push(data[i].quantidade);
-                            _listaPretensaoJantar.push(data[i].pretensoesRefeicoes);
+                            _listaPretensaoJantar.push(data[i].lista);
                         }
 
                         $scope.pretensaoChart.data.push(_dadosPretensaoJantar);
@@ -66,7 +66,7 @@ angular.module('NutrifApp').controller('estatisticasCtrl', function ($scope, con
                 for (var i = 0; i < data.length; i++) {
                     $scope.refeicaoRealizadaChart.labels.push(moment(data[i].data).locale("pt-br").format('DD/MM'));
                     _dadosPretensaoAlmoco.push(data[i].quantidade);
-                    _listaRefeicaoAlmoco.push(data[i].refeicoesRealizadas);
+                    _listaRefeicaoAlmoco.push(data[i].lista);
                 }
 
                 $scope.refeicaoRealizadaChart.data.push(_dadosPretensaoAlmoco)
@@ -77,7 +77,7 @@ angular.module('NutrifApp').controller('estatisticasCtrl', function ($scope, con
                     .success(function (data, status){
                         for (var i = 0; i < data.length; i++) {
                             _dadosPretensaoJantar.push(data[i].quantidade);
-                            _listaRefeicaoJantar.push(data[i].refeicoesRealizadas);
+                            _listaRefeicaoJantar.push(data[i].lista);
                         }
 
                         $scope.refeicaoRealizadaChart.data.push(_dadosPretensaoJantar)

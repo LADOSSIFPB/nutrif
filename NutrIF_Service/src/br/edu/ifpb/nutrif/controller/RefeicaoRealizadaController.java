@@ -30,6 +30,7 @@ import br.edu.ladoss.entity.Dia;
 import br.edu.ladoss.entity.DiaRefeicao;
 import br.edu.ladoss.entity.Error;
 import br.edu.ladoss.entity.Funcionario;
+import br.edu.ladoss.entity.MapaRefeicao;
 import br.edu.ladoss.entity.MapaRefeicaoRealizada;
 import br.edu.ladoss.entity.PeriodoRefeicaoRealizada;
 import br.edu.ladoss.entity.PretensaoRefeicao;
@@ -275,38 +276,47 @@ public class RefeicaoRealizadaController {
 			
 			try {
 				
-				List<MapaRefeicaoRealizada> mapasRefeicoesRealizadas = 
-						new ArrayList<MapaRefeicaoRealizada>();
+				List<MapaRefeicao> mapasRefeicoesRealizadas = 
+						new ArrayList<MapaRefeicao>();
 				
 				// Data entre o intervalo de dataInicio e dataFim.
 				List<Date> datas = DateUtil.getDaysBetweenDates(
 						periodoRefeicaoRealizada.getDataInicio(), 
 						periodoRefeicaoRealizada.getDataFim());
 				
-				for (Date data: datas) {
-					
-					// Inicializa o mapa para consulta dos dias das refeições.
-					MapaRefeicaoRealizada mapaRefeicaoRealizada = 
-							new MapaRefeicaoRealizada();				
-					mapaRefeicaoRealizada.setRefeicao(
-							periodoRefeicaoRealizada.getRefeicao());
-					mapaRefeicaoRealizada.setData(data);
-					
-					// Consulta dos dias das refeições.
-					List<RefeicaoRealizada> refeicoesRealizadas = RefeicaoRealizadaDAO
-							.getInstance().getMapaRefeicoesRealizadas(
-									mapaRefeicaoRealizada);
-					
-					mapaRefeicaoRealizada.setRefeicoesRealizadas(
-							refeicoesRealizadas);
-					mapaRefeicaoRealizada.setQuantidade(
-							refeicoesRealizadas.size());
-					
-					mapasRefeicoesRealizadas.add(mapaRefeicaoRealizada);
-				}				
+				Refeicao refeicao = RefeicaoDAO.getInstance().getById(
+						periodoRefeicaoRealizada.getRefeicao().getId());				
 				
-				builder.status(Response.Status.OK).entity(
-						mapasRefeicoesRealizadas);				
+				if (refeicao != null) {	
+					
+					for (Date data: datas) {
+						
+						// Consulta dos dias das refeições.
+						List<RefeicaoRealizada> refeicoesRealizadas = RefeicaoRealizadaDAO
+								.getInstance().getMapaRefeicoesRealizadas(
+										refeicao, data);
+						
+						// Inicializa o mapa para consulta dos dias das refeições.
+						MapaRefeicao<RefeicaoRealizada> mapaRefeicaoRealizada = 
+								new MapaRefeicao<RefeicaoRealizada>();				
+						mapaRefeicaoRealizada.setRefeicao(
+								periodoRefeicaoRealizada.getRefeicao());
+						mapaRefeicaoRealizada.setData(data);						
+						mapaRefeicaoRealizada.setLista(refeicoesRealizadas);
+						mapaRefeicaoRealizada.setQuantidade(
+								refeicoesRealizadas.size());
+						
+						mapasRefeicoesRealizadas.add(mapaRefeicaoRealizada);
+					}				
+					
+					builder.status(Response.Status.OK).entity(
+							mapasRefeicoesRealizadas);
+				} else {
+					
+					builder.status(Response.Status.NOT_FOUND).entity(
+							ErrorFactory.getErrorFromIndex(
+									ErrorFactory.ID_REFEICAO_INVALIDA));					
+				}								
 			
 			} catch (SQLExceptionNutrIF exception) {
 
