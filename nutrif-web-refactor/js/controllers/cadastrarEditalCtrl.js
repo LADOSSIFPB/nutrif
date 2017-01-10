@@ -20,8 +20,6 @@ angular.module('NutrifApp').controller('cadastrarEditalCtrl', function ($scope, 
 			edital.funcionario.id = userService.getUser().id;
 
 			// Responsável
-			console.log('Teste: '+this.selectedItem);
-			edital.funcionario = {};
 			edital.responsavel = this.selectedItem;
 			
 			console.log(edital);

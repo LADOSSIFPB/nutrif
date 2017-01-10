@@ -19,29 +19,24 @@
     </md-input-container>
 
     <!-- Responsável -->
-    <md-input-container class="md-icon-float md-block">
-      <label>Responsável</label>
-      <md-chips ng-model="cadastrarEdital.responsaveis"
-        md-autocomplete-snap=""
-        md-transform-chip="cadastrarEdital.transformChip($responsavel)"
-        md-require-match="cadastrarEdital.autocompleteDemoRequireMatch">
-        <md-autocomplete
+        <md-autocomplete flex
           md-selected-item="cadastrarEdital.selectedItem"
           md-search-text="cadastrarEdital.searchText"
           md-items="responsavel in cadastrarEdital.buscarResponsaveis(cadastrarEdital.searchText)"
           md-item-text="responsavel.nome"
           md-min-length="3"
           md-no-cache="true"
+          md-auto-focus="false"
+          md-floating-label="Responsavel"
           placeholder="Responsável">
-          <md-chip-template>
+          <md-item-template>
             <span md-highlight-text="cadastrarEdital.searchText">
               {{responsavel.nome}}
             </span>
-          </md-chip-template>
-        </md-autocomplete>
-      </md-chips>
-    </md-input-container>
-
+          </md-item-template>
+          </md-autocomplete>
+        
+  
     <!-- Campus -->
     <md-input-container class="md-icon-float md-block">
       <label>Campus</label>
