@@ -40,10 +40,11 @@
           </md-select>
         </md-input-container>
 
-        <md-input-container flex>
+        <md-input-container class="md-icon-float md-block">
             <label>Perfil</label>
-            <md-select ng-model="funcionarioCopy.roles[0].id" aria-label="Selecione o cargo">
-                <md-option ng-repeat="role in roles" value="{{role.id}}">
+            <md-select ng-model="funcionarioCopy.roles[0].id">
+                <md-option ng-repeat="(i,role) in roles" value="{{role.id}}"
+                	 ng-selected="i == 0">
                     {{role.descricao}}
                 </md-option>
             </md-select>

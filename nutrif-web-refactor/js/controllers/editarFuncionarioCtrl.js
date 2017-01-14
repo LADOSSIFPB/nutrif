@@ -1,6 +1,9 @@
 angular.module('NutrifApp').controller('editarFuncionarioCtrl', function ($scope,
 	$stateParams, $state, $mdToast, funcionarioService, campusService) {
 
+	$scope.funcionarioCopy = {};
+	$scope.funcionario = {};
+	
 	$scope.atualizar = function (funcionario) {
 
 		var _roles = $scope.roles;
@@ -9,7 +12,7 @@ angular.module('NutrifApp').controller('editarFuncionarioCtrl', function ($scope
 		var rolesFunc = [];
 		rolesFunc.push(_roles[(funcionario.roles[0].id)-1]);
 
-		console.log(funcionario)
+		funcionario.roles = rolesFunc;
 
 		funcionarioService.atualizarFuncionario(funcionario)
 			.success(function (data, status) {
@@ -44,6 +47,13 @@ angular.module('NutrifApp').controller('editarFuncionarioCtrl', function ($scope
 		funcionarioService.getRoles()
 			.success(function (data, status){
 				$scope.roles = data;
+				console.log($scope.funcionarioCopy);
+				if($scope.funcionarioCopy.tipo == 1)
+					$scope.funcionarioCopy.roles.push($scope.roles[0])
+				else if($scope.funcionarioCopy.tipo == 2)
+					$scope.funcionarioCopy.roles.push($scope.roles[1])
+				else if($scope.funcionarioCopy.tipo == 3)
+					$scope.funcionarioCopy.roles.push($scope.roles[2])
 			})
 			.error(onErrorLoadCallback);
 
