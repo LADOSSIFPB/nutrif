@@ -44,7 +44,7 @@
             <label>Perfil</label>
             <md-select ng-model="funcionarioCopy.roles[0].id">
                 <md-option ng-repeat="(i,role) in roles" value="{{role.id}}"
-                	 ng-selected="i == 0">
+                	 ng-selected="i == rolesId-1">
                     {{role.descricao}}
                 </md-option>
             </md-select>

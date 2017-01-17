@@ -3,6 +3,7 @@ angular.module('NutrifApp').controller('editarFuncionarioCtrl', function ($scope
 
 	$scope.funcionarioCopy = {};
 	$scope.funcionario = {};
+	$scope.rolesId;
 	
 	$scope.atualizar = function (funcionario) {
 
@@ -41,19 +42,14 @@ angular.module('NutrifApp').controller('editarFuncionarioCtrl', function ($scope
 			.success(function (data, status) {
 				$scope.funcionario = data;
 				$scope.funcionarioCopy = angular.copy($scope.funcionario);
+				$scope.rolesId = $scope.funcionarioCopy.roles[0].id
+				console.log($scope.funcionarioCopy);
 			})
 			.error(onErrorLoadCallback);
 
 		funcionarioService.getRoles()
 			.success(function (data, status){
 				$scope.roles = data;
-				console.log($scope.funcionarioCopy);
-				if($scope.funcionarioCopy.tipo == 1)
-					$scope.funcionarioCopy.roles.push($scope.roles[0])
-				else if($scope.funcionarioCopy.tipo == 2)
-					$scope.funcionarioCopy.roles.push($scope.roles[1])
-				else if($scope.funcionarioCopy.tipo == 3)
-					$scope.funcionarioCopy.roles.push($scope.roles[2])
 			})
 			.error(onErrorLoadCallback);
 
