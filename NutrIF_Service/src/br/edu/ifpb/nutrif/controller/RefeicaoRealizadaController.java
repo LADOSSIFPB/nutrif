@@ -79,11 +79,11 @@ public class RefeicaoRealizadaController {
 									idDiaRefeicao, agora);
 					
 					// Analise para lançamento obrigatório da prentesão.
-					if ((!diaRefeicao.getRefeicao().isPrevistoPretensao() 
+					if ((!diaRefeicao.getEdital().isPrevistoPretensao() 
 							&& pretensaoRefeicao == null) ||
-							(!diaRefeicao.getRefeicao().isPrevistoPretensao() 
+							(!diaRefeicao.getEdital().isPrevistoPretensao() 
 									&& pretensaoRefeicao != null) ||
-							(diaRefeicao.getRefeicao().isPrevistoPretensao() 
+							(diaRefeicao.getEdital().isPrevistoPretensao() 
 								&& pretensaoRefeicao != null)) {
 						
 						// Confirmação da refeição

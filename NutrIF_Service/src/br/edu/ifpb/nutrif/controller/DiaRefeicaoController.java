@@ -433,6 +433,49 @@ public class DiaRefeicaoController {
 	 */
 	@PermitAll
 	@GET
+	@Path("/vigentes/listar/aluno/matricula/{matricula}")
+	@Produces("application/json")
+	public Response getAllVigentesByAlunoMatricula(
+			@PathParam("matricula") String matricula) {
+		
+		logger.info("Consulta do Dia da Refeição pela Matrícula"
+				+ " para Edital Vigente: " + matricula);
+		
+		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
+		builder.expires(new Date());
+		
+		// Validação dos dados de entrada.
+		int validacao = Validate.matricula(matricula);
+		
+		if (validacao == Validate.VALIDATE_OK) {
+			
+			try {
+
+				List<DiaRefeicao> diasRefeicao = DiaRefeicaoDAO
+						.getInstance().getAllVigentesByAlunoMatricula(matricula);
+				logger.debug("Dias das Refeições de Editais Vigentes: " 
+						+ diasRefeicao);
+				
+				builder.status(Response.Status.OK);
+				builder.entity(diasRefeicao);
+
+			} catch (SQLExceptionNutrIF exception) {
+
+				builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
+						exception.getError());
+			}
+			
+		} else {
+			
+			Error erro = ErrorFactory.getErrorFromIndex(validacao);
+			builder.status(Response.Status.NOT_ACCEPTABLE).entity(erro);
+		}
+		
+		return builder.build();		
+	}
+	
+	@PermitAll
+	@GET
 	@Path("/listar/aluno/matricula/{matricula}")
 	@Produces("application/json")
 	public Response getAllByAlunoMatricula(

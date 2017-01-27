@@ -62,6 +62,12 @@ public class Edital {
 	private Funcionario responsavel;
 	
 	/**
+	 * Previsão para lançamento da pretensão.
+	 */
+	@Column(name = "is_previsto_pretensao", columnDefinition = "tinyint default false")
+	private boolean previstoPretensao;
+	
+	/**
 	 * Responsável pelo cadastramento do Edital.
 	 */
 	@OneToOne(fetch = FetchType.EAGER)
@@ -145,10 +151,6 @@ public class Edital {
 		return ativo;
 	}
 
-	public void setAtivo(boolean ativo) {
-		this.ativo = ativo;
-	}
-	
 	@XmlElement
 	public Evento getEvento() {
 		return evento;
@@ -185,6 +187,19 @@ public class Edital {
 		this.quantidadeBeneficiadosReal = quantidadeBeneficiadosReal;
 	}
 	
+	@XmlElement
+	public boolean isPrevistoPretensao() {
+		return previstoPretensao;
+	}
+
+	public void setPrevistoPretensao(boolean previstoPretensao) {
+		this.previstoPretensao = previstoPretensao;
+	}
+	
+	public void setAtivo(boolean ativo) {
+		this.ativo = ativo;
+	}	
+	
 	@Override
 	public String toString() {
 		return "Edital [id=" + id 
@@ -194,7 +209,8 @@ public class Edital {
 				+ ", quantidadeBeneficiadosReal=" + quantidadeBeneficiadosReal
 				+ ", dataInicial=" + dataInicial
 				+ ", dataFinal=" + dataFinal 
-				+ ", evento=" + evento 
+				+ ", evento=" + evento
+				+ ", previstoPretensao=" + previstoPretensao
 				+ ", responsavel=" + responsavel + "]";
 	}	
 }
