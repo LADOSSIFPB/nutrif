@@ -176,7 +176,7 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 			String hql = "from DiaRefeicao as dr"
 					+ " where dr.aluno.matricula = :matricula"
 					+ " and dr.ativo = :ativo"
-					+ " and CURRENT_TIME() >= dr.edital.dataFinal"
+					+ " and CURRENT_TIME() <= dr.edital.dataFinal"
 					+ " and dr.edital.ativo = :ativo"
 					+ " order by dr.dia.id asc";
 			
