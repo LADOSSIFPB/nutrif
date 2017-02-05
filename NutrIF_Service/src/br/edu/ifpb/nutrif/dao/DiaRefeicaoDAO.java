@@ -142,6 +142,42 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 			String hql = "from DiaRefeicao as dr"
 					+ " where dr.aluno.matricula = :matricula"
 					+ " and dr.ativo = :ativo"
+					+ " and dr.edital.ativo = :ativo"
+					+ " order by dr.dia.id asc";
+			
+			Query query = session.createQuery(hql);			
+			query.setParameter("matricula", matricula);
+			query.setParameter("ativo", BancoUtil.ATIVO);
+			
+			diasRefeicao = (List<DiaRefeicao>) query.list();
+	        
+		} catch (HibernateException hibernateException) {
+			
+			session.getTransaction().rollback();
+			
+			throw new SQLExceptionNutrIF(hibernateException);
+			
+		} finally {
+		
+			session.close();
+		}
+		
+		return diasRefeicao;		
+	}
+	
+	public List<DiaRefeicao> getAllVigentesByAlunoMatricula(String matricula) {
+		
+		Session session = HibernateUtil.getSessionFactory().openSession();
+
+		List<DiaRefeicao> diasRefeicao = new ArrayList<DiaRefeicao>();
+		
+		try {
+			
+			String hql = "from DiaRefeicao as dr"
+					+ " where dr.aluno.matricula = :matricula"
+					+ " and dr.ativo = :ativo"
+					+ " and CURRENT_TIME() <= dr.edital.dataFinal"
+					+ " and dr.edital.ativo = :ativo"
 					+ " order by dr.dia.id asc";
 			
 			Query query = session.createQuery(hql);			
