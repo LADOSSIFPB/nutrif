@@ -1,3 +1,4 @@
+
 <md-card>
   <md-card-header>
 
@@ -116,5 +117,17 @@
 
 	</md-card>
 	</md-tab>
-	<md-tab label="Histórico de refeições">two</md-tab>
+	<md-tab label="Histórico de refeições">
+		<timeline>
+			<timeline-event ng-repeat="refeicao in historico" side="alternate">
+				<timeline-panel class="{{event.badgeClass}}">
+					<timeline-heading>
+						<h4>{{refeicao.tipo}}</h4>
+					</timeline-heading>
+					<p>{{refeicao.edital.nome}}</p>
+					<p>{{refeicao.dia.nome}}</p>
+				</timeline-panel>
+			</timeline-event>
+		</timeline>
+	</md-tab>
 </md-tabs>

@@ -6,6 +6,20 @@ angular.module('NutrifApp').controller('editarAlunoCtrl', function ($scope,
     $scope.cursos = [];
     $scope.editais = [];
     $scope.refeicoes = [];
+    
+    $scope.events = [{
+		badgeClass: 'info',
+		badgeIconClass: 'glyphicon-check',
+		title: 'First heading',
+		content: 'Some awesome content.'
+	 }, {
+		badgeClass: 'warning',
+		badgeIconClass: 'glyphicon-credit-card',
+		title: 'Second heading',
+		content: 'More awesome content.'
+	 }];
+    
+    
     var _campi = $scope.campi;
 
     $scope.alunoCopy = {};
@@ -93,9 +107,15 @@ angular.module('NutrifApp').controller('editarAlunoCtrl', function ($scope,
       })
       .error(onErrorLoadCallback);
 
-      diaRefeicaoService.listaRefeicaoPorMatricula(_matricula)
+      diaRefeicaoService.getAllVigentesByAlunoMatricula(_matricula)
       .success(function (data, status) {
         $scope.refeicoes = data;
+      })
+      .error(onErrorLoadCallback);
+      
+      diaRefeicaoService.listarHistoricoRefeicaoPorMatricula(_matricula)
+      .success(function (data, status) {
+        $scope.historico = data;
       })
       .error(onErrorLoadCallback);
 

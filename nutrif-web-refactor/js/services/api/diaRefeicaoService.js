@@ -24,7 +24,7 @@ angular.module("NutrifApp").factory("diaRefeicaoService", function($http, config
 		return $http.post(_path + "/remover", refeicao)
 	};
 
-	var _listaRefeicaoPorMatricula = function (matricula){
+	var _listarHistoricoRefeicaoPorMatricula = function (matricula){
 		return $http.get(_path + "/listar/aluno/matricula/" + encodeURI(matricula))
 	};
 	
@@ -32,15 +32,22 @@ angular.module("NutrifApp").factory("diaRefeicaoService", function($http, config
 		
 		return $http.post(_path+ "/quantificar" , diaRefeicao);
 		
-	} 
+	};
+	
+	var _getAllVigentesByAlunoMatricula =  function(matricula){
+	 
+	 return $http.get(_path+ "/vigentes/listar/aluno/matricula/"+ matricula);
+	 
+	}
 
 	return {
 		buscaRefeicaoPorNome: _buscaRefeicaoPorNome,
 		buscaRefeicaoPorMatricula: _buscaRefeicaoPorMatricula,
 		cadastrarRefeicao: _cadastrarRefeicao,
 		removerRefeicao: _removerRefeicao,
-		listaRefeicaoPorMatricula: _listaRefeicaoPorMatricula,
-		getQuantidadeRefeicoes: _getQuantidadeRefeicoes
+		listarHistoricoRefeicaoPorMatricula: _listarHistoricoRefeicaoPorMatricula,
+		getQuantidadeRefeicoes: _getQuantidadeRefeicoes,
+		getAllVigentesByAlunoMatricula: _getAllVigentesByAlunoMatricula
 	};
 
 });
