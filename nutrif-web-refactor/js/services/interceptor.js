@@ -1,21 +1,20 @@
-angular.module('NutrifApp').factory('Interceptor',function () {
-		
-	$inject = ['$q','$state'];
+	angular.module('NutrifApp').factory('interceptorResponseAutorization', function ($q) {
+	    return {
 
-	function success(response) {
-		return response;
-	}
+	        response: function (response) {
+	            // Fluxo normal das respostas do servidor.
+	            return response;
+	        },
+	        responseError: function (response) {
 
-	function error(response) {
-		if(response.status === 401) {
-				$state.go('login.gerenciamento');
-				return $q.reject(response);
-		}
-		else {
-				return $q.reject(response);
-		}
-	}
-	return function(promise) {
-		return promise.then(success, error);
-	}		
-});
+							// Verificar o retorno de erro da resposta para status: UNAUTHORIZED-401.
+							var $ERRO_UNAUTHORIZED = 401;
+							$status = response.status;
+
+							if($status === $ERRO_UNAUTHORIZED){
+									console.log("ResponseError: UNAUTHORIZED-401");
+									// Redirecionar.
+							}
+	        }
+	    };
+	});

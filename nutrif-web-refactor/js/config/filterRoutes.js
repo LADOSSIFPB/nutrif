@@ -45,9 +45,7 @@ angular.module('NutrifApp').run(function($rootScope, $state, userService) {
                 event.preventDefault();
                 $state.go("login.gerenciamento");
             }
-
         }
-
     });
 
 });

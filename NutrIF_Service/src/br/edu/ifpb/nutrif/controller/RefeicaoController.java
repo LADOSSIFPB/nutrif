@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -19,11 +20,12 @@ import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
 import br.edu.ifpb.nutrif.util.BancoUtil;
 import br.edu.ifpb.nutrif.validation.Validate;
 import br.edu.ladoss.entity.Refeicao;
+import br.edu.ladoss.enumeration.TipoRole;
 
 @Path("refeicao")
 public class RefeicaoController {
 
-	@PermitAll
+	@RolesAllowed({TipoRole.ADMIN})
 	@POST
 	@Path("/inserir")
 	@Consumes("application/json")
@@ -131,7 +133,7 @@ public class RefeicaoController {
 	 * @param refeicao
 	 * @return
 	 */
-	@PermitAll
+	@RolesAllowed({TipoRole.ADMIN})
 	@POST
 	@Path("/atualizar")
 	@Consumes("application/json")
