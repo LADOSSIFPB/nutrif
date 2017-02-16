@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.annotation.security.DenyAll;
 import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -36,6 +37,7 @@ import br.edu.ladoss.entity.PeriodoRefeicaoRealizada;
 import br.edu.ladoss.entity.PretensaoRefeicao;
 import br.edu.ladoss.entity.Refeicao;
 import br.edu.ladoss.entity.RefeicaoRealizada;
+import br.edu.ladoss.enumeration.TipoRole;
 
 @Path("refeicaorealizada")
 public class RefeicaoRealizadaController {
@@ -45,7 +47,7 @@ public class RefeicaoRealizadaController {
 	 * @param refeicaoRealizada
 	 * @return
 	 */	
-	@PermitAll
+	@RolesAllowed({TipoRole.ADMIN, TipoRole.INSPETOR})
 	@POST
 	@Path("/inserir")
 	@Consumes("application/json")

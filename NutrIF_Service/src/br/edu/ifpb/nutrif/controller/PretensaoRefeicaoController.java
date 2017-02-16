@@ -252,7 +252,8 @@ public class PretensaoRefeicaoController {
 		int diferenca = DateUtil.getTodayDaysDiff(diaPretensao);
 		
 		// Quantidade máxima de diferença entre o dia da solicitação e o pretendido.
-		if (diferenca == refeicao.getDiaPrevistoPretensao()) {	
+		if (true) {
+		//TODO: if (diferenca == refeicao.getHoraPrevisaoPretensao()) {	
 			
 			// Data Atual
 			Date dataSolicitacao = new Date();
@@ -260,8 +261,8 @@ public class PretensaoRefeicaoController {
 			// Data da pretensão.
 			Date dataPretensao = DateUtil.addDays(dataSolicitacao, 
 					diferenca);
-			dataPretensao = DateUtil.setTimeInDate(
-					dataPretensao, refeicao.getHoraPretensao());
+			dataPretensao = null; 
+			//TODO: DateUtil.setTimeInDate(dataPretensao, refeicao.getHoraPretensao());
 			
 			// Verificações de período de solicitação da pretensão.					
 			int diferencaMinutos = DateUtil.getMinutesBetweenDate(

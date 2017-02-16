@@ -62,7 +62,7 @@ public class Edital {
 	private Funcionario responsavel;
 	
 	/**
-	 * Previsão para lançamento da pretensão.
+	 * Previsão para lançamento da pretensão: o tempo previsto para lançamento da pretensão é definido na Refeição.
 	 */
 	@Column(name = "is_previsto_pretensao", columnDefinition = "tinyint default false")
 	private boolean previstoPretensao;

@@ -16,6 +16,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import br.edu.ladoss.data.DataEntity;
 
+/**
+ * Refeição
+ * 
+ * @author Rhavy Maia Guedes 
+ */
 @XmlRootElement(name = "refeicao")
 @Entity
 @Table(name = "tb_refeicao")
@@ -38,12 +43,13 @@ public class Refeicao implements DataEntity {
 	@Temporal(TemporalType.TIME)
 	private Date horaFinal;
 	
-	@Column(name = "hr_pretensao")
+	/**
+	 * O tempo previsto para lançamento da pretenção será em horas antes que inicie a Refeição.
+	 * Nos casos que o dia da refeição sejam posteriores a dias não úteis acrescentar prazo. 
+	 */
+	@Column(name = "hr_previsao_pretensao")
 	@Temporal(TemporalType.TIME)
-	private Date horaPretensao;	
-	
-	@Column(name = "nr_dia_previsto_pretensao", columnDefinition = "int default 1")
-	private int diaPrevistoPretensao;
+	private Date horaPrevisaoPretensao;
 	
 	@Column(name = "is_ativo", columnDefinition = "boolean default true", 
 			nullable = false, insertable = false, updatable = true)
@@ -90,21 +96,12 @@ public class Refeicao implements DataEntity {
 	}
 	
 	@XmlElement
-	public Date getHoraPretensao() {
-		return horaPretensao;
+	public Date getHoraPrevisaoPretensao() {
+		return horaPrevisaoPretensao;
 	}
 
-	public void setHoraPretensao(Date horaPretensao) {
-		this.horaPretensao = horaPretensao;
-	}
-	
-	@XmlElement
-	public int getDiaPrevistoPretensao() {
-		return diaPrevistoPretensao;
-	}
-
-	public void setDiaPrevistoPretensao(int diaPrevistoPretensao) {
-		this.diaPrevistoPretensao = diaPrevistoPretensao;
+	public void setHoraPrevisaoPretensao(Date horaPrevisaoPretensao) {
+		this.horaPrevisaoPretensao = horaPrevisaoPretensao;
 	}
 	
 	@XmlElement
@@ -122,8 +119,7 @@ public class Refeicao implements DataEntity {
 				+ ", tipo=" + tipo
 				+ ", horaInicio=" + horaInicio 
 				+ ", horaFim=" + horaFinal 
-				+ ", horaPretensao=" + horaPretensao 
-				+ ", diPrevistoPretensao=" + diaPrevistoPretensao
+				+ ", horaPretensao=" + horaPrevisaoPretensao
 				+ ", isAtivo=" + ativo + "]";
 	}
 }

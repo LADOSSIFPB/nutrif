@@ -37,6 +37,7 @@ public class Validate {
 	private static EmailValidator emailValidator = new EmailValidator();
 	private static ImageValidator imageValidator = new ImageValidator();
 	private static DataValidator dataValidator = new DataValidator();
+	private static Time24HoursValidator time24HoursValidator = new Time24HoursValidator();
 
 	public static int VALIDATE_OK = 0;
 	
@@ -146,11 +147,10 @@ public class Validate {
 			return ErrorFactory.PERIODO_REFEICAO_INVALIDO;
 		}
 		
-		Date horaPretensao = refeicao.getHoraPretensao();
-		
-		int diaPrevistoPretensao = refeicao.getDiaPrevistoPretensao();
-		if (!numeroValidator.isInteiroPositivo(diaPrevistoPretensao)) 
-			return ErrorFactory.PERIODO_REFEICAO_INVALIDO;
+		Date horaPrevisaoPretensao = refeicao.getHoraPrevisaoPretensao();
+		if (!time24HoursValidator.validate(horaPrevisaoPretensao)) {
+			//TODO: mensagem de erro.
+		}
 		
 		return VALIDATE_OK;
 	}
