@@ -13,7 +13,9 @@
 
 							if($status === $ERRO_UNAUTHORIZED){
 									console.log("ResponseError: UNAUTHORIZED-401");
-									// Redirecionar.
+									// Redirecionar: falta configurar o retorno.
+									
+									return $q.reject(response);
 							}
 	        }
 	    };
