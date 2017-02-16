@@ -19,24 +19,25 @@
     </md-input-container>
 
     <!-- Responsável -->
-        <md-autocomplete flex
-          md-selected-item="cadastrarEdital.selectedItem"
-          md-search-text="cadastrarEdital.searchText"
-          md-items="responsavel in cadastrarEdital.buscarResponsaveis(cadastrarEdital.searchText)"
-          md-item-text="responsavel.nome"
-          md-min-length="3"
-          md-no-cache="true"
-          md-auto-focus="false"
-          md-floating-label="Responsavel"
-          placeholder="Responsável">
-          <md-item-template>
-            <span md-highlight-text="cadastrarEdital.searchText">
-              {{responsavel.nome}}
-            </span>
-          </md-item-template>
-          </md-autocomplete>
-        
-  
+    <md-autocomplete flex
+      md-selected-item="cadastrarEdital.selectedItem"
+      md-search-text="cadastrarEdital.searchText"
+      md-items="responsavel in cadastrarEdital.buscarResponsaveis(cadastrarEdital.searchText)"
+      md-item-text="responsavel.nome"
+      md-min-length="3"
+      md-no-cache="true"
+      md-auto-focus="false"
+      md-floating-label="Responsavel"
+      placeholder="Responsável"
+      required>
+      <md-item-template>
+        <span md-highlight-text="cadastrarEdital.searchText">
+          {{responsavel.nome}}
+        </span>
+      </md-item-template>
+    </md-autocomplete>
+
+
     <!-- Campus -->
     <md-input-container class="md-icon-float md-block">
       <label>Campus</label>
@@ -56,16 +57,24 @@
     <!-- Validade -->
     <md-content>
       <label>Validade</label>
-      <md-datepicker ng-model="cadastrarEdital.edital.dataInicial" md-placeholder="Início">
+      <md-datepicker ng-model="cadastrarEdital.edital.dataInicial"
+        md-placeholder="Início" md-format="DD/MM/YYYY" ng-required="true">
       </md-datepicker>
       <md-datepicker ng-model="cadastrarEdital.edital.dataFinal"
-       md-placeholder="Fim"
-       md-format="DD/MM/YYYY">
+        md-placeholder="Fim" md-format="DD/MM/YYYY" ng-required="true">
       </md-datepicker>
     </md-content>
 
+    <!-- Pretensão -->
+    <md-input-container class="md-icon-float md-block">
+      <md-checkbox ng-model="cadastrarEdital.edital.previstoPretensao" aria-label="Obrigatório Pretensão">
+        Obrigatória a realização da Pretensão.
+      </md-checkbox>
+      <div class="hint">Realização da pretensão para todos os beneficiários do Edital.</div>
+    </md-input-container>
+
     <md-button type="submit" layout-fill type="submit" class="md-raised md-primary md-hue-1 flex"
-    style="margin-top: 40px">
+      style="margin-top: 40px">
     Cadastrar Edital
   </md-button>
 </form>

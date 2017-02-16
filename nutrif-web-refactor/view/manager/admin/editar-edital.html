@@ -20,16 +20,16 @@
     </md-card-header>
     <md-card-content layout="column">
 
-		<!-- Nome -->
+        <!-- Nome -->
         <md-input-container class="md-icon-float md-block">
             <label>Nome</label>
-            <input ng-model="editalCopy.nome" type="text">
+            <input ng-model="editalCopy.nome" type="text" required>
         </md-input-container>
 
-		<!-- Evento -->
+        <!-- Evento -->
         <md-input-container flex>
             <label>Evento</label>
-            <md-select ng-model="editalCopy.evento.id" aria-label="Selecione o evento">
+            <md-select ng-model="editalCopy.evento.id" aria-label="Selecione o evento" required>
                 <md-option ng-repeat="evento in eventos" value="{{evento.id}}">
                     {{evento.nome}}
                 </md-option>
@@ -37,24 +37,25 @@
         </md-input-container>
 
         <!-- Responsável -->
-            <md-autocomplete flex
-              md-selected-item="selectedItem"
-              md-search-text="editarEdital.searchText"
-              md-items="responsavel in editarEdital.buscarResponsaveis(editarEdital.searchText) "
-              md-item-text="responsavel.nome"
-              md-input-minlength="3"
-              md-no-cache="true"
-              md-auto-focus="false"
-              md-floating-label="Responsavel"
-              placeholder="Responsável">
-              <md-item-template>
-	            <span md-highlight-text="editarEdital.searchText">
-	             {{responsavel.nome}}
-	            </span>
-              </md-item-template>
-            </md-autocomplete>
-            
-		<!-- Campus -->
+        <md-autocomplete flex
+          md-selected-item="selectedItem"
+          md-search-text="editarEdital.searchText"
+          md-items="responsavel in editarEdital.buscarResponsaveis(editarEdital.searchText) "
+          md-item-text="responsavel.nome"
+          md-input-minlength="3"
+          md-no-cache="true"
+          md-auto-focus="false"
+          md-floating-label="Responsavel"
+          placeholder="Responsável"
+          required>
+          <md-item-template>
+          <span md-highlight-text="editarEdital.searchText">
+           {{responsavel.nome}}
+          </span>
+          </md-item-template>
+        </md-autocomplete>
+
+        <!-- Campus -->
         <md-input-container flex>
             <label>Campus</label>
             <md-select ng-model="editalCopy.campus.id" aria-label="Selecione o campus">
@@ -64,20 +65,28 @@
             </md-select>
         </md-input-container>
 
-		<!-- Quantidade de contemplados -->
-		<md-input-container class="md-icon-float md-block">
-			<label>Quantidade de contemplados</label>
-			<input ng-model="editalCopy.quantidadeBeneficiadosPrevista" type="text" required>
-		</md-input-container>
+    		<!-- Quantidade de contemplados -->
+    		<md-input-container class="md-icon-float md-block">
+    			<label>Quantidade de contemplados</label>
+    			<input ng-model="editalCopy.quantidadeBeneficiadosPrevista" type="text" required>
+    		</md-input-container>
 
-		<!-- Validade -->
-		<md-content>
-			<label>Validade</label>
-			<md-datepicker ng-model="editalCopy.dataInicial" md-placeholder="Início">
-			</md-datepicker>
-			<md-datepicker ng-model="editalCopy.dataFinal" md-placeholder="Fim">
-			</md-datepicker>
-		</md-content>
+    		<!-- Validade -->
+    		<md-content>
+    			<label>Validade</label>
+    			<md-datepicker ng-model="editalCopy.dataInicial" md-placeholder="Início" ng-required="true">
+    			</md-datepicker>
+    			<md-datepicker ng-model="editalCopy.dataFinal" md-placeholder="Fim" ng-required="true">
+    			</md-datepicker>
+    		</md-content>
+
+        <!-- Pretensão -->
+        <md-input-container class="md-icon-float md-block">
+          <md-checkbox ng-model="editalCopy.previstoPretensao" aria-label="Obrigatório Pretensão">
+            Obrigatória a realização da Pretensão.
+          </md-checkbox>
+          <div class="hint">Realização da pretensão para todos os beneficiários do Edital.</div>
+        </md-input-container>
 
     </md-card-content>
 </md-card>

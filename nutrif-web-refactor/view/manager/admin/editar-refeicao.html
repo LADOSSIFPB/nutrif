@@ -46,28 +46,18 @@
       ng-model="refeicao.horaFinal">
     </md-input-container>
 
-    <!-- Obrigatório gerar pretensão -->
-    <md-input-container class="md-icon-float md-block">
-      <md-checkbox ng-model="refeicao.previstoPretensao" aria-label="Obrigatório Pretensão">
-        Obrigatória a realização da Pretensão.
-      </md-checkbox>
-    </md-input-container>
-
-    <!-- Horario Maximo Para Pretensao -->
+    <!-- Tempo que antecede a refeição que será permitido para lançamento da Pretensao -->
     <md-input-container flex-gt-md="30">
-      <label>Horario Máximo Para Pretensao</label>
+      <label>Previsão da Pretensão</label>
       <input mdc-datetime-picker date="false" time="true" type="text" id="time" short-time="true"
-      placeholder="hh:mm:ss"
-      min-date="minDate"
-      format="hh:mm:ss"
-      ng-model="refeicao.horaPretensao">
+              placeholder="hh:mm:ss"
+              min-date="minDate"
+              format="hh:mm:ss"
+              ng-model="refeicao.horaPrevisaoPretensao"
+              required>
+      <div class="hint">Tempo em <b>horas, minutos e segundos</b> que antecede a Refeição e permite ao beneficiário solicitar a Pretensão.</div>
+
     </md-input-container>
 
-    <!-- Dia que antecedem o dia da refeição para realizar a pretensão -->
-    <md-input-container class="md-icon-float md-block">
-      <label>Dia previsto para lançamento da pretensão</label>
-      <input ng-model="refeicao.diaPrevistoPretensao" type="number">
-    </md-input-container>
-    
   </md-card-content>
 </md-card>

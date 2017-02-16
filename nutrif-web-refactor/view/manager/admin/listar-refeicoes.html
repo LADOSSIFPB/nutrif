@@ -48,9 +48,7 @@
           <th md-column>Refeição</th>
           <th md-column>Inicio</th>
           <th md-column>Fim</th>
-          <th md-column>Pretensão?</th>
-          <th md-column>Fim</th>
-          <th md-column>Dia Previsão</th>
+          <th md-column>Previsão Pretensão</th>
 
         </tr>
       </thead>
@@ -60,13 +58,7 @@
           <td md-cell>{{refeicao.tipo | uppercase}}</td>
           <td md-cell>{{refeicao.horaInicio | date: hh:mm:ss : timezone}}</td>
           <td md-cell>{{refeicao.horaFinal | date: hh:mm:ss : timezone}}</td>
-          <td md-cell>
-            <md-checkbox ng-disabled="true" aria-label="Pretensão?"
-              ng-model="refeicao.previstoPretensao">
-            </md-checkbox>
-          </td>
-          <td md-cell>{{refeicao.horaPretensao | date: hh:mm:ss : timezone}}</td>
-          <td md-cell>{{refeicao.diaPrevistoPretensao}}</td>
+          <td md-cell>{{refeicao.horaPrevisaoPretensao | date: hh:mm:ss : timezone}}</td>
     		  <td md-cell>
       			<md-button class="md-icon-button" aria-label="Editar" ui-sref="home.editar-refeicao({id: refeicao.id})" ui-sref-opts="{reload: true}">
       				<md-tooltip md-direction="left">Editar Refeição</md-tooltip>

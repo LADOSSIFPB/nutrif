@@ -51,6 +51,7 @@
           <th md-column>Real</th>
           <th md-column>Início</th>
           <th md-column>Fim</th>
+          <th md-column>Pretensão</th>
         </tr>
       </thead>
 
@@ -62,6 +63,7 @@
           <td md-cell>{{edital.quantidadeBeneficiadosReal}}</td>
           <td md-cell>{{edital.dataInicial | date:'dd/MM/yyyy h:mma'}}</td>
           <td md-cell>{{edital.dataFinal | date:'dd/MM/yyyy h:mma'}}</td>
+          <td md-cell>{{edital.previstoPretensao | yesNo}}</td>
     		  <td md-cell>
       			<md-button class="md-icon-button" aria-label="Editar" ui-sref="home.editar-edital({id: edital.id})" ui-sref-opts="{reload: true}">
       				<md-tooltip md-direction="left">Editar Edital</md-tooltip>
