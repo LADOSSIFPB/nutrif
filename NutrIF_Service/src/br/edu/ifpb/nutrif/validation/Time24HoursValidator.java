@@ -1,5 +1,7 @@
 package br.edu.ifpb.nutrif.validation;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -35,7 +37,11 @@ public class Time24HoursValidator {
 		boolean isValidate = false;
 
 		if (time != null) {
-			isValidate = validate(time.toString());
+			
+			DateFormat formatter = new SimpleDateFormat("HH:mm:ss");
+			String dateFormatted = formatter.format(time);
+			
+			isValidate = validate(dateFormatted);
 		}
 		
 		return isValidate;

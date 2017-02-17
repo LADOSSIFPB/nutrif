@@ -19,7 +19,6 @@ import br.edu.ifpb.nutrif.dao.DiaRefeicaoDAO;
 import br.edu.ifpb.nutrif.dao.EditalDAO;
 import br.edu.ifpb.nutrif.dao.EventoDAO;
 import br.edu.ifpb.nutrif.dao.FuncionarioDAO;
-import br.edu.ifpb.nutrif.dao.RefeicaoDAO;
 import br.edu.ifpb.nutrif.exception.ErrorFactory;
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
 import br.edu.ifpb.nutrif.util.BancoUtil;
@@ -30,7 +29,6 @@ import br.edu.ladoss.entity.Edital;
 import br.edu.ladoss.entity.Error;
 import br.edu.ladoss.entity.Evento;
 import br.edu.ladoss.entity.Funcionario;
-import br.edu.ladoss.entity.Refeicao;
 
 @Path("edital")
 public class EditalController {

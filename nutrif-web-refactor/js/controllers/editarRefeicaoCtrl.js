@@ -1,20 +1,20 @@
 angular.module('NutrifApp').controller('editarRefeicaoCtrl', function ($scope,
 	$stateParams, $state, $mdToast, refeicaoService) {
-	
+
 	$scope.refeicao = {};
-	
+
 	$scope.atualizar = function (refeicao) {
 
 		refeicao.horaInicio = Date.parse(refeicao.horaInicio);
 		refeicao.horaFinal = Date.parse(refeicao.horaFinal);
-	    refeicao.horaPretensao = Date.parse(refeicao.horaPretensao);
-		
+		refeicao.horaPrevisaoPretensao = Date.parse(refeicao.horaPrevisaoPretensao);
+
 		refeicaoService.editarRefeicao(refeicao)
 			.success(function (data, status) {
 				$state.transitionTo('home.listar-refeicoes', {reload: true});
 				$mdToast.show(
 					$mdToast.simple()
-					.textContent('Refeicao atualizada com sucesso!')
+					.textContent('Refeição atualizada com sucesso!')
 					.position('top right')
 					.action('OK')
 					.hideDelay(6000)
@@ -29,15 +29,15 @@ angular.module('NutrifApp').controller('editarRefeicaoCtrl', function ($scope,
 		if (_id == 0){
 			$state.transitionTo('home.listar-refeicoes', {reload: true});
 		}
-		
+
 		  refeicaoService.getById(_id)
 	      .success(function(data,status){
 	    	  $scope.refeicao = data;
 	      })
 	      .error(onErrorLoadCallback);
-		
+
 	}
-	
+
 	carregamentoInicial();
 
 	function onErrorCallback(data, status) {
@@ -62,6 +62,4 @@ angular.module('NutrifApp').controller('editarRefeicaoCtrl', function ($scope,
 		onErrorCallback(data, status);
 		$state.transitionTo('home.listar-refeicoes', {reload: true});
 	}
-
-
 });

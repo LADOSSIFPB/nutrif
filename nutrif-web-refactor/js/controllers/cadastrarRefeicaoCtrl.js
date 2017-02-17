@@ -43,8 +43,5 @@ angular.module('NutrifApp').controller('cadastrarRefeicaoCtrl', function ($scope
 				.action('OK')
 				.hideDelay(6000)
 			);
-
-      // Redirecionamento
-			$state.transitionTo('home.listar-refeicoes');
 		}
 });
