@@ -8,6 +8,7 @@ import java.util.List;
 
 import javax.annotation.security.DenyAll;
 import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -51,7 +52,7 @@ public class AlunoController {
 	 * @param aluno
 	 * @return
 	 */
-	@PermitAll
+	@RolesAllowed({TipoRole.ADMIN})
 	@POST
 	@Path("/inserir")
 	@Consumes("application/json")
@@ -135,7 +136,7 @@ public class AlunoController {
 	 * @param aluno
 	 * @return
 	 */
-	@PermitAll
+	@RolesAllowed({TipoRole.ADMIN})
 	@POST
 	@Path("/atualizar")
 	@Consumes("application/json")

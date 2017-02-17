@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -30,6 +31,7 @@ import br.edu.ladoss.entity.Funcionario;
 import br.edu.ladoss.entity.Pessoa;
 import br.edu.ladoss.entity.PessoaAcesso;
 import br.edu.ladoss.entity.Role;
+import br.edu.ladoss.enumeration.TipoRole;
 
 @Path("funcionario")
 public class FuncionarioController {
@@ -45,7 +47,7 @@ public class FuncionarioController {
 	 * @param pessoaAcesso
 	 * @return
 	 */
-	@PermitAll
+	@RolesAllowed({TipoRole.ADMIN})
 	@POST
 	@Path("/inserir")
 	@Consumes("application/json")
@@ -133,7 +135,7 @@ public class FuncionarioController {
 	 * 
 	 * @return
 	 */
-	@PermitAll
+	@RolesAllowed({TipoRole.ADMIN})
 	@POST
 	@Path("/atualizar")
 	@Consumes("application/json")
@@ -196,7 +198,7 @@ public class FuncionarioController {
 		return builder.build();		
 	}
 	
-	@PermitAll
+	@RolesAllowed({TipoRole.ADMIN})
 	@GET
 	@Path("/listar")
 	@Produces("application/json")
@@ -261,7 +263,7 @@ public class FuncionarioController {
 		return builder.build();		
 	}
 	
-	@PermitAll
+	@RolesAllowed({TipoRole.ADMIN})
 	@POST
 	@Path("/migrar")
 	@Consumes("application/json")
