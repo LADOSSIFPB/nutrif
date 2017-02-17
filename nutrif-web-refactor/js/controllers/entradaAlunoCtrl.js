@@ -27,6 +27,7 @@
             .success(onSuccessCallback)
             .error(onErrorCallback)
         }
+
       } else if (texto.length === 0) {
         $scope.refeicoes = [];
       }
@@ -35,7 +36,6 @@
     function onSuccessCallback(data, status) {
       if (status == 200) {
         $mdToast.hide(mensagemToast);
-        console.log(data);
         $scope.refeicoes = data;
       }
     }
@@ -102,7 +102,8 @@
     $scope.hide = function() {
 
       // Dados da refeição realizada.
-      refeicaoRealizada.confirmaRefeicaoDia.diaRefeicao = refeicao;
+      refeicaoRealizada.confirmaRefeicaoDia.diaRefeicao = {};
+      refeicaoRealizada.confirmaRefeicaoDia.diaRefeicao.id = refeicao.id;
       refeicaoRealizada.inspetor.id = userService.getUser().id;
 
       // Esconder modal.

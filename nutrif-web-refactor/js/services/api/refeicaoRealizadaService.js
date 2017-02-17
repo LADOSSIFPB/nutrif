@@ -4,22 +4,18 @@ angular.module("NutrifApp").factory("refeicaoRealizadaService", function($http, 
 
 	var _inserirRefeicao = function(refeicao){
 
-        delete refeicao.confirmaRefeicaoDia.diaRefeicao.refeicao.horaInicio;
-		delete refeicao.confirmaRefeicaoDia.diaRefeicao.refeicao.horaFinal;
-		delete refeicao.confirmaRefeicaoDia.diaRefeicao.refeicao.horaPretensao;
-
 		return $http.post(_path + "/inserir", refeicao)
 	};
 
     var _mapaRefeicao = function(peirodoPretensao){
 		return $http.post(_path + "/mapa/consultar", peirodoPretensao);
 	};
-	
+
 	var _getQuantidadeRefeicoesRealizadas = function(diaRefeicao){
-		
+
 		return $http.post(_path+ "/quantificar" , diaRefeicao);
-		
-	} 
+
+	}
 
 	return {
 		inserirRefeicao: _inserirRefeicao,
