@@ -149,7 +149,7 @@ public class Validate {
 		
 		Date horaPrevisaoPretensao = refeicao.getHoraPrevisaoPretensao();
 		if (!time24HoursValidator.validate(horaPrevisaoPretensao)) {
-			//TODO: mensagem de erro.
+			return ErrorFactory.PERIODO_PREVISAO_PRETENSAO;
 		}
 		
 		return VALIDATE_OK;
