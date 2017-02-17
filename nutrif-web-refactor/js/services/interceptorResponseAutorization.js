@@ -1,4 +1,4 @@
-	angular.module('NutrifApp').factory('interceptorResponseAutorization', function ($q) {
+	angular.module('NutrifApp').factory('interceptorResponseAutorization', function ($q, $state) {
 	    return {
 
 	        response: function (response) {
@@ -15,6 +15,7 @@
 							if($status === $ERRO_UNAUTHORIZED){
 									console.log("ResponseError: UNAUTHORIZED-401");
 									// Redirecionar: falta configurar o retorno.
+									$state.transitionTo('login.gerenciamento', {reload: true});
 							}
 
 							return $q.reject(response);
