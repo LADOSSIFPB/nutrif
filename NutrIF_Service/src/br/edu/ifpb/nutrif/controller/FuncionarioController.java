@@ -211,7 +211,7 @@ public class FuncionarioController {
 		return usuarios;
 	}
 	
-	@PermitAll
+	@RolesAllowed({TipoRole.ADMIN})
 	@GET
 	@Path("/id/{id}")
 	@Produces("application/json")
@@ -236,7 +236,7 @@ public class FuncionarioController {
 		return builder.build();
 	}
 	
-	@PermitAll
+	@RolesAllowed({TipoRole.ADMIN})
 	@GET
 	@Path("/listar/nome/{nome}")
 	@Produces("application/json")

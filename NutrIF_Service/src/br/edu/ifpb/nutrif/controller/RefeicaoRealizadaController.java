@@ -278,8 +278,8 @@ public class RefeicaoRealizadaController {
 			
 			try {
 				
-				List<MapaRefeicao> mapasRefeicoesRealizadas = 
-						new ArrayList<MapaRefeicao>();
+				List<MapaRefeicao<RefeicaoRealizada>> mapasRefeicoesRealizadas = 
+						new ArrayList<MapaRefeicao<RefeicaoRealizada>>();
 				
 				// Data entre o intervalo de dataInicio e dataFim.
 				List<Date> datas = DateUtil.getDaysBetweenDates(

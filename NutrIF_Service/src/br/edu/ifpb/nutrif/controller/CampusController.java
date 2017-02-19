@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -16,12 +17,13 @@ import br.edu.ifpb.nutrif.dao.CampusDAO;
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
 import br.edu.ladoss.entity.Campus;
 import br.edu.ladoss.entity.Error;
+import br.edu.ladoss.enumeration.TipoRole;
 
 @Path("campus")
 public class CampusController {
 
 	
-	@PermitAll
+	@RolesAllowed({TipoRole.ADMIN})
 	@GET
 	@Path("/listar")
 	@Produces("application/json")
