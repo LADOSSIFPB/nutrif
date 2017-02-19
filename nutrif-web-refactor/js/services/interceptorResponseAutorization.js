@@ -1,10 +1,10 @@
 angular.module('NutrifApp').factory('interceptorResponseAutorization', function ($q, $injector, userService) {
     return {
 
-       response: function (response) {
-            // Fluxo normal das respostas do servidor.
-            return response || $q.when(response);
-        },
+			response: function (response) {
+          // Fluxo normal das respostas do servidor.
+          return response || $q.when(response);
+      },
 
 			responseError: function (response) {
 

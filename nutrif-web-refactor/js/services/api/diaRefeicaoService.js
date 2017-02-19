@@ -10,34 +10,36 @@ angular.module("NutrifApp").factory("diaRefeicaoService", function($http, config
 		return $http.get(_path + "/buscar/aluno/matricula/" + encodeURI(matricula))
 	};
 
-	var _cadastrarRefeicao = function (refeicao) {
-        delete refeicao.refeicao.horaFinal;
-        delete refeicao.refeicao.horaInicio;
-        delete refeicao.refeicao.horaPretensao;
-		return $http.post(_path + "/inserir", refeicao)
-	};
+  var _cadastrarRefeicao = function (refeicao) {
+    delete refeicao.refeicao.horaFinal;
+    delete refeicao.refeicao.horaInicio;
+    delete refeicao.refeicao.horaPrevisaoPretensao;
+
+    return $http.post(_path + "/inserir", refeicao)
+  };
 
 	var _removerRefeicao = function (refeicao) {
-        delete refeicao.refeicao.horaFinal;
-        delete refeicao.refeicao.horaInicio;
-        delete refeicao.refeicao.horaPretensao;
+    delete refeicao.refeicao.horaFinal;
+    delete refeicao.refeicao.horaInicio;
+    delete refeicao.refeicao.horaPrevisaoPretensao;
+
 		return $http.post(_path + "/remover", refeicao)
 	};
 
 	var _listarHistoricoRefeicaoPorMatricula = function (matricula){
 		return $http.get(_path + "/listar/aluno/matricula/" + encodeURI(matricula))
 	};
-	
+
 	 var _getQuantidadeRefeicoes = function(diaRefeicao){
-		
+
 		return $http.post(_path+ "/quantificar" , diaRefeicao);
-		
+
 	};
-	
+
 	var _getAllVigentesByAlunoMatricula =  function(matricula){
-	 
+
 	 return $http.get(_path+ "/vigentes/listar/aluno/matricula/"+ matricula);
-	 
+
 	}
 
 	return {

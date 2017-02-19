@@ -6,7 +6,7 @@ angular.module('NutrifApp').controller('editarAlunoCtrl', function ($scope,
     $scope.cursos = [];
     $scope.editais = [];
     $scope.refeicoes = [];
-    
+
     $scope.events = [{
 		badgeClass: 'info',
 		badgeIconClass: 'glyphicon-check',
@@ -18,8 +18,8 @@ angular.module('NutrifApp').controller('editarAlunoCtrl', function ($scope,
 		title: 'Second heading',
 		content: 'More awesome content.'
 	 }];
-    
-    
+
+
     var _campi = $scope.campi;
 
     $scope.alunoCopy = {};
@@ -79,7 +79,6 @@ angular.module('NutrifApp').controller('editarAlunoCtrl', function ($scope,
             }
           })
           .error(function (data, status) {
-
             $mdToast.show(
               $mdToast.simple()
               .textContent('Erro ao apagar uma refeição')
@@ -112,7 +111,7 @@ angular.module('NutrifApp').controller('editarAlunoCtrl', function ($scope,
         $scope.refeicoes = data;
       })
       .error(onErrorLoadCallback);
-      
+
       diaRefeicaoService.listarHistoricoRefeicaoPorMatricula(_matricula)
       .success(function (data, status) {
         $scope.historico = data;
@@ -186,29 +185,31 @@ angular.module('NutrifApp').controller('editarAlunoCtrl', function ($scope,
         if ($scope.refeicoes.findIndex(encontrarRefeicao) > -1) {
           $mdToast.show(
             $mdToast.simple()
-            .textContent('Um aluno não pode possuir duas refeições iguais no mesmo dia')
-            .position('top right')
-            .action('OK')
-            .hideDelay(6000)
+              .textContent('Um aluno não pode possuir duas refeições iguais no mesmo dia')
+              .position('top right')
+              .action('OK')
+              .hideDelay(6000)
           );
         } else {
+
           $mdDialog.hide();
+
           refeicao.funcionario = {};
           refeicao.funcionario.id = userService.getUser().id;
           refeicao.aluno = $scope.aluno;
           diaRefeicaoService.cadastrarRefeicao(refeicao)
-          .success(onSuccessCallback)
-          .error(onErrorCallback);
+            .success(onSuccessCallback)
+            .error(onErrorCallback);
         }
       };
 
       function onSuccessCallback (data, status) {
         $mdToast.show(
           $mdToast.simple()
-          .textContent('Refeição adicionada com sucesso')
-          .position('top right')
-          .action('OK')
-          .hideDelay(6000)
+            .textContent('Refeição adicionada com sucesso')
+            .position('top right')
+            .action('OK')
+            .hideDelay(6000)
         );
         atualizarState();
       }
@@ -223,10 +224,10 @@ angular.module('NutrifApp').controller('editarAlunoCtrl', function ($scope,
 
         $mdToast.show(
           $mdToast.simple()
-          .textContent(_message)
-          .position('top right')
-          .action('OK')
-          .hideDelay(6000)
+            .textContent(_message)
+            .position('top right')
+            .action('OK')
+            .hideDelay(6000)
         );
       }
 
