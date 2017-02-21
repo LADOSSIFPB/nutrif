@@ -7,19 +7,6 @@ angular.module('NutrifApp').controller('editarAlunoCtrl', function ($scope,
     $scope.editais = [];
     $scope.refeicoes = [];
 
-    $scope.events = [{
-		badgeClass: 'info',
-		badgeIconClass: 'glyphicon-check',
-		title: 'First heading',
-		content: 'Some awesome content.'
-	 }, {
-		badgeClass: 'warning',
-		badgeIconClass: 'glyphicon-credit-card',
-		title: 'Second heading',
-		content: 'More awesome content.'
-	 }];
-
-
     var _campi = $scope.campi;
 
     $scope.alunoCopy = {};
@@ -115,6 +102,7 @@ angular.module('NutrifApp').controller('editarAlunoCtrl', function ($scope,
       diaRefeicaoService.listarHistoricoRefeicaoPorMatricula(_matricula)
       .success(function (data, status) {
         $scope.historico = data;
+        console.log($scope.historico);
       })
       .error(onErrorLoadCallback);
 
@@ -160,7 +148,7 @@ angular.module('NutrifApp').controller('editarAlunoCtrl', function ($scope,
       $state.transitionTo('home.perfil-aluno', {matricula: $scope.aluno.matricula}, {reload: true});
     }
 
-  });
+  })
 
   // Controller Adicionar Refeição.
   function adicionarRefeicaoCtrl ($scope, $mdDialog, $mdToast, $state, $stateParams, userService,
