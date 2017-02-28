@@ -16,6 +16,13 @@ import org.apache.logging.log4j.Logger;
 
 import br.edu.ifpb.nutrif.util.FileUtil;
 
+/**
+ * Criação de estrutura de diretório para armazenamento das imagens de perfil.
+ * A rotina verificará se alguma estrutura já foi criada anteriormente.
+ * 
+ * @author Rhavy
+ *
+ */
 @WebListener
 public class DirectoryListener implements ServletContextListener {
 	

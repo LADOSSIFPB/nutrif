@@ -129,9 +129,9 @@ public class NutrIFRestServices {
     public String sayHtmlHello() {
     	
         return "<html>"
-        		+ " <title>IFOpenDoors Service - Home</title>" 
+        		+ " <title>NutrIF Service - Home</title>" 
         		+ " <body>"
-                	+ " <h1>IFOpenDoors - Services </h1>"
+                	+ " <h1>NutrIF - Services </h1>"
                 	+ " Server path: " + servletContext.getContextPath()
                 + " </body>"
                 + " </html> ";

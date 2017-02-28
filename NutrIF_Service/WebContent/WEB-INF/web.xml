@@ -45,8 +45,13 @@
 	      <param-value>br.edu.ifpb.nutrif.service.SecurityInterceptor</param-value>
 	</context-param>
 	
-	<!-- SSL -->
-	<!-- 
+	<!-- Verificação e preparação de Response com Erro/Exceção -->
+	<context-param>
+        <param-name>resteasy.providers</param-name>
+        <param-value>br.edu.ifpb.nutrif.service.DefaultExceptionHandler</param-value>
+	</context-param>
+
+	<!-- SSL
 	<security-constraint>
 
 		<web-resource-collection>	

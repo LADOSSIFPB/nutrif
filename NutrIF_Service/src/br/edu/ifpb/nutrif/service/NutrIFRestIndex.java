@@ -6,6 +6,7 @@ import javax.annotation.security.PermitAll;
 import javax.servlet.ServletContext;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
@@ -15,6 +16,9 @@ import javax.ws.rs.core.Response.Status;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import br.edu.ifpb.nutrif.exception.RestServiceExceptionNutrIF;
+import br.edu.ifpb.nutrif.util.StringUtil;
 
 /**
  * Root of RESTful api. It provides login and logout. Also have method for
@@ -74,4 +78,26 @@ public class NutrIFRestIndex {
     	
     	return Response.Status.OK;
     }
+    
+    @Path("/teste/{id}")
+    @GET
+	public Response getUserBId(@PathParam("id") String id) throws RestServiceExceptionNutrIF {
+		
+    	// validate mandatory field
+		if (id == null || (id!=null && id.trim() == StringUtil.STRING_VAZIO)) {
+			throw new RestServiceExceptionNutrIF("id is not present in request !!");
+		}
+		// Validate proper format
+		try {
+			
+			Integer.parseInt(id);
+			
+		} catch (NumberFormatException e) {
+			
+			throw new RestServiceExceptionNutrIF("id is not a number !!");
+		}
+		
+		// Process the request
+		return Response.ok().entity("User with ID " + id + " found !!").build();
+	}
 }

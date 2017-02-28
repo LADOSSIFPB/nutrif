@@ -143,7 +143,7 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 					+ " where dr.aluno.matricula = :matricula"
 					+ " and dr.ativo = :ativo"
 					+ " and dr.edital.ativo = :ativo"
-					+ " order by dr.dia.id asc";
+					+ " order by dr.edital.id, dr.id, dr.dia.id asc";
 			
 			Query query = session.createQuery(hql);			
 			query.setParameter("matricula", matricula);
@@ -176,13 +176,15 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 			String hql = "from DiaRefeicao as dr"
 					+ " where dr.aluno.matricula = :matricula"
 					+ " and dr.ativo = :ativo"
-					+ " and CURRENT_TIME() <= dr.edital.dataFinal"
+					+ " and CURRENT_TIMESTAMP() <= dr.edital.dataFinal"
 					+ " and dr.edital.ativo = :ativo"
-					+ " order by dr.dia.id asc";
+					+ " order by dr.dia.id asc";			
 			
-			Query query = session.createQuery(hql);			
-			query.setParameter("matricula", matricula);
+			Query query = session.createQuery(hql);	
+			
+			query.setParameter("matricula", matricula.trim());
 			query.setParameter("ativo", BancoUtil.ATIVO);
+			logger.info("Consulta: " + query.getQueryString());
 			
 			diasRefeicao = (List<DiaRefeicao>) query.list();
 	        
@@ -340,6 +342,7 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 					+ " and dr.dia.id = :idDia"
 					+ " and dr.refeicao.id = :idRefeicao"
 					+ " and dr.ativo = :ativo"
+					+ " and dr.edital.dataFinal >= CURRENT_TIMESTAMP()"
 					+ " order by dr.dataInsercao DESC";
 			
 			Aluno aluno = diaRefeicao.getAluno();

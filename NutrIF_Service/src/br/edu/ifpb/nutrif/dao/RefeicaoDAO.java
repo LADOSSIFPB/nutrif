@@ -81,9 +81,10 @@ public class RefeicaoDAO extends GenericDao<Integer, Refeicao>{
 					+ " where r.tipo like :tipo";
 			
 			Query query = session.createQuery(hql);
-			query.setParameter("tipo", "%" + tipo + "%");
+			query.setParameter("tipo", "%" + tipo + "%");			
 	        
 			refeicoes = (List<Refeicao>) query.list();
+			logger.info("Refeições: " + refeicoes);
 			
 		} catch (HibernateException hibernateException) {
 			

@@ -453,8 +453,8 @@ public class DiaRefeicaoController {
 
 				List<DiaRefeicao> diasRefeicao = DiaRefeicaoDAO
 						.getInstance().getAllVigentesByAlunoMatricula(matricula);
-				logger.debug("Dias das Refeições de Editais Vigentes: " 
-						+ diasRefeicao);
+				logger.info("Quantidade de Dias das Refeições de Editais Vigentes: " 
+						+ diasRefeicao.size());
 				
 				builder.status(Response.Status.OK);
 				builder.entity(diasRefeicao);
@@ -481,7 +481,7 @@ public class DiaRefeicaoController {
 	public Response getAllByAlunoMatricula(
 			@PathParam("matricula") String matricula) {
 		
-		logger.info("Consulta do Dia da Refeição pela Matrícula: " + matricula);
+		logger.info("Consulta histórico dos Dias das Refeições do Aluno pela Matrícula: " + matricula);
 		
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
 		builder.expires(new Date());
@@ -495,7 +495,7 @@ public class DiaRefeicaoController {
 
 				List<DiaRefeicao> diasRefeicao = DiaRefeicaoDAO
 						.getInstance().getAllByAlunoMatricula(matricula);
-				logger.debug("Dias das Refeições: " + diasRefeicao);
+				logger.info("Quantidade dos Dias das Refeições: " + diasRefeicao.size());
 				
 				builder.status(Response.Status.OK);
 				builder.entity(diasRefeicao);

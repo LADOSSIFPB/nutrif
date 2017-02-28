@@ -122,6 +122,8 @@ public class ErrorFactory {
 	public static final int DIA_PREVISTO_PRETENSAO_INVALIDO = 51;
 	public static final int PERIODO_PREVISAO_PRETENSAO = 52;
 	
+	public static final int ERRO_INTERNO_SERVICO = 53;
+	
 	/*
 	 * Mapa de erros: código e mensagem.
 	 */
@@ -181,6 +183,8 @@ public class ErrorFactory {
 		hashMap.put(TIPO_REFEICAO_INVALIDO, "Tipo que descreve a refeição inválido.");	
 		hashMap.put(DIA_PREVISTO_PRETENSAO_INVALIDO, "Quantidade de dia(s) previtos para a pretensão da refeição inválido.");
 		hashMap.put(PERIODO_PREVISAO_PRETENSAO, "Período de Previsão da Pretensão inválido");
+		hashMap.put(ERRO_INTERNO_SERVICO, "Ops! Aconteceu algo estranho no NutrIF. Contacte os administradores.");
+		
 		
 		return hashMap;
 	}
