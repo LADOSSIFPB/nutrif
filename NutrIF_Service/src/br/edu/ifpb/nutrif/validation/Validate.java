@@ -638,4 +638,14 @@ public class Validate {
 		
 		return VALIDATE_OK;
 	}
+
+	public static int removerEdital(int idEdital) {
+
+		if (!numeroValidator.isInteiroPositivo(idEdital)) {
+			
+			return ErrorFactory.ID_EDITAL_INVALIDO;
+		}
+		
+		return VALIDATE_OK;
+	}
 }

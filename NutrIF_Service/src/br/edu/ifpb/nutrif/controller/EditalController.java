@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -29,11 +29,12 @@ import br.edu.ladoss.entity.Edital;
 import br.edu.ladoss.entity.Error;
 import br.edu.ladoss.entity.Evento;
 import br.edu.ladoss.entity.Funcionario;
+import br.edu.ladoss.enumeration.TipoRole;
 
 @Path("edital")
 public class EditalController {
 
-	@PermitAll
+	@RolesAllowed({TipoRole.ADMIN})
 	@POST
 	@Path("/inserir")
 	@Consumes("application/json")
@@ -123,7 +124,53 @@ public class EditalController {
 		return builder.build();		
 	}
 	
-	@PermitAll
+	@RolesAllowed({TipoRole.ADMIN})
+	@GET
+	@Path("/id/{id}")
+	@Produces("application/json")
+	public Response remover(@PathParam("id") int idEdital) {
+		
+		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
+		builder.expires(new Date());
+		
+		// Validação dos dados de entrada.
+		int validacao = Validate.removerEdital(idEdital);
+		
+		if (validacao == Validate.VALIDATE_OK) {
+			
+			try {			
+				
+				// Recuperar Dia da Refeição.
+				Edital edital = EditalDAO.getInstance().getById(idEdital);
+				
+				if (edital != null && edital.getId() != BancoUtil.ID_VAZIO) {
+					
+					// Desabilitar.
+					edital.setAtivo(BancoUtil.INATIVO);
+					
+					// Atualizar.
+					edital = EditalDAO.getInstance().update(edital);
+						
+					// Operação realizada com sucesso.
+					builder.status(Response.Status.OK);
+				}				
+				
+			} catch (SQLExceptionNutrIF exception) {
+
+				builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
+						exception.getError());			
+			}
+			
+		} else {
+			
+			Error erro = ErrorFactory.getErrorFromIndex(validacao);
+			builder.status(Response.Status.NOT_ACCEPTABLE).entity(erro);
+		}				
+		
+		return builder.build();
+	}
+	
+	@RolesAllowed({TipoRole.ADMIN})
 	@GET
 	@Path("/listar")
 	@Produces("application/json")
@@ -136,7 +183,7 @@ public class EditalController {
 		return editais;
 	}
 	
-	@PermitAll
+	@RolesAllowed({TipoRole.ADMIN})
 	@GET
 	@Path("/listar/vigentes")
 	@Produces("application/json")
@@ -149,7 +196,7 @@ public class EditalController {
 		return editais;
 	}
 	
-	@PermitAll
+	@RolesAllowed({TipoRole.ADMIN})
 	@GET
 	@Path("/id/{id}")
 	@Produces("application/json")
@@ -183,7 +230,7 @@ public class EditalController {
 		return builder.build();
 	}
 	
-	@PermitAll
+	@RolesAllowed({TipoRole.ADMIN})
 	@GET
 	@Path("/listar/nome/{nome}")
 	@Produces("application/json")
@@ -227,7 +274,7 @@ public class EditalController {
 	 * @param refeicao
 	 * @return
 	 */
-	@PermitAll
+	@RolesAllowed({TipoRole.ADMIN})
 	@POST
 	@Path("/atualizar")
 	@Consumes("application/json")
