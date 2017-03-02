@@ -126,7 +126,7 @@ public class EditalController {
 	
 	@RolesAllowed({TipoRole.ADMIN})
 	@GET
-	@Path("/id/{id}")
+	@Path("/remover/id/{id}")
 	@Produces("application/json")
 	public Response remover(@PathParam("id") int idEdital) {
 		
