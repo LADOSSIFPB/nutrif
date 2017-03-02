@@ -46,6 +46,12 @@ public class Error {
 		this.mensagem = mensagem;
 	}
 	
+	public Error(int codigo, String mensagem, String detalhe) {
+		this.codigo = codigo;
+		this.mensagem = mensagem;
+		this.detalhe = detalhe;
+	}
+	
 	@XmlElement
 	public int getId() {
 		return id;

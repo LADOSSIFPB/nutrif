@@ -11,6 +11,7 @@ import javax.ws.rs.ext.Provider;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import br.edu.ifpb.nutrif.dao.ErrorDAO;
 import br.edu.ifpb.nutrif.exception.RestServiceExceptionNutrIF;
 import br.edu.ladoss.entity.Error;
 
@@ -26,16 +27,24 @@ public class DefaultExceptionHandler implements ExceptionMapper<RestServiceExcep
 	private static Logger logger = LogManager.getLogger(DefaultExceptionHandler.class);
 	
     @Override
-    public Response toResponse(RestServiceExceptionNutrIF exception) {        
-        
-    	ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
-		builder.expires(new Date());
-		builder.type(MediaType.APPLICATION_JSON);
+    public Response toResponse(RestServiceExceptionNutrIF exception) {    	
 		
-    	// For simplicity I am preparing error xml by hand.
-        // Ideally we should create an ErrorResponse class to hold the error info.
+    	// Data e hora atual.
+    	Date agora = new Date();
+    	
+    	// Mensagem de erro e detalhe.
     	logger.info("Processando a exceção.");
     	Error error = exception.getError();
+    	error.setRegistro(agora);
+    	logger.info("Error: " + error.getDetalhe());
+
+    	// Inserir erro na base de dados.
+    	ErrorDAO.getInstance().insert(error); 
+    	
+    	// Resposta com erro.
+    	ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
+		builder.expires(agora);
+		builder.type(MediaType.APPLICATION_JSON);
     	
     	builder.status(Response.Status.INTERNAL_SERVER_ERROR);
 		builder.entity(error);

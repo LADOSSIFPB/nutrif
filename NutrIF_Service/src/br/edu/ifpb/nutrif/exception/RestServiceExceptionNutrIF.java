@@ -4,8 +4,7 @@ import java.io.Serializable;
 
 import br.edu.ladoss.entity.Error;
 
-public class RestServiceExceptionNutrIF extends Exception 
-	implements NutrIFException, Serializable {
+public class RestServiceExceptionNutrIF extends Exception implements NutrIFException, Serializable {
 
 	private static final long serialVersionUID = 6924999521317843314L;
 

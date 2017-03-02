@@ -11,8 +11,7 @@ import org.hibernate.exception.ConstraintViolationException;
 
 import br.edu.ladoss.entity.Error;
 
-public class SQLExceptionNutrIF extends RuntimeException 
-	implements NutrIFException {
+public class SQLExceptionNutrIF extends RuntimeException implements NutrIFException {
 
 	private static final long serialVersionUID = 6315776920468858333L;
 
