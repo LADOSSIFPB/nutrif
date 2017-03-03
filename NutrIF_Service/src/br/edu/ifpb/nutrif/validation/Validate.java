@@ -223,6 +223,26 @@ public class Validate {
 		return inserirEdital(edital);
 	}
 	
+	public static int removerEdital(int idEdital) {
+
+		if (!numeroValidator.isInteiroPositivo(idEdital)) {
+			
+			return ErrorFactory.ID_EDITAL_INVALIDO;
+		}
+		
+		return VALIDATE_OK;
+	}
+	
+	public static int diaRefeicaoEdital(int idEdital) {
+
+		if (!numeroValidator.isInteiroPositivo(idEdital)) {
+			
+			return ErrorFactory.ID_EDITAL_INVALIDO;
+		}
+		
+		return VALIDATE_OK;
+	}
+	
 	public static int pretensaoRefeicao(PretensaoRefeicao pretensaoRefeicao) {
 		
 		logger.info("Validação para Pretensão Refeição.");
@@ -634,16 +654,6 @@ public class Validate {
 		if (!dataValidator.isGrowingDate(inicio, fim)) {
 			
 			return ErrorFactory.PERIODO_REFEICAO_INVALIDO;
-		}
-		
-		return VALIDATE_OK;
-	}
-
-	public static int removerEdital(int idEdital) {
-
-		if (!numeroValidator.isInteiroPositivo(idEdital)) {
-			
-			return ErrorFactory.ID_EDITAL_INVALIDO;
 		}
 		
 		return VALIDATE_OK;

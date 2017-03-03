@@ -425,6 +425,31 @@ public class DiaRefeicaoController {
 		return builder.build();		
 	}
 	
+	@RolesAllowed({TipoRole.ADMIN})
+	@GET
+	@Path("/buscar/edital/id/{id}")
+	@Produces("application/json")
+	public Response getDiaRefeicaoByEdital(@PathParam("id") int idEdital) {
+		
+		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
+		builder.expires(new Date());
+		
+		// Validação dos dados de entrada.
+		int validacao = Validate.diaRefeicaoEdital(idEdital);
+		
+		if (validacao == Validate.VALIDATE_OK) {
+			
+			Edital edital = EditalDAO.getInstance().getById(idEdital);
+			
+			if (edital != null) {
+				
+				List<DiaRefeicao> diasRefeicao = DiaRefeicaoDAO.getInstance().getAllByEdital(idEdital);
+			}
+		}
+		
+		return builder.build();
+	}
+	
 	/**
 	 * Listar todos os dias de refeições <b>ativos<b> de um Aluno pela Matrícula.
 	 * 

@@ -428,6 +428,16 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 		return diaRefeicao;
 	}
 	
+	public List<DiaRefeicao> getAllByEdital(int idEdital) {
+
+		Session session = HibernateUtil.getSessionFactory().openSession();
+
+		List<DiaRefeicao> diasRefeicao = new ArrayList<DiaRefeicao>();
+		//TODO: Consulta.
+		
+		return diasRefeicao;
+	}
+	
 	@Override
 	public Class<?> getEntityClass() {
 		return DiaRefeicao.class;
