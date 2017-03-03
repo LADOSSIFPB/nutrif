@@ -48,7 +48,70 @@ angular.module('NutrifApp')
 
 	
   }
- 
+  
+  
+  this.remove = function (id) {
+	       
+	 $mdDialog.show({
+	    controller: confirmarRemocaoRefeicaoCtrl,
+	    templateUrl: 'view/manager/modals/modal-confirmar-remocao-refeicao.html',
+	    parent: angular.element(document.body),
+	    clickOutsideToClose:true,
+	    fullscreen: false,
+	    locals : {
+	        id: id
+	    }
+	 })
+  }
+
+  
+  function  confirmarRemocaoRefeicaoCtrl (id, $scope, $mdDialog, $mdToast, editalService) {
+
+	    $scope.id = id;
+
+	    $scope.hide = function() {
+	        
+	    	editalService.removerEdital(id)
+			.success(function (data, status) {
+
+				
+				$mdDialog.cancel();
+				$state.transitionTo('home.listar-edital', {reload: true});
+				 
+				$mdToast.show(
+					$mdToast.simple()
+					.textContent('Edital removido com sucesso!')
+					.position('top right')
+					.action('OK')
+					.hideDelay(6000)
+				);
+			})
+			.error(onErrorCallback);
+	    
+	    };
+	    function onErrorCallback (data, status){
+	        var _message = '';
+
+	        if (!data) {
+	            _message = 'Erro no servidor, por favor chamar administração ou suporte.'
+	        } else {
+	            _message = data.mensagem
+	        }
+
+	        $mdToast.show(
+	            $mdToast.simple()
+	            .textContent(_message)
+	            .position('top right')
+	            .action('OK')
+	            .hideDelay(6000)
+	        );
+	    }
+
+	    $scope.cancel = function() {
+	        $mdDialog.cancel();
+	    };
+	};
+
 
   function carregamentoInicial() {
         var _id = $stateParams.id;
@@ -147,6 +210,10 @@ angular.module('NutrifApp')
 			return responsavel;
 		}
     }
+	
+	
+
+
 		
 })
 .config(function($mdDateLocaleProvider) {

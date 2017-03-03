@@ -25,6 +25,10 @@ angular.module("NutrifApp").factory("editalService", function($http, config){
 	var _atualizarEdital = function (edital){
 		return $http.post(_path + "/atualizar", edital)
 	};
+	
+	var _removerEdital = function (id){
+		return $http.get(_path + "/remover/id/"+ id)
+	};
 
 	return {
 		cadastrarEdital: _cadastrarEdital,
@@ -32,6 +36,7 @@ angular.module("NutrifApp").factory("editalService", function($http, config){
 		listarEdital: _listarEdital,
 		buscarEditalPorNome: _buscarEditalPorNome,
 		getEditalById: _getEditalById,
-		atualizarEdital: _atualizarEdital
+		atualizarEdital: _atualizarEdital,
+		removerEdital: _removerEdital
 	};
 });
