@@ -78,26 +78,4 @@ public class NutrIFRestIndex {
     	
     	return Response.Status.OK;
     }
-    
-    @Path("/teste/{id}")
-    @GET
-	public Response getUserBId(@PathParam("id") String id) throws RestServiceExceptionNutrIF {
-		
-    	// validate mandatory field
-		if (id == null || (id!=null && id.trim() == StringUtil.STRING_VAZIO)) {
-			throw new RestServiceExceptionNutrIF("id is not present in request !!");
-		}
-		// Validate proper format
-		try {
-			
-			Integer.parseInt(id);
-			
-		} catch (NumberFormatException e) {
-			
-			throw new RestServiceExceptionNutrIF("id is not a number !!");
-		}
-		
-		// Process the request
-		return Response.ok().entity("User with ID " + id + " found !!").build();
-	}
 }

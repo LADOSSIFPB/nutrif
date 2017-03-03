@@ -47,7 +47,9 @@ public class NutrIFRestServices {
 	}
 
 	private static final class ResourceDescription {
+		
 		private String basePath;
+		
 		private List<MethodDescription> calls;
 
 		public ResourceDescription(String basePath) {
@@ -112,30 +114,8 @@ public class NutrIFRestServices {
 			return linkList;
 		}
 	}
-
 	
 	@javax.ws.rs.core.Context public static ServletContext servletContext;
-	
-	 /**
-     * Return html page with information about REST api. It contains methods all
-     * methods provide by REST api.
-     * 
-     * @return HTML page which has information about all methods of REST api.
-     */
-	@PermitAll
-	@Path("/welcome")
-    @GET
-    @Produces(MediaType.TEXT_HTML)
-    public String sayHtmlHello() {
-    	
-        return "<html>"
-        		+ " <title>NutrIF Service - Home</title>" 
-        		+ " <body>"
-                	+ " <h1>NutrIF - Services </h1>"
-                	+ " Server path: " + servletContext.getContextPath()
-                + " </body>"
-                + " </html> ";
-    }
     
 	@PermitAll
 	@GET
