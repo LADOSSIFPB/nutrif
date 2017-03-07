@@ -40,8 +40,9 @@ angular.module("NutrifApp").controller("listarPretensaoCtrl", function ($scope,
     var carregarDiaRefeicaoAluno = function () {
 
         var _matricula = userService.getUser().matricula;
+        console.log(userService.getUser());
 
-        diaRefeicaoService.listaRefeicaoPorMatricula(_matricula)
+        diaRefeicaoService.getAllVigentesByAlunoMatricula(_matricula)
             .success(function (data, status) {
                 $scope.refeicoes = data;
             })
@@ -170,12 +171,15 @@ function generateQrCtrl (pretensao, code, $scope, $mdDialog, userService, $state
 
     // Finalizar acesso do aluno retornando ao Login.
     $scope.finalizar = function() {
-
-        $mdDialog.cancel();
-
-        // Remover dados do usuário do cookie.
-        userService.removeUser();
-
-        $state.go("login.pretensao");
+    	
+    	loginService.fazerLogout().success(function (data, status) {
+    		
+    		 	$mdDialog.cancel();
+    	        // Remover dados do usuário do cookie.
+    	        userService.removeUser();
+    	        $state.go("login.pretensao");
+    	        
+    	}).error(onErrorCallback);
+       
     };
 };
