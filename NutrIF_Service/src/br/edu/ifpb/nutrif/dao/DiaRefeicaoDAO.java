@@ -303,7 +303,7 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 					+ " from DiaRefeicao as dr"
 					+ " where dr.dia.id = :idDia"
 					+ " 	and dr.refeicao.id = :idRefeicao"
-					+ "		and CURRENT_TIME() between dr.edital.dataInicial and dr.edital.dataFinal"
+					+ "		and CURRENT_TIMESTAMP() between dr.edital.dataInicial and dr.edital.dataFinal"
 					+ " 	and dr.edital.ativo = :ativo"
 					+ " 	and dr.ativo = :ativo";
 			
@@ -428,12 +428,34 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 		return diaRefeicao;
 	}
 	
-	public List<DiaRefeicao> getAllByEdital(int idEdital) {
+	public List<DiaRefeicao> getAllAtivoByEdital(int idEdital) {
 
 		Session session = HibernateUtil.getSessionFactory().openSession();
 
 		List<DiaRefeicao> diasRefeicao = new ArrayList<DiaRefeicao>();
-		//TODO: Consulta.
+		
+		try {
+			
+			String hql = "from DiaRefeicao as dr"
+					+ " where dr.edital.id = :idEdital"
+					+ " and dr.ativo = :ativo";
+			
+			Query query = session.createQuery(hql);			
+			query.setParameter("idEdital", idEdital);
+			query.setParameter("ativo", BancoUtil.ATIVO);
+			
+			diasRefeicao = (List<DiaRefeicao>) query.list();
+	        
+		} catch (HibernateException hibernateException) {
+			
+			session.getTransaction().rollback();
+			
+			throw new SQLExceptionNutrIF(hibernateException);
+			
+		} finally {
+		
+			session.close();
+		}		
 		
 		return diasRefeicao;
 	}

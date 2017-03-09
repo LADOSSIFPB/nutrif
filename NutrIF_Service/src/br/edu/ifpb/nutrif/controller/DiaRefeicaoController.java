@@ -443,7 +443,10 @@ public class DiaRefeicaoController {
 			
 			if (edital != null) {
 				
-				List<DiaRefeicao> diasRefeicao = DiaRefeicaoDAO.getInstance().getAllByEdital(idEdital);
+				List<DiaRefeicao> diasRefeicao = DiaRefeicaoDAO.getInstance().getAllAtivoByEdital(idEdital);
+				
+				builder.status(Response.Status.OK);
+				builder.entity(diasRefeicao);
 			}
 		}
 		
@@ -499,6 +502,12 @@ public class DiaRefeicaoController {
 		return builder.build();		
 	}
 	
+	/**
+	 * Consultar histórico dos dias das defeições do Aluno pela Matrícula.
+	 * 
+	 * @param matricula
+	 * @return
+	 */
 	@PermitAll
 	@GET
 	@Path("/listar/aluno/matricula/{matricula}")
@@ -506,7 +515,7 @@ public class DiaRefeicaoController {
 	public Response getAllByAlunoMatricula(
 			@PathParam("matricula") String matricula) {
 		
-		logger.info("Consulta histórico dos Dias das Refeições do Aluno pela Matrícula: " + matricula);
+		logger.info("Consultar histórico dos Dias das Refeições do Aluno pela Matrícula: " + matricula);
 		
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
 		builder.expires(new Date());
@@ -544,7 +553,7 @@ public class DiaRefeicaoController {
 	@GET
 	@Path("/quantificar/edital/{id}")
 	@Produces("application/json")
-	public Response getQuantidadeAlunoDiaRefeicao(
+	public Response getQuantidadeAlunoDiaRefeicaoByEdital(
 			@PathParam("id") int idEdital) {
 		
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);

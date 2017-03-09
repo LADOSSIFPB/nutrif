@@ -25,6 +25,7 @@ import br.edu.ifpb.nutrif.util.BancoUtil;
 import br.edu.ifpb.nutrif.util.DateUtil;
 import br.edu.ifpb.nutrif.validation.Validate;
 import br.edu.ladoss.entity.Campus;
+import br.edu.ladoss.entity.DiaRefeicao;
 import br.edu.ladoss.entity.Edital;
 import br.edu.ladoss.entity.Error;
 import br.edu.ladoss.entity.Evento;
@@ -150,10 +151,25 @@ public class EditalController {
 					
 					// Atualizar.
 					edital = EditalDAO.getInstance().update(edital);
+					
+					// Desativação dos dias de refeição associados ao Edital.
+					List<DiaRefeicao> diasRefeicao = DiaRefeicaoDAO.getInstance().getAllAtivoByEdital(idEdital);
+					
+					for(DiaRefeicao diaRefeicao: diasRefeicao) {
+						
+						diaRefeicao.setAtivo(BancoUtil.INATIVO);
+						DiaRefeicaoDAO.getInstance().update(diaRefeicao);
+					}
 						
 					// Operação realizada com sucesso.
 					builder.status(Response.Status.OK);
-				}				
+				
+				} else {
+					
+					// Edital não encontrado.
+					Error erro = ErrorFactory.getErrorFromIndex(ErrorFactory.ID_EDITAL_INVALIDO);
+					builder.status(Response.Status.NOT_FOUND).entity(erro);
+				}
 				
 			} catch (SQLExceptionNutrIF exception) {
 
