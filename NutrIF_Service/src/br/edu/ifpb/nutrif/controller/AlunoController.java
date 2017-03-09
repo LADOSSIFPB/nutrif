@@ -24,6 +24,7 @@ import br.edu.ifpb.nutrif.dao.CursoDAO;
 import br.edu.ifpb.nutrif.dao.RoleDAO;
 import br.edu.ifpb.nutrif.exception.EmailExceptionNutrIF;
 import br.edu.ifpb.nutrif.exception.ErrorFactory;
+import br.edu.ladoss.entity.Error;
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
 import br.edu.ifpb.nutrif.util.BancoUtil;
 import br.edu.ifpb.nutrif.util.EmailUtil;
@@ -324,7 +325,7 @@ public class AlunoController {
 	 */
 	@PermitAll
 	@POST
-	@Path("/acesso/inserir")
+	@Path("/inserir/acesso")
 	@Consumes("application/json")
 	@Produces("application/json")
 	public Response insertAcesso(AlunoAcesso alunoAcesso) {
@@ -512,7 +513,7 @@ public class AlunoController {
 		return builder.build();
 	}
 	
-	@PermitAll	
+	@DenyAll	
 	@GET
 	@Path("/inserir/role")
 	@Consumes("application/json")
@@ -544,6 +545,47 @@ public class AlunoController {
 
 			builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
 					exception.getError());
+		}
+		
+		return builder.build();
+	}
+	
+	@PermitAll
+	@GET
+	@Path("/verificar/acesso/matricula/{matricula}")
+	@Produces("application/json")
+	public Response verificarAcesso(@PathParam("") String matricula) {
+		
+		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
+		builder.expires(new Date());
+		
+		// Validação dos dados de entrada.
+		int validacao = Validate.verificarAcessoAluno(matricula);
+		
+		if (validacao == Validate.VALIDATE_OK) {
+			
+			try {
+				
+				Aluno aluno = AlunoDAO.getInstance().getByMatricula(matricula);
+				
+				if (aluno != null) {
+					
+					// Operação realizada com sucesso.
+					builder.status(Response.Status.OK);
+					builder.entity(aluno);
+					
+				} else {
+					
+					builder.status(Response.Status.NOT_FOUND);
+					Error erro =  ErrorFactory.getErrorFromIndex(
+							ErrorFactory.ALUNO_NAO_ENCONTRADO);					
+				}
+				
+			} catch (SQLExceptionNutrIF exception) {
+
+				builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
+						exception.getError());
+			}			
 		}
 		
 		return builder.build();

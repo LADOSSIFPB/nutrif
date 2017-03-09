@@ -658,4 +658,13 @@ public class Validate {
 		
 		return VALIDATE_OK;
 	}
+
+	public static int verificarAcessoAluno(String matricula) {
+		
+		if (!numeroValidator.validate(matricula) 
+				|| !stringValidator.validate(matricula, 11, 12))
+			return ErrorFactory.MATRICULA_ALUNO_INVALIDA;
+		
+		return VALIDATE_OK;
+	}
 }
