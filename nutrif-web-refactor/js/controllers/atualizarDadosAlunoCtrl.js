@@ -1,0 +1,62 @@
+angular.module('NutrifApp').controller('atualizarDadosAlunoCtrl', function ($scope, $mdToast,
+  $state, cursoService, alunoService, campusService,$stateParams) {
+	
+	$scope.aluno = {};
+	
+	this.atualizar = function (aluno) {
+	      alunoService.atualizarAluno(aluno)
+	      .success(onSuccessCallback)
+	      .error(onErrorCallback);
+	    }
+	
+		function onSuccessCallback (data, status) {
+		      $mdToast.show(
+		        $mdToast.simple()
+		        .textContent('Aluno(a) atualizado(a) com sucesso!')
+		        .position('top right')
+		        .action('OK')
+		        .hideDelay(6000)
+		      );
+		      
+		      $state.go("pretensao.listar-pretensao");
+	    }
+
+		function onErrorCallback (data, status) {
+		      var _message = '';
+
+		      if (!data) {
+		        _message = 'Ocorreu um erro na comunicação com o servidor, favor chamar o suporte.'
+		      } else {
+		        _message = data.mensagem
+		      }
+
+		      $mdToast.show(
+		        $mdToast.simple()
+		        .textContent(_message)
+		        .position('top right')
+		        .action('OK')
+		        .hideDelay(6000)
+		      );
+       }
+		
+	   function carregamentoInicial(){
+		   
+		   var _matricula = $stateParams.matricula;
+		   console.log(_matricula);
+
+		   alunoService.buscaAlunoPorMatricula(_matricula)
+           .success(function (data, status) {
+        	  
+        	   console.log(data);
+        	   $scope.aluno = data;
+    
+        	
+           })
+           .error(onErrorCallback);
+           
+	   }
+	   
+	   carregamentoInicial();
+	    
+	
+});

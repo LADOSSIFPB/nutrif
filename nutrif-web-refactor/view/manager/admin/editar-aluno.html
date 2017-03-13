@@ -119,7 +119,7 @@
 	</md-tab>
 	<md-tab label="Histórico de refeições">
 		<timeline>
-			<timeline-event ng-repeat="refeicao in historico" side="alternate">
+			<timeline-event ng-repeat="refeicao in historico" side="{{refeicao.side}}">
 				<timeline-panel class="{{event.badgeClass}}">
 					<timeline-heading>
 						<h4>{{refeicao.tipo}}</h4>
@@ -129,6 +129,6 @@
 					<p>Inserido: {{refeicao.edital.dataInsercao | date}}</p>
 				</timeline-panel>
 			</timeline-event>
-		</timeline>
+		</timeline> 	
 	</md-tab>
 </md-tabs>

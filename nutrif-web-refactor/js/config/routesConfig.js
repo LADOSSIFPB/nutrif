@@ -221,6 +221,16 @@ angular.module('NutrifApp').config(function ($stateProvider, $urlRouterProvider)
 			controllerAs: 'listar',
 			module: 'comensal'
 		})
+		
+	    .state('pretensao.atualizar-dados-aluno', {
+			url: '/atualizar/aluno/:matricula',
+			templateUrl: 'view/pretensao/atualizar-dados-aluno.html',
+			title: 'Atualizar dados do aluno',
+			controller: 'atualizarDadosAlunoCtrl',
+			controllerAs: 'atualizar',
+			module: 'comensal'
+		})
+
 
 		/* Refeição */
 		.state('home.adicionar-refeicao', {

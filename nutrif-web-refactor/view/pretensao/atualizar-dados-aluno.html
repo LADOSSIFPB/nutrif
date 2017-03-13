@@ -1,0 +1,49 @@
+<md-card layout-padding style="padding-left: 6%; padding-right: 6%; padding-bottom: 4%; padding-top: 3%">
+  <form layout="column" ng-submit="atualizar.atualizar(atualizar.aluno)">
+    
+    <!-- Nome -->
+    <md-input-container class="md-icon-float md-block">
+      <label>Nome</label>
+      <input ng-model="aluno.nome" type="text" required>
+    </md-input-container>
+    
+    <!-- Email -->
+    <md-input-container class="md-icon-float md-block">
+      <label>Email</label>
+      <input ng-model="aluno.email" type="text" required>
+    </md-input-container>
+    
+    <!-- Ano/Período -->
+    <md-input-container class="md-icon-float md-block">
+      <label>Ano/Período</label>
+      <input ng-model="aluno.ano" type="text" required>
+    </md-input-container>
+    
+    <!-- Turma -->
+    <md-input-container class="md-icon-float md-block">
+      <label>Turma</label>
+      <input ng-model="aluno.turma" type="text" required>
+    </md-input-container>
+    
+    <!-- Turno -->
+    <md-input-container class="md-icon-float md-block">
+      <label>Turno</label>
+      <input ng-model="aluno.turno" type="text" required>
+    </md-input-container>
+    
+    <!-- Senha -->
+    <md-input-container class="md-icon-float md-block">
+      <label>Senha</label>
+      <input ng-model="aluno.senha" type="text" required>
+    </md-input-container>
+       
+    <!-- Redigite a senha -->
+    <md-input-container class="md-icon-float md-block">
+      <label>Redigite a Senha</label>
+      <input ng-model="aluno.novaSenha" type="text" required>
+    </md-input-container>
+    
+     <md-button type="submit" layout-fill type="submit" class="md-raised md-primary md-hue-1 flex" style="margin-top: 40px">Atualizar dados do aluno</md-button>
+   
+  </form>
+</md-card>
