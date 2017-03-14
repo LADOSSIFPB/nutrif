@@ -19,17 +19,26 @@
       <input ng-model="aluno.ano" type="text" required>
     </md-input-container>
     
-    <!-- Turma -->
-    <md-input-container class="md-icon-float md-block">
-      <label>Turma</label>
-      <input ng-model="aluno.turma" type="text" required>
+ 	<!-- Turma -->
+    <md-input-container flex>
+        <label>Turma</label>
+           <md-select ng-model="aluno.turma.id" aria-label="Selecione o Turma">
+               <md-option ng-repeat="turma in turmas" value="{{turma.id}}">
+                  {{turma.nome}}
+               </md-option>
+           </md-select>
     </md-input-container>
     
     <!-- Turno -->
-    <md-input-container class="md-icon-float md-block">
-      <label>Turno</label>
-      <input ng-model="aluno.turno" type="text" required>
+    <md-input-container flex>
+        <label>Turno</label>
+           <md-select ng-model="aluno.turno.id" aria-label="Selecione o Turno">
+               <md-option ng-repeat="turno in turnos" value="{{turno.id}}">
+                  {{turno.nome}}
+               </md-option>
+           </md-select>
     </md-input-container>
+
     
     <!-- Senha -->
     <md-input-container class="md-icon-float md-block">

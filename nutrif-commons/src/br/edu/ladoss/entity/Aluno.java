@@ -36,6 +36,14 @@ public class Aluno extends Pessoa {
 	@JoinColumn(name = "fk_id_curso")
 	private Curso curso;
 	
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinColumn(name = "fk_id_turma")
+	private Turma turma;
+	
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinColumn(name = "fk_id_turno")
+	private Turno turno;
+	
 	@Column(name = "nm_keyconfirmation")
 	private String keyConfirmation;
 	

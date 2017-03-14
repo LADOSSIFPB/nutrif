@@ -15,12 +15,10 @@ angular.module("NutrifApp").controller("sideNavCtrl", function (userService, $md
     }
  
     this.logoutAluno = function () {
-    	
-    	loginService.fazerLogout().success(function (data, status) {
+    
     		userService.removeUser();
     	    $state.go("login.pretensao");
-    	}).error(onErrorCallback);
-      
+    	
     }
 
     function onErrorCallback(data, status) {
