@@ -111,9 +111,27 @@ public class Aluno extends Pessoa {
 		this.acesso = acesso;
 	}
 	
+	public Turma getTurma() {
+		return turma;
+	}
+
+	public void setTurma(Turma turma) {
+		this.turma = turma;
+	}
+
+	public Turno getTurno() {
+		return turno;
+	}
+
+	public void setTurno(Turno turno) {
+		this.turno = turno;
+	}		
+	
 	@Override
 	public String toString() {
 		return "Aluno [" + super.toString() + ", curso=" + curso 
 				+ ", matricula=" + matricula + "]";
-	}		
+	}
+
+	
 }
