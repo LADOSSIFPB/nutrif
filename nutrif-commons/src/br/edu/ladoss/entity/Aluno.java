@@ -36,6 +36,14 @@ public class Aluno extends Pessoa {
 	@JoinColumn(name = "fk_id_curso")
 	private Curso curso;
 	
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinColumn(name = "fk_id_turma")
+	private Turma turma;
+	
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinColumn(name = "fk_id_turno")
+	private Turno turno;
+	
 	@Column(name = "nm_keyconfirmation")
 	private String keyConfirmation;
 	
@@ -103,9 +111,27 @@ public class Aluno extends Pessoa {
 		this.acesso = acesso;
 	}
 	
+	public Turma getTurma() {
+		return turma;
+	}
+
+	public void setTurma(Turma turma) {
+		this.turma = turma;
+	}
+
+	public Turno getTurno() {
+		return turno;
+	}
+
+	public void setTurno(Turno turno) {
+		this.turno = turno;
+	}		
+	
 	@Override
 	public String toString() {
 		return "Aluno [" + super.toString() + ", curso=" + curso 
 				+ ", matricula=" + matricula + "]";
-	}		
+	}
+
+	
 }

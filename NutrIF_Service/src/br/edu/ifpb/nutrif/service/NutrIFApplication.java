@@ -22,6 +22,8 @@ import br.edu.ifpb.nutrif.controller.RefeicaoController;
 import br.edu.ifpb.nutrif.controller.RefeicaoRealizadaController;
 import br.edu.ifpb.nutrif.controller.RoleController;
 import br.edu.ifpb.nutrif.controller.SetorController;
+import br.edu.ifpb.nutrif.controller.TurmaController;
+import br.edu.ifpb.nutrif.controller.TurnoController;
 
 public class NutrIFApplication extends Application {
 
@@ -54,6 +56,8 @@ public class NutrIFApplication extends Application {
 		this.singletons.add(new RefeicaoRealizadaController());
 		this.singletons.add(new PretensaoRefeicaoController());
 		this.singletons.add(new ArquivoController());
+		this.singletons.add(new TurnoController());
+		this.singletons.add(new TurmaController());
 		
 		// Information service.
 		this.singletons.add(new NutrIFRestIndex());
