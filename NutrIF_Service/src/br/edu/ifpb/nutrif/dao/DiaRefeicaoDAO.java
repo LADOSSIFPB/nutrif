@@ -1,6 +1,7 @@
 package br.edu.ifpb.nutrif.dao;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -17,6 +18,7 @@ import br.edu.ifpb.nutrif.util.StringUtil;
 import br.edu.ladoss.entity.Aluno;
 import br.edu.ladoss.entity.Dia;
 import br.edu.ladoss.entity.DiaRefeicao;
+import br.edu.ladoss.entity.Edital;
 import br.edu.ladoss.entity.Refeicao;
 
 public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
@@ -291,7 +293,7 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 	 * @param diaRefeicao
 	 * @return
 	 */
-	public int getQuantidadeDiaRefeicao(DiaRefeicao diaRefeicao) {
+	public int getQuantidadeDiaRefeicao(DiaRefeicao diaRefeicao, Date dataDiaRefeicao) {
 		
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		
@@ -303,13 +305,14 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 					+ " from DiaRefeicao as dr"
 					+ " where dr.dia.id = :idDia"
 					+ " 	and dr.refeicao.id = :idRefeicao"
-					+ "		and CURRENT_TIMESTAMP() between dr.edital.dataInicial and dr.edital.dataFinal"
+					+ "		and :dataDiaRefeicao between dr.edital.dataInicial and dr.edital.dataFinal"
 					+ " 	and dr.edital.ativo = :ativo"
 					+ " 	and dr.ativo = :ativo";
 			
 			Query query = session.createQuery(hql);			
 			query.setParameter("idDia", diaRefeicao.getDia().getId());
 			query.setParameter("idRefeicao", diaRefeicao.getRefeicao().getId());
+			query.setParameter("dataDiaRefeicao", dataDiaRefeicao);
 			query.setParameter("ativo", BancoUtil.ATIVO);
 			
 			quantidadeBeneficiados = (Long) query.uniqueResult();
@@ -342,20 +345,40 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 					+ " and dr.dia.id = :idDia"
 					+ " and dr.refeicao.id = :idRefeicao"
 					+ " and dr.ativo = :ativo"
-					+ " and dr.edital.dataFinal >= CURRENT_TIMESTAMP()"
+					+ " and dr.edital.id in ("
+					+ "		select ed.id"
+					+ " 	from Edital as ed"
+					+ "		where ed.ativo = :ativo"
+					+ "		and (ed.id = :idEdital"
+					+ "		or :dataInicial between ed.dataInicial and ed.dataFinal"
+					+ "		or :dataFinal between ed.dataInicial and ed.dataFinal"
+					+ "		)"					
+					+ " )"
 					+ " order by dr.dataInsercao DESC";
 			
 			Aluno aluno = diaRefeicao.getAluno();
 			Dia dia = diaRefeicao.getDia();
 			Refeicao refeicao = diaRefeicao.getRefeicao();
+			Edital edital = diaRefeicao.getEdital();
 			
 			Query query = session.createQuery(hql);			
 			query.setParameter("idAluno", aluno.getId());
 			query.setParameter("idDia", dia.getId());
 			query.setParameter("idRefeicao", refeicao.getId());
+			
+			query.setParameter("idEdital", edital.getId());
+			query.setParameter("dataInicial", edital.getDataFinal());
+			query.setParameter("dataFinal", edital.getDataInicial());			
+			
 			query.setParameter("ativo", BancoUtil.ATIVO);
 			
-			diaRefeicao = (DiaRefeicao) query.uniqueResult();
+			List<DiaRefeicao> diasRefeicao = (List<DiaRefeicao>) query.list();
+			
+			for (DiaRefeicao dr: diasRefeicao) {
+				System.out.println("Id: " + dr.getEdital().getId()
+						+ "Data inicio: " + dr.getEdital().getDataInicial()
+						+ "Data final: " + dr.getEdital().getDataFinal());
+			}
 			
 			if (diaRefeicao != null) {
 				

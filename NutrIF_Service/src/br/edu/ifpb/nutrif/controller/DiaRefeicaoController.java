@@ -111,12 +111,13 @@ public class DiaRefeicaoController {
 						&& refeicao != null
 						&& funcionario != null) {
 					
-					// Verifica se existe dia de refeição ativo para a mesma
-					// refeição e dia.
+					// Verifica se existe dia de refeição ativo para a mesma refeição, dia e
+					// edital (com vigencia semelhante).
 					boolean isDiaRefeicaoAtivo = DiaRefeicaoDAO.getInstance()
 							.isDiaRefeicaoAtivo(diaRefeicao);
 					logger.info("DiaRefeição ativo: " + isDiaRefeicaoAtivo);
 					
+					/*
 					if (!isDiaRefeicaoAtivo) {
 						
 						// Data e hora atual.
@@ -143,9 +144,9 @@ public class DiaRefeicaoController {
 						builder.status(Response.Status.CONFLICT).entity(
 								ErrorFactory.getErrorFromIndex(
 										ErrorFactory.DIA_REFEICAO_DIPLICADO));
-					}					
+					}*/				
 				}
-			
+				
 			} catch (SQLExceptionNutrIF exception) {
 
 				builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
@@ -584,6 +585,12 @@ public class DiaRefeicaoController {
 		return builder.build();	
 	}
 	
+	/**
+	 * Quantificar os dias de refeição válidos para um dia com data válida do período do Edital.
+	 * 
+	 * @param diaRefeicao
+	 * @return
+	 */
 	@RolesAllowed({TipoRole.ADMIN})
 	@POST
 	@Path("/quantificar")
@@ -617,7 +624,7 @@ public class DiaRefeicaoController {
 					
 					// Cálculo da quantidade de pretensões lançadas para o próximo dia de refeição.
 					int quantidadeDia = DiaRefeicaoDAO.getInstance()
-							.getQuantidadeDiaRefeicao(diaRefeicao);
+							.getQuantidadeDiaRefeicao(diaRefeicao, dataDiaRefeicao);
 					
 					// Mapa com os dados quantificados.
 					MapaRefeicao<DiaRefeicao> mapaRefeicao = 

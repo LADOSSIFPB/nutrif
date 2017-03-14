@@ -43,11 +43,11 @@ public class Edital {
 	private int quantidadeBeneficiadosReal;
 	
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "dt_inicial", insertable = true, updatable = false)
+	@Column(name = "dt_inicial", insertable = true, updatable = true)
 	private Date dataInicial;
 	
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "dt_final", insertable = true, updatable = false)
+	@Column(name = "dt_final", insertable = true, updatable = true)
 	private Date dataFinal;
 	
 	@OneToOne(fetch = FetchType.EAGER)
