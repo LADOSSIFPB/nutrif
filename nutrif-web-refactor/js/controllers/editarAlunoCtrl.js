@@ -163,35 +163,17 @@ angular.module('NutrifApp').controller('editarAlunoCtrl', function ($scope,
 
       $scope.hide = function(refeicao) {
 
-        var encontrarRefeicao = function (element, index, array) {
-          if (element.refeicao.id === parseInt(refeicao.refeicao.id)
-            && element.dia.id === parseInt(refeicao.dia.id)) {
-            return true;
-          }
-          return false;
-        }
-
-        if ($scope.refeicoes.findIndex(encontrarRefeicao) > -1) {
-
-          $mdToast.show(
-            $mdToast.simple()
-              .textContent('Um aluno não pode possuir duas refeições iguais no mesmo dia')
-              .position('top right')
-              .action('OK')
-              .hideDelay(6000)
-          );
-
-        } else {
-
           $mdDialog.hide();
 
+          // Dia de refeição.
           refeicao.funcionario = {};
           refeicao.funcionario.id = userService.getUser().id;
           refeicao.aluno = $scope.aluno;
+
+          // Serviço para adicionar dia de refeição para o aluno.
           diaRefeicaoService.cadastrarRefeicao(refeicao)
             .success(onSuccessCallback)
             .error(onErrorCallback);
-        }
       };
 
       function onSuccessCallback (data, status) {
@@ -202,7 +184,7 @@ angular.module('NutrifApp').controller('editarAlunoCtrl', function ($scope,
             .action('OK')
             .hideDelay(6000)
         );
-        
+
         atualizarState();
       }
 
