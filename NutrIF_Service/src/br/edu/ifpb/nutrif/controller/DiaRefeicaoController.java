@@ -47,11 +47,14 @@ public class DiaRefeicaoController {
 	private static Logger logger = LogManager.getLogger(
 			DiaRefeicaoController.class);
 	/**
+	 * Cadastro do dia de refeição do Aluno.
+	 * 
 	 * Entrada: JSON
 	 * {
 	 * 	"aluno":{"id":"[0-9]"},
 	 * 	"dia":{"id":"[0-9]"},
 	 * 	"refeicao":{"id":"[0-9]"}
+	 * 	"edital": {"id": "[0-9]"}
 	 * }
 	 * 
 	 * @param diaRefeicao
@@ -79,7 +82,7 @@ public class DiaRefeicaoController {
 				Aluno aluno = AlunoDAO.getInstance().getById(idAluno);
 				diaRefeicao.setAluno(aluno);
 				
-				// Recuperar Edital
+				// Recuperar Edital.
 				int idEdital = diaRefeicao.getEdital().getId();
 				Edital edital = EditalDAO.getInstance().getById(idEdital);
 				diaRefeicao.setEdital(edital);
@@ -94,13 +97,13 @@ public class DiaRefeicaoController {
 				Refeicao refeicao = RefeicaoDAO.getInstance().getById(idRefeicao);
 				diaRefeicao.setRefeicao(refeicao);
 				
-				// Recuperar Funcionário
+				// Recuperar Funcionário.
 				int idFuncionario = diaRefeicao.getFuncionario().getId();
 				Funcionario funcionario = FuncionarioDAO.getInstance()
 						.getById(idFuncionario);
 				diaRefeicao.setFuncionario(funcionario);
 				
-				// Validar Edital: vigencia e quantidade de contemplados.
+				// Validar Edital: vigência e quantidade de contemplados.
 				int quantidadeBeneficiadosReal = DiaRefeicaoDAO
 						.getInstance().getQuantidadeDiaRefeicaoEdital(
 								idEdital);
@@ -111,40 +114,58 @@ public class DiaRefeicaoController {
 						&& refeicao != null
 						&& funcionario != null) {
 					
-					// Verifica se existe dia de refeição ativo para a mesma refeição, dia e
-					// edital (com vigencia semelhante).
-					boolean isDiaRefeicaoAtivo = DiaRefeicaoDAO.getInstance()
-							.isDiaRefeicaoAtivo(diaRefeicao);
-					logger.info("DiaRefeição ativo: " + isDiaRefeicaoAtivo);
+					int quantidadeBeneficiadosPrevista = edital.getQuantidadeBeneficiadosPrevista();
+					int adicaoNovoDiaRefeicao = 1;
 					
-					/*
-					if (!isDiaRefeicaoAtivo) {
+					// Verificar se a quantidade real de beneficiários está prevista com a adição do novo dia de refeição.
+					if ((quantidadeBeneficiadosReal + adicaoNovoDiaRefeicao) <= quantidadeBeneficiadosPrevista) {
 						
-						// Data e hora atual.
-						Date agora = new Date();
-						diaRefeicao.setDataInsercao(agora);
+						// Verificar se existe dia de refeição ativo para a mesma refeição, dia e
+						// edital (intervalos de vigência semelhantes).
+						List<DiaRefeicao> diasRefeicao = DiaRefeicaoDAO.getInstance()
+								.getDiaRefeicaoByPeriodoEdital(diaRefeicao);
 						
-						//Inserir o CronogramaRefeicao.
-						Integer idDiaRefeicao = DiaRefeicaoDAO.getInstance()
-								.insert(diaRefeicao);
+						boolean isDiaRefeicaoAtivo = isDiaRefeicaoVigente(diasRefeicao);								
 						
-						if (idDiaRefeicao != BancoUtil.ID_VAZIO) {
-		
-							// Operação realizada com sucesso.
-							builder.status(Response.Status.OK);
-							builder.entity(diaRefeicao);
+						if (!isDiaRefeicaoAtivo) {
 							
+							// Data e hora atual.
+							Date agora = new Date();
+							diaRefeicao.setDataInsercao(agora);
+							
+							//Inserir o Dia da Refeicao.
+							Integer idDiaRefeicao = DiaRefeicaoDAO.getInstance()
+									.insert(diaRefeicao);
+							
+							if (idDiaRefeicao != BancoUtil.ID_VAZIO) {
+			
+								// Operação realizada com sucesso.
+								builder.status(Response.Status.OK);
+								builder.entity(diaRefeicao);
+								
+							} else {
+								
+								builder.status(Response.Status.NOT_MODIFIED);
+							}
+						
 						} else {
 							
-							builder.status(Response.Status.NOT_MODIFIED);
+							builder.status(Response.Status.CONFLICT).entity(
+									ErrorFactory.getErrorFromIndex(
+											ErrorFactory.DIA_REFEICAO_DUPLICADO));
 						}
-					
+						
 					} else {
 						
-						builder.status(Response.Status.CONFLICT).entity(
+						// Novo dia de refeição estrapola a quantidade prevista para o Edital.
+						builder.status(Response.Status.FORBIDDEN).entity(
 								ErrorFactory.getErrorFromIndex(
-										ErrorFactory.DIA_REFEICAO_DIPLICADO));
-					}*/				
+										ErrorFactory.QUANTIDADE_BENEFICIARIOS_EXCEDENTE));
+					}
+					
+				} else {
+					
+					//TODO: Informações do edital não encontrada.
 				}
 				
 			} catch (SQLExceptionNutrIF exception) {
@@ -162,6 +183,21 @@ public class DiaRefeicaoController {
 		return builder.build();		
 	}
 	
+	private boolean isDiaRefeicaoVigente(List<DiaRefeicao> diasRefeicao) {
+		
+		boolean isDiaRefeicaoVigente = BancoUtil.INATIVO;
+		
+		// Caso haja registro o dia de refeição já é oferecido ao beneficiário por meio de edital válido 
+		// e no período de vigencia. 
+		if (diasRefeicao != null && !diasRefeicao.isEmpty()) {
+			
+			isDiaRefeicaoVigente = BancoUtil.ATIVO;
+			logger.info("DiaRefeição ativo: " + isDiaRefeicaoVigente);
+		}
+		
+		return isDiaRefeicaoVigente;
+	}
+
 	/**
 	 * Remover o dia da refeição através do id. A remoção desativa o registro
 	 * pela mudança de estado da variável <b>ativo<b> para o valor false.

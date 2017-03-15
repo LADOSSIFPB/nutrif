@@ -332,9 +332,9 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 				quantidadeBeneficiados.toString()): BancoUtil.QUANTIDADE_ZERO;		
 	}
 	
-	public boolean isDiaRefeicaoAtivo(DiaRefeicao diaRefeicao){
+	public List<DiaRefeicao> getDiaRefeicaoByPeriodoEdital(DiaRefeicao diaRefeicao){
 		
-		boolean isAtivo = false;
+		List<DiaRefeicao> diasRefeicao = new ArrayList<DiaRefeicao>();
 		
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		
@@ -352,6 +352,8 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 					+ "		and (ed.id = :idEdital"
 					+ "		or :dataInicial between ed.dataInicial and ed.dataFinal"
 					+ "		or :dataFinal between ed.dataInicial and ed.dataFinal"
+					+ "		or (ed.dataInicial between :dataInicial and :dataFinal"
+					+ "				and ed.dataFinal between :dataInicial and :dataFinal)"
 					+ "		)"					
 					+ " )"
 					+ " order by dr.dataInsercao DESC";
@@ -365,25 +367,14 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 			query.setParameter("idAluno", aluno.getId());
 			query.setParameter("idDia", dia.getId());
 			query.setParameter("idRefeicao", refeicao.getId());
-			
-			query.setParameter("idEdital", edital.getId());
-			query.setParameter("dataInicial", edital.getDataFinal());
-			query.setParameter("dataFinal", edital.getDataInicial());			
-			
 			query.setParameter("ativo", BancoUtil.ATIVO);
 			
-			List<DiaRefeicao> diasRefeicao = (List<DiaRefeicao>) query.list();
+			// Verificar editais vigentes no período do edital que irá conceder o benefício.			
+			query.setParameter("idEdital", edital.getId());
+			query.setParameter("dataInicial", edital.getDataInicial());
+			query.setParameter("dataFinal", edital.getDataFinal());			
 			
-			for (DiaRefeicao dr: diasRefeicao) {
-				System.out.println("Id: " + dr.getEdital().getId()
-						+ "Data inicio: " + dr.getEdital().getDataInicial()
-						+ "Data final: " + dr.getEdital().getDataFinal());
-			}
-			
-			if (diaRefeicao != null) {
-				
-				isAtivo = diaRefeicao.isAtivo();
-			}
+			diasRefeicao = (List<DiaRefeicao>) query.list();			
 	        
 		} catch (HibernateException hibernateException) {
 			
@@ -396,7 +387,7 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 			session.close();
 		}
 		
-		return isAtivo;		
+		return diasRefeicao;		
 	}
 	
 	@Override
