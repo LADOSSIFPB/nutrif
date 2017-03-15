@@ -6,31 +6,7 @@ angular.module('NutrifApp').controller('editarAlunoCtrl', function ($scope,
     $scope.cursos = [];
     $scope.editais = [];
     $scope.refeicoes = [];
-    $scope.historico = [];
-    
-    $scope.events = [{
-		badgeClass: 'info',
-		badgeIconClass: 'glyphicon-check',
-		title: 'First heading',
-		when: '11 hours ago via Twitter',
-		content: 'Some awesome content.',
-		side:'right'
-	}, {
-		badgeClass: 'warning',
-		badgeIconClass: 'glyphicon-credit-card',
-		title: 'Second heading',
-		when: '12 hours ago via Twitter',
-		content: 'More awesome content.',
-		side:'right'
-	}, {
-		badgeClass: 'default',
-		badgeIconClass: 'glyphicon-credit-card',
-		title: 'Third heading',
-		titleContentHtml: '<img class="img-responsive" src="http://www.freeimages.com/assets/183333/1833326510/wood-weel-1444183-m.jpg">',
-		contentHtml: "hauheuhuahuahuheuhauhuahu",
-		footerContentHtml: '<a href="">Continue Reading</a>'
-	}];
-
+    $scope.diaRefeicaoHistorico = [];
 
     var _campi = $scope.campi;
 
@@ -126,11 +102,9 @@ angular.module('NutrifApp').controller('editarAlunoCtrl', function ($scope,
 
       diaRefeicaoService.listarHistoricoRefeicaoPorMatricula(_matricula)
       .success(function (data, status) {
-          $scope.historico = data;
+          $scope.diaRefeicaoHistorico = data;
           //Agrupar todos de um mesmo edital e criar propriedade side.
         })
-       
-      
       .error(onErrorLoadCallback);
 
       cursoService.listarCursos()
@@ -198,6 +172,7 @@ angular.module('NutrifApp').controller('editarAlunoCtrl', function ($scope,
         }
 
         if ($scope.refeicoes.findIndex(encontrarRefeicao) > -1) {
+
           $mdToast.show(
             $mdToast.simple()
               .textContent('Um aluno não pode possuir duas refeições iguais no mesmo dia')
@@ -205,6 +180,7 @@ angular.module('NutrifApp').controller('editarAlunoCtrl', function ($scope,
               .action('OK')
               .hideDelay(6000)
           );
+
         } else {
 
           $mdDialog.hide();
@@ -226,6 +202,7 @@ angular.module('NutrifApp').controller('editarAlunoCtrl', function ($scope,
             .action('OK')
             .hideDelay(6000)
         );
+        
         atualizarState();
       }
 
