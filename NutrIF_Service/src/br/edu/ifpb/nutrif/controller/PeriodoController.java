@@ -8,8 +8,8 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 
-import br.edu.ifpb.nutrif.dao.TurnoDAO;
-import br.edu.ladoss.entity.Turno;
+import br.edu.ifpb.nutrif.dao.PeriodoDAO;
+import br.edu.ladoss.entity.Periodo;
 
 @Path("periodo")
 public class PeriodoController {
@@ -18,12 +18,12 @@ public class PeriodoController {
 	@GET
 	@Path("/listar")
 	@Produces("application/json")
-	public List<Turno> getAll() {
+	public List<Periodo> getAll() {
 		
-		List<Turno> turnos = new ArrayList<Turno>();
+		List<Periodo> periodos = new ArrayList<Periodo>();
 		
-		turnos = TurnoDAO.getInstance().getAll();
+		periodos = PeriodoDAO.getInstance().getAll();
 		
-		return turnos;
+		return periodos;
 	}
 }
