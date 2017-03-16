@@ -53,8 +53,10 @@ angular.module('NutrifApp').controller('editarAlunoCtrl', function ($scope,
           .hideDelay(6000)
         );
       } else {
+        
         var _length = angular.copy(selected.length);
         var _selected = angular.copy(selected);
+
         for (var i = 0; i < _length; i++) {
           diaRefeicaoService.removerRefeicao(selected[i])
           .success(function functionName() {
@@ -162,6 +164,14 @@ angular.module('NutrifApp').controller('editarAlunoCtrl', function ($scope,
       $scope.aluno = aluno;
 
       $scope.hide = function(refeicao) {
+
+          var encontrarRefeicao = function (element, index, array) {
+            if (element.refeicao.id === parseInt(refeicao.refeicao.id)
+              && element.dia.id === parseInt(refeicao.dia.id)) {
+              return true;
+            }
+            return false;
+          }
 
           $mdDialog.hide();
 

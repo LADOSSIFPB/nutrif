@@ -18,6 +18,9 @@
               {{edital.nome}}
                 - {{edital.responsavel.nome}}
                 - {{edital.evento.nome}}
+                - {{edital.dataInicial | date:'dd/MM/yyyy h:mma'}}
+                a
+                {{edital.dataFinal | date:'dd/MM/yyyy h:mma'}}
             </md-option>
           </md-select>
         </md-input-container>

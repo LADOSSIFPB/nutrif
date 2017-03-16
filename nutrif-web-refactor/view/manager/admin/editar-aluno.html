@@ -83,12 +83,14 @@
         <md-card-actions layout="row">
           <md-card-icon-actions>
 
-            <md-button class="md-icon-button" aria-label="Apagar Refeições" ng-click="apagarAlunos(selected)">
+            <md-button class="md-icon-button" aria-label="Apagar Refeições"
+              ng-click="apagarAlunos(selected)">
               <md-tooltip md-direction="bottom">Apagar Refeições</md-tooltip>
               <md-icon md-svg-icon="img/icon/rubbish-bin-delete-button.svg"></md-icon>
             </md-button>
 
-            <md-button class="md-icon-button" aria-label="Adicionar Refeições" ng-click="adicionaRefeicao()">
+            <md-button class="md-icon-button" aria-label="Adicionar Refeições"
+              ng-click="adicionaRefeicao()">
               <md-tooltip md-direction="bottom">Adicionar Refeições</md-tooltip>
               <md-icon md-svg-icon="img/icon/add-plus-button.svg"></md-icon>
             </md-button>
@@ -104,14 +106,20 @@
               <th md-column>Tipo da Refeição</th>
               <th md-column>Dia da Refeição</th>
               <th md-column>Edital</th>
+              <th md-column>Validade</th>
             </tr>
           </thead>
           <tbody md-body>
-            <tr md-row md-select="refeicao" md-select-id="id" md-auto-select
+            <tr md-row md-select="diaRefeicao" md-select-id="id" md-auto-select
               ng-repeat="diaRefeicao in refeicoes">
               <td md-cell>{{diaRefeicao.refeicao.tipo | uppercase}}</td>
               <td md-cell>{{diaRefeicao.dia.nome | uppercase}}</td>
               <td md-cell>{{diaRefeicao.edital.nome | uppercase}}</td>
+              <td md-cell>
+                {{diaRefeicao.edital.dataInicial | date:'dd/MM/yyyy h:mma'}}
+                -
+                {{diaRefeicao.edital.dataFinal | date:'dd/MM/yyyy h:mma'}}
+              </td>
             </tr>
           </tbody>
         </table>
@@ -127,8 +135,13 @@
           <timeline-heading>
             <h4>{{diaRefeicao.refeicao.tipo}}</h4>
           </timeline-heading>
-          <p>{{diaRefeicao.edital.nome}}</p>
-          <p>{{diaRefeicao.dia.nome}}</p>
+          <p>Edital: {{diaRefeicao.edital.nome}}</p>
+          <p>Dia: {{diaRefeicao.dia.nome}}</p>
+          <p>Validade:
+            {{diaRefeicao.edital.dataInicial | date:'dd/MM/yyyy h:mma'}}
+            -
+            {{diaRefeicao.edital.dataFinal | date:'dd/MM/yyyy h:mma'}}
+          </p>
           <p>Inserido: {{diaRefeicao.edital.dataInsercao | date}}</p>
         </timeline-panel>
       </timeline-event>
