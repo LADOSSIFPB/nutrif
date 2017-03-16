@@ -7,12 +7,12 @@
 	<session-factory>
 
 		<!-- database connection properties -->
-        <property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
-        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/nutrif?useUnicode=true&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=America/Recife</property>
+		<property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
+        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/nutrif?useSSL=false&amp;useUnicode=true&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;useTimezone=true&amp;serverTimezone=America/Fortaleza</property>
         <property name="hibernate.connection.username">root</property>
         <property name="hibernate.connection.password">ifpbinfo</property>
         <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
-
+		 
 		<!-- show mysql queries output in console -->
 		<property name="hibernate.show_sql">true</property>
 		<property name="hibernate.format_sql">true</property>		
@@ -55,8 +55,10 @@
 		<mapping class="br.edu.ladoss.entity.Login" />
 		<mapping class="br.edu.ladoss.entity.Logout" />
 		<mapping class="br.edu.ladoss.entity.Setor" />
-		<mapping class="br.edu.ladoss.entity.Turno" />	
-		<mapping class="br.edu.ladoss.entity.Turma" />						
+		<mapping class="br.edu.ladoss.entity.Error" />
+		<mapping class="br.edu.ladoss.entity.Turno" />
+		<mapping class="br.edu.ladoss.entity.Turma" />
+		<mapping class="br.edu.ladoss.entity.Periodo" />						
 
 	</session-factory>
 </hibernate-configuration>
