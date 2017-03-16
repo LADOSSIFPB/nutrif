@@ -21,10 +21,12 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 import br.edu.ifpb.nutrif.dao.AlunoDAO;
 import br.edu.ifpb.nutrif.dao.CampusDAO;
 import br.edu.ifpb.nutrif.dao.CursoDAO;
+import br.edu.ifpb.nutrif.dao.PeriodoDAO;
 import br.edu.ifpb.nutrif.dao.RoleDAO;
+import br.edu.ifpb.nutrif.dao.TurmaDAO;
+import br.edu.ifpb.nutrif.dao.TurnoDAO;
 import br.edu.ifpb.nutrif.exception.EmailExceptionNutrIF;
 import br.edu.ifpb.nutrif.exception.ErrorFactory;
-import br.edu.ladoss.entity.Error;
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
 import br.edu.ifpb.nutrif.util.BancoUtil;
 import br.edu.ifpb.nutrif.util.EmailUtil;
@@ -34,7 +36,11 @@ import br.edu.ladoss.entity.Aluno;
 import br.edu.ladoss.entity.AlunoAcesso;
 import br.edu.ladoss.entity.Campus;
 import br.edu.ladoss.entity.Curso;
+import br.edu.ladoss.entity.Error;
+import br.edu.ladoss.entity.Periodo;
 import br.edu.ladoss.entity.Role;
+import br.edu.ladoss.entity.Turma;
+import br.edu.ladoss.entity.Turno;
 import br.edu.ladoss.enumeration.TipoRole;
 
 @Path("aluno")
@@ -341,7 +347,9 @@ public class AlunoController {
 			try {			
 				
 				String senhaPlana = alunoAcesso.getSenha();
+				
 				String email = alunoAcesso.getEmail();
+				
 				String matricula = alunoAcesso.getMatricula();
 				
 				// Recuperar Aluno através da matrícula.
@@ -366,18 +374,26 @@ public class AlunoController {
 							senhaPlana);				
 					aluno.setSenha(senhaCriptografada);
 					
-					// Gerar chave de autenticação: KeyAuth.
-					Date agora = new Date();
-					String keyAuth = StringUtil.criptografarSha256(
-							agora.toString());
-					aluno.setKeyAuth(keyAuth);
-					
 					// Gerar chave de confirmação: KeyConfirmation.
 					String keyConfirmation = StringUtil.getRadomKeyConfirmation();
 					aluno.setKeyConfirmation(keyConfirmation);
 					
-					// Inativar Aluno.
-					aluno.setAtivo(BancoUtil.INATIVO);
+					// Período
+					Periodo periodo = PeriodoDAO.getInstance().getById(alunoAcesso.getPeriodo().getId());
+					aluno.setPeriodo(periodo);
+					
+					// Turma
+					Turma turma = TurmaDAO.getInstance().getById(
+							alunoAcesso.getTurma().getId());
+					aluno.setTurma(turma);
+					
+					// Turno
+					Turno turno = TurnoDAO.getInstance().getById(
+							alunoAcesso.getTurno().getId());
+					aluno.setTurno(turno);
+					
+					// Ativar Aluno.
+					aluno.setAtivo(BancoUtil.ATIVO);
 					
 					// Ativar solicitação de acesso.
 					aluno.setAcesso(BancoUtil.ATIVO);
@@ -413,8 +429,7 @@ public class AlunoController {
 				builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
 						exception.getError());
 				
-			} catch (UnsupportedEncodingException | NoSuchAlgorithmException 
-					exception) {
+			} catch (UnsupportedEncodingException exception) {
 
 				builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
 						ErrorFactory.getErrorFromIndex(

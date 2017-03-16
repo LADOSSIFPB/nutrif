@@ -37,6 +37,10 @@ public class Aluno extends Pessoa {
 	private Curso curso;
 	
 	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinColumn(name = "fk_id_periodo")
+	private Periodo periodo;
+	
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name = "fk_id_turma")
 	private Turma turma;
 	
@@ -111,6 +115,7 @@ public class Aluno extends Pessoa {
 		this.acesso = acesso;
 	}
 	
+	@XmlElement
 	public Turma getTurma() {
 		return turma;
 	}
@@ -119,19 +124,27 @@ public class Aluno extends Pessoa {
 		this.turma = turma;
 	}
 
+	@XmlElement
 	public Turno getTurno() {
 		return turno;
 	}
-
+	
 	public void setTurno(Turno turno) {
 		this.turno = turno;
-	}		
+	}
+	
+	@XmlElement
+	public Periodo getPeriodo() {
+		return periodo;
+	}
+
+	public void setPeriodo(Periodo periodo) {
+		this.periodo = periodo;
+	}
 	
 	@Override
 	public String toString() {
 		return "Aluno [" + super.toString() + ", curso=" + curso 
 				+ ", matricula=" + matricula + "]";
-	}
-
-	
+	}	
 }

@@ -7,14 +7,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "turma")
 @Entity
 @Table(name = "tb_turma")
 @NamedQuery(name = "Turma.getAll", query = "from Turma")
-public class Turma {
-	
+public class Turma {	
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,6 +24,7 @@ public class Turma {
 	@Column(name = "nm_turma")
 	private String nome;
 
+	@XmlElement
 	public Integer getId() {
 		return id;
 	}
@@ -32,11 +33,18 @@ public class Turma {
 		this.id = id;
 	}
 
+	@XmlElement
 	public String getNome() {
 		return nome;
 	}
 
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+	
+	@Override
+	public String toString() {
+		return "Turma [id=" + id 
+				+ ", nome=" + nome + "]";
 	}
 }
