@@ -1,5 +1,6 @@
 package br.edu.ifpb.nutrif.dao;
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -10,7 +11,10 @@ import org.hibernate.Session;
 
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
 import br.edu.ifpb.nutrif.hibernate.HibernateUtil;
+import br.edu.ifpb.nutrif.util.BancoUtil;
+import br.edu.ifpb.nutrif.util.StringUtil;
 import br.edu.ladoss.entity.Aluno;
+import br.edu.ladoss.entity.Pessoa;
 
 public class AlunoDAO extends GenericDao<Integer, Aluno> {
 
@@ -118,6 +122,54 @@ public class AlunoDAO extends GenericDao<Integer, Aluno> {
 		}
 		
 		return isKeyConfirmatio;
+	}
+	
+	/**
+	 * Login do Aluno através da matrícula e senha.
+	 * 
+	 * @param matricula
+	 * @param senhaPlana
+	 * @return funcionario
+	 * @throws UnsupportedEncodingException
+	 */
+	public Pessoa login(String matricula, String senhaPlana) 
+			throws UnsupportedEncodingException {
+		
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		
+		Pessoa pessoa = null;
+		
+		try {
+			
+			String senhaCriptografada = StringUtil.criptografarBase64(
+					senhaPlana);
+			
+			logger.info("Verificando o login: " + matricula);
+			
+			String hql = "from Aluno as a"
+					+ " where a.matricula = :matricula"
+					+ " and a.senha = :senha"
+					+ " and a.ativo = :ativo";
+			
+			Query query = session.createQuery(hql);			
+			query.setParameter("matricula", matricula);
+			query.setParameter("senha", senhaCriptografada);
+			query.setParameter("ativo", BancoUtil.ATIVO);
+			
+			pessoa = (Pessoa) query.uniqueResult();
+	        
+		} catch (HibernateException hibernateException) {
+			
+			session.getTransaction().rollback();
+			
+			throw new SQLExceptionNutrIF(hibernateException);
+			
+		} finally {
+		
+			session.close();
+		}
+		
+		return pessoa;
 	}
 
 	@Override

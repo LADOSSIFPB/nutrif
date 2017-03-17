@@ -11,6 +11,9 @@ public class PessoaAcesso extends Pessoa {
 	@XmlElement
 	private String keyAuth;
 	
+	@XmlElement
+	private String matricula;
+	
 	public static PessoaAcesso getInstance(Pessoa pessoa) {
 
 		// Conversão de Pessoa para PessoaAcesso.
@@ -61,6 +64,12 @@ public class PessoaAcesso extends Pessoa {
 		
 		this.keyAuth = keyAuth;
 	}
-	
 
+	public String getMatricula() {
+		return matricula;
+	}
+
+	public void setMatricula(String matricula) {
+		this.matricula = matricula;
+	}
 }

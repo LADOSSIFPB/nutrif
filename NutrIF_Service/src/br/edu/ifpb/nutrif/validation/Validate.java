@@ -141,8 +141,8 @@ public class Validate {
 			return ErrorFactory.TIPO_REFEICAO_INVALIDO;		
 		
 		Date horaInicio = refeicao.getHoraInicio();		
-		Date horaFim = refeicao.getHoraFinal();		
-		if (!dataValidator.isGrowingDate(horaInicio, horaInicio)) {
+		Date horaFinal = refeicao.getHoraFinal();		
+		if (!dataValidator.isGrowingDate(horaInicio, horaFinal)) {
 			
 			return ErrorFactory.PERIODO_REFEICAO_INVALIDO;
 		}
@@ -453,6 +453,21 @@ public class Validate {
 			return ErrorFactory.SENHA_USUARIO_INVALIDA;
 		
 		return VALIDATE_OK;
+	}
+	
+	public static int loginAluno(PessoaAcesso pessoaAcesso) {
+		
+		logger.info("Validação para login de Aluno.");
+		
+		int validate = VALIDATE_OK;
+		
+		validate = matricula(pessoaAcesso.getMatricula());
+
+		if (validate == VALIDATE_OK 
+				&& !stringValidator.validate(pessoaAcesso.getSenha(), 5, 40))
+			return ErrorFactory.SENHA_USUARIO_INVALIDA;
+		
+		return validate;
 	}
 	
 	public static int logoutPessoa(String authorization) {

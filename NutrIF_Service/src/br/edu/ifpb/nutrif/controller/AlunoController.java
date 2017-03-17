@@ -9,18 +9,25 @@ import java.util.List;
 import javax.annotation.security.DenyAll;
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import br.edu.ifpb.nutrif.dao.AlunoDAO;
 import br.edu.ifpb.nutrif.dao.CampusDAO;
 import br.edu.ifpb.nutrif.dao.CursoDAO;
+import br.edu.ifpb.nutrif.dao.LoginDAO;
 import br.edu.ifpb.nutrif.dao.PeriodoDAO;
 import br.edu.ifpb.nutrif.dao.RoleDAO;
 import br.edu.ifpb.nutrif.dao.TurmaDAO;
@@ -37,7 +44,10 @@ import br.edu.ladoss.entity.AlunoAcesso;
 import br.edu.ladoss.entity.Campus;
 import br.edu.ladoss.entity.Curso;
 import br.edu.ladoss.entity.Error;
+import br.edu.ladoss.entity.Login;
 import br.edu.ladoss.entity.Periodo;
+import br.edu.ladoss.entity.Pessoa;
+import br.edu.ladoss.entity.PessoaAcesso;
 import br.edu.ladoss.entity.Role;
 import br.edu.ladoss.entity.Turma;
 import br.edu.ladoss.entity.Turno;
@@ -46,6 +56,8 @@ import br.edu.ladoss.enumeration.TipoRole;
 @Path("aluno")
 public class AlunoController {
 
+	private static Logger logger = LogManager.getLogger(AlunoController.class);
+	
 	/**
 	 * Inserir Aluno na base de dados.
 	 * 
@@ -592,7 +604,7 @@ public class AlunoController {
 				} else {
 					
 					builder.status(Response.Status.NOT_FOUND);
-					Error erro =  ErrorFactory.getErrorFromIndex(
+					Error error =  ErrorFactory.getErrorFromIndex(
 							ErrorFactory.ALUNO_NAO_ENCONTRADO);					
 				}
 				
@@ -604,5 +616,107 @@ public class AlunoController {
 		}
 		
 		return builder.build();
+	}
+	
+	/**
+	 * Login para Aluno. Retorna a chave de autenticação caso o usuário esteja
+	 * com a matrícula e senha corretas.
+	 * 
+	 * @param pessoaAcesso
+	 * @return
+	 */
+	@PermitAll
+	@POST
+	@Path("/login")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public Response loginAluno(@HeaderParam("user-agent") String userAgent,
+			@Context HttpServletRequest request,
+			PessoaAcesso pessoaAcesso) {
+		
+		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
+		builder.expires(new Date());
+		
+		logger.info("Login aluno: " + pessoaAcesso.getNome());
+		logger.info("Host: " + request.getRemoteAddr());
+		
+		// Validação dos dados de entrada.
+		int validacao = Validate.loginAluno(pessoaAcesso);
+		
+		if (validacao == Validate.VALIDATE_OK) {
+			
+			try {
+				
+				//Login Pessoa.
+				Pessoa pessoa = AlunoDAO.getInstance().login(
+						pessoaAcesso.getEmail(), 
+						pessoaAcesso.getSenha());
+				
+				if (pessoa != null) {
+					
+					// Registro do Login
+					Date agora = new Date();
+					
+					// Gerar AuthKey.
+					String keyAuth = StringUtil.criptografarSha256(
+							agora.toString());
+					pessoaAcesso.setKeyAuth(keyAuth);
+					
+					Login login = new Login();
+					login.setPessoa(pessoa);
+					login.setRegistro(agora);
+					login.setUserAgent(userAgent);
+					login.setRemoteAddr(request.getRemoteAddr());
+					login.setKeyAuth(keyAuth);
+					login.setLoged(true);
+					
+					// Registro de Login para a Pessoa.
+					int idLogin = LoginDAO.getInstance().insert(login);
+					
+					if (idLogin != BancoUtil.ID_VAZIO) {
+						
+						// Pessoa
+						pessoaAcesso = PessoaAcesso.getInstance(
+								pessoa);
+						
+						// Chave de autenticação gerada.
+						pessoaAcesso.setKeyAuth(login.getKeyAuth());
+						
+						// Operação realizada com sucesso.
+						builder.status(Response.Status.OK);
+						builder.entity(pessoaAcesso);
+					}					
+				
+				} else {
+					
+					builder.status(Response.Status.UNAUTHORIZED);
+				}
+			
+			} catch (SQLExceptionNutrIF exception) {
+
+				logger.error("SQL: " + exception.getMessage());
+				builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
+						exception.getError());
+				
+			} catch (UnsupportedEncodingException exception) {
+
+				builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
+						ErrorFactory.getErrorFromIndex(
+								ErrorFactory.IMPOSSIVEL_CRIPTOGRAFAR_VALOR));			
+			
+			} catch (NoSuchAlgorithmException e) {
+
+				builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
+						ErrorFactory.getErrorFromIndex(
+								ErrorFactory.IMPOSSIVEL_CRIPTOGRAFAR_VALOR));
+			}
+			
+		} else {
+			
+			Error erro = ErrorFactory.getErrorFromIndex(validacao);
+			builder.status(Response.Status.NOT_ACCEPTABLE).entity(erro);
+		}
+		
+		return builder.build();		
 	}
 }

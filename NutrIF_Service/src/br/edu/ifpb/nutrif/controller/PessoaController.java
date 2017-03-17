@@ -49,15 +49,15 @@ public class PessoaController {
 	@Path("/login")
 	@Consumes("application/json")
 	@Produces("application/json")
-	public Response login(@HeaderParam("user-agent") String userAgent,
-			@Context HttpServletRequest req,
+	public Response loginPessoa(@HeaderParam("user-agent") String userAgent,
+			@Context HttpServletRequest request,
 			PessoaAcesso pessoaAcesso) {
 		
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
 		builder.expires(new Date());
 		
 		logger.info("Login usuário: " + pessoaAcesso.getNome());
-		logger.info("Host: " + req.getRemoteAddr());
+		logger.info("Host: " + request.getRemoteAddr());
 		
 		// Validação dos dados de entrada.
 		int validacao = Validate.loginPessoa(pessoaAcesso);
@@ -85,14 +85,14 @@ public class PessoaController {
 					login.setPessoa(pessoa);
 					login.setRegistro(agora);
 					login.setUserAgent(userAgent);
-					login.setRemoteAddr(req.getRemoteAddr());
+					login.setRemoteAddr(request.getRemoteAddr());
 					login.setKeyAuth(keyAuth);
 					login.setLoged(true);
 					
 					// Registro de Login para a Pessoa.
-					LoginDAO.getInstance().insert(login);
+					int idLogin = LoginDAO.getInstance().insert(login);
 					
-					if (login != null) {
+					if (idLogin != BancoUtil.ID_VAZIO) {
 						
 						// Pessoa
 						pessoaAcesso = PessoaAcesso.getInstance(
