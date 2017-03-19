@@ -601,11 +601,13 @@ public class AlunoController {
 					builder.status(Response.Status.OK);
 					builder.entity(aluno);
 					
-				} else {
+				} else {					
 					
-					builder.status(Response.Status.NOT_FOUND);
 					Error error =  ErrorFactory.getErrorFromIndex(
-							ErrorFactory.ALUNO_NAO_ENCONTRADO);					
+							ErrorFactory.ALUNO_NAO_ENCONTRADO);
+					
+					builder.status(Response.Status.NOT_FOUND)
+						.entity(error);
 				}
 				
 			} catch (SQLExceptionNutrIF exception) {
@@ -647,49 +649,67 @@ public class AlunoController {
 			
 			try {
 				
-				//Login Pessoa.
-				Pessoa pessoa = AlunoDAO.getInstance().login(
-						pessoaAcesso.getEmail(), 
-						pessoaAcesso.getSenha());
+				Aluno aluno = AlunoDAO.getInstance()
+						.getByMatricula(pessoaAcesso.getMatricula());
 				
-				if (pessoa != null) {
-					
-					// Registro do Login
-					Date agora = new Date();
-					
-					// Gerar AuthKey.
-					String keyAuth = StringUtil.criptografarSha256(
-							agora.toString());
-					pessoaAcesso.setKeyAuth(keyAuth);
-					
-					Login login = new Login();
-					login.setPessoa(pessoa);
-					login.setRegistro(agora);
-					login.setUserAgent(userAgent);
-					login.setRemoteAddr(request.getRemoteAddr());
-					login.setKeyAuth(keyAuth);
-					login.setLoged(true);
-					
-					// Registro de Login para a Pessoa.
-					int idLogin = LoginDAO.getInstance().insert(login);
-					
-					if (idLogin != BancoUtil.ID_VAZIO) {
-						
-						// Pessoa
-						pessoaAcesso = PessoaAcesso.getInstance(
-								pessoa);
-						
-						// Chave de autenticação gerada.
-						pessoaAcesso.setKeyAuth(login.getKeyAuth());
-						
-						// Operação realizada com sucesso.
-						builder.status(Response.Status.OK);
-						builder.entity(pessoaAcesso);
-					}					
+				if (aluno != null) {			
 				
+					//Login Pessoa.
+					Pessoa pessoa = AlunoDAO.getInstance().login(
+							pessoaAcesso.getMatricula(), 
+							pessoaAcesso.getSenha());
+					
+					if (pessoa != null) {
+						
+						// Registro do Login
+						Date agora = new Date();
+						
+						// Gerar AuthKey.
+						String keyAuth = StringUtil.criptografarSha256(
+								agora.toString());
+						pessoaAcesso.setKeyAuth(keyAuth);
+						
+						Login login = new Login();
+						login.setPessoa(pessoa);
+						login.setRegistro(agora);
+						login.setUserAgent(userAgent);
+						login.setRemoteAddr(request.getRemoteAddr());
+						login.setKeyAuth(keyAuth);
+						login.setLoged(true);
+						
+						// Registro de Login para a Pessoa.
+						int idLogin = LoginDAO.getInstance().insert(login);
+						
+						if (idLogin != BancoUtil.ID_VAZIO) {
+							
+							// Pessoa
+							pessoaAcesso = PessoaAcesso.getInstance(
+									pessoa);
+							
+							// Chave de autenticação gerada.
+							pessoaAcesso.setKeyAuth(login.getKeyAuth());
+							
+							// Operação realizada com sucesso.
+							builder.status(Response.Status.OK);
+							builder.entity(pessoaAcesso);
+						}					
+					
+					} else {
+						
+						// Matrícula do aluno não encontrada.
+						Error error =  ErrorFactory.getErrorFromIndex(
+								ErrorFactory.SENHA_USUARIO_INVALIDA);
+						
+						builder.status(Response.Status.UNAUTHORIZED).entity(error);
+					}
+					
 				} else {
 					
-					builder.status(Response.Status.UNAUTHORIZED);
+					// Autenticação não permitida: senha não confere.
+					Error error =  ErrorFactory.getErrorFromIndex(
+							ErrorFactory.ALUNO_NAO_ENCONTRADO);
+					
+					builder.status(Response.Status.UNAUTHORIZED).entity(error);
 				}
 			
 			} catch (SQLExceptionNutrIF exception) {
