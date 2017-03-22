@@ -5,6 +5,10 @@ angular.module("NutrifApp").factory("alunoService", function($http, config){
 	var _buscaAlunoPorNome = function (nome){
 		return $http.get(_path + "/listar/nome/" + encodeURI(nome))
 	};
+	
+	var _fazerLogin = function (aluno){
+		return $http.post(_path + "/login", aluno)
+	};
 
 	var _cadastrarAluno = function (aluno){
 		return $http.post(_path + "/inserir", aluno)
@@ -13,6 +17,11 @@ angular.module("NutrifApp").factory("alunoService", function($http, config){
 	var _atualizarAluno = function (aluno){
 		return $http.post(_path + "/atualizar", aluno)
 	};
+	
+	var _atualizarCadastro = function (aluno){
+		return $http.post(_path + "/inserir/acesso ", aluno)
+	};
+	
 
 	var _buscaAlunoPorMatricula = function (matricula){
 		return $http.get(_path + "/matricula/" + encodeURI(matricula))
@@ -22,7 +31,9 @@ angular.module("NutrifApp").factory("alunoService", function($http, config){
 		buscaAlunoPorNome: _buscaAlunoPorNome,
 		cadastrarAluno: _cadastrarAluno,
 		atualizarAluno: _atualizarAluno,
-		buscaAlunoPorMatricula: _buscaAlunoPorMatricula
+		atualizarCadastro: _atualizarCadastro,
+		buscaAlunoPorMatricula: _buscaAlunoPorMatricula,
+		fazerLogin: _fazerLogin
 	};
 
 });

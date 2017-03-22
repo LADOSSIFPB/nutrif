@@ -6,7 +6,7 @@ angular.module('NutrifApp').controller('atualizarDadosAlunoCtrl', function ($sco
 	$scope.turmas = [];
 	
 	this.atualizar = function (aluno) {
-	      alunoService.atualizarAluno(aluno)
+	      alunoService.atualizarCadastro(aluno)
 	      .success(onSuccessCallback)
 	      .error(onErrorCallback);
 	    }
@@ -49,6 +49,7 @@ angular.module('NutrifApp').controller('atualizarDadosAlunoCtrl', function ($sco
 		   alunoService.buscaAlunoPorMatricula(_matricula)
            .success(function (data, status) {
         	   $scope.aluno = data;
+        	   console.log(data);
            })
            .error(onErrorCallback);
 		   
@@ -56,14 +57,12 @@ angular.module('NutrifApp').controller('atualizarDadosAlunoCtrl', function ($sco
 		   turnoService.listarTurnos()
            .success(function (data, status) {
         	   $scope.turnos = data;
-        	   console.log(data);
            })
            .error(onErrorCallback);
 		   
 		   turmaService.listarTurma()
            .success(function (data, status) {
         	   $scope.turmas = data;
-        	   console.log(data);
            })
            .error(onErrorCallback);
 		   

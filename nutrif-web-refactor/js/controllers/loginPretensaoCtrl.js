@@ -1,7 +1,7 @@
 angular.module("NutrifApp").controller("loginPretensaoCtrl", function (userService, $state, alunoService, $mdToast, $scope) {
 
-    this.fazerLogin = function (matricula) {
-        alunoService.buscaAlunoPorMatricula(matricula)
+    this.fazerLogin = function (aluno) {
+        alunoService.fazerLogin(aluno)
             .success(function (data, status) {
             	$scope.aluno = data;
             	
