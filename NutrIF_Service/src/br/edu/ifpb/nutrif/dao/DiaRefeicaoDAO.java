@@ -350,10 +350,11 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 					+ " 	from Edital as ed"
 					+ "		where ed.ativo = :ativo"
 					+ "		and (ed.id = :idEdital"
-					+ "		or :dataInicial between ed.dataInicial and ed.dataFinal"
+					+ "		or (:dataInicial between ed.dataInicial and ed.dataFinal and ed.dataFinal >= CURRENT_TIMESTAMP)"
 					+ "		or :dataFinal between ed.dataInicial and ed.dataFinal"
 					+ "		or (ed.dataInicial between :dataInicial and :dataFinal"
-					+ "				and ed.dataFinal between :dataInicial and :dataFinal)"
+					+ "				and ed.dataFinal between :dataInicial and :dataFinal"
+					+ "				and ed.dataFinal >= CURRENT_TIMESTAMP)"
 					+ "		)"					
 					+ " )"
 					+ " order by dr.dataInsercao DESC";
