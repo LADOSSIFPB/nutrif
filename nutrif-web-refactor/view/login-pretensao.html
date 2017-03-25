@@ -9,11 +9,17 @@
 
         <md-card-content layout="column">
 
-            <form layout="column" ng-submit="pretensao.fazerLogin(matricula)">
+            <form layout="column" ng-submit="pretensao.fazerLogin(aluno)">
                 <md-input-container class="md-icon-float md-block">
                     <md-icon md-svg-src="img/icon/round-account-button-with-user-inside.svg"/></md-icon>
                     <label>Matrícula</label>
-                    <input ng-model="matricula" type="number" ng-required="true">
+                    <input ng-model="aluno.matricula" type="number" ng-required="true">
+                </md-input-container>
+                
+                 <md-input-container class="md-icon-float md-block">
+                    <md-icon md-svg-src="img/icon/locked-padlock.svg" class="name"/></md-icon>
+                    <label>Senha</label>
+                    <input ng-model="aluno.senha"  type="password"  ng-required="true">
                 </md-input-container>
 
                 <md-button type="submit" class="md-raised md-primary md-hue-1">Entrar</md-button>

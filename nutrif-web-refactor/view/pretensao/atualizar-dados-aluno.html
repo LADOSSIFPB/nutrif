@@ -4,13 +4,19 @@
     <!-- Nome -->
     <md-input-container class="md-icon-float md-block">
       <label>Nome</label>
-      <input ng-model="aluno.nome" type="text" required>
+      <input ng-model="aluno.nome" type="text" ng-readonly="true">
     </md-input-container>
     
     <!-- Email -->
     <md-input-container class="md-icon-float md-block">
       <label>Email</label>
-      <input ng-model="aluno.email" type="text" required>
+      <input ng-model="aluno.email" type="text" ng-readonly="true">
+    </md-input-container>
+    
+     <!-- Email -->
+    <md-input-container class="md-icon-float md-block">
+      <label>Email</label>
+      <input ng-model="aluno.matricula" type="text" ng-readonly="true">
     </md-input-container>
     
     <!-- Ano/Período -->
@@ -45,13 +51,7 @@
       <label>Senha</label>
       <input ng-model="aluno.senha" type="text" required>
     </md-input-container>
-       
-    <!-- Redigite a senha -->
-    <md-input-container class="md-icon-float md-block">
-      <label>Redigite a Senha</label>
-      <input ng-model="aluno.novaSenha" type="text" required>
-    </md-input-container>
-    
+         
      <md-button type="submit" layout-fill type="submit" class="md-raised md-primary md-hue-1 flex" style="margin-top: 40px">Atualizar dados do aluno</md-button>
    
   </form>
