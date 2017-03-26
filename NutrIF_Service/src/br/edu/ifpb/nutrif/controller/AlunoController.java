@@ -356,11 +356,7 @@ public class AlunoController {
 		
 		if (validacao == Validate.VALIDATE_OK) {
 			
-			try {			
-				
-				String senhaPlana = alunoAcesso.getSenha();
-				
-				String email = alunoAcesso.getEmail();
+			try {
 				
 				String matricula = alunoAcesso.getMatricula();
 				
@@ -368,8 +364,10 @@ public class AlunoController {
 				Aluno aluno = AlunoDAO.getInstance().getByMatricula(matricula);
 				
 				if (aluno != null 
-						&& aluno.getId() != BancoUtil.ID_VAZIO) {
+						&& aluno.getId() != BancoUtil.ID_VAZIO) {					
 
+					String email = alunoAcesso.getEmail();
+					
 					// Verificar se o usuário já tem acesso solicitado.					
 					if (!aluno.isAcesso()) {
 						
@@ -380,6 +378,8 @@ public class AlunoController {
 						
 						email = aluno.getEmail();
 					}
+					
+					String senhaPlana = alunoAcesso.getSenha();
 					
 					// Criptografar senha.
 					String senhaCriptografada = StringUtil.criptografarBase64(
@@ -649,8 +649,9 @@ public class AlunoController {
 			
 			try {
 				
+				String matricula = pessoaAcesso.getMatricula();
 				Aluno aluno = AlunoDAO.getInstance()
-						.getByMatricula(pessoaAcesso.getMatricula());
+						.getByMatricula(matricula);
 				
 				if (aluno != null) {			
 				
@@ -685,6 +686,7 @@ public class AlunoController {
 							// Pessoa
 							pessoaAcesso = PessoaAcesso.getInstance(
 									pessoa);
+							pessoaAcesso.setMatricula(matricula);
 							
 							// Chave de autenticação gerada.
 							pessoaAcesso.setKeyAuth(login.getKeyAuth());
