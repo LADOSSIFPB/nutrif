@@ -26,14 +26,19 @@ angular.module("NutrifApp").factory("alunoService", function($http, config){
 	var _buscaAlunoPorMatricula = function (matricula){
 		return $http.get(_path + "/matricula/" + encodeURI(matricula))
 	};
-
+	
+	var _verificarAcesso = function (matricula){
+		return $http.get(_path + "/verificar/acesso/matricula/" + encodeURI(matricula))
+	};
+	
 	return {
 		buscaAlunoPorNome: _buscaAlunoPorNome,
 		cadastrarAluno: _cadastrarAluno,
 		atualizarAluno: _atualizarAluno,
 		atualizarCadastro: _atualizarCadastro,
 		buscaAlunoPorMatricula: _buscaAlunoPorMatricula,
-		fazerLogin: _fazerLogin
+		fazerLogin: _fazerLogin,
+		verificarAcesso: _verificarAcesso
 	};
 
 });

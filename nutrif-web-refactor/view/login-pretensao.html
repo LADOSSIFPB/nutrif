@@ -1,4 +1,4 @@
-﻿<div layout="row" layout-align="center center" class="form-whiteframe">
+<div layout="row" layout-align="center center" class="form-whiteframe">
     <md-card  flex-gt-sm="35" flex-gt-lg="30" flex-sm="50" flex-xs="90" class="form-body">
 
         <md-card-title>
@@ -13,10 +13,10 @@
                 <md-input-container class="md-icon-float md-block">
                     <md-icon md-svg-src="img/icon/round-account-button-with-user-inside.svg"/></md-icon>
                     <label>Matrícula</label>
-                    <input ng-model="aluno.matricula" type="number" ng-required="true">
+                    <input ng-model="aluno.matricula" type="number" ng-blur ="pretensao.verificarAcesso(aluno.matricula)"  ng-required="true">
                 </md-input-container>
                 
-                 <md-input-container class="md-icon-float md-block">
+                 <md-input-container ng-show="acesso" class="md-icon-float md-block">
                     <md-icon md-svg-src="img/icon/locked-padlock.svg" class="name"/></md-icon>
                     <label>Senha</label>
                     <input ng-model="aluno.senha"  type="password"  ng-required="true">

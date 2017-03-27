@@ -81,13 +81,13 @@ public class AlunoController {
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
 		builder.expires(new Date());
 		
-		// Validação dos dados de entrada.
+		// Validaï¿½ï¿½o dos dados de entrada.
 		int validacao = Validate.inserirAluno(aluno);
 		
 		if (validacao == Validate.VALIDATE_OK) {
 			
 			try {
-				// Nome do aluno somente com a primeira letra em maiúsculo.
+				// Nome do aluno somente com a primeira letra em maiï¿½sculo.
 				String nome = aluno.getNome();
 				aluno.setNome(StringUtil.upperCaseFirstChar(nome));
 				
@@ -120,7 +120,7 @@ public class AlunoController {
 					
 					if (idAluno != BancoUtil.ID_VAZIO) {
 
-						// Operação realizada com sucesso.
+						// Operaï¿½ï¿½o realizada com sucesso.
 						builder.status(Response.Status.OK);
 						builder.entity(aluno);
 						
@@ -131,7 +131,7 @@ public class AlunoController {
 					
 				} else {
 					
-					//TODO: Mensagem de erro para Curso, Campus ou Roles não encontrados.
+					//TODO: Mensagem de erro para Curso, Campus ou Roles nï¿½o encontrados.
 				}				
 			
 			} catch (SQLExceptionNutrIF exception) {
@@ -165,7 +165,7 @@ public class AlunoController {
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
 		builder.expires(new Date());
 		
-		// Validação dos dados de entrada.
+		// Validaï¿½ï¿½o dos dados de entrada.
 		int validacao = Validate.inserirAluno(aluno);
 		
 		if (validacao == Validate.VALIDATE_OK) {
@@ -182,7 +182,7 @@ public class AlunoController {
 				
 				if (aluno != null) {
 
-					// Operação realizada com sucesso.
+					// Operaï¿½ï¿½o realizada com sucesso.
 					builder.status(Response.Status.OK);					
 					builder.entity(aluno);
 				}
@@ -258,7 +258,7 @@ public class AlunoController {
 	}
 	
 	/**
-	 * Recuperar Aluno pela matrícula.
+	 * Recuperar Aluno pela matrï¿½cula.
 	 * 
 	 * @param matricula
 	 * @return
@@ -328,7 +328,7 @@ public class AlunoController {
 	}
 	
 	/**
-	 * Inserir acesso do Aluno ao sistema via dispositivo móvel.
+	 * Inserir acesso do Aluno ao sistema via dispositivo mï¿½vel.
 	 * TODO: Reavaliar processo de login do aluno. Usar o login do PessoaController.
 	 * 
 	 * Entrada:
@@ -351,7 +351,7 @@ public class AlunoController {
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
 		builder.expires(new Date());
 		
-		// Validação dos dados de entrada.
+		// Validaï¿½ï¿½o dos dados de entrada.
 		int validacao = Validate.acessoAluno(alunoAcesso);
 		
 		if (validacao == Validate.VALIDATE_OK) {
@@ -360,7 +360,7 @@ public class AlunoController {
 				
 				String matricula = alunoAcesso.getMatricula();
 				
-				// Recuperar Aluno através da matrícula.
+				// Recuperar Aluno atravï¿½s da matrï¿½cula.
 				Aluno aluno = AlunoDAO.getInstance().getByMatricula(matricula);
 				
 				if (aluno != null 
@@ -368,7 +368,7 @@ public class AlunoController {
 
 					String email = alunoAcesso.getEmail();
 					
-					// Verificar se o usuário já tem acesso solicitado.					
+					// Verificar se o usuï¿½rio jï¿½ tem acesso solicitado.					
 					if (!aluno.isAcesso()) {
 						
 						// E-mail do Aluno.
@@ -386,11 +386,11 @@ public class AlunoController {
 							senhaPlana);				
 					aluno.setSenha(senhaCriptografada);
 					
-					// Gerar chave de confirmação: KeyConfirmation.
+					// Gerar chave de confirmaï¿½ï¿½o: KeyConfirmation.
 					String keyConfirmation = StringUtil.getRadomKeyConfirmation();
 					aluno.setKeyConfirmation(keyConfirmation);
 					
-					// Período
+					// Perï¿½odo
 					Periodo periodo = PeriodoDAO.getInstance().getById(alunoAcesso.getPeriodo().getId());
 					aluno.setPeriodo(periodo);
 					
@@ -407,7 +407,7 @@ public class AlunoController {
 					// Ativar Aluno.
 					aluno.setAtivo(BancoUtil.ATIVO);
 					
-					// Ativar solicitação de acesso.
+					// Ativar solicitaï¿½ï¿½o de acesso.
 					aluno.setAcesso(BancoUtil.ATIVO);
 					
 					//Inserir o Aluno.
@@ -424,7 +424,7 @@ public class AlunoController {
 						aluno.setSenha(StringUtil.STRING_VAZIO);
 						aluno.setKeyConfirmation(StringUtil.STRING_VAZIO);
 						
-						// Operação realizada com sucesso.
+						// Operaï¿½ï¿½o realizada com sucesso.
 						builder.status(Response.Status.OK);
 						builder.entity(aluno);
 					}
@@ -474,7 +474,7 @@ public class AlunoController {
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
 		builder.expires(new Date());
 		
-		// Validação dos dados de entrada.
+		// Validaï¿½ï¿½o dos dados de entrada.
 		int validacao = Validate.confirmacaoChaveAluno(aluno);
 		
 		if (validacao == Validate.VALIDATE_OK) {
@@ -484,7 +484,7 @@ public class AlunoController {
 				String matricula = aluno.getMatricula();
 				String keyConfirmation = aluno.getKeyConfirmation();
 				
-				// Consultar chave de confirmação.
+				// Consultar chave de confirmaï¿½ï¿½o.
 				boolean isKeyConfirmation = AlunoDAO.getInstance()
 						.isKeyConfirmation(matricula, keyConfirmation);
 				
@@ -499,7 +499,7 @@ public class AlunoController {
 					
 				} else {
 					
-					// Chave de autorização inválida.
+					// Chave de autorizaï¿½ï¿½o invï¿½lida.
 					builder.status(Response.Status.UNAUTHORIZED).entity(
 							ErrorFactory.getErrorFromIndex(
 									ErrorFactory.CHAVE_CONFIRMACAO_INVALIDA));
@@ -528,8 +528,8 @@ public class AlunoController {
 		try {
 		
 			EmailUtil emailUtil = new EmailUtil();
-			emailUtil.send(aluno.getEmail(), "Ativação da conta.", 
-				"Chave de confirmação: ");
+			emailUtil.send(aluno.getEmail(), "Ativaï¿½ï¿½o da conta.", 
+				"Chave de confirmaï¿½ï¿½o: ");
 		
 		} catch (EmailExceptionNutrIF exception) {
 			
@@ -581,12 +581,12 @@ public class AlunoController {
 	@GET
 	@Path("/verificar/acesso/matricula/{matricula}")
 	@Produces("application/json")
-	public Response verificarAcesso(@PathParam("") String matricula) {
+	public Response verificarAcesso(@PathParam("matricula") String matricula) {
 		
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
 		builder.expires(new Date());
 		
-		// Validação dos dados de entrada.
+		// Validaï¿½ï¿½o dos dados de entrada.
 		int validacao = Validate.verificarAcessoAluno(matricula);
 		
 		if (validacao == Validate.VALIDATE_OK) {
@@ -597,7 +597,7 @@ public class AlunoController {
 				
 				if (aluno != null) {
 					
-					// Operação realizada com sucesso.
+					// Operaï¿½ï¿½o realizada com sucesso.
 					builder.status(Response.Status.OK);
 					builder.entity(aluno);
 					
@@ -621,8 +621,8 @@ public class AlunoController {
 	}
 	
 	/**
-	 * Login para Aluno. Retorna a chave de autenticação caso o usuário esteja
-	 * com a matrícula e senha corretas.
+	 * Login para Aluno. Retorna a chave de autenticaï¿½ï¿½o caso o usuï¿½rio esteja
+	 * com a matrï¿½cula e senha corretas.
 	 * 
 	 * @param pessoaAcesso
 	 * @return
@@ -642,7 +642,7 @@ public class AlunoController {
 		logger.info("Login aluno: " + pessoaAcesso.getNome());
 		logger.info("Host: " + request.getRemoteAddr());
 		
-		// Validação dos dados de entrada.
+		// Validaï¿½ï¿½o dos dados de entrada.
 		int validacao = Validate.loginAluno(pessoaAcesso);
 		
 		if (validacao == Validate.VALIDATE_OK) {
@@ -688,17 +688,17 @@ public class AlunoController {
 									pessoa);
 							pessoaAcesso.setMatricula(matricula);
 							
-							// Chave de autenticação gerada.
+							// Chave de autenticaï¿½ï¿½o gerada.
 							pessoaAcesso.setKeyAuth(login.getKeyAuth());
 							
-							// Operação realizada com sucesso.
+							// Operaï¿½ï¿½o realizada com sucesso.
 							builder.status(Response.Status.OK);
 							builder.entity(pessoaAcesso);
 						}					
 					
 					} else {
 						
-						// Matrícula do aluno não encontrada.
+						// Matrï¿½cula do aluno nï¿½o encontrada.
 						Error error =  ErrorFactory.getErrorFromIndex(
 								ErrorFactory.SENHA_USUARIO_INVALIDA);
 						
@@ -707,7 +707,7 @@ public class AlunoController {
 					
 				} else {
 					
-					// Autenticação não permitida: senha não confere.
+					// Autenticaï¿½ï¿½o nï¿½o permitida: senha nï¿½o confere.
 					Error error =  ErrorFactory.getErrorFromIndex(
 							ErrorFactory.ALUNO_NAO_ENCONTRADO);
 					
