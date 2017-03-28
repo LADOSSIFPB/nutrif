@@ -9,11 +9,13 @@ angular.module("NutrifApp").controller("loginPretensaoCtrl", function (userServi
             .success(function (data, status) {
                 $scope.aluno = data;
                 if ($scope.aluno.acesso == ACESSO_CONFIRMADO){
-                    
                     // Direcionar para a tela com o campo de senha.
+                	 $state.go("pretensao.acesso-aluno")
                 } else {
-                    
                     // Direcionar para a atualização dos dados.
+                    $state.transitionTo("pretensao.atualizar-dados-aluno", {
+                        matricula: $scope.aluno.matricula
+                    });
                 }
             })
             .error(function (data, status) {
@@ -37,14 +39,13 @@ angular.module("NutrifApp").controller("loginPretensaoCtrl", function (userServi
             });
     }
 
-    this.fazerLogin = function (aluno) {
+   $scope.fazerLogin = function (aluno) {
         alunoService.fazerLogin(aluno)
             .success(function (data, status) {
                 $scope.aluno = data;
-
                 console.log(data);
-
-                userService.storeUser(data);
+                userService.storeUser($scope.aluno);
+                
                 if ($scope.aluno.acesso == true) {
                     $state.go("pretensao.listar-pretensao");
                 } else {

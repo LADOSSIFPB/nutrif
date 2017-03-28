@@ -24,6 +24,13 @@ angular.module('NutrifApp').config(function ($stateProvider, $urlRouterProvider)
 			controllerAs: 'pretensao',
 			module: 'non-logged'
 		})
+		
+		.state('pretensao.acesso-aluno', {
+			url: '/acesso/aluno/',
+			templateUrl: 'view/acesso-pretensao.html',
+			title: 'Login',
+			module: 'non-logged'
+		})
 
 		.state('home', {
 			url: '/inicio',
@@ -230,6 +237,7 @@ angular.module('NutrifApp').config(function ($stateProvider, $urlRouterProvider)
 			controllerAs: 'atualizar',
 			module: 'comensal'
 		})
+		
 
 
 		/* Refeição */
