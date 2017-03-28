@@ -475,6 +475,43 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 		return diasRefeicao;
 	}
 	
+	public boolean isAlunoContemplado(int idEdital, String matricula) {
+		
+		boolean contemplado = false;
+		
+		Session session = HibernateUtil.getSessionFactory().openSession();
+
+		List<DiaRefeicao> diasRefeicao = new ArrayList<DiaRefeicao>();
+		
+		try {			
+			
+			String hql = "select case when (count(dr) > 0) then true else false end " 
+					+ " from DiaRefeicao as dr"
+					+ " where dr.edital.id = :idEdital"
+					+ " and dr.aluno.matricula = :matricula"
+					+ " and dr.ativo = :ativo";
+			
+			Query query = session.createQuery(hql, Boolean.class);
+			query.setParameter("idEdital", idEdital);
+			query.setParameter("matricula", matricula);
+			query.setParameter("ativo", BancoUtil.ATIVO);
+			
+			contemplado = (Boolean) query.getSingleResult();;
+	        
+		} catch (HibernateException hibernateException) {
+			
+			session.getTransaction().rollback();
+			
+			throw new SQLExceptionNutrIF(hibernateException);
+			
+		} finally {
+		
+			session.close();
+		}
+		
+		return contemplado;
+	}
+	
 	@Override
 	public Class<?> getEntityClass() {
 		return DiaRefeicao.class;

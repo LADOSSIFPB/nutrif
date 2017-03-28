@@ -103,22 +103,26 @@ public class DiaRefeicaoController {
 						.getById(idFuncionario);
 				diaRefeicao.setFuncionario(funcionario);
 				
-				// Validar Edital: vigência e quantidade de contemplados.
-				int quantidadeBeneficiadosReal = DiaRefeicaoDAO
-						.getInstance().getQuantidadeDiaRefeicaoEdital(
-								idEdital);
-				
 				if (aluno != null
 						&& edital != null
 						&& dia != null 
 						&& refeicao != null
 						&& funcionario != null) {
 					
-					int quantidadeBeneficiadosPrevista = edital.getQuantidadeBeneficiadosPrevista();
-					int adicaoNovoDiaRefeicao = 1;
+					// Validar Edital: vigência e quantidade de contemplados.
+					int quantidadeBeneficiadosReal = DiaRefeicaoDAO
+							.getInstance().getQuantidadeDiaRefeicaoEdital(
+									idEdital);
 					
-					// Verificar se a quantidade real de beneficiários está prevista com a adição do novo dia de refeição.
-					if ((quantidadeBeneficiadosReal + adicaoNovoDiaRefeicao) <= quantidadeBeneficiadosPrevista) {
+					boolean isContemplado = DiaRefeicaoDAO.getInstance()
+							.isAlunoContemplado(idEdital, aluno.getMatricula());
+					
+					int quantidadeBeneficiadosPrevista = edital.getQuantidadeBeneficiadosPrevista();
+					int novaQuantidadeBeneficiados = quantidadeBeneficiadosReal + 1;
+					
+					// Verificar se o aluno já é contemplado ou se a quantidade real de beneficiários está prevista 
+					// com a adição do novo dia de refeição.
+					if (isContemplado ||  novaQuantidadeBeneficiados <= quantidadeBeneficiadosPrevista) {
 						
 						// Verificar se existe dia de refeição ativo para a mesma refeição, dia e
 						// edital (intervalos de vigência semelhantes).
