@@ -23,6 +23,8 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.joda.time.DateTime;
+import org.joda.time.Period;
 
 import br.edu.ifpb.nutrif.dao.DiaDAO;
 import br.edu.ifpb.nutrif.dao.DiaRefeicaoDAO;
@@ -77,7 +79,7 @@ public class PretensaoRefeicaoController {
 				ConfirmaPretensaoDia confirmaPretensaoDia = 
 						pretensaoRefeicao.getConfirmaPretensaoDia();
 				
-				// Verifica dia da refeição.
+				// Verificar dia da refeição.
 				DiaRefeicao diaRefeicao = DiaRefeicaoDAO.getInstance()
 						.getById(confirmaPretensaoDia.getDiaRefeicao().getId());
 				logger.info("Dia da Refeição: " + diaRefeicao);
@@ -248,45 +250,31 @@ public class PretensaoRefeicaoController {
 		// Dia da semana para lançar a pretensão.
 		int diaPretensao = diaRefeicao.getDia().getId();
 		
-		//TODO: Ajustar cálculo. Diferença de dias entre solicitação e pretensão.
-		int diferenca = DateUtil.getTodayDaysDiff(diaPretensao);
+		// Data de realização da refeição
+		Date dataPretensao = DateUtil.getDateOfDayWeek(diaPretensao);
+		dataPretensao = DateUtil.setTimeInDate(dataPretensao, refeicao.getHoraInicio());
+		
+		// Data e hora da solicitação
+		Date agora = new Date();
+		
+		Date horaPrevisaoPretensao = refeicao.getHoraPrevisaoPretensao();
 		
 		// Quantidade máxima de diferença entre o dia da solicitação e o pretendido.
-		if (true) {
-		//TODO: if (diferenca == refeicao.getHoraPrevisaoPretensao()) {	
+		if (DateUtil.isGreater(agora, dataPretensao, horaPrevisaoPretensao)) {
 			
-			// Data Atual
-			Date dataSolicitacao = new Date();
+			ConfirmaPretensaoDia confirmaPretensaoDia = 
+					new ConfirmaPretensaoDia();
 			
-			// Data da pretensão.
-			Date dataPretensao = DateUtil.addDays(dataSolicitacao, 
-					diferenca);
-			dataPretensao = null; 
-			//TODO: DateUtil.setTimeInDate(dataPretensao, refeicao.getHoraPretensao());
+			// Atribuição das datas de pretensão e solicitação.
+			confirmaPretensaoDia.setDataPretensao(dataPretensao);
+			confirmaPretensaoDia.setDiaRefeicao(diaRefeicao);
 			
-			// Verificações de período de solicitação da pretensão.					
-			int diferencaMinutos = DateUtil.getMinutesBetweenDate(
-					dataSolicitacao, 
-					dataPretensao);
-			
-			logger.info("Diferença em minutos: " + diferencaMinutos);
-			
-			// Verificar se solicitação está sendo lançada dentro do prazo					
-			if (diferencaMinutos <= DateUtil.UM_DIA_MINUTOS) {
-				
-				ConfirmaPretensaoDia confirmaPretensaoDia = 
-						new ConfirmaPretensaoDia();
-				
-				// Atribuição das datas de pretensão e solicitação.
-				confirmaPretensaoDia.setDataPretensao(dataPretensao);
-				confirmaPretensaoDia.setDiaRefeicao(diaRefeicao);
-				
-				pretensaoRefeicao = new PretensaoRefeicao();
-				pretensaoRefeicao.setConfirmaPretensaoDia(
-						confirmaPretensaoDia);
-				pretensaoRefeicao.setDataSolicitacao(dataSolicitacao);
-			}				
-		}
+			pretensaoRefeicao = new PretensaoRefeicao();
+			pretensaoRefeicao.setConfirmaPretensaoDia(
+					confirmaPretensaoDia);
+			pretensaoRefeicao.setDataSolicitacao(agora);
+		}				
+		
 		
 		return pretensaoRefeicao;
 	}

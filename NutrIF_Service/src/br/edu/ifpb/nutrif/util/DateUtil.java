@@ -8,6 +8,9 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.joda.time.DateTime;
+import org.joda.time.Duration;
+import org.joda.time.Hours;
+import org.joda.time.Instant;
 import org.joda.time.Interval;
 import org.joda.time.Minutes;
 import org.joda.time.Period;
@@ -44,6 +47,17 @@ public class DateUtil {
         if (diff < 0) {
             diff += 7;
         }
+        
+        return diff;
+    }
+	
+	public static int getTodayHoursDiff(Date finalDayOfWeek) {
+        
+		Date now = new Date();
+        
+		Period period = getPeriodBetweenDate(now, finalDayOfWeek);
+        
+        int diff = period.getHours();        
         
         return diff;
     }
@@ -104,7 +118,7 @@ public class DateUtil {
 		return addDays(date, decreaseFactor * days);
 	}
 	
-	public static Period getPeriodBetweenDate (Date inicio, Date fim) {
+	public static Period getPeriodBetweenDate(Date inicio, Date fim) {
 		
 		Interval interval = new Interval(inicio.getTime(), fim.getTime());
 		Period period = interval.toPeriod();
@@ -112,7 +126,29 @@ public class DateUtil {
 		return period;
 	}
 	
-	public static int getMinutesBetweenDate (Date inicio, Date fim) {
+	public static boolean isGreater(Date inicio, Date fim, Date diferenca) {
+		
+		DateTime dataInicial = new DateTime(inicio);
+		DateTime dataFinal = new DateTime(fim);
+		
+		Hours hours = Hours.hoursBetween(dataInicial, dataFinal);
+		
+		int horasDiferenca = diferenca.getHours();
+		
+		return hours.isGreaterThan(Hours.hours(horasDiferenca));
+	}
+	
+	public static boolean isLonger(Period p1, Period p2) {
+		
+		Instant now = Instant.now();
+		
+		Duration d1 = p1.toDurationTo(now);
+		Duration d2 = p2.toDurationTo(now);
+		
+		return d1.isLongerThan(d2);
+	}
+	
+	public static int getMinutesBetweenDate(Date inicio, Date fim) {
 		
 		int minutes = Minutes.minutesBetween(new DateTime(inicio.getTime()), 
 				new DateTime(fim.getTime())).getMinutes();
