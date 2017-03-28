@@ -1,58 +1,57 @@
 <md-card layout-padding style="padding-left: 6%; padding-right: 6%; padding-bottom: 4%; padding-top: 3%">
-  <form layout="column" ng-submit="atualizar.atualizar(atualizar.aluno)">
-    
-    <!-- Nome -->
-    <md-input-container class="md-icon-float md-block">
-      <label>Nome</label>
-      <input ng-model="aluno.nome" type="text" ng-readonly="true">
-    </md-input-container>
-    
-    <!-- Email -->
-    <md-input-container class="md-icon-float md-block">
-      <label>Email</label>
-      <input ng-model="aluno.email" type="text" ng-readonly="true">
-    </md-input-container>
-    
-     <!-- Email -->
-    <md-input-container class="md-icon-float md-block">
-      <label>Email</label>
-      <input ng-model="aluno.matricula" type="text" ng-readonly="true">
-    </md-input-container>
-    
-    <!-- Ano/Per�odo -->
-    <md-input-container class="md-icon-float md-block">
-      <label>Ano/Per�odo</label>
-      <input ng-model="aluno.ano" type="text" required>
-    </md-input-container>
-    
- 	<!-- Turma -->
-    <md-input-container flex>
-        <label>Turma</label>
-           <md-select ng-model="aluno.turma.id" aria-label="Selecione o Turma">
-               <md-option ng-repeat="turma in turmas" value="{{turma.id}}">
-                  {{turma.nome}}
-               </md-option>
-           </md-select>
-    </md-input-container>
-    
-    <!-- Turno -->
-    <md-input-container flex>
-        <label>Turno</label>
-           <md-select ng-model="aluno.turno.id" aria-label="Selecione o Turno">
-               <md-option ng-repeat="turno in turnos" value="{{turno.id}}">
-                  {{turno.nome}}
-               </md-option>
-           </md-select>
-    </md-input-container>
+    <form layout="column" ng-submit="atualizar.atualizar(atualizar.aluno)">
 
-    
-    <!-- Senha -->
-    <md-input-container class="md-icon-float md-block">
-      <label>Senha</label>
-      <input ng-model="aluno.senha" type="text" required>
-    </md-input-container>
-         
-     <md-button type="submit" layout-fill type="submit" class="md-raised md-primary md-hue-1 flex" style="margin-top: 40px">Atualizar dados do aluno</md-button>
-   
-  </form>
+        <!-- Nome -->
+        <md-input-container class="md-icon-float md-block">
+            <label>Nome</label>
+            <input ng-model="aluno.nome" type="text" ng-readonly="true">
+        </md-input-container>
+        
+        <!-- Matrícula -->
+        <md-input-container class="md-icon-float md-block">
+            <label>Matrícula</label>
+            <input ng-model="aluno.matricula" type="text" ng-readonly="true">
+        </md-input-container>
+
+        <!-- Email -->
+        <md-input-container class="md-icon-float md-block">
+            <label>E-mail</label>
+            <input ng-model="aluno.email" type="text" ng-readonly="true">
+        </md-input-container>        
+
+        <!-- Ano/Período -->
+        <md-input-container class="md-icon-float md-block">
+            <label>Ano ou Período</label>
+            <input ng-model="aluno.ano" type="text" required>
+        </md-input-container>
+
+        <!-- Turma -->
+        <md-input-container flex>
+            <label>Turma</label>
+            <md-select ng-model="aluno.turma.id" aria-label="Selecione o Turma">
+                <md-option ng-repeat="turma in turmas" value="{{turma.id}}">
+                    {{turma.nome}}
+                </md-option>
+            </md-select>
+        </md-input-container>
+
+        <!-- Turno -->
+        <md-input-container flex>
+            <label>Turno</label>
+            <md-select ng-model="aluno.turno.id" aria-label="Selecione o Turno">
+                <md-option ng-repeat="turno in turnos" value="{{turno.id}}">
+                    {{turno.nome}}
+                </md-option>
+            </md-select>
+        </md-input-container>
+
+        <!-- Senha -->
+        <md-input-container class="md-icon-float md-block">
+            <label>Senha</label>
+            <input ng-model="aluno.senha" type="text" required>
+        </md-input-container>
+
+        <md-button type="submit" layout-fill type="submit" class="md-raised md-primary md-hue-1 flex" style="margin-top: 40px">Atualizar dados do aluno</md-button>
+
+    </form>
 </md-card>
