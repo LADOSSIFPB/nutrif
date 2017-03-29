@@ -7,21 +7,11 @@ angular.module("NutrifApp").controller('acessoAlunoCtrl', function ($stateParams
             alunoService.fazerLogin(aluno)
                 .success(function (data, status) {
                     $scope.aluno = data;
-                    console.log(data);
+                   
                     userService.storeUser($scope.aluno);
                     
-                    //Servico não retorna acesso, por isso direciona para pagina errada.
-                    if ($scope.aluno.acesso == true) {
-                     
-                    	$state.go("pretensao.listar-pretensao");
-                    
-                    } else {
-                     
-                    	$state.transitionTo("pretensao.atualizar-dados-aluno", {
-                            matricula: $scope.aluno.matricula
-                        });
-                   
-                    }
+                    $state.go("pretensao.listar-pretensao");
+  
                 })
 
                 .error(function (data, status) {
