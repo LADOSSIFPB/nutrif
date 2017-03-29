@@ -25,10 +25,11 @@ angular.module('NutrifApp').config(function ($stateProvider, $urlRouterProvider)
 			module: 'non-logged'
 		})
 		
-		.state('pretensao.acesso-aluno', {
-			url: '/acesso/aluno/',
+		.state('login.acesso-aluno', {
+			url: '/acesso/aluno/:matricula',
 			templateUrl: 'view/acesso-pretensao.html',
-			title: 'Login',
+			controller: 'acessoAlunoCtrl',
+			controllerAs: 'acesso',
 			module: 'non-logged'
 		})
 
