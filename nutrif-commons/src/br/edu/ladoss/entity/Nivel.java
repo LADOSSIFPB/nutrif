@@ -10,18 +10,18 @@ import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement(name = "periodo")
+@XmlRootElement(name = "nivel")
 @Entity
-@Table(name = "tb_periodo")
-@NamedQuery(name = "Periodo.getAll", query = "from Periodo")
-public class Periodo {
+@Table(name = "tb_nivel")
+@NamedQuery(name = "Nivel.getAll", query = "from Nivel")
+public class Nivel {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id_periodo")
+	@Column(name = "id_nivel")
 	private Integer id;
 	
-	@Column(name = "nm_periodo")
+	@Column(name = "nm_nivel")
 	private String nome;
 
 	@XmlElement
@@ -44,7 +44,7 @@ public class Periodo {
 	
 	@Override
 	public String toString() {
-		return "Periodo [id=" + id 
+		return "Nivel [id=" + id 
 				+ ", nome=" + nome + "]";
 	}
 }

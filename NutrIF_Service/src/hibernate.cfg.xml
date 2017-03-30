@@ -58,7 +58,8 @@
 		<mapping class="br.edu.ladoss.entity.Error" />
 		<mapping class="br.edu.ladoss.entity.Turno" />
 		<mapping class="br.edu.ladoss.entity.Turma" />
-		<mapping class="br.edu.ladoss.entity.Periodo" />						
+		<mapping class="br.edu.ladoss.entity.Periodo" />
+		<mapping class="br.edu.ladoss.entity.Nivel" />					
 
 	</session-factory>
 </hibernate-configuration>
