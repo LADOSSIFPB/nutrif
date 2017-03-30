@@ -12,14 +12,13 @@ angular.module("NutrifApp").controller("loginPretensaoCtrl", function (userServi
                 console.log($scope.aluno);
                 if ($scope.aluno.acesso == ACESSO_CONFIRMADO){
                 	 console.log($scope.aluno);
-                	 
                     // Direcionar para a tela com o campo de senha.
                 	 $state.transitionTo("login.acesso-aluno", {
                          matricula: $scope.aluno.matricula
                      });
-                } else {
+                } else{
                     // Direcionar para a atualização dos dados.
-                    $state.transitionTo("pretensao.atualizar-dados-aluno", {
+                    $state.transitionTo("login.atualizar-dados-aluno", {
                         matricula: $scope.aluno.matricula
                     });
                 }

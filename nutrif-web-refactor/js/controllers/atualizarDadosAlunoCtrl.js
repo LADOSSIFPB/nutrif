@@ -1,9 +1,10 @@
 angular.module('NutrifApp').controller('atualizarDadosAlunoCtrl', function ($scope, $mdToast,
-  $state, cursoService, alunoService, turnoService, turmaService, campusService,$stateParams) {
+  $state, cursoService, alunoService, turnoService, turmaService, campusService, periodoService, $stateParams) {
 	
 	$scope.aluno = {};
 	$scope.turnos = [];
 	$scope.turmas = [];
+	$scope.periodos = [];
 	
 	this.atualizar = function (aluno) {
 	      alunoService.atualizarCadastro(aluno)
@@ -63,6 +64,12 @@ angular.module('NutrifApp').controller('atualizarDadosAlunoCtrl', function ($sco
 		   turmaService.listarTurma()
            .success(function (data, status) {
         	   $scope.turmas = data;
+           })
+           .error(onErrorCallback);
+		   
+		   periodoService.listarPeriodo()
+           .success(function (data, status) {
+        	   $scope.periodos = data;
            })
            .error(onErrorCallback);
 		   

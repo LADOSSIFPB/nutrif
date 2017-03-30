@@ -32,6 +32,15 @@ angular.module('NutrifApp').config(function ($stateProvider, $urlRouterProvider)
 			controllerAs: 'acesso',
 			module: 'non-logged'
 		})
+		
+		.state('login.atualizar-dados-aluno', {
+			url: '/atualizar/aluno/:matricula',
+			templateUrl: 'view/pretensao/atualizar-dados-aluno.html',
+			title: 'Atualizar dados do aluno',
+			controller: 'atualizarDadosAlunoCtrl',
+			controllerAs: 'atualizar',
+			module: 'non-logged'
+		})
 
 		.state('home', {
 			url: '/inicio',
@@ -230,15 +239,7 @@ angular.module('NutrifApp').config(function ($stateProvider, $urlRouterProvider)
 			module: 'comensal'
 		})
 		
-	    .state('pretensao.atualizar-dados-aluno', {
-			url: '/atualizar/aluno/:matricula',
-			templateUrl: 'view/pretensao/atualizar-dados-aluno.html',
-			title: 'Atualizar dados do aluno',
-			controller: 'atualizarDadosAlunoCtrl',
-			controllerAs: 'atualizar',
-			module: 'comensal'
-		})
-		
+
 
 
 		/* Refeição */
