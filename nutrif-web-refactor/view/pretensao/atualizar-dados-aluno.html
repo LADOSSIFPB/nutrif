@@ -1,40 +1,41 @@
 <md-card layout-padding style="padding-left: 6%; padding-right: 6%; padding-bottom: 4%; padding-top: 3%">
-    <form layout="column" ng-submit="atualizar.atualizar(atualizar.aluno)">
+
+    <form layout="column" ng-submit="atualizar.atualizar(aluno)">
 
         <!-- Nome -->
         <md-input-container class="md-icon-float md-block">
             <label>Nome</label>
             <input ng-model="aluno.nome" type="text" ng-readonly="true">
         </md-input-container>
-        
+
         <!-- Matrícula -->
         <md-input-container class="md-icon-float md-block">
             <label>Matrícula</label>
             <input ng-model="aluno.matricula" type="text" ng-readonly="true">
         </md-input-container>
-        
+
         <!-- Curso -->
         <md-input-container class="md-icon-float md-block">
             <label>Curso</label>
             <input ng-model="aluno.curso.nome" type="text" ng-readonly="true">
-        </md-input-container> 
-        
-         <!-- Campus -->
+        </md-input-container>
+
+        <!-- Campus -->
         <md-input-container class="md-icon-float md-block">
             <label>Campus</label>
             <input ng-model="aluno.campus.cidade" type="text" ng-readonly="true">
-        </md-input-container> 
+        </md-input-container>
 
         <!-- Email -->
         <md-input-container class="md-icon-float md-block">
             <label>E-mail</label>
-            <input ng-model="aluno.email" type="text">
-        </md-input-container> 
-        
+            <input ng-model="aluno.email" type="email">
+        </md-input-container>
+
         <!-- Ano/Período -->
         <md-input-container class="md-icon-float md-block">
             <label>Ano ou Período</label>
-            <md-select ng-model="aluno.periodo.id" aria-label="Selecione o ano ou per�odo">
+            <md-select ng-model="aluno.periodo.id" aria-label="Selecione o Ano ou Período">
                 <md-option ng-repeat="periodo in periodos" value="{{periodo.id}}">
                     {{periodo.nome}}
                 </md-option>
@@ -64,7 +65,13 @@
         <!-- Senha -->
         <md-input-container class="md-icon-float md-block">
             <label>Senha</label>
-            <input ng-model="aluno.senha" type="text" required>
+            <input ng-model="aluno.senha" type="password" required>
+        </md-input-container>
+        
+        <!-- Senha -->
+        <md-input-container class="md-icon-float md-block">
+            <label>Redigite a Senha</label>
+            <input ng-model="aluno.resenha" type="password" required>
         </md-input-container>
 
         <md-button type="submit" layout-fill type="submit" class="md-raised md-primary md-hue-1 flex" style="margin-top: 40px">Atualizar dados do aluno</md-button>

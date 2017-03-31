@@ -19,7 +19,7 @@ angular.module("NutrifApp").factory("alunoService", function($http, config){
 	};
 	
 	var _atualizarCadastro = function (aluno){
-		return $http.post(_path + "/inserir/acesso ", aluno)
+		return $http.post(_path + "/inserir/acesso", aluno)
 	};
 	
 

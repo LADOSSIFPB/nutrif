@@ -25,13 +25,17 @@ public class Curso implements DataEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_curso")
 	private Integer id;
+
+	@Column(name = "nm_curso")
+	private String nome;
 	
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "fk_id_campus")
 	private Campus campus;
-
-	@Column(name = "nm_curso")
-	private String nome;
+	
+	@OneToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "fk_id_nivel")
+	private Nivel nivel;
 
 	public Curso() {
 		super();
@@ -66,6 +70,6 @@ public class Curso implements DataEntity {
 
 	@Override
 	public String toString() {
-		return "Curso [id=" + id + ", nome=" + nome + "]";
+		return "Curso [id=" + id + ", nome=" + nome + ", nivel=" + nivel + "]";
 	}
 }
