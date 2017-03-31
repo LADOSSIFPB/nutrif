@@ -12,16 +12,22 @@ def parser():
         if has_image != 0:
             dirMatr = dirName.find("-")
             if dirMatr != -1:
-                if dirName[dirMatr + 1] == " ":
-                    matricula = dirName[dirMatr + 2:]
-                elif dirName[dirMatr + 1] != " ":
-                    matricula = dirName[dirMatr + 1:]
+                matricula = dirName.split("-")
+                matricula = matricula[-1]
+                matricula = matricula.strip()
                 dirCopy = destDir + "\\" + matricula
                 shutil.copytree(dirName, dirCopy)
                 for fname in fileList:
                     print("\t%s" % fname)
             else:
-                print("Não tem matrícula")
+                nomeAluno = dirName.split("\\")
+                nomeAluno = nomeAluno[-1].strip()
+
+                arquivo = open(destDir + "\\" + "alunos_sem_matricula.txt", "a")
+                arquivo.write(nomeAluno + "\n")
+                arquivo.close()
+
+                print(nomeAluno, "não tem matrícula")
 
 def main():
     parser()
