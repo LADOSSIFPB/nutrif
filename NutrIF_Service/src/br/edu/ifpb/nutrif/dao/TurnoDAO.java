@@ -26,7 +26,7 @@ public class TurnoDAO extends GenericDao<Integer, Turno>{
 
 	@Override
 	public Class<?> getEntityClass() {
-		return TurnoDAO.class;
+		return Turno.class;
 	}
 
 	@Override

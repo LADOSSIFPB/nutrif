@@ -73,7 +73,8 @@ public class Validate {
 		
 		logger.info("Validação para acesso de Aluno.");
 		
-		if (!stringValidator.validate(aluno.getMatricula(), 11))
+		if (!numeroValidator.validate(aluno.getMatricula()) 
+				|| !stringValidator.validate(aluno.getMatricula(), 11, 12))
 			return ErrorFactory.MATRICULA_ALUNO_INVALIDA;
 		
 		if (!emailValidator.validate(aluno.getEmail()))

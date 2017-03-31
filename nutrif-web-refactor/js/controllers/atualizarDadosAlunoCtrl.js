@@ -41,7 +41,7 @@ angular.module('NutrifApp').controller('atualizarDadosAlunoCtrl', function (curs
             .hideDelay(6000)
         );
 
-        $state.go("pretensao.listar-pretensao");
+        $state.go("login.pretensao");
     }
 
     function onErrorCallback(data, status) {

@@ -7,7 +7,6 @@ import org.apache.logging.log4j.Logger;
 
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
 import br.edu.ladoss.entity.Turma;
-import br.edu.ladoss.entity.Turno;
 
 public class TurmaDAO extends GenericDao<Integer, Turma>{
 	
@@ -27,7 +26,7 @@ public class TurmaDAO extends GenericDao<Integer, Turma>{
 
 	@Override
 	public Class<?> getEntityClass() {
-		return TurmaDAO.class;
+		return Turma.class;
 	}
 
 	@Override

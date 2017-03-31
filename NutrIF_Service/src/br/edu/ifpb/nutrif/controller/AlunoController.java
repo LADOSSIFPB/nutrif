@@ -416,9 +416,11 @@ public class AlunoController {
 					if (aluno.getId() != BancoUtil.ID_VAZIO) {
 
 						// Enviar e-mail com a chave de acesso.
+						/*
 						EmailUtil emailUtil = new EmailUtil();
 						emailUtil.sendChaveConfirmacaoAluno(
 								email, keyConfirmation, aluno.getNome());
+						*/
 						
 						// Remover a senha.
 						aluno.setSenha(StringUtil.STRING_VAZIO);
