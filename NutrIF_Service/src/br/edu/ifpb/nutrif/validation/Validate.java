@@ -17,6 +17,7 @@ import br.edu.ladoss.entity.DiaRefeicao;
 import br.edu.ladoss.entity.Edital;
 import br.edu.ladoss.entity.Evento;
 import br.edu.ladoss.entity.Funcionario;
+import br.edu.ladoss.entity.Periodo;
 import br.edu.ladoss.entity.PeriodoPretensaoRefeicao;
 import br.edu.ladoss.entity.PeriodoRefeicaoRealizada;
 import br.edu.ladoss.entity.PessoaAcesso;
@@ -25,6 +26,8 @@ import br.edu.ladoss.entity.Refeicao;
 import br.edu.ladoss.entity.RefeicaoRealizada;
 import br.edu.ladoss.entity.Role;
 import br.edu.ladoss.entity.Setor;
+import br.edu.ladoss.entity.Turma;
+import br.edu.ladoss.entity.Turno;
 import br.edu.ladoss.enumeration.TipoArquivo;
 import br.edu.ladoss.form.FileUploadForm;
 
@@ -69,9 +72,9 @@ public class Validate {
 		return VALIDATE_OK;
 	}
 	
-	public static int acessoAluno(Aluno aluno) {
+	public static int inserirAcessoAluno(Aluno aluno) {
 		
-		logger.info("Validação para acesso de Aluno.");
+		logger.info("Validação para inserção do acesso de Aluno.");
 		
 		if (!numeroValidator.validate(aluno.getMatricula()) 
 				|| !stringValidator.validate(aluno.getMatricula(), 11, 12))
@@ -80,6 +83,30 @@ public class Validate {
 		if (!emailValidator.validate(aluno.getEmail()))
 			return ErrorFactory.EMAIL_USUARIO_INVALIDO;
 
+		Periodo periodo = aluno.getPeriodo();
+		if (periodo == null 
+				|| (periodo != null
+				&& !numeroValidator.isInteiroPositivo(periodo.getId()))) {
+			
+			return ErrorFactory.ID_PERIODO_INVALIDO;
+		}
+		
+		Turma turma = aluno.getTurma();
+		if (turma == null 
+				|| (turma != null
+				&& !numeroValidator.isInteiroPositivo(turma.getId()))) {
+			
+			return ErrorFactory.ID_TURMA_INVALIDO;
+		}
+		
+		Turno turno = aluno.getTurno();
+		if (turno == null 
+				|| (turno != null
+				&& !numeroValidator.isInteiroPositivo(turno.getId()))) {
+			
+			return ErrorFactory.ID_TURNO_INVALIDO;
+		}
+		
 		if (!stringValidator.validate(aluno.getSenha(), 5, 40))
 			return ErrorFactory.SENHA_USUARIO_INVALIDA;
 		

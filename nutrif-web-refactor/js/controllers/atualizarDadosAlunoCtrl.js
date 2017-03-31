@@ -19,7 +19,7 @@ angular.module('NutrifApp').controller('atualizarDadosAlunoCtrl', function (curs
             
         } else {
 
-            var _message = "A confirmação da senha não confere.";
+            var _message = "A senha de confirmação não está correta.";
 
             $mdToast.show(
                 $mdToast.simple()
@@ -35,7 +35,7 @@ angular.module('NutrifApp').controller('atualizarDadosAlunoCtrl', function (curs
 
         $mdToast.show(
             $mdToast.simple()
-            .textContent('Aluno(a) atualizado(a) com sucesso!')
+            .textContent('Aluno(a) atualizado(a) com sucesso.')
             .position('top right')
             .action('OK')
             .hideDelay(6000)
@@ -66,15 +66,12 @@ angular.module('NutrifApp').controller('atualizarDadosAlunoCtrl', function (curs
     function carregamentoInicial() {
 
         var _matricula = $stateParams.matricula;
-        console.log(_matricula);
 
         alunoService.buscaAlunoPorMatricula(_matricula)
             .success(function (data, status) {
                 $scope.aluno = data;
-                console.log(data);
             })
             .error(onErrorCallback);
-
 
         turnoService.listarTurnos()
             .success(function (data, status) {

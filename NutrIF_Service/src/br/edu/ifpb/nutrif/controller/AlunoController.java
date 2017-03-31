@@ -191,8 +191,13 @@ public class AlunoController {
 
 				builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
 						exception.getError());			
-			} 
-		}				
+			}
+			
+		} else {
+			
+			builder.status(Response.Status.BAD_REQUEST).entity(
+					ErrorFactory.getErrorFromIndex(validacao));
+		}
 		
 		return builder.build();		
 	}
@@ -352,7 +357,7 @@ public class AlunoController {
 		builder.expires(new Date());
 		
 		// Validação dos dados de entrada.
-		int validacao = Validate.acessoAluno(alunoAcesso);
+		int validacao = Validate.inserirAcessoAluno(alunoAcesso);
 		
 		if (validacao == Validate.VALIDATE_OK) {
 			
@@ -449,7 +454,12 @@ public class AlunoController {
 						ErrorFactory.getErrorFromIndex(
 								ErrorFactory.IMPOSSIVEL_CRIPTOGRAFAR_VALOR));			
 			}
-		}				
+			
+		} else {
+			
+			builder.status(Response.Status.BAD_REQUEST).entity(
+					ErrorFactory.getErrorFromIndex(validacao));
+		}
 		
 		return builder.build();
 	}
@@ -511,7 +521,12 @@ public class AlunoController {
 
 				builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
 						exception.getError());
-			}			
+			}
+			
+		} else {
+			
+			builder.status(Response.Status.BAD_REQUEST).entity(
+					ErrorFactory.getErrorFromIndex(validacao));
 		}
 		
 		return builder.build();
@@ -616,7 +631,12 @@ public class AlunoController {
 
 				builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
 						exception.getError());
-			}			
+			}
+			
+		} else {
+			
+			builder.status(Response.Status.BAD_REQUEST).entity(
+					ErrorFactory.getErrorFromIndex(validacao));
 		}
 		
 		return builder.build();
@@ -738,7 +758,7 @@ public class AlunoController {
 		} else {
 			
 			Error erro = ErrorFactory.getErrorFromIndex(validacao);
-			builder.status(Response.Status.NOT_ACCEPTABLE).entity(erro);
+			builder.status(Response.Status.BAD_REQUEST).entity(erro);
 		}
 		
 		return builder.build();		

@@ -123,7 +123,14 @@ public class ErrorFactory {
 	public static final int DIA_PREVISTO_PRETENSAO_INVALIDO = 52;
 	public static final int PERIODO_PREVISAO_PRETENSAO = 53;
 	
-	public static final int ERRO_INTERNO_SERVICO = 54;
+	/*
+	 * Período, turma e turno.
+	 */
+	public static final int ID_PERIODO_INVALIDO = 54;
+	public static final int ID_TURMA_INVALIDO = 55;
+	public static final int ID_TURNO_INVALIDO = 56;
+	
+	public static final int ERRO_INTERNO_SERVICO = 57;
 	
 	/*
 	 * Mapa de erros: código e mensagem.
@@ -186,6 +193,9 @@ public class ErrorFactory {
 		hashMap.put(PERIODO_PREVISAO_PRETENSAO, "Período de Previsão da Pretensão inválido");
 		hashMap.put(ERRO_INTERNO_SERVICO, "Ops! Aconteceu algo estranho no NutrIF. Contacte os administradores.");
 		hashMap.put(QUANTIDADE_BENEFICIARIOS_EXCEDENTE, "Inserção do novo dia de refeição excede a quantidade prevista para o Edital.");				
+		hashMap.put(ID_PERIODO_INVALIDO, "Período da Turma inválido.");
+		hashMap.put(ID_TURMA_INVALIDO, "Turma do Curso inválida.");
+		hashMap.put(ID_TURNO_INVALIDO, "Turno da Turma inválido.");
 		
 		return hashMap;
 	}
