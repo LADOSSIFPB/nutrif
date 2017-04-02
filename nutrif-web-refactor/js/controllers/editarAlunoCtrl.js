@@ -1,6 +1,6 @@
 angular.module('NutrifApp').controller('editarAlunoCtrl', function ($scope,
-  $stateParams, $state, $mdToast, $mdDialog,
-  alunoService, diaRefeicaoService, cursoService, editalService, campusService) {
+    $stateParams, $state, $mdToast, $mdDialog,
+    alunoService, diaRefeicaoService, cursoService, editalService, campusService) {
 
     $scope.selected = [];
     $scope.cursos = [];
@@ -13,182 +13,196 @@ angular.module('NutrifApp').controller('editarAlunoCtrl', function ($scope,
     $scope.alunoCopy = {};
 
     $scope.atualizar = function (aluno) {
-      alunoService.atualizarAluno(aluno)
-      .success(function (data, status) {
-        $scope.aluno = data;
-        $scope.alunoCopy = angular.copy($scope.aluno);
-        $state.transitionTo('home.editar-aluno', {matricula: aluno.matricula}, {reload: true});
-        $mdToast.show(
-          $mdToast.simple()
-          .textContent('Aluno atualizado com sucesso!')
-          .position('top right')
-          .action('OK')
-          .hideDelay(6000)
-        );
-      })
-      .error(onErrorCallback);
+        alunoService.atualizarAluno(aluno)
+            .success(function (data, status) {
+                $scope.aluno = data;
+                $scope.alunoCopy = angular.copy($scope.aluno);
+                $state.transitionTo('home.editar-aluno', {
+                    matricula: aluno.matricula
+                }, {
+                    reload: true
+                });
+                $mdToast.show(
+                    $mdToast.simple()
+                    .textContent('Aluno atualizado com sucesso!')
+                    .position('top right')
+                    .action('OK')
+                    .hideDelay(6000)
+                );
+            })
+            .error(onErrorCallback);
     }
 
-    $scope.adicionaRefeicao = function () {
-      $mdDialog.show({
-        controller: adicionarRefeicaoCtrl,
-        templateUrl: 'view/manager/modals/modal-confirmar-refeicao.html',
-        parent: angular.element(document.body),
-        clickOutsideToClose:true,
-        fullscreen: false,
-        locals : {
-          refeicoes: $scope.refeicoes,
-          aluno: $scope.aluno
-        }
-      }).then(function() {}, function() {});
-    }
+    $scope.atualizarAcesso = function (aluno) {}
 
-    $scope.apagarAlunos = function (selected) {
-      if (selected.length === 0) {
-        $mdToast.show(
-          $mdToast.simple()
-          .textContent('Antes de apagar, selecione alguma refeição')
-          .position('top right')
-          .action('OK')
-          .hideDelay(6000)
-        );
-      } else {
-        
-        var _length = angular.copy(selected.length);
-        var _selected = angular.copy(selected);
-
-        for (var i = 0; i < _length; i++) {
-          diaRefeicaoService.removerRefeicao(selected[i])
-          .success(function functionName() {
-            if (i >= _length) {
-              $state.transitionTo($state.current, $stateParams, {
-                reload: true,
-                inherit: false,
-                notify: true
-              });
+    $scope.adicionarRefeicao = function () {
+        $mdDialog.show({
+            controller: adicionarRefeicaoCtrl,
+            templateUrl: 'view/manager/modals/modal-confirmar-refeicao.html',
+            parent: angular.element(document.body),
+            clickOutsideToClose: true,
+            fullscreen: false,
+            locals: {
+                refeicoes: $scope.refeicoes,
+                aluno: $scope.aluno
             }
-          })
-          .error(function (data, status) {
+        }).then(function () {}, function () {});
+    }
+
+    $scope.removerRefeicao = function (selected) {
+        if (selected.length === 0) {
             $mdToast.show(
-              $mdToast.simple()
-              .textContent('Erro ao apagar uma refeição')
-              .position('top right')
-              .action('OK')
-              .hideDelay(6000)
+                $mdToast.simple()
+                .textContent('Antes de apagar, selecione alguma refeição')
+                .position('top right')
+                .action('OK')
+                .hideDelay(6000)
             );
-          });
+        } else {
+
+            var _length = angular.copy(selected.length);
+            var _selected = angular.copy(selected);
+
+            for (var i = 0; i < _length; i++) {
+                diaRefeicaoService.removerRefeicao(selected[i])
+                    .success(function functionName() {
+                        if (i >= _length) {
+                            $state.transitionTo($state.current, $stateParams, {
+                                reload: true,
+                                inherit: false,
+                                notify: true
+                            });
+                        }
+                    })
+                    .error(function (data, status) {
+                        $mdToast.show(
+                            $mdToast.simple()
+                            .textContent('Erro ao apagar uma refeição')
+                            .position('top right')
+                            .action('OK')
+                            .hideDelay(6000)
+                        );
+                    });
+            }
         }
-      }
     }
 
     function carregamentoInicial() {
 
-      var _matricula = $stateParams.matricula;
+        var _matricula = $stateParams.matricula;
 
-      if (_matricula == ''){
-        $state.transitionTo('home.listar-alunos', {reload: true});
-      }
+        if (_matricula == '') {
+            $state.transitionTo('home.listar-alunos', {
+                reload: true
+            });
+        }
 
-      alunoService.buscaAlunoPorMatricula(_matricula)
-      .success(function (data, status) {
-        $scope.aluno = data;
-        $scope.alunoCopy = angular.copy($scope.aluno);
-      })
-      .error(onErrorLoadCallback);
+        alunoService.buscaAlunoPorMatricula(_matricula)
+            .success(function (data, status) {
+                $scope.aluno = data;
+                $scope.alunoCopy = angular.copy($scope.aluno);
+            })
+            .error(onErrorLoadCallback);
 
-      diaRefeicaoService.getAllVigentesByAlunoMatricula(_matricula)
-      .success(function (data, status) {
-        $scope.refeicoes = data;
-      })
-      .error(onErrorLoadCallback);
+        diaRefeicaoService.getAllVigentesByAlunoMatricula(_matricula)
+            .success(function (data, status) {
+                $scope.refeicoes = data;
+            })
+            .error(onErrorLoadCallback);
 
-      diaRefeicaoService.listarHistoricoRefeicaoPorMatricula(_matricula)
-      .success(function (data, status) {
-          $scope.diaRefeicaoHistorico = data;
-          //Agrupar todos de um mesmo edital e criar propriedade side.
-        })
-      .error(onErrorLoadCallback);
+        diaRefeicaoService.listarHistoricoRefeicaoPorMatricula(_matricula)
+            .success(function (data, status) {
+                $scope.diaRefeicaoHistorico = data;
+                //Agrupar todos de um mesmo edital e criar propriedade side.
+            })
+            .error(onErrorLoadCallback);
 
-      cursoService.listarCursos()
-      .success(function (data, status){
-        $scope.cursos = data;
-      })
-      .error(onErrorLoadCallback);
+        cursoService.listarCursos()
+            .success(function (data, status) {
+                $scope.cursos = data;
+            })
+            .error(onErrorLoadCallback);
 
-      campusService.listarCampi()
-      .success(function (data, status){
-        $scope.campi = data;
-      })
-      .error(onErrorCallback);
+        campusService.listarCampi()
+            .success(function (data, status) {
+                $scope.campi = data;
+            })
+            .error(onErrorCallback);
     }
 
     function onErrorCallback(data, status) {
-      var _message = '';
+        var _message = '';
 
-      if (!data) {
-        _message = 'Ocorreu um erro na comunicação com o servidor, favor chamar o suporte.'
-      } else {
-        _message = data.mensagem
-      }
+        if (!data) {
+            _message = 'Ocorreu um erro na comunicação com o servidor, favor chamar o suporte.'
+        } else {
+            _message = data.mensagem
+        }
 
-      $mdToast.show(
-        $mdToast.simple()
-        .textContent(_message)
-        .position('top right')
-        .action('OK')
-        .hideDelay(6000)
-      );
+        $mdToast.show(
+            $mdToast.simple()
+            .textContent(_message)
+            .position('top right')
+            .action('OK')
+            .hideDelay(6000)
+        );
     }
 
     function onErrorLoadCallback(data, status) {
-      onErrorCallback(data, status);
-      $state.transitionTo('home.listar-alunos', {reload: true});
+        onErrorCallback(data, status);
+        $state.transitionTo('home.listar-alunos', {
+            reload: true
+        });
     }
 
     carregamentoInicial();
 
-    $scope.perfilAluno= function(){
-      $state.transitionTo('home.perfil-aluno', {matricula: $scope.aluno.matricula}, {reload: true});
+    $scope.perfilAluno = function () {
+        $state.transitionTo('home.perfil-aluno', {
+            matricula: $scope.aluno.matricula
+        }, {
+            reload: true
+        });
     }
 
-  })
+})
 
-  // Controller Adicionar Refeição.
-  function adicionarRefeicaoCtrl ($scope, $mdDialog, $mdToast, $state, $stateParams, userService,
-    editalService,  diaRefeicaoService, refeicoes, aluno, refeicaoService, diaService) {
+// Controller Adicionar Refeição.
+function adicionarRefeicaoCtrl($scope, $mdDialog, $mdToast, $state, $stateParams, userService,
+    editalService, diaRefeicaoService, refeicoes, aluno, refeicaoService, diaService) {
 
-      $scope.editais = [];
-      $scope.tiposRefeicao = [];
-      $scope.dias = [];
-      $scope.refeicoes = refeicoes;
-      $scope.aluno = aluno;
+    $scope.editais = [];
+    $scope.tiposRefeicao = [];
+    $scope.dias = [];
+    $scope.refeicoes = refeicoes;
+    $scope.aluno = aluno;
 
-      $scope.hide = function(refeicao) {
+    $scope.hide = function (refeicao) {
 
-          var encontrarRefeicao = function (element, index, array) {
-            if (element.refeicao.id === parseInt(refeicao.refeicao.id)
-              && element.dia.id === parseInt(refeicao.dia.id)) {
-              return true;
+        var encontrarRefeicao = function (element, index, array) {
+            if (element.refeicao.id === parseInt(refeicao.refeicao.id) &&
+                element.dia.id === parseInt(refeicao.dia.id)) {
+                return true;
             }
             return false;
-          }
+        }
 
-          $mdDialog.hide();
+        $mdDialog.hide();
 
-          // Dia de refeição.
-          refeicao.funcionario = {};
-          refeicao.funcionario.id = userService.getUser().id;
-          refeicao.aluno = $scope.aluno;
+        // Dia de refeição.
+        refeicao.funcionario = {};
+        refeicao.funcionario.id = userService.getUser().id;
+        refeicao.aluno = $scope.aluno;
 
-          // Serviço para adicionar dia de refeição para o aluno.
-          diaRefeicaoService.cadastrarRefeicao(refeicao)
+        // Serviço para adicionar dia de refeição para o aluno.
+        diaRefeicaoService.cadastrarRefeicao(refeicao)
             .success(onSuccessCallback)
             .error(onErrorCallback);
-      };
+    };
 
-      function onSuccessCallback (data, status) {
+    function onSuccessCallback(data, status) {
         $mdToast.show(
-          $mdToast.simple()
+            $mdToast.simple()
             .textContent('Refeição adicionada com sucesso')
             .position('top right')
             .action('OK')
@@ -196,58 +210,58 @@ angular.module('NutrifApp').controller('editarAlunoCtrl', function ($scope,
         );
 
         atualizarState();
-      }
+    }
 
-      function onErrorCallback (data, status){
+    function onErrorCallback(data, status) {
         var _message = '';
         if (!data) {
-          _message = 'Erro no servidor, por favor chamar administração ou suporte.'
+            _message = 'Erro no servidor, por favor chamar administração ou suporte.'
         } else {
-          _message = data.mensagem
+            _message = data.mensagem
         }
 
         $mdToast.show(
-          $mdToast.simple()
+            $mdToast.simple()
             .textContent(_message)
             .position('top right')
             .action('OK')
             .hideDelay(6000)
         );
-      }
+    }
 
-      $scope.cancel = function() {
+    $scope.cancel = function () {
         $mdDialog.cancel();
-      };
+    };
 
-      function atualizarState() {
+    function atualizarState() {
         $state.transitionTo($state.current, $stateParams, {
-          reload: true,
-          inherit: false,
-          notify: true
+            reload: true,
+            inherit: false,
+            notify: true
         });
-      }
+    }
 
-      // Carregar itens do modal de inserção do Dia da Refeção.
-      function carregamentoInicial() {
+    // Carregar itens do modal de inserção do Dia da Refeção.
+    function carregamentoInicial() {
 
         editalService.listarEditalVigentes()
-        .success(function (data, status) {
-          $scope.editais = data;
-        })
-        .error(onErrorCallback);
+            .success(function (data, status) {
+                $scope.editais = data;
+            })
+            .error(onErrorCallback);
 
         diaService.listarDias()
-        .success(function (data, status) {
-          $scope.dias = data;
-        })
-        .error(onErrorCallback);
+            .success(function (data, status) {
+                $scope.dias = data;
+            })
+            .error(onErrorCallback);
 
         refeicaoService.listarRefeicoes()
-        .success(function (data, status) {
-          $scope.tiposRefeicao = data;
-        })
-        .error(onErrorCallback);
-      }
+            .success(function (data, status) {
+                $scope.tiposRefeicao = data;
+            })
+            .error(onErrorCallback);
+    }
 
-      carregamentoInicial();
-    };
+    carregamentoInicial();
+};

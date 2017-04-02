@@ -38,7 +38,7 @@ angular.module('NutrifApp').controller('atualizarDadosAlunoCtrl', function (curs
             .textContent('Aluno(a) atualizado(a) com sucesso.')
             .position('top right')
             .action('OK')
-            .hideDelay(6000)
+            .hideDelay(20000)
         );
 
         $state.go("login.pretensao");
@@ -46,10 +46,10 @@ angular.module('NutrifApp').controller('atualizarDadosAlunoCtrl', function (curs
 
     function onErrorCallback(data, status) {
 
-        var _message = '';
+        var _message = "";
 
         if (!data) {
-            _message = 'Ocorreu um erro na comunicação com o servidor, favor chamar o suporte.'
+            _message = "Ocorreu um erro na comunicação com o servidor, favor chamar o suporte."
         } else {
             _message = data.mensagem
         }
