@@ -1,68 +1,72 @@
 .container-margin {
-	margin-right: 10%;
-	margin-left: 10%;
-	margin-top: 3%;
-	margin-bottom: 3%;
+    margin-right: 10%;
+    margin-left: 10%;
+    margin-top: 3%;
+    margin-bottom: 3%;
 }
 
 .toolbar-input {
-	margin-left: 15px;
+    margin-left: 15px;
 }
 
 md-toolbar.md-table-toolbar div.toolbar-input>input {
-	width: 100%;
-	margin: 0;
-	border: none;
-	color: rgba(0, 0, 0, 0.87);
-	outline: 0;
+    width: 100%;
+    margin: 0;
+    border: none;
+    color: rgba(0, 0, 0, 0.87);
+    outline: 0;
 }
 
+
 /* Plano de fundo do md-card das Entidades | 224,238,224 */
+
 .nutrif-md-card-header {
-	background-color: #F0F0F0
+    background-color: #F0F0F0
 }
 
 .home-background {
-	background-color: #F7F7F7;
+    background-color: #F7F7F7;
 }
 
 .layout-padding {
-	padding-left: 6%;
-	padding-right: 6%;
-	padding-bottom: 4%;
-	padding-top: 3%
+    padding-left: 6%;
+    padding-right: 6%;
+    padding-bottom: 4%;
+    padding-top: 3%
 }
 
 .modal-footer {
-	position: absolute;
-	bottom: 0;
-	width: 100%;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
 }
 
+
 /* hints - help */
+
 .hint {
-  /* Position the hint */
-  position: absolute;
-  left: 2px;
-  right: auto;
-  bottom: 2px;
-  /* Copy styles from ng-messages */
-  font-size: 12px;
-  line-height: 14px;
-  transition: all 0.3s cubic-bezier(0.55, 0, 0.55, 0.2);
-  /* Set our own color */
-  color: grey;
+    /* Position the hint */
+    position: relative;
+    left: 2px;
+    right: auto;
+    top: 5px;
+    /* Copy styles from ng-messages */
+    font-size: 12px;
+    line-height: 14px;
+    transition: all 0.3s cubic-bezier(0.55, 0, 0.55, 0.2);
+    /* Set our own color */
+    color: grey;
 }
 
 .hint.ng-hide,
 .hint.ng-enter,
 .hint.ng-leave.ng-leave-active {
-  bottom: 26px;
-  opacity: 0;
+    bottom: 26px;
+    opacity: 0;
 }
 
 .hint.ng-leave,
 .hint.ng-enter.ng-enter-active {
-  bottom: 2px;
-  opacity: 1;
+    bottom: 2px;
+    opacity: 1;
 }

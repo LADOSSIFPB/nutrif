@@ -3,13 +3,22 @@
         <!-- Cabeçalho de opções -->
         <md-card-header class="nutrif-md-card-header">
             <md-card-avatar>
-                <md-icon class="md-avatar-icon" md-svg-icon="img/icon/create-new-pencil-button.svg"></md-icon>
+                <md-icon class="md-avatar-icon" md-svg-icon="img/icon/user-shape.svg"></md-icon>
             </md-card-avatar>
 
             <md-card-header-text>
                 <span class="md-title">Acesso do Aluno</span>
-                <span class="md-subhead">Preencha os campos de E-mail, Senha, Ano ou Período, Turma e Turno corretamente, pois os dados informados servirão para <b>acesso</b> ao sistema na realização da <b>Pretensão</b>. Informações falsas serão passíveis de <b>punição</b>.</span>
+                <span class="md-subhead">Preencha os campos de E-mail, Senha, Ano ou Período, Turma e Turno corretamente. Os dados informados servirão para <b>acesso</b> ao sistema na realização da <b>Pretensão</b>. Dados incorretos impedirão o acesso e os falsos serão passíveis de <b>punição</b>.</span>
             </md-card-header-text>
+            
+            <md-card-actions layout="row">
+                <md-card-icon-actions>
+                    <md-button class="md-icon-button" aria-label="Adicionar Aluno" ui-sref="login.pretensao">
+                        <md-tooltip md-direction="bottom">Voltar</md-tooltip>
+                        <md-icon md-svg-icon="img/icon/back-arrow.svg"></md-icon>
+                    </md-button>
+                </md-card-icon-actions>
+            </md-card-actions>
 
         </md-card-header>
         <md-card-content layout="column">
@@ -65,7 +74,7 @@
                             {{turma.nome}}
                         </md-option>
                     </md-select>
-                    <!-- <div class="hint">Selecione a turma que você pertence.</div> -->
+                    <div class="hint">Selecione a turma que você pertence no Integrado. Aluno de Curso Subsequente ou   Superior selecionar turma A.</div>
                 </md-input-container>
 
                 <!-- Turno -->
