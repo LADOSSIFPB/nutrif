@@ -1,12 +1,16 @@
 angular.module('NutrifApp').controller('editarAlunoCtrl', function ($scope,
     $stateParams, $state, $mdToast, $mdDialog,
-    alunoService, diaRefeicaoService, cursoService, editalService, campusService) {
+    alunoService, diaRefeicaoService, cursoService, editalService, campusService, turnoService, turmaService, periodoService) {
 
     $scope.selected = [];
     $scope.cursos = [];
     $scope.editais = [];
     $scope.refeicoes = [];
     $scope.diaRefeicaoHistorico = [];
+    $scope.turmas = [];
+    $scope.turnos = [];
+    $scope.periodos = [];
+
 
     var _campi = $scope.campi;
 
@@ -101,6 +105,7 @@ angular.module('NutrifApp').controller('editarAlunoCtrl', function ($scope,
             .success(function (data, status) {
                 $scope.aluno = data;
                 $scope.alunoCopy = angular.copy($scope.aluno);
+                console.log($scope.alunoCopy);
             })
             .error(onErrorLoadCallback);
 
@@ -126,6 +131,24 @@ angular.module('NutrifApp').controller('editarAlunoCtrl', function ($scope,
         campusService.listarCampi()
             .success(function (data, status) {
                 $scope.campi = data;
+            })
+            .error(onErrorCallback);
+
+        turmaService.listarTurma()
+            .success(function (data, status) {
+                $scope.turmas = data;
+            })
+            .error(onErrorCallback);
+
+        turnoService.listarTurnos()
+            .success(function (data, status) {
+                $scope.turnos = data;
+            })
+            .error(onErrorCallback);
+
+        periodoService.listarPeriodo()
+            .success(function (data, status) {
+                $scope.periodos = data;
             })
             .error(onErrorCallback);
     }
