@@ -41,6 +41,16 @@
             <input ng-model="alunoCopy.matricula" type="text" required>
         </md-input-container>
 
+        <!-- Campus -->
+        <md-input-container class="md-icon-float md-block">
+            <label>Campus</label>
+            <md-select ng-model="alunoCopy.campus.id" required="true">
+                <md-option ng-repeat="campus in campi" value="{{campus.id}}">
+                    {{campus.cidade}}
+                </md-option>
+            </md-select>
+        </md-input-container>
+        
         <!-- Curso -->
         <md-input-container flex>
             <label>Curso</label>
@@ -51,15 +61,35 @@
             </md-select>
         </md-input-container>
 
-        <!-- Campus -->
+        <!-- Período -->
         <md-input-container class="md-icon-float md-block">
-            <label>Campus</label>
-            <md-select ng-model="alunoCopy.campus.id" required="true">
-                <md-option ng-repeat="campus in campi" value="{{campus.id}}">
-                    {{campus.cidade}}
+            <label>Período</label>
+            <md-select ng-model="alunoCopy.periodo.id" required="true">
+                <md-option ng-repeat="periodo in periodos" value="{{periodo.id}}">
+                    {{periodo.nome}}
                 </md-option>
             </md-select>
         </md-input-container>
+        
+        <!-- Turno -->
+        <md-input-container class="md-icon-float md-block">
+            <label>Turno</label>
+            <md-select ng-model="alunoCopy.turno.id" required="true">
+                <md-option ng-repeat="turno in turnos" value="{{turno.id}}">
+                    {{turno.nome}}
+                </md-option>
+            </md-select>
+        </md-input-container>
+
+        <!-- Turma -->
+        <md-input-container class="md-icon-float md-block">
+           <label>Turma</label>
+            <md-select ng-model="alunoCopy.turma.id" required="true">
+                <md-option ng-repeat="turma in turmas" value="{{turma.id}}">
+                    {{turma.nome}}
+                </md-option>
+            </md-select>
+        </md-input-container>   
 
     </md-card-content>
 </md-card>
@@ -98,37 +128,6 @@
             <label>Senha</label>
             <input ng-model="alunoCopy.senha" type="password" required>
         </md-input-container>
-
-        <!-- Turno -->
-        <md-input-container class="md-icon-float md-block">
-            <label>Turno</label>
-            <md-select ng-model="alunoCopy.turno.id" required="true">
-                <md-option ng-repeat="turno in turnos" value="{{turno.id}}">
-                    {{turno.nome}}
-                </md-option>
-            </md-select>
-        </md-input-container>
-
-        <!-- Turma -->
-        <md-input-container class="md-icon-float md-block">
-           <label>Turma</label>
-            <md-select ng-model="alunoCopy.turma.id" required="true">
-                <md-option ng-repeat="turma in turmas" value="{{turma.id}}">
-                    {{turma.nome}}
-                </md-option>
-            </md-select>
-        </md-input-container>
-
-        <!-- Período -->
-        <md-input-container class="md-icon-float md-block">
-            <label>Período</label>
-            <md-select ng-model="alunoCopy.periodo.id" required="true">
-                <md-option ng-repeat="periodo in periodos" value="{{periodo.id}}">
-                    {{periodo.nome}}
-                </md-option>
-            </md-select>
-        </md-input-container>
-
     </md-card-content>
 </md-card>
 
