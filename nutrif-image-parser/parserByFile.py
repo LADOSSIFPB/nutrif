@@ -29,8 +29,21 @@ def parser():
 
                 print(nomeAluno, "não tem matrícula")
 
+def renomearFotoPerfil():
+    diretorio = str(input("Informe o diretório:\n"))
+    for dirName, subdirList, fileList in os.walk(diretorio):
+        if dirName != diretorio: 
+            if dirName.endswith("_") == False:
+                nomeFoto = dirName + "\\" + fileList[0]
+                nomeFotoNovo = dirName + "\\" + "perfil.jpg"
+                os.rename(nomeFoto, nomeFotoNovo)
+
 def main():
-    parser()
+    pergunta = eval(input("Para acessar o parser, digite 1. Para renomear as fotos de perfil, digite 2.\n"))
+    if pergunta == 1:
+        parser()
+    elif pergunta == 2:
+        renomearFotoPerfil()
 
 if __name__ == "__main__":
     main()
