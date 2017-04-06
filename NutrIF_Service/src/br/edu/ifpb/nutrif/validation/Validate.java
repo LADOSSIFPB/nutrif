@@ -75,6 +75,30 @@ public class Validate {
 			return ErrorFactory.ID_CAMPUS_INVALIDO;
 		}
 		
+		Periodo periodo = aluno.getPeriodo();
+		if (periodo == null 
+				|| (periodo != null
+				&& !numeroValidator.isInteiroPositivo(periodo.getId()))) {
+			
+			return ErrorFactory.ID_PERIODO_INVALIDO;
+		}
+		
+		Turma turma = aluno.getTurma();
+		if (turma == null 
+				|| (turma != null
+				&& !numeroValidator.isInteiroPositivo(turma.getId()))) {
+			
+			return ErrorFactory.ID_TURMA_INVALIDO;
+		}
+		
+		Turno turno = aluno.getTurno();
+		if (turno == null 
+				|| (turno != null
+				&& !numeroValidator.isInteiroPositivo(turno.getId()))) {
+			
+			return ErrorFactory.ID_TURNO_INVALIDO;
+		}
+		
 		return VALIDATE_OK;
 	}
 	

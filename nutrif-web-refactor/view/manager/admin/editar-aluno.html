@@ -6,22 +6,22 @@
         </md-card-avatar>
 
         <md-card-header-text>
-            <span class="md-title">Editar informações do aluno</span>
+            <span class="md-title">Editar informações básicas do aluno</span>
             <span class="md-subhead">Clique nesse botão salvar para alterar as informações básicas do Aluno.</span>
         </md-card-header-text>
 
         <!-- Foto do Perfil -->
         <md-card-icon-actions>
-            <md-button class="md-icon-button" aria-label="Perfil Aluno" ng-click="perfilAluno()">
-                <md-tooltip md-direction="bottom">Perfil Aluno</md-tooltip>
+            <md-button class="md-icon-button" aria-label="Perfil do Aluno." ng-click="perfilAluno()">
+                <md-tooltip md-direction="bottom">Perfil do Aluno</md-tooltip>
                 <md-icon md-svg-icon="img/icon/camera.svg"></md-icon>
             </md-button>
         </md-card-icon-actions>
 
         <!-- Salvar alterações -->
         <md-card-icon-actions>
-            <md-button class="md-icon-button" aria-label="Salvar alterações" ng-click="atualizar(alunoCopy)">
-                <md-tooltip md-direction="bottom">Salvar Alterações</md-tooltip>
+            <md-button class="md-icon-button" aria-label="Salvar Alterações dos Dados Básicos." ng-click="atualizarBasico(alunoCopy)">
+                <md-tooltip md-direction="bottom">Salvar Alterações dos Dados Básicos</md-tooltip>
                 <md-icon md-svg-icon="img/icon/save-button.svg"></md-icon>
             </md-button>
         </md-card-icon-actions>
@@ -108,8 +108,8 @@
 
         <!-- Salvar alterações -->
         <md-card-icon-actions>
-            <md-button class="md-icon-button" aria-label="Salvar alterações" ng-click="atualizarAcesso(alunoCopy)">
-                <md-tooltip md-direction="bottom">Salvar Alterações</md-tooltip>
+            <md-button class="md-icon-button" aria-label="Salvar Alterações de Acesso." ng-click="atualizarAcesso(alunoCopy)">
+                <md-tooltip md-direction="bottom">Salvar Alterações de Acesso</md-tooltip>
                 <md-icon md-svg-icon="img/icon/save-button.svg"></md-icon>
             </md-button>
         </md-card-icon-actions>

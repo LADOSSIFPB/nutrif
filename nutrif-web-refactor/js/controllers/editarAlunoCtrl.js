@@ -15,8 +15,8 @@ angular.module('NutrifApp').controller('editarAlunoCtrl', function ($scope,
 
     $scope.alunoCopy = {};
 
-    $scope.atualizar = function (aluno) {
-        alunoService.atualizarAluno(aluno)
+    $scope.atualizarBasico = function (aluno) {
+        alunoService.atualizarBasico(aluno)
             .success(function (data, status) {
                 $scope.aluno = data;
                 $scope.alunoCopy = angular.copy($scope.aluno);
@@ -36,7 +36,12 @@ angular.module('NutrifApp').controller('editarAlunoCtrl', function ($scope,
             .error(onErrorCallback);
     }
 
-    $scope.atualizarAcesso = function (aluno) {}
+    $scope.atualizarAcesso = function (aluno) {
+        alunoService.atualizarAcesso(aluno)
+            .success(function (data, status) {
+            })
+            .error(onErrorCallback);
+    }
 
     $scope.adicionarRefeicao = function () {
         $mdDialog.show({

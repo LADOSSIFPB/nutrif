@@ -13,16 +13,6 @@
             <input ng-model="cadastrar.aluno.matricula" type="number" required>
         </md-input-container>
 
-        <!-- Curso -->
-        <md-input-container>
-            <label>Selecione um curso</label>
-            <md-select ng-model="cadastrar.aluno.curso.id" required="true">
-                <md-option ng-repeat="curso in cursos" value="{{curso.id}}">
-                    {{curso.nome}}
-                </md-option>
-            </md-select>
-        </md-input-container>
-
         <!-- Campus -->
         <md-input-container class="md-icon-float md-block">
             <label>Campus</label>
@@ -32,6 +22,16 @@
                 </md-option>
             </md-select>
         </md-input-container>
+        
+        <!-- Curso -->
+        <md-input-container>
+            <label>Curso</label>
+            <md-select ng-model="cadastrar.aluno.curso.id" required="true">
+                <md-option ng-repeat="curso in cursos" value="{{curso.id}}">
+                    {{curso.nome}}
+                </md-option>
+            </md-select>
+        </md-input-container>        
 
         <!-- Período -->
         <md-input-container class="md-icon-float md-block">

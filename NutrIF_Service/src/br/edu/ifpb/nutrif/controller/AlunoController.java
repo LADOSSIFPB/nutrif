@@ -170,17 +170,18 @@ public class AlunoController {
 	}
 	
 	/**
-	 * Atualizar dados do Aluno.
+	 * Atualizar dados básicos do Aluno: nome, matrícula, campus, curso, período,
+	 * turma e turno.
 	 * 
 	 * @param aluno
 	 * @return
 	 */
 	@RolesAllowed({TipoRole.ADMIN})
 	@POST
-	@Path("/atualizar")
+	@Path("/atualizar/basico")
 	@Consumes("application/json")
 	@Produces("application/json")
-	public Response update(Aluno aluno) {
+	public Response atualizarBasico(Aluno aluno) {
 		
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
 		builder.expires(new Date());
@@ -192,10 +193,30 @@ public class AlunoController {
 			
 			try {			
 				
-				// Recuperar Curso.
+				// Campus
+				int idCampus = aluno.getCampus().getId();
+				Campus campus = CampusDAO.getInstance().getById(idCampus);
+				aluno.setCampus(campus);
+				
+				// Curso.
 				int idCurso = aluno.getCurso().getId();
 				Curso curso = CursoDAO.getInstance().getById(idCurso);
 				aluno.setCurso(curso);
+								
+				// Ano/Período
+				int idPeriodo = aluno.getPeriodo().getId();
+				Periodo periodo = PeriodoDAO.getInstance().getById(idPeriodo);
+				aluno.setPeriodo(periodo);
+				
+				// Turno
+				int idTurno = aluno.getTurno().getId();
+				Turno turno = TurnoDAO.getInstance().getById(idTurno);
+				aluno.setTurno(turno);
+				
+				// Turma
+				int idTurma = aluno.getTurma().getId();
+				Turma turma = TurmaDAO.getInstance().getById(idTurma);
+				aluno.setTurma(turma);
 				
 				//Atualizar o Aluno.
 				aluno = AlunoDAO.getInstance().update(aluno);
@@ -220,6 +241,25 @@ public class AlunoController {
 		}
 		
 		return builder.build();		
+	}
+	
+	/**
+	 * Atualizar dados de acesso do Aluno: e-mail e senha.
+	 * 
+	 * @param aluno
+	 * @return
+	 */
+	@RolesAllowed({TipoRole.ADMIN})
+	@POST
+	@Path("/atualizar/acesso")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public Response atualizarAcesso(Aluno aluno) {
+		
+		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
+		builder.expires(new Date());
+		
+		return builder.build();
 	}
 	
 	/**
