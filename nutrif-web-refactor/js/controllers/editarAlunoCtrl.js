@@ -11,7 +11,6 @@ angular.module('NutrifApp').controller('editarAlunoCtrl', function ($scope,
     $scope.turnos = [];
     $scope.periodos = [];
 
-
     var _campi = $scope.campi;
 
     $scope.alunoCopy = {};

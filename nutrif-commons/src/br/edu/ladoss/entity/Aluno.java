@@ -29,7 +29,7 @@ public class Aluno extends Pessoa {
 	@Column(name = "id_aluno")
 	private Integer id;
 
-	@Column(name = "nm_matricula", length = 12, unique = true)
+	@Column(name = "nm_matricula", length = 13, unique = true)
 	private String matricula;
 	
 	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)

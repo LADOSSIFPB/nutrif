@@ -87,32 +87,51 @@ public class AlunoController {
 		if (validacao == Validate.VALIDATE_OK) {
 			
 			try {
+				
 				// Nome do aluno somente com a primeira letra em maiúsculo.
 				String nome = aluno.getNome();
 				aluno.setNome(StringUtil.upperCaseFirstChar(nome));
 				
-				// Recuperar Curso.
+				// Curso.
 				int idCurso = aluno.getCurso().getId();
 				Curso curso = CursoDAO.getInstance().getById(idCurso);
 				aluno.setCurso(curso);
-				
-				// Role 
-				Role role = RoleDAO.getInstance().getById(
-						Role.Tipo.COMENSAL.getId());
-				List<Role> roles = new ArrayList<Role>();
-				roles.add(role);				
-				aluno.setRoles(roles);
 				
 				// Campus
 				int idCampus = aluno.getCampus().getId();
 				Campus campus = CampusDAO.getInstance().getById(idCampus);
 				aluno.setCampus(campus);
 				
+				// Ano/Período
+				int idPeriodo = aluno.getPeriodo().getId();
+				Periodo periodo = PeriodoDAO.getInstance().getById(idPeriodo);
+				aluno.setPeriodo(periodo);
+				
+				// Turno
+				int idTurno = aluno.getTurno().getId();
+				Turno turno = TurnoDAO.getInstance().getById(idTurno);
+				aluno.setTurno(turno);
+				
+				// Turma
+				int idTurma = aluno.getTurma().getId();
+				Turma turma = TurmaDAO.getInstance().getById(idTurma);
+				aluno.setTurma(turma);
+				
+				// Role de acesso.
+				Role role = RoleDAO.getInstance().getById(
+						Role.Tipo.COMENSAL.getId());
+				List<Role> roles = new ArrayList<Role>();
+				roles.add(role);				
+				aluno.setRoles(roles);
+				
 				// Inativar o Aluno.
 				aluno.setAtivo(BancoUtil.INATIVO);
 				
 				if (curso != null
 						&& campus != null
+						&& periodo != null
+						&& turno != null
+						&& turma != null
 						&& roles.size() > 0) {
 					
 					//Inserir o Aluno.
@@ -132,6 +151,7 @@ public class AlunoController {
 				} else {
 					
 					//TODO: Mensagem de erro para Curso, Campus ou Roles não encontrados.
+					builder.status(Response.Status.NOT_FOUND);
 				}				
 			
 			} catch (SQLExceptionNutrIF exception) {

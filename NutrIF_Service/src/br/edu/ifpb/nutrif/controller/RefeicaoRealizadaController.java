@@ -195,6 +195,14 @@ public class RefeicaoRealizadaController {
 		return builder.build();
 	}
 	
+	/**
+	 * Consultar refeição realizada pelo dia da refeição. É necessário informar a 
+	 * Refeição e o Dia para a consulta. O Dia será transformado em data referente a
+	 * semana vigente. 
+	 * 
+	 * @param diaRefeicao
+	 * @return
+	 */
 	@PermitAll
 	@POST
 	@Path("/quantificar")
@@ -260,6 +268,12 @@ public class RefeicaoRealizadaController {
 		return builder.build();
 	}
 	
+	/**
+	 * Consultar refeição(ões) realizada por período.
+	 * 
+	 * @param periodoRefeicaoRealizada
+	 * @return
+	 */
 	@PermitAll
 	@POST
 	@Path("/mapa/consultar")

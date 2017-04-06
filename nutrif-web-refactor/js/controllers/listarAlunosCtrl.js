@@ -1,9 +1,9 @@
 angular.module('NutrifApp').controller('listarAlunosCtrl', function ($scope, $mdToast,
-  alunoService) {
+    alunoService) {
 
-    var TAM_MATRICULA_11 = 11;
-    var TAM_MATRICULA_12 = 12;
-    
+    var TAM_MINIMO_MATRICULA = 11;
+    var TAM_MAXIMO_MATRICULA = 13;
+
     $scope.texto = "";
     $scope.alunos = [];
 
@@ -12,14 +12,14 @@ angular.module('NutrifApp').controller('listarAlunosCtrl', function ($scope, $md
         $scope.alunos = [];
     };
 
-    $scope.pesquisar = function (texto){
-        if(texto.length > 2) {
+    $scope.pesquisar = function (texto) {
+        if (texto.length > 2) {
             if (texto.match(/[a-zA-Z]/i) != null) {
                 alunoService.buscaAlunoPorNome(texto)
                     .success(onSuccessCallback)
                     .error(onErrorCallback);
-            } else if ((parseInt(texto.substring(0,4))<=2015 && texto.length == TAM_MATRICULA_11)
-              || ((parseInt(texto.substring(0,4))>=2016 && texto.length == TAM_MATRICULA_12))) {
+            } else if ((parseInt(texto.substring(0, 4)) <= 2015 && texto.length == TAM_MINIMO_MATRICULA) ||
+                ((parseInt(texto.substring(0, 4)) >= 2016 && texto.length <= TAM_MAXIMO_MATRICULA))) {
                 alunoService.buscaAlunoPorMatricula(texto)
                     .success(function (data, status) {
                         $scope.alunos = [];
