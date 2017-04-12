@@ -11,7 +11,7 @@
       $scope.refeicaoSelecionada = [];
 
       this.pesquisar = function (texto) {
-
+          
           if (texto.length > TAM_MIN_BUSCA_NOME) {
 
               if (texto.match(/[a-zA-Z]/i) != null) {
@@ -20,8 +20,8 @@
                       .success(onSuccessCallback)
                       .error(onErrorCallback);
 
-              } else if ((parseInt(texto.substring(0, 4)) <= 2015 && texto.length == TAM_MINIMO_MATRICULA) ||
-                  (parseInt(texto.substring(0, 4)) >= 2016 && texto.length <= TAM_MAXIMO_MATRICULA)) {
+              } else if (texto.match(/^\d+$/)
+                         && (texto.length >= TAM_MINIMO_MATRICULA) && (texto.length <= TAM_MAXIMO_MATRICULA)) {
 
                   diaRefeicaoService.buscaRefeicaoPorMatricula(texto)
                       .success(onSuccessCallback)

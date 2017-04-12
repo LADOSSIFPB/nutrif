@@ -44,8 +44,6 @@ public class Validate {
 
 	public static int VALIDATE_OK = 0;
 	
-	public static int ANO_MATRICULA_12_DIGITOS = 2016;
-	
 	public static int MINIMO_DIGITOS_MATRICULA = 11;
 	
 	public static int MAXIMO_DIGITOS_MATRICULA = 13;
@@ -56,12 +54,13 @@ public class Validate {
 		
 		if (!stringValidator.validateSomenteLetras(aluno.getNome()))
 			return ErrorFactory.NOME_ALUNO_INVALIDO;
+		
+		String matricula = aluno.getMatricula();
+		
+		if (matricula(matricula) != VALIDATE_OK) {
 			
-		if (!numeroValidator.validate(aluno.getMatricula()) 
-				|| !stringValidator.validate(aluno.getMatricula(), 
-						MINIMO_DIGITOS_MATRICULA, 
-						MAXIMO_DIGITOS_MATRICULA))
 			return ErrorFactory.MATRICULA_ALUNO_INVALIDA;
+		}
 			
 		Curso curso = aluno.getCurso();
 		if (curso == null 
@@ -106,11 +105,12 @@ public class Validate {
 		
 		logger.info("Validação para inserção do acesso de Aluno.");
 		
-		if (!numeroValidator.validate(aluno.getMatricula()) 
-				|| !stringValidator.validate(aluno.getMatricula(), 
-						MINIMO_DIGITOS_MATRICULA, 
-						MAXIMO_DIGITOS_MATRICULA))
+		String matricula = aluno.getMatricula();
+		
+		if (matricula(matricula) != VALIDATE_OK) {
+			
 			return ErrorFactory.MATRICULA_ALUNO_INVALIDA;
+		}
 		
 		if (!emailValidator.validate(aluno.getEmail()))
 			return ErrorFactory.EMAIL_USUARIO_INVALIDO;
@@ -159,10 +159,12 @@ public class Validate {
 		
 		logger.info("Validação para confirmação de aluno.");
 		
-		if (!stringValidator.validate(aluno.getMatricula(), 
-				MINIMO_DIGITOS_MATRICULA, 
-				MAXIMO_DIGITOS_MATRICULA))
+		String matricula = aluno.getMatricula();
+		
+		if (matricula(matricula) != VALIDATE_OK) {
+			
 			return ErrorFactory.MATRICULA_ALUNO_INVALIDA;
+		}
 		
 		if (!stringValidator.validate(aluno.getKeyConfirmation(), 5))
 			return ErrorFactory.KEY_CONFIRMATION_INVALIDA;
@@ -521,15 +523,17 @@ public class Validate {
 		
 		logger.info("Validação para login de Aluno.");
 		
-		int validate = VALIDATE_OK;
+		String matricula = pessoaAcesso.getMatricula();
 		
-		validate = matricula(pessoaAcesso.getMatricula());
+		if (matricula(matricula) != VALIDATE_OK) {
+			
+			return ErrorFactory.MATRICULA_ALUNO_INVALIDA;
+		}
 
-		if (validate == VALIDATE_OK 
-				&& !stringValidator.validate(pessoaAcesso.getSenha(), 5, 40))
+		if (!stringValidator.validate(pessoaAcesso.getSenha(), 5, 40))
 			return ErrorFactory.SENHA_USUARIO_INVALIDA;
 		
-		return validate;
+		return VALIDATE_OK;
 	}
 	
 	public static int logoutPessoa(String authorization) {
@@ -663,27 +667,11 @@ public class Validate {
 
 	public static int matricula(String matricula) {
 		
-		Integer ano = Integer.valueOf(matricula.substring(0, 4));
-		
-		int MINIMO_DIGITOS_MATRICULA_ANO_2016 = 12;
-		
-		// No ano de 2016 a matrícula passou a ter 12 dígitos.
-		if (ano >= ANO_MATRICULA_12_DIGITOS) {
+		if (!numeroValidator.validate(matricula)
+				&& !numeroValidator.validate(matricula, 
+				MINIMO_DIGITOS_MATRICULA, MAXIMO_DIGITOS_MATRICULA)) {
 			
-			if (!numeroValidator.validate(matricula, 
-					MINIMO_DIGITOS_MATRICULA_ANO_2016, 
-					MAXIMO_DIGITOS_MATRICULA)) {
-				
-				return ErrorFactory.MATRICULA_ALUNO_INVALIDA;
-			}
-			
-		} else {
-			
-			if (!numeroValidator.validate(matricula, 
-					MINIMO_DIGITOS_MATRICULA)) {
-				
-				return ErrorFactory.MATRICULA_ALUNO_INVALIDA;
-			}
+			return ErrorFactory.MATRICULA_ALUNO_INVALIDA;
 		}
 		
 		return VALIDATE_OK;
@@ -743,12 +731,6 @@ public class Validate {
 
 	public static int verificarAcessoAluno(String matricula) {
 		
-		if (!numeroValidator.validate(matricula) 
-				|| !stringValidator.validate(matricula, 
-						MINIMO_DIGITOS_MATRICULA, 
-						MAXIMO_DIGITOS_MATRICULA))
-			return ErrorFactory.MATRICULA_ALUNO_INVALIDA;
-		
-		return VALIDATE_OK;
+		return matricula(matricula);
 	}
 }
