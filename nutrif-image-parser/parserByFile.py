@@ -8,7 +8,7 @@ def parser():
     destDir = str(input("Informe o diretório de destino:\n"))
 
     for dirName, subdirList, fileList in os.walk(rootDir):
-        print("Diretorio encontrado: %s" % dirName)
+        print("Diretório encontrado: %s" % dirName)
         has_image = len(glob.glob(dirName + "\*.jpg"))
         if has_image != 0:
             dirMatr = dirName.find("-")
@@ -28,7 +28,7 @@ def parser():
                 arquivo.write(nomeAluno + "\n")
                 arquivo.close()
 
-                print(nomeAluno, "não tem matrícula")
+                print(nomeAluno, " - Não possue matrícula")
 
 def renomearFotoPerfil():
     diretorio = str(input("Informe o diretório:\n"))
@@ -38,8 +38,9 @@ def renomearFotoPerfil():
                 nomeFoto = dirName + "\\" + fileList[0]
                 nomeFotoNovo = dirName + "\\" + "perfil.jpg"
                 os.rename(nomeFoto, nomeFotoNovo)
+		print("Origem - Arquivo: ", nomeFoto, ", Destino -> ", nomeFotoNovo)
 
-def parserSemTraço():
+def parserSemTraco():
     rootDir = str(input("Informe o diretório de origem:\n"))
     destDir = str(input("Informe o diretório de destino:\n"))
 
@@ -79,7 +80,7 @@ def main():
     if pergunta == 1:
         parser()
     elif pergunta == 2:
-        parserSemTraço()
+        parserSemTraco()
     elif pergunta == 3:
         renomearFotoPerfil()
     elif pergunta == 4:
