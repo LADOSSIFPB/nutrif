@@ -2,6 +2,10 @@
 <html ng-app="NutrifApp">
 
 <head>
+    <!-- Título e ícone -->
+    <title>NutrIF</title>   
+    <link rel="shortcut icon" href="img/fav.png" />
+    
 	<!-- Cabeçalho -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
@@ -17,34 +21,38 @@
 	<!-- AngularJS & Lib imports -->
 	<script type="text/javascript" src="lib/angular/angular.min.js"></script>
 	<script type="text/javascript" src="lib/angular/angular-route.min.js"></script>
+    <script type='text/javascript' src="lib/ui-router.js"></script>
 	<script type="text/javascript" src="lib/angular/angular-messages.min.js"></script>
 	<script type="text/javascript" src="lib/angular/angular-aria.min.js"></script>
 	<script type="text/javascript" src="lib/angular/angular-animate.min.js"></script>
 	<script type="text/javascript" src="lib/angular/angular-cookies.min.js"></script>
+    
+    <!-- Angular Material -->
+    <script type="text/javascript" src="lib/angular-material/angular-material.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="lib/angular-material/angular-material.min.css">
+    
+    <!-- App --> 
+	<script type="text/javascript" src="js/app.js"></script>    
+	<link rel="stylesheet" type="text/css" href="css/app.css">
+    
+    <!-- Outras Libs -->
 	<script type='text/javascript' src="lib/loading-bar/loading-bar.js"></script>
-	<link rel="stylesheet" type="text/css"
-		href="lib/loading-bar/loading-bar.css">
-	<script type="text/javascript"
-		src="lib/qr-code-scanner/jsqrcode-combined.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="lib/loading-bar/loading-bar.css">
+    
+	<script type="text/javascript" src="lib/qr-code-scanner/jsqrcode-combined.min.js"></script>
 	<script type="text/javascript" src="lib/qr-code-scanner/qr-scanner.js"></script>
 	<script type="text/javascript" src="lib/qr-code-generator/qrcode.js"></script>
-	<script type="text/javascript"
-		src="lib/qr-code-generator/angular-qr.min.js"></script>
+	<script type="text/javascript" src="lib/qr-code-generator/angular-qr.min.js"></script>
+    
 	<script type='text/javascript' src="lib/md-data-table/md-data-table.js"></script>
-	<link rel="stylesheet" type="text/css"
-		href="lib/md-data-table/md-data-table.css">
-	<script type='text/javascript' src="lib/ui-router.js"></script>
-	<link rel="stylesheet" type="text/css"
-		href="lib/angular-material/angular-material.min.css">
-	<script type="text/javascript" src="lib/datejs/date-pt-BR.js"></script>
+	<link rel="stylesheet" type="text/css" href="lib/md-data-table/md-data-table.css">	
+	
+    <script type="text/javascript" src="lib/datejs/date-pt-BR.js"></script>
 	<script type="text/javascript" src="lib/datejs/moment.js"></script>
 	<script type="text/javascript" src="lib/angular-chart/charts.js"></script>
-	<script type="text/javascript"
-		src="lib/angular-chart/angular-chart.min.js"></script>
-	<script type="text/javascript"
-		src="lib/angular-material/angular-material.min.js"></script>
+	<script type="text/javascript" src="lib/angular-chart/angular-chart.min.js"></script>	
 	<link rel="stylesheet" href="lib/timeline/bower_components/angular-timeline/dist/angular-timeline.css"/>
-
+    
 	<!-- Timeline -->
 	<script src="lib/timeline/bower_components/angular-timeline/dist/angular-timeline.js"></script>
 
@@ -67,16 +75,17 @@
 	<!-- Locale -->
 	<script type="text/javascript" src="lib/angular-locale_pt-br.js"></script>	
 
-	<!-- Our AngularJS scripts imports -->
-	<script type="text/javascript" src="js/app.js"></script>
+	<!-- Configurações -->
 	<script type="text/javascript" src="js/config/themeConfig.js"></script>
 	<script type="text/javascript" src="js/config/routesConfig.js"></script>
 	<script type="text/javascript" src="js/config/valuesConfig.js"></script>
 	<script type="text/javascript" src="js/config/filterRoutes.js"></script>
-	<script type="text/javascript" src="js/config/interceptorResponseConfig.js"></script>
 
 	<!-- Filters -->
 	<script type="text/javascript" src="js/filter/simNaoFilter.js"></script>
+    
+    <!-- Diretivas -->
+    <script type="text/javascript" src="js/diretivas/money.js"></script>
 
 	<!-- Services -->
 	<script type="text/javascript" src="js/services/api/loginService.js"></script>
@@ -130,11 +139,8 @@
 	
     <!-- Interceptor -->
     <script type="text/javascript" src="js/interceptors/connectionRefused.js"></script>
+    <script type="text/javascript" src="js/config/interceptorResponseConfig.js"></script>
     
-	<!-- App -->
-	<title>NutrIF</title>
-	<link rel="shortcut icon" href="img/fav.png" />
-	<link rel="stylesheet" type="text/css" href="css/app.css">
 </head>
 
 <body ng-cloak layout="column">

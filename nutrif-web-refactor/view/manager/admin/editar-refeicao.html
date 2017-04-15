@@ -38,6 +38,12 @@
             <input mdc-datetime-picker date="false" time="true" type="text" id="time" short-time="true" placeholder="hh:mm:ss" min-date="minDate" format="hh:mm:ss" ng-model="refeicao.horaFinal" required/>
         </md-input-container>
 
+        <!-- Custo -->       
+        <md-input-container class="md-icon-float md-block">
+            <label>Custo</label>
+            <input currency-mask ng-model="cadastrarRefeicao.refeicao.custo"/>
+        </md-input-container>
+        
         <!-- Tempo que antecede a refeição que será permitido para lançamento da Pretensao -->
         <md-input-container flex-gt-md="30">
             <label>Previsão da Pretensão</label>

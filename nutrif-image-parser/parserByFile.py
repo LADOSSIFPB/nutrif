@@ -38,7 +38,7 @@ def renomearFotoPerfil():
                 nomeFoto = dirName + "\\" + fileList[0]
                 nomeFotoNovo = dirName + "\\" + "perfil.jpg"
                 os.rename(nomeFoto, nomeFotoNovo)
-		print("Origem - Arquivo: ", nomeFoto, ", Destino -> ", nomeFotoNovo)
+                print("Origem - Arquivo: ", nomeFoto, ", Destino -> ", nomeFotoNovo)
 
 def parserSemTraco():
     rootDir = str(input("Informe o diretório de origem:\n"))

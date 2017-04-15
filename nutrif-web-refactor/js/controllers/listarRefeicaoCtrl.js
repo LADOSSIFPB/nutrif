@@ -23,7 +23,6 @@ angular.module('NutrifApp').controller('listarRefeicaoCtrl', function ($scope, $
 
     function onSuccessCallback(data, status) {
         $scope.refeicoes = data;
-        console.log($scope.refeicoes);
     }
 
     function onErrorCallback(data, status) {

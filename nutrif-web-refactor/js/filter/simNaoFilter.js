@@ -1,4 +1,4 @@
-angular.module('NutrifApp').filter('yesNo', function() {
+nutrifApp.filter('yesNo', function() {
     return function(input) {
         return input ? 'Sim' : 'Não';
     }
