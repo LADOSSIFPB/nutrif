@@ -8,7 +8,7 @@ angular.module('NutrifApp').controller('atualizarDadosAlunoCtrl', function (curs
 
     this.atualizar = function (aluno) {
 
-        // Adicionar funcionário.
+        // Adicionar Acesso do Aluno.
         if (aluno.senha == aluno.resenha) {
 
             delete aluno.resenha;

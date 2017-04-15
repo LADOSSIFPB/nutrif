@@ -37,10 +37,22 @@ angular.module('NutrifApp').controller('editarAlunoCtrl', function ($scope,
     }
 
     $scope.atualizarAcesso = function (aluno) {
-        alunoService.atualizarAcesso(aluno)
-            .success(function (data, status) {
-            })
-            .error(onErrorCallback);
+
+        // Adicionar Acesso do Aluno.
+        if (aluno.senha == aluno.resenha) {
+
+            delete aluno.resenha;
+
+            alunoService.atualizarAcesso(aluno)
+                .success(function (data, status) {})
+                .error(onErrorCallback);
+
+        } else {
+            
+            var data = {};
+            data.mensagem = "A senha de confirmação não está correta.";
+            onErrorCallback(data);
+        }
     }
 
     $scope.adicionarRefeicao = function () {
@@ -109,7 +121,6 @@ angular.module('NutrifApp').controller('editarAlunoCtrl', function ($scope,
             .success(function (data, status) {
                 $scope.aluno = data;
                 $scope.alunoCopy = angular.copy($scope.aluno);
-                console.log($scope.alunoCopy);
             })
             .error(onErrorLoadCallback);
 
@@ -158,6 +169,7 @@ angular.module('NutrifApp').controller('editarAlunoCtrl', function ($scope,
     }
 
     function onErrorCallback(data, status) {
+
         var _message = '';
 
         if (!data) {
