@@ -36,6 +36,9 @@
 		<property name="c3p0.idle_test_period">1</property>
 		<property name="hibernate.c3p0.preferredTestQuery">select 1;</property>
 		
+		<!-- Jadira -->
+		<property name="jadira.usertype.autoRegisterUserTypes">true</property>
+		
 		<!-- Entidades -->
 		<mapping class="br.edu.ladoss.entity.Pessoa" />
 		<mapping class="br.edu.ladoss.entity.Aluno" />
@@ -59,7 +62,7 @@
 		<mapping class="br.edu.ladoss.entity.Turno" />
 		<mapping class="br.edu.ladoss.entity.Turma" />
 		<mapping class="br.edu.ladoss.entity.Periodo" />
-		<mapping class="br.edu.ladoss.entity.Nivel" />					
+		<mapping class="br.edu.ladoss.entity.Nivel" />			
 
 	</session-factory>
 </hibernate-configuration>

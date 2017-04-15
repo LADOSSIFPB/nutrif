@@ -14,6 +14,11 @@ import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.hibernate.annotations.Columns;
+import org.hibernate.annotations.Type;
+import org.joda.money.CurrencyUnit;
+import org.joda.money.Money;
+
 import br.edu.ladoss.data.DataEntity;
 
 /**
@@ -50,6 +55,10 @@ public class Refeicao implements DataEntity {
 	@Column(name = "hr_previsao_pretensao")
 	@Temporal(TemporalType.TIME)
 	private Date horaPrevisaoPretensao;
+	
+	@Columns(columns = {@Column(name = "tp_moeda"), @Column(name = "vl_custo")})
+    @Type(type = "org.jadira.usertype.moneyandcurrency.joda.PersistentMoneyAmountAndCurrency")
+    private Money custo;
 	
 	@Column(name = "is_ativo", columnDefinition = "boolean default true", 
 			nullable = false, insertable = false, updatable = true)
@@ -112,6 +121,18 @@ public class Refeicao implements DataEntity {
 	public void setAtivo(boolean ativo) {
 		this.ativo = ativo;
 	}
+
+	@XmlElement
+	public Money getCusto() {
+		return custo;
+	}
+	
+	public void setCusto(String valor) {
+		
+		CurrencyUnit real = CurrencyUnit.of("BRL");
+		
+		this.custo = Money.of(real, Double.valueOf(valor));
+	}	
 	
 	@Override
 	public String toString() {
@@ -120,6 +141,7 @@ public class Refeicao implements DataEntity {
 				+ ", horaInicio=" + horaInicio 
 				+ ", horaFim=" + horaFinal 
 				+ ", horaPretensao=" + horaPrevisaoPretensao
+				+ ", custo=" + custo.getAmount()
 				+ ", isAtivo=" + ativo + "]";
 	}
 }

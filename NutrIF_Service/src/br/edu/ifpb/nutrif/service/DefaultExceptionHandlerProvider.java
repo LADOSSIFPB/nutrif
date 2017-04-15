@@ -4,7 +4,6 @@ import java.util.Date;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
-import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
@@ -22,9 +21,9 @@ import br.edu.ladoss.entity.Error;
  * 
  */
 @Provider
-public class DefaultExceptionHandler implements ExceptionMapper<RestServiceExceptionNutrIF> {
+public class DefaultExceptionHandlerProvider implements ExceptionMapper<RestServiceExceptionNutrIF> {
 
-	private static Logger logger = LogManager.getLogger(DefaultExceptionHandler.class);
+	private static Logger logger = LogManager.getLogger(DefaultExceptionHandlerProvider.class);
 	
     @Override
     public Response toResponse(RestServiceExceptionNutrIF exception) {    	
