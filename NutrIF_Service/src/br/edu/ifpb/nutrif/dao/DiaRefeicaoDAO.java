@@ -34,7 +34,7 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 
 	public List<DiaRefeicao> getDiaRefeicaoRealizadaByAlunoNome(String nome) {
 		
-		logger.info("Buscar Dia de Refeição por Nome: " + nome);
+		logger.info("Buscar Dia de Refeiï¿½ï¿½o por Nome: " + nome);
 		
 		Session session = HibernateUtil.getSessionFactory().openSession();
 
@@ -85,7 +85,7 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 	public List<DiaRefeicao> getDiaRefeicaoRealizadaByAlunoMatricula(
 			String matricula) {
 		
-		logger.info("Buscar Dia de Refeição por Matrícula: " + matricula);
+		logger.info("Buscar Dia de Refeiï¿½ï¿½o por Matrï¿½cula: " + matricula);
 		
 		Session session = HibernateUtil.getSessionFactory().openSession();
 
@@ -246,7 +246,7 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 	}
 	
 	/**
-	 * Quantificar a quantidade de refeições servidas para um determinado edital.
+	 * Quantificar a quantidade de refeiï¿½ï¿½es servidas para um determinado edital.
 	 * 
 	 * @param idEdital
 	 * @return
@@ -287,7 +287,7 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 	}
 	
 	/**
-	 * Quantificar as refeição que serão servidas num determinado dia da semana
+	 * Quantificar as refeiï¿½ï¿½o que serï¿½o servidas num determinado dia da semana
 	 * para os editais ativos e dentro do prazo de validade.
 	 *  
 	 * @param diaRefeicao
@@ -370,7 +370,7 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 			query.setParameter("idRefeicao", refeicao.getId());
 			query.setParameter("ativo", BancoUtil.ATIVO);
 			
-			// Verificar editais vigentes no período do edital que irá conceder o benefício.			
+			// Verificar editais vigentes no perï¿½odo do edital que irï¿½ conceder o benefï¿½cio.			
 			query.setParameter("idEdital", edital.getId());
 			query.setParameter("dataInicial", edital.getDataInicial());
 			query.setParameter("dataFinal", edital.getDataFinal());			
@@ -510,6 +510,44 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 		}
 		
 		return contemplado;
+	}
+	
+	public List<DiaRefeicao> getDiaRefeicaoByDia(Integer dia) {
+		
+		logger.info("Buscar Dia de Refeiï¿½ï¿½o por dia. ");
+		
+		Session session = HibernateUtil.getSessionFactory().openSession();
+
+		List<DiaRefeicao> diasRefeicao = new ArrayList<DiaRefeicao>();
+		
+		try {
+			
+			
+			String hql = "from DiaRefeicao as dr"
+					+ " where dr.dia.id = :dia"
+					+ " and dr.ativo = :ativo"
+					+ "	and CURRENT_TIME() between dr.refeicao.horaInicio and dr.refeicao.horaFinal"
+					+ " and CURRENT_TIMESTAMP() between dr.edital.dataInicial and dr.edital.dataFinal"
+					+ " and dr.edital.ativo = :ativo";
+			
+			Query query = session.createQuery(hql);			
+			query.setParameter("dia", dia);
+			query.setParameter("ativo", BancoUtil.ATIVO);
+			
+			diasRefeicao = (List<DiaRefeicao>) query.list();
+	        
+		} catch (HibernateException hibernateException) {
+			
+			session.getTransaction().rollback();
+			
+			throw new SQLExceptionNutrIF(hibernateException);
+			
+		} finally {
+		
+			session.close();
+		}
+		
+		return diasRefeicao;		
 	}
 	
 	@Override
