@@ -59,24 +59,27 @@ def parserSemTraco():
                         print("\t%s" % fname)
 
 def redimensionarImagem():
-    diretorio = str(input("Informe o diretório:\n"))
+    diretorio = str(input("Informe o diretório:\n"))    
+    width = 1024
+    height = 682
+    print("Padrão: Largura: ", width, ", Altura: ", height)
+    
     for dirName, subdirList, fileList in os.walk(diretorio):
         if dirName != diretorio:
-
+            
             qtdArquivos = len(fileList)
             print("Quantidade de arquivos: ", qtdArquivos)
             
             for file in fileList:
-                width = 1024
-                height = 682
+                
                 img = Image.open(dirName + "\\" + file)
                 img = img.resize((width, height), Image.ANTIALIAS)
                 img.save(dirName + "\\" + file)
-                print(file,"redimensionado.")
-                print("Tamanho: ", width, "x", height)
+                print(file," - redimensionado.")
+                
 
 def main():
-    pergunta = eval(input("Para acessar o parser, digite 1. Para acessar o parserSemTraço, digite 2. Para renomear as fotos de perfil, digite 3. Para redimensionar as fotos, digite 4. \n"))
+    pergunta = eval(input("Para acessar o parser, digite 1. \n Para acessar o parserSemTraço, digite 2. \n Para renomear as fotos de perfil, digite 3. \n Para redimensionar as fotos, digite 4. \n"))
     if pergunta == 1:
         parser()
     elif pergunta == 2:
