@@ -76,10 +76,22 @@ def redimensionarImagem():
                 img = img.resize((width, height), Image.ANTIALIAS)
                 img.save(dirName + "\\" + file)
                 print(file," - redimensionado.")
-                
+
+def limparImagensReconhecimento():
+    diretorio = str(input("Informe o diretório:\n"))    
+    for dirName, subdirList, fileList in os.walk(diretorio):
+        if dirName != diretorio:
+            qtdArquivos = len(fileList)
+            print("Quantidade de arquivos: ", qtdArquivos)
+            
+            for file in fileList:
+                print("Analisando arquivo: ", file)
+                if (file.find("perfil")<0):
+                        os.remove(dirName + "\\" + file)
+                        print("Removido")
 
 def main():
-    pergunta = eval(input("Para acessar o parser, digite 1. \n Para acessar o parserSemTraço, digite 2. \n Para renomear as fotos de perfil, digite 3. \n Para redimensionar as fotos, digite 4. \n"))
+    pergunta = eval(input("Para acessar o parser, digite 1. \n Para acessar o parserSemTraço, digite 2. \n Para renomear as fotos de perfil, digite 3. \n Para redimensionar as fotos, digite 4. \n Para remover fotos de reconhecimento, digite 5.\n"))
     if pergunta == 1:
         parser()
     elif pergunta == 2:
@@ -88,6 +100,8 @@ def main():
         renomearFotoPerfil()
     elif pergunta == 4:
         redimensionarImagem()
+    elif pergunta == 5:
+        limparImagensReconhecimento()
 
 if __name__ == "__main__":
     main()
