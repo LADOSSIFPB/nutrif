@@ -47,7 +47,7 @@ public class DiaRefeicaoController {
 	private static Logger logger = LogManager.getLogger(
 			DiaRefeicaoController.class);
 	/**
-	 * Cadastro do dia de refeiï¿½ï¿½o do Aluno.
+	 * Cadastro do dia de refeição do Aluno.
 	 * 
 	 * Entrada: JSON
 	 * {
@@ -70,7 +70,7 @@ public class DiaRefeicaoController {
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
 		builder.expires(new Date());
 		
-		// Validaï¿½ï¿½o dos dados de entrada.
+		// Validação dos dados de entrada.
 		int validacao = Validate.diaRefeicao(diaRefeicao);
 		
 		if (validacao == Validate.VALIDATE_OK) {
@@ -92,12 +92,12 @@ public class DiaRefeicaoController {
 				Dia dia = DiaDAO.getInstance().getById(idDia);
 				diaRefeicao.setDia(dia);
 				
-				// Recuperar Refeiï¿½ï¿½o.
+				// Recuperar Refeição.
 				int idRefeicao = diaRefeicao.getRefeicao().getId();
 				Refeicao refeicao = RefeicaoDAO.getInstance().getById(idRefeicao);
 				diaRefeicao.setRefeicao(refeicao);
 				
-				// Recuperar Funcionï¿½rio.
+				// Recuperar Funcionário.
 				int idFuncionario = diaRefeicao.getFuncionario().getId();
 				Funcionario funcionario = FuncionarioDAO.getInstance()
 						.getById(idFuncionario);
@@ -109,7 +109,7 @@ public class DiaRefeicaoController {
 						&& refeicao != null
 						&& funcionario != null) {
 					
-					// Validar Edital: vigï¿½ncia e quantidade de contemplados.
+					// Validar Edital: vigência e quantidade de contemplados.
 					int quantidadeBeneficiadosReal = DiaRefeicaoDAO
 							.getInstance().getQuantidadeDiaRefeicaoEdital(
 									idEdital);
@@ -120,12 +120,12 @@ public class DiaRefeicaoController {
 					int quantidadeBeneficiadosPrevista = edital.getQuantidadeBeneficiadosPrevista();
 					int novaQuantidadeBeneficiados = quantidadeBeneficiadosReal + 1;
 					
-					// Verificar se o aluno jï¿½ ï¿½ contemplado ou se a quantidade real de beneficiï¿½rios estï¿½ prevista 
-					// com a adiï¿½ï¿½o do novo dia de refeiï¿½ï¿½o.
+					// Verificar se o aluno já é contemplado ou se a quantidade real de beneficiários está prevista 
+					// com a adição do novo dia de refeição.
 					if (isContemplado ||  novaQuantidadeBeneficiados <= quantidadeBeneficiadosPrevista) {
 						
-						// Verificar se existe dia de refeiï¿½ï¿½o ativo para a mesma refeiï¿½ï¿½o, dia e
-						// edital (intervalos de vigï¿½ncia semelhantes).
+						// Verificar se existe dia de refeição ativo para a mesma refeição, dia e
+						// edital (intervalos de vigência semelhantes).
 						List<DiaRefeicao> diasRefeicao = DiaRefeicaoDAO.getInstance()
 								.getDiaRefeicaoByPeriodoEdital(diaRefeicao);
 						
@@ -143,7 +143,7 @@ public class DiaRefeicaoController {
 							
 							if (idDiaRefeicao != BancoUtil.ID_VAZIO) {
 			
-								// Operaï¿½ï¿½o realizada com sucesso.
+								// Operação realizada com sucesso.
 								builder.status(Response.Status.OK);
 								builder.entity(diaRefeicao);
 								
@@ -161,7 +161,7 @@ public class DiaRefeicaoController {
 						
 					} else {
 						
-						// Novo dia de refeiï¿½ï¿½o estrapola a quantidade prevista para o Edital.
+						// Novo dia de refeição estrapola a quantidade prevista para o Edital.
 						builder.status(Response.Status.FORBIDDEN).entity(
 								ErrorFactory.getErrorFromIndex(
 										ErrorFactory.QUANTIDADE_BENEFICIARIOS_EXCEDENTE));
@@ -169,7 +169,7 @@ public class DiaRefeicaoController {
 					
 				} else {
 					
-					//TODO: Informaï¿½ï¿½es do edital nï¿½o encontrada.
+					//TODO: Informações do edital não encontrada.
 				}
 				
 			} catch (SQLExceptionNutrIF exception) {
@@ -191,20 +191,20 @@ public class DiaRefeicaoController {
 		
 		boolean isDiaRefeicaoVigente = BancoUtil.INATIVO;
 		
-		// Caso haja registro o dia de refeiï¿½ï¿½o jï¿½ ï¿½ oferecido ao beneficiï¿½rio por meio de edital vï¿½lido 
-		// e no perï¿½odo de vigencia. 
+		// Caso haja registro o dia de refeição já é oferecido ao beneficiário por meio de edital válido 
+		// e no período de vigencia.
 		if (diasRefeicao != null && !diasRefeicao.isEmpty()) {
 			
 			isDiaRefeicaoVigente = BancoUtil.ATIVO;
-			logger.info("DiaRefeiï¿½ï¿½o ativo: " + isDiaRefeicaoVigente);
+			logger.info("DiaRefeição ativo: " + isDiaRefeicaoVigente);
 		}
 		
 		return isDiaRefeicaoVigente;
 	}
 
 	/**
-	 * Remover o dia da refeiï¿½ï¿½o atravï¿½s do id. A remoï¿½ï¿½o desativa o registro
-	 * pela mudanï¿½a de estado da variï¿½vel <b>ativo<b> para o valor false.
+	 * Remover o dia da refeição através do id. A remoção desativa o registro
+	 * pela mudança de estado da variável <b>ativo<b> para o valor false.
 	 * 
 	 * Entrada: JSON
 	 * {
@@ -224,14 +224,14 @@ public class DiaRefeicaoController {
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
 		builder.expires(new Date());
 		
-		// Validaï¿½ï¿½o dos dados de entrada.
+		// Validação dos dados de entrada.
 		int validacao = Validate.diaRefeicao(diaRefeicao);
 		
 		if (validacao == Validate.VALIDATE_OK) {
 			
 			try {			
 				
-				// Recuperar Dia da Refeiï¿½ï¿½o.
+				// Recuperar Dia da Refeição.
 				diaRefeicao = DiaRefeicaoDAO.getInstance().getById(
 						diaRefeicao.getId());
 				
@@ -243,7 +243,7 @@ public class DiaRefeicaoController {
 				
 				if (diaRefeicao != null) {
 					
-					// Operaï¿½ï¿½o realizada com sucesso.
+					// Operação realizada com sucesso.
 					builder.status(Response.Status.OK);
 				}
 				
@@ -277,7 +277,7 @@ public class DiaRefeicaoController {
 	}
 	
 	/**
-	 * Recupera o dia da refeiï¿½ï¿½o (ativa ou inativa) atravï¿½s do id.
+	 * Recupera o dia da refeição (ativa ou inativa) através do id.
 	 * @param idCronogramaRefeicao
 	 * @return
 	 */
@@ -316,8 +316,8 @@ public class DiaRefeicaoController {
 	}	
 	
 	/**
-	 * Buscar os dias de refeiï¿½ï¿½o de um Aluno atravï¿½s do seu Nome. Somente serï¿½o
-	 * retornados os registros que nï¿½o estejam como refeiï¿½ï¿½o realizada.
+	 * Buscar os dias de refeição de um Aluno através do seu Nome. Somente serão
+	 * retornados os registros que não estejam como refeição realizada.
 	 *  
 	 * @param nome
 	 * @return
@@ -332,7 +332,7 @@ public class DiaRefeicaoController {
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
 		builder.expires(new Date());
 		
-		// Validaï¿½ï¿½o dos dados de entrada.
+		// Validação dos dados de entrada.
 		int validacao = Validate.nomeAlunoBusca(nome);
 		
 		if (validacao == Validate.VALIDATE_OK) {
@@ -350,7 +350,7 @@ public class DiaRefeicaoController {
 						
 					} else {
 						
-						// Dia de refeiï¿½ï¿½o nï¿½o existente.
+						// Dia de refeição não existente.
 						builder.status(Response.Status.FORBIDDEN).entity(
 								ErrorFactory.getErrorFromIndex(
 										ErrorFactory.DIA_REFEICAO_NAO_DEFINIDO));
@@ -358,7 +358,7 @@ public class DiaRefeicaoController {
 				
 				} else {
 					
-					// Solicitaï¿½ï¿½o fora do perï¿½odo de uma refeiï¿½ï¿½o.
+					// Solicitação fora do período de uma refeição.
 					builder.status(Response.Status.FORBIDDEN).entity(
 							ErrorFactory.getErrorFromIndex(
 									ErrorFactory.PERIODO_REFEICAO_INVALIDO));
@@ -366,14 +366,14 @@ public class DiaRefeicaoController {
 
 			} catch (SQLExceptionNutrIF exception) {
 
-				// Erro na manipulaï¿½ï¿½o dos dados.
+				// Erro na manipulação dos dados
 				builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
 						exception.getError());
 			}
 		
 		} else {
 			
-			// Solicitaï¿½ï¿½o fora do perï¿½odo de uma refeiï¿½ï¿½o.
+			// Solicitação fora do período de uma refeição.
 			builder.status(Response.Status.NOT_ACCEPTABLE).entity(
 					ErrorFactory.getErrorFromIndex(validacao));
 		}
@@ -382,8 +382,8 @@ public class DiaRefeicaoController {
 	}	
 	
 	/**
-	 * Buscar os dias de refeiï¿½ï¿½o de um Aluno atravï¿½s do sua Matrï¿½cula. 
-	 * Somente serï¿½o retornados os registros que nï¿½o estejam como refeiï¿½ï¿½o
+	 * Buscar os dias de refeição de um Aluno através do sua Matrícula. 
+	 * Somente serão retornados os registros que não estejam como refeição
 	 * realizada.
 	 *   
 	 * @param matricula
@@ -399,7 +399,7 @@ public class DiaRefeicaoController {
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
 		builder.expires(new Date());
 		
-		// Validaï¿½ï¿½o dos dados de entrada.
+		// Validação dos dados de entrada.
 		int validacao = Validate.matricula(matricula);
 		
 		if (validacao == Validate.VALIDATE_OK) {
@@ -414,13 +414,13 @@ public class DiaRefeicaoController {
 					
 					if (diasRefeicao.size() > BancoUtil.QUANTIDADE_ZERO) {
 						
-						// Dia de refeiï¿½ï¿½o encontrado.
+						// Dia de refeição encontrado
 						builder.status(Response.Status.OK);
 						builder.entity(diasRefeicao);
 					
 					} else {
 						
-						// Verificar dia de refeiï¿½ï¿½o realizado.
+						// Verificar dia de refeição realizado.
 						RefeicaoRealizada refeicaoRealizada = 
 								RefeicaoRealizadaDAO.getInstance()
 									.getRefeicaoRealizadaCorrente(matricula);
@@ -436,12 +436,12 @@ public class DiaRefeicaoController {
 							
 							error.setMensagem(mensagem);
 							
-							// Solicitaï¿½ï¿½o fora do perï¿½odo de uma refeiï¿½ï¿½o.
+							// Solicitação fora do período de uma refeição.
 							builder.status(Response.Status.FORBIDDEN).entity(
 									error);
 						} else {
 							
-							// Dia de refeiï¿½ï¿½o nï¿½o existente.
+							// Dia de refeição não existente.
 							builder.status(Response.Status.FORBIDDEN).entity(
 									ErrorFactory.getErrorFromIndex(
 											ErrorFactory.DIA_REFEICAO_NAO_DEFINIDO));
@@ -450,7 +450,7 @@ public class DiaRefeicaoController {
 				
 				} else {
 					
-					// Solicitaï¿½ï¿½o fora do perï¿½odo de uma refeiï¿½ï¿½o.
+					// Solicitação fora do período de uma refeição.
 					builder.status(Response.Status.FORBIDDEN).entity(
 							ErrorFactory.getErrorFromIndex(
 									ErrorFactory.PERIODO_REFEICAO_INVALIDO));
@@ -475,7 +475,7 @@ public class DiaRefeicaoController {
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
 		builder.expires(new Date());
 		
-		// Validaï¿½ï¿½o dos dados de entrada.
+		// Validação dos dados de entrada.
 		int validacao = Validate.diaRefeicaoEdital(idEdital);
 		
 		if (validacao == Validate.VALIDATE_OK) {
@@ -495,7 +495,7 @@ public class DiaRefeicaoController {
 	}
 	
 	/**
-	 * Listar todos os dias de refeiï¿½ï¿½es <b>ativos<b> de um Aluno pela Matrï¿½cula.
+	 * Listar todos os dias de refeições <b>ativos<b> de um Aluno pela Matrícula.
 	 * 
 	 * @param matricula
 	 * @return diasRefeicao
@@ -507,13 +507,13 @@ public class DiaRefeicaoController {
 	public Response getAllVigentesByAlunoMatricula(
 			@PathParam("matricula") String matricula) {
 		
-		logger.info("Consulta do Dia da Refeiï¿½ï¿½o pela Matrï¿½cula"
+		logger.info("Consulta do Dia da Refeição pela Matrícula"
 				+ " para Edital Vigente: " + matricula);
 		
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
 		builder.expires(new Date());
 		
-		// Validaï¿½ï¿½o dos dados de entrada.
+		// Validação dos dados de entrada.
 		int validacao = Validate.matricula(matricula);
 		
 		if (validacao == Validate.VALIDATE_OK) {
@@ -522,7 +522,7 @@ public class DiaRefeicaoController {
 
 				List<DiaRefeicao> diasRefeicao = DiaRefeicaoDAO
 						.getInstance().getAllVigentesByAlunoMatricula(matricula);
-				logger.info("Quantidade de Dias das Refeiï¿½ï¿½es de Editais Vigentes: " 
+				logger.info("Quantidade de Dias das Refeições de Editais Vigentes: " 
 						+ diasRefeicao.size());
 				
 				builder.status(Response.Status.OK);
@@ -544,7 +544,7 @@ public class DiaRefeicaoController {
 	}
 	
 	/**
-	 * Consultar histï¿½rico dos dias das defeiï¿½ï¿½es do Aluno pela Matrï¿½cula.
+	 * Consultar histórico dos dias das defeições do Aluno pela Matrícula.
 	 * 
 	 * @param matricula
 	 * @return
@@ -556,12 +556,12 @@ public class DiaRefeicaoController {
 	public Response getAllByAlunoMatricula(
 			@PathParam("matricula") String matricula) {
 		
-		logger.info("Consultar histï¿½rico dos Dias das Refeiï¿½ï¿½es do Aluno pela Matrï¿½cula: " + matricula);
+		logger.info("Consultar histórico dos Dias das Refeições do Aluno pela Matrícula: " + matricula);
 		
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
 		builder.expires(new Date());
 		
-		// Validaï¿½ï¿½o dos dados de entrada.
+		// Validação dos dados de entrada.
 		int validacao = Validate.matricula(matricula);
 		
 		if (validacao == Validate.VALIDATE_OK) {
@@ -570,7 +570,7 @@ public class DiaRefeicaoController {
 
 				List<DiaRefeicao> diasRefeicao = DiaRefeicaoDAO
 						.getInstance().getAllByAlunoMatricula(matricula);
-				logger.info("Quantidade dos Dias das Refeiï¿½ï¿½es: " + diasRefeicao.size());
+				logger.info("Quantidade dos Dias das Refeições: " + diasRefeicao.size());
 				
 				builder.status(Response.Status.OK);
 				builder.entity(diasRefeicao);
@@ -626,7 +626,7 @@ public class DiaRefeicaoController {
 	}
 	
 	/**
-	 * Quantificar os dias de refeiï¿½ï¿½o vï¿½lidos para um dia com data vï¿½lida do perï¿½odo do Edital.
+	 * Quantificar os dias de refeição válidos para um dia com data válida do período do Edital.
 	 * 
 	 * @param diaRefeicao
 	 * @return
@@ -641,28 +641,28 @@ public class DiaRefeicaoController {
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
 		builder.expires(new Date());
 		
-		// Validaï¿½ï¿½o dos dados de entrada.
+		// Validação dos dados de entrada.
 		int validacao = Validate.quantidadeDiaRefeicao(diaRefeicao);
 		
 		if (validacao == Validate.VALIDATE_OK) {
 			
 			try {
 				
-				// Recuperar dados da refeiï¿½ï¿½o.
+				// Recuperar dados da refeição.
 				Refeicao refeicao = RefeicaoDAO.getInstance().getById(
 						diaRefeicao.getRefeicao().getId());
 				diaRefeicao.setRefeicao(refeicao);
 				
-				// Dia proposto para a pretensï¿½o e data da solicitaï¿½ï¿½o.
+				// Dia proposto para a pretensão e data da solicitação.
 				int idDia = diaRefeicao.getDia().getId();
 				Dia dia = DiaDAO.getInstance().getById(idDia);
 				
-				// Verificar pretensï¿½o baseado no dia e refeiï¿½ï¿½o.				
+				// Verificar pretensão baseado no dia e refeição.				
 				Date dataDiaRefeicao = calcularDataDiaRefeicao(diaRefeicao);
 				
 				if (refeicao != null && dia != null) {
 					
-					// Cï¿½lculo da quantidade de pretensï¿½es lanï¿½adas para o prï¿½ximo dia de refeiï¿½ï¿½o.
+					// Cálculo da quantidade de pretensões lançadas para o próximo dia de refeição.
 					int quantidadeDia = DiaRefeicaoDAO.getInstance()
 							.getQuantidadeDiaRefeicao(diaRefeicao, dataDiaRefeicao);
 					
@@ -695,10 +695,10 @@ public class DiaRefeicaoController {
 	
 	private Date calcularDataDiaRefeicao(DiaRefeicao diaRefeicao) {
 		
-		// Calcular data para o dia da refeiï¿½ï¿½o.
-		logger.info("Calcular a data do dia da Refeiï¿½ï¿½o: " + diaRefeicao);
+		// Calcular data para o dia da refeição.
+		logger.info("Calcular a data do dia da Refeição: " + diaRefeicao);
 		
-		// Dia da semana para lanï¿½ar a pretensï¿½o.
+		// Dia da semana para lançar a pretensão.
 		int diaPretensao = diaRefeicao.getDia().getId();
 		Date dataDiaRefeicao = DateUtil.getDateOfDayWeek(diaPretensao);
 		
@@ -706,7 +706,7 @@ public class DiaRefeicaoController {
 	}
 	
 	/**
-	 * Lista todos os dias de refeiÃ§Ãµes do aluno com base em um dia da semana
+	 * Lista todos os dias de refeições do aluno com base em um dia da semana
 	 * @param idDia
 	 * @return
 	 */
@@ -746,7 +746,7 @@ public class DiaRefeicaoController {
 	
 	
 	/**
-	 * Migra o dia de refeiÃ§Ã£o do aluno para o edital do sabado letivo
+	 * Migra o dia de refeição do aluno para o edital do sabado letivo
 	 * @param idDia
 	 * @param edital
 	 * @return
@@ -763,7 +763,7 @@ public class DiaRefeicaoController {
 
 		try {
 
-			//ObtÃ©m todas as refeiÃ§Ãµes para o dia escolhido
+			//Obtém todas as refeições para o dia escolhido
 			List<DiaRefeicao> diasRefeicao = DiaRefeicaoDAO
 					.getInstance().getDiaRefeicaoByDia(idDia);
 			

@@ -10,7 +10,6 @@ import javax.ws.rs.Produces;
 
 import br.edu.ifpb.nutrif.dao.TurmaDAO;
 import br.edu.ladoss.entity.Turma;
-import br.edu.ladoss.entity.Turno;
 
 @Path("turma")
 public class TurmaController {
