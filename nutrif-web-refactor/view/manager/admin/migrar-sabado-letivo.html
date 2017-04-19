@@ -1,0 +1,93 @@
+<md-card layout-padding style="padding-left: 6%; padding-right: 6%; padding-bottom: 4%; padding-top: 3%">
+
+  <!-- Formulário -->
+  <form layout="column" ng-submit="migrarSabado.migrar(migrarSabado.edital)">
+
+
+    <md-input-container class="md-icon-float md-block">
+      <label>Dia da semana</label>
+      <md-select ng-model="idDia" required>
+        <md-option ng-repeat="dia in dias" value="{{dia.id}}" >
+          {{dia.nome}}
+        </md-option>
+      </md-select>
+    </md-input-container>
+
+
+    <md-input-container class="md-icon-float md-block">
+      <label>Nome</label>
+      <input ng-model="migrarSabado.edital.nome" type="text" required>
+    </md-input-container>
+
+    <!-- Evento -->
+    <md-input-container class="md-icon-float md-block">
+      <label>Evento</label>
+      <md-select ng-model="migrarSabado.edital.evento.id" required>
+        <md-option ng-repeat="evento in eventos" value="{{evento.id}}" >
+          {{evento.nome}}
+        </md-option>
+      </md-select>
+    </md-input-container>
+
+    <!-- Responsável -->
+    <md-autocomplete flex
+      md-selected-item="migrarSabado.selectedItem"
+      md-search-text="migrarSabado.searchText"
+      md-items="responsavel in migrarSabado.buscarResponsaveis(migrarSabado.searchText)"
+      md-item-text="responsavel.nome"
+      md-min-length="3"
+      md-no-cache="true"
+      md-auto-focus="false"
+      md-floating-label="Responsavel"
+      placeholder="Responsável"
+      required>
+      <md-item-template>
+        <span md-highlight-text="migrarSabado.searchText">
+          {{responsavel.nome}}
+        </span>
+      </md-item-template>
+    </md-autocomplete>
+
+
+    <!-- Campus -->
+    <md-input-container class="md-icon-float md-block">
+      <label>Campus</label>
+      <md-select ng-model="migrarSabado.edital.campus.id" required="true">
+        <md-option ng-repeat="campus in campi" value="{{campus.id}}" >
+          {{campus.cidade}}
+        </md-option>
+      </md-select>
+    </md-input-container>
+
+    <!-- Quantidade de contemplados -->
+    <md-input-container class="md-icon-float md-block">
+      <label>Quantidade de contemplados</label>
+      <input ng-model="migrarSabado.edital.quantidadeBeneficiadosPrevista" type="text" required>
+    </md-input-container>
+
+    <!-- Validade -->
+    <md-content>
+      <label>Validade</label>
+      <md-datepicker ng-model="migrarSabado.edital.dataInicial"
+        md-placeholder="Início" md-format="DD/MM/YYYY" ng-required="true">
+      </md-datepicker>
+      <md-datepicker ng-model="migrarSabado.edital.dataFinal"
+        md-placeholder="Fim" md-format="DD/MM/YYYY" ng-required="true">
+      </md-datepicker>
+    </md-content>
+
+    <!-- Pretensão -->
+    <md-input-container class="md-icon-float md-block">
+      <md-checkbox ng-model="migrarSabado.edital.previstoPretensao" aria-label="Obrigatório Pretensão">
+        Obrigatória a realização da Pretensão.
+      </md-checkbox>
+      <div class="hint">Realização da pretensão para todos os beneficiários do Edital.</div>
+    </md-input-container>
+
+    <md-button type="submit" layout-fill type="submit" class="md-raised md-primary md-hue-1 flex"
+      style="margin-top: 40px">
+   Migrar sabado
+  </md-button>
+</form>
+
+</md-card>

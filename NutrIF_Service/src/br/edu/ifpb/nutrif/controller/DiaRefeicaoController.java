@@ -706,7 +706,8 @@ public class DiaRefeicaoController {
 	}
 	
 	/**
-	 * 
+	 * Lista todos os dias de refeições do aluno com base em um dia da semana
+	 * @param idDia
 	 * @return
 	 */
 	@RolesAllowed({TipoRole.ADMIN, TipoRole.INSPETOR})
@@ -745,7 +746,9 @@ public class DiaRefeicaoController {
 	
 	
 	/**
-	 * 
+	 * Migra o dia de refeição do aluno para o edital do sabado letivo
+	 * @param idDia
+	 * @param edital
 	 * @return
 	 */
 	@RolesAllowed({TipoRole.ADMIN, TipoRole.INSPETOR})
@@ -753,16 +756,21 @@ public class DiaRefeicaoController {
 	@Path("/migrarSabado/{id}")
 	@Produces("application/json")
 	public Response migrarDiaRefeicaoParaSabado(
-			@PathParam("id")Integer id, Edital edital) {
+			@PathParam("id")Integer idDia, Edital edital) {
 		
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
 		builder.expires(new Date());
 
 		try {
 
+			//Obtém todas as refeições para o dia escolhido
 			List<DiaRefeicao> diasRefeicao = DiaRefeicaoDAO
-					.getInstance().getDiaRefeicaoByDia(id);
+					.getInstance().getDiaRefeicaoByDia(idDia);
 			
+			Date agora = new Date();
+			edital.setDataInsercao(agora);
+			
+			//insere o memorando do sabado letivo
 			Integer idEdital =  EditalDAO
 					.getInstance().insert(edital);
 			
@@ -776,8 +784,7 @@ public class DiaRefeicaoController {
 					
 					diaRefeicao.setEdital(memorandoSabado);
 		
-					DiaRefeicaoDAO
-						.getInstance().insertOrUpdate(diaRefeicao);
+					DiaRefeicaoDAO.getInstance().insert(diaRefeicao);
 				}
 				
 				builder.status(Response.Status.OK);

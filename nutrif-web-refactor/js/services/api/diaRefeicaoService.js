@@ -10,13 +10,13 @@ angular.module("NutrifApp").factory("diaRefeicaoService", function($http, config
 		return $http.get(_path + "/buscar/aluno/matricula/" + encodeURI(matricula))
 	};
 
-  var _cadastrarRefeicao = function (refeicao) {
-    delete refeicao.refeicao.horaFinal;
-    delete refeicao.refeicao.horaInicio;
-    delete refeicao.refeicao.horaPrevisaoPretensao;
+	var _cadastrarRefeicao = function (refeicao) {
+	    delete refeicao.refeicao.horaFinal;
+	    delete refeicao.refeicao.horaInicio;
+	    delete refeicao.refeicao.horaPrevisaoPretensao;
 
-    return $http.post(_path + "/inserir", refeicao)
-  };
+	    return $http.post(_path + "/inserir", refeicao)
+	};
 
 	var _removerRefeicao = function (refeicao) {
     delete refeicao.refeicao.horaFinal;
@@ -30,7 +30,7 @@ angular.module("NutrifApp").factory("diaRefeicaoService", function($http, config
 		return $http.get(_path + "/listar/aluno/matricula/" + encodeURI(matricula))
 	};
 
-	 var _getQuantidadeRefeicoes = function(diaRefeicao){
+	var _getQuantidadeRefeicoes = function(diaRefeicao){
 
 		return $http.post(_path+ "/quantificar" , diaRefeicao);
 
@@ -38,9 +38,22 @@ angular.module("NutrifApp").factory("diaRefeicaoService", function($http, config
 
 	var _getAllVigentesByAlunoMatricula =  function(matricula){
 
-	 return $http.get(_path+ "/vigentes/listar/aluno/matricula/"+ matricula);
+		 return $http.get(_path+ "/vigentes/listar/aluno/matricula/"+ matricula);
 
 	}
+
+	var _getAllByDiaSemana =  function(dia){
+
+	 	return $http.get(_path+ "/dia/"+ dia);
+
+	}
+
+	var _migrarSabadoLetivo =  function(dia, edital){
+
+	 	return $http.post(_path+ "/migrarSabado/"+ dia, edital);
+
+	}
+
 
 	return {
 		buscaRefeicaoPorNome: _buscaRefeicaoPorNome,
@@ -49,7 +62,9 @@ angular.module("NutrifApp").factory("diaRefeicaoService", function($http, config
 		removerRefeicao: _removerRefeicao,
 		listarHistoricoRefeicaoPorMatricula: _listarHistoricoRefeicaoPorMatricula,
 		getQuantidadeRefeicoes: _getQuantidadeRefeicoes,
-		getAllVigentesByAlunoMatricula: _getAllVigentesByAlunoMatricula
+		getAllVigentesByAlunoMatricula: _getAllVigentesByAlunoMatricula,
+		migrarSabadoLetivo: _migrarSabadoLetivo
+
 	};
 
 });

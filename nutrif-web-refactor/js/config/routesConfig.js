@@ -267,6 +267,16 @@ angular.module('NutrifApp').config(function ($stateProvider, $urlRouterProvider)
             module: 'admin'
         })
 
+        /* Migrar sabado letivo */
+        .state('home.migrar-sabado-letivo', {
+            url: '/migrar/sabado/',
+            title: 'Migrar sabado letivo',
+            templateUrl: 'view/manager/admin/migrar-sabado-letivo.html',
+            controller: 'migrarSabadoCtrl',
+            controllerAs: 'migrarSabado',
+            module: 'admin'
+        })
+
         .state('home.dashboard', {
             url: '/dashboard',
             title: 'Dashboard',
