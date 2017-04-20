@@ -19,61 +19,52 @@
 	<meta http-equiv="Expires" content="0" />
 
 	<!-- AngularJS & Lib imports -->
-	<script type="text/javascript" src="lib/angular/angular.min.js"></script>
-	<script type="text/javascript" src="lib/angular/angular-route.min.js"></script>
-    <script type='text/javascript' src="lib/ui-router.js"></script>
-	<script type="text/javascript" src="lib/angular/angular-messages.min.js"></script>
-	<script type="text/javascript" src="lib/angular/angular-aria.min.js"></script>
-	<script type="text/javascript" src="lib/angular/angular-animate.min.js"></script>
-	<script type="text/javascript" src="lib/angular/angular-cookies.min.js"></script>
+	<script type="text/javascript" src="bower_components/angular/angular.min.js"></script>
+	<script type="text/javascript" src="bower_components/angular-route/angular-route.min.js"></script>
+    <script type='text/javascript' src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+	<script type="text/javascript" src="bower_components/angular-messages/angular-messages.min.js"></script>
+	<script type="text/javascript" src="bower_components/angular-aria/angular-aria.min.js"></script>
+	<script type="text/javascript" src="bower_components/angular-animate/angular-animate.min.js"></script>
+	<script type="text/javascript" src="bower_components/angular-cookies/angular-cookies.min.js"></script>
     
     <!-- Angular Material -->
-    <script type="text/javascript" src="lib/angular-material/angular-material.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="lib/angular-material/angular-material.min.css">
+	<script type="text/javascript" src="bower_components/angular-material/angular-material.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="bower_components/angular-material/angular-material.min.css">
     
     <!-- App --> 
 	<script type="text/javascript" src="js/app.js"></script>    
 	<link rel="stylesheet" type="text/css" href="css/app.css">
     
     <!-- Outras Libs -->
-	<script type='text/javascript' src="lib/loading-bar/loading-bar.js"></script>
-	<link rel="stylesheet" type="text/css" href="lib/loading-bar/loading-bar.css">
+	<script type='text/javascript' src="bower_components/angular-loading-bar/build/loading-bar.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="bower_components/angular-loading-bar/build/loading-bar.min.css">
     
 	<script type="text/javascript" src="lib/qr-code-scanner/jsqrcode-combined.min.js"></script>
 	<script type="text/javascript" src="lib/qr-code-scanner/qr-scanner.js"></script>
 	<script type="text/javascript" src="lib/qr-code-generator/qrcode.js"></script>
 	<script type="text/javascript" src="lib/qr-code-generator/angular-qr.min.js"></script>
     
-	<script type='text/javascript' src="lib/md-data-table/md-data-table.js"></script>
-	<link rel="stylesheet" type="text/css" href="lib/md-data-table/md-data-table.css">	
+	<script type='text/javascript' src="bower_components/angular-material-data-table/dist/md-data-table.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="bower_components/angular-material-data-table/dist/md-data-table.min.css">	
 	
-    <script type="text/javascript" src="lib/datejs/date-pt-BR.js"></script>
-	<script type="text/javascript" src="lib/datejs/moment.js"></script>
-	<script type="text/javascript" src="lib/angular-chart/charts.js"></script>
-	<script type="text/javascript" src="lib/angular-chart/angular-chart.min.js"></script>	
-	<link rel="stylesheet" href="lib/timeline/bower_components/angular-timeline/dist/angular-timeline.css"/>
+    <script type="text/javascript" src="bower_components/DateJS/build/date-pt-BR.js"></script>
+	<script type="text/javascript" src="bower_components/moment/moment.js"></script>
+	<script type="text/javascript" src="bower_components/chart.js/dist/Chart.min.js"></script>
+	<script type="text/javascript" src="bower_components/angular-chart.js/dist/angular-chart.min.js"></script>	
+	<link rel="stylesheet" href="bower_components/angular-timeline/dist/angular-timeline.css"/>
     
 	<!-- Timeline -->
-	<script src="lib/timeline/bower_components/angular-timeline/dist/angular-timeline.js"></script>
+	<script src="bower_components/angular-timeline/dist/angular-timeline.js"></script>
 
 	<!-- Webcam -->
 	<script type="text/javascript" src="lib/webcam/webcam.min.js"></script>
 
 	<!-- Crop images -->
-	<script type="text/javascript" src="lib/ng-img-cropper/init.js"></script>
-	<script type="text/javascript" src="lib/ng-img-cropper/ng-img-crop.js"></script>
-	<script type="text/javascript"
-		src="lib/ng-img-cropper/crop-area-circle.js"></script>
-	<script type="text/javascript"
-		src="lib/ng-img-cropper/crop-area-square.js"></script>
-	<script type="text/javascript" src="lib/ng-img-cropper/crop-area.js"></script>
-	<script type="text/javascript" src="lib/ng-img-cropper/crop-canvas.js"></script>
-	<script type="text/javascript" src="lib/ng-img-cropper/crop-exif.js"></script>
-	<script type="text/javascript" src="lib/ng-img-cropper/crop-host.js"></script>
-	<script type="text/javascript" src="lib/ng-img-cropper/crop-pubsub.js"></script>
+	<script type="text/javascript" src="bower_components/ng-img-crop/compile/minified/ng-img-crop.js"></script>
+	<link rel="stylesheet" href="bower_components/ng-img-crop/compile/minified/ng-img-crop.css"></script>
 	
 	<!-- Locale -->
-	<script type="text/javascript" src="lib/angular-locale_pt-br.js"></script>	
+	<script type="text/javascript" src="bower_components/angular-locale-pt-br/angular-locale_pt-br.js"></script>	
 
 	<!-- Configurações -->
 	<script type="text/javascript" src="js/config/themeConfig.js"></script>
@@ -85,7 +76,7 @@
 	<script type="text/javascript" src="js/filter/simNaoFilter.js"></script>
     
     <!-- Diretivas -->
-    <script type="text/javascript" src="js/diretivas/money.js"></script>
+    <script type="text/javascript" src="bower_components/angular-currency-mask/angular-currency-mask.js"></script>
 
 	<!-- Services -->
 	<script type="text/javascript" src="js/services/api/loginService.js"></script>
