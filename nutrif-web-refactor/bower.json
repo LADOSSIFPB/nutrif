@@ -28,6 +28,6 @@
     "angular-timeline": "^1.7.0",
     "angular-currency-mask": "^0.1.0-alpha",
     "moment": "^2.18.1",
-    "DateJS": "datejs#^1.0.0-rc3"
+    "date.js": "*"
   }
 }
