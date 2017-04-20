@@ -763,24 +763,33 @@ public class DiaRefeicaoController {
 
 		try {
 
+			Edital memorandoSabado = edital;
+			
 			//Obtém todas as refeições para o dia escolhido
 			List<DiaRefeicao> diasRefeicao = DiaRefeicaoDAO
 					.getInstance().getDiaRefeicaoByDia(idDia);
 			
-			Date agora = new Date();
-			edital.setDataInsercao(agora);
-			
-			//insere o memorando do sabado letivo
-			Integer idEdital =  EditalDAO
-					.getInstance().insert(edital);
-			
-			Edital memorandoSabado = EditalDAO.getInstance().getById(idEdital);
+			if(edital.getId() == null){
+				
+				Date agora = new Date();
+				edital.setDataInsercao(agora);
+				
+				//insere o memorando do sabado letivo
+				Integer idEdital =  EditalDAO
+						.getInstance().insert(edital);
+				
+				memorandoSabado = EditalDAO.getInstance().getById(idEdital);
+				
+			}
 			
 			if (diasRefeicao != null) {
 				
 				for(DiaRefeicao diaRefeicao : diasRefeicao){
 					
 					diaRefeicao.setId(null);
+					
+					Date agora = new Date();
+					diaRefeicao.setDataInsercao(agora);
 					
 					diaRefeicao.setEdital(memorandoSabado);
 		
