@@ -60,8 +60,12 @@ public class DiaRefeicao implements DataEntity {
 	private Date dataInsercao;
 	
 	@Column(name = "is_ativo", columnDefinition = "boolean default true", 
-			nullable = false, insertable = false, updatable = true)
-	private boolean ativo;	
+			nullable = false, insertable = true, updatable = true)
+	private boolean ativo;
+	
+	@Column(name = "is_migracao", columnDefinition = "boolean default false", 
+			nullable = false, insertable = true, updatable = true)
+	private boolean migracao;
 		
 	public DiaRefeicao() {
 		super();
@@ -139,6 +143,15 @@ public class DiaRefeicao implements DataEntity {
 		this.edital = edital;
 	}
 	
+	@XmlElement
+	public boolean isMigracao() {
+		return migracao;
+	}
+
+	public void setMigracao(boolean migracao) {
+		this.migracao = migracao;
+	}
+	
 	@Override
 	public String toString() {
 		return "DiaRefeicao [id=" + id + ", aluno=" + aluno 
@@ -146,6 +159,8 @@ public class DiaRefeicao implements DataEntity {
 				+ ", refeicao=" + refeicao
 				+ ", edital=" + edital 
 				+ ", dataInsercao=" + dataInsercao 
-				+ ", funcionario=" + funcionario + "]";
+				+ ", funcionario=" + funcionario 
+				+ ", ativo=" + ativo
+				+ ", migracao=" + migracao + "]";
 	}	
 }

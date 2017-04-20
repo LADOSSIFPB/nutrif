@@ -514,24 +514,22 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 	
 	public List<DiaRefeicao> getDiaRefeicaoByDia(Integer dia) {
 		
-		logger.info("Buscar Dia de Refeição por dia. ");
+		logger.info("Buscar Dia de Refeição por dia.");
 		
 		Session session = HibernateUtil.getSessionFactory().openSession();
 
 		List<DiaRefeicao> diasRefeicao = new ArrayList<DiaRefeicao>();
 		
-		try {
-			
+		try {			
 			
 			String hql = "from DiaRefeicao as dr"
-					+ " where dr.dia.id = :dia"
-					+ " and dr.ativo = :ativo"
-					+ "	and CURRENT_TIME() between dr.refeicao.horaInicio and dr.refeicao.horaFinal"
+					+ " where dr.dia.id = :idDia"
 					+ " and CURRENT_TIMESTAMP() between dr.edital.dataInicial and dr.edital.dataFinal"
-					+ " and dr.edital.ativo = :ativo";
+					+ " and dr.edital.ativo = :ativo"
+					+ " and dr.ativo = :ativo";
 			
 			Query query = session.createQuery(hql);			
-			query.setParameter("dia", dia);
+			query.setParameter("idDia", dia);
 			query.setParameter("ativo", BancoUtil.ATIVO);
 			
 			diasRefeicao = (List<DiaRefeicao>) query.list();

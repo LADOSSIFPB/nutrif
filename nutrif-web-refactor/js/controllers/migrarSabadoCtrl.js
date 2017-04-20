@@ -1,7 +1,7 @@
 angular.module('NutrifApp').controller('migrarSabadoCtrl', function ($scope, $mdToast, $state, $window,
         diaRefeicaoService, userService, funcionarioService, campusService, eventoService, diaService) {
-	
-	
+
+
         $scope.campi = [];
         $scope.eventos = [];
         $scope.dias = [];
@@ -88,7 +88,6 @@ angular.module('NutrifApp').controller('migrarSabadoCtrl', function ($scope, $md
         function transformChip(responsavel) {
             // If it is an object, it's already a known chip
             if (angular.isObject(responsavel)) {
-                console.log("Responsá" + responsavel);
                 return responsavel;
             }
         }
@@ -99,9 +98,7 @@ angular.module('NutrifApp').controller('migrarSabadoCtrl', function ($scope, $md
                 .success(function (data, status) {
                     $scope.campi = data;
                 })
-                .error(function (data, status) {
-                    alert("Houve um problema ao carregar os Campus.");
-                });
+                .error(onErrorCallback);
         }
 
         // Carregar os Eventos para definir o tipo do Edital.
@@ -110,28 +107,24 @@ angular.module('NutrifApp').controller('migrarSabadoCtrl', function ($scope, $md
                 .success(function (data, status) {
                     $scope.eventos = data;
                 })
-                .error(function (data, status) {
-                    alert("Houve um problema ao carregar os Eventos.");
-                });
+                .error(onErrorCallback);
         }
 
         // Carregar os dias da semana.
         function carregarDiasSemana() {
-           diaService.listarDias()
+            diaService.listarDias()
                 .success(function (data, status) {
                     $scope.dias = data;
                 })
-                .error(function (data, status) {
-                    alert("Houve um problema ao carregar os Eventos.");
-                });
+                .error(onErrorCallback);
         }
 
         carregarEventos();
         carregarCampi();
         carregarDiasSemana();
-    
-})
-.config(function ($mdDateLocaleProvider) {
+
+    })
+    .config(function ($mdDateLocaleProvider) {
         // Example of a Spanish localization.
         $mdDateLocaleProvider.months = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
                                   'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
@@ -153,8 +146,4 @@ angular.module('NutrifApp').controller('migrarSabadoCtrl', function ($scope, $md
         $mdDateLocaleProvider.msgCalendar = 'Calendario';
         $mdDateLocaleProvider.msgOpenCalendar = 'Abrir calendario';
 
-});
-
-		
-
-
+    });

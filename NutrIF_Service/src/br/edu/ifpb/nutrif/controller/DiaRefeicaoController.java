@@ -746,54 +746,85 @@ public class DiaRefeicaoController {
 	
 	
 	/**
-	 * Migra o dia de refeição do aluno para o edital do sabado letivo
-	 * @param idDia
+	 * Migrar os dias de refeição dos alunos para um edital.
+	 * O edital que vier com identificação será recuperado e associado aos dias de refeição,
+	 * caso contrário será castrado.
+	 * 
+	 * @param idDiaOrigem
 	 * @param edital
 	 * @return
 	 */
 	@RolesAllowed({TipoRole.ADMIN, TipoRole.INSPETOR})
 	@POST
-	@Path("/migrarSabado/{id}")
+	@Path("/migrar/dia/origem/{idOrigem}/destino/{idDestino}")
 	@Produces("application/json")
-	public Response migrarDiaRefeicaoParaSabado(
-			@PathParam("id")Integer idDia, Edital edital) {
+	public Response migrarDiaRefeicao(
+			@PathParam("idOrigem")Integer idDiaOrigem, 
+			@PathParam("idDestino")Integer idDiaDestino,
+			Edital edital) {
 		
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
 		builder.expires(new Date());
 
+		//TODO: Validação. Verificar se o idDia Origem e Destino são válidos como inteiro.
+		
 		try {
-
-			Edital memorandoSabado = edital;
 			
-			//Obtém todas as refeições para o dia escolhido
-			List<DiaRefeicao> diasRefeicao = DiaRefeicaoDAO
-					.getInstance().getDiaRefeicaoByDia(idDia);
+			//Obter todos os dias de refeição para o dia escolhido.
+			List<DiaRefeicao> diasRefeicaoOrigem = DiaRefeicaoDAO
+					.getInstance().getDiaRefeicaoByDia(idDiaOrigem);			
 			
-			if(edital.getId() == null){
+			// Inserir ou obter Edital.
+			Integer idEdital = edital.getId();
+			
+			if(idEdital == BancoUtil.ID_VAZIO){
 				
 				Date agora = new Date();
 				edital.setDataInsercao(agora);
 				
-				//insere o memorando do sabado letivo
-				Integer idEdital =  EditalDAO
-						.getInstance().insert(edital);
+				// Inserir novo Edital.
+				idEdital = EditalDAO.getInstance().insert(edital);
 				
-				memorandoSabado = EditalDAO.getInstance().getById(idEdital);
+			} else {
 				
+				// Recuperar Edital completo.
+				edital = EditalDAO.getInstance().getById(idEdital);
 			}
-			
-			if (diasRefeicao != null) {
 				
-				for(DiaRefeicao diaRefeicao : diasRefeicao){
+			if (diasRefeicaoOrigem != null && !diasRefeicaoOrigem.isEmpty()
+					&& edital != null && edital.getId() != BancoUtil.ID_VAZIO) {
+				
+				// Dia destino
+				Dia diaDestino = DiaDAO.getInstance().getById(idDiaDestino);
+				
+				// Novos Dias de Refeição.
+				for(DiaRefeicao diaRefeicaoOrigem : diasRefeicaoOrigem){
 					
-					diaRefeicao.setId(null);
+					DiaRefeicao diaRefeicaoDestino = new DiaRefeicao();
 					
-					Date agora = new Date();
-					diaRefeicao.setDataInsercao(agora);
+					// Aluno
+					diaRefeicaoDestino.setAluno(diaRefeicaoOrigem.getAluno());
 					
-					diaRefeicao.setEdital(memorandoSabado);
+					// Dia
+					diaRefeicaoDestino.setDia(diaDestino);	
+					
+					// Refeição
+					diaRefeicaoDestino.setRefeicao(diaRefeicaoOrigem.getRefeicao());
+					
+					// Edital
+					diaRefeicaoDestino.setEdital(edital);
 		
-					DiaRefeicaoDAO.getInstance().insert(diaRefeicao);
+					// Migração
+					diaRefeicaoDestino.setMigracao(BancoUtil.ATIVO);
+					
+					// Funcionário
+					diaRefeicaoDestino.setFuncionario(edital.getFuncionario());
+					
+					// Data e hora de inserção.
+					Date agora = new Date();
+					diaRefeicaoDestino.setDataInsercao(agora);
+					
+					DiaRefeicaoDAO.getInstance().insert(diaRefeicaoDestino);
 				}
 				
 				builder.status(Response.Status.OK);
