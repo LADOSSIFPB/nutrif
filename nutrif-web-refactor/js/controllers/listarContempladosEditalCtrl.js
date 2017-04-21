@@ -1,4 +1,4 @@
-angular.module('NutrifApp').controller('listarContempladosCtrl', function ($scope,
+angular.module('NutrifApp').controller('listarContempladosEditalCtrl', function ($scope,
 	$stateParams, $state, $mdToast, diaRefeicaoService) {
 
 	$scope.diasRefeicao = [];

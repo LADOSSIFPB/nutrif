@@ -130,7 +130,10 @@ public class ErrorFactory {
 	public static final int ID_TURMA_INVALIDO = 55;
 	public static final int ID_TURNO_INVALIDO = 56;
 	
-	public static final int ERRO_INTERNO_SERVICO = 57;
+	public static final int DIA_REFEICAO_NAO_DEFINIDO_EDITAL = 57;
+	public static final int DIA_REFEICAO_NAO_DEFINIDO_ALUNO = 58;	
+	
+	public static final int ERRO_INTERNO_SERVICO = 59;
 	
 	/*
 	 * Mapa de erros: código e mensagem.
@@ -185,7 +188,9 @@ public class ErrorFactory {
 		hashMap.put(ID_EVENTO_INVALIDO, "Evento inválido.");
 		hashMap.put(PERIODO_REFEICAO_INVALIDO, "Período de Refeição inválido.");
 		hashMap.put(REFEICAO_JA_REALIZADA, "Refeição já realizada.");
-		hashMap.put(DIA_REFEICAO_NAO_DEFINIDO, "Dia de Refeição não definido para o Aluno.");
+		hashMap.put(DIA_REFEICAO_NAO_DEFINIDO, "Dia de Refeição não definido.");
+		hashMap.put(DIA_REFEICAO_NAO_DEFINIDO_ALUNO, "Dia de Refeição não definido para o Aluno.");
+		hashMap.put(DIA_REFEICAO_NAO_DEFINIDO_EDITAL, "Dia de Refeição não definido para o Edital.");
 		hashMap.put(NOME_EVENTO_INVALIDO, "Nome do evento inválido.");
 		hashMap.put(DESCRICAO_EVENTO_INVALIDO, "Descrição do evento inválido.");
 		hashMap.put(TIPO_REFEICAO_INVALIDO, "Tipo que descreve a refeição inválido.");	

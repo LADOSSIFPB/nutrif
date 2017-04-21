@@ -281,6 +281,7 @@ public class DiaRefeicaoController {
 	
 	/**
 	 * Recupera o dia da refeição (ativa ou inativa) através do id.
+	 * 
 	 * @param idCronogramaRefeicao
 	 * @return
 	 */
@@ -359,7 +360,7 @@ public class DiaRefeicaoController {
 						// Dia de refeição não existente.
 						builder.status(Response.Status.NOT_FOUND)
 								.entity(ErrorFactory.getErrorFromIndex(
-										ErrorFactory.DIA_REFEICAO_NAO_DEFINIDO));
+										ErrorFactory.DIA_REFEICAO_NAO_DEFINIDO_ALUNO));
 					}			
 				
 				} else {
@@ -451,7 +452,7 @@ public class DiaRefeicaoController {
 							// Dia de refeição não existente.
 							builder.status(Response.Status.NOT_FOUND)
 									.entity(ErrorFactory.getErrorFromIndex(
-											ErrorFactory.DIA_REFEICAO_NAO_DEFINIDO));
+											ErrorFactory.DIA_REFEICAO_NAO_DEFINIDO_ALUNO));
 						}
 					}					
 				
@@ -691,10 +692,10 @@ public class DiaRefeicaoController {
 	 */
 	@RolesAllowed({TipoRole.ADMIN, TipoRole.INSPETOR})
 	@GET
-	@Path("/dia/{dia}")
+	@Path("/dia/{id}")
 	@Produces("application/json")
 	public Response getDiaRefeicaoByDia(
-			@PathParam("dia") Integer idDia) {
+			@PathParam("id") Integer idDia) {
 		
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
 		builder.expires(new Date());
@@ -711,7 +712,8 @@ public class DiaRefeicaoController {
 				
 			} else {
 				
-				builder.status(Response.Status.NOT_FOUND);
+				builder.status(Response.Status.NOT_FOUND).entity(
+						ErrorFactory.getErrorFromIndex(ErrorFactory.DIA_REFEICAO_NAO_DEFINIDO));
 			}			
 
 		} catch (SQLExceptionNutrIF exception) {
@@ -857,7 +859,7 @@ public class DiaRefeicaoController {
 
 					// Dia de refeição não existente.
 					builder.status(Response.Status.NOT_FOUND)
-							.entity(ErrorFactory.getErrorFromIndex(ErrorFactory.DIA_REFEICAO_NAO_DEFINIDO));
+							.entity(ErrorFactory.getErrorFromIndex(ErrorFactory.DIA_REFEICAO_NAO_DEFINIDO_EDITAL));
 				}
 
 			} catch (SQLExceptionNutrIF exception) {

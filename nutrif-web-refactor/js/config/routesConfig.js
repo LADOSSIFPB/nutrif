@@ -157,12 +157,12 @@ angular.module('NutrifApp').config(function ($stateProvider, $urlRouterProvider)
             module: 'admin'
         })
 
-        .state('home.listar-contemplados', {
-            url: '/listar/contemplados/:id',
-            title: 'Listar Contemplados',
-            templateUrl: 'view/manager/admin/listar-contemplados.html',
-            controller: 'listarContempladosCtrl',
-            controllerAs: 'listarContemplados',
+        .state('home.listar-contemplados-edital', {
+            url: '/listar/contemplados/edital/:id',
+            title: 'Listar Contemplados do Edital',
+            templateUrl: 'view/manager/admin/listar-contemplados-edital.html',
+            controller: 'listarContempladosEditalCtrl',
+            controllerAs: 'listarContempladosEdital',
             module: 'admin'
         })
 
@@ -276,10 +276,10 @@ angular.module('NutrifApp').config(function ($stateProvider, $urlRouterProvider)
             module: 'admin'
         })
 
-        /* Migrar sabado letivo */
+        /* Migrar Sábado Letivo */
         .state('home.migrar-sabado-letivo', {
             url: '/migrar/sabado/',
-            title: 'Migrar sabado letivo',
+            title: 'Migrar Sábado Letivo',
             templateUrl: 'view/manager/admin/migrar-sabado-letivo.html',
             controller: 'migrarSabadoCtrl',
             controllerAs: 'migrarSabado',
@@ -289,14 +289,14 @@ angular.module('NutrifApp').config(function ($stateProvider, $urlRouterProvider)
 
         .state('home.migrar-sabado', {
             url: '/migrar/sabado2/',
-            title: 'Migrar sabado letivo',
+            title: 'Migrar Sábado Letivo',
             templateUrl: 'view/manager/admin/migrar-sabado.html',
             controller: 'migrarSabadoLetivoCtrl',
             controllerAs: 'migrarSabado',
             module: 'admin'
         })
 
-
+        /* Dashboard */
         .state('home.dashboard', {
             url: '/dashboard',
             title: 'Dashboard',
