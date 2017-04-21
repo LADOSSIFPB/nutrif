@@ -54,6 +54,10 @@ angular.module("NutrifApp").factory("diaRefeicaoService", function ($http, confi
         return $http.post(_path + "/migrar/dia/origem/" + diaOrigem + "/destino/" + SABADO, edital);
     }
 
+    var _getAllByEdital = function (idEdital) {
+        return $http.get(_path + "/listar/edital/" + idEdital);
+    }
+
     return {
         buscaRefeicaoPorNome: _buscaRefeicaoPorNome,
         buscaRefeicaoPorMatricula: _buscaRefeicaoPorMatricula,
@@ -62,6 +66,7 @@ angular.module("NutrifApp").factory("diaRefeicaoService", function ($http, confi
         listarHistoricoRefeicaoPorMatricula: _listarHistoricoRefeicaoPorMatricula,
         getQuantidadeRefeicoes: _getQuantidadeRefeicoes,
         getAllVigentesByAlunoMatricula: _getAllVigentesByAlunoMatricula,
-        migrarSabadoLetivo: _migrarSabadoLetivo
+        migrarSabadoLetivo: _migrarSabadoLetivo,
+        getAllByEdital: _getAllByEdital
     };
 });

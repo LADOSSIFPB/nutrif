@@ -157,6 +157,15 @@ angular.module('NutrifApp').config(function ($stateProvider, $urlRouterProvider)
             module: 'admin'
         })
 
+        .state('home.listar-contemplados', {
+            url: '/listar/contemplados/:id',
+            title: 'Listar Contemplados',
+            templateUrl: 'view/manager/admin/listar-contemplados.html',
+            controller: 'listarContempladosCtrl',
+            controllerAs: 'listarContemplados',
+            module: 'admin'
+        })
+
         .state('home.estatisticas', {
             url: '/estatisticas',
             title: 'Estatisticas',
