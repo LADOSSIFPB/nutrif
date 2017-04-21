@@ -757,7 +757,7 @@ public class DiaRefeicaoController {
 	 * @param edital
 	 * @return
 	 */
-	@RolesAllowed({TipoRole.ADMIN, TipoRole.INSPETOR})
+	@RolesAllowed({TipoRole.ADMIN})
 	@POST
 	@Path("/migrar/dia/origem/{idOrigem}/destino/{idDestino}")
 	@Produces("application/json")
