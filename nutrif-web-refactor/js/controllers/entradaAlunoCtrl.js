@@ -128,9 +128,9 @@
       function onErrorCallback(data, status) {
           var _message = '';
           if (!data) {
-              _message = 'Erro ao registrar refeição, tente novamente ou contate os administradores.'
+              _message = 'Erro no servidor, por favor chamar administração ou suporte.';
           } else {
-              _message = data.mensagem
+              _message = data.mensagem;
           }
 
           $mdToast.show(
@@ -150,29 +150,20 @@
 
                   $scope.image = data;
               })
-              .error(onErrorImageCallback);
+              .error(onErrorCallback);
+      }
+      
+      var getPretensao = function () {
+
+          arquivoService.getPerfilById(refeicao.id)
+              .success(function (data, status) {
+
+                  $scope.image = data;
+              })
+              .error(onErrorCallback);
       }
 
       getImage();
-
-      function onErrorImageCallback(data, status) {
-
-          var _message = '';
-
-          if (!data) {
-              _message = 'Erro ao carregar imagem, tente novamente ou contate os administradores.'
-          } else {
-              _message = data.mensagem
-          }
-
-          $mdToast.show(
-              $mdToast.simple()
-              .textContent(_message)
-              .position('top right')
-              .action('OK')
-              .hideDelay(6000)
-          );
-      }
 
       $scope.cancel = function () {
           $mdDialog.cancel();

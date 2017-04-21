@@ -391,17 +391,10 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 		return diasRefeicao;		
 	}
 	
-	@Override
-	public void delete(DiaRefeicao entity) {
-		// TODO Auto-generated method stub
-		super.delete(entity);
-	}
-	
-	@Override
-	public List<DiaRefeicao> getAll() throws SQLExceptionNutrIF {
-		return super.getAll("DiaRefeicao.getAll");
-	}
-
+	/**
+	 * Encontrar Dia de Refeição.
+	 * 
+	 */
 	@Override
 	public DiaRefeicao find(DiaRefeicao diaRefeicao) throws SQLExceptionNutrIF {
 		
@@ -441,38 +434,6 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 		}
 		
 		return diaRefeicao;
-	}
-	
-	public List<DiaRefeicao> getAllAtivoByEdital(int idEdital) {
-
-		Session session = HibernateUtil.getSessionFactory().openSession();
-
-		List<DiaRefeicao> diasRefeicao = new ArrayList<DiaRefeicao>();
-		
-		try {
-			
-			String hql = "from DiaRefeicao as dr"
-					+ " where dr.edital.id = :idEdital"
-					+ " and dr.ativo = :ativo";
-			
-			Query query = session.createQuery(hql);			
-			query.setParameter("idEdital", idEdital);
-			query.setParameter("ativo", BancoUtil.ATIVO);
-			
-			diasRefeicao = (List<DiaRefeicao>) query.list();
-	        
-		} catch (HibernateException hibernateException) {
-			
-			session.getTransaction().rollback();
-			
-			throw new SQLExceptionNutrIF(hibernateException);
-			
-		} finally {
-		
-			session.close();
-		}		
-		
-		return diasRefeicao;
 	}
 	
 	public boolean isAlunoContemplado(int idEdital, String matricula) {
@@ -546,6 +507,56 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 		}
 		
 		return diasRefeicao;		
+	}
+	
+	/**
+	 * Quantificar a quantidade de refeições servidas para um determinado edital.
+	 * 
+	 * @param idEdital
+	 * @return
+	 */
+	public List<DiaRefeicao> listDiaRefeicaoByEdital(Integer idEdital) {
+
+		Session session = HibernateUtil.getSessionFactory().openSession();
+
+		List<DiaRefeicao> diasRefeicao = new ArrayList<DiaRefeicao>();
+
+		try {
+
+			String hql = " from DiaRefeicao as dr"
+					+ " where dr.edital.id = :idEdital"
+					+ " and dr.ativo = :ativo";
+
+			Query query = session.createQuery(hql);
+			query.setParameter("idEdital", idEdital);
+			query.setParameter("ativo", BancoUtil.ATIVO);
+
+			diasRefeicao = (List<DiaRefeicao>) query.list();
+
+		} catch (HibernateException hibernateException) {
+
+			session.getTransaction().rollback();
+
+			throw new SQLExceptionNutrIF(hibernateException);
+
+		} finally {
+
+			session.close();
+		}
+
+		return diasRefeicao;
+
+	}
+	
+	@Override
+	public void delete(DiaRefeicao entity) {
+		// TODO Auto-generated method stub
+		super.delete(entity);
+	}
+	
+	@Override
+	public List<DiaRefeicao> getAll() throws SQLExceptionNutrIF {
+		return super.getAll("DiaRefeicao.getAll");
 	}
 	
 	@Override

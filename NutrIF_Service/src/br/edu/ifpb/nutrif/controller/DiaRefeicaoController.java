@@ -306,7 +306,9 @@ public class DiaRefeicaoController {
 				
 			} else {
 				
-				builder.status(Response.Status.NOT_FOUND);
+				// Dia de refeição não existente.
+				builder.status(Response.Status.NOT_FOUND)
+						.entity(ErrorFactory.getErrorFromIndex(ErrorFactory.DIA_REFEICAO_NAO_DEFINIDO));
 			}			
 
 		} catch (SQLExceptionNutrIF exception) {
@@ -354,8 +356,9 @@ public class DiaRefeicaoController {
 					} else {
 						
 						// Dia de refeição não existente.
-						builder.status(Response.Status.FORBIDDEN).entity(
-								ErrorFactory.getErrorFromIndex(
+						// Dia de refeição não existente.
+						builder.status(Response.Status.NOT_FOUND)
+								.entity(ErrorFactory.getErrorFromIndex(
 										ErrorFactory.DIA_REFEICAO_NAO_DEFINIDO));
 					}			
 				
@@ -440,13 +443,14 @@ public class DiaRefeicaoController {
 							error.setMensagem(mensagem);
 							
 							// Solicitação fora do período de uma refeição.
-							builder.status(Response.Status.FORBIDDEN).entity(
-									error);
+							// Dia de refeição não existente.
+							builder.status(Response.Status.NOT_FOUND)
+									.entity(error);
 						} else {
 							
 							// Dia de refeição não existente.
-							builder.status(Response.Status.FORBIDDEN).entity(
-									ErrorFactory.getErrorFromIndex(
+							builder.status(Response.Status.NOT_FOUND)
+									.entity(ErrorFactory.getErrorFromIndex(
 											ErrorFactory.DIA_REFEICAO_NAO_DEFINIDO));
 						}
 					}					
@@ -469,34 +473,6 @@ public class DiaRefeicaoController {
 		return builder.build();		
 	}
 	
-	@RolesAllowed({TipoRole.ADMIN})
-	@GET
-	@Path("/buscar/edital/id/{id}")
-	@Produces("application/json")
-	public Response getDiaRefeicaoByEdital(@PathParam("id") int idEdital) {
-		
-		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
-		builder.expires(new Date());
-		
-		// Validação dos dados de entrada.
-		int validacao = Validate.diaRefeicaoEdital(idEdital);
-		
-		if (validacao == Validate.VALIDATE_OK) {
-			
-			Edital edital = EditalDAO.getInstance().getById(idEdital);
-			
-			if (edital != null) {
-				
-				List<DiaRefeicao> diasRefeicao = DiaRefeicaoDAO.getInstance().getAllAtivoByEdital(idEdital);
-				
-				builder.status(Response.Status.OK);
-				builder.entity(diasRefeicao);
-			}
-		}
-		
-		return builder.build();
-	}
-	
 	/**
 	 * Listar todos os dias de refeições <b>ativos<b> de um Aluno pela Matrícula.
 	 * 
@@ -505,7 +481,7 @@ public class DiaRefeicaoController {
 	 */
 	@PermitAll
 	@GET
-	@Path("/vigentes/listar/aluno/matricula/{matricula}")
+	@Path("/listar/vigentes/aluno/matricula/{matricula}")
 	@Produces("application/json")
 	public Response getAllVigentesByAlunoMatricula(
 			@PathParam("matricula") String matricula) {
@@ -762,8 +738,8 @@ public class DiaRefeicaoController {
 	@Path("/migrar/dia/origem/{idOrigem}/destino/{idDestino}")
 	@Produces("application/json")
 	public Response migrarDiaRefeicao(
-			@PathParam("idOrigem")Integer idDiaOrigem, 
-			@PathParam("idDestino")Integer idDiaDestino,
+			@PathParam("idOrigem") Integer idDiaOrigem, 
+			@PathParam("idDestino") Integer idDiaDestino,
 			Edital edital) {
 		
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
@@ -844,6 +820,56 @@ public class DiaRefeicaoController {
 
 			builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
 					exception.getError());
+		}
+
+		return builder.build();
+	}
+	
+	/**
+	 * Listar os Dias de Refeição associados a um Edital.
+	 * 
+	 * @param idEdital
+	 * @return
+	 */
+	@RolesAllowed({TipoRole.ADMIN})
+	@GET
+	@Path("/listar/edital/{id}")
+	@Produces("application/json")
+	public Response listDiaRefeicaoByEdital(@PathParam("id") Integer idEdital) {
+
+		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
+		builder.expires(new Date());
+
+		// Validação dos dados de entrada.
+		int validacao = Validate.listarContempladosEdital(idEdital);
+
+		if (validacao == Validate.VALIDATE_OK) {
+			try {
+
+				List<DiaRefeicao> diasRefeicao = DiaRefeicaoDAO.getInstance().listDiaRefeicaoByEdital(idEdital);
+
+				if (!diasRefeicao.isEmpty()) {
+
+					builder.status(Response.Status.OK);
+					builder.entity(diasRefeicao);
+
+				} else {
+
+					// Dia de refeição não existente.
+					builder.status(Response.Status.NOT_FOUND)
+							.entity(ErrorFactory.getErrorFromIndex(ErrorFactory.DIA_REFEICAO_NAO_DEFINIDO));
+				}
+
+			} catch (SQLExceptionNutrIF exception) {
+
+				// Erro na manipulação dos dados
+				builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(exception.getError());
+			}
+
+		} else {
+
+			// Solicitação fora do período de uma refeição.
+			builder.status(Response.Status.NOT_ACCEPTABLE).entity(ErrorFactory.getErrorFromIndex(validacao));
 		}
 
 		return builder.build();

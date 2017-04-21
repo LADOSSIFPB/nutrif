@@ -297,7 +297,7 @@ public class Validate {
 		return VALIDATE_OK;
 	}
 	
-	public static int diaRefeicaoEdital(int idEdital) {
+	public static int listarContempladosEdital(int idEdital) {
 
 		if (!numeroValidator.isInteiroPositivo(idEdital)) {
 			

@@ -38,7 +38,7 @@ angular.module("NutrifApp").factory("diaRefeicaoService", function ($http, confi
 
     var _getAllVigentesByAlunoMatricula = function (matricula) {
 
-        return $http.get(_path + "/vigentes/listar/aluno/matricula/" + matricula);
+        return $http.get(_path + "/listar/vigentes/aluno/matricula/" + matricula);
 
     }
 

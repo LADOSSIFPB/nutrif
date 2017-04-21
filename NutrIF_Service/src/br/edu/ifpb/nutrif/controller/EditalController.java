@@ -153,7 +153,7 @@ public class EditalController {
 					edital = EditalDAO.getInstance().update(edital);
 					
 					// Desativação dos dias de refeição associados ao Edital.
-					List<DiaRefeicao> diasRefeicao = DiaRefeicaoDAO.getInstance().getAllAtivoByEdital(idEdital);
+					List<DiaRefeicao> diasRefeicao = DiaRefeicaoDAO.getInstance().listDiaRefeicaoByEdital(idEdital);
 					
 					for(DiaRefeicao diaRefeicao: diasRefeicao) {
 						
