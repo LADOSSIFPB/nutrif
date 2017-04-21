@@ -137,6 +137,9 @@ public class DiaRefeicaoController {
 							Date agora = new Date();
 							diaRefeicao.setDataInsercao(agora);
 							
+							// Ativo
+							diaRefeicao.setAtivo(BancoUtil.ATIVO);
+							
 							//Inserir o Dia da Refeicao.
 							Integer idDiaRefeicao = DiaRefeicaoDAO.getInstance()
 									.insert(diaRefeicao);
@@ -706,7 +709,7 @@ public class DiaRefeicaoController {
 	}
 	
 	/**
-	 * Lista todos os dias de refeições do aluno com base em um dia da semana
+	 * Listar todos os dias de refeições do aluno com base em um dia da semana
 	 * @param idDia
 	 * @return
 	 */
@@ -817,6 +820,9 @@ public class DiaRefeicaoController {
 					// Migração
 					diaRefeicaoDestino.setMigracao(BancoUtil.ATIVO);
 					
+					// Ativo
+					diaRefeicaoDestino.setAtivo(BancoUtil.ATIVO);
+					
 					// Funcionário
 					diaRefeicaoDestino.setFuncionario(edital.getFuncionario());
 					
@@ -841,7 +847,5 @@ public class DiaRefeicaoController {
 		}
 
 		return builder.build();
-	}	
-	
-	
+	}
 }
