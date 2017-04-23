@@ -10,7 +10,6 @@ import javax.ws.rs.ext.Provider;
 import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;
 
-@Provider
 public class MoneyConverterProvider implements ParamConverterProvider {
 
 	private final MoneyConverter converter = new MoneyConverter();

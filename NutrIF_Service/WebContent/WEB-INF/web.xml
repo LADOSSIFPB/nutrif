@@ -51,9 +51,9 @@
         <param-value>br.edu.ifpb.nutrif.service.DefaultExceptionHandlerProvider</param-value>
 	</context-param>
 	
-	<!-- Conversor para JodaMoney -->
+	<!-- Conversor para JodaMoney 
 	<context-param>
         <param-name>resteasy.providers</param-name>
         <param-value>br.edu.ifpb.nutrif.service.MoneyConverterProvider</param-value>
-	</context-param>
+	</context-param>-->
 </web-app>
