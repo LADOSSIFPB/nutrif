@@ -34,6 +34,10 @@ public class PretensaoRefeicao {
 	@Column(name = "nm_keyaccess", unique = true)
 	private String keyAccess;	
 	
+	@Column(name = "is_ativo", columnDefinition = "boolean default true", 
+			nullable = false, insertable = true, updatable = true)
+	private boolean ativo;
+	
 	@XmlElement
 	public Integer getId() {
 		return id;
@@ -70,10 +74,21 @@ public class PretensaoRefeicao {
 		this.keyAccess = keyAccess;
 	}
 	
+	@XmlElement
+	public boolean isAtivo() {
+		return ativo;
+	}
+
+	public void setAtivo(boolean ativo) {
+		this.ativo = ativo;
+	}
+	
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
-		return "PretencaoRefeicao[id=" + id + ", ConfirmaPretensaoDia=" + confirmaPretensaoDia 
-				+ ", dataSolicitacao=" + dataSolicitacao + "]";
+		
+		return "PretencaoRefeicao[id=" + id 
+				+ ", ConfirmaPretensaoDia=" + confirmaPretensaoDia 
+				+ ", dataSolicitacao=" + dataSolicitacao
+				+ ", ativo=" + ativo + "]";
 	}
 }

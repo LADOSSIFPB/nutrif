@@ -116,15 +116,8 @@ public class PretensaoRefeicaoDAO extends GenericDao<Integer, PretensaoRefeicao>
 		return pretensaoRefeicao;		
 	}
 	
-	/**
-	 * Consultar pretensão da refeição através do dia da refeição e da data da
-	 * intensão da refeição.
-	 * 
-	 * @param idDiaRefeicao
-	 * @return
-	 */
-	public PretensaoRefeicao getPretensaoRefeicaoByDiaRefeicao(int idDiaRefeicao,
-			Date dataPretensao) {
+	public PretensaoRefeicao getPretensaoRefeicaoVigenteByDiaRefeicao(
+			Integer idDiaRefeicao) {
 		
 		Session session = HibernateUtil.getSessionFactory().openSession();
 
@@ -134,11 +127,13 @@ public class PretensaoRefeicaoDAO extends GenericDao<Integer, PretensaoRefeicao>
 			
 			String hql = "from PretensaoRefeicao as pr"
 					+ " where pr.confirmaPretensaoDia.diaRefeicao.id = :idDiaRefeicao"
-					+ " and pr.confirmaPretensaoDia.dataPretensao = :dataPretensao";
+					+ " and pr.confirmaPretensaoDia.dataPretensao = CURRENT_DATE"
+					+ " and pr.confirmaPretensaoDia.diaRefeicao.ativo = :ativo"
+					+ " and pr.ativo = :ativo";
 			
 			Query query = session.createQuery(hql);
 			query.setParameter("idDiaRefeicao", idDiaRefeicao);
-			query.setParameter("dataPretensao", dataPretensao);
+			query.setParameter("ativo", BancoUtil.ATIVO);
 			
 			pretensaoRefeicao = (PretensaoRefeicao) query.uniqueResult();
 	        
@@ -157,7 +152,50 @@ public class PretensaoRefeicaoDAO extends GenericDao<Integer, PretensaoRefeicao>
 	}
 	
 	/**
-	 * Quantificar as pretensoes das refeições para uma data definida.
+	 * Consultar pretensão da refeição através do dia da refeição e da data da
+	 * intensão da refeição.
+	 * 
+	 * @param idDiaRefeicao
+	 * @return
+	 */
+	public PretensaoRefeicao getPretensaoRefeicaoByDiaRefeicao(int idDiaRefeicao,
+			Date dataPretensao) {
+		//TODO: Analisar código repetido.
+		Session session = HibernateUtil.getSessionFactory().openSession();
+
+		PretensaoRefeicao pretensaoRefeicao = null;
+		
+		try {
+			
+			String hql = "from PretensaoRefeicao as pr"
+					+ " where pr.confirmaPretensaoDia.diaRefeicao.id = :idDiaRefeicao"
+					+ " and pr.confirmaPretensaoDia.dataPretensao = :dataPretensao"
+					+ " and pr.confirmaPretensaoDia.diaRefeicao.ativo = :ativo"
+					+ " and pr.ativo = :ativo";
+			
+			Query query = session.createQuery(hql);
+			query.setParameter("idDiaRefeicao", idDiaRefeicao);
+			query.setParameter("dataPretensao", dataPretensao);
+			query.setParameter("ativo", BancoUtil.ATIVO);
+			
+			pretensaoRefeicao = (PretensaoRefeicao) query.uniqueResult();
+	        
+		} catch (HibernateException hibernateException) {
+			
+			session.getTransaction().rollback();
+			
+			throw new SQLExceptionNutrIF(hibernateException);
+			
+		} finally {
+		
+			session.close();
+		}
+		
+		return pretensaoRefeicao;		
+	}
+	
+	/**
+	 * Quantificar as pretensões das refeições para uma data definida.
 	 * 
 	 * @param data
 	 * @return
@@ -178,7 +216,9 @@ public class PretensaoRefeicaoDAO extends GenericDao<Integer, PretensaoRefeicao>
 			String hql = "select count(pr.id)"
 					+ " from PretensaoRefeicao as pr"
 					+ " where pr.confirmaPretensaoDia.dataPretensao = :dataPretensao"
-					+ " and pr.confirmaPretensaoDia.diaRefeicao.refeicao.id = :idRefeicao";
+					+ " and pr.confirmaPretensaoDia.diaRefeicao.refeicao.id = :idRefeicao"
+					+ " and pr.confirmaPretensaoDia.diaRefeicao.ativo = :ativo"
+					+ " and pr.ativo = :ativo";
 						
 			Query query = session.createQuery(hql);
 			query.setParameter("dataPretensao", dataPretensao);
@@ -202,22 +242,24 @@ public class PretensaoRefeicaoDAO extends GenericDao<Integer, PretensaoRefeicao>
 	
 	public List<PretensaoRefeicao> getMapaPretensaoRefeicao(Refeicao refeicao, 
 			Date dataPretensao) {
-		
+		//TODO: Verificar duplicidade.
 		Session session = HibernateUtil.getSessionFactory().openSession();
 
-		List<PretensaoRefeicao> refeicoesRealizadas = new ArrayList<PretensaoRefeicao>();
+		List<PretensaoRefeicao> pretensoesRefeicao = new ArrayList<PretensaoRefeicao>();
 		
 		try {
 			
 			String hql = "from PretensaoRefeicao as pr"
 					+ " where pr.confirmaPretensaoDia.diaRefeicao.refeicao.id = :refeicao"
-					+ " and pr.confirmaPretensaoDia.dataPretensao = :dataPretensao";
+					+ " and pr.confirmaPretensaoDia.dataPretensao = :dataPretensao"
+					+ " and pr.confirmaPretensaoDia.diaRefeicao.ativo = :ativo"
+					+ " and pr.ativo = :ativo";
 			
 			Query query = session.createQuery(hql);
 			query.setParameter("refeicao", refeicao.getId());
 			query.setParameter("dataPretensao", dataPretensao);
 			
-			refeicoesRealizadas = (List<PretensaoRefeicao>) query.list();
+			pretensoesRefeicao = (List<PretensaoRefeicao>) query.list();
 	        
 		} catch (HibernateException hibernateException) {
 			
@@ -230,7 +272,7 @@ public class PretensaoRefeicaoDAO extends GenericDao<Integer, PretensaoRefeicao>
 			session.close();
 		}
 		
-		return refeicoesRealizadas;		
+		return pretensoesRefeicao;		
 	}
 
 	@Override

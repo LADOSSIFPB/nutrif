@@ -148,7 +148,7 @@ public class DateUtil {
 		return d1.isLongerThan(d2);
 	}
 	
-	public static int getMinutesBetweenDate(Date inicio, Date fim) {
+	public static long getMinutesBetweenDate(Date inicio, Date fim) {
 		
 		int minutes = Minutes.minutesBetween(new DateTime(inicio.getTime()), 
 				new DateTime(fim.getTime())).getMinutes();

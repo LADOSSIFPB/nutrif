@@ -2,18 +2,14 @@ angular.module("NutrifApp").factory("pretensaoService", function($http, config, 
 
     var _path = config.baseUrl() + "/pretensaorefeicao";
 
-	var _verifyDiaRefeicao = function(refeicao){
-		delete refeicao.refeicao.horaFinal;
-        delete refeicao.refeicao.horaInicio;
-        delete refeicao.refeicao.horaPretensao;
-		var _pretensao = {confirmaPretensaoDia: {diaRefeicao: refeicao}};
-		return $http.post(_path + "/diarefeicao/verificar", _pretensao);
+	var _verifyDiaRefeicao = function(pretensaoRefeicao){
+		return $http.post(_path + "/diarefeicao/verificar", pretensaoRefeicao);
 	};
 
 	var _insertPretensao = function(pretensao){
 		delete pretensao.confirmaPretensaoDia.diaRefeicao.refeicao.horaFinal;
 		delete pretensao.confirmaPretensaoDia.diaRefeicao.refeicao.horaInicio;
-		delete pretensao.confirmaPretensaoDia.diaRefeicao.refeicao.horaPretensao;
+        delete pretensao.confirmaPretensaoDia.diaRefeicao.refeicao.horaPrevisaoPretensao;
 		return $http.post(_path + "/inserir", pretensao);
 	};
 
@@ -29,8 +25,8 @@ angular.module("NutrifApp").factory("pretensaoService", function($http, config, 
 		
 	}
 
-    var _mapaRefeicao = function(peirodoPretensao){
-		return $http.post(_path + "/mapa/consultar", peirodoPretensao);
+    var _mapaRefeicao = function(periodoPretensao){
+		return $http.post(_path + "/mapa/consultar", periodoPretensao);
 	};
 
 	return {
@@ -40,5 +36,4 @@ angular.module("NutrifApp").factory("pretensaoService", function($http, config, 
 		insertPretensao: _insertPretensao,
 		getQuantidadePretensao:_getQuantidadePretensao
 	};
-
 });

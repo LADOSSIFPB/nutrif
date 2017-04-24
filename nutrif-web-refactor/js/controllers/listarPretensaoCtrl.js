@@ -7,42 +7,48 @@ angular.module("NutrifApp").controller("listarPretensaoCtrl", function ($scope,
     $scope.pretensao = {};
     $scope.image = "img/icon/user-shape.svg";
 
-    $scope.solicitarRefeicao = function (refeicao) {
-        pretensaoService.verifyDiaRefeicao(refeicao)
+    $scope.solicitarRefeicao = function (diaRefeicaoSelecionado) {
+
+        var pretensaoRefeicao = {};
+        var confirmaPretensaoDia = {};
+        var diaRefeicao = {};
+        diaRefeicao.id = diaRefeicaoSelecionado.id;
+        confirmaPretensaoDia.diaRefeicao = diaRefeicao;
+        pretensaoRefeicao.confirmaPretensaoDia = confirmaPretensaoDia;
+
+        pretensaoService.verifyDiaRefeicao(pretensaoRefeicao)
             .success(function (data, status) {
                 $mdDialog.show({
                     controller: confirmarPretensaoCtrl,
                     templateUrl: 'view/manager/modals/modal-confirmar-pretensao.html',
                     parent: angular.element(document.body),
-                    clickOutsideToClose:true,
+                    clickOutsideToClose: true,
                     fullscreen: false,
-                    locals : {
+                    locals: {
                         pretensao: data
                     }
-                }).then(function(code) {
+                }).then(function (code) {
                     $mdDialog.show({
                         controller: generateQrCtrl,
                         templateUrl: 'view/manager/modals/modal-show-qrcode.html',
                         parent: angular.element(document.body),
-                        clickOutsideToClose:false,
+                        clickOutsideToClose: false,
                         fullscreen: false,
-                        locals : {
+                        locals: {
                             code: code,
                             pretensao: data
                         }
-                    }).then(function(data) {
-                    }, function() {})
-                }, function() {});
+                    }).then(function (data) {}, function () {})
+                }, function () {});
             })
             .error(onErrorCallback);
     }
 
     var carregarDiaRefeicaoAluno = function () {
 
-        var _matricula = userService.getUser().matricula;
-        console.log(userService.getUser());
+        var matricula = userService.getUser().matricula;
 
-        diaRefeicaoService.getAllVigentesByAlunoMatricula(_matricula)
+        diaRefeicaoService.getAllVigentesByAlunoMatricula(matricula)
             .success(function (data, status) {
                 $scope.refeicoes = data;
             })
@@ -70,44 +76,44 @@ angular.module("NutrifApp").controller("listarPretensaoCtrl", function ($scope,
     carregarDiaRefeicaoAluno();
 
     // Imagem do perfil do aluno.
-    var getImage = function(){
+    var getImage = function () {
 
-      arquivoService.getPerfilById(userService.getUser().id)
-        .success(function (data, status) {
+        arquivoService.getPerfilById(userService.getUser().id)
+            .success(function (data, status) {
 
-          $scope.image = data;
-        })
-        .error(onErrorImageCallback);
+                $scope.image = data;
+            })
+            .error(onErrorImageCallback);
     }
 
     getImage();
 
-    function onErrorImageCallback (data, status){
-            var _message = '';
-            if (!data) {
-                _message = 'Erro ao carregar imagem, tente novamente ou contate os administradores.'
-            } else {
-                _message = data.mensagem
-            }
-
-            $mdToast.show(
-                $mdToast.simple()
-                .textContent(_message)
-                .position('top right')
-                .action('OK')
-                .hideDelay(6000)
-            );
+    function onErrorImageCallback(data, status) {
+        var _message = '';
+        if (!data) {
+            _message = 'Erro ao carregar imagem, tente novamente ou contate os administradores.'
+        } else {
+            _message = data.mensagem
         }
+
+        $mdToast.show(
+            $mdToast.simple()
+            .textContent(_message)
+            .position('top right')
+            .action('OK')
+            .hideDelay(6000)
+        );
+    }
 
 });
 
-function confirmarPretensaoCtrl (pretensao, $scope, $mdDialog, $mdToast, pretensaoService) {
+function confirmarPretensaoCtrl(pretensao, $scope, $mdDialog, $mdToast, pretensaoService) {
 
     $scope.pretensao = pretensao;
     $scope.refeicao = pretensao.confirmaPretensaoDia.diaRefeicao;
 
-    $scope.hide = function() {
-        if (typeof($scope.pretensao.keyAccess) != "undefined")
+    $scope.hide = function () {
+        if (typeof ($scope.pretensao.keyAccess) != "undefined")
             $mdDialog.hide($scope.pretensao);
         else {
             pretensaoService.insertPretensao($scope.pretensao)
@@ -116,7 +122,7 @@ function confirmarPretensaoCtrl (pretensao, $scope, $mdDialog, $mdToast, pretens
         }
     };
 
-    function onSuccessCallback (data, status) {
+    function onSuccessCallback(data, status) {
 
         $mdToast.show(
             $mdToast.simple()
@@ -129,7 +135,7 @@ function confirmarPretensaoCtrl (pretensao, $scope, $mdDialog, $mdToast, pretens
         $mdDialog.hide(data);
     }
 
-    function onErrorCallback (data, status){
+    function onErrorCallback(data, status) {
         var _message = '';
 
         if (!data) {
@@ -147,12 +153,12 @@ function confirmarPretensaoCtrl (pretensao, $scope, $mdDialog, $mdToast, pretens
         );
     }
 
-    $scope.cancel = function() {
+    $scope.cancel = function () {
         $mdDialog.cancel();
     };
 };
 
-function generateQrCtrl (pretensao, code, $scope, $mdDialog, userService, $state) {
+function generateQrCtrl(loginService, userService, pretensao, code, $scope, $mdDialog, $state) {
 
     $scope.code = code.keyAccess;
     $scope.user = userService.getUser();
@@ -160,7 +166,7 @@ function generateQrCtrl (pretensao, code, $scope, $mdDialog, userService, $state
     $scope.dataRefeicao = pretensao.confirmaPretensaoDia.dataPretensao;
 
     // Imprimir qr-code e finalizar acesso do aluno.
-    $scope.imprimir = function() {
+    $scope.imprimir = function () {
 
         // Abrir gerenciador de impressão do sistema operacional.
         window.print();
@@ -170,16 +176,16 @@ function generateQrCtrl (pretensao, code, $scope, $mdDialog, userService, $state
     };
 
     // Finalizar acesso do aluno retornando ao Login.
-    $scope.finalizar = function() {
-    	
-    	loginService.fazerLogout().success(function (data, status) {
-    		
-    		 	$mdDialog.cancel();
-    	        // Remover dados do usuário do cookie.
-    	        userService.removeUser();
-    	        $state.go("login.pretensao");
-    	        
-    	}).error(onErrorCallback);
-       
+    $scope.finalizar = function () {
+
+        loginService.fazerLogout()
+            .success(function (data, status) {
+
+                $mdDialog.cancel();
+                // Remover dados do usuário do cookie.
+                userService.removeUser();
+                $state.go("login.pretensao");
+
+            }).error(onErrorCallback);
     };
 };

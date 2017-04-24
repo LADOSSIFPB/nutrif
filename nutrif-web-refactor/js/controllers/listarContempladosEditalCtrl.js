@@ -5,7 +5,7 @@ angular.module('NutrifApp').controller('listarContempladosEditalCtrl', function 
 	
 	function carregamentoInicial() {
 		var _idEdital = $stateParams.id;
-
+        
 		if (_idEdital == 0){
 			$state.transitionTo('home.listar-edital', {reload: true});
 		}

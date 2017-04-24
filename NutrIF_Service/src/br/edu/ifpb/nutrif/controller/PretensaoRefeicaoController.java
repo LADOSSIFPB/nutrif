@@ -5,6 +5,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.annotation.security.DenyAll;
 import javax.annotation.security.PermitAll;
@@ -237,57 +238,46 @@ public class PretensaoRefeicaoController {
 	 * @return pretensaoRefeicao
 	 */
 	private PretensaoRefeicao verificarPretensao(DiaRefeicao diaRefeicao) {
-		
-		logger.info("Analise da Pretensão de Refeição: " + diaRefeicao);
-		
+
+		logger.info("Análise da Pretensão de Refeição: " + diaRefeicao);
+
 		PretensaoRefeicao pretensaoRefeicao = null;
-		
-		// Extrair da Refeição a hora máxima para solicitação da pretensão.
+
+		// Refeição.
 		Refeicao refeicao = diaRefeicao.getRefeicao();
-		
-		// Dia da semana para lançar a pretensão.
+
+		// Dia da semana para lançar a Pretensão.
 		int diaPretensao = diaRefeicao.getDia().getId();
+
+		// Data Atual
+		Date dataHoraSolicitacao = new Date();
+
+		// Data da pretensão.
+		Date dataPretensao = DateUtil.getDateOfDayWeek(diaPretensao);
+
+		Date dataHoraPretensao = DateUtil.setTimeInDate(dataPretensao, refeicao.getHoraInicio());
+
+		// Verificações de período de solicitação da pretensão.
+		long diferencaMinutos = DateUtil.getMinutesBetweenDate(dataHoraSolicitacao, dataHoraPretensao);
+		logger.info("Diferença em minutos: " + diferencaMinutos);
 		
-		//TODO: Ajustar cálculo. Diferença de dias entre solicitação e pretensão.
-		int diferenca = DateUtil.getTodayDaysDiff(diaPretensao);
-		
-		// Quantidade máxima de diferença entre o dia da solicitação e o pretendido.
-		if (true) {
-		//TODO: if (diferenca == refeicao.getHoraPrevisaoPretensao()) {	
-			
-			// Data Atual
-			Date dataSolicitacao = new Date();
-			
-			// Data da pretensão.
-			Date dataPretensao = DateUtil.addDays(dataSolicitacao, 
-					diferenca);
-			dataPretensao = null; 
-			//TODO: DateUtil.setTimeInDate(dataPretensao, refeicao.getHoraPretensao());
-			
-			// Verificações de período de solicitação da pretensão.					
-			int diferencaMinutos = DateUtil.getMinutesBetweenDate(
-					dataSolicitacao, 
-					dataPretensao);
-			
-			logger.info("Diferença em minutos: " + diferencaMinutos);
-			
-			// Verificar se solicitação está sendo lançada dentro do prazo					
-			if (diferencaMinutos <= DateUtil.UM_DIA_MINUTOS) {
+		long minutosPrevisaoPretensao = TimeUnit.MILLISECONDS.toMinutes(refeicao.getHoraPrevisaoPretensao().getTime());
+		logger.info("Hora da Previsao para a Pretensao em minutos: " + minutosPrevisaoPretensao);
 				
-				ConfirmaPretensaoDia confirmaPretensaoDia = 
-						new ConfirmaPretensaoDia();
-				
-				// Atribuição das datas de pretensão e solicitação.
-				confirmaPretensaoDia.setDataPretensao(dataPretensao);
-				confirmaPretensaoDia.setDiaRefeicao(diaRefeicao);
-				
-				pretensaoRefeicao = new PretensaoRefeicao();
-				pretensaoRefeicao.setConfirmaPretensaoDia(
-						confirmaPretensaoDia);
-				pretensaoRefeicao.setDataSolicitacao(dataSolicitacao);
-			}				
+		// Verificar se solicitação está sendo lançada dentro do prazo
+		if (diferencaMinutos >= minutosPrevisaoPretensao) {
+
+			ConfirmaPretensaoDia confirmaPretensaoDia = new ConfirmaPretensaoDia();
+
+			// Atribuição das datas de pretensão e solicitação.
+			confirmaPretensaoDia.setDataPretensao(dataPretensao);
+			confirmaPretensaoDia.setDiaRefeicao(diaRefeicao);
+
+			pretensaoRefeicao = new PretensaoRefeicao();
+			pretensaoRefeicao.setConfirmaPretensaoDia(confirmaPretensaoDia);
+			pretensaoRefeicao.setDataSolicitacao(dataHoraSolicitacao);
 		}
-		
+
 		return pretensaoRefeicao;
 	}
 	
@@ -554,6 +544,50 @@ public class PretensaoRefeicaoController {
 			
 			builder.status(Response.Status.OK);
 			builder.entity(pretensaoRefeicao);
+
+		} catch (SQLExceptionNutrIF exception) {
+
+			builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
+					exception.getError());
+		}
+
+		return builder.build();
+	}
+	
+	@PermitAll
+	@GET
+	@Path("/vigente/diarefeicao/id/{id}")
+	@Produces("application/json")
+	public Response getPretencaoVigenteByDiaRefeicao(
+			@PathParam("id") int idDiaRefeicao) {
+		
+		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
+		builder.expires(new Date());
+
+		try {
+
+			//TODO: Validação dos dados de entrada.
+			int validacao = Validate.VALIDATE_OK;
+			
+			if (validacao == Validate.VALIDATE_OK) {
+				
+				PretensaoRefeicao pretensaoRefeicao = PretensaoRefeicaoDAO
+						.getInstance().getPretensaoRefeicaoVigenteByDiaRefeicao(
+								idDiaRefeicao); 
+				
+				if (pretensaoRefeicao != null) {
+					
+					builder.status(Response.Status.OK);
+					builder.entity(pretensaoRefeicao);
+					
+				} else {
+					
+					//TODO: Pretensão não encontrada.
+				}
+				
+			} else {
+				//TODO: Problema na validação.
+			}
 
 		} catch (SQLExceptionNutrIF exception) {
 
