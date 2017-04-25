@@ -55,7 +55,7 @@ public class PretensaoRefeicaoController {
 	private static Logger logger = LogManager.getLogger(
 			PretensaoRefeicaoController.class);
 	
-	@PermitAll
+	@RolesAllowed({TipoRole.ADMIN, TipoRole.COMENSAL})
 	@POST
 	@Path("/inserir")
 	@Consumes("application/json")
@@ -143,7 +143,7 @@ public class PretensaoRefeicaoController {
 	 * @param pretensaoRefeicaoCalculada
 	 * @return
 	 */
-	@PermitAll
+	@RolesAllowed({TipoRole.ADMIN, TipoRole.COMENSAL})
 	@POST
 	@Path("/diarefeicao/verificar")
 	@Consumes("application/json")
@@ -307,7 +307,7 @@ public class PretensaoRefeicaoController {
 		return pretensaoRefeicao;		
 	}
 	
-	@PermitAll
+	@RolesAllowed({TipoRole.ADMIN, TipoRole.INSPETOR})
 	@POST
 	@Path("/chaveacesso/verificar")
 	@Consumes("application/json")
@@ -554,7 +554,7 @@ public class PretensaoRefeicaoController {
 		return builder.build();
 	}
 	
-	@PermitAll
+	@RolesAllowed({TipoRole.ADMIN, TipoRole.INSPETOR})
 	@GET
 	@Path("/vigente/diarefeicao/id/{id}")
 	@Produces("application/json")
@@ -566,14 +566,17 @@ public class PretensaoRefeicaoController {
 
 		try {
 
-			//TODO: Validação dos dados de entrada.
-			int validacao = Validate.VALIDATE_OK;
+			// Validação dos dados de entrada.
+			int validacao = Validate.diaRefeicao(idDiaRefeicao);
 			
 			if (validacao == Validate.VALIDATE_OK) {
 				
+				// Data e hora atual.
+				Date agora = new Date();
+				
 				PretensaoRefeicao pretensaoRefeicao = PretensaoRefeicaoDAO
-						.getInstance().getPretensaoRefeicaoVigenteByDiaRefeicao(
-								idDiaRefeicao); 
+						.getInstance().getPretensaoRefeicaoByDiaRefeicao(
+								idDiaRefeicao, agora); 
 				
 				if (pretensaoRefeicao != null) {
 					
@@ -582,11 +585,17 @@ public class PretensaoRefeicaoController {
 					
 				} else {
 					
-					//TODO: Pretensão não encontrada.
+					// Pretensão não encontrada.					
+					Error erro = ErrorFactory.getErrorFromIndex(
+							ErrorFactory.PRETENSAO_REFEICAO_NAO_ENCONTRADA);
+					builder.status(Response.Status.NOT_FOUND).entity(erro);
 				}
 				
 			} else {
-				//TODO: Problema na validação.
+				
+				// Problema na validação.
+				Error erro = ErrorFactory.getErrorFromIndex(validacao);
+				builder.status(Response.Status.NOT_ACCEPTABLE).entity(erro);
 			}
 
 		} catch (SQLExceptionNutrIF exception) {

@@ -12,6 +12,7 @@ angular.module("NutrifApp").controller("listarPretensaoCtrl", function ($scope,
         var pretensaoRefeicao = {};
         var confirmaPretensaoDia = {};
         var diaRefeicao = {};
+
         diaRefeicao.id = diaRefeicaoSelecionado.id;
         confirmaPretensaoDia.diaRefeicao = diaRefeicao;
         pretensaoRefeicao.confirmaPretensaoDia = confirmaPretensaoDia;

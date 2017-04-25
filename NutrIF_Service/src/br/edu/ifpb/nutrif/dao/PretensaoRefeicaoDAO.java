@@ -116,41 +116,6 @@ public class PretensaoRefeicaoDAO extends GenericDao<Integer, PretensaoRefeicao>
 		return pretensaoRefeicao;		
 	}
 	
-	public PretensaoRefeicao getPretensaoRefeicaoVigenteByDiaRefeicao(
-			Integer idDiaRefeicao) {
-		
-		Session session = HibernateUtil.getSessionFactory().openSession();
-
-		PretensaoRefeicao pretensaoRefeicao = null;
-		
-		try {
-			
-			String hql = "from PretensaoRefeicao as pr"
-					+ " where pr.confirmaPretensaoDia.diaRefeicao.id = :idDiaRefeicao"
-					+ " and pr.confirmaPretensaoDia.dataPretensao = CURRENT_DATE"
-					+ " and pr.confirmaPretensaoDia.diaRefeicao.ativo = :ativo"
-					+ " and pr.ativo = :ativo";
-			
-			Query query = session.createQuery(hql);
-			query.setParameter("idDiaRefeicao", idDiaRefeicao);
-			query.setParameter("ativo", BancoUtil.ATIVO);
-			
-			pretensaoRefeicao = (PretensaoRefeicao) query.uniqueResult();
-	        
-		} catch (HibernateException hibernateException) {
-			
-			session.getTransaction().rollback();
-			
-			throw new SQLExceptionNutrIF(hibernateException);
-			
-		} finally {
-		
-			session.close();
-		}
-		
-		return pretensaoRefeicao;		
-	}
-	
 	/**
 	 * Consultar pretensão da refeição através do dia da refeição e da data da
 	 * intensão da refeição.

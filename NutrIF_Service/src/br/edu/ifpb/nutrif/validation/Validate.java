@@ -400,6 +400,16 @@ public class Validate {
 		return VALIDATE_OK;
 	}
 	
+	public static int diaRefeicao(int idDiaRefeicao) {
+		
+		if (!numeroValidator.isMaiorZero(idDiaRefeicao)) {
+			
+			return ErrorFactory.ID_DIA_REFEICAO_INVALIDO;
+		}
+		
+		return VALIDATE_OK;
+	}
+	
 	public static int quantidadeDiaRefeicao(DiaRefeicao diaRefeicao) {
 		
 		logger.info("Validação para quantificar o Dia da Refeição.");

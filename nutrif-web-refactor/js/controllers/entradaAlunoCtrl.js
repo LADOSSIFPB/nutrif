@@ -11,7 +11,7 @@
       $scope.refeicaoSelecionada = [];
 
       this.pesquisar = function (texto) {
-          
+
           if (texto.length > TAM_MIN_BUSCA_NOME) {
 
               if (texto.match(/[a-zA-Z]/i) != null) {
@@ -20,8 +20,8 @@
                       .success(onSuccessCallback)
                       .error(onErrorCallback);
 
-              } else if (texto.match(/^\d+$/)
-                         && (texto.length >= TAM_MINIMO_MATRICULA) && (texto.length <= TAM_MAXIMO_MATRICULA)) {
+              } else if (texto.match(/^\d+$/) &&
+                  (texto.length >= TAM_MINIMO_MATRICULA) && (texto.length <= TAM_MAXIMO_MATRICULA)) {
 
                   diaRefeicaoService.buscaRefeicaoPorMatricula(texto)
                       .success(onSuccessCallback)
@@ -90,7 +90,7 @@
   });
 
   function DialogController($scope, $mdDialog, $mdToast, refeicao,
-      refeicaoRealizadaService, userService, arquivoService) {
+      userService, refeicaoRealizadaService, pretensaoService, arquivoService) {
 
       $scope.refeicao = refeicao;
 
@@ -127,6 +127,7 @@
 
       function onErrorCallback(data, status) {
           var _message = '';
+          
           if (!data) {
               _message = 'Erro no servidor, por favor chamar administração ou suporte.';
           } else {
@@ -152,20 +153,21 @@
               })
               .error(onErrorCallback);
       }
-      
+
       var getPretensao = function () {
 
-          arquivoService.getPerfilById(refeicao.id)
+          pretensaoService.pretensaoRefeicaoByDiaRefeicao(refeicao.id)
               .success(function (data, status) {
 
-                  $scope.image = data;
+                  $scope.pretensaoRefeicao = data;
               })
               .error(onErrorCallback);
       }
 
-      getImage();
-
       $scope.cancel = function () {
           $mdDialog.cancel();
       };
+      
+      getImage();
+      getPretensao();      
   }
