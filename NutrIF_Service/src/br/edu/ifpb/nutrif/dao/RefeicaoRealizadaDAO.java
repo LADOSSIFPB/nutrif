@@ -175,6 +175,11 @@ public class RefeicaoRealizadaDAO extends GenericDao<Integer, RefeicaoRealizada>
 		return quantidadeDia;
 	}
 	
+	public List<RefeicaoRealizada> listDiaRefeicaoByDiaRefeicao(Integer idDiaRefeicao) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
 	@Override
 	public List<RefeicaoRealizada> getAll() throws SQLExceptionNutrIF {
 		return super.getAll("RefeicaoRealizada.getAll");
