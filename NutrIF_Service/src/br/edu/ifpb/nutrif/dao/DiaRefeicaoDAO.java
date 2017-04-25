@@ -549,8 +549,37 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 	}
 	
 	public List<DiaRefeicao> listDiaRefeicaoByAlunoEdital(Integer idEdital, String nome) {
-		// TODO Auto-generated method stub
-		return null;
+	
+		Session session = HibernateUtil.getSessionFactory().openSession();
+
+		List<DiaRefeicao> diasRefeicao = new ArrayList<DiaRefeicao>();
+		
+		try {
+			
+			String hql = "from DiaRefeicao as dr"
+					+ " where dr.aluno.nome like :nome"
+					+ " and dr.edital.id = :id"
+					+ " order by dr.edital.id, dr.id, dr.dia.id asc";
+			
+			Query query = session.createQuery(hql);			
+			query.setParameter("nome", "%" + nome + "%");
+			query.setParameter("id", idEdital);
+			
+			diasRefeicao = (List<DiaRefeicao>) query.list();
+	        
+		} catch (HibernateException hibernateException) {
+			
+			session.getTransaction().rollback();
+			
+			throw new SQLExceptionNutrIF(hibernateException);
+			
+		} finally {
+		
+			session.close();
+		}
+		
+		return diasRefeicao;
+	
 	}
 	
 	@Override
