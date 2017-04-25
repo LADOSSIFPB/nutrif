@@ -188,6 +188,7 @@ public class PretensaoRefeicaoDAO extends GenericDao<Integer, PretensaoRefeicao>
 			Query query = session.createQuery(hql);
 			query.setParameter("dataPretensao", dataPretensao);
 			query.setParameter("idRefeicao", idRefeicao);
+			query.setParameter("ativo", BancoUtil.ATIVO);
 			
 			quantidadeDia = (Long) query.uniqueResult();
 	        
@@ -223,6 +224,7 @@ public class PretensaoRefeicaoDAO extends GenericDao<Integer, PretensaoRefeicao>
 			Query query = session.createQuery(hql);
 			query.setParameter("refeicao", refeicao.getId());
 			query.setParameter("dataPretensao", dataPretensao);
+			query.setParameter("ativo", BancoUtil.ATIVO);
 			
 			pretensoesRefeicao = (List<PretensaoRefeicao>) query.list();
 	        

@@ -18,7 +18,7 @@ angular.module("NutrifApp").factory("pretensaoService", function ($http, config,
         var pretensao = {
             keyAccess: code
         };
-        return $http.post(_path + "/chaveacesso/verificar", pretensao);
+        return $http.post(_path + "/verificar/chaveacesso", pretensao);
     };
 
     var _getQuantidadePretensao = function (diaRefeicao) {
@@ -27,7 +27,7 @@ angular.module("NutrifApp").factory("pretensaoService", function ($http, config,
     }
 
     var _mapaRefeicao = function (periodoPretensao) {
-        return $http.post(_path + "/mapa/consultar", periodoPretensao);
+        return $http.post(_path + "/consultar/mapa", periodoPretensao);
     };
 
     var _getPretensaoRefeicaoByDiaRefeicao = function (idDiaRefeicao) {

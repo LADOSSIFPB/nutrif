@@ -1,4 +1,4 @@
-angular.module("NutrifApp").factory("refeicaoRealizadaService", function($http, config){
+nutrifApp.factory("refeicaoRealizadaService", function($http, config){
 
     var _path = config.baseUrl() + "/refeicaorealizada";
 
@@ -8,7 +8,7 @@ angular.module("NutrifApp").factory("refeicaoRealizadaService", function($http, 
 	};
 
     var _mapaRefeicao = function(peirodoPretensao){
-		return $http.post(_path + "/mapa/consultar", peirodoPretensao);
+		return $http.post(_path + "/consultar/mapa", peirodoPretensao);
 	};
 
 	var _getQuantidadeRefeicoesRealizadas = function(diaRefeicao){
@@ -22,5 +22,4 @@ angular.module("NutrifApp").factory("refeicaoRealizadaService", function($http, 
         mapaRefeicao: _mapaRefeicao,
 		getQuantidadeRefeicoesRealizadas: _getQuantidadeRefeicoesRealizadas
 	};
-
 });

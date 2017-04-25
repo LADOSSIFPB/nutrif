@@ -309,7 +309,7 @@ public class PretensaoRefeicaoController {
 	
 	@RolesAllowed({TipoRole.ADMIN, TipoRole.INSPETOR})
 	@POST
-	@Path("/chaveacesso/verificar")
+	@Path("/verificar/chaveacesso")
 	@Consumes("application/json")
 	@Produces("application/json")
 	public Response verifyChaveAcesso(PretensaoRefeicao pretensaoRefeicao) {
@@ -440,7 +440,7 @@ public class PretensaoRefeicaoController {
 	
 	@RolesAllowed({TipoRole.ADMIN})
 	@POST
-	@Path("/mapa/consultar")
+	@Path("/consultar/mapa")
 	@Consumes("application/json")
 	@Produces("application/json")
 	public Response getMapaPretensaoRefeicao(

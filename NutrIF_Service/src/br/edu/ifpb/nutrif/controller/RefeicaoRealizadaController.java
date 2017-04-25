@@ -274,9 +274,9 @@ public class RefeicaoRealizadaController {
 	 * @param periodoRefeicaoRealizada
 	 * @return
 	 */
-	@PermitAll
+	@RolesAllowed({TipoRole.ADMIN})
 	@POST
-	@Path("/mapa/consultar")
+	@Path("/consultar/mapa")
 	@Consumes("application/json")
 	@Produces("application/json")
 	public Response getMapaRefeicoesRealizadas(

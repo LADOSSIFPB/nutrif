@@ -41,13 +41,13 @@ angular.module('NutrifApp').controller('estatisticasCtrl', function ($scope, con
                         $scope.pretensaoChart.refeicoes.push(_listaPretensaoJantar)
                     })
                     .error(function (data, status){
-                        alert("Houve um erro ao carregar os gráficos. Contate um administrador.");
+                        alert("Houve um erro ao carregar os gráficos. Contate um administrador.: pretensaoService");
                     });
 
             })
 
             .error(function (data, status){
-                alert("Houve um erro ao carregar os gráficos. Contate um administrador.");
+                alert("Houve um erro ao carregar os gráficos. Contate um administrador.: pretensaoService");
             });
     }
 
@@ -84,13 +84,13 @@ angular.module('NutrifApp').controller('estatisticasCtrl', function ($scope, con
                         $scope.refeicaoRealizadaChart.refeicoes.push(_listaRefeicaoJantar);
                     })
                     .error(function (data, status){
-                        alert("Houve um erro ao carregar os gráficos. Contate um administrador.");
+                        alert("Houve um erro ao carregar os gráficos. Contate um administrador.: refeicaoRealizadaService");
                     });
 
             })
 
             .error(function (data, status){
-                alert("Houve um erro ao carregar os gráficos. Contate um administrador.");
+                alert("Houve um erro ao carregar os gráficos. Contate um administrador.: refeicaoRealizadaService");
             });
     };
 
