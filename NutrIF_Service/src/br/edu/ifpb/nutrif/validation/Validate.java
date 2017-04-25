@@ -307,6 +307,19 @@ public class Validate {
 		return VALIDATE_OK;
 	}
 	
+	public static int listarAlunoEdital(Integer idEdital, String nome) {
+		
+		if (!numeroValidator.isInteiroPositivo(idEdital)) {
+			
+			return ErrorFactory.ID_EDITAL_INVALIDO;
+		}
+		
+		if (!stringValidator.validateSomenteLetras(nome))
+			return ErrorFactory.NOME_USUARIO_INVALIDO;
+		
+		return VALIDATE_OK;
+	}
+	
 	public static int pretensaoRefeicao(PretensaoRefeicao pretensaoRefeicao) {
 		
 		logger.info("Validação para Pretensão Refeição.");

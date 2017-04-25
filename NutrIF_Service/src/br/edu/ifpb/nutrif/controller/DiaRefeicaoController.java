@@ -876,4 +876,50 @@ public class DiaRefeicaoController {
 
 		return builder.build();
 	}
+	
+	@RolesAllowed({TipoRole.ADMIN})
+	@GET
+	@Path("/listar/edital/{id}/aluno/nome/{nome}")
+	@Produces("application/json")
+	public Response listDiaRefeicaoByAlunoEdital(@PathParam("id") Integer idEdital,
+			@PathParam("nome") String nome) {
+
+		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
+		builder.expires(new Date());
+
+		// Validação dos dados de entrada.
+		int validacao = Validate.listarAlunoEdital(idEdital, nome);
+
+		if (validacao == Validate.VALIDATE_OK) {
+			try {
+
+				//TODO: Consultar nome do Aluno presente no Edital. Implementar query na função: listDiaRefeicaoByAlunoEdital.
+				List<DiaRefeicao> diasRefeicao = DiaRefeicaoDAO.getInstance().listDiaRefeicaoByAlunoEdital(idEdital, nome);
+
+				if (!diasRefeicao.isEmpty()) {
+
+					builder.status(Response.Status.OK);
+					builder.entity(diasRefeicao);
+
+				} else {
+
+					// Dia de refeição não existente.
+					builder.status(Response.Status.NOT_FOUND)
+							.entity(ErrorFactory.getErrorFromIndex(ErrorFactory.DIA_REFEICAO_NAO_DEFINIDO_ALUNO));
+				}
+
+			} catch (SQLExceptionNutrIF exception) {
+
+				// Erro na manipulação dos dados
+				builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(exception.getError());
+			}
+
+		} else {
+
+			// Solicitação fora do período de uma refeição.
+			builder.status(Response.Status.NOT_ACCEPTABLE).entity(ErrorFactory.getErrorFromIndex(validacao));
+		}
+
+		return builder.build();
+	}
 }

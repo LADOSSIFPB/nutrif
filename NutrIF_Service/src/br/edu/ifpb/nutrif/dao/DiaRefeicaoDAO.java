@@ -548,6 +548,11 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 
 	}
 	
+	public List<DiaRefeicao> listDiaRefeicaoByAlunoEdital(Integer idEdital, String nome) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
 	@Override
 	public void delete(DiaRefeicao entity) {
 		// TODO Auto-generated method stub
@@ -562,5 +567,5 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 	@Override
 	public Class<?> getEntityClass() {
 		return DiaRefeicao.class;
-	}
+	}	
 }
