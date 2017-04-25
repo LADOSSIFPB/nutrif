@@ -1,10 +1,11 @@
 angular.module('NutrifApp').controller('listarContempladosEditalCtrl', function ($scope,
 	$stateParams, $state, $mdToast, diaRefeicaoService) {
 
+	var _idEdital = $stateParams.id;
+
 	$scope.diasRefeicao = [];
 	
 	function carregamentoInicial() {
-		var _idEdital = $stateParams.id;
         
 		if (_idEdital == 0){
 			$state.transitionTo('home.listar-edital', {reload: true});
@@ -17,6 +18,26 @@ angular.module('NutrifApp').controller('listarContempladosEditalCtrl', function 
 			})
 			.error(onErrorLoadCallback);
 	}
+
+	$scope.limparBusca = function () {
+        $scope.texto = "";
+       	carregamentoInicial() 
+    };
+
+    $scope.pesquisar = function (texto) {
+        if (texto.length > 2) {
+            if (texto.match(/[a-zA-Z]/i) != null) {
+                 diaRefeicaoService.getAllByEditalAndNomeAluno(_idEdital, texto)
+                    .success(function (data, status) {
+						$scope.diasRefeicao = data;
+						console.log($scope.diasRefeicao)
+					})
+                    .error(onErrorCallback);
+            }
+        } else if (texto.length === 0) {
+           carregamentoInicial() 
+        }
+    };
 
 	function onErrorCallback(data, status) {
 		var _message = '';
@@ -43,7 +64,7 @@ angular.module('NutrifApp').controller('listarContempladosEditalCtrl', function 
 
 	 $scope.query = {
         order: 'nome',
-        limit: 8,
+        limit: 100,
         page: 1
     };
 

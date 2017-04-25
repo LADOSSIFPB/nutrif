@@ -58,6 +58,10 @@ angular.module("NutrifApp").factory("diaRefeicaoService", function ($http, confi
         return $http.get(_path + "/listar/edital/" + idEdital);
     }
 
+    var _getAllByEditalAndNomeAluno = function (idEdital, nomeAluno) {
+        return $http.get(_path + "/listar/edital/" + idEdital + "/aluno/nome/"+ nomeAluno);
+    }
+
     return {
         buscaRefeicaoPorNome: _buscaRefeicaoPorNome,
         buscaRefeicaoPorMatricula: _buscaRefeicaoPorMatricula,
@@ -67,6 +71,7 @@ angular.module("NutrifApp").factory("diaRefeicaoService", function ($http, confi
         getQuantidadeRefeicoes: _getQuantidadeRefeicoes,
         getAllVigentesByAlunoMatricula: _getAllVigentesByAlunoMatricula,
         migrarSabadoLetivo: _migrarSabadoLetivo,
-        getAllByEdital: _getAllByEdital
+        getAllByEdital: _getAllByEdital,
+        getAllByEditalAndNomeAluno: _getAllByEditalAndNomeAluno
     };
 });
