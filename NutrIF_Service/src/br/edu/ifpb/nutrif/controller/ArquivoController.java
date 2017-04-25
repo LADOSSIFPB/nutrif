@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -39,6 +40,7 @@ import br.edu.ladoss.entity.Arquivo;
 import br.edu.ladoss.entity.Error;
 import br.edu.ladoss.entity.Pessoa;
 import br.edu.ladoss.enumeration.TipoArquivo;
+import br.edu.ladoss.enumeration.TipoRole;
 import br.edu.ladoss.form.FileUploadForm;
 
 /**
@@ -60,7 +62,7 @@ public class ArquivoController {
 	 * @return response
 	 * @author Rhavy Maia Guedes.
 	 */
-	@PermitAll
+	@RolesAllowed({TipoRole.ADMIN, TipoRole.COMENSAL})
 	@POST
 	@Path("/upload/{tipoarquivo}")
 	@Consumes(MediaType.MULTIPART_FORM_DATA + ";charset=UTF-8")
@@ -151,7 +153,7 @@ public class ArquivoController {
 	 * @param nomeSistemaArquivo
 	 * @return
 	 */
-	@PermitAll
+	@RolesAllowed({TipoRole.ADMIN})
 	@GET
 	@Path("/download/{tipoarquivo}/nome/{nomeSistemaArquivo}")
 	@Produces(MediaType.APPLICATION_OCTET_STREAM)
@@ -216,7 +218,7 @@ public class ArquivoController {
 	 * @param idPessoa
 	 * @return
 	 */
-	@PermitAll
+	@RolesAllowed({TipoRole.ADMIN})
 	@GET
 	@Path("/listar/pessoa/{id}")
 	@Produces("application/json")
@@ -249,7 +251,7 @@ public class ArquivoController {
 	 * @param nomeSistemaArquivo
 	 * @return
 	 */
-	@PermitAll
+	@RolesAllowed({TipoRole.ADMIN, TipoRole.COMENSAL})
 	@GET
 	@Path("/download/perfil/aluno/{id}")
 	@Produces(MediaType.APPLICATION_FORM_URLENCODED)
