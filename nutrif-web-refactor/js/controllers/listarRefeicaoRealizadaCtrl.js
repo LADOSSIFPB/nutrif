@@ -1,4 +1,4 @@
-angular.module('NutrifApp').controller('listarDiasRefeicaoCtrl', function ($scope,
+angular.module('NutrifApp').controller('listarRefeicaoRealizadaCtrl', function ($scope,
 	$stateParams, $state, $mdToast, refeicaoRealizadaService) {
 
 	var _idDiaRefeicao = $stateParams.id;
@@ -44,7 +44,7 @@ angular.module('NutrifApp').controller('listarDiasRefeicaoCtrl', function ($scop
 
 	 $scope.query = {
         order: 'nome',
-        limit: 100,
+        limit: 8,
         page: 1
     };
 
