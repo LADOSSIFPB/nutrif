@@ -68,3 +68,8 @@ md-toolbar.md-table-toolbar div.toolbar-input>input {
     bottom: 2px;
     opacity: 1;
 }
+
+/* Imagem do Perfl do aluno */
+.img-perfil{
+    width: 40%;
+}

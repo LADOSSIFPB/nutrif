@@ -13,13 +13,13 @@
                                 <th md-column>Matrícula</th>
                                 <th md-column>Tipo da Refeição</th>
                                 <th md-column>Dia de Refeição</th>
-                                <th md-column>Pretensão</th>
+                                <th md-column>Pretensão/Data</th>
                             </tr>
                         </thead>
                         <tbody md-body>
                             <tr md-row>
                                 <td md-cell>
-                                  <img  style="width='15%';" class="img-perfil-entrada" src='{{image}}'/>
+                                  <img  class="img-perfil" src='{{image}}'/>
                                 </td>
                                 <td md-cell>{{refeicao.aluno.nome | uppercase}}</td>
                                 <td md-cell>{{refeicao.aluno.matricula}}</td>
@@ -27,7 +27,7 @@
                                 <td md-cell>{{refeicao.dia.nome | uppercase}}</td>
                                 <td md-cell>
                                     {{pretensaoRefeicao.ativo | yesNo}} 
-                                    - 
+                                    / 
                                     {{pretensaoRefeicao.confirmaPretensaoDia.dataPretensao | date:'dd/MM/yyyy'}}
                                 </td>
                             </tr>

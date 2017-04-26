@@ -6,7 +6,7 @@ import java.io.OutputStream;
 import java.util.Date;
 import java.util.List;
 
-import javax.annotation.security.PermitAll;
+import javax.annotation.security.DenyAll;
 import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -20,14 +20,13 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.StreamingOutput;
 
-import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.codec.binary.StringUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
 
+import br.edu.ifpb.nutrif.dao.AlunoDAO;
 import br.edu.ifpb.nutrif.dao.ArquivoDAO;
 import br.edu.ifpb.nutrif.dao.PessoaDAO;
 import br.edu.ifpb.nutrif.exception.ErrorFactory;
@@ -36,6 +35,7 @@ import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
 import br.edu.ifpb.nutrif.util.BancoUtil;
 import br.edu.ifpb.nutrif.util.FileUtil;
 import br.edu.ifpb.nutrif.validation.Validate;
+import br.edu.ladoss.entity.Aluno;
 import br.edu.ladoss.entity.Arquivo;
 import br.edu.ladoss.entity.Error;
 import br.edu.ladoss.entity.Pessoa;
@@ -251,7 +251,7 @@ public class ArquivoController {
 	 * @param nomeSistemaArquivo
 	 * @return
 	 */
-	@RolesAllowed({TipoRole.ADMIN, TipoRole.COMENSAL})
+	@DenyAll
 	@GET
 	@Path("/download/perfil/aluno/{id}")
 	@Produces(MediaType.APPLICATION_FORM_URLENCODED)
@@ -281,6 +281,66 @@ public class ArquivoController {
 					// Arquivo para envio.
 					String fileName = arquivo.getNomeSistemaArquivo().toUpperCase();
 					
+					builder.entity(base64StringBuilder.toString())
+						.status(Response.Status.OK)
+						.type(MediaType.APPLICATION_FORM_URLENCODED)
+						.header("Content-Disposition", 
+								"attachment; filename=\"" + fileName + "\"")
+						.header("Content-Type", "image/jpg; \"" 
+								+ fileName + "\"")
+						.header("Content-Transfer-Encoding", "base64");
+					
+				} else {
+					
+					// Arquivo inexistente.
+					builder.status(Response.Status.NOT_FOUND)
+						.type(MediaType.APPLICATION_JSON)
+						.entity(ErrorFactory.getErrorFromIndex(
+									ErrorFactory.ARQUIVO_PERFIL_INVALIDO));
+				}
+			
+			} catch (SQLExceptionNutrIF exception) {
+				
+				builder.status(Response.Status.INTERNAL_SERVER_ERROR)
+					.type(MediaType.APPLICATION_JSON)
+					.entity(exception.getError());
+			}
+		}
+		
+		return builder.build();
+	}
+	
+	
+	@RolesAllowed({TipoRole.ADMIN, TipoRole.COMENSAL, TipoRole.COMENSAL})
+	@GET
+	@Path("/download/perfil/aluno/{id}")
+	@Produces(MediaType.APPLICATION_FORM_URLENCODED)
+	public Response downloadImagemPerfilAluno(@PathParam("id") int idAluno) {
+
+		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
+		builder.expires(new Date());
+		
+		// Validação dos dados de entrada.
+		int validacao = Validate.downloadImagemPerfil(idAluno);
+		
+		if (validacao == Validate.VALIDATE_OK) {
+			
+			try {				
+			
+				// Recuperar registro persistente do arquivo da imagem para o perfil do aluno.
+				Aluno aluno = AlunoDAO.getInstance().getById(idAluno);
+				
+				if (aluno != null) {
+					
+					String fileName = "perfil.jpg";
+					String imagem = FileUtil.readBase64(TipoArquivo.ARQUIVO_FOTO_PERFIL,
+							aluno.getMatricula() + "/" + fileName);
+					
+					StringBuilder base64StringBuilder = new StringBuilder();
+					base64StringBuilder.append("data:image/jpg;base64,");
+					base64StringBuilder.append(imagem);
+					
+					// Arquivo para envio.					
 					builder.entity(base64StringBuilder.toString())
 						.status(Response.Status.OK)
 						.type(MediaType.APPLICATION_FORM_URLENCODED)
