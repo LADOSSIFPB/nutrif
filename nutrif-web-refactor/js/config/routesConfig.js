@@ -166,6 +166,15 @@ angular.module('NutrifApp').config(function ($stateProvider, $urlRouterProvider)
             module: 'admin'
         })
 
+         .state('home.listar-dias-refeicao', {
+            url: '/listar/dia/refeicao/:id',
+            title: 'Listar dias de refeicao',
+            templateUrl: 'view/manager/admin/listar-dias-refeicao.html',
+            controller: 'listarDiasRefeicaoCtrl',
+            controllerAs: 'listarDiasRefeicao',
+            module: 'admin'
+        })
+
         .state('home.estatisticas', {
             url: '/estatisticas',
             title: 'Estatisticas',

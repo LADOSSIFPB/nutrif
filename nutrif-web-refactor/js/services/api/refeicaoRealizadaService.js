@@ -17,9 +17,16 @@ nutrifApp.factory("refeicaoRealizadaService", function($http, config){
 
 	}
 
+	var _getQuantidadeRefeicoesRealizadasByDiaRefeicao = function(idDiaRefeicao){
+
+		return $http.get(_path+ "/listar/diarefeicao/"+idDiaRefeicao);
+
+	}
+
 	return {
 		inserirRefeicao: _inserirRefeicao,
         mapaRefeicao: _mapaRefeicao,
-		getQuantidadeRefeicoesRealizadas: _getQuantidadeRefeicoesRealizadas
+		getQuantidadeRefeicoesRealizadas: _getQuantidadeRefeicoesRealizadas,
+		getQuantidadeRefeicoesRealizadasByDiaRefeicao: _getQuantidadeRefeicoesRealizadasByDiaRefeicao
 	};
 });
