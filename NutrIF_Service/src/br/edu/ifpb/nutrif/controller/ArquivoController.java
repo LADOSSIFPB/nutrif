@@ -242,74 +242,7 @@ public class ArquivoController {
 		}		
 		
 		return builder.build();		
-	}
-	
-	/**
-	 * Download do arquivo do perfil.
-	 * 
-	 * @param tipoArquivo
-	 * @param nomeSistemaArquivo
-	 * @return
-	 */
-	@DenyAll
-	@GET
-	@Path("/download/perfil/aluno/{id}")
-	@Produces(MediaType.APPLICATION_FORM_URLENCODED)
-	public Response downloadImagemPerfil(@PathParam("id") int idAluno) {
-
-		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
-		builder.expires(new Date());
-		
-		// Validação dos dados de entrada.
-		int validacao = Validate.downloadImagemPerfil(idAluno);
-		
-		if (validacao == Validate.VALIDATE_OK) {
-			
-			try {				
-			
-				// Recuperar registro persistente do arquivo da imagem para o perfil do aluno.
-				Arquivo arquivo = ArquivoDAO.getInstance().getImagemPerfilByIdAluno(
-						idAluno);
-				
-				if (arquivo != null) {
-					
-					StringBuilder base64StringBuilder = new StringBuilder();
-					base64StringBuilder.append("data:image/jpg;base64,");
-					base64StringBuilder.append(FileUtil.readBase64(TipoArquivo.ARQUIVO_FOTO_PERFIL,
-							arquivo.getNomeSistemaArquivo()));
-					
-					// Arquivo para envio.
-					String fileName = arquivo.getNomeSistemaArquivo().toUpperCase();
-					
-					builder.entity(base64StringBuilder.toString())
-						.status(Response.Status.OK)
-						.type(MediaType.APPLICATION_FORM_URLENCODED)
-						.header("Content-Disposition", 
-								"attachment; filename=\"" + fileName + "\"")
-						.header("Content-Type", "image/jpg; \"" 
-								+ fileName + "\"")
-						.header("Content-Transfer-Encoding", "base64");
-					
-				} else {
-					
-					// Arquivo inexistente.
-					builder.status(Response.Status.NOT_FOUND)
-						.type(MediaType.APPLICATION_JSON)
-						.entity(ErrorFactory.getErrorFromIndex(
-									ErrorFactory.ARQUIVO_PERFIL_INVALIDO));
-				}
-			
-			} catch (SQLExceptionNutrIF exception) {
-				
-				builder.status(Response.Status.INTERNAL_SERVER_ERROR)
-					.type(MediaType.APPLICATION_JSON)
-					.entity(exception.getError());
-			}
-		}
-		
-		return builder.build();
-	}
-	
+	}	
 	
 	@RolesAllowed({TipoRole.ADMIN, TipoRole.COMENSAL, TipoRole.COMENSAL})
 	@GET
