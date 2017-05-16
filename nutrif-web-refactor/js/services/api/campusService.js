@@ -9,8 +9,7 @@ angular.module("NutrifApp").factory("campusService", function($http, config){
 	
 	var _getById = function(id){
 		
-		return $http.get(_path +"/id/" + id);
-		
+		return $http.get(_path +"/id/" + id);		
 	}
 
 	return {
