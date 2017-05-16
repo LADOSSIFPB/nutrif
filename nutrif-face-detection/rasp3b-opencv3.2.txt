@@ -1,0 +1,26 @@
+Passos para configuração do Raspberry Pi 3 B com OpenCV 3.2
+
+- Expansão da unidade de armazenamento para USB
+1- http://www.unix.com/unix-for-advanced-and-expert-users/170236-solved-creating-unformatted-partition.html
+* Expandir memória para compilação do OpenCV. Baixar todo código do OpenCV na memária 
+extendida.
+
+
+- Configuração do ambiente: Pré-requisitos, Download OpenCV 3.2, Compilação e Instalação
+1 - http://www.pyimagesearch.com/2015/10/26/how-to-install-opencv-3-on-raspbian-jessie/
+2 - http://pklab.net/?id=392&lang=EN
+3 - OpenCV 3.2: https://github.com/opencv/opencv/releases/tag/3.2.0
+* Criar ambiente virtual para o python. Reinstalar o pip;
+* Observar parâmetros do CMaker;
+* O make poderá demorar várias horas e travar o Rasp mas ao reiniciar continuar do ponto
+que parou.
+
+- Código de exemplo para detecção frontal da face
+1 - Classificador para face frontal: https://realpython.com/blog/python/face-detection-in-python-using-a-webcam/
+2 - https://github.com/furetosan/webcammer
+
+- Verificar alimentação do Rasp para 5v e 2amp (carregador rápido de celular).
+
+
+
+

@@ -213,8 +213,32 @@ public class RefeicaoRealizadaDAO extends GenericDao<Integer, RefeicaoRealizada>
 	}
 	
 	public List<RefeicaoRealizada> listDiaRefeicaoByDiaRefeicao(Integer idDiaRefeicao) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		
+		List<RefeicaoRealizada> refeicoesRealizadas = new ArrayList<RefeicaoRealizada>();
+		try {
+					
+			String hql = "from RefeicaoRealizada as rr"
+					+ "	where rr.confirmaRefeicaoDia.diaRefeicao.id = :id";
+		
+			Query query = session.createQuery(hql);
+			query.setParameter("id", idDiaRefeicao);
+		
+			refeicoesRealizadas = (List<RefeicaoRealizada>) query.list();
+	        
+		} catch (HibernateException hibernateException) {
+			
+			session.getTransaction().rollback();
+			
+			throw new SQLExceptionNutrIF(hibernateException);
+			
+		} finally {
+		
+			session.close();
+		}
+		
+		return refeicoesRealizadas;
 	}
 	
 	@Override
