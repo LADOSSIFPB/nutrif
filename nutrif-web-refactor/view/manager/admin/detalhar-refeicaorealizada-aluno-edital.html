@@ -1,0 +1,55 @@
+<md-card>
+    <md-table-container>
+        <!-- Cabeçalho de opções -->
+        <md-card-header class="nutrif-md-card-header">
+            <md-card-avatar>
+                <md-icon class="md-avatar-icon" md-svg-icon="img/icon/user-shape.svg">
+                </md-icon>
+            </md-card-avatar>
+
+            <md-card-header-text>
+                <span class="md-title">Refeições Realizadas do Aluno para o Edital</span>
+                <span class="md-subhead">Detalha as Refeições Realizadas do Aluno para o Edital.</span>
+            </md-card-header-text>
+        </md-card-header>
+
+        <md-content>
+            <md-tabs md-selected="selectedIndex">
+                <md-tab ng-repeat="mapa in mapas">
+                    <md-tab-label>
+                        {{mapa.dia.nome}} ({{mapa.quantidade}})
+                    </md-tab-label>
+                    <md-tab-body>
+
+                        <md-table-container>
+                            <table md-table>
+                                <thead md-head>
+                                    <tr md-row>
+                                        <th md-column>Refeição</th>
+                                        <th md-column>Responsável</th>
+                                        <th md-column>Data</th>
+                                        <th md-column>Hora</th>
+                                    </tr>
+                                </thead>
+                                <tbody md-body>
+                                    <tr md-row ng-repeat="refeicaoRealizada in mapa.lista">
+                                        <td md-cell>{{refeicaoRealizada.confirmaRefeicaoDia.diaRefeicao.refeicao.tipo | uppercase}}</td>
+                                        <td md-cell>{{refeicaoRealizada.inspetor.nome | uppercase}}</td>
+                                        <td md-cell>
+                                            {{refeicaoRealizada.confirmaRefeicaoDia.dataRefeicao | date:'dd/MM/yyyy'}}
+                                        </td>
+                                        <td md-cell>
+                                            {{refeicaoRealizada.horaRefeicao | date:'dd/MM/yyyy h:mma'}}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </md-table-container>
+
+                    </md-tab-body>
+                </md-tab>
+            </md-tabs>
+        </md-content>
+
+    </md-table-container>
+</md-card>

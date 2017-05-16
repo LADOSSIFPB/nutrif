@@ -17,7 +17,9 @@ public class MapaRefeicao <T>{
 	
 	private Dia dia;
 	
-	private Date data;	
+	private Edital edital;
+	
+	private Date data;
 
 	@XmlElement
 	public List<T> getLista() {
@@ -53,6 +55,15 @@ public class MapaRefeicao <T>{
 
 	public void setDia(Dia dia) {
 		this.dia = dia;
+	}
+	
+	@XmlElement
+	public Edital getEdital() {
+		return edital;
+	}
+
+	public void setEdital(Edital edital) {
+		this.edital = edital;
 	}
 
 	@XmlElement

@@ -111,7 +111,7 @@ public class DiaRefeicaoController {
 					
 					// Validar Edital: vigência e quantidade de contemplados.
 					int quantidadeBeneficiadosReal = DiaRefeicaoDAO
-							.getInstance().getQuantidadeDiaRefeicaoEdital(
+							.getInstance().getBeneficiadosByEdital(
 									idEdital);
 					
 					boolean isContemplado = DiaRefeicaoDAO.getInstance()
@@ -570,11 +570,11 @@ public class DiaRefeicaoController {
 		return builder.build();		
 	}
 	
-	@RolesAllowed({TipoRole.ADMIN})
+	@PermitAll
 	@GET
 	@Path("/quantificar/edital/{id}")
 	@Produces("application/json")
-	public Response getQuantidadeAlunoDiaRefeicaoByEdital(
+	public Response getQuantidadeDiaRefeicaoByEdital(
 			@PathParam("id") int idEdital) {
 		
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
@@ -583,17 +583,37 @@ public class DiaRefeicaoController {
 		try {
 
 			Edital edital = EditalDAO.getInstance().getById(idEdital);
+			List<Dia> dias = DiaDAO.getInstance().getAll();
+			List<Refeicao> refeicoes = RefeicaoDAO.getInstance().getAll();
 			
-			if (edital != null) {
+			if (edital != null 
+					&& (dias!=null && !dias.isEmpty())
+					&& (refeicoes!=null && !refeicoes.isEmpty())) {
 				
-				int quantidadeBeneficiadosReal = DiaRefeicaoDAO.getInstance()
-						.getQuantidadeDiaRefeicaoEdital(idEdital);				
+				List<MapaRefeicao<DiaRefeicao>> mapas = new ArrayList<MapaRefeicao<DiaRefeicao>>();
 				
-				edital.setQuantidadeBeneficiadosReal(
-						Integer.valueOf(quantidadeBeneficiadosReal));
+				for (Dia dia: dias) {
+					
+					for (Refeicao refeicao: refeicoes) {
+						
+						int idDia = dia.getId();
+						int idRefeicao = refeicao.getId();
+						
+						int quantidadeBeneficiados = DiaRefeicaoDAO.getInstance()
+								.getBeneficiadosByEdital(idEdital, idDia, idRefeicao);
+						
+						MapaRefeicao<DiaRefeicao> mapa = new MapaRefeicao<DiaRefeicao>();
+						mapa.setQuantidade(quantidadeBeneficiados);
+						mapa.setDia(dia);
+						mapa.setEdital(edital);
+						mapa.setRefeicao(refeicao);
+						
+						mapas.add(mapa);
+					}					
+				}
 				
 				builder.status(Response.Status.OK);
-				builder.entity(edital);
+				builder.entity(mapas);
 			}			
 
 		} catch (SQLExceptionNutrIF exception) {
@@ -603,6 +623,15 @@ public class DiaRefeicaoController {
 		}		
 		
 		return builder.build();	
+	}
+	
+	@RolesAllowed({TipoRole.ADMIN})
+	@GET
+	@Path("/quantificar/dia/{id}")
+	@Produces("application/json")
+	public Response getQuantidadeDiaRefeicaoByDia(
+			@PathParam("id") int idEdital) {
+		return null;
 	}
 	
 	/**
@@ -671,7 +700,7 @@ public class DiaRefeicaoController {
 		}
 		
 		return builder.build();
-	}
+	}	
 	
 	private Date calcularDataDiaRefeicao(DiaRefeicao diaRefeicao) {
 		
@@ -848,12 +877,12 @@ public class DiaRefeicaoController {
 		if (validacao == Validate.VALIDATE_OK) {
 			try {
 
-				List<DiaRefeicao> diasRefeicao = DiaRefeicaoDAO.getInstance().listDiaRefeicaoByEdital(idEdital);
+				List<Aluno> alunos = AlunoDAO.getInstance().listAlunoByEdital(idEdital);
 
-				if (!diasRefeicao.isEmpty()) {
+				if (alunos!= null && !alunos.isEmpty()) {
 
 					builder.status(Response.Status.OK);
-					builder.entity(diasRefeicao);
+					builder.entity(alunos);
 
 				} else {
 
@@ -891,21 +920,21 @@ public class DiaRefeicaoController {
 		int validacao = Validate.listarAlunoEdital(idEdital, nome);
 
 		if (validacao == Validate.VALIDATE_OK) {
+			
 			try {
 
-				//TODO: Consultar nome do Aluno presente no Edital. Implementar query na função: listDiaRefeicaoByAlunoEdital.
-				List<DiaRefeicao> diasRefeicao = DiaRefeicaoDAO.getInstance().listDiaRefeicaoByAlunoEdital(idEdital, nome);
+				List<Aluno> alunos = AlunoDAO.getInstance().listAlunoByNomeEdital(nome, idEdital);
 
-				if (!diasRefeicao.isEmpty()) {
+				if (alunos!= null && !alunos.isEmpty()) {
 
 					builder.status(Response.Status.OK);
-					builder.entity(diasRefeicao);
+					builder.entity(alunos);
 
 				} else {
 
 					// Dia de refeição não existente.
 					builder.status(Response.Status.NOT_FOUND)
-							.entity(ErrorFactory.getErrorFromIndex(ErrorFactory.DIA_REFEICAO_NAO_DEFINIDO_ALUNO));
+							.entity(ErrorFactory.getErrorFromIndex(ErrorFactory.DIA_REFEICAO_NAO_DEFINIDO_EDITAL));
 				}
 
 			} catch (SQLExceptionNutrIF exception) {

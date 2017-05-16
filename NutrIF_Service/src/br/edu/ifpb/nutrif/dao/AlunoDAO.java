@@ -1,6 +1,7 @@
 package br.edu.ifpb.nutrif.dao;
 
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -14,6 +15,7 @@ import br.edu.ifpb.nutrif.hibernate.HibernateUtil;
 import br.edu.ifpb.nutrif.util.BancoUtil;
 import br.edu.ifpb.nutrif.util.StringUtil;
 import br.edu.ladoss.entity.Aluno;
+import br.edu.ladoss.entity.DiaRefeicao;
 import br.edu.ladoss.entity.Pessoa;
 
 public class AlunoDAO extends GenericDao<Integer, Aluno> {
@@ -170,6 +172,94 @@ public class AlunoDAO extends GenericDao<Integer, Aluno> {
 		}
 		
 		return pessoa;
+	}
+	
+	/**
+	 * Listar Alunos Contemplados num determinado Edital.
+	 * 
+	 * @param idEdital
+	 * @return
+	 */
+	public List<Aluno> listAlunoByEdital(Integer idEdital) {
+
+		Session session = HibernateUtil.getSessionFactory().openSession();
+
+		List<Aluno> alunos = new ArrayList<Aluno>();
+
+		try {
+			
+			String hql = "from Aluno as al"
+					+ " where al.id in (" 
+					+ " 	select distinct dr.aluno.id"
+					+ " 	from DiaRefeicao as dr"
+					+ " 	where dr.edital.id = :idEdital"
+					+ " 	and dr.ativo = :ativo"
+					+ " )"
+					+ " order by al.nome ASC";
+
+			Query query = session.createQuery(hql);
+			query.setParameter("idEdital", idEdital);
+			query.setParameter("ativo", BancoUtil.ATIVO);
+
+			alunos = (List<Aluno>) query.list();
+
+		} catch (HibernateException hibernateException) {
+
+			session.getTransaction().rollback();
+
+			throw new SQLExceptionNutrIF(hibernateException);
+
+		} finally {
+
+			session.close();
+		}
+
+		return alunos;
+	}
+	
+	/**
+	 * Listar Alunos Contemplados num determinado Edital.
+	 * 
+	 * @param idEdital
+	 * @return
+	 */
+	public List<Aluno> listAlunoByNomeEdital(String nome, Integer idEdital) {
+
+		Session session = HibernateUtil.getSessionFactory().openSession();
+
+		List<Aluno> alunos = new ArrayList<Aluno>();
+
+		try {
+			
+			String hql = "from Aluno as al"
+					+ " where al.nome like :nome"
+					+ " and al.id in (" 
+					+ " 	select distinct dr.aluno.id"
+					+ " 	from DiaRefeicao as dr"
+					+ " 	where dr.edital.id = :idEdital"
+					+ " 	and dr.ativo = :ativo"
+					+ " )"
+					+ " order by al.nome ASC";			
+			
+			Query query = session.createQuery(hql);
+			query.setParameter("idEdital", idEdital);
+			query.setParameter("nome", "%" + nome + "%");
+			query.setParameter("ativo", BancoUtil.ATIVO);
+
+			alunos = (List<Aluno>) query.list();
+
+		} catch (HibernateException hibernateException) {
+
+			session.getTransaction().rollback();
+
+			throw new SQLExceptionNutrIF(hibernateException);
+
+		} finally {
+
+			session.close();
+		}
+
+		return alunos;
 	}
 
 	@Override

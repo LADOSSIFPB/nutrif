@@ -24,7 +24,7 @@
             </md-button>
         </md-card-icon-actions>
     </md-card-header>
-    
+
     <md-card-content layout="column">
 
         <!-- Nome -->
@@ -44,22 +44,12 @@
         </md-input-container>
 
         <!-- Responsável -->
-        <md-autocomplete flex
-          md-selected-item="selectedItem"
-          md-search-text="editarEdital.searchText"
-          md-items="responsavel in editarEdital.buscarResponsaveis(editarEdital.searchText) "
-          md-item-text="responsavel.nome"
-          md-input-minlength="3"
-          md-no-cache="true"
-          md-auto-focus="false"
-          md-floating-label="Responsavel"
-          placeholder="Responsável"
-          required>
-          <md-item-template>
-          <span md-highlight-text="editarEdital.searchText">
+        <md-autocomplete flex md-selected-item="selectedItem" md-search-text="editarEdital.searchText" md-items="responsavel in editarEdital.buscarResponsaveis(editarEdital.searchText) " md-item-text="responsavel.nome" md-input-minlength="3" md-no-cache="true" md-auto-focus="false" md-floating-label="Responsavel" placeholder="Responsável" required>
+            <md-item-template>
+                <span md-highlight-text="editarEdital.searchText">
            {{responsavel.nome}}
           </span>
-          </md-item-template>
+            </md-item-template>
         </md-autocomplete>
 
         <!-- Campus -->
@@ -72,28 +62,60 @@
             </md-select>
         </md-input-container>
 
-    		<!-- Quantidade de contemplados -->
-    		<md-input-container class="md-icon-float md-block">
-    			<label>Quantidade de contemplados</label>
-    			<input ng-model="editalCopy.quantidadeBeneficiadosPrevista" type="text" required>
-    		</md-input-container>
+        <!-- Quantidade de contemplados -->
+        <md-input-container class="md-icon-float md-block">
+            <label>Cota</label>
+            <input ng-model="editalCopy.quantidadeBeneficiadosPrevista" type="text" required>
+        </md-input-container>
 
-    		<!-- Validade -->
-    		<md-content>
-    			<label>Validade</label>
-    			<md-datepicker ng-model="editalCopy.dataInicial" md-placeholder="Início" ng-required="true">
-    			</md-datepicker>
-    			<md-datepicker ng-model="editalCopy.dataFinal" md-placeholder="Fim" ng-required="true">
-    			</md-datepicker>
-    		</md-content>
+        <!-- Validade -->
+        <md-content>
+            <label>Validade</label>
+            <md-datepicker ng-model="editalCopy.dataInicial" md-placeholder="Início" ng-required="true">
+            </md-datepicker>
+            <md-datepicker ng-model="editalCopy.dataFinal" md-placeholder="Fim" ng-required="true">
+            </md-datepicker>
+        </md-content>
 
         <!-- Pretensão -->
-        <md-input-container class="md-icon-float md-block">
-          <md-checkbox ng-model="editalCopy.previstoPretensao" aria-label="Obrigatório Pretensão">
-            Obrigatória a realização da Pretensão.
-          </md-checkbox>
-          <div class="hint">Realização da pretensão para todos os beneficiários do Edital.</div>
+        <md-input-container class="md-block">
+            <md-checkbox ng-model="editalCopy.previstoPretensao" aria-label="Obrigatório Pretensão">
+                Obrigatória a realização da Pretensão.
+            </md-checkbox>
+            <div class="hint">Realização da pretensão para todos os beneficiários do Edital.</div>
         </md-input-container>
 
     </md-card-content>
+</md-card>
+
+<md-card>
+    <md-card-header>
+        <md-card-avatar>
+            <md-icon class="md-avatar-icon" md-svg-icon="img/icon/view-list-button.svg"></md-icon>
+        </md-card-avatar>
+
+        <md-card-header-text>
+            <span class="md-title">Quantificar os Beneficiários por Dia</span>
+            <span class="md-subhead">Será exibida a quantidade de Beneficiários deste Edital por Dia e Refeição.</span>
+        </md-card-header-text>        
+    </md-card-header>
+
+    <md-table-container>
+        <table md-table>
+            <thead md-head>
+                <tr md-row>
+                    <th md-column>Dia</th>
+                    <th md-column>Refeição</th>
+                    <th md-column>Beneficiário</th>
+                </tr>
+            </thead>
+            <tbody md-body>
+                <tr md-row md-select="mapa" ng-repeat="mapa in mapas">
+                    <td md-cell>{{mapa.dia.nome | uppercase}}</td>
+                    <td md-cell>{{mapa.refeicao.tipo | uppercase}}</td>
+                    <td md-cell>{{mapa.quantidade}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </md-table-container>
 </md-card>

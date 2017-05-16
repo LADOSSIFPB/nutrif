@@ -85,6 +85,39 @@ public class EditalDAO extends GenericDao<Integer, Edital>{
 		return editais;
 	}
 	
+	public List<Edital> listVigentesByNome(String nome) {
+		
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		
+		List<Edital> editais = null;
+		
+		try {
+			
+			String hql = "from Edital as e"
+					+ " where CURRENT_TIMESTAMP() between e.dataInicial and e.dataFinal"
+					+ " and e.nome = :nome"
+					+ " and e.ativo = :ativo";
+			
+			Query query = session.createQuery(hql);
+			query.setParameter("nome", nome);
+			query.setParameter("ativo", BancoUtil.ATIVO);
+			
+			editais = (List<Edital>) query.list();
+	        
+		} catch (HibernateException hibernateException) {
+			
+			session.getTransaction().rollback();
+			
+			throw new SQLExceptionNutrIF(hibernateException);
+			
+		} finally {
+		
+			session.close();
+		}
+		
+		return editais;
+	}
+	
 	@Override
 	public List<Edital> getAll() throws SQLExceptionNutrIF {
 		return super.getAll("Edital.getAll");

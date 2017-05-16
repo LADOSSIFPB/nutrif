@@ -158,14 +158,22 @@ angular.module('NutrifApp').config(function ($stateProvider, $urlRouterProvider)
         })
 
         .state('home.listar-contemplados-edital', {
-            url: '/listar/contemplados/edital/:id',
+            url: '/listar/alunos/edital/:id',
             title: 'Listar Contemplados do Edital',
             templateUrl: 'view/manager/admin/listar-contemplados-edital.html',
             controller: 'listarContempladosEditalCtrl',
             controllerAs: 'listarContempladosEdital',
             module: 'admin'
         })
-
+        
+        .state('home.detalhar-refeicaorealizada-aluno-edital', {
+            url: '/detalhar/refeicoesrealizadas/edital/:idEdital/aluno/:matricula',
+            title: 'Detalhar Refeições Realizadas do Aluno para o Edital',
+            templateUrl: 'view/manager/admin/detalhar-refeicaorealizada-aluno-edital.html',
+            controller: 'detalharRefeicaoRealizadaAlunoEditalCtrl',
+            controllerAs: 'detalharRefeicaoRealizadaAlunoEdital',
+            module: 'admin'
+        })
         .state('home.estatisticas', {
             url: '/estatisticas',
             title: 'Estatisticas',

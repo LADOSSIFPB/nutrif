@@ -1,12 +1,14 @@
 angular.module('NutrifApp')
     .controller('editarEditalCtrl', function ($scope,
-        editalService, campusService, eventoService, userService,
-        funcionarioService, $stateParams, $state, $mdToast, $mdDialog) {
+        editalService, campusService, eventoService, 
+        userService, funcionarioService, diaRefeicaoService, 
+        $stateParams, $state, $mdToast, $mdDialog) {
 
         $scope.nomes = [];
         $scope.campi = [];
         $scope.eventos = [];
-        $scope.validade = [];
+        $scope.mapas = [];
+    
         $scope.editalCopy = {};
         $scope.edital = {};
         $scope.responsavel = {};
@@ -23,10 +25,7 @@ angular.module('NutrifApp')
             edital.funcionario = {};
             edital.funcionario.id = userService.getUser().id;
 
-
             edital.responsavel = $scope.selectedItem;
-
-            console.log($scope.responsavel);
 
             editalService.atualizarEdital(edital)
                 .success(function (data, status) {
@@ -108,6 +107,7 @@ angular.module('NutrifApp')
         };
 
         function carregamentoInicial() {
+            
             var _id = $stateParams.id;
 
             if (_id == 0) {
@@ -116,6 +116,7 @@ angular.module('NutrifApp')
                 });
             }
 
+            // Dados do Edital.
             editalService.getEditalById(_id)
                 .success(function (data, status) {
                     $scope.edital = data;
@@ -124,32 +125,33 @@ angular.module('NutrifApp')
                     var finalData = $scope.editalCopy.dataFinal;
                     $scope.editalCopy.dataInicial = new Date(inicialData);
                     $scope.editalCopy.dataFinal = new Date(finalData);
-
-
                     $scope.selectedItem = $scope.editalCopy.responsavel;
-
                 })
                 .error(onErrorLoadCallback);
 
-
+            // Carregamento dos Campi.
             campusService.listarCampi()
                 .success(function (data, status) {
                     $scope.campi = data;
                 })
                 .error(onErrorLoadCallback);
 
+            // Tipos de Eventos para o Edital.
             eventoService.listarEvento()
                 .success(function (data, status) {
                     $scope.eventos = data;
                 })
                 .error(onErrorLoadCallback);
+            
+            // Quantidade de Beneficiados do Edital por Dia.
+            diaRefeicaoService.getQuantidadeBeneficiadosByEdital(_id)
+                .success(function (data, status) {
+                    $scope.mapas = data;
+                })
+                .error(onErrorLoadCallback);
         }
 
-
         carregamentoInicial();
-
-
-
 
         function onErrorLoadCallback(data, status) {
             onErrorCallback(data, status);
@@ -204,14 +206,9 @@ angular.module('NutrifApp')
         function transformChip(responsavel) {
             // If it is an object, it's already a known chip
             if (angular.isObject(responsavel)) {
-                console.log("Responsá" + responsavel);
                 return responsavel;
             }
         }
-
-
-
-
 
     })
     .config(function ($mdDateLocaleProvider) {

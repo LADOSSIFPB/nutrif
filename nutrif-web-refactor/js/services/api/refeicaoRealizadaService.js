@@ -13,13 +13,18 @@ nutrifApp.factory("refeicaoRealizadaService", function($http, config){
 
 	var _getQuantidadeRefeicoesRealizadas = function(diaRefeicao){
 
-		return $http.post(_path+ "/quantificar" , diaRefeicao);
-
-	}
+		return $http.post(_path + "/quantificar" , diaRefeicao);
+	};
+    
+    var _detalharRefeicaoRealizadaByEditalAluno = function(idEdital, matricula){
+        
+		return $http.get(_path + "/detalhar/edital/" + idEdital + "/aluno/" + matricula);
+	};
 
 	return {
 		inserirRefeicao: _inserirRefeicao,
         mapaRefeicao: _mapaRefeicao,
-		getQuantidadeRefeicoesRealizadas: _getQuantidadeRefeicoesRealizadas
+		getQuantidadeRefeicoesRealizadas: _getQuantidadeRefeicoesRealizadas,
+        detalharRefeicaoRealizadaByEditalAluno: _detalharRefeicaoRealizadaByEditalAluno
 	};
 });

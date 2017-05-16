@@ -3,14 +3,17 @@ angular.module("NutrifApp").factory("diaRefeicaoService", function ($http, confi
     var _path = config.baseUrl() + "/diarefeicao";
 
     var _buscaRefeicaoPorNome = function (nome) {
+        
         return $http.get(_path + "/buscar/aluno/nome/" + encodeURI(nome))
     };
 
     var _buscaRefeicaoPorMatricula = function (matricula) {
+        
         return $http.get(_path + "/buscar/aluno/matricula/" + encodeURI(matricula))
     };
 
     var _cadastrarRefeicao = function (refeicao) {
+        
         delete refeicao.refeicao.horaFinal;
         delete refeicao.refeicao.horaInicio;
         delete refeicao.refeicao.horaPrevisaoPretensao;
@@ -19,6 +22,7 @@ angular.module("NutrifApp").factory("diaRefeicaoService", function ($http, confi
     };
 
     var _removerRefeicao = function (refeicao) {
+        
         delete refeicao.refeicao.horaFinal;
         delete refeicao.refeicao.horaInicio;
         delete refeicao.refeicao.horaPrevisaoPretensao;
@@ -27,20 +31,33 @@ angular.module("NutrifApp").factory("diaRefeicaoService", function ($http, confi
     };
 
     var _listarHistoricoRefeicaoPorMatricula = function (matricula) {
+        
         return $http.get(_path + "/listar/aluno/matricula/" + encodeURI(matricula))
     };
+    
+    var _getAllVigentesByAlunoMatricula = function (matricula) {
+
+        return $http.get(_path + "/listar/vigentes/aluno/matricula/" + matricula);
+    }
+    
+    var _getAllByEdital = function (idEdital) {
+        
+        return $http.get(_path + "/listar/edital/" + idEdital);
+    }
+
+    var _getAllByEditalAndNomeAluno = function (idEdital, nomeAluno) {
+        return $http.get(_path + "/listar/edital/" + idEdital + "/aluno/nome/"+ nomeAluno);
+    }
 
     var _getQuantidadeRefeicoes = function (diaRefeicao) {
 
         return $http.post(_path + "/quantificar", diaRefeicao);
-
     };
+    
+    var _getQuantidadeBeneficiadosByEdital = function (idEdital) {
 
-    var _getAllVigentesByAlunoMatricula = function (matricula) {
-
-        return $http.get(_path + "/listar/vigentes/aluno/matricula/" + matricula);
-
-    }
+        return $http.get(_path + "/quantificar/edital/" + idEdital);
+    };    
 
     var _getAllByDiaSemana = function (dia) {
 
@@ -54,24 +71,17 @@ angular.module("NutrifApp").factory("diaRefeicaoService", function ($http, confi
         return $http.post(_path + "/migrar/dia/origem/" + diaOrigem + "/destino/" + SABADO, edital);
     }
 
-    var _getAllByEdital = function (idEdital) {
-        return $http.get(_path + "/listar/edital/" + idEdital);
-    }
-
-    var _getAllByEditalAndNomeAluno = function (idEdital, nomeAluno) {
-        return $http.get(_path + "/listar/edital/" + idEdital + "/aluno/nome/"+ nomeAluno);
-    }
-
     return {
         buscaRefeicaoPorNome: _buscaRefeicaoPorNome,
         buscaRefeicaoPorMatricula: _buscaRefeicaoPorMatricula,
         cadastrarRefeicao: _cadastrarRefeicao,
         removerRefeicao: _removerRefeicao,
         listarHistoricoRefeicaoPorMatricula: _listarHistoricoRefeicaoPorMatricula,
-        getQuantidadeRefeicoes: _getQuantidadeRefeicoes,
-        getAllVigentesByAlunoMatricula: _getAllVigentesByAlunoMatricula,
-        migrarSabadoLetivo: _migrarSabadoLetivo,
         getAllByEdital: _getAllByEdital,
-        getAllByEditalAndNomeAluno: _getAllByEditalAndNomeAluno
+        getAllByEditalAndNomeAluno: _getAllByEditalAndNomeAluno,
+        getQuantidadeRefeicoes: _getQuantidadeRefeicoes,
+        getQuantidadeBeneficiadosByEdital: _getQuantidadeBeneficiadosByEdital,
+        getAllVigentesByAlunoMatricula: _getAllVigentesByAlunoMatricula,
+        migrarSabadoLetivo: _migrarSabadoLetivo
     };
 });

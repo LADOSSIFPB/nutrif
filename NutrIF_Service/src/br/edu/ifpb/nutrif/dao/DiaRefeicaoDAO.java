@@ -186,7 +186,43 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 			
 			query.setParameter("matricula", matricula.trim());
 			query.setParameter("ativo", BancoUtil.ATIVO);
-			logger.info("Consulta: " + query.getQueryString());
+			
+			diasRefeicao = (List<DiaRefeicao>) query.list();
+	        
+		} catch (HibernateException hibernateException) {
+			
+			session.getTransaction().rollback();
+			
+			throw new SQLExceptionNutrIF(hibernateException);
+			
+		} finally {
+		
+			session.close();
+		}
+		
+		return diasRefeicao;		
+	}
+	
+	public List<DiaRefeicao> getAllVigentesByEditalAluno(Integer idEdital, String matricula) {
+		
+		Session session = HibernateUtil.getSessionFactory().openSession();
+
+		List<DiaRefeicao> diasRefeicao = new ArrayList<DiaRefeicao>();
+		
+		try {
+			
+			String hql = "from DiaRefeicao as dr"
+					+ " where dr.edital.id = :idEdital"
+					+ " and dr.aluno.matricula = :matricula"
+					+ " and dr.ativo = :ativo"
+					+ " group by dr.dia.id"
+					+ " order by dr.dia.id asc";			
+			
+			Query query = session.createQuery(hql);	
+			
+			query.setParameter("idEdital", idEdital);
+			query.setParameter("matricula", matricula.trim());
+			query.setParameter("ativo", BancoUtil.ATIVO);
 			
 			diasRefeicao = (List<DiaRefeicao>) query.list();
 	        
@@ -251,11 +287,11 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 	 * @param idEdital
 	 * @return
 	 */
-	public int getQuantidadeDiaRefeicaoEdital(int idEdital) {
+	public int getBeneficiadosByEdital(int idEdital) {
 		
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		
-		Long quantidadeBeneficiados = Long.valueOf(BancoUtil.QUANTIDADE_ZERO);
+		Long quantidadeDiaRefeicao = Long.valueOf(BancoUtil.QUANTIDADE_ZERO);
 		
 		try {
 			
@@ -267,6 +303,45 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 			
 			Query query = session.createQuery(hql);			
 			query.setParameter("idEdital", idEdital);
+			query.setParameter("ativo", BancoUtil.ATIVO);
+			
+			quantidadeDiaRefeicao = (Long) query.uniqueResult();
+	        
+		} catch (HibernateException hibernateException) {
+			
+			session.getTransaction().rollback();
+			
+			throw new SQLExceptionNutrIF(hibernateException);
+			
+		} finally {
+		
+			session.close();
+		}
+		
+		return quantidadeDiaRefeicao!=null ? Integer.valueOf(
+				quantidadeDiaRefeicao.toString()): BancoUtil.QUANTIDADE_ZERO;		
+	}
+	
+	public int getBeneficiadosByEdital(int idEdital, int idDia, int idRefeicao) {
+		
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		
+		Long quantidadeBeneficiados = Long.valueOf(BancoUtil.QUANTIDADE_ZERO);
+		
+		try {
+			
+			String hql = "select count(distinct dr.aluno.id)"
+					+ " from DiaRefeicao as dr"
+					+ " where dr.edital.id = :idEdital"
+					+ " and dr.dia.id = :idDia"
+					+ " and dr.refeicao.id = :idRefeicao"
+					+ " and dr.edital.ativo = :ativo"
+					+ " and dr.ativo = :ativo";
+			
+			Query query = session.createQuery(hql);			
+			query.setParameter("idEdital", idEdital);
+			query.setParameter("idDia", idDia);
+			query.setParameter("idRefeicao", idRefeicao);
 			query.setParameter("ativo", BancoUtil.ATIVO);
 			
 			quantidadeBeneficiados = (Long) query.uniqueResult();
@@ -285,6 +360,7 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 		return quantidadeBeneficiados!=null ? Integer.valueOf(
 				quantidadeBeneficiados.toString()): BancoUtil.QUANTIDADE_ZERO;		
 	}
+
 	
 	/**
 	 * Quantificar as refeição que serão servidas num determinado dia da semana
@@ -510,7 +586,7 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 	}
 	
 	/**
-	 * Quantificar a quantidade de refeições servidas para um determinado edital.
+	 * Listar Dia de Refeições para um determinado edital.
 	 * 
 	 * @param idEdital
 	 * @return
@@ -523,7 +599,8 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 
 		try {
 
-			String hql = " from DiaRefeicao as dr"
+			String hql = "select distinct dr.aluno.id"
+					+ " from DiaRefeicao as dr"
 					+ " where dr.edital.id = :idEdital"
 					+ " and dr.ativo = :ativo";
 
@@ -545,41 +622,6 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 		}
 
 		return diasRefeicao;
-
-	}
-	
-	public List<DiaRefeicao> listDiaRefeicaoByAlunoEdital(Integer idEdital, String nome) {
-	
-		Session session = HibernateUtil.getSessionFactory().openSession();
-
-		List<DiaRefeicao> diasRefeicao = new ArrayList<DiaRefeicao>();
-		
-		try {
-			
-			String hql = "from DiaRefeicao as dr"
-					+ " where dr.aluno.nome like :nome"
-					+ " and dr.edital.id = :id"
-					+ " order by dr.edital.id, dr.id, dr.dia.id asc";
-			
-			Query query = session.createQuery(hql);			
-			query.setParameter("nome", "%" + nome + "%");
-			query.setParameter("id", idEdital);
-			
-			diasRefeicao = (List<DiaRefeicao>) query.list();
-	        
-		} catch (HibernateException hibernateException) {
-			
-			session.getTransaction().rollback();
-			
-			throw new SQLExceptionNutrIF(hibernateException);
-			
-		} finally {
-		
-			session.close();
-		}
-		
-		return diasRefeicao;
-	
 	}
 	
 	@Override

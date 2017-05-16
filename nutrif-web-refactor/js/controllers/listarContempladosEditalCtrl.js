@@ -1,20 +1,19 @@
-angular.module('NutrifApp').controller('listarContempladosEditalCtrl', function ($scope,
+nutrifApp.controller('listarContempladosEditalCtrl', function ($scope,
 	$stateParams, $state, $mdToast, diaRefeicaoService) {
 
-	var _idEdital = $stateParams.id;
+	$scope.idEdital = $stateParams.id;
 
-	$scope.diasRefeicao = [];
+	$scope.alunos = [];
 	
 	function carregamentoInicial() {
         
-		if (_idEdital == 0){
+		if ($scope.idEdital == 0){
 			$state.transitionTo('home.listar-edital', {reload: true});
 		}
 
-		diaRefeicaoService.getAllByEdital (_idEdital)
+		diaRefeicaoService.getAllByEdital ($scope.idEdital)
 			.success(function (data, status) {
-				$scope.diasRefeicao = data;
-				console.log($scope.diasRefeicao)
+				$scope.alunos = data;
 			})
 			.error(onErrorLoadCallback);
 	}
@@ -25,12 +24,11 @@ angular.module('NutrifApp').controller('listarContempladosEditalCtrl', function 
     };
 
     $scope.pesquisar = function (texto) {
-        if (texto.length > 2) {
+        if (texto.length > 3) {
             if (texto.match(/[a-zA-Z]/i) != null) {
-                 diaRefeicaoService.getAllByEditalAndNomeAluno(_idEdital, texto)
+                 diaRefeicaoService.getAllByEditalAndNomeAluno($scope.idEdital, texto)
                     .success(function (data, status) {
-						$scope.diasRefeicao = data;
-						console.log($scope.diasRefeicao)
+						$scope.alunos = data;
 					})
                     .error(onErrorCallback);
             }

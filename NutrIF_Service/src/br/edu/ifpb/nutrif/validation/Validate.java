@@ -687,6 +687,22 @@ public class Validate {
 		
 		return VALIDATE_OK;
 	}
+	
+	public static int detalharRefeicaoRealizadaByEditalAluno(Integer idEdital, String matricula) {
+
+		logger.info("Validação para detalhar Refeições Realizadas do Aluno para um Edital.");
+		
+		if (!numeroValidator.isMaiorZero(idEdital)) {
+			return ErrorFactory.ID_EDITAL_INVALIDO;
+		}
+		
+		if (matricula(matricula) != VALIDATE_OK) {
+			
+			return ErrorFactory.MATRICULA_ALUNO_INVALIDA;
+		}
+		
+		return VALIDATE_OK;
+	}
 
 	public static int matricula(String matricula) {
 		

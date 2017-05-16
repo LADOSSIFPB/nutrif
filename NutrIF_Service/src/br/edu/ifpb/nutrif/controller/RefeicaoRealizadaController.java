@@ -353,7 +353,7 @@ public class RefeicaoRealizadaController {
 	@GET
 	@Path("/listar/diarefeicao/{id}")
 	@Produces("application/json")
-	public Response listDiaRefeicaoByDiaRefeicao(@PathParam("id") Integer idDiaRefeicao) {
+	public Response listRefeicaoRealizadaByDiaRefeicao(@PathParam("id") Integer idDiaRefeicao) {
 
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
 		builder.expires(new Date());
@@ -395,6 +395,64 @@ public class RefeicaoRealizadaController {
 					ErrorFactory.getErrorFromIndex(validacao));
 		}
 
+		return builder.build();
+	}	
+	
+	@PermitAll
+	@GET
+	@Path("/detalhar/edital/{idEdital}/aluno/{matricula}")
+	@Produces("application/json")
+	public Response detalharRefeicaoRealizadaByEditalAluno(@PathParam("idEdital") Integer idEdital, 
+			@PathParam("matricula") String matricula) {
+		
+		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
+		builder.expires(new Date());
+		
+		// Validação dos dados de entrada.
+		int validacao = Validate.detalharRefeicaoRealizadaByEditalAluno(idEdital, matricula);
+		
+		if (validacao == Validate.VALIDATE_OK) {
+			
+			try {
+					List<MapaRefeicao<RefeicaoRealizada>> mapas = new ArrayList<MapaRefeicao<RefeicaoRealizada>>();
+				
+					// Recuperar todo os Dias.
+					List<DiaRefeicao> diasRefeicao = DiaRefeicaoDAO.getInstance().getAllVigentesByEditalAluno(idEdital, matricula);
+					
+					if (diasRefeicao != null && !diasRefeicao.isEmpty()) {
+						
+						for (DiaRefeicao diaRefeicao: diasRefeicao) {
+							
+							Dia dia = diaRefeicao.getDia();
+							Integer idDia = dia.getId();
+							
+							List<RefeicaoRealizada> refeicoesRealizadas = RefeicaoRealizadaDAO.getInstance()
+									.detalharRefeicoesRealizadasByEditalAluno(idEdital, matricula, idDia);
+							
+							MapaRefeicao<RefeicaoRealizada> mapa = new MapaRefeicao<RefeicaoRealizada>();						
+							mapa.setDia(dia);
+							mapa.setQuantidade(refeicoesRealizadas.size());
+							mapa.setLista(refeicoesRealizadas);	
+							
+							mapas.add(mapa);
+						}
+
+						builder.status(Response.Status.OK);
+						builder.entity(mapas);
+					}					
+			
+			} catch (SQLExceptionNutrIF exception) {
+
+				builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
+						exception.getError());			
+			}
+			
+		} else {
+			
+			Error erro = ErrorFactory.getErrorFromIndex(validacao);
+			builder.status(Response.Status.NOT_ACCEPTABLE).entity(erro);
+		}
+		
 		return builder.build();
 	}
 }

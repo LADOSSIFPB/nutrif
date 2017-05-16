@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.ws.rs.PathParam;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.HibernateException;
@@ -173,6 +175,41 @@ public class RefeicaoRealizadaDAO extends GenericDao<Integer, RefeicaoRealizada>
 		}
 		
 		return quantidadeDia;
+	}
+	
+	public List<RefeicaoRealizada> detalharRefeicoesRealizadasByEditalAluno(Integer idEdital, String matricula,
+			Integer idDia) {
+		
+		Session session = HibernateUtil.getSessionFactory().openSession();
+
+		List<RefeicaoRealizada> refeicoesRealizadas = new ArrayList<RefeicaoRealizada>();
+		
+		try {
+			
+			String hql = "from RefeicaoRealizada as rr"
+					+ " where rr.confirmaRefeicaoDia.diaRefeicao.edital.id = :idEdital"
+					+ " and rr.confirmaRefeicaoDia.diaRefeicao.aluno.matricula = :matricula"
+					+ " and rr.confirmaRefeicaoDia.diaRefeicao.dia.id = :idDia";
+			
+			Query query = session.createQuery(hql);
+			query.setParameter("idEdital", idEdital);
+			query.setParameter("matricula", matricula);
+			query.setParameter("idDia", idDia);
+			
+			refeicoesRealizadas = (List<RefeicaoRealizada>) query.list();
+	        
+		} catch (HibernateException hibernateException) {
+			
+			session.getTransaction().rollback();
+			
+			throw new SQLExceptionNutrIF(hibernateException);
+			
+		} finally {
+		
+			session.close();
+		}
+		
+		return refeicoesRealizadas;		
 	}
 	
 	public List<RefeicaoRealizada> listDiaRefeicaoByDiaRefeicao(Integer idDiaRefeicao) {

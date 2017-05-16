@@ -210,6 +210,19 @@ public class EditalController {
 		editais = EditalDAO.getInstance().listVigentes();
 		
 		return editais;
+	}	
+	
+	@RolesAllowed({TipoRole.ADMIN})
+	@GET
+	@Path("/listar/vigentes/nome/{nome}")
+	@Produces("application/json")
+	public List<Edital> getVigentesByNome(@PathParam("nome") String nome) {
+		
+		List<Edital> editais = new ArrayList<Edital>();
+		
+		editais = EditalDAO.getInstance().listVigentesByNome(nome);
+		
+		return editais;
 	}
 	
 	@RolesAllowed({TipoRole.ADMIN})
@@ -228,7 +241,7 @@ public class EditalController {
 			if (edital != null) {
 				
 				int quantidadeBeneficiadosReal = DiaRefeicaoDAO
-						.getInstance().getQuantidadeDiaRefeicaoEdital(
+						.getInstance().getBeneficiadosByEdital(
 								idEdital);
 				edital.setQuantidadeBeneficiadosReal(
 						quantidadeBeneficiadosReal);
@@ -266,7 +279,7 @@ public class EditalController {
 				int idEdital = edital.getId();
 				
 				int quantidadeBeneficiadosReal = DiaRefeicaoDAO
-						.getInstance().getQuantidadeDiaRefeicaoEdital(
+						.getInstance().getBeneficiadosByEdital(
 								idEdital);
 				edital.setQuantidadeBeneficiadosReal(
 						quantidadeBeneficiadosReal);				
