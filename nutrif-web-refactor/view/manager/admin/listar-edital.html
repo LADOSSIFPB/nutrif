@@ -51,8 +51,7 @@
                     <th md-column>Início</th>
                     <th md-column>Fim</th>
                     <th md-column>Pretensão</th>
-                    <th md-column>Editar</th>
-                    <th md-column>Detalhar</th>
+                    <th md-column>Opções</th>
                 </tr>
             </thead>
 
@@ -66,16 +65,25 @@
                     <td md-cell>{{edital.dataFinal | date:'dd/MM/yyyy h:mma'}}</td>
                     <td md-cell>{{edital.previstoPretensao | yesNo}}</td>
                     <td md-cell>
-                        <md-button class="md-icon-button" aria-label="Editar" ui-sref="home.editar-edital({id: edital.id})" ui-sref-opts="{reload: true}">
-                            <md-tooltip md-direction="left">Editar Edital</md-tooltip>
-                            <md-icon md-svg-icon="img/icon/create-new-pencil-button.svg" style="width: 18px; height: 18px;"></md-icon>
-                        </md-button>
-                    </td>
-                    <td md-cell>
-                        <md-button class="md-icon-button" aria-label="Listar Contemplados do Edital" ui-sref="home.listar-contemplados-edital({id: edital.id})" ui-sref-opts="{reload: true}">
-                            <md-tooltip md-direction="left">Listar Beneficiários do Edital</md-tooltip>
-                            <md-icon md-svg-icon="img/icon/list-of-three-elements-on-black-background.svg" style="width: 18px; height: 18px;"></md-icon>
-                        </md-button>
+                        <div ng-controller="menuMoreOptionsCtrl as ctrl">
+                            <md-menu>
+                                <md-button aria-label="Expandir opções" class="md-icon-button" ng-click="ctrl.openMenu($mdMenu, $event)">
+                                    <md-icon md-menu-origin md-svg-icon="img/icon/more-vert.svg"></md-icon>
+                                </md-button>
+                                <md-menu-content width="4">
+                                    <md-menu-item>
+                                        <md-button aria-label="Editar" ui-sref="home.editar-edital({id: edital.id})" ui-sref-opts="{reload: true}">
+                                            Editar
+                                        </md-button>
+                                    </md-menu-item>
+                                    <md-menu-item>
+                                        <md-button aria-label="Listar Contemplados do Edital" ui-sref="home.listar-contemplados-edital({id: edital.id})" ui-sref-opts="{reload: true}">
+                                            Listar Beneficiários
+                                        </md-button>
+                                    </md-menu-item>
+                                </md-menu-content>
+                            </md-menu>
+                        </div>
                     </td>
                 </tr>
             </tbody>

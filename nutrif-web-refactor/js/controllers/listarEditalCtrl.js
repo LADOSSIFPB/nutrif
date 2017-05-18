@@ -1,4 +1,4 @@
-angular.module('NutrifApp').controller('listarEditalCtrl', function ($scope, $mdToast, editalService) {
+nutrifApp.controller('listarEditalCtrl', function ($scope, $mdToast, editalService) {
 
     $scope.texto = "";
     $scope.editais = [];
