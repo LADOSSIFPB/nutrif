@@ -8,12 +8,14 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeConstants;
 import org.joda.time.Duration;
 import org.joda.time.Hours;
 import org.joda.time.Instant;
 import org.joda.time.Interval;
 import org.joda.time.Minutes;
 import org.joda.time.Period;
+import org.joda.time.Weeks;
 
 import br.edu.ladoss.entity.Dia;
 
@@ -82,7 +84,7 @@ public class DateUtil {
 	 */
 	public static Date getDateOfDayWeek(int dayOfWeek) {
 		
-		Calendar c= Calendar.getInstance();
+		Calendar c = Calendar.getInstance();
 		c.set(Calendar.DAY_OF_WEEK, dayOfWeek);
 		
 		return c.getTime();
@@ -195,6 +197,13 @@ public class DateUtil {
         return calendar.getTime();	
 	}
 	
+	/**
+	 * Calcular a quantidade de dias entre datas.
+	 * 
+	 * @param startdate
+	 * @param enddate
+	 * @return
+	 */
 	public static List<Date> getDaysBetweenDates(Date startdate, Date enddate) {
 		
 		List<Date> dates = new ArrayList<Date>();
@@ -213,4 +222,50 @@ public class DateUtil {
 		
 		return dates;
 	}
+	
+	/**
+	 * Calcular a quantidade de semanas entre datas.
+	 * 
+	 * @param inicio
+	 * @param fim
+	 * @return
+	 */
+	public int weeksBetweenDate(Date inicio, Date fim) {
+		
+		DateTime inicoDateTime = new DateTime(inicio);
+		DateTime fimDateTime = new DateTime(fim);
+
+		return Weeks.weeksBetween(inicoDateTime, fimDateTime).getWeeks();
+	}
+	
+	/**
+	 * Calcular a data para o dia da semana atual ou anterior.
+	 *  
+	 * @param minusWeek
+	 * @param dayOfWeekCalendar
+	 * @return
+	 */
+	public static Date getDateOfDayWeek(int minusWeek, int dayOfWeekCalendar) {
+		
+		DateTime today = DateTime.now();
+		DateTime dayLastWeek = today.minusWeeks(minusWeek).withDayOfWeek(
+				toDateTimeConstantsDayOfWeek(dayOfWeekCalendar));
+		
+		return dayLastWeek.toDate();		
+	}
+	
+	/**
+	 * Converter o dia da semana no formato Calendar (Domingo a Sábado) para o DateTime (Segunda a Domingo).
+	 * 
+	 * @param dayOfWeekInCalendar
+	 * @return
+	 */
+	public static int toDateTimeConstantsDayOfWeek(int dayOfWeekInCalendar){
+		
+		int dayOfWeek = (dayOfWeekInCalendar + DateTimeConstants.DAYS_PER_WEEK - DateTimeConstants.MONDAY) 
+				% DateTimeConstants.DAYS_PER_WEEK;		
+		
+		return dayOfWeek != 0 ? dayOfWeek: DateTimeConstants.SUNDAY;
+	}
+	
 }

@@ -7,7 +7,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "tipoArquivo")
 @XmlEnum
 public class TipoRole implements Serializable {
-	
+
+	private static final long serialVersionUID = -5367063261525453982L;
+
 	// Tipo Role - Administrador
 	public static final String ADMIN = "admin";	
 

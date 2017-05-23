@@ -13,8 +13,6 @@ import org.hibernate.Session;
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
 import br.edu.ifpb.nutrif.hibernate.HibernateUtil;
 import br.edu.ifpb.nutrif.util.BancoUtil;
-import br.edu.ladoss.entity.Dia;
-import br.edu.ladoss.entity.MapaPretensaoRefeicao;
 import br.edu.ladoss.entity.PretensaoRefeicao;
 import br.edu.ladoss.entity.Refeicao;
 
@@ -216,13 +214,13 @@ public class PretensaoRefeicaoDAO extends GenericDao<Integer, PretensaoRefeicao>
 		try {
 			
 			String hql = "from PretensaoRefeicao as pr"
-					+ " where pr.confirmaPretensaoDia.diaRefeicao.refeicao.id = :refeicao"
+					+ " where pr.confirmaPretensaoDia.diaRefeicao.refeicao.id = :idRefeicao"
 					+ " and pr.confirmaPretensaoDia.dataPretensao = :dataPretensao"
 					+ " and pr.confirmaPretensaoDia.diaRefeicao.ativo = :ativo"
 					+ " and pr.ativo = :ativo";
 			
 			Query query = session.createQuery(hql);
-			query.setParameter("refeicao", refeicao.getId());
+			query.setParameter("idRefeicao", refeicao.getId());
 			query.setParameter("dataPretensao", dataPretensao);
 			query.setParameter("ativo", BancoUtil.ATIVO);
 			

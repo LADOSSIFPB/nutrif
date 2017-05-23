@@ -29,7 +29,6 @@ public enum TipoArquivo implements Serializable {
 	
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
 		return "TipoArquivo [id=" + id + "]";
 	}
 }

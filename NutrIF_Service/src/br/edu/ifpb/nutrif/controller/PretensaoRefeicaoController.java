@@ -41,7 +41,6 @@ import br.edu.ladoss.entity.ConfirmaRefeicaoDia;
 import br.edu.ladoss.entity.Dia;
 import br.edu.ladoss.entity.DiaRefeicao;
 import br.edu.ladoss.entity.Error;
-import br.edu.ladoss.entity.MapaPretensaoRefeicao;
 import br.edu.ladoss.entity.MapaRefeicao;
 import br.edu.ladoss.entity.PeriodoPretensaoRefeicao;
 import br.edu.ladoss.entity.PretensaoRefeicao;
@@ -413,7 +412,7 @@ public class PretensaoRefeicaoController {
 							.getConfirmaPretensaoDia().getDataPretensao();
 					
 					// Mapa com os dados quantificados.
-					MapaPretensaoRefeicao mapaPretensaoRefeicao = new MapaPretensaoRefeicao();
+					MapaRefeicao<PretensaoRefeicao> mapaPretensaoRefeicao = new MapaRefeicao<PretensaoRefeicao>();
 					mapaPretensaoRefeicao.setQuantidade(
 							Integer.valueOf(quantidadeDia.toString()));
 					mapaPretensaoRefeicao.setData(dataSolicitacaoPretensao);

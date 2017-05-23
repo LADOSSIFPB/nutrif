@@ -868,6 +868,7 @@ public class DiaRefeicaoController {
 	@Produces("application/json")
 	public Response listDiaRefeicaoByEdital(@PathParam("id") Integer idEdital) {
 
+		//TODO: Mover para o controller de Aluno!!!
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
 		builder.expires(new Date());
 
@@ -913,6 +914,7 @@ public class DiaRefeicaoController {
 	public Response listDiaRefeicaoByAlunoEdital(@PathParam("id") Integer idEdital,
 			@PathParam("nome") String nome) {
 
+		//TODO: Mover para o controller de Aluno!!!
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
 		builder.expires(new Date());
 

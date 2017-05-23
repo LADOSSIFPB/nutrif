@@ -32,7 +32,6 @@ import br.edu.ladoss.entity.DiaRefeicao;
 import br.edu.ladoss.entity.Error;
 import br.edu.ladoss.entity.Funcionario;
 import br.edu.ladoss.entity.MapaRefeicao;
-import br.edu.ladoss.entity.MapaRefeicaoRealizada;
 import br.edu.ladoss.entity.PeriodoRefeicaoRealizada;
 import br.edu.ladoss.entity.PretensaoRefeicao;
 import br.edu.ladoss.entity.Refeicao;
@@ -158,7 +157,7 @@ public class RefeicaoRealizadaController {
 		return refeicaoRealizada;
 	}
 	
-	@PermitAll
+	@RolesAllowed({TipoRole.ADMIN, TipoRole.INSPETOR})
 	@GET
 	@Path("/id/{id}")
 	@Produces("application/json")
@@ -242,8 +241,8 @@ public class RefeicaoRealizadaController {
 									dataRefeicaoRealizada);	
 					
 					// Mapa quantitativo da(s) Refeicão(ões) Realizada(s).
-					MapaRefeicaoRealizada mapaRefeicaoRealizada = 
-							new MapaRefeicaoRealizada();
+					MapaRefeicao<RefeicaoRealizada> mapaRefeicaoRealizada = 
+							new MapaRefeicao<RefeicaoRealizada>();
 					mapaRefeicaoRealizada.setQuantidade(
 							Integer.valueOf(quantidadeDia.toString()));
 					mapaRefeicaoRealizada.setData(dataRefeicaoRealizada);
@@ -398,7 +397,7 @@ public class RefeicaoRealizadaController {
 		return builder.build();
 	}	
 	
-	@PermitAll
+	@RolesAllowed({TipoRole.ADMIN})
 	@GET
 	@Path("/detalhar/edital/{idEdital}/aluno/{matricula}")
 	@Produces("application/json")
