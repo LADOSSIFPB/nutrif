@@ -8,18 +8,19 @@ angular.module('NutrifApp').controller('estatisticasCtrl', function ($scope, con
     $scope.listaPretensao = [];
     $scope.listaRefeicoes = [];
 
-    function carregaGraficoPretensao (periodoPretensao) {
+    function carregaGraficoPretensao(periodoPretensao) {
 
         var _periodoPretensao = angular.copy(periodoPretensao);
-        _periodoPretensao.refeicao = {id: 1};
+        _periodoPretensao.refeicao = {
+            id: 1
+        };
         var _dadosPretensaoAlmoco = [];
         var _dadosPretensaoJantar = [];
         var _listaPretensaoAlmoco = [];
         var _listaPretensaoJantar = [];
 
         pretensaoService.mapaRefeicao(_periodoPretensao)
-
-            .success(function (data, status){
+            .success(function (data, status) {
                 for (var i = 0; i < data.length; i++) {
                     $scope.pretensaoChart.labels.push(moment(data[i].data).locale("pt-br").format('DD/MM'));
                     _dadosPretensaoAlmoco.push(data[i].quantidade);
@@ -28,10 +29,12 @@ angular.module('NutrifApp').controller('estatisticasCtrl', function ($scope, con
 
                 $scope.pretensaoChart.data.push(_dadosPretensaoAlmoco)
                 $scope.pretensaoChart.refeicoes.push(_listaPretensaoAlmoco)
-                _periodoPretensao.refeicao = {id: 2};
+                _periodoPretensao.refeicao = {
+                    id: 2
+                };
 
                 pretensaoService.mapaRefeicao(_periodoPretensao)
-                    .success(function (data, status){
+                    .success(function (data, status) {
                         for (var i = 0; i < data.length; i++) {
                             _dadosPretensaoJantar.push(data[i].quantidade);
                             _listaPretensaoJantar.push(data[i].lista);
@@ -40,21 +43,23 @@ angular.module('NutrifApp').controller('estatisticasCtrl', function ($scope, con
                         $scope.pretensaoChart.data.push(_dadosPretensaoJantar);
                         $scope.pretensaoChart.refeicoes.push(_listaPretensaoJantar)
                     })
-                    .error(function (data, status){
+                    .error(function (data, status) {
                         alert("Houve um erro ao carregar os gráficos. Contate um administrador.: pretensaoService");
                     });
 
             })
 
-            .error(function (data, status){
+            .error(function (data, status) {
                 alert("Houve um erro ao carregar os gráficos. Contate um administrador.: pretensaoService");
             });
     }
 
-    function carregaGraficoRefeicaoRealizada (periodoPretensao) {
+    function carregaGraficoRefeicaoRealizada(periodoPretensao) {
 
         var _periodoPretensao = angular.copy(periodoPretensao);
-        _periodoPretensao.refeicao = {id: 1};
+        _periodoPretensao.refeicao = {
+            id: 1
+        };
         var _dadosPretensaoAlmoco = [];
         var _dadosPretensaoJantar = [];
         var _listaRefeicaoAlmoco = [];
@@ -62,7 +67,7 @@ angular.module('NutrifApp').controller('estatisticasCtrl', function ($scope, con
 
         refeicaoRealizadaService.mapaRefeicao(_periodoPretensao)
 
-            .success(function (data, status){
+            .success(function (data, status) {
                 for (var i = 0; i < data.length; i++) {
                     $scope.refeicaoRealizadaChart.labels.push(moment(data[i].data).locale("pt-br").format('DD/MM'));
                     _dadosPretensaoAlmoco.push(data[i].quantidade);
@@ -71,10 +76,12 @@ angular.module('NutrifApp').controller('estatisticasCtrl', function ($scope, con
 
                 $scope.refeicaoRealizadaChart.data.push(_dadosPretensaoAlmoco)
                 $scope.refeicaoRealizadaChart.refeicoes.push(_listaRefeicaoAlmoco);
-                _periodoPretensao.refeicao = {id: 2};
+                _periodoPretensao.refeicao = {
+                    id: 2
+                };
 
                 refeicaoRealizadaService.mapaRefeicao(_periodoPretensao)
-                    .success(function (data, status){
+                    .success(function (data, status) {
                         for (var i = 0; i < data.length; i++) {
                             _dadosPretensaoJantar.push(data[i].quantidade);
                             _listaRefeicaoJantar.push(data[i].lista);
@@ -83,13 +90,13 @@ angular.module('NutrifApp').controller('estatisticasCtrl', function ($scope, con
                         $scope.refeicaoRealizadaChart.data.push(_dadosPretensaoJantar)
                         $scope.refeicaoRealizadaChart.refeicoes.push(_listaRefeicaoJantar);
                     })
-                    .error(function (data, status){
+                    .error(function (data, status) {
                         alert("Houve um erro ao carregar os gráficos. Contate um administrador.: refeicaoRealizadaService");
                     });
 
             })
 
-            .error(function (data, status){
+            .error(function (data, status) {
                 alert("Houve um erro ao carregar os gráficos. Contate um administrador.: refeicaoRealizadaService");
             });
     };

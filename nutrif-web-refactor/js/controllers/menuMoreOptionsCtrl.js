@@ -1,3 +1,6 @@
+/*
+ * Menu flutuante para opções de listagem
+ */
 nutrifApp.controller('menuMoreOptionsCtrl', function ($mdDialog) {
 
     var originatorEv;

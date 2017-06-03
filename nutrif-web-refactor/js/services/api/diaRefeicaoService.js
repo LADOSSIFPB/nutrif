@@ -1,4 +1,4 @@
-angular.module("NutrifApp").factory("diaRefeicaoService", function ($http, config) {
+nutrifApp.factory("diaRefeicaoService", function ($http, config) {
 
     var _path = config.baseUrl() + "/diarefeicao";
 

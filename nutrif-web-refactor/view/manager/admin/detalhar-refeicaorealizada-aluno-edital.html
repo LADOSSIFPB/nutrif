@@ -13,43 +13,41 @@
             </md-card-header-text>
         </md-card-header>
 
-        <md-content>
-            <md-tabs md-selected="selectedIndex">
-                <md-tab ng-repeat="mapa in mapas">
-                    <md-tab-label>
-                        {{mapa.dia.nome}} ({{mapa.quantidade}})
-                    </md-tab-label>
-                    <md-tab-body>
-
-                        <md-table-container>
-                            <table md-table>
-                                <thead md-head>
-                                    <tr md-row>
-                                        <th md-column>Refeição</th>
-                                        <th md-column>Responsável</th>
-                                        <th md-column>Data</th>
-                                        <th md-column>Hora</th>
-                                    </tr>
-                                </thead>
-                                <tbody md-body>
-                                    <tr md-row ng-repeat="refeicaoRealizada in mapa.lista">
-                                        <td md-cell>{{refeicaoRealizada.confirmaRefeicaoDia.diaRefeicao.refeicao.tipo | uppercase}}</td>
-                                        <td md-cell>{{refeicaoRealizada.inspetor.nome | uppercase}}</td>
-                                        <td md-cell>
-                                            {{refeicaoRealizada.confirmaRefeicaoDia.dataRefeicao | date:'dd/MM/yyyy'}}
-                                        </td>
-                                        <td md-cell>
-                                            {{refeicaoRealizada.horaRefeicao | date:'dd/MM/yyyy h:mma'}}
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </md-table-container>
-
-                    </md-tab-body>
-                </md-tab>
-            </md-tabs>
-        </md-content>
-
+        <!-- Tabs com os Dias da Refeições realizadas -->
+        <md-tabs md-dynamic-height md-border-bottom>
+            <md-tab ng-repeat="mapa in mapas">
+                <!-- Dia e quantidade de refeições realizadas -->
+                <md-tab-label>
+                    {{mapa.dia.nome}} ({{mapa.quantidade}})
+                </md-tab-label>
+                <md-tab-body>
+                    <!-- Refeições realizadas -->
+                    <md-table-container>
+                        <table md-table>
+                            <thead md-head>
+                                <tr md-row>
+                                    <th md-column>Refeição</th>
+                                    <th md-column>Responsável</th>
+                                    <th md-column>Data</th>
+                                    <th md-column>Hora</th>
+                                </tr>
+                            </thead>
+                            <tbody md-body>
+                                <tr md-row ng-repeat="refeicaoRealizada in mapa.lista">
+                                    <td md-cell>{{refeicaoRealizada.confirmaRefeicaoDia.diaRefeicao.refeicao.tipo | uppercase}}</td>
+                                    <td md-cell>{{refeicaoRealizada.inspetor.nome | uppercase}}</td>
+                                    <td md-cell>
+                                        {{refeicaoRealizada.confirmaRefeicaoDia.dataRefeicao | date:'dd/MM/yyyy'}}
+                                    </td>
+                                    <td md-cell>
+                                        {{refeicaoRealizada.horaRefeicao | date:'dd/MM/yyyy h:mma'}}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </md-table-container>
+                </md-tab-body>
+            </md-tab>
+        </md-tabs>
     </md-table-container>
 </md-card>

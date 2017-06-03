@@ -1,46 +1,61 @@
-<md-input-container class="md-icon-float md-block">
-	<label>Dia</label>
-	    <md-select ng-model="diaRefeicao.dia.id" required>
-			<md-option ng-repeat="dia in dias" value="{{dia.id}}" >
-				{{dia.nome}}
-			</md-option>
-	    </md-select>
-</md-input-container>
-	
-<md-input-container class="md-icon-float md-block">
-	<label>Refeicao</label>
-		<md-select ng-model="diaRefeicao.refeicao.id" required>
-			<md-option ng-repeat="refeicao in refeicoes" value="{{refeicao.id}}" >
-				{{refeicao.tipo}}
-			</md-option>
-	    </md-select>
-</md-input-container>
+<md-card>
+    <md-table-container>
 
-<md-button ng-click="consulta()" class="md-raised md-primary md-hue-1"
-      style="margin-top: 10px">
-      Consultar
-</md-button>
-<md-button type="submit" id="automaticamente" ng-click="dashboard.consultaAutomatica()"
-	  class="md-raised md-primary md-hue-1 flex"
-      style="margin-top: 10px">
-      Consultar automaticamente
-</md-button>
-	
+        <!-- Cabeçalho de opções -->
+        <md-card-header class="nutrif-md-card-header">
+            <md-card-avatar>
+                <md-icon class="md-avatar-icon">
+                </md-icon>
+            </md-card-avatar>
 
-<div style="margin-top: 5px" layout="row">
-    <md-card>
-        <md-card-header>
             <md-card-header-text>
-                <span class="md-title">Quantidade de Pretensões para refeição</span>
+                <span class="md-title">Dashboard</span>
+                <span class="md-subhead">Informações detalhadas da Pretensão, Dia de Refeição e Refeição Realizada. As informações numéricas e listagens serão referentes a semana corrente.</span>
             </md-card-header-text>
         </md-card-header>
+
         <md-card-content layout="column">
-            <span style="font-size: 100px;">{{ mapaPretensao.quantidade }}</span>
-            <span style="font-size: 12px; margin-top: 10px">{{mapaPretensao.data | date : "dd/MM/yyyy" : timestamp }}</span>
+
+            <!-- Dia -->
+            <md-input-container class="md-icon-float md-block">
+                <label>Dia</label>
+                <md-select ng-model="diaRefeicao.dia.id" ng-required="true">
+                    <md-option ng-repeat="dia in dias" value="{{dia.id}}">
+                        {{dia.nome}}
+                    </md-option>
+                </md-select>
+            </md-input-container>
+
+            <!-- Refeição -->
+            <md-input-container class="md-icon-float md-block">
+                <label>Refeição</label>
+                <md-select ng-model="diaRefeicao.refeicao.id" ng-required="true">
+                    <md-option ng-repeat="refeicao in refeicoes" value="{{refeicao.id}}">
+                        {{refeicao.tipo}}
+                    </md-option>
+                </md-select>
+            </md-input-container>
+
+            <md-button ng-click="consulta()" class="md-raised md-primary md-hue-1" style="margin-top: 10px">
+                Consultar
+            </md-button>
         </md-card-content>
-    </md-card>
-    
-    <md-card>
+
+        <!-- Card com resultados -->
+        <div style="margin-top: 5px" layout="row">
+            <md-card>
+                <md-card-header>
+                    <md-card-header-text>
+                        <span class="md-title">Quantidade de Pretensões para refeição</span>
+                    </md-card-header-text>
+                </md-card-header>
+                <md-card-content layout="column">
+                    <span style="font-size: 100px;">{{ mapaPretensao.quantidade }}</span>
+                    <span style="font-size: 12px; margin-top: 10px">{{mapaPretensao.data | date : "dd/MM/yyyy" : timestamp }}</span>
+                </md-card-content>
+            </md-card>
+
+            <md-card>
                 <md-card-header>
                     <md-card-header-text>
                         <span class="md-title">Quantidade de Refeições para o dia escolhido</span>
@@ -50,22 +65,105 @@
                     <span style="font-size: 100px;">{{ mapaDiaRefeicao.quantidade }}</span>
                     <span style="font-size: 12px;">{{mapaDiaRefeicao.data | date : "dd/MM/yyyy" : timestamp }}</span>
                 </md-card-content>
-    </md-card>
-	
-	<md-card>
-        <md-card-header>
-            <md-card-header-text>
-                <span class="md-title">Quantidade de Refeições realizadas</span>
-            </md-card-header-text>
-        </md-card-header>
-        <md-card-content layout="column" ui-sref-opts="{reload: true}">
-		    <span style="font-size: 100px;">{{ mapaRefeicaoRealizada.quantidade }}</span>
-            <span style="font-size: 12px;">{{  mapaRefeicaoRealizada.data | date : "dd/MM/yyyy" : timestamp}}</span>
-        </md-card-content>
-    </md-card>
-	
- </div>  
- 
-       
+            </md-card>
 
-    
+            <md-card>
+                <md-card-header>
+                    <md-card-header-text>
+                        <span class="md-title">Quantidade de Refeições realizadas</span>
+                    </md-card-header-text>
+                </md-card-header>
+                <md-card-content layout="column" ui-sref-opts="{reload: true}">
+                    <span style="font-size: 100px;">{{ mapaRefeicaoRealizada.quantidade }}</span>
+                    <span style="font-size: 12px;">{{  mapaRefeicaoRealizada.data | date : "dd/MM/yyyy" : timestamp}}</span>
+                </md-card-content>
+            </md-card>
+        </div>
+
+        <!-- Tabela 
+        <table md-table>
+            <thead md-head>
+                <tr md-row>
+                    <th md-column>Aluno</th>
+                    <th md-column>Refeição</th>
+                    <th md-column>Responsável</th>
+                    <th md-column>Dia</th>
+                    <th md-column>Hora</th>
+                </tr>
+            </thead>
+
+            <tbody md-body>
+                <tr md-row ng-repeat="refeicaoRealizada in mapaRefeicaoRealizada.lista">
+                    <td md-cell>{{refeicaoRealizada.confirmaRefeicaoDia.diaRefeicao.aluno.nome}}</td>
+                    <td md-cell>{{refeicaoRealizada.confirmaRefeicaoDia.diaRefeicao.refeicao.tipo}}</td>
+                    <td md-cell>{{refeicaoRealizada.inspetor.nome}}</td>
+                    <td md-cell>{{refeicaoRealizada.confirmaRefeicaoDia.dataRefeicao |  date:'dd/MM/yyyy'}}</td>
+                    <td md-cell>{{refeicaoRealizada.horaRefeicao}}</td>
+                </tr>
+            </tbody>
+        </table>
+        -->
+
+        <!-- Panel Group -->
+        <md-expansion-panel-group md-component-id="panelGroup" multiple>
+
+            <!-- Lista de Refeições Realizadas -->
+            <md-expansion-panel md-component-id="refeicaoRealizadaExpPanel">
+
+                <!-- Colapsado -->
+                <md-expansion-panel-collapsed>
+                    <div class="md-title ng-binding">Refeições Realizadas</div>
+                    <div class="md-summary ng-binding">Clique para expandir</div>
+                </md-expansion-panel-collapsed>
+
+                <!-- Extendido -->
+                <md-expansion-panel-expanded>
+
+                    <!-- Cabeçalho -->
+                    <md-expansion-panel-header>
+                        <div class="md-title">Refeições Realizadas</div>
+                        <div class="md-summary">Dia | Refeição</div>
+                        <md-expansion-panel-icon></md-expansion-panel-icon>
+                    </md-expansion-panel-header>
+
+                    <!-- Conteúdo -->
+                    <md-expansion-panel-content>
+
+                        <table md-table>
+                            <thead md-head md-order="confirmaRefeicaoDia.diaRefeicao.aluno.nome" md-on-reorder="logOrder">
+                                <tr md-row>
+                                    <th md-column md-order-by="confirmaRefeicaoDia.diaRefeicao.aluno.nome">Aluno</th>
+                                    <th md-column >Refeição</th>
+                                    <th md-column>Responsável</th>
+                                    <th md-column>Dia</th>
+                                    <th md-column>Hora</th>
+                                    <th md-column>Edital</th>
+                                </tr>
+                            </thead>
+
+                            <tbody md-body>
+                                <tr md-row ng-repeat="refeicaoRealizada in refeicoesRealizadas | orderBy: confirmaRefeicaoDia.diaRefeicao.aluno.nome">
+                                    <td md-cell>{{refeicaoRealizada.confirmaRefeicaoDia.diaRefeicao.aluno.nome}}</td>
+                                    <td md-cell>{{refeicaoRealizada.confirmaRefeicaoDia.diaRefeicao.refeicao.tipo}}</td>
+                                    <td md-cell>{{refeicaoRealizada.inspetor.nome}}</td>
+                                    <td md-cell>{{refeicaoRealizada.confirmaRefeicaoDia.dataRefeicao | date:'dd/MM/yyyy'}}</td>
+                                    <td md-cell>{{refeicaoRealizada.horaRefeicao}}</td>
+                                    <td md-cell>{{refeicaoRealizada.confirmaRefeicaoDia.diaRefeicao.edital.nome}}</td>
+                                    <td md-cell>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </md-expansion-panel-content>
+
+                    <!-- Rodapé -->
+                    <md-expansion-panel-footer>
+                        <div flex></div>
+                        <md-button class="md-warn" ng-click="$panel.collapse()">Fechar</md-button>
+                    </md-expansion-panel-footer>
+                </md-expansion-panel-expanded>
+            </md-expansion-panel>
+        </md-expansion-panel-group>
+
+
+    </md-table-container>
+</md-card>
