@@ -16,6 +16,9 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import br.edu.ifpb.nutrif.dao.DiaDAO;
 import br.edu.ifpb.nutrif.dao.DiaRefeicaoDAO;
 import br.edu.ifpb.nutrif.dao.FuncionarioDAO;
@@ -41,6 +44,8 @@ import br.edu.ladoss.enumeration.TipoRole;
 @Path("refeicaorealizada")
 public class RefeicaoRealizadaController {
 
+	private static Logger logger = LogManager.getLogger(RefeicaoRealizadaController.class);
+	
 	/**
 	 * 
 	 * @param refeicaoRealizada
@@ -346,39 +351,54 @@ public class RefeicaoRealizadaController {
 		}
 		
 		return builder.build();	
-	}
+	}	
 	
+	/**
+	 * Listar Refeições Realizadas por Dia e Refeição para todos os Editais vigentes.
+	 * 
+	 * @param idDia
+	 * @return
+	 */
 	@RolesAllowed({TipoRole.ADMIN})
 	@GET
-	@Path("/listar/diarefeicao/{id}")
+	@Path("/consultar/mapa/dia/{idDia}/refeicao/{idRefeicao}")
 	@Produces("application/json")
-	public Response listRefeicaoRealizadaByDiaRefeicao(@PathParam("id") Integer idDiaRefeicao) {
+	public Response getMapaRefeicaoRealizadaByDiaRefeicao(@PathParam("idDia") Integer idDia, 
+			@PathParam("idRefeicao") Integer idRefeicao) {
 
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
-		builder.expires(new Date());
-
+		builder.expires(new Date());		
+		
 		// Validação dos dados de entrada.
-		int validacao = Validate.diaRefeicao(idDiaRefeicao);
+		int validacao = Validate.listarRefeicaoRealizadaByDiaRefeicao(idDia, idRefeicao);
 
 		if (validacao == Validate.VALIDATE_OK) {
 			try {
-
-				//TODO: Consultar nome do Aluno presente no Edital. Implementar query na função: listDiaRefeicaoByAlunoEdital.
-				List<RefeicaoRealizada> refeicoesRealizadas = RefeicaoRealizadaDAO.getInstance()
-						.listDiaRefeicaoByDiaRefeicao(idDiaRefeicao);
-
-				if (!refeicoesRealizadas.isEmpty()) {
-
+				
+				Dia dia = DiaDAO.getInstance().getById(idDia);
+				
+				Refeicao refeicao = RefeicaoDAO.getInstance().getById(idRefeicao);
+				
+				if (dia != null && refeicao != null) {
+					
+					// Recuperar o data do Dia.
+					Date dataRefeicao = DateUtil.getDateOfDayWeek(dia.getId());
+					
+					// Listar Refeições Realizadas por Data e Refeição.
+					List<RefeicaoRealizada> refeicoesRealizadas = RefeicaoRealizadaDAO.getInstance()
+							.listDiaRefeicaoByDataRefeicao(dataRefeicao, idDia, idRefeicao);
+					
+					// Mapa para contabilização e listagem.
+					MapaRefeicao<RefeicaoRealizada> mapa = new MapaRefeicao<RefeicaoRealizada>();						
+					mapa.setDia(dia);
+					mapa.setRefeicao(refeicao);
+					mapa.setData(dataRefeicao);
+					mapa.setQuantidade(refeicoesRealizadas.size());
+					mapa.setLista(refeicoesRealizadas);
+					
 					builder.status(Response.Status.OK);
-					builder.entity(refeicoesRealizadas);
-
-				} else {
-
-					// Dia de refeição não existente.
-					builder.status(Response.Status.NOT_FOUND)
-							.entity(ErrorFactory.getErrorFromIndex(
-									ErrorFactory.REFEICAO_REALIZADA_NAO_ENCONTRADA));
-				}
+					builder.entity(mapa);
+				}				
 
 			} catch (SQLExceptionNutrIF exception) {
 
@@ -401,14 +421,14 @@ public class RefeicaoRealizadaController {
 	@GET
 	@Path("/detalhar/edital/{idEdital}/aluno/{matricula}")
 	@Produces("application/json")
-	public Response detalharRefeicaoRealizadaByEditalAluno(@PathParam("idEdital") Integer idEdital, 
+	public Response listRefeicaoRealizadaByEditalAluno(@PathParam("idEdital") Integer idEdital, 
 			@PathParam("matricula") String matricula) {
 		
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
 		builder.expires(new Date());
 		
 		// Validação dos dados de entrada.
-		int validacao = Validate.detalharRefeicaoRealizadaByEditalAluno(idEdital, matricula);
+		int validacao = Validate.listarRefeicaoRealizadaByEditalAluno(idEdital, matricula);
 		
 		if (validacao == Validate.VALIDATE_OK) {
 			
@@ -416,7 +436,8 @@ public class RefeicaoRealizadaController {
 					List<MapaRefeicao<RefeicaoRealizada>> mapas = new ArrayList<MapaRefeicao<RefeicaoRealizada>>();
 				
 					// Recuperar todo os Dias.
-					List<DiaRefeicao> diasRefeicao = DiaRefeicaoDAO.getInstance().getAllVigentesByEditalAluno(idEdital, matricula);
+					List<DiaRefeicao> diasRefeicao = DiaRefeicaoDAO.getInstance().getAllVigentesByEditalAluno(
+							idEdital, matricula);
 					
 					if (diasRefeicao != null && !diasRefeicao.isEmpty()) {
 						
@@ -440,6 +461,66 @@ public class RefeicaoRealizadaController {
 						builder.entity(mapas);
 					}					
 			
+			} catch (SQLExceptionNutrIF exception) {
+
+				builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
+						exception.getError());			
+			}
+			
+		} else {
+			
+			Error erro = ErrorFactory.getErrorFromIndex(validacao);
+			builder.status(Response.Status.NOT_ACCEPTABLE).entity(erro);
+		}
+		
+		return builder.build();
+	}
+	
+	@RolesAllowed({TipoRole.ADMIN})
+	@GET
+	@Path("/falta/{matricula}")
+	@Produces("application/json")
+	public Response listFalta(@PathParam("matricula") String matricula) {
+		
+		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
+		builder.expires(new Date());
+		
+		int tresSemanas = 3;
+		
+		// Validação dos dados de entrada.
+		int validacao = Validate.VALIDATE_OK;
+		
+		if (validacao == Validate.VALIDATE_OK) {
+			
+			try {
+					List<MapaRefeicao<RefeicaoRealizada>> mapasRefeicoesRealizadas = 
+						new ArrayList<MapaRefeicao<RefeicaoRealizada>>();
+				
+					// Recuperar todos os dias de refeição ativos
+					List<DiaRefeicao> diasRefeicao = DiaRefeicaoDAO.getInstance()
+							.getAllVigentesByAlunoMatricula(matricula);
+					
+					for (DiaRefeicao diaRefeicao: diasRefeicao) {
+						// Calcular intervalo.
+						List<Date> datas = DateUtil.getAllDatesPastOfDayWeek(tresSemanas, diaRefeicao.getDia().getId());
+
+						// Consultas as reeições realizadas nas últimas 3 semanas
+						List<RefeicaoRealizada> refeicoesRealizadas = RefeicaoRealizadaDAO.getInstance()
+								.listByDiaRefeicaoInData(diaRefeicao.getId(), datas);
+						
+						MapaRefeicao<RefeicaoRealizada> mapa = new MapaRefeicao<RefeicaoRealizada>();
+						mapa.setDia(diaRefeicao.getDia());
+						mapa.setEdital(diaRefeicao.getEdital());
+						mapa.setAluno(diaRefeicao.getAluno());						
+						mapa.setLista(refeicoesRealizadas);
+						mapa.setQuantidade(refeicoesRealizadas.size());	
+						
+						mapasRefeicoesRealizadas.add(mapa);
+					}
+										
+					builder.status(Response.Status.OK).entity(
+							mapasRefeicoesRealizadas);
+					
 			} catch (SQLExceptionNutrIF exception) {
 
 				builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(

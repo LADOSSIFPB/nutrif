@@ -19,7 +19,9 @@ public class MapaRefeicao <T>{
 	
 	private Edital edital;
 	
-	private Date data;
+	private Aluno aluno;
+	
+	private Date data;	
 
 	@XmlElement
 	public List<T> getLista() {
@@ -75,11 +77,21 @@ public class MapaRefeicao <T>{
 		this.data = data;
 	}
 	
+	public Aluno getAluno() {
+		return aluno;
+	}
+
+	public void setAluno(Aluno aluno) {
+		this.aluno = aluno;
+	}
+	
 	@Override
 	public String toString() {
 		return "MapaRefeicao [quantidade=" + quantidade
 				+ ", refeicao=" + refeicao 
-				+ ", dia=" + dia 
+				+ ", dia=" + dia
+				+ ", edital=" + edital 
+				+ ", aluno=" + aluno 
 				+ ", data=" + data 
 				+ ", lista=" + lista + "]";
 	}

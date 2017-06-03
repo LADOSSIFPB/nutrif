@@ -77,20 +77,6 @@ public class DateUtil {
 	}
 	
 	/**
-	 * Retornar a data completa de um determinado dia da semana.
-	 * 
-	 * @param dayOfWeek
-	 * @return
-	 */
-	public static Date getDateOfDayWeek(int dayOfWeek) {
-		
-		Calendar c = Calendar.getInstance();
-		c.set(Calendar.DAY_OF_WEEK, dayOfWeek);
-		
-		return c.getTime();
-	}
-	
-	/**
 	 * Incrementar dia(s) a uma data.
 	 * 
 	 * @param date
@@ -239,6 +225,20 @@ public class DateUtil {
 	}
 	
 	/**
+	 * Retornar a data completa de um determinado dia da semana.
+	 * 
+	 * @param dayOfWeek
+	 * @return
+	 */
+	public static Date getDateOfDayWeek(int dayOfWeek) {
+		
+		Calendar c = Calendar.getInstance();
+		c.set(Calendar.DAY_OF_WEEK, dayOfWeek);
+		
+		return c.getTime();
+	}
+	
+	/**
 	 * Calcular a data para o dia da semana atual ou anterior.
 	 *  
 	 * @param minusWeek
@@ -252,6 +252,19 @@ public class DateUtil {
 				toDateTimeConstantsDayOfWeek(dayOfWeekCalendar));
 		
 		return dayLastWeek.toDate();		
+	}
+	
+	public static List<Date> getAllDatesPastOfDayWeek(int pastWeek, int dayOfWeekCalendar) {
+		
+		List<Date> datas = new ArrayList<Date>();
+		
+		for (int countWeek = 1; countWeek <= pastWeek; countWeek++) {
+			
+			Date data = getDateOfDayWeek(countWeek, dayOfWeekCalendar);
+			datas.add(data);			
+		}
+		
+		return datas;
 	}
 	
 	/**

@@ -359,10 +359,17 @@ public class Validate {
 		return VALIDATE_OK;
 	}
 	
-	public static int dia(Dia aluno) {
+	public static int dia(Dia dia) {
 		
 		logger.info("Validação para Dia.");
-		//TODO: implementar a validação para abertura de sala.
+		
+		if (dia == null || 
+				(dia != null 
+					&& !numeroValidator.isInteiroPositivo(dia.getId()))) {
+			
+			return ErrorFactory.ID_DIA_INVALIDO;
+		}
+		
 		return VALIDATE_OK;
 	}
 
@@ -688,9 +695,24 @@ public class Validate {
 		return VALIDATE_OK;
 	}
 	
-	public static int detalharRefeicaoRealizadaByEditalAluno(Integer idEdital, String matricula) {
+	public static int listarRefeicaoRealizadaByDiaRefeicao(Integer idDia, Integer idRefeicao) {
 
-		logger.info("Validação para detalhar Refeições Realizadas do Aluno para um Edital.");
+		logger.info("Validação para listar Refeições Realizadas para um Dia e Refeição.");
+		
+		if (!numeroValidator.isMaiorZero(idDia)) {
+			return ErrorFactory.ID_DIA_INVALIDO;
+		}
+		
+		if (!numeroValidator.isMaiorZero(idRefeicao)) {
+			return ErrorFactory.ID_REFEICAO_INVALIDA;
+		}
+		
+		return VALIDATE_OK;
+	}
+	
+	public static int listarRefeicaoRealizadaByEditalAluno(Integer idEdital, String matricula) {
+
+		logger.info("Validação para listar Refeições Realizadas do Aluno para um Edital.");
 		
 		if (!numeroValidator.isMaiorZero(idEdital)) {
 			return ErrorFactory.ID_EDITAL_INVALIDO;

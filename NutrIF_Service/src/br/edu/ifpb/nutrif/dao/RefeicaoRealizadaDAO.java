@@ -15,6 +15,7 @@ import br.edu.ifpb.nutrif.hibernate.HibernateUtil;
 import br.edu.ifpb.nutrif.util.BancoUtil;
 import br.edu.ifpb.nutrif.util.DateUtil;
 import br.edu.ladoss.entity.Dia;
+import br.edu.ladoss.entity.MapaRefeicao;
 import br.edu.ladoss.entity.Refeicao;
 import br.edu.ladoss.entity.RefeicaoRealizada;
 
@@ -186,7 +187,8 @@ public class RefeicaoRealizadaDAO extends GenericDao<Integer, RefeicaoRealizada>
 			String hql = "from RefeicaoRealizada as rr"
 					+ " where rr.confirmaRefeicaoDia.diaRefeicao.edital.id = :idEdital"
 					+ " and rr.confirmaRefeicaoDia.diaRefeicao.aluno.matricula = :matricula"
-					+ " and rr.confirmaRefeicaoDia.diaRefeicao.dia.id = :idDia";
+					+ " and rr.confirmaRefeicaoDia.diaRefeicao.dia.id = :idDia"
+					+ " order by rr.confirmaRefeicaoDia.dataRefeicao desc";
 			
 			Query query = session.createQuery(hql);
 			query.setParameter("idEdital", idEdital);
@@ -209,19 +211,24 @@ public class RefeicaoRealizadaDAO extends GenericDao<Integer, RefeicaoRealizada>
 		return refeicoesRealizadas;		
 	}
 	
-	public List<RefeicaoRealizada> listDiaRefeicaoByDiaRefeicao(Integer idDiaRefeicao) {
+	public List<RefeicaoRealizada> listDiaRefeicaoByDataRefeicao(Date dataRefeicao, 
+			Integer idDia, Integer idRefeicao) {
 		
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		
 		List<RefeicaoRealizada> refeicoesRealizadas = new ArrayList<RefeicaoRealizada>();
 		
 		try {
-					
-			String hql = "from RefeicaoRealizada as rr"
-					+ "	where rr.confirmaRefeicaoDia.diaRefeicao.id = :id";
+				
+			String hql = " from RefeicaoRealizada as rr"
+					+ " where rr.confirmaRefeicaoDia.diaRefeicao.dia.id = :idDia"
+					+ " and rr.confirmaRefeicaoDia.diaRefeicao.refeicao.id = :idRefeicao"
+					+ " and rr.confirmaRefeicaoDia.dataRefeicao = :dataRefeicao";
 		
 			Query query = session.createQuery(hql);
-			query.setParameter("id", idDiaRefeicao);
+			query.setParameter("idDia", idDia);
+			query.setParameter("idRefeicao", idRefeicao);
+			query.setDate("dataRefeicao", dataRefeicao);
 		
 			refeicoesRealizadas = (List<RefeicaoRealizada>) query.list();
 	        
@@ -248,13 +255,13 @@ public class RefeicaoRealizadaDAO extends GenericDao<Integer, RefeicaoRealizada>
 		try {
 					
 			String hql = "from RefeicaoRealizada as rr"
-					+ "	where rr.confirmaRefeicaoDia.diaRefeicao.id = :id"
+					+ "	where rr.confirmaRefeicaoDia.diaRefeicao.id = :idDiaRefeicao"
 					+ " and rr.confirmaRefeicaoDia.dataRefeicao in ("
 					+ " 	:datasRefeicao"
 					+ " )";
 		
 			Query query = session.createQuery(hql);
-			query.setParameter("id", idDiaRefeicao);
+			query.setParameter("idDiaRefeicao", idDiaRefeicao);
 			query.setParameterList("datasRefeicao", datasRefeicao);
 		
 			refeicoesRealizadas = (List<RefeicaoRealizada>) query.list();
