@@ -14,6 +14,7 @@ angular.module('NutrifApp').controller('dashboardCtrl', function (
     $scope.mapaDiaRefeicao = {};
 
     $scope.refeicoesRealizadas = [];
+    $scope.diaRefeicoes = [];
 
     // Carregar os dias da semana.
     $scope.carregarDia = function () {
@@ -103,6 +104,19 @@ angular.module('NutrifApp').controller('dashboardCtrl', function (
             })
             .error(onErrorCallback);
     }
+    
+    // Lista de refeições para o dia.
+    var getAllDiaRefeicaoByDiaAndRefeicao = function () {
+
+        var idDia = $scope.diaRefeicao.dia.id;
+        var idRefeicao = $scope.diaRefeicao.refeicao.id;
+
+        diaRefeicaoService.getAllByDiaAndRefeicao(idDia, idRefeicao).
+        success(function (data, status) {
+                $scope.diaRefeicoes = data;
+            })
+            .error(onErrorCallback);
+    }
 
     $scope.consulta = function () {
         getQuantidadePretensao();
@@ -110,6 +124,7 @@ angular.module('NutrifApp').controller('dashboardCtrl', function (
         getQuantidadeRefeicoesDoDia();
 
         getMapaRefeicaoRealizadaByDiaRefeicao();
+        getAllDiaRefeicaoByDiaAndRefeicao();
     }
 
     // Carregamento inicial.

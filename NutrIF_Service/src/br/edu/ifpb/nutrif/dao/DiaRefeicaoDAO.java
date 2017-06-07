@@ -549,7 +549,7 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 		return contemplado;
 	}
 	
-	public List<DiaRefeicao> getDiaRefeicaoByDia(Integer dia) {
+	public List<DiaRefeicao> listDiaRefeicaoByDia(Integer dia) {
 		
 		logger.info("Buscar Dia de Refeição por dia.");
 		
@@ -567,6 +567,44 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 			
 			Query query = session.createQuery(hql);			
 			query.setParameter("idDia", dia);
+			query.setParameter("ativo", BancoUtil.ATIVO);
+			
+			diasRefeicao = (List<DiaRefeicao>) query.list();
+	        
+		} catch (HibernateException hibernateException) {
+			
+			session.getTransaction().rollback();
+			
+			throw new SQLExceptionNutrIF(hibernateException);
+			
+		} finally {
+		
+			session.close();
+		}
+		
+		return diasRefeicao;		
+	}
+	
+	public List<DiaRefeicao> listDiaRefeicaoByDiaAndRefeicao(Integer idDia, Integer idRefeicao) {
+		
+		logger.info("Buscar Dia de Refeição por Dia e Refeição.");
+		
+		Session session = HibernateUtil.getSessionFactory().openSession();
+
+		List<DiaRefeicao> diasRefeicao = new ArrayList<DiaRefeicao>();
+		
+		try {			
+			
+			String hql = "from DiaRefeicao as dr"
+					+ " where dr.dia.id = :idDia"
+					+ " and dr.refeicao.id = :idRefeicao"
+					+ " and CURRENT_TIMESTAMP() between dr.edital.dataInicial and dr.edital.dataFinal"
+					+ " and dr.edital.ativo = :ativo"
+					+ " and dr.ativo = :ativo";
+			
+			Query query = session.createQuery(hql);			
+			query.setParameter("idDia", idDia);
+			query.setParameter("idRefeicao", idRefeicao);
 			query.setParameter("ativo", BancoUtil.ATIVO);
 			
 			diasRefeicao = (List<DiaRefeicao>) query.list();

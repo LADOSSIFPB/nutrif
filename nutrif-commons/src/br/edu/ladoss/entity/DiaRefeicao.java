@@ -116,7 +116,7 @@ public class DiaRefeicao implements DataEntity {
 		this.ativo = ativo;
 	}
 	
-	@JsonIgnore
+	@XmlElement
 	public Date getDataInsercao() {
 		return dataInsercao;
 	}

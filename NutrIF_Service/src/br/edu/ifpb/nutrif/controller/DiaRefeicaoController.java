@@ -627,9 +627,9 @@ public class DiaRefeicaoController {
 	
 	@RolesAllowed({TipoRole.ADMIN})
 	@GET
-	@Path("/quantificar/dia/{id}")
+	@Path("/quantificar/dia/{idDia}/refeicao/{idRefeicao}")
 	@Produces("application/json")
-	public Response getQuantidadeDiaRefeicaoByDia(
+	public Response getQuantidadeDiaRefeicaoByDiaRefeicao(
 			@PathParam("id") int idEdital) {
 		return null;
 	}
@@ -715,35 +715,43 @@ public class DiaRefeicaoController {
 	}
 	
 	/**
-	 * Listar todos os dias de refeições do aluno com base em um dia da semana
+	 * Listar Dia de Refeições por Dia e Refeição para todos os Editais vigentes.
+	 * 
 	 * @param idDia
 	 * @return
 	 */
-	@RolesAllowed({TipoRole.ADMIN, TipoRole.INSPETOR})
+	@RolesAllowed({TipoRole.ADMIN})
 	@GET
-	@Path("/dia/{id}")
+	@Path("/listar/dia/{idDia}/refeicao/{idRefeicao}")
 	@Produces("application/json")
-	public Response getDiaRefeicaoByDia(
-			@PathParam("id") Integer idDia) {
+	public Response listDiaRefeicaoByDiaAndRefeicao(@PathParam("idDia") Integer idDia, 
+			@PathParam("idRefeicao") Integer idRefeicao) {	
 		
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
 		builder.expires(new Date());
 
-		try {
-
-			List<DiaRefeicao> diasRefeicao = DiaRefeicaoDAO
-					.getInstance().getDiaRefeicaoByDia(idDia);
+		try {			
 			
-			if (diasRefeicao != null) {
+			Dia dia = DiaDAO.getInstance().getById(idDia);
+			
+			Refeicao refeicao = RefeicaoDAO.getInstance().getById(idRefeicao);
+			
+			if (dia != null && refeicao != null) {
 				
-				builder.status(Response.Status.OK);
-				builder.entity(diasRefeicao);
+				List<DiaRefeicao> diasRefeicao = DiaRefeicaoDAO
+						.getInstance().listDiaRefeicaoByDiaAndRefeicao(idDia, idRefeicao);
 				
-			} else {
-				
-				builder.status(Response.Status.NOT_FOUND).entity(
-						ErrorFactory.getErrorFromIndex(ErrorFactory.DIA_REFEICAO_NAO_DEFINIDO));
-			}			
+				if (diasRefeicao != null) {
+					
+					builder.status(Response.Status.OK);
+					builder.entity(diasRefeicao);
+					
+				} else {
+					
+					builder.status(Response.Status.NOT_FOUND).entity(
+							ErrorFactory.getErrorFromIndex(ErrorFactory.DIA_REFEICAO_NAO_DEFINIDO));
+				}
+			}						
 
 		} catch (SQLExceptionNutrIF exception) {
 
@@ -782,7 +790,7 @@ public class DiaRefeicaoController {
 			
 			//Obter todos os dias de refeição para o dia escolhido.
 			List<DiaRefeicao> diasRefeicaoOrigem = DiaRefeicaoDAO
-					.getInstance().getDiaRefeicaoByDia(idDiaOrigem);			
+					.getInstance().listDiaRefeicaoByDia(idDiaOrigem);			
 			
 			// Inserir ou obter Edital.
 			Integer idEdital = edital.getId();
