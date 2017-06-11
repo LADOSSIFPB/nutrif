@@ -16,10 +16,9 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-
-import org.codehaus.jackson.annotate.JsonIgnore;
 
 import br.edu.ladoss.data.DataEntity;
 
@@ -66,6 +65,12 @@ public class DiaRefeicao implements DataEntity {
 	@Column(name = "is_migracao", columnDefinition = "boolean default false", 
 			nullable = false, insertable = true, updatable = true)
 	private boolean migracao;
+	
+	@Transient
+	private boolean pretensao;
+	
+	@Transient
+	private boolean refeicaoRealizada;
 		
 	public DiaRefeicao() {
 		super();
@@ -150,6 +155,24 @@ public class DiaRefeicao implements DataEntity {
 
 	public void setMigracao(boolean migracao) {
 		this.migracao = migracao;
+	}
+	
+	@XmlElement
+	public boolean isPretensao() {
+		return pretensao;
+	}
+
+	public void setPretensao(boolean pretensao) {
+		this.pretensao = pretensao;
+	}
+
+	@XmlElement
+	public boolean isRefeicaoRealizada() {
+		return refeicaoRealizada;
+	}
+
+	public void setRefeicaoRealizada(boolean refeicaoRealizada) {
+		this.refeicaoRealizada = refeicaoRealizada;
 	}
 	
 	@Override

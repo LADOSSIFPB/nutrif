@@ -60,11 +60,5 @@ nutrifApp.controller('listarContempladosEditalCtrl', function ($scope,
 		$state.transitionTo('home.listar-edital', {reload: true});
 	}
 
-	 $scope.query = {
-        order: 'nome',
-        limit: 100,
-        page: 1
-    };
-
 	carregamentoInicial();
 });

@@ -30,8 +30,12 @@
             </div>
         </md-toolbar>
 
+        <a class="btn" title="Export Table" ng-click="csv.generate()" ng-href="{{ csv.link() }}" download="myTable.txt">
+            <i class="glyphicon glyphicon-new-window"></i> Export
+        </a>
+
         <!-- Tabela -->
-        <table md-table>
+        <table md-table export-csv="csv" separator=";">
             <thead md-head>
                 <tr md-row>
                     <th md-column>Matrícula</th>
@@ -49,7 +53,7 @@
                     <td md-cell>{{aluno.nome | uppercase}}</td>
                     <td md-cell>{{aluno.curso.nome | uppercase}}</td>
                     <td md-cell>{{aluno.turma.nome | uppercase}}</td>
-                    <td md-cell>{{aluno.turno.nome | uppercase}}</td>                    
+                    <td md-cell>{{aluno.turno.nome | uppercase}}</td>
                     <td md-cell>
                         <md-button class="md-icon-button" aria-label="Listar Dias de Refeição do Aluno" ui-sref="home.detalhar-refeicaorealizada-aluno-edital({idEdital: idEdital, matricula: aluno.matricula})" ui-sref-opts="{reload: true}">
                             <md-tooltip md-direction="left">Detalhar Refeições Realizadas do Aluno para o Edital</md-tooltip>
@@ -60,5 +64,4 @@
             </tbody>
         </table>
     </md-table-container>
-    <md-table-pagination md-limit="query.limit" md-page="query.page" md-total="{{diasRefeicao.length}}" md-page-select></md-table-pagination>
 </md-card>

@@ -9,4 +9,5 @@ var nutrifApp = angular.module('NutrifApp', ['angular-loading-bar',
                                             'ngImgCrop', 
                                             'chart.js', 
                                             'angular-timeline', 
-                                            'material.components.expansionPanels']);
+                                            'material.components.expansionPanels',
+                                            'ngTableToCsv']);
