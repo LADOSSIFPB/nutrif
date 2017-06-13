@@ -732,9 +732,14 @@ public class DiaRefeicaoController {
 
 		try {			
 			
+			// Dia.
 			Dia dia = DiaDAO.getInstance().getById(idDia);
 			
-			Refeicao refeicao = RefeicaoDAO.getInstance().getById(idRefeicao);
+			// Recuperar o data do Dia.
+			Date dataRefeicao = DateUtil.getDateOfDayWeek(dia.getId());
+			
+			// Refeição.
+			Refeicao refeicao = RefeicaoDAO.getInstance().getById(idRefeicao);			
 			
 			if (dia != null && refeicao != null) {
 				
@@ -742,6 +747,17 @@ public class DiaRefeicaoController {
 						.getInstance().listDiaRefeicaoByDiaAndRefeicao(idDia, idRefeicao);
 				
 				if (diasRefeicao != null) {
+					
+					// Consultar refeição realizada e pretensão.
+					for (DiaRefeicao diaRefeicao: diasRefeicao) {
+						
+						// Refeição realizada
+						boolean refeicaoRealizada = RefeicaoRealizadaDAO.getInstance().isRefeicaoRealizada(
+								diaRefeicao.getId(), dataRefeicao);
+						diaRefeicao.setRefeicaoRealizada(refeicaoRealizada);
+						
+						// Pretensão						
+					}
 					
 					builder.status(Response.Status.OK);
 					builder.entity(diasRefeicao);

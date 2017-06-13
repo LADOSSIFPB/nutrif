@@ -517,8 +517,6 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 		boolean contemplado = false;
 		
 		Session session = HibernateUtil.getSessionFactory().openSession();
-
-		List<DiaRefeicao> diasRefeicao = new ArrayList<DiaRefeicao>();
 		
 		try {			
 			
@@ -600,7 +598,8 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 					+ " and dr.refeicao.id = :idRefeicao"
 					+ " and CURRENT_TIMESTAMP() between dr.edital.dataInicial and dr.edital.dataFinal"
 					+ " and dr.edital.ativo = :ativo"
-					+ " and dr.ativo = :ativo";
+					+ " and dr.ativo = :ativo"
+					+ " order by dr.edital.id, dr.aluno.nome";
 			
 			Query query = session.createQuery(hql);			
 			query.setParameter("idDia", idDia);

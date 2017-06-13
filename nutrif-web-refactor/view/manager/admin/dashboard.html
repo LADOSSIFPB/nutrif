@@ -11,7 +11,9 @@
 
             <md-card-header-text>
                 <span class="md-title">Dashboard</span>
-                <span class="md-subhead">Informações detalhadas da Pretensão, Dia de Refeição e Refeição Realizada. As informações numéricas e listagens serão referentes a semana corrente.</span>
+                <span class="md-subhead">
+                    Informações detalhadas da Pretensão, Dia de Refeição e Refeição Realizada. As informações numéricas e listagens serão referentes a semana corrente.
+                </span>
             </md-card-header-text>
 
             <md-card-actions layout="row">
@@ -90,38 +92,6 @@
         <!-- Panel Group -->
         <md-expansion-panel-group md-component-id="panelGroup" multiple>
 
-            <!-- Lista de Pretensões para as Refeições -->
-            <md-expansion-panel md-component-id="pretensaoRefeicaoExpPanel">
-
-                <!-- Colapsado -->
-                <md-expansion-panel-collapsed>
-                    <div class="md-title ng-binding">Pretensões para Refeição</div>
-                    <div class="md-summary ng-binding">Clique para expandir</div>
-                </md-expansion-panel-collapsed>
-
-                <!-- Extendido -->
-                <md-expansion-panel-expanded>
-
-                    <!-- Cabeçalho -->
-                    <md-expansion-panel-header>
-                        <div class="md-title">Pretensões para Refeição</div>
-                        <div class="md-summary">Dia | Refeição</div>
-                        <md-expansion-panel-icon></md-expansion-panel-icon>
-                    </md-expansion-panel-header>
-
-                    <!-- Conteúdo -->
-                    <md-expansion-panel-content>
-
-                    </md-expansion-panel-content>
-
-                    <!-- Rodapé -->
-                    <md-expansion-panel-footer>
-                        <div flex></div>
-                        <md-button class="md-warn" ng-click="$panel.collapse()">Fechar</md-button>
-                    </md-expansion-panel-footer>
-                </md-expansion-panel-expanded>
-            </md-expansion-panel>
-
             <!-- Lista de Refeições do Dia -->
             <md-expansion-panel md-component-id="diaRefeicaoExpPanel">
 
@@ -137,34 +107,39 @@
                     <!-- Cabeçalho -->
                     <md-expansion-panel-header>
                         <div class="md-title">Refeições do Dia</div>
-                        <div class="md-summary">Dia | Refeição</div>
+                        <div class="md-summary">Refeições dos editais vigentes, realização da refeição e a pretensão.</div>
                         <md-expansion-panel-icon></md-expansion-panel-icon>
                     </md-expansion-panel-header>
 
                     <!-- Conteúdo -->
                     <md-expansion-panel-content>
 
-                            <table md-table>
-                                <thead md-head md-order="diaRefeicao.aluno.nome" md-on-reorder="logOrder">
-                                    <tr md-row>
-                                        <th md-column md-order-by="diaRefeicao.aluno.nome">Aluno</th>
-                                        <th md-column>Refeição</th>
-                                        <th md-column>Edital</th>
-                                        <th md-column>Inserção</th>
-                                        <th md-column>Data</th>
-                                    </tr>
-                                </thead>
+                        <!-- Exportar conteúdo para CSV -->
+                        <a class="btn" title="Exportar" ng-click="diaRefeicoesCSV.generate()" ng-href="{{ diaRefeicoesCSV.link() }}" download="dia_refeicoes.txt">
+                            Exportar
+                        </a>
+                        
+                        <table md-table export-csv="diaRefeicoesCSV" separator=";">
+                            <thead md-head md-order="aluno.nome" md-on-reorder="logOrder">
+                                <tr md-row>
+                                    <th md-column md-order-by="aluno.nome">Aluno</th>
+                                    <th md-column>Refeição</th>
+                                    <th md-column>Edital</th>
+                                    <th md-column md-order-by="refeicaoRealizada">Refeição Realizada</th>
+                                    <th md-column>Pretensão</th>
+                                </tr>
+                            </thead>
 
-                                <tbody md-body>
-                                    <tr md-row ng-repeat="diaRefeicao in diaRefeicoes | orderBy: diaRefeicao.aluno.nome">
-                                        <td md-cell>{{diaRefeicao.aluno.nome}}</td>
-                                        <td md-cell>{{diaRefeicao.refeicao.tipo}}</td>
-                                        <td md-cell>{{diaRefeicao.edital.nome}}</td>
-                                        <td md-cell>{{diaRefeicao.funcionario.nome}}</td>
-                                        <td md-cell>{{diaRefeicao.dataInsercao | date:'dd/MM/yyyy h:mma'}}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                            <tbody md-body>
+                                <tr md-row ng-repeat="diaRefeicao in diaRefeicoes | orderBy: aluno.nome">
+                                    <td md-cell>{{diaRefeicao.aluno.nome}}</td>
+                                    <td md-cell>{{diaRefeicao.refeicao.tipo}}</td>
+                                    <td md-cell>{{diaRefeicao.edital.nome}}</td>
+                                    <td md-cell>{{diaRefeicao.refeicaoRealizada | yesNo}}</td>
+                                    <td md-cell>{{diaRefeicao.pretensao | yesNo}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </md-expansion-panel-content>
 
                     <!-- Rodapé -->
@@ -190,14 +165,19 @@
                     <!-- Cabeçalho -->
                     <md-expansion-panel-header>
                         <div class="md-title">Refeições Realizadas</div>
-                        <div class="md-summary">Dia | Refeição</div>
+                        <div class="md-summary">Dia | Refeição </div>
                         <md-expansion-panel-icon></md-expansion-panel-icon>
                     </md-expansion-panel-header>
 
                     <!-- Conteúdo -->
                     <md-expansion-panel-content>
 
-                        <table md-table>
+                        <!-- Exportar conteúdo para CSV -->
+                        <a class="btn" title="Exportar" ng-click="refeicoesRealizadasCSV.generate()" ng-href="{{ refeicoesRealizadasCSV.link() }}" download="refeicoes_realizadas.txt">
+                            Exportar
+                        </a>
+                        
+                        <table md-table md-table export-csv="refeicoesRealizadasCSV" separator=";">
                             <thead md-head md-order="confirmaRefeicaoDia.diaRefeicao.aluno.nome" md-on-reorder="logOrder">
                                 <tr md-row>
                                     <th md-column md-order-by="confirmaRefeicaoDia.diaRefeicao.aluno.nome">Aluno</th>

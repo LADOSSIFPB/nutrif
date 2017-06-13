@@ -15,6 +15,7 @@ import br.edu.ifpb.nutrif.hibernate.HibernateUtil;
 import br.edu.ifpb.nutrif.util.BancoUtil;
 import br.edu.ifpb.nutrif.util.DateUtil;
 import br.edu.ladoss.entity.Dia;
+import br.edu.ladoss.entity.DiaRefeicao;
 import br.edu.ladoss.entity.MapaRefeicao;
 import br.edu.ladoss.entity.Refeicao;
 import br.edu.ladoss.entity.RefeicaoRealizada;
@@ -278,6 +279,39 @@ public class RefeicaoRealizadaDAO extends GenericDao<Integer, RefeicaoRealizada>
 		}
 		
 		return refeicoesRealizadas;
+	}
+	
+	public boolean isRefeicaoRealizada(int idDiaRefeicao, Date dataRefeicao) {
+		
+		boolean refecaoRealizada = false;
+		
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		
+		try {			
+			
+			String hql = "select case when (count(rr) > 0) then true else false end " 
+					+ " from RefeicaoRealizada as rr"
+					+ " where rr.confirmaRefeicaoDia.diaRefeicao.id = :idDiaRefeicao"
+					+ " and rr.confirmaRefeicaoDia.dataRefeicao = :dataRefeicao";
+			
+			Query query = session.createQuery(hql, Boolean.class);
+			query.setParameter("idDiaRefeicao", idDiaRefeicao);
+			query.setDate("dataRefeicao", dataRefeicao);
+			
+			refecaoRealizada = (Boolean) query.getSingleResult();;
+	        
+		} catch (HibernateException hibernateException) {
+			
+			session.getTransaction().rollback();
+			
+			throw new SQLExceptionNutrIF(hibernateException);
+			
+		} finally {
+		
+			session.close();
+		}
+		
+		return refecaoRealizada;
 	}
 	
 	@Override

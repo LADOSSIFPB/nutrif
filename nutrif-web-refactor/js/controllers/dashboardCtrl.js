@@ -66,8 +66,8 @@ angular.module('NutrifApp').controller('dashboardCtrl', function (
 
     var getQuantidadePretensao = function () {
 
-        pretensaoService.getQuantidadePretensao($scope.diaRefeicao).
-        success(function (data, status) {
+        pretensaoService.getQuantidadePretensao($scope.diaRefeicao)
+            .success(function (data, status) {
                 $scope.mapaPretensao = data;
             })
             .error(onErrorCallback);
@@ -104,7 +104,7 @@ angular.module('NutrifApp').controller('dashboardCtrl', function (
             })
             .error(onErrorCallback);
     }
-    
+
     // Lista de refeições para o dia.
     var getAllDiaRefeicaoByDiaAndRefeicao = function () {
 

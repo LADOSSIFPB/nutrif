@@ -17,13 +17,6 @@ md-toolbar.md-table-toolbar div.toolbar-input>input {
     outline: 0;
 }
 
-
-/* Plano de fundo do md-card das Entidades | 224,238,224 */
-
-.nutrif-md-card-header {
-    background-color: #F0F0F0
-}
-
 .home-background {
     background-color: #F7F7F7;
 }
@@ -41,9 +34,16 @@ md-toolbar.md-table-toolbar div.toolbar-input>input {
     width: 100%;
 }
 
+/* Card */
+.nutrif-md-card-header {
+    background-color: #F0F0F0;
+}
 
-/* hints - help */
+md-card md-card-header md-card-avatar+md-card-header-text {
+    max-height: none;
+}
 
+/* Hints - help */
 .hint {
     /* Position the hint */
     display: block;
