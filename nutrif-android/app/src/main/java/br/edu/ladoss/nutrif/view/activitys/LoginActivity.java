@@ -1,5 +1,6 @@
 package br.edu.ladoss.nutrif.view.activitys;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -21,20 +22,26 @@ import br.edu.ladoss.nutrif.network.ConnectionServer;
 import br.edu.ladoss.nutrif.util.AndroidUtil;
 import br.edu.ladoss.nutrif.util.ErrorUtils;
 import br.edu.ladoss.nutrif.util.PreferencesUtils;
+import br.edu.ladoss.nutrif.view.mvp.LoginMVP;
+import br.edu.ladoss.nutrif.view.mvp.LoginPresenterImp;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import retrofit.Call;
 import retrofit.Response;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity implements LoginMVP.View{
 
     @Bind(R.id.informativo)
     TextView messages;
+
+    private LoginMVP.Presenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
+
+        presenter = new LoginPresenterImp(this);
 
         ButterKnife.bind(this);
 
@@ -52,7 +59,7 @@ public class LoginActivity extends AppCompatActivity {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                Aluno aluno = retriveFromDB();
+                Aluno aluno = retrieveFromDB();
                 if (aluno == null) {
                     startActivity(new Intent(LoginActivity.this, EnterActivity.class));
                     finish();
@@ -64,7 +71,7 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    private Aluno retriveFromDB() {
+    private Aluno retrieveFromDB() {
         AlunoDAO alunoDAO = new AlunoDAO(this);
 
         Log.i(getString(R.string.app_name), "tentando recuperar usuário");
@@ -86,7 +93,7 @@ public class LoginActivity extends AppCompatActivity {
             public void run() {
                 Random random = new Random();
                 String message = "Inicializando Aplicação...";
-                switch (random.nextInt(4)) {
+                switch (random.nextInt(5)) {
                     case 0:
                         message = getString(R.string.funnylogin1);
                         break;
@@ -246,4 +253,18 @@ public class LoginActivity extends AppCompatActivity {
         return aluno;
     }
 
+    @Override
+    public Context getContext() {
+        return this;
+    }
+
+    @Override
+    public Context getAppContext() {
+        return getApplicationContext();
+    }
+
+    @Override
+    public AppCompatActivity get() {
+        return this;
+    }
 }
