@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 public interface MVPApp {
 
     interface Model {
+        void onDestroy();
     }
 
     interface View {
