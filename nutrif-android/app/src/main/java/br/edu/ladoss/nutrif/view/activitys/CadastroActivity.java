@@ -10,6 +10,8 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
+import java.io.IOException;
+
 import br.edu.ladoss.nutrif.R;
 import br.edu.ladoss.nutrif.exceptions.DadoInvalidoException;
 import br.edu.ladoss.nutrif.model.Aluno;
@@ -79,6 +81,11 @@ public class CadastroActivity extends AppCompatActivity {
 
                     Log.i(this.getClass().getName(),"realizando chamada ao serviço de cadastro");
 
+                    try {
+                        Response<Aluno> response = call.execute();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                     call.enqueue(new Callback<Aluno>() {
                         @Override
                         public void onResponse(Response<Aluno> response, Retrofit retrofit) {

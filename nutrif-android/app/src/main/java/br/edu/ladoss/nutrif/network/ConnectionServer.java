@@ -34,12 +34,5 @@ public class ConnectionServer {
                 .build();
 
         service = retrofit.create(APIService.class);
-
-        Response<Void> response = null;
-        try {
-            response = service.status().execute();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 }
