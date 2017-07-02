@@ -1,5 +1,8 @@
 package br.edu.ladoss.nutrif.view.mvp;
 
+import android.content.Context;
+import android.os.Bundle;
+
 import br.edu.ladoss.nutrif.model.Aluno;
 
 /**
@@ -16,14 +19,17 @@ public class LoginPresenterImp implements LoginMVP.Presenter{
         this.model = new LoginModelImp(this);
     }
 
-    @Override
     public Aluno retrieveFromDB() {
-        return model.retrieveFromDB(view.getContext());
+        return model.retrieveFromDB();
+    }
+
+    public Aluno downloadPhoto(Aluno aluno) throws Throwable {
+        return model.downloadPhoto(aluno.getId());
     }
 
     @Override
-    public Aluno downloadPhoto(Aluno aluno) {
-        return model.downloadPhoto(aluno, view.getContext());
+    public Context getContext() {
+        return view.getContext();
     }
 
     @Override
@@ -31,5 +37,20 @@ public class LoginPresenterImp implements LoginMVP.Presenter{
         model.onDestroy();
         model = null;
         view = null;
+    }
+
+    @Override
+    public void doLogin(Bundle extra) {
+
+    }
+
+    @Override
+    public void showRefresh() {
+
+    }
+
+    @Override
+    public void doAnimation() {
+
     }
 }

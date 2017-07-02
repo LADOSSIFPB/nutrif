@@ -125,6 +125,11 @@ public class LoginActivity extends AppCompatActivity implements LoginMVP.View{
         });
     }
 
+    @Override
+    public void showRefresh() {
+
+    }
+
     private void doLogin(final Aluno alunoReferencial) {
         new Thread(new Runnable() {
             @Override

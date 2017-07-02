@@ -1,6 +1,8 @@
 package br.edu.ladoss.nutrif.view.mvp;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.BitmapFactory;
 import android.util.Log;
 
@@ -15,6 +17,7 @@ import br.edu.ladoss.nutrif.model.Aluno;
 import br.edu.ladoss.nutrif.network.ConnectionServer;
 import br.edu.ladoss.nutrif.util.AndroidUtil;
 import br.edu.ladoss.nutrif.util.PreferencesUtils;
+import br.edu.ladoss.nutrif.view.activitys.CadastroActivity;
 import br.edu.ladoss.nutrif.view.activitys.LoginActivity;
 import retrofit.Call;
 import retrofit.Response;
@@ -32,30 +35,41 @@ public class LoginModelImp implements LoginMVP.Model{
     }
 
     @Override
-    public Aluno retrieveFromDB(Context context) {
-        AlunoDAO alunoDAO = new AlunoDAO(context);
+    public void onDestroy() {
+        presenter = null;
+    }
 
-        Log.i(context.getString(R.string.app_name), "tentando recuperar usuário");
+    @Override
+    public void doLogin(Aluno aluno) {
+
+    }
+
+    @Override
+    public Aluno retrieveFromDB() throws Resources.NotFoundException {
+        AlunoDAO alunoDAO = new AlunoDAO(presenter.getContext());
+
+        Log.i(presenter.getContext().getString(R.string.app_name), "tentando recuperar usuário");
 
         Aluno aluno = alunoDAO.findWithPhoto();
         if (aluno != null) {
-            Log.i(context.getString(R.string.app_name), "usuário recuperado");
-            aluno.setKeyAuth(PreferencesUtils.getAccessKeyOnSharedPreferences(context));
+            Log.i(presenter.getContext().getString(R.string.app_name), "usuário recuperado");
+            aluno.setKeyAuth(PreferencesUtils.getAccessKeyOnSharedPreferences(presenter.getContext()));
         } else {
-            Log.i(context.getString(R.string.app_name), "usuário não encontrado");
+            Log.i(presenter.getContext().getString(R.string.app_name), "usuário não encontrado");
         }
 
         return aluno;
     }
 
     @Override
-    public Aluno downloadPhoto(Aluno aluno, Context context) {
-        Call<ResponseBody> call = ConnectionServer
+    public Aluno downloadPhoto(Integer id) throws Throwable {
+
+        /*Call<ResponseBody> call = ConnectionServer
                 .getInstance()
                 .getService()
                 .download(
-                        aluno.getKeyAuth(),
-                        aluno.getId().toString()
+                        PreferencesUtils.getAccessKeyOnSharedPreferences(presenter.getContext()),
+                        id.toString()
                 );
 
         try {
@@ -64,19 +78,30 @@ public class LoginModelImp implements LoginMVP.Model{
             if (response.isSuccess()) {
 
                 InputStream input = response.body().byteStream();
-                AlunoDAO.getInstance(context).updatePhoto(aluno, BitmapFactory.decodeStream(input));
+                AlunoDAO.getInstance(presenter.getContext()).updatePhoto(id, BitmapFactory.decodeStream(input));
 
             }
         } catch (IOException e) {
-            Log.e(context.getString(R.string.app_name), e.getMessage());
-            AndroidUtil.showToast(context, R.string.erroconexao);
+            Log.e(presenter.getContext().getString(R.string.app_name), e.getMessage());
+            AndroidUtil.showToast(presenter.getContext(), R.string.erroconexao);
             return null;
-        }
-        return aluno;
+        }*/
+        return null;
     }
 
     @Override
-    public void onDestroy() {
-        presenter = null;
+    public void doRegister() {
+        Intent intent = new Intent(presenter.getContext(), CadastroActivity.class);
+        presenter.getContext().startActivity(intent);
+    }
+
+    @Override
+    public String getAlunoWithMatricula(Integer id) throws Throwable {
+        return null;
+    }
+
+    @Override
+    public void redirectHomeActivity() {
+
     }
 }
