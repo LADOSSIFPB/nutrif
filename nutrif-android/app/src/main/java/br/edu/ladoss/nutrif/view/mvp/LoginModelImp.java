@@ -62,9 +62,11 @@ public class LoginModelImp implements LoginMVP.Model{
     }
 
     @Override
-    public Aluno downloadPhoto(Integer id) throws Throwable {
+    public Aluno downloadPhoto(Aluno aluno) throws Throwable {
 
-        /*Call<ResponseBody> call = ConnectionServer
+        Integer id = aluno.getId();
+
+        Call<ResponseBody> call = ConnectionServer
                 .getInstance()
                 .getService()
                 .download(
@@ -78,14 +80,14 @@ public class LoginModelImp implements LoginMVP.Model{
             if (response.isSuccess()) {
 
                 InputStream input = response.body().byteStream();
-                AlunoDAO.getInstance(presenter.getContext()).updatePhoto(id, BitmapFactory.decodeStream(input));
+                AlunoDAO.getInstance(presenter.getContext()).updatePhoto(aluno, BitmapFactory.decodeStream(input));
 
             }
         } catch (IOException e) {
             Log.e(presenter.getContext().getString(R.string.app_name), e.getMessage());
             AndroidUtil.showToast(presenter.getContext(), R.string.erroconexao);
             return null;
-        }*/
+        }
         return null;
     }
 

@@ -32,13 +32,13 @@ public interface LoginMVP {
         Aluno retrieveFromDB() throws Resources.NotFoundException;
 
         /**
-         * Realiza o download da foto de um aluno dado o seu id. Se ocorrer algum
+         * Realiza o download da foto de um aluno. Se ocorrer algum
          * erro no download, é lançada uma exception.
-         * @param id identificador que virá no aluno.
+         * @param aluno aluno a ser capturado foto.
          * @throws Throwable quando não for possível baixar a foto do aluno.
          * @return aluno com o conjunto de bytes da sua foto.
          */
-        Aluno downloadPhoto(Integer id) throws Throwable;
+        Aluno downloadPhoto(Aluno aluno) throws Throwable;
 
         /**
          * Redireciona o usuário para uma tela de registro.
