@@ -18,9 +18,10 @@ public interface LoginMVP {
         /**
          * Realiza uma série de métodos que juntos realizam o login do usuário. Esse
          * processo é assíncrono.
-         * @param aluno atributos que já são conhecidos pela aplicação.
+         * @param alunoReferencial atributos que já são conhecidos pela aplicação.
+         * @param extra - dados extras que serão utilizados para o login (email, senha)
          */
-        void doLogin(Aluno aluno);
+        void doLogin(final Aluno alunoReferencial, final Bundle extra);
 
         /**
          * Recupera um objeto Aluno do banco de dados local (celular). Se não for possível recuperar
@@ -59,6 +60,20 @@ public interface LoginMVP {
          */
         void redirectHomeActivity();
 
+        /**
+         * Recupera matrícula do serviço e testa se é valida
+         * @param aluno
+         * @return se a matrícula é válida
+         */
+        boolean tryAuthorize(Aluno aluno);
+
+        /**
+         * Solicita uma chave ao servidor
+         * @param aluno
+         * @return
+         */
+        Aluno receiveUser(Aluno aluno);
+
     }
 
     interface View extends MVPApp.View {
@@ -76,6 +91,10 @@ public interface LoginMVP {
          */
         void showRefresh();
 
+        /**
+         * Muda o texto no TextView de carregamento
+         */
+        void changeMessage();
     }
 
     interface Presenter extends MVPApp.Presenter {
@@ -95,7 +114,7 @@ public interface LoginMVP {
         void doLogin(Bundle extra);
 
         /**
-         * Chama o metodo showRefreash na camada de view.
+         * Chama o metodo showRefresh na camada de view.
          */
         void showRefresh();
 
@@ -104,6 +123,17 @@ public interface LoginMVP {
          * milissegundos.
          */
         void doAnimation();
+
+        /**
+         * Chama o metodo showMessage na camada de view.
+         * @param message - string correspondente ao texto a ser impresso.
+         */
+        void showMessage(String message);
+
+        /**
+         * Finaliza a avtivity
+         */
+        void finishActivity();
 
     }
 
