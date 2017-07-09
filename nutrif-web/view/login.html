@@ -1,48 +1,8 @@
 <link rel="stylesheet" type="text/css" href="css/login.css"/>
 
-<div class="top-margin2">
-	<div class="row">
-		<div class="col s12 m8 offset-m2 l6 offset-l3">
-			<div class="card-panel white">
-				<span class="gray-text">
-					<div class="center-align">
-
-						<h3 class="condensed light">Entrar</h3>
-						
-						<form name="loginForm" method="post" ng-submit=fazerLogin(pessoa)>
-
-							<div class="row">
-								<div class="input-field col s10 offset-s1">
-
-									<i class="material-icons prefix">account_circle</i>
-									<input id="intput-nome" type="text" name="nome" ng-model="pessoa.email" ng-required="true"/>
-									<label for="intput-nome">Nome de usuário</label>
-
-								</div>
-							</div>
-
-							<div class="row">
-								<div class="input-field col s10 offset-s1">
-
-									<i class="material-icons prefix">vpn_key</i>
-									<input id="input-password" type="password"  name="password" ng-model="pessoa.senha" ng-required="true"/>
-									<label for="input-password">Senha</label>
-
-								</div>
-							</div>
-
-							<button class="btn waves-effect waves-light light-green darken-1 bottom-margin">
-								Entrar
-								<i class="material-icons right">input</i>
-							</button>
-
-						</form>
-
-						Aluno: <a ui-sref="pretensao-home">pretensão de refeição</a>
-
-					</div>
-				</span>
-			</div>
-		</div>
-	</div>
+<div layout="column" flex>
+    <div ng-include="'view/templates/toolbar-login.html'"></div>
+    <div ui-view></div>
+    <span flex></span>
+    <div ng-include="'view/templates/footer.html'"></div>
 </div>

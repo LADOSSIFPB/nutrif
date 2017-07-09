@@ -1,0 +1,55 @@
+<link rel="stylesheet" type="text/css" href="/css/pretensao.css"/>
+<md-card>
+	<md-card-header>
+		<md-card-avatar>
+			<md-icon md-svg-icon="image/icon/switch-vertical-orientation-arrows.svg" style="width: 18px; height: 18px;"></md-icon>
+		</md-card-avatar>
+		<md-card-header-text>
+			<span class="md-title">Olá <b>{{sideNav.user.nome}}</b>, estas são as refeições que você tem direito.</span>
+			<span class="md-subhead">Você pode selecionar a refeição que fará amanhã para informar que irá realizá-la</span>
+		</md-card-header-text>
+	</md-card-header>
+
+ <md-card-content class="conteudo">
+
+
+ <div class="card horizontal conteudoImg">
+		<div class="card-image">
+		    <img src="{{image}}" id="tamImg">
+		</div>
+		<div class="card-stacked">
+		  <div class="card-content white-text">
+		      <p>{{sideNav.user.nome}}</p>
+		  </div>
+	  </div>
+	</div>
+ </div>
+
+
+ <md-table-container class="table">
+
+		<table md-table>
+				<thead md-head>
+					<tr md-row>
+						<th md-column>Dia da refeição</th>
+						<th md-column>Tipo da Refeição</th>
+					</tr>
+				</thead>
+
+				<tbody md-body>
+					<tr ng-repeat="refeicao in refeicoes">
+						<td md-cell>{{refeicao.refeicao.tipo | uppercase}}</td>
+						<td md-cell>{{refeicao.dia.nome | uppercase}}</td>
+						<td md-cell>
+							<md-button ng-click="solicitarRefeicao(refeicao)" class="md-icon-button" aria-label="Editar">
+								<md-tooltip md-direction="left">Solicitar refeição</md-tooltip>
+								<md-icon md-svg-icon="image/icon/send-button.svg" style="width: 18px; height: 18px;"></md-icon>
+							</md-button>
+						</td>
+					</tr>
+				</tbody>
+
+			 </table>
+	  </md-table-container>
+	</md-card-content>
+</md-card>

@@ -1,0 +1,26 @@
+.perfil-completo * {
+	margin: 0;
+	padding: 0;
+	vertical-align: baseline;
+}
+
+img-crop canvas {
+	margin-top: 10px !important;
+	margin-left: 10px !important;
+}
+
+.perfil-wrapper {
+	width: 100%;
+	margin: 0px auto;
+}
+
+.perfil-completo {
+	float: left;
+	width: 50%;
+}
+
+.perfil-crop {
+	float: right;
+	margin: 10px;
+	width: 45%;
+}

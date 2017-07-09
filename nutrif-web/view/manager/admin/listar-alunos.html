@@ -1,0 +1,75 @@
+<md-card>
+    <md-table-container>
+        <!-- Cabeçalho de opções -->
+        <md-card-header class="nutrif-md-card-header">
+            <md-card-avatar>
+                <md-icon class="md-avatar-icon" md-svg-icon="image/icon/user-shape.svg">
+                </md-icon>
+            </md-card-avatar>
+
+            <md-card-header-text>
+                <span class="md-title">Aluno</span>
+                <span class="md-subhead">Digite o nome ou a matrícula do aluno no campo abaixo para buscar ou selecione a opção para adicionar um novo.</span>
+            </md-card-header-text>
+
+            <md-card-actions layout="row">
+                <md-card-icon-actions>
+                    <md-button class="md-icon-button" aria-label="Adicionar Aluno" ui-sref="home.adicionar-alunos">
+                        <md-tooltip md-direction="bottom">Adicionar Aluno</md-tooltip>
+                        <md-icon md-svg-icon="image/icon/add-plus-button.svg"></md-icon>
+                    </md-button>
+                </md-card-icon-actions>
+            </md-card-actions>
+        </md-card-header>
+
+        <md-toolbar class="md-table-toolbar md-default">
+            <div class="md-toolbar-tools">
+
+                <md-icon style="fill: rgba(0,0,0,.54);" md-svg-icon="image/icon/searching-magnifying-glass.svg"></md-icon>
+
+                <div class="toolbar-input" flex>
+                    <input type="text" ng-model="texto" ng-keyup="pesquisar(texto)" placeholder="Nome ou matrícula do aluno">
+                </div>
+
+                <md-button aria-label="Limpar Busca" class="md-icon-button" ng-click="limparBusca(texto)">
+                    <md-tooltip md-direction="bottom">Refazer busca</md-tooltip>
+                    <md-icon style="fill: rgba(0,0,0,.54);" md-svg-icon="image/icon/replay-arrow.svg"></md-icon>
+                </md-button>
+
+            </div>
+        </md-toolbar>
+
+        <!-- Tabela -->
+        <table md-table>
+            <thead md-head>
+                <tr md-row>
+                    <th md-column>Matrícula</th>
+                    <th md-column>Nome Completo</th>
+                    <th md-column>Curso</th>
+                    <th md-column>Campus</th>
+                    <th md-column>Acesso</th>
+                    <th md-column>Ativo</th>
+                    <th md-column>Editar</th>
+                </tr>
+            </thead>
+
+            <tbody md-body>
+                <tr md-row ng-repeat="aluno in alunos | limitTo: query.limit: (query.page - 1) * query.limit">
+                    <td md-cell>{{aluno.matricula}}</td>
+                    <td md-cell>{{aluno.nome | uppercase}}</td>
+                    <td md-cell>{{aluno.curso.nome | uppercase}}</td>
+                    <td md-cell>{{aluno.campus.cidade | uppercase}}</td>
+                    <td md-cell>{{aluno.acesso | yesNo}}</td>
+                    <td md-cell>{{aluno.ativo | yesNo}}</td>
+                    <td md-cell>
+                        <md-button class="md-icon-button" aria-label="Editar" ui-sref="home.editar-aluno({matricula: aluno.matricula})" ui-sref-opts="{reload: true}">
+                            <md-tooltip md-direction="left">Editar Aluno</md-tooltip>
+                            <md-icon md-svg-icon="image/icon/create-new-pencil-button.svg" style="width: 18px; height: 18px;"></md-icon>
+                        </md-button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </md-table-container>
+    <md-table-pagination md-limit="query.limit" md-page="query.page" md-total="{{alunos.length}}" md-page-select></md-table-pagination>
+</md-card>

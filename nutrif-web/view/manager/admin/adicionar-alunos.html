@@ -1,0 +1,69 @@
+<md-card layout-padding style="padding-left: 6%; padding-right: 6%; padding-bottom: 4%; padding-top: 3% ">
+    <form layout="column" ng-submit="cadastrar.cadastrar(cadastrar.aluno)">
+
+        <!-- Nome -->
+        <md-input-container class="md-icon-float md-block">
+            <label>Nome</label>
+            <input ng-model="cadastrar.aluno.nome" type="text" required>
+        </md-input-container>
+
+        <!-- Matrícula -->
+        <md-input-container class="md-icon-float md-block">
+            <label>Matrícula</label>
+            <input ng-model="cadastrar.aluno.matricula" type="number" required>
+        </md-input-container>
+
+        <!-- Campus -->
+        <md-input-container class="md-icon-float md-block">
+            <label>Campus</label>
+            <md-select ng-model="cadastrar.aluno.campus.id" aria-label="Selecione o Campus" ng-required="true">
+                <md-option ng-repeat="campus in campi" value="{{campus.id}}">
+                    {{campus.cidade}}
+                </md-option>
+            </md-select>
+        </md-input-container>
+        
+        <!-- Curso -->
+        <md-input-container>
+            <label>Curso</label>
+            <md-select ng-model="cadastrar.aluno.curso.id" aria-label="Selecione o Curso" ng-required="true">
+                <md-option ng-repeat="curso in cursos" value="{{curso.id}}">
+                    {{curso.nome}}
+                </md-option>
+            </md-select>
+        </md-input-container>        
+
+        <!-- Período -->
+        <md-input-container class="md-icon-float md-block">
+            <label>Ano/Período</label>
+            <md-select ng-model="cadastrar.aluno.periodo.id" aria-label="Selecione o Período" ng-required="true">
+                <md-option ng-repeat="periodo in periodos" value="{{periodo.id}}">
+                    {{periodo.nome}}
+                </md-option>
+            </md-select>
+        </md-input-container>
+        
+        <!-- Turno -->
+        <md-input-container class="md-icon-float md-block">
+            <label>Turno</label>
+            <md-select ng-model="cadastrar.aluno.turno.id" aria-label="Selecione o Turno" ng-required="true">
+                <md-option ng-repeat="turno in turnos" value="{{turno.id}}">
+                    {{turno.nome}}
+                </md-option>
+            </md-select>
+        </md-input-container>
+
+        <!-- Turma -->
+        <md-input-container class="md-icon-float md-block">
+           <label>Turma</label>
+            <md-select ng-model="cadastrar.aluno.turma.id" aria-label="Selecione o Turma" ng-required="true">
+                <md-option ng-repeat="turma in turmas" value="{{turma.id}}">
+                    {{turma.nome}}
+                </md-option>
+            </md-select>
+        </md-input-container>        
+
+        <md-button type="submit" layout-fill type="submit" class="md-raised md-primary md-hue-1 flex" style="margin-top: 40px">Cadastrar Aluno</md-button>
+
+    </form>
+</md-card>

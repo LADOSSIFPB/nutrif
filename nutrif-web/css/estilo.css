@@ -1,0 +1,15 @@
+/* Define a posição da div que contém o conteúdo definido pelo ui-view */
+.box1 {
+    display: flex;
+    box-sizing: border-box;
+    min-width: 100%;
+    max-height: 100%;
+    flex: 1 1 100%;
+    padding: 10px;
+    border: 1px solid red;
+}
+
+/* Rodapé */
+footer {
+   border: 2px solid blue; 
+}

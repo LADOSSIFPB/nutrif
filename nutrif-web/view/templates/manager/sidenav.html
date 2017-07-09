@@ -1,0 +1,20 @@
+<md-sidenav layout="column" class="md-sidenav-left md-whiteframe-z2" md-component-id="sideNav" md-is-locked-open="$mdMedia('gt-md') && sideNav.isOpened">
+
+    <!-- Usuário -->
+    <md-toolbar class="md-whiteframe-4dp">
+        <div class="md-toolbar-tools">
+            {{sideNav.user.nome}}, {{sideNav.typeUser.nome}}
+        </div>
+    </md-toolbar>
+
+    <!-- Itens do menu -->
+    <md-content layout-padding>
+        <md-list>
+            <md-list-item ui-sref="home.entrada-alunos" ui-sref-opts="{reload: true}">
+                <md-icon md-svg-icon="image/icon/download-button.svg"></md-icon>
+                <p>Entrada de Alunos</p>
+            </md-list-item>
+            <div ng-if="sideNav.typeUser.id === 1" ng-include="'view/templates/manager/admin/sidenav-itens-admin.html'"></div>
+        </md-list>
+    </md-content>
+</md-sidenav>

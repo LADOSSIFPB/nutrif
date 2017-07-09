@@ -1,12 +1,18 @@
-body {
-	background-image: url("../img/background2.jpg");
-	background-repeat: no-repeat;
+html, body {
+	background: url("../image/background.jpg") no-repeat center center fixed;
 	-webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
 }
 
-.top-margin2 {
-	margin-top: 10vh;
+.form-whiteframe {
+	min-height: 80vh;
+}
+
+.form-body {
+	padding-left: 4%;
+	padding-right: 4%;
+	padding-top: 1%;
+	padding-bottom: 1%
 }

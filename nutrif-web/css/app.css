@@ -1,58 +1,75 @@
-main {
-	flex: 1 0 auto;
+.container-margin {
+    margin-right: 10%;
+    margin-left: 10%;
+    margin-top: 3%;
+    margin-bottom: 3%;
 }
 
-body {
-	display: flex;
-	min-height: 100vh;
-	flex-direction: column;
+.toolbar-input {
+    margin-left: 15px;
 }
 
-.top-margin {
-	margin-top: 1.4vh;
-}
-
-.bottom-margin {
-	margin-bottom: 13px;
-}
-
-input[type=number]::-webkit-inner-spin-button,
-input[type=number]::-webkit-outer-spin-button {
-    -webkit-appearance: none;
+md-toolbar.md-table-toolbar div.toolbar-input>input {
+    width: 100%;
     margin: 0;
+    border: none;
+    color: rgba(0, 0, 0, 0.87);
+    outline: 0;
 }
 
-/* label focus color */
-.input-field input[type=text]:focus + label {
-	color: #689f38;
+.home-background {
+    background-color: #F7F7F7;
 }
 
-.input-field input[type=password]:focus + label {
-	color: #689f38;
+.layout-padding {
+    padding-left: 6%;
+    padding-right: 6%;
+    padding-bottom: 4%;
+    padding-top: 3%
 }
 
-.input-field input[type=number]:focus + label {
-	color: #689f38;
+.modal-footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
 }
 
-/* label underline focus color */
-.input-field input[type=text]:focus {
-	border-bottom: 1px solid #689f38;
+/* Card */
+.nutrif-md-card-header {
+    background-color: #F0F0F0;
 }
 
-.input-field input[type=password]:focus {
-	border-bottom: 1px solid #689f38;
+md-card md-card-header md-card-avatar+md-card-header-text {
+    max-height: none;
 }
 
-.input-field input[type=number]:focus {
-	border-bottom: 1px solid #689f38;
+/* Hints - help */
+.hint {
+    /* Position the hint */
+    display: block;
+    margin-top: 5px;
+    /* Copy styles from ng-messages */
+    font-size: 12px;
+    line-height: 14px;
+    transition: all 0.3s cubic-bezier(0.55, 0, 0.55, 0.2);
+    /* Set our own color */
+    color: grey;    
 }
 
-/* icon prefix focus color */
-.input-field .prefix.active {
-	color: #689f38;
+.hint.ng-hide,
+.hint.ng-enter,
+.hint.ng-leave.ng-leave-active {
+    bottom: 26px;
+    opacity: 0;
 }
 
-.button-width-margin {
-	margin-left: 10px;
+.hint.ng-leave,
+.hint.ng-enter.ng-enter-active {
+    bottom: 2px;
+    opacity: 1;
+}
+
+/* Imagem do Perfl do aluno */
+.img-perfil{
+    width: 200px;
 }

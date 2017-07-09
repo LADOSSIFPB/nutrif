@@ -1,0 +1,109 @@
+<md-card>
+    <md-table-container>
+        <!-- Cabeçalho de opções -->
+        <md-card-header class="nutrif-md-card-header">
+            <md-card-avatar>
+                <md-icon class="md-avatar-icon" md-svg-icon="image/icon/user-shape.svg"></md-icon>
+            </md-card-avatar>
+
+            <md-card-header-text>
+                <span class="md-title">Acesso do Aluno</span>
+                <span class="md-subhead">Preencha os campos de E-mail, Senha, Ano ou Período, Turma e Turno corretamente. Os dados informados servirão para <b>acesso</b> ao sistema na realização da <b>Pretensão</b>. Dados incorretos impedirão o acesso e os falsos serão passíveis de <b>punição</b>. Clique no botão ao lado para voltar.</span>
+            </md-card-header-text>
+            
+            <md-card-actions layout="row">
+                <md-card-icon-actions>
+                    <md-button class="md-icon-button" aria-label="Adicionar Aluno" ui-sref="login.verificar-aluno">
+                        <md-tooltip md-direction="bottom">Voltar</md-tooltip>
+                        <md-icon md-svg-icon="image/icon/back-arrow.svg"></md-icon>
+                    </md-button>
+                </md-card-icon-actions>
+            </md-card-actions>
+
+        </md-card-header>
+        <md-card-content layout="column">
+            <form layout="column" ng-submit="atualizarBasicoAluno(aluno)">
+
+                <!-- Nome -->
+                <md-input-container class="md-icon-float md-block">
+                    <label>Nome</label>
+                    <input ng-model="aluno.nome" type="text" ng-readonly="true">
+                </md-input-container>
+
+                <!-- Matrícula -->
+                <md-input-container class="md-icon-float md-block">
+                    <label>Matrícula</label>
+                    <input ng-model="aluno.matricula" type="text" ng-readonly="true">
+                </md-input-container>
+
+                <!-- Curso -->
+                <md-input-container class="md-icon-float md-block">
+                    <label>Curso</label>
+                    <input ng-model="aluno.curso.nome" type="text" ng-readonly="true">
+                </md-input-container>
+
+                <!-- Campus -->
+                <md-input-container class="md-icon-float md-block">
+                    <label>Campus</label>
+                    <input ng-model="aluno.campus.cidade" type="text" ng-readonly="true">
+                </md-input-container>
+
+                <!-- Email -->
+                <md-input-container class="md-icon-float md-block">
+                    <label>E-mail</label>
+                    <input ng-model="aluno.email" type="email" required>
+                    <div class="hint">Informe um e-mail que será utilizado para recuperação de senha.</div>
+                </md-input-container>
+
+                <!-- Ano/Período -->
+                <md-input-container class="md-icon-float md-block">
+                    <label>Ano ou Período</label>
+                    <md-select ng-model="aluno.periodo.id" aria-label="Selecione o Ano ou Período" ng-required="true">
+                        <md-option ng-repeat="periodo in periodos" value="{{periodo.id}}">
+                            {{periodo.nome}}
+                        </md-option>
+                    </md-select>
+                    <div class="hint">Selecione o ano ou período que você cursa atualmente.</div>
+                </md-input-container>
+
+                <!-- Turma -->
+                <md-input-container flex>
+                    <label>Turma</label>
+                    <md-select ng-model="aluno.turma.id" aria-label="Selecione o Turma" ng-required="true">
+                        <md-option ng-repeat="turma in turmas" value="{{turma.id}}">
+                            {{turma.nome}}
+                        </md-option>
+                    </md-select>
+                    <div class="hint">Selecione a turma que você pertence no Integrado. Aluno de Curso Subsequente ou   Superior selecionar turma A.</div>
+                </md-input-container>
+
+                <!-- Turno -->
+                <md-input-container flex>
+                    <label>Turno</label>
+                    <md-select ng-model="aluno.turno.id" aria-label="Selecione o Turno" ng-required="true">
+                        <md-option ng-repeat="turno in turnos" value="{{turno.id}}">
+                            {{turno.nome}}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+
+                <!-- Senha -->
+                <md-input-container class="md-icon-float md-block">
+                    <label>Senha</label>
+                    <input ng-model="aluno.senha" type="password" required>
+                    <div class="hint">Informe uma senha que será utilizada para acessar o sistema na solicitação da Pretensão.</div>
+                </md-input-container>
+
+                <!-- Re-Senha -->
+                <md-input-container class="md-icon-float md-block">
+                    <label>Redigite a Senha</label>
+                    <input ng-model="aluno.resenha" type="password" required>
+                    <div class="hint">Redigite a senha para confirmação.</div>
+                </md-input-container>
+
+                <md-button type="submit" layout-fill class="md-raised md-primary md-hue-1 flex" style="margin-top: 40px">Atualizar Acesso do Aluno</md-button>
+
+            </form>
+        </md-card-content>
+    </md-table-container>
+</md-card>

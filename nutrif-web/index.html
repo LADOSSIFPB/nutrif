@@ -1,77 +1,159 @@
 <!DOCTYPE html>
-<html ng-app="NutrifApp">
+<html ng-app="AngularApp">
 
-	<head>
+    <head>
 
-		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-		<meta charset="utf-8">
+        <!-- Título e ícone -->
+        <title>NutrIF</title>
+        <link rel="shortcut icon" href="image/fav.png" />
 
-		<!-- AngularJS & Lib imports -->
-		<script type="text/javascript" src="lib/angular/angular.min.js"></script>
-		<script type="text/javascript" src="lib/angular/angular-route.min.js"></script>
-		<script type="text/javascript" src="lib/angular/angular-cookies.min.js"></script>
-		<script type='text/javascript' src="lib/loading-bar.js"></script>
-		<script type='text/javascript' src="lib/ui-router.js"></script>
-		<script type='text/javascript' src="lib/ui-mask.js"></script>
-		<link rel='stylesheet' href="css/loading-bar.css" type='text/css' media='all' />
+        <!-- Cabeçalho -->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-		<!-- MaterializeCSS imports -->
-		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-		<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-      	<link type="text/css" rel="stylesheet" href="lib/materialize/css/materialize.min.css"  media="screen,projection"/>
-      	<script type="text/javascript" src="lib/materialize/js/materialize.min.js"></script>
+        <!-- Charser Encoding -->
+        <meta charset="utf-8">
 
-      	<!-- Our CSS imports -->
-      	<link rel="stylesheet" type="text/css" href="css/app.css"/>
+        <!-- No Cache -->
+        <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+        <meta http-equiv="Pragma" content="no-cache" />
+        <meta http-equiv="Expires" content="0" />
 
-		<!-- Our AngularJS scripts imports -->
-		<script type="text/javascript" src="js/app.js"></script>
-		<script type="text/javascript" src="js/config/valuesConfig.js"></script>
-		<script type="text/javascript" src="js/config/routesConfig.js"></script>
-		<script type="text/javascript" src="js/config/filterRoutes.js"></script>
+        <!-- Angular - Base -->
+        <script src="node_modules/angular/angular.min.js"></script>
+        <script src="node_modules/angular-route/angular-route.min.js"></script>
+        <script src="node_modules/angular-ui-router/release/angular-ui-router.min.js"></script>
+        <script src="node_modules/angular-sanitize/angular-sanitize.min.js"></script>
+        <script src="node_modules/angular-animate/angular-animate.min.js"></script>
+        <script src="node_modules/angular-aria/angular-aria.min.js"></script>
+        <script src="node_modules/angular-cookies/angular-cookies.min.js"></script>
 
-		<script type="text/javascript" src="js/controllers/pesquisaCtrl.js"></script>
-		<script type="text/javascript" src="js/controllers/atualizaAlunoCtrl.js"></script>
-		<script type="text/javascript" src="js/controllers/cadastroAlunoCtrl.js"></script>
-		<script type="text/javascript" src="js/controllers/loginCtrl.js"></script>
-		<script type="text/javascript" src="js/controllers/loginPretensaoCtrl.js"></script>
-		<script type="text/javascript" src="js/controllers/pretensaoCtrl.js"></script>
-		<script type="text/javascript" src="js/controllers/geralCtrl.js"></script>
+        <!-- Expansion Panel -->
+        <script src="node_modules/angular-material-expansion-panel/dist/md-expansion-panel.min.js"></script>
+        <link rel="stylesheet" href="node_modules/angular-material-expansion-panel/dist/md-expansion-panel.min.css">
 
-		<script type="text/javascript" src="js/services/apiService/diaService.js"></script>
-		<script type="text/javascript" src="js/services/apiService/loginService.js"></script>
-		<script type="text/javascript" src="js/services/apiService/alunoService.js"></script>
-		<script type="text/javascript" src="js/services/apiService/pretensaoService.js"></script>
-		<script type="text/javascript" src="js/services/apiService/cursoService.js"></script>
-		<script type="text/javascript" src="js/services/apiService/refeicaoService.js"></script>
-		<script type="text/javascript" src="js/services/apiService/diaRefeicaoService.js"></script>
-		<script type="text/javascript" src="js/services/apiService/refeicaoRealizadaService.js"></script>
+        <!-- ngDataTableToCSV -->
+        <script src="js/lib/ng-table-to-csv/dist/ng-table-to-csv.min.js"></script>
 
-		<title>NutrIF</title>
-		<link rel="shortcut icon" href="img/fav.png"/>
+        <!-- Date.js -->
+        <script src="js/lib/Datejs/build/date.js"></script>
+        <script src="js/lib/Datejs/build/date-pt-BR.js"></script>
 
-	</head>
+        <!-- i18n - PT-BR -->
+        <script src="js/lib/angular-locale-pt-br/angular-locale_pt-br.js"></script>
 
-	<body ng-controller="geralCtrl as geral">
+        <!-- QRCode-Generator -->
+        <script src="node_modules/qrcode-generator/qrcode.js"></script>
 
-		<header>
-			<div ng-include="'view/templates/navbar.html'"></div>
-		</header>
+        <!-- Webcam -->
+        <script src="node_modules/webcam/dist/webcam.min.js"></script>
 
-		<div ng-if="geral.estaLogado() && geral.getUserRole() != 'Aluno'"
-			 ng-include="'view/templates/side-nav.html'">
-		</div>
+        <!-- Timeline -->
+        <script src="node_modules/angular-timeline/dist/angular-timeline.js"></script>
+        <link rel="stylesheet" href="node_modules/angular-timeline/dist/angular-timeline.css">
 
-		<main>
-			<div class="container">
-				<div ui-view></div>
-			</div>
-		</main>
+        <!-- Moment -->
+        <script src="node_modules/moment/min/moment.min.js"></script>
+        <script src="node_modules/moment/min/locales.min.js"></script>
 
-		<footer class="page-footer light-green darken-4">
-			<div ng-include="'view/templates/footer.html'"></div>
-		</footer>
+        <!-- Angular Chart -->
+        <script src="node_modules/chart.js/dist/Chart.min.js"></script>    
+        <script src="node_modules/angular-chart.js/dist/angular-chart.min.js"></script>
 
-	</body>
+        <!-- Image Crop -->
+        <script src="node_modules/ng-img-crop-npm/compile/minified/ng-img-crop.js"></script>
+        <link rel="stylesheet" href="node_modules/ng-img-crop-npm/compile/minified/ng-img-crop.css">
+
+        <!-- Material Data-Table -->
+        <script src="node_modules/angular-material-data-table/dist/md-data-table.min.js"></script>
+        <link rel="stylesheet" href="node_modules/angular-material-data-table/dist/md-data-table.min.css">
+
+        <!-- Angular Loading -->
+        <script src="node_modules/angular-loading-bar/build/loading-bar.min.js"></script>
+        <link rel="stylesheet" href="node_modules/angular-loading-bar/build/loading-bar.min.css">
+
+        <!-- Angular Material -->
+        <script src="node_modules/angular-material/angular-material.min.js"></script>
+        <link rel="stylesheet" href="node_modules/angular-material/angular-material.min.css">
+
+        <!-- JQuery -->
+        <script src="node_modules/jquery/dist/jquery.min.js"></script>
+
+        <!-- Bootstrap -->
+        <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+
+        <!-- Tether - Dependência obrigatória do Bootstrap -->
+        <script src="node_modules/tether/dist/js/tether.min.js"></script>
+        <link rel="stylesheet" href="node_modules/tether/dist/css/tether.min.css">
+
+        <!-- App -->
+        <script src="js/app.js"></script>
+        <script src="js/router/router.js"></script>
+        <script src="js/router/state.js"></script>
+
+        <!-- Configurações -->
+        <script src="js/config/valuesConfig.js"></script>
+        <script src="js/config/dateConfig.js"></script>
+
+        <!-- Filter -->
+        <script src="js/filter/simNaoFilter.js"></script>
+
+        <!-- Interceptor -->
+        <script src="js/interceptor/conectionRefused.js"></script>
+        <!-- <script src="js/interceptor/responseAutorization.js"></script> -->
+
+        <!-- Controller -->
+        <script src="js/controller/loginAlunoCtrl.js"></script>
+        <script src="js/controller/verificarAlunoCtrl.js"></script>
+        <script src="js/controller/loginManagerCtrl.js"></script>
+        <script src="js/controller/atualizarAlunoCtrl.js"></script>
+        <script src="js/controller/menuController.js"></script>
+
+        <!-- Service -->
+        <script src="js/service/menuService.js"></script>
+        <script src="js/service/userService.js"></script>
+        <script src="js/service/api/alunoService.js"></script>
+        <script src="js/service/api/arquivoService.js"></script>
+        <script src="js/service/api/campusService.js"></script>
+        <script src="js/service/api/cursoService.js"></script>
+        <script src="js/service/api/diaRefeicaoService.js"></script>
+        <script src="js/service/api/diaService.js"></script>
+        <script src="js/service/api/editalService.js"></script>
+        <script src="js/service/api/eventoService.js"></script>
+        <script src="js/service/api/funcionarioService.js"></script>
+        <script src="js/service/api/loginService.js"></script>
+        <script src="js/service/api/periodoService.js"></script>
+        <script src="js/service/api/pretensaoService.js"></script>
+        <script src="js/service/api/refeicaoRealizadaService.js"></script>
+        <script src="js/service/api/refeicaoService.js"></script>
+        <script src="js/service/api/turmaService.js"></script>
+        <script src="js/service/api/turnoService.js"></script>
+
+        <!-- Diretiva -->
+        <script src="js/directives/menuLinkDirective.js"></script>
+        <script src="js/directives/menuToggleDirective.js"></script>
+
+        <!-- Run -->
+        <script src="js/run/authConfig.js"></script>
+        <script src="js/run/filterRoutes.js"></script>
+
+        <!-- CSS -->
+        <link rel="stylesheet" href="css/app.css">
+        <!-- link rel="stylesheet" href="css/estilo.css" -->
+        <link rel="stylesheet" href="css/menu.css">
+
+        <!-- Controllers -->
+
+        <!-- Factory -->
+        <script src="js/factory/toastUtil.js"></script>
+
+    </head>
+
+    <body ng-cloak layout="column">
+
+        <!--Conteúdo -->
+        <div ui-view layout="column" flex>
+        </div>
+    </body>
 
 </html>

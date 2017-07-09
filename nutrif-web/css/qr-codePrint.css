@@ -1,0 +1,17 @@
+@media print {
+	body {
+		visibility: hidden;
+	}
+	.md-dialog-content {
+		visibility: visible;
+		width: 100%;
+	}
+	.borda {
+		border: 1px solid red;
+	}
+}
+
+/* Página de impressão */
+@page {
+	margin: 0;
+}
