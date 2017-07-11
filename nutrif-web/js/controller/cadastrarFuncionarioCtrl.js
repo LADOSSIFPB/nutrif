@@ -1,77 +1,54 @@
-angular.module('NutrifApp').controller('cadastrarFuncionarioCtrl', function ($scope, $mdToast,
-		 $state, funcionarioService, campusService) {
+/*
+ *  Controlar cadastro do Funcionário.
+ */
+nutrifApp.controller('cadastrarFuncionarioCtrl', function ($scope, $mdToast, $state, toastUtil, funcionarioService, campusService) {
 
-	$scope.roles = [];
-	$scope.campi = [];
+    $scope.roles = [];
+    $scope.campi = [];
 
-	this.cadastrar = function (funcionario) {
+    this.cadastrar = function (funcionario) {
 
-		var _roles = $scope.roles;
-		var _length = _roles.length;
+        var _roles = $scope.roles;
+        var _length = _roles.length;
 
-		var rolesFunc = [];
-		rolesFunc.push(_roles[(funcionario.roles.role.id)-1]);
+        var rolesFunc = [];
+        rolesFunc.push(_roles[(funcionario.roles.role.id) - 1]);
 
-		funcionario.roles = rolesFunc;
+        funcionario.roles = rolesFunc;
 
-		funcionarioService.cadastrarFuncionario(funcionario)
-		.success(onSuccessCallback)
-		.error(onErrorCallback);
-	}
+        funcionarioService.cadastrarFuncionario(funcionario)     
+            .then(function(response) {
+                // Mensagem de sucesso.
+                var message = 'Funcionario(a) cadastrado(a) com sucesso.';
+                toastUtil.showSuccessToast(message);
+                
+                $state.transitionTo('home.listar-funcionarios');
+            })
+            .catch(onErrorCallback);
+    }
 
-	function onSuccessCallback (data, status) {
+    function onErrorCallback(error) {
+        // Toast.
+        return toastUtil.showErrorToast(error);
+    }
 
-		$mdToast.show(
-			$mdToast.simple()
-			.textContent('Funcionario(a) cadastrado(a) com sucesso!')
-			.position('top right')
-			.action('OK')
-			.hideDelay(6000)
-		);
+    function carregamentoInicial() {
+        
+        // Carregamento das Roles para Funcionário.
+        funcionarioService.getRoles()
+            .then(function(response) {
+                $scope.roles = response.data;
+            })
+            .catch(onErrorCallback);
+        
+        // Carregar os Campi.
+        campusService.listarCampi()
+            .then(function(response) {
+                $scope.campi = response.data;
+            })
+            .catch(onErrorCallback);
+    }
 
-		$state.transitionTo('home.listar-funcionarios');
-	}
-
-	function onErrorCallback (data, status) {
-		var _message = '';
-
-		if (!data) {
-			_message = 'Ocorreu um erro na comunicação com o servidor, favor chamar o suporte.'
-		} else {
-			_message = data.mensagem
-		}
-
-		$mdToast.show(
-			$mdToast.simple()
-			.textContent(_message)
-			.position('top right')
-			.action('OK')
-			.hideDelay(6000)
-		);
-	}
-
-	function carregarRoles () {
-		funcionarioService.getRoles()
-		.success(function (data, status){
-			$scope.roles = data;
-		})
-		.error(function (data, status){
-			alert("Houve um erro ao carregar os cargos. Contate um administrador.");
-		});
-	}
-
-	// Carregar os Campi para seleção no cadastro do Aluno.
-	function carregarCampi () {
-		campusService.listarCampi()
-		.success(function (data, status){
-			$scope.campi = data;
-		})
-		.error(function (data, status){
-			alert("Houve um problema ao carregar os Campus.");
-		});
-	}
-
-	// Inicializar listagem de roles e campi.
-	carregarCampi();
-	carregarRoles();
+    // Inicializar listagem de roles e campi.
+    carregamentoInicial();
 });

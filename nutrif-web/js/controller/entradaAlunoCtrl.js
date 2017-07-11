@@ -1,173 +1,143 @@
-  angular.module('NutrifApp').controller('entradaAlunoCtrl', function ($scope, $mdDialog,
-      $mdToast, userService, diaRefeicaoService) {
+/*
+ *  Controlar entrada no Refeitório do Aluno.
+ */
+nutrifApp.controller('entradaAlunoCtrl', function ($scope, $mdDialog,
+    $mdToast, toastUtil, userService, diaRefeicaoService) {
 
-      var TAM_MINIMO_MATRICULA = 11;
-      var TAM_MAXIMO_MATRICULA = 13;
-      var TAM_MIN_BUSCA_NOME = 3;
+    var TAM_MINIMO_MATRICULA = 11;
+    var TAM_MAXIMO_MATRICULA = 13;
+    var TAM_MIN_BUSCA_NOME = 3;
 
-      var mensagemToast;
+    var mensagemToast;
 
-      $scope.refeicoes = [];
-      $scope.refeicaoSelecionada = [];
+    $scope.refeicoes = [];
+    $scope.refeicaoSelecionada = [];
 
-      this.pesquisar = function (texto) {
+    this.pesquisar = function (texto) {
 
-          if (texto.length > TAM_MIN_BUSCA_NOME) {
+        if (texto.length > TAM_MIN_BUSCA_NOME) {
 
-              if (texto.match(/[a-zA-Z]/i) != null) {
+            if (texto.match(/[a-zA-Z]/i) != null) {
 
-                  diaRefeicaoService.buscaRefeicaoPorNome(texto)
-                      .success(onSuccessCallback)
-                      .error(onErrorCallback);
+                diaRefeicaoService.buscaRefeicaoPorNome(texto)
+                    .then(onSuccessCallback)
+                    .catch(onErrorCallback);
 
-              } else if (texto.match(/^\d+$/) &&
-                  (texto.length >= TAM_MINIMO_MATRICULA) && (texto.length <= TAM_MAXIMO_MATRICULA)) {
+            } else if (texto.match(/^\d+$/) &&
+                (texto.length >= TAM_MINIMO_MATRICULA) && (texto.length <= TAM_MAXIMO_MATRICULA)) {
 
-                  diaRefeicaoService.buscaRefeicaoPorMatricula(texto)
-                      .success(onSuccessCallback)
-                      .error(onErrorCallback)
-              }
+                diaRefeicaoService.buscaRefeicaoPorMatricula(texto)
+                    .then(onSuccessCallback)
+                    .catch(onErrorCallback);
+            }
 
-          } else if (texto.length === 0) {
-              $scope.refeicoes = [];
-          }
-      }
+        } else if (texto.length === 0) {
+            $scope.refeicoes = [];
+        }
+    }
 
-      function onSuccessCallback(data, status) {
-          if (status == 200) {
-              $mdToast.hide(mensagemToast);
-              $scope.refeicoes = data;
-          }
-      }
+    function onSuccessCallback(response) {
 
-      function onErrorCallback(data, status) {
+        var status = response.status;
 
-          // Limpar dia de refeição listados anteriormente.
-          $scope.refeicoes = [];
+        if (status == 200) {
+            $scope.refeicoes = response.data;
+        }
+    }
 
-          // Mensagem de erro.
-          var _message = '';
+    function onErrorCallback(error) {
 
-          if (!data) {
+        // Limpar dia de refeição listados anteriormente.
+        $scope.refeicoes = [];
 
-              _message = 'Ocorreu um erro na comunicação com o servidor, favor chamar o suporte.';
+        // Mensagem de erro.
+        return toastUtil.showErrorToast(error);
+    }
 
-          } else {
+    $scope.limparBusca = limparBusca;
 
-              _message = data.mensagem;
-          }
+    function limparBusca() {
+        $scope.texto = '';
+        $scope.refeicoes = [];
+    }
 
-          mensagemToast = $mdToast.show(
-              $mdToast.simple()
-              .textContent(_message)
-              .position('top right')
-              .action('OK')
-              .hideDelay(6000)
-          );
-      }
+    this.confirmDialog = function (refeicao) {
+        $mdDialog.show({
+            controller: DialogController,
+            templateUrl: 'view/manager/modals/modal-confirmar-entrada.html',
+            parent: angular.element(document.body),
+            clickOutsideToClose: true,
+            fullscreen: false,
+            locals: {
+                refeicao: refeicao
+            }
+        }).then(limparBusca, function () {
+            $scope.refeicaoSelecionada = [];
+        });
+    }
+});
 
-      $scope.limparBusca = limparBusca;
+function DialogController($scope, $mdDialog, $mdToast, refeicao,
+    toastUtil, userService, refeicaoRealizadaService, pretensaoService, arquivoService) {
 
-      function limparBusca() {
-          $scope.texto = '';
-          $scope.refeicoes = [];
-      }
+    $scope.refeicao = refeicao;
 
-      this.confirmDialog = function (refeicao) {
-          $mdDialog.show({
-              controller: DialogController,
-              templateUrl: 'view/manager/modals/modal-confirmar-entrada.html',
-              parent: angular.element(document.body),
-              clickOutsideToClose: true,
-              fullscreen: false,
-              locals: {
-                  refeicao: refeicao
-              }
-          }).then(limparBusca, function () {
-              $scope.refeicaoSelecionada = [];
-          });
-      }
-  });
+    var refeicaoRealizada = {
+        confirmaRefeicaoDia: {},
+        inspetor: {}
+    };
 
-  function DialogController($scope, $mdDialog, $mdToast, refeicao,
-      userService, refeicaoRealizadaService, pretensaoService, arquivoService) {
+    $scope.hide = function () {
 
-      $scope.refeicao = refeicao;
+        // Dados da refeição realizada.
+        refeicaoRealizada.confirmaRefeicaoDia.diaRefeicao = {};
+        refeicaoRealizada.confirmaRefeicaoDia.diaRefeicao.id = refeicao.id;
+        refeicaoRealizada.inspetor.id = userService.getUser().id;
 
-      var refeicaoRealizada = {
-          confirmaRefeicaoDia: {},
-          inspetor: {}
-      };
+        // Esconder modal.
+        $mdDialog.hide();
 
-      $scope.hide = function () {
+        // Serviço
+        refeicaoRealizadaService.inserirRefeicao(refeicaoRealizada)
+            .then(function (response) {
+                // Mensagem
+                var message = "Refeição realizada com sucesso";
+                // Toast.
+                toastUtil.showSuccessToast(message);
+            })
+            .catch(onErrorCallback);
+    };
 
-          // Dados da refeição realizada.
-          refeicaoRealizada.confirmaRefeicaoDia.diaRefeicao = {};
-          refeicaoRealizada.confirmaRefeicaoDia.diaRefeicao.id = refeicao.id;
-          refeicaoRealizada.inspetor.id = userService.getUser().id;
+    function onErrorCallback(error) {
+        // Mensagem de erro.
+        return toastUtil.showErrorToast(error);
+    }
 
-          // Esconder modal.
-          $mdDialog.hide();
+    // Imagem do perfil do aluno.
+    var getImage = function () {
 
-          // Serviço
-          refeicaoRealizadaService.inserirRefeicao(refeicaoRealizada)
-              .success(onSuccessCallback)
-              .error(onErrorCallback);
-      };
+        arquivoService.getPerfilById(refeicao.aluno.id)
+            .then(function (response) {
+                // Imagem do Perfil do aluno.
+                $scope.image = response.data;
+            })
+            .catch(onErrorCallback);
+    }
 
-      function onSuccessCallback(data, status) {
-          $mdToast.show(
-              $mdToast.simple()
-              .textContent('Refeição realizada com sucesso')
-              .position('top right')
-              .action('OK')
-              .hideDelay(6000)
-          );
-      }
+    var getPretensao = function () {
 
-      function onErrorCallback(data, status) {
-          var _message = '';
-          
-          if (!data) {
-              _message = 'Erro no servidor, por favor chamar administração ou suporte.';
-          } else {
-              _message = data.mensagem;
-          }
+        pretensaoService.pretensaoRefeicaoByDiaRefeicao(refeicao.id)
+            .then(function (response) {
+                // Pretensão do aluno.
+                $scope.pretensaoRefeicao = response.data;
+            })
+            .catch(onErrorCallback);
+    }
 
-          $mdToast.show(
-              $mdToast.simple()
-              .textContent(_message)
-              .position('top right')
-              .action('OK')
-              .hideDelay(6000)
-          );
-      }
+    $scope.cancel = function () {
+        $mdDialog.cancel();
+    };
 
-      // Imagem do perfil do aluno.
-      var getImage = function () {
-
-          arquivoService.getPerfilById(refeicao.aluno.id)
-              .success(function (data, status) {
-
-                  $scope.image = data;
-              })
-              .error(onErrorCallback);
-      }
-
-      var getPretensao = function () {
-
-          pretensaoService.pretensaoRefeicaoByDiaRefeicao(refeicao.id)
-              .success(function (data, status) {
-
-                  $scope.pretensaoRefeicao = data;
-              })
-              .error(onErrorCallback);
-      }
-
-      $scope.cancel = function () {
-          $mdDialog.cancel();
-      };
-      
-      getImage();
-      getPretensao();      
-  }
+    getImage();
+    getPretensao();
+}

@@ -3,18 +3,18 @@
  */
 nutrifApp.factory("toastUtil", function ($mdToast) {
     return {
-        showToast: function (error) {
-            var _message = "";
+        showErrorToast: function (error) {
+            var message = "";
 
             if (!error.data) {
-                _message = "Ocorreu um erro na comunicação com o servidor, favor chamar o suporte."
+                message = "Ocorreu um erro na splicitação ao servidor, favor chamar o suporte."
             } else {
-                _message = error.data.mensagem
+                message = error.data.mensagem
             }
 
             $mdToast.show(
                 $mdToast.simple()
-                .textContent(_message)
+                .textContent(message)
                 .position('top right')
                 .action('OK')
                 .hideDelay(6000)
@@ -22,8 +22,17 @@ nutrifApp.factory("toastUtil", function ($mdToast) {
 
             return false;
         },
-        doSomethingElse: function () {
-            //Do something else here
+        showSuccessToast: function (message="") {
+
+            $mdToast.show(
+                $mdToast.simple()
+                .textContent(message)
+                .position('top right')
+                .action('OK')
+                .hideDelay(6000)
+            );
+
+            return true;
         }
     }
 });

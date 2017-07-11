@@ -1,7 +1,7 @@
 /*
  *  Controlar atualização do Aluno.
  */
-nutrifApp.controller('atualizarAlunoCtrl', function (cursoService, alunoService, turnoService, turmaService, campusService, periodoService, $scope, $mdToast, $state, $stateParams) {
+nutrifApp.controller('atualizarAlunoCtrl', function (toastUtil, cursoService, alunoService, turnoService, turmaService, campusService, periodoService, $scope, $mdToast, $state, $stateParams) {
 
     $scope.aluno = {};
     $scope.turnos = [];
@@ -19,52 +19,27 @@ nutrifApp.controller('atualizarAlunoCtrl', function (cursoService, alunoService,
                 .then(function(response) {
                     
                     $scope.aluno = response.data;
-                
-                    $mdToast.show(
-                        $mdToast.simple()
-                        .textContent('Aluno(a) atualizado(a) com sucesso.')
-                        .position('top right')
-                        .action('OK')
-                        .hideDelay(20000)
-                    );
+                    
+                    var message = "Aluno(a) atualizado(a) com sucesso.";
+                    toastUtil.showSuccessToast(message);
 
                     $state.transitionTo("login.aluno", {
                         matricula: $scope.aluno.matricula
                     });
                 })
-                .catch(onErrorCallback)
+                .catch(onErrorCallback);
             
         } else {
 
-            var _message = "A senha de confirmação não está correta.";
+            var message = "A senha de confirmação não está correta.";
 
-            $mdToast.show(
-                $mdToast.simple()
-                .textContent(_message)
-                .position('top right')
-                .action('OK')
-                .hideDelay(6000)
-            );
+            toastUtil.showSuccessToast(message);
         }
     }
 
-    function onErrorCallback(data) {
+    function onErrorCallback(error) {
 
-        var _message = "";
-
-        if (!data) {
-            _message = "Ocorreu um erro na comunicação com o servidor, favor chamar o suporte."
-        } else {
-            _message = data.mensagem
-        }
-
-        $mdToast.show(
-            $mdToast.simple()
-            .textContent(_message)
-            .position('top right')
-            .action('OK')
-            .hideDelay(6000)
-        );
+        return toastUtil.showErrorToast(error);
     }
 
     function carregamentoInicial() {

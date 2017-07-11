@@ -25,9 +25,11 @@ nutrifApp.controller("verificarAlunoCtrl", function (userService, alunoService, 
                 }
             })
             .catch(function (error) {
+                // Remover a matrícula preenchida.
                 delete $scope.matricula;
                 
-                return toastUtil.showToast(error);
+                // Toast.  
+                return toastUtil.showErrorToast(error);
             });
     }
 });
