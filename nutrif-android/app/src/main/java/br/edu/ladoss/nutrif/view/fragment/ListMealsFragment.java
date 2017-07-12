@@ -91,7 +91,7 @@ public class ListMealsFragment extends Fragment {
         String auth = PreferencesUtils.getAccessKeyOnSharedPreferences(getContext());
         String matricula = AlunoDAO.getInstance(getActivity().getBaseContext()).find().getMatricula();
 
-        Call<List<DiaRefeicao>> call = ConnectionServer.getInstance().getService().listaRefeicoes(auth, matricula);
+        Call<List<DiaRefeicao>> call = ConnectionServer.getInstance().getService().listaRefeicoes(matricula);
 
         Response<List<DiaRefeicao>> response = null;
         try {

@@ -194,7 +194,7 @@ public class LoginModelImp implements LoginMVP.Model{
             AndroidUtil.showToast(presenter.getContext(), R.string.erroconexao);
             return null;
         }
-        return null;
+        return aluno;
     }
 
     @Override

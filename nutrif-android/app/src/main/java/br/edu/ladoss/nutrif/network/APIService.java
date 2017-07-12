@@ -30,7 +30,7 @@ public interface APIService {
     @GET("status")
     Call<Void> status();
 
-    @POST("aluno/acesso/inserir")
+    @POST("aluno/inserir")
     Call<Aluno> inserir(@Body Aluno aluno);
 
     @GET("aluno/id/{id}")
@@ -46,12 +46,11 @@ public interface APIService {
     Call<PretensaoRefeicao> pedirRefeicao(@Header("Authorization") String accessKey,
                                           @Body PretensaoRefeicao pretencaoRefeicao);
 
-    @GET("diarefeicao/listar/aluno/validaMatricula/{validaMatricula}")
-    Call<List<DiaRefeicao>> listaRefeicoes(@Header("Authorization") String accessKey,
-                                           @Path("validaMatricula")String matricula);
+    @GET("diarefeicao/listar/vigentes/aluno/matricula/{matricula}")
+    Call<List<DiaRefeicao>> listaRefeicoes(@Path("matricula")String matricula);
 
     @POST("pretensaorefeicao/diarefeicao/verificar")
-    Call<PretensaoRefeicao>     infoRefeicao(@Header("Authorization") String accessKey,
+    Call<PretensaoRefeicao> infoRefeicao(@Header("Authorization") String accessKey,
                                          @Body PretensaoRefeicao refeicao);
     @Multipart
     @POST("arquivo/upload/ARQUIVO_FOTO_PERFIL")
