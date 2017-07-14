@@ -7,16 +7,9 @@
 	<session-factory>
 
 		<property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
-        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/nutrif_20170701?useSSL=false&amp;useUnicode=true&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;useTimezone=true&amp;serverTimezone=America/Fortaleza</property>
+        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/nutrif?useSSL=false&amp;useUnicode=true&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;useTimezone=true&amp;serverTimezone=America/Fortaleza</property>
         <property name="hibernate.connection.username">root</property>
         <property name="hibernate.connection.password">ifpbinfo</property>
-        
-		<!-- database connection properties
-        <property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
-        <property name="hibernate.connection.url">jdbc:mysql://172.17.0.1:3306/nutrif?useUnicode=true&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;useTimezone=true&amp;serverTimezone=America/Fortaleza</property>
-        <property name="hibernate.connection.username">ladoss</property>
-        <property name="hibernate.connection.password">l4d0ss</property>
-        -->
         
         <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
 
