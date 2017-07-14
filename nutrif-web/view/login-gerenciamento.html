@@ -9,18 +9,18 @@
 
         <md-card-content layout="column">
 
-            <form layout="column" ng-submit="login.fazerLogin(login.funcionario)">
+            <form layout="column" ng-submit="fazerLogin(login.funcionario)">
 
                 <md-input-container class="md-icon-float md-block">
                     <md-icon md-svg-src="image/icon/round-account-button-with-user-inside.svg"></md-icon>
                     <label>E-mail</label>
-                    <input ng-model="login.funcionario.email" type="email" ng-required="true">
+                    <input ng-model="funcionario.email" type="email" ng-required="true">
                 </md-input-container>
 
                 <md-input-container class="md-icon-float md-block">
                     <label>Senha</label>
                     <md-icon md-svg-src="image/icon/locked-padlock.svg" class="name"></md-icon>
-                    <input ng-model="login.funcionario.senha" type="password" ng-required="true">
+                    <input ng-model="funcionario.senha" type="password" ng-required="true">
                 </md-input-container>
 
                 <md-button type="submit" class="md-raised md-primary md-hue-1">Entrar</md-button>
@@ -33,7 +33,7 @@
                 <span flex></span>
             </div>
 
-            <md-button class="md-primary md-hue-1" ui-sref="login.verificar-aluno">Pretensão Refeição</md-button>
+            <md-button class="md-primary md-hue-1" ui-sref="login.verificar-aluno">Aluno</md-button>
 
         </md-card-content>
     </md-card>

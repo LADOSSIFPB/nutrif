@@ -1,11 +1,11 @@
 /*
  *  Controlar ações de login para acesso de perfil de gerência.
  */
-nutrifApp.controller("loginManagerCtrl", function (toastUtil, userService, $state, loginService, $mdToast) {
+nutrifApp.controller("loginManagerCtrl", function ($scope, $state, $mdToast, toastUtil, loginService, userService) {
 
     this.funcionario = {};
 
-    this.fazerLogin = function (funcionario) {
+    $scope.fazerLogin = function (funcionario) {
         loginService.fazerLogin(funcionario)            
             .then(function(response) {
                 // Cookie do usuário.

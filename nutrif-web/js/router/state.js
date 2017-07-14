@@ -17,7 +17,7 @@ nutrifApp.config(function ($stateProvider, $urlRouterProvider) {
                 url: '/gerenciamento',
                 templateUrl: 'view/login-gerenciamento.html',
                 controller: 'loginManagerCtrl',
-                controllerAs: 'loginGerenciamento',
+                controllerAs: 'loginManager',
                 module: 'non-logged'
             })
 
