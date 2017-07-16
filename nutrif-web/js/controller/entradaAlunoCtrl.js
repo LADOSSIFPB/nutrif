@@ -13,7 +13,7 @@ nutrifApp.controller('entradaAlunoCtrl', function ($scope, $mdDialog,
     $scope.refeicoes = [];
     $scope.refeicaoSelecionada = [];
 
-    this.pesquisar = function (texto) {
+    $scope.pesquisarDiaReeficao = function (texto) {
 
         if (texto.length > TAM_MIN_BUSCA_NOME) {
 
@@ -54,9 +54,7 @@ nutrifApp.controller('entradaAlunoCtrl', function ($scope, $mdDialog,
         return toastUtil.showErrorToast(error);
     }
 
-    $scope.limparBusca = limparBusca;
-
-    function limparBusca() {
+    $scope.limparNomeMatricula = function () {
         $scope.texto = '';
         $scope.refeicoes = [];
     }
@@ -71,7 +69,7 @@ nutrifApp.controller('entradaAlunoCtrl', function ($scope, $mdDialog,
             locals: {
                 refeicao: refeicao
             }
-        }).then(limparBusca, function () {
+        }).then(limparNomeMatricula, function () {
             $scope.refeicaoSelecionada = [];
         });
     }

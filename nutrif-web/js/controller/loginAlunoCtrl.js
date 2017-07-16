@@ -10,7 +10,8 @@ nutrifApp.controller('loginAlunoCtrl', function ($stateParams, $scope, $state, $
         alunoService.fazerLogin(aluno)
             .then(function(response) {
                 $scope.aluno = response.data;
-
+                
+                // Cookie do usuário.
                 userService.storeUser($scope.aluno);
 
                 $state.go("pretensao.listar-pretensao");

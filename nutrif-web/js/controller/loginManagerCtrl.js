@@ -3,7 +3,7 @@
  */
 nutrifApp.controller("loginManagerCtrl", function ($scope, $state, $mdToast, toastUtil, loginService, userService) {
 
-    this.funcionario = {};
+    $scope.funcionario = {};
 
     $scope.fazerLogin = function (funcionario) {
         loginService.fazerLogin(funcionario)            

@@ -9,13 +9,15 @@
 
         <md-card-content layout="column">
 
-            <form layout="column" ng-submit="fazerLogin(login.funcionario)">
+            <form layout="column" ng-submit="fazerLogin(funcionario)">
 
                 <md-input-container class="md-icon-float md-block">
                     <md-icon md-svg-src="image/icon/round-account-button-with-user-inside.svg"></md-icon>
                     <label>E-mail</label>
                     <input ng-model="funcionario.email" type="email" ng-required="true">
                 </md-input-container>
+                
+                <h1>{{funcionario.email}}</h1>
 
                 <md-input-container class="md-icon-float md-block">
                     <label>Senha</label>
@@ -23,6 +25,7 @@
                     <input ng-model="funcionario.senha" type="password" ng-required="true">
                 </md-input-container>
 
+                <h1>{{funcionario.senha}}</h1>
                 <md-button type="submit" class="md-raised md-primary md-hue-1">Entrar</md-button>
 
             </form>
