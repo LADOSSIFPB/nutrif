@@ -1,45 +1,33 @@
-angular.module('NutrifApp').controller('listarFuncionariosCtrl', function ($scope, $mdToast, funcionarioService) {
+/*
+ *  Controlar ações da listagem do Funcionário.
+ */
+nutrifApp.controller('listarFuncionariosCtrl', function ($scope, toastUtil, funcionarioService) {
 
-  $scope.texto = "";
-  $scope.funcionarios = [];
-
-  $scope.limparBusca = function () {
-    $scope.texto = "";
+    $scope.nome = "";
     $scope.funcionarios = [];
-  }
 
-  $scope.pesquisar = function (texto){
-    funcionarioService.getFuncionarioByNome(texto)
-      .success(onSuccessCallback)
-      .error(onErrorCallback);
-  }
-
-  function onSuccessCallback(data, status) {
-    $scope.funcionarios = data;
-  }
-
-  function onErrorCallback(data, status) {
-    var _message = '';
-
-    if (!data) {
-      _message = 'Não foram encontrados Funcionários';
-      $scope.funcionarios = [];
-    } else {
-      _message = data.mensagem;
+    $scope.pesquisar = function (nome) {
+        if (nome.length >= 3) {
+            funcionarioService.getFuncionarioByNome(nome)
+                .then(function (response) {
+                    $scope.funcionarios = response.data;
+                })
+                .catch(function (error) {
+                    toastUtil.showErrorToast(error);
+                });
+        } else if (nome.length === 0) {
+            $scope.funcionarios = [];
+        }
+    }
+    
+    $scope.limparBusca = function () {
+        $scope.nome = "";
+        $scope.funcionarios = [];
     }
 
-    $mdToast.show(
-      $mdToast.simple()
-      .textContent(_message)
-      .position('top right')
-      .action('OK')
-      .hideDelay(6000)
-    );
-  }
-
-  $scope.query = {
-    order: 'nome',
-    limit: 8,
-    page: 1
-  }
+    $scope.query = {
+        order: 'nome',
+        limit: 8,
+        page: 1
+    }
 });

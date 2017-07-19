@@ -1,4 +1,7 @@
-angular.module('NutrifApp').config(function($mdThemingProvider) {
+/*
+ *  Configuração do Tema para Angular Material.
+ */
+nutrifApp.config(function($mdThemingProvider) {
 
     $mdThemingProvider.theme('default')
 

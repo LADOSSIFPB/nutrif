@@ -1,7 +1,7 @@
 /*
  *  Controlar ações de login para acesso de perfil de gerência.
  */
-nutrifApp.controller("loginManagerCtrl", function ($scope, $state, $mdToast, toastUtil, loginService, userService) {
+nutrifApp.controller("loginManagerCtrl", function ($scope, $state, toastUtil, loginService, userService) {
 
     $scope.funcionario = {};
 
@@ -13,7 +13,7 @@ nutrifApp.controller("loginManagerCtrl", function ($scope, $state, $mdToast, toa
                 $state.go("home.entrada-alunos");
             })
             .catch(function(error) {
-                delete funcionario.senha;                
+                delete $scope.funcionario.senha;                
                 toastUtil.showErrorToast(error);
             });
     };

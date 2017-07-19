@@ -2,7 +2,20 @@ nutrifApp.config(['$httpProvider', function ($httpProvider) {
     // Adicionar interceptadores:
     $httpProvider.interceptors.push(function ($q, $injector, userService) {
         return {
+            
+            request: function (config) {
+                
+                var user = userService.getUser();
 
+                if (user) {
+                    config.headers.authorization = user.keyAuth;
+                } else {
+                    config.headers.authorization = '';
+                }
+                
+                return config;
+            },
+            
             response: function (response) {
                 // Fluxo normal das respostas do servidor.
                 return response || $q.when(response);

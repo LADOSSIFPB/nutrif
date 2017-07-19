@@ -5,8 +5,6 @@ nutrifApp.config(function ($httpProvider) {
 
                 if (rejection.status <= 0) {
 
-                    console.log("Conexão recusada");
-
                     var mdToast = $injector.get("$mdToast");
 
                     var toast = mdToast.simple()

@@ -1,7 +1,7 @@
 /*
  *  Controlar ações de login para acesso do aluno.
  */
-nutrifApp.controller('loginAlunoCtrl', function ($stateParams, $scope, $state, $mdToast, userService, alunoService) {
+nutrifApp.controller('loginAlunoCtrl', function ($stateParams, $scope, $state, toastUtil, userService, alunoService) {
 
     $scope.aluno = {};
     $scope.aluno.matricula = $stateParams.matricula;
@@ -16,25 +16,11 @@ nutrifApp.controller('loginAlunoCtrl', function ($stateParams, $scope, $state, $
 
                 $state.go("pretensao.listar-pretensao");
             })
-            .catch(function(data) {
-
-                delete $scope.matricula;
+            .catch(function(error) {
+                
+                delete $scope.aluno.senha;
             
-                var _message = "";
-
-                if (!data) {
-                    _message = "Aluno inexistente."
-                } else {
-                    _message = data.mensagem
-                }
-
-                $mdToast.show(
-                    $mdToast.simple()
-                    .textContent(_message)
-                    .position('top right')
-                    .action('OK')
-                    .hideDelay(6000)
-                );
+                toastUtil.showErrorToast(error);
             });
     };
 });

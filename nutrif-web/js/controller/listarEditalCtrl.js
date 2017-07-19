@@ -1,4 +1,7 @@
-nutrifApp.controller('listarEditalCtrl', function ($scope, $mdToast, editalService) {
+/*
+ *  Controlar ações da listagem do Edital.
+ */
+nutrifApp.controller('listarEditalCtrl', function ($scope, toastUtil, editalService) {
 
     $scope.texto = "";
     $scope.editais = [];
@@ -9,38 +12,20 @@ nutrifApp.controller('listarEditalCtrl', function ($scope, $mdToast, editalServi
     };
 
     $scope.pesquisar = function (texto){
-        if(texto.length > 2) {
+        if(texto.length >= 3) {
             if (texto.match(/[a-zA-Z]/i) != null) {
                 editalService.buscarEditalPorNome(texto)
-                    .success(onSuccessCallback)
-                    .error(onErrorCallback);
+                    .then(function (response) {
+                        $scope.editais = response.data;
+                    })
+                    .catch(function (error) {
+                        toastUtil.showErrorToast(error);
+                    });
             }
         } else if (texto.length === 0) {
             $scope.editais = [];
         }
     };
-
-    function onSuccessCallback(data, status) {
-        $scope.editais = data;
-    }
-
-    function onErrorCallback(data, status) {
-        var _message = '';
-
-        if (!data) {
-            _message = 'Não foram encontrados Editais'
-        } else {
-            _message = data.mensagem
-        }
-
-        $mdToast.show(
-            $mdToast.simple()
-            .textContent(_message)
-            .position('top right')
-            .action('OK')
-            .hideDelay(6000)
-        );
-    }
 
     $scope.query = {
         order: 'nome',

@@ -1,4 +1,4 @@
-nutrifApp.config(function ($stateProvider, $urlRouterProvider) {
+nutrifApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
 
         // Rota padrão.
         $urlRouterProvider.otherwise("/login/gerenciamento");
@@ -59,10 +59,20 @@ nutrifApp.config(function ($stateProvider, $urlRouterProvider) {
             .state('home', {
                 url: '/inicio',
                 abstract: true,
+                controller: 'sideNavCtrl',
+                controllerAs: 'sideNav',
                 templateUrl: 'view/manager/home.html'
             })
 
             /* Funcionário */
+            .state('home.listar-funcionarios', {
+                url: '/listar/funcionarios',
+                title: 'Listar Funcionários',
+                templateUrl: 'view/manager/admin/listar-funcionarios.html',
+                controller: 'listarFuncionariosCtrl',
+                controllerAs: 'listarFuncionarios',
+                module: 'admin'
+            })
             .state('home.adicionar-funcionarios', {
                 url: '/adicionar/funcionario',
                 title: 'Adicionar Funcionarios',
@@ -71,15 +81,6 @@ nutrifApp.config(function ($stateProvider, $urlRouterProvider) {
                 controllerAs: 'cadastrarFuncionarios',
                 module: 'admin'
             })
-
-            .state('home.listar-funcionarios', {
-                url: '/listar/funcionarios',
-                title: 'Listar Funcionarios',
-                templateUrl: 'view/manager/admin/listar-funcionarios.html',
-                controller: 'listarFuncionariosCtrl',
-                module: 'admin'
-            })
-
             .state('home.editar-funcionario', {
                 url: '/editar/funcionario/:id',
                 title: 'Editar Funcionario',
@@ -112,7 +113,7 @@ nutrifApp.config(function ($stateProvider, $urlRouterProvider) {
                 title: 'Listar Alunos',
                 templateUrl: 'view/manager/admin/listar-alunos.html',
                 controller: 'listarAlunosCtrl',
-                controllerAs: 'listar',
+                controllerAs: 'listarAlunos',
                 module: 'admin'
             })
 

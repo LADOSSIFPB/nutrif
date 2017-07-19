@@ -7,7 +7,7 @@ nutrifApp.factory("toastUtil", function ($mdToast) {
             var message = "";
 
             if (!error.data) {
-                message = "Ocorreu um erro na splicitação ao servidor, favor chamar o suporte."
+                message = "Ocorreu um problema do NutrIF no Servidor, favor chamar o suporte."
             } else {
                 message = error.data.mensagem
             }

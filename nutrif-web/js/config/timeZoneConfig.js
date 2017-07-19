@@ -1,4 +1,7 @@
-angular.module('NutrifApp').config(['$provide', function($provide) {
+/*
+ *  Configuração do Timezone para campos Data.
+ */
+nutrifApp.config(['$provide', function($provide) {
      var DEFAULT_TIMEZONE = 'UTC';
 
      $provide.decorator('dateFilter', ['$delegate', '$injector', function($delegate, $injector) {

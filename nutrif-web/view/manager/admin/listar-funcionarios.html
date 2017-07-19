@@ -30,10 +30,10 @@
         <md-icon style="fill: rgba(0,0,0,.54);" md-svg-icon="image/icon/searching-magnifying-glass.svg"></md-icon>
 
         <div class="toolbar-input" flex>
-          <input type="text" ng-model="texto" ng-keyup="pesquisar(texto)" placeholder="Nome do funcionario">
+          <input type="text" ng-model="nome" ng-keyup="pesquisar(nome)" placeholder="Nome do funcionario">
         </div>
 
-        <md-button aria-label="Limpar Busca" class="md-icon-button" ng-click="limparBusca(texto)">
+        <md-button aria-label="Limpar Busca" class="md-icon-button" ng-click="limparBusca()">
           <md-tooltip md-direction="bottom">Refazer busca</md-tooltip>
           <md-icon style="fill: rgba(0,0,0,.54);" md-svg-icon="image/icon/replay-arrow.svg"></md-icon>
         </md-button>

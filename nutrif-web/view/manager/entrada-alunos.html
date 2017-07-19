@@ -7,11 +7,11 @@
                 <md-icon style="fill: rgba(0,0,0,.54);" md-svg-icon="image/icon/searching-magnifying-glass.svg"></md-icon>
 
                 <div class="toolbar-input" flex>
-                    <input type="text" ng-model="nomeMatricula" ng-keyup="pesquisarDiaReeficao(nomeMatricula)" placeholder="Digite o nome ou a matrícula do aluno">
+                    <input type="text" ng-model="nomeMatricula" ng-keyup="pesquisarDiaRefeicao(nomeMatricula)" placeholder="Digite o nome ou a matrícula do aluno">
                 </div>
 
-                <md-button aria-label="Limpar Busca" class="md-icon-button" ng-click="limparNomeMatricula(nomeMatricula)">
-                    <md-tooltip md-direction="bottom">Limpar Nome ou Matrícula</md-tooltip>
+                <md-button aria-label="Limpar Busca" class="md-icon-button" ng-click="limpar()">
+                    <md-tooltip md-direction="bottom">Limpar Busca</md-tooltip>
                     <md-icon style="fill: rgba(0,0,0,.54);" md-svg-icon="image/icon/replay-arrow.svg"></md-icon>
                 </md-button>
 

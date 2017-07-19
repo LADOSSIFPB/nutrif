@@ -1,3 +1,6 @@
+/*
+ *  Configuração de conexão de serviço.
+ */
 nutrifApp.value("config", {
 
 	chartColors: ['#DE3641', '#4BAE4F'],
