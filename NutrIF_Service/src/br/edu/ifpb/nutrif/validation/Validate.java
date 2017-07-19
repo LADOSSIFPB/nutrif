@@ -567,8 +567,14 @@ public class Validate {
 	}
 	
 	public static int logoutPessoa(String authorization) {
+		
 		logger.info("Validação para logout de Funcionário.");
-		return 0;
+		
+		if (!stringValidator.validate(authorization)) {
+			return ErrorFactory.AUTORIZATION_INVALIDO;
+		}
+		
+		return VALIDATE_OK;
 	}
 	
 	public static int downloadArquivo(TipoArquivo tipoArquivo, 
