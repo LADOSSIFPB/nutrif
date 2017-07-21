@@ -1,53 +1,40 @@
-angular.module('NutrifApp').controller('listarCursoCtrl', function ($scope, $mdToast, cursoService) {
+/*
+ *  Controlar ações da listagem do Curso.
+ */
+nutrifApp.controller('listarCursoCtrl', function ($scope, toastUtil, cursoService) {
 
-    $scope.texto = "";
+    $scope.nome = "";
     $scope.cursos = [];
 
+    $scope.listarCursos = function () {
+        cursoService.listarCursos()
+            .then(onSuccessCallback)
+            .catch(onErrorCallback);
+    }
+
+    $scope.pesquisar = function (nome) {
+        if (nome.length >= 3) {
+            if (nome.match(/[a-zA-Z]/i) != null) {
+                cursoService.buscarCursoPorNome(nome)
+                    .then(onSuccessCallback)
+                    .catch(onErrorCallback);
+            }
+        } else if (nome.length === 0) {
+            $scope.cursos = [];
+        }
+    };
+    
     $scope.limparBusca = function () {
-        $scope.texto = "";
+        $scope.nome = "";
         $scope.cursos = [];
     };
-
-
-    $scope.carregarCursos = function() {
-          cursoService.listarCursos()
-                    .success(onSuccessCallback)
-                    .error(onErrorCallback);
+    
+    function onSuccessCallback(response) {
+        $scope.cursos = response.data;
     }
 
-    $scope.pesquisar = function (texto){
-        if(texto.length > 2) {
-            if (texto.match(/[a-zA-Z]/i) != null) {
-                cursoService.buscarCursoPorNome(texto)
-                    .success(onSuccessCallback)
-                    .error(onErrorCallback);
-            }
-        } else if (texto.length === 0) {
-            $scope.carregarCursos();
-        }
-    };
-
-
-    function onSuccessCallback(data, status) {
-        $scope.cursos = data;
-    }
-
-    function onErrorCallback(data, status) {
-        var _message = '';
-
-        if (!data) {
-            _message = 'Não foram encontrados cursos'
-        } else {
-            _message = data.mensagem
-        }
-
-        $mdToast.show(
-            $mdToast.simple()
-            .textContent(_message)
-            .position('top right')
-            .action('OK')
-            .hideDelay(6000)
-        );
+    function onErrorCallback(error) {
+        toastUtil.showErrorToast(error);
     }
 
     $scope.query = {
@@ -56,5 +43,5 @@ angular.module('NutrifApp').controller('listarCursoCtrl', function ($scope, $mdT
         page: 1
     };
 
-    $scope.carregarCursos();
+    $scope.listarCursos();
 });

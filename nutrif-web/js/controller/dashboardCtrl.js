@@ -1,5 +1,8 @@
-angular.module('NutrifApp').controller('dashboardCtrl', function (
-    $scope, $mdToast, $timeout, $state, $interval, $mdExpansionPanelGroup, $mdExpansionPanel, diaService, refeicaoService, pretensaoService, refeicaoRealizadaService, diaRefeicaoService) {
+/*
+ *  Controlar ações da listagem da Refeição.
+ */
+nutrifApp.controller('dashboardCtrl', function (
+    $scope, $timeout, $state, $interval, $mdExpansionPanelGroup, $mdExpansionPanel, toastUtil, diaService, refeicaoService, pretensaoService, refeicaoRealizadaService, diaRefeicaoService) {
 
     // Campos Dia e Refeição para consulta.
     $scope.dias = [];
@@ -19,19 +22,19 @@ angular.module('NutrifApp').controller('dashboardCtrl', function (
     // Carregar os dias da semana.
     $scope.carregarDia = function () {
         diaService.listarDias()
-            .success(function (data, status) {
-                $scope.dias = data;
+            .then(function (response) {
+                $scope.dias = response.data;
             })
-            .error(onErrorCallback);
+            .catch(onErrorCallback);
     }
 
     // Carregar os tipos das refeições.
     $scope.carregarRefeicao = function () {
         refeicaoService.listarRefeicoes()
-            .success(function (data, status) {
-                $scope.refeicoes = data;
+            .then(function (response) {
+                $scope.refeicoes = response.data;
             })
-            .error(onErrorCallback);
+            .catch(onErrorCallback);
     }
 
     // Iniciar a quantidade nos mapas.
@@ -46,50 +49,36 @@ angular.module('NutrifApp').controller('dashboardCtrl', function (
         $scope.mapaDiaRefeicao.data = new Date();
     }
 
-    function onErrorCallback(data, status) {
-        var _message = '';
-
-        if (!data) {
-            _message = 'Não foram encontrados cursos'
-        } else {
-            _message = data.mensagem
-        }
-
-        $mdToast.show(
-            $mdToast.simple()
-            .textContent(_message)
-            .position('top right')
-            .action('OK')
-            .hideDelay(6000)
-        );
+    function onErrorCallback(error) {
+        toastUtil.showErrorToast(error);
     }
 
     var getQuantidadePretensao = function () {
 
         pretensaoService.getQuantidadePretensao($scope.diaRefeicao)
-            .success(function (data, status) {
-                $scope.mapaPretensao = data;
+            .then(function (response) {
+                $scope.mapaPretensao = response.data;
             })
-            .error(onErrorCallback);
+            .catch(onErrorCallback);
 
     }
 
     var getQuantidadeRefeicoesRealizadas = function () {
 
-        refeicaoRealizadaService.getQuantidadeRefeicoesRealizadas($scope.diaRefeicao).
-        success(function (data, status) {
-                $scope.mapaRefeicaoRealizada = data;
+        refeicaoRealizadaService.getQuantidadeRefeicoesRealizadas($scope.diaRefeicao)
+            .then(function (response) {
+                $scope.mapaRefeicaoRealizada = response.data;
             })
-            .error(onErrorCallback);
+            .catch(onErrorCallback);
     }
 
     var getQuantidadeRefeicoesDoDia = function () {
 
-        diaRefeicaoService.getQuantidadeRefeicoes($scope.diaRefeicao).
-        success(function (data, status) {
-                $scope.mapaDiaRefeicao = data;
+        diaRefeicaoService.getQuantidadeRefeicoes($scope.diaRefeicao)
+            .then(function (response) {
+                $scope.mapaDiaRefeicao = response.data;
             })
-            .error(onErrorCallback);
+            .catch(onErrorCallback);
     }
 
     // Lista de refeições realizadas.
@@ -98,11 +87,11 @@ angular.module('NutrifApp').controller('dashboardCtrl', function (
         var idDia = $scope.diaRefeicao.dia.id;
         var idRefeicao = $scope.diaRefeicao.refeicao.id;
 
-        refeicaoRealizadaService.getMapaRefeicaoRealizadaByDiaRefeicao(idDia, idRefeicao).
-        success(function (data, status) {
-                $scope.refeicoesRealizadas = data.lista;
+        refeicaoRealizadaService.getMapaRefeicaoRealizadaByDiaRefeicao(idDia, idRefeicao)
+            .then(function (response) {
+                $scope.refeicoesRealizadas = response.data.lista;
             })
-            .error(onErrorCallback);
+            .catch(onErrorCallback);
     }
 
     // Lista de refeições para o dia.
@@ -111,11 +100,11 @@ angular.module('NutrifApp').controller('dashboardCtrl', function (
         var idDia = $scope.diaRefeicao.dia.id;
         var idRefeicao = $scope.diaRefeicao.refeicao.id;
 
-        diaRefeicaoService.getAllByDiaAndRefeicao(idDia, idRefeicao).
-        success(function (data, status) {
-                $scope.diaRefeicoes = data;
+        diaRefeicaoService.getAllByDiaAndRefeicao(idDia, idRefeicao)
+            .then(function (response) {
+                $scope.diaRefeicoes = response.data;
             })
-            .error(onErrorCallback);
+            .catch(onErrorCallback);
     }
 
     $scope.consulta = function () {

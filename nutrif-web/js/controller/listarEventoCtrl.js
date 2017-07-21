@@ -1,53 +1,40 @@
-angular.module('NutrifApp').controller('listarEventoCtrl', function ($scope, $mdToast, eventoService) {
+/*
+ *  Controlar ações da listagem do Evento.
+ */
+nutrifApp.controller('listarEventoCtrl', function ($scope, toastUtil, eventoService) {
 
-    $scope.texto = "";
+    $scope.nome = "";
     $scope.eventos = [];
 
+    $scope.pesquisar = function (nome){
+        if(nome.length >= 3) {
+            if (nome.match(/[a-zA-Z]/i) != null) {
+                eventoService.buscarEventoPorNome(nome)
+                    .then(onSuccessCallback)
+                    .catch(onErrorCallback);
+            }
+        } else if (nome.length === 0) {
+            $scope.eventos = [];
+        }
+    };
+
+    $scope.listarEventos = function() {
+          eventoService.listarEvento()
+                    .then(onSuccessCallback)
+                    .catch(onErrorCallback);
+    }
+    
     $scope.limparBusca = function () {
-        $scope.texto = "";
+        $scope.nome = "";
         $scope.eventos = [];
     };
 
-
-    $scope.pesquisar = function (texto){
-        if(texto.length > 2) {
-            if (texto.match(/[a-zA-Z]/i) != null) {
-                eventoService.buscarEventoPorNome(texto)
-                    .success(onSuccessCallback)
-                    .error(onErrorCallback);
-            }
-        } else if (texto.length === 0) {
-            $scope.carregarEventos();
-        }
-    };
-
-    $scope.carregarEventos = function() {
-          eventoService.listarEvento()
-                    .success(onSuccessCallback)
-                    .error(onErrorCallback);
+    function onSuccessCallback(response) {
+        $scope.eventos = response.data;
     }
 
-
-    function onSuccessCallback(data, status) {
-        $scope.eventos = data;
-    }
-
-    function onErrorCallback(data, status) {
-        var _message = '';
-
-        if (!data) {
-            _message = 'Não foram encontrados eventos'
-        } else {
-            _message = data.mensagem
-        }
-
-        $mdToast.show(
-            $mdToast.simple()
-            .textContent(_message)
-            .position('top right')
-            .action('OK')
-            .hideDelay(6000)
-        );
+    function onErrorCallback(error) {
+        toastUtil.showErrorToast(error);
     }
 
     $scope.query = {
@@ -56,5 +43,5 @@ angular.module('NutrifApp').controller('listarEventoCtrl', function ($scope, $md
         page: 1
     };
 
-    $scope.carregarEventos();
+    $scope.listarEventos();
 });

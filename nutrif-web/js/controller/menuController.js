@@ -1,4 +1,4 @@
-nutrifApp.controller('MenuController', function ($scope, $timeout, $rootScope, $state, $location, $mdSidenav, menu) {
+nutrifApp.controller('menuController', function ($scope, $timeout, $rootScope, $state, $location, $mdSidenav, menu) {
 
     var vm = this;
 

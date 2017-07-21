@@ -1,4 +1,7 @@
-angular.module('NutrifApp').controller('estatisticasCtrl', function ($scope, config, pretensaoService, refeicaoRealizadaService) {
+/*
+ *  Controlar ações da Estatística.
+ */
+nutrifApp.controller('estatisticasCtrl', function ($scope, config, toastUtil, pretensaoService, refeicaoRealizadaService) {
 
     $scope.periodoPretensao = {
         dataInicio: Date.parse('-6'),
@@ -20,7 +23,10 @@ angular.module('NutrifApp').controller('estatisticasCtrl', function ($scope, con
         var _listaPretensaoJantar = [];
 
         pretensaoService.mapaRefeicao(_periodoPretensao)
-            .success(function (data, status) {
+            .then(function (response) {
+                
+                var data = response.data;
+            
                 for (var i = 0; i < data.length; i++) {
                     $scope.pretensaoChart.labels.push(moment(data[i].data).locale("pt-br").format('DD/MM'));
                     _dadosPretensaoAlmoco.push(data[i].quantidade);
@@ -34,7 +40,10 @@ angular.module('NutrifApp').controller('estatisticasCtrl', function ($scope, con
                 };
 
                 pretensaoService.mapaRefeicao(_periodoPretensao)
-                    .success(function (data, status) {
+                    .then(function (response) {
+                
+                        var data = response.data;
+                    
                         for (var i = 0; i < data.length; i++) {
                             _dadosPretensaoJantar.push(data[i].quantidade);
                             _listaPretensaoJantar.push(data[i].lista);
@@ -43,14 +52,13 @@ angular.module('NutrifApp').controller('estatisticasCtrl', function ($scope, con
                         $scope.pretensaoChart.data.push(_dadosPretensaoJantar);
                         $scope.pretensaoChart.refeicoes.push(_listaPretensaoJantar)
                     })
-                    .error(function (data, status) {
-                        alert("Houve um erro ao carregar os gráficos. Contate um administrador.: pretensaoService");
+                    .catch(function (error) {
+                        toastUtil.showErrorToast(error);
                     });
 
             })
-
-            .error(function (data, status) {
-                alert("Houve um erro ao carregar os gráficos. Contate um administrador.: pretensaoService");
+            .catch(function (error) {
+                toastUtil.showErrorToast(error);
             });
     }
 
@@ -66,8 +74,10 @@ angular.module('NutrifApp').controller('estatisticasCtrl', function ($scope, con
         var _listaRefeicaoJantar = [];
 
         refeicaoRealizadaService.mapaRefeicao(_periodoPretensao)
-
-            .success(function (data, status) {
+            .then(function (response) {
+                
+                var data = response.data;
+                    
                 for (var i = 0; i < data.length; i++) {
                     $scope.refeicaoRealizadaChart.labels.push(moment(data[i].data).locale("pt-br").format('DD/MM'));
                     _dadosPretensaoAlmoco.push(data[i].quantidade);
@@ -81,7 +91,10 @@ angular.module('NutrifApp').controller('estatisticasCtrl', function ($scope, con
                 };
 
                 refeicaoRealizadaService.mapaRefeicao(_periodoPretensao)
-                    .success(function (data, status) {
+                    .then(function (response) {
+                
+                        var data = response.data;
+                    
                         for (var i = 0; i < data.length; i++) {
                             _dadosPretensaoJantar.push(data[i].quantidade);
                             _listaRefeicaoJantar.push(data[i].lista);
@@ -90,14 +103,13 @@ angular.module('NutrifApp').controller('estatisticasCtrl', function ($scope, con
                         $scope.refeicaoRealizadaChart.data.push(_dadosPretensaoJantar)
                         $scope.refeicaoRealizadaChart.refeicoes.push(_listaRefeicaoJantar);
                     })
-                    .error(function (data, status) {
-                        alert("Houve um erro ao carregar os gráficos. Contate um administrador.: refeicaoRealizadaService");
+                    .catch(function (error) {
+                        toastUtil.showErrorToast(error);
                     });
 
             })
-
-            .error(function (data, status) {
-                alert("Houve um erro ao carregar os gráficos. Contate um administrador.: refeicaoRealizadaService");
+            .catch(function (error) {
+                toastUtil.showErrorToast(error);
             });
     };
 
