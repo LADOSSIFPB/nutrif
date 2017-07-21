@@ -1,6 +1,8 @@
-angular.module('NutrifApp').controller('migrarSabadoLetivoCtrl', function ($scope, $mdToast, $state, $window,
-        diaRefeicaoService, userService, editalService, funcionarioService, diaService) {
-	
+/*
+ *  Controlar ações da Migração do Sábado Letivo.
+ */
+nutrifApp.controller('migrarSabadoLetivoCtrl', function ($scope, $state, $window,
+        toastUtil, diaRefeicaoService, userService, editalService, funcionarioService, diaService) {
 	
         $scope.dias = [];
         $scope.idDia = 0;
@@ -12,48 +14,23 @@ angular.module('NutrifApp').controller('migrarSabadoLetivoCtrl', function ($scop
         $scope.editais = [];
         $scope.edital = {};
 
-
         this.migrar = function () {
 
             edital = this.selectedItem;
             
             // Enviar para o serviço de que migra o dia para o sabado letivo.
-            diaRefeicaoService.migrarSabadoLetivo($scope.idDia, edital)
-                .success(onSuccessCallback)
-                .error(onErrorCallback);
-        }
+            diaRefeicaoService.migrarSabadoLetivo($scope.idDia, edital)            
+                .then(function (response) {
+                    var message = 'Sábado Letivo Migrado com sucesso.';
+                    toastUtil.showSuccessToast(message);
+                    
+                    $state.transitionTo('home.listar-edital');
+                })
+                .catch(function (error) {
+                    toastUtil.showErrorToast(error);
 
-        function onSuccessCallback(data, status) {
-
-            $mdToast.show(
-                $mdToast.simple()
-                .textContent('Sabado letivo migrado com sucesso!')
-                .position('top right')
-                .action('OK')
-                .hideDelay(6000)
-            );
-
-            $state.transitionTo('home.listar-edital');
-        }
-
-        function onErrorCallback(data, status) {
-            var _message = '';
-
-            if (!data) {
-                _message = 'Ocorreu um erro na comunicação com o servidor, favor chamar o suporte.'
-            } else {
-                _message = data.mensagem
-            }
-
-            $mdToast.show(
-                $mdToast.simple()
-                .textContent(_message)
-                .position('top right')
-                .action('OK')
-                .hideDelay(6000)
-            );
-
-            $state.transitionTo('home.listar-edital');
+                    $state.transitionTo('home.listar-edital');
+                });
         }
 
         // Selecionar responsável pelo Edital.
@@ -69,39 +46,36 @@ angular.module('NutrifApp').controller('migrarSabadoLetivoCtrl', function ($scop
         // Consultar responsável no serviço.
         this.listarEdital = function listarEdital(query) {
 
-            editalService.buscarEditalPorNome(query)
-                .success(onSuccessListarFuncionario)
-                .error(onErrorCallback);
+            editalService.buscarEditalPorNome(query)            
+                .then(function (response) {
+                    $scope.editais = response.data;
+                })
+                .catch(function (error) {
+                    toastUtil.showErrorToast(error);
+                });
 
             return $scope.editais;
-        }
-
-        function onSuccessListarFuncionario(data, status) {
-            return $scope.editais = data;
         }
 
         function transformChip(edital) {
             // If it is an object, it's already a known chip
             if (angular.isObject(edital)) {
-                console.log("edital" + edital);
                 return edital;
             }
         }
 
-
         // Carregar os dias da semana.
         function carregarDiasSemana() {
-           diaService.listarDias()
-                .success(function (data, status) {
-                    $scope.dias = data;
+           diaService.listarDias()            
+                .then(function (response) {
+                    $scope.dias = response.data;
                 })
-                .error(function (data, status) {
-                    alert("Houve um problema ao carregar os Eventos.");
+                .catch(function (error) {
+                    toastUtil.showErrorToast(error);
                 });
         }
 
-        carregarDiasSemana();
-    
+        carregarDiasSemana();    
 })
 
 		

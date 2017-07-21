@@ -128,7 +128,7 @@ nutrifApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
 
             .state('home.entrada-alunos', {
                 url: '/entrada/aluno',
-                title: 'Entrada de Alunos',
+                title: 'Entrar no Refeotório',
                 templateUrl: 'view/manager/entrada-alunos.html',
                 controller: 'entradaAlunoCtrl',
                 controllerAs: 'entrada',
