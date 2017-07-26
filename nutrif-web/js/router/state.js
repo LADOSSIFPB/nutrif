@@ -18,7 +18,7 @@ nutrifApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
                 templateUrl: 'view/login-gerenciamento.html',
                 controller: 'loginManagerCtrl',
                 controllerAs: 'loginManager',
-                module: 'non-logged'
+                permissions: ['non-logged']
             })
 
             // Login Aluno
@@ -27,7 +27,7 @@ nutrifApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
                 templateUrl: 'view/login-aluno.html',
                 controller: 'loginAlunoCtrl',
                 controllerAs: 'loginAluno',
-                module: 'non-logged'
+                permissions: ['non-logged']
             })
 
             // Verificação do Aluno.
@@ -36,7 +36,7 @@ nutrifApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
                 templateUrl: 'view/verificar-aluno.html',
                 controller: 'verificarAlunoCtrl',
                 controllerAs: 'verificarAluno',
-                module: 'non-logged'
+                permissions: ['non-logged']
             })
 
             // Subrota - Aluno
@@ -52,7 +52,7 @@ nutrifApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
                 title: 'Atualizar dados do aluno',
                 controller: 'atualizarAlunoCtrl',
                 controllerAs: 'atualizarAluno',
-                module: 'non-logged'
+                permissions: ['non-logged']
             })
 
             // Subrota - Gerenciamento
@@ -71,7 +71,7 @@ nutrifApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
                 templateUrl: 'view/manager/admin/listar-funcionarios.html',
                 controller: 'listarFuncionariosCtrl',
                 controllerAs: 'listarFuncionarios',
-                module: 'admin'
+                permissions: ['admin']
             })
             .state('home.adicionar-funcionarios', {
                 url: '/adicionar/funcionario',
@@ -79,7 +79,7 @@ nutrifApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
                 templateUrl: 'view/manager/admin/adicionar-funcionarios.html',
                 controller: 'cadastrarFuncionarioCtrl',
                 controllerAs: 'cadastrarFuncionarios',
-                module: 'admin'
+                permissions: ['admin']
             })
             .state('home.editar-funcionario', {
                 url: '/editar/funcionario/:id',
@@ -87,7 +87,7 @@ nutrifApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
                 templateUrl: 'view/manager/admin/editar-funcionario.html',
                 controller: 'editarFuncionarioCtrl',
                 controllerAs: 'editar',
-                module: 'admin'
+                permissions: ['admin']
             })
 
             .state('home.perfil-aluno', {
@@ -95,7 +95,7 @@ nutrifApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
                 title: 'Perfil Aluno',
                 templateUrl: 'view/manager/admin/perfil-aluno.html',
                 controller: 'webcamCtrl',
-                module: 'admin'
+                permissions: ['admin']
             })
 
             /* Aluno */
@@ -105,7 +105,7 @@ nutrifApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
                 templateUrl: 'view/manager/admin/adicionar-alunos.html',
                 controller: 'cadastrarAlunoCtrl',
                 controllerAs: 'cadastrar',
-                module: 'admin'
+                permissions: ['admin']
             })
 
             .state('home.listar-alunos', {
@@ -114,7 +114,7 @@ nutrifApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
                 templateUrl: 'view/manager/admin/listar-alunos.html',
                 controller: 'listarAlunosCtrl',
                 controllerAs: 'listarAlunos',
-                module: 'admin'
+                permissions: ['admin']
             })
 
             .state('home.editar-aluno', {
@@ -123,7 +123,7 @@ nutrifApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
                 templateUrl: 'view/manager/admin/editar-aluno.html',
                 controller: 'editarAlunoCtrl',
                 controllerAs: 'editar',
-                module: 'admin'
+                permissions: ['admin']
             })
 
             .state('home.entrada-alunos', {
@@ -132,7 +132,7 @@ nutrifApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
                 templateUrl: 'view/manager/entrada-alunos.html',
                 controller: 'entradaAlunoCtrl',
                 controllerAs: 'entrada',
-                module: 'inspetor'
+                permissions: ['inspetor', 'admin']
             })
 
             .state('home.qrcode', {
@@ -141,7 +141,7 @@ nutrifApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
                 templateUrl: 'view/manager/entrada-qrcode.html',
                 controller: 'entradaQrCtrl',
                 controllerAs: 'qr',
-                module: 'inspetor'
+                permissions: ['inspetor', 'admin']
             })
 
             /* Edital*/
@@ -151,7 +151,7 @@ nutrifApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
                 templateUrl: 'view/manager/admin/adicionar-edital.html',
                 controller: 'cadastrarEditalCtrl',
                 controllerAs: 'cadastrarEdital',
-                module: 'admin'
+                permissions: ['admin']
             })
 
             .state('home.listar-edital', {
@@ -160,7 +160,7 @@ nutrifApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
                 templateUrl: 'view/manager/admin/listar-edital.html',
                 controller: 'listarEditalCtrl',
                 controllerAs: 'listarEdital',
-                module: 'admin'
+                permissions: ['admin']
             })
 
             .state('home.editar-edital', {
@@ -169,7 +169,7 @@ nutrifApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
                 templateUrl: 'view/manager/admin/editar-edital.html',
                 controller: 'editarEditalCtrl',
                 controllerAs: 'editarEdital',
-                module: 'admin'
+                permissions: ['admin']
             })
 
             .state('home.listar-contemplados-edital', {
@@ -178,7 +178,7 @@ nutrifApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
                 templateUrl: 'view/manager/admin/listar-contemplados-edital.html',
                 controller: 'listarContempladosEditalCtrl',
                 controllerAs: 'listarContempladosEdital',
-                module: 'admin'
+                permissions: ['admin']
             })
 
             .state('home.detalhar-refeicaorealizada-aluno-edital', {
@@ -187,7 +187,7 @@ nutrifApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
                 templateUrl: 'view/manager/admin/detalhar-refeicaorealizada-aluno-edital.html',
                 controller: 'detalharRefeicaoRealizadaAlunoEditalCtrl',
                 controllerAs: 'detalharRefeicaoRealizadaAlunoEdital',
-                module: 'admin'
+                permissions: ['admin']
             })
 
             /* Curso */
@@ -197,7 +197,7 @@ nutrifApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
                 templateUrl: 'view/manager/admin/listar-cursos.html',
                 controller: 'listarCursoCtrl',
                 controllerAs: 'listarCurso',
-                module: 'admin'
+                permissions: ['admin']
             })
 
             .state('home.adicionar-cursos', {
@@ -206,7 +206,7 @@ nutrifApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
                 templateUrl: 'view/manager/admin/adicionar-curso.html',
                 controller: 'cadastrarCursoCtrl',
                 controllerAs: 'cadastrarCurso',
-                module: 'admin'
+                permissions: ['admin']
             })
 
             .state('home.editar-curso', {
@@ -215,7 +215,7 @@ nutrifApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
                 templateUrl: 'view/manager/admin/editar-curso.html',
                 controller: 'editarCursoCtrl',
                 controllerAs: 'editar',
-                module: 'admin'
+                permissions: ['admin']
             })
 
             /* Evento */
@@ -225,7 +225,7 @@ nutrifApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
                 templateUrl: 'view/manager/admin/listar-eventos.html',
                 controller: 'listarEventoCtrl',
                 controllerAs: 'listarEvento',
-                module: 'admin'
+                permissions: ['admin']
             })
 
             .state('home.adicionar-eventos', {
@@ -234,7 +234,7 @@ nutrifApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
                 templateUrl: 'view/manager/admin/adicionar-evento.html',
                 controller: 'cadastrarEventoCtrl',
                 controllerAs: 'cadastrarEvento',
-                module: 'admin'
+                permissions: ['admin']
             })
 
             .state('home.editar-evento', {
@@ -243,7 +243,7 @@ nutrifApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
                 templateUrl: 'view/manager/admin/editar-evento.html',
                 controller: 'editarEventoCtrl',
                 controllerAs: 'editar',
-                module: 'admin'
+                permissions: ['admin']
             })
 
             /* Refeição */
@@ -253,7 +253,7 @@ nutrifApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
                 templateUrl: 'view/manager/admin/adicionar-refeicao.html',
                 controller: 'cadastrarRefeicaoCtrl',
                 controllerAs: 'cadastrarRefeicao',
-                module: 'admin'
+                permissions: ['admin']
             })
 
             .state('home.listar-refeicoes', {
@@ -262,7 +262,7 @@ nutrifApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
                 templateUrl: 'view/manager/admin/listar-refeicoes.html',
                 controller: 'listarRefeicaoCtrl',
                 controllerAs: 'listarRefeicao',
-                module: 'admin'
+                permissions: ['admin']
             })
 
             .state('home.editar-refeicao', {
@@ -271,7 +271,7 @@ nutrifApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
                 templateUrl: 'view/manager/admin/editar-refeicao.html',
                 controller: 'editarRefeicaoCtrl',
                 controllerAs: 'editarRefeicao',
-                module: 'admin'
+                permissions: ['admin']
             })
 
             /* Migrar Sábado Letivo */
@@ -281,7 +281,7 @@ nutrifApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
                 templateUrl: 'view/manager/admin/migrar-sabado-letivo.html',
                 controller: 'migrarSabadoLetivoCtrl',
                 controllerAs: 'migrarSabado',
-                module: 'admin'
+                permissions: ['admin']
             })
 
             /* Dashboard e Estatística */
@@ -291,7 +291,7 @@ nutrifApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
                 templateUrl: 'view/manager/admin/dashboard.html',
                 controller: 'dashboardCtrl',
                 controllerAs: 'dashboard',
-                module: 'admin'
+                permissions: ['admin']
             })
     
             .state('home.estatisticas', {
@@ -300,7 +300,7 @@ nutrifApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
                 templateUrl: 'view/manager/admin/estatisticas.html',
                 controller: 'estatisticasCtrl',
                 controllerAs: 'estatisticas',
-                module: 'admin'
+                permissions: ['admin']
             })
     })
     //take all whitespace out of string

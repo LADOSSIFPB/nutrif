@@ -21,6 +21,8 @@ nutrifApp.controller('loginAlunoCtrl', function ($stateParams, $scope, $state, t
                 delete $scope.aluno.senha;
             
                 toastUtil.showErrorToast(error);
+            
+                $state.go("login.verificar-aluno");
             });
     };
 });
