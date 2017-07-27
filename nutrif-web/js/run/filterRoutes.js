@@ -2,54 +2,39 @@
  *  Analisa as mudanças de rota e verificar os papeis de permissão de acesso
  *  para cada usuário.
  */
-nutrifApp.run(function ($rootScope, $state, userService) {
+nutrifApp.run(function ($transitions, userService, userConst, arrayUtil) {
 
-    // Register listener to watch route changes
-    $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
+    // Perfis Administradores.
+    var admins = [userConst.admin, userConst.inspetor];
+        
+    $transitions.onStart({}, function (t, n, i) {
 
-        var _user = userService.getUser();
+        // Permissões da página acessada.
+        var pagePermissions = t.to().permissions;
+        
+        // Usuário logado.
+        var isLogged = userService.isLoggedIn();
 
-        function findRoleAdmin(role) {
-            return role.id === 1;
+        if (!isLogged || (isLogged && !userService.hasRoles(pagePermissions))) {
+
+            // Verificar a página solicitada e encaminhar para login.
+            if (!arrayUtil.findString(pagePermissions, userConst.nonLogged)) {                
+                
+                // Admin e inspetor
+                if (arrayUtil.findOne(pagePermissions, admins)) {
+                    return state.target('login.gerenciamento');
+                }
+                
+                // Aluno                
+                if (arrayUtil.findString(pagePermissions, userConst.aluno)) {
+                    return state.target('login.verificar-aluno');    
+                }                
+            }   
         }
 
-        function findRoleInspetor(role) {
-            return role.id === 2;
-        }
-
-        function findRoleComensal(role) {
-            return role.id === 3;
-        }
-
-        if (_user) {
-
-            if (toState.module === 'non-logged') {
-                event.preventDefault();
-                $state.go("home.entrada-alunos");
-            }
-
-            if (toState.module === 'admin' && !_user.roles.find(findRoleAdmin)) {
-                event.preventDefault();
-                $state.go("home.entrada-alunos");
-            }
-
-            if (toState.module === 'comensal' && !_user.roles.find(findRoleComensal)) {
-                event.preventDefault();
-                $state.go("home.entrada-alunos");
-            }
-
-            if (toState.module != 'comensal' && _user.roles.find(findRoleComensal)) {
-                event.preventDefault();
-                $state.go("pretensao.home");
-            }
-
-        } else {
-
-            if (toState.module != 'non-logged') {
-                event.preventDefault();
-                $state.go("login.gerenciamento");
-            }
-        }
+        return true;
     });
-
+    $transitions.onFinish({}, () => {
+        console.log('In finish')
+    });
 });

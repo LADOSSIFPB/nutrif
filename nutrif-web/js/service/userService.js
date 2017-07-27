@@ -1,5 +1,5 @@
 nutrifApp.factory("userService", function ($cookies) {
-
+    
     var _storeUser = function (user) {
         $cookies.putObject("user", user);
     };
