@@ -16,15 +16,15 @@ def parser():
                 matricula = dirName.split("-")
                 matricula = matricula[-1]
                 matricula = matricula.strip()
-                dirCopy = destDir + "\\" + matricula
+                dirCopy = destDir + os.sep + matricula
                 shutil.copytree(dirName, dirCopy)
                 for fname in fileList:
                     print("\t%s" % fname)
             else:
-                nomeAluno = dirName.split("\\")
+                nomeAluno = dirName.split(os.sep)
                 nomeAluno = nomeAluno[-1].strip()
 
-                arquivo = open(destDir + "\\" + "alunos_sem_matricula.txt", "a")
+                arquivo = open(destDir + os.sep + "alunos_sem_matricula.txt", "a")
                 arquivo.write(nomeAluno + "\n")
                 arquivo.close()
 
@@ -35,8 +35,8 @@ def renomearFotoPerfil():
     for dirName, subdirList, fileList in os.walk(diretorio):
         if dirName != diretorio: 
             if dirName.endswith("_") == False:
-                nomeFoto = dirName + "\\" + fileList[0]
-                nomeFotoNovo = dirName + "\\" + "perfil.jpg"
+                nomeFoto = dirName + os.sep + fileList[0]
+                nomeFotoNovo = dirName + os.sep + "perfil.jpg"
                 os.rename(nomeFoto, nomeFotoNovo)
                 print("Origem - Arquivo: ", nomeFoto, ", Destino -> ", nomeFotoNovo)
 
@@ -53,7 +53,7 @@ def parserSemTraco():
                 matricula = dirName.split(" ")[-1]
                 if matricula.isdigit():
                     matricula = matricula.strip()
-                    dirCopy = destDir + "\\" + matricula
+                    dirCopy = destDir + os.sep + matricula
                     shutil.copytree(dirName, dirCopy)
                     for fname in fileList:
                         print("\t%s" % fname)
@@ -72,9 +72,9 @@ def redimensionarImagem():
             
             for file in fileList:
                 
-                img = Image.open(dirName + "\\" + file)
+                img = Image.open(dirName + os.sep + file)
                 img = img.resize((width, height), Image.ANTIALIAS)
-                img.save(dirName + "\\" + file)
+                img.save(dirName + os.sep + file)
                 print(file," - redimensionado.")
 
 def limparImagensReconhecimento():
@@ -87,11 +87,29 @@ def limparImagensReconhecimento():
             for file in fileList:
                 print("Analisando arquivo: ", file)
                 if (file.find("perfil")<0):
-                        os.remove(dirName + "\\" + file)
+                        os.remove(dirName + os.sep + file)
                         print("Removido")
 
+def parserNovo():
+    rootDir = str(input("Informe o diretório de origem:\n"))
+    destDir = str(input("Informe o diretório de destino:\n"))
+
+    for dirName, subdirList, fileList in os.walk(rootDir):
+        for fileName in fileList:
+            matricula = fileName.split(" ")
+            matricula = matricula[-1].split(".")
+            matricula = matricula[0]
+
+            if matricula.isdigit():
+                matricula = matricula.strip()
+                dirFile = dirName + os.sep + fileName
+                dirCopy = destDir + os.sep + matricula
+                os.mkdir(dirCopy)
+                shutil.copy(dirFile, dirCopy)
+                print(fileName + " transferido com sucesso.")
+
 def main():
-    pergunta = eval(input("Para acessar o parser, digite 1. \n Para acessar o parserSemTraço, digite 2. \n Para renomear as fotos de perfil, digite 3. \n Para redimensionar as fotos, digite 4. \n Para remover fotos de reconhecimento, digite 5.\n"))
+    pergunta = eval(input("Para acessar o parser, digite 1. \n Para acessar o parserSemTraço, digite 2. \n Para renomear as fotos de perfil, digite 3. \n Para redimensionar as fotos, digite 4. \n Para remover fotos de reconhecimento, digite 5. \n Para usar o parser novo, digite 6.\n"))
     if pergunta == 1:
         parser()
     elif pergunta == 2:
@@ -102,6 +120,8 @@ def main():
         redimensionarImagem()
     elif pergunta == 5:
         limparImagensReconhecimento()
+    elif pergunta == 6:
+        parserNovo()
 
 if __name__ == "__main__":
     main()
