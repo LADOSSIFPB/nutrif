@@ -11,6 +11,8 @@ import com.squareup.okhttp.ResponseBody;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import br.edu.ladoss.nutrif.R;
 import br.edu.ladoss.nutrif.database.dao.AlunoDAO;
@@ -51,6 +53,15 @@ public class LoginModelImp implements LoginMVP.Model{
         new Thread(new Runnable() {
             @Override
             public void run() {
+                Timer timer = new Timer();
+                timer.schedule(new TimerTask() {
+                                   @Override
+                                   public void run() {
+                                       presenter.changeMessage();
+                                   }
+                               },
+                        0,        //initial delay
+                        3 * 1000);  //subsequent rate
                 ConnectionServer.getInstance().updateServiceAdress();
                 Aluno aluno = alunoReferencial;
 
@@ -86,6 +97,7 @@ public class LoginModelImp implements LoginMVP.Model{
                     }
                 presenter.getContext().startActivity(new Intent(presenter.getContext(), HomeActivity.class));
                 presenter.finishActivity();
+                timer.cancel();
             }
         }).start();
     }

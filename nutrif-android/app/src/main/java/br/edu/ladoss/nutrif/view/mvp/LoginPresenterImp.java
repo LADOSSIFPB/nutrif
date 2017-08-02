@@ -5,6 +5,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import br.edu.ladoss.nutrif.model.Aluno;
 import br.edu.ladoss.nutrif.view.activitys.EnterActivity;
 import br.edu.ladoss.nutrif.view.activitys.LoginActivity;
@@ -37,6 +40,11 @@ public class LoginPresenterImp implements LoginMVP.Presenter{
     }
 
     @Override
+    public void changeMessage() {
+        view.changeMessage();
+    }
+
+    @Override
     public void onDestroy() {
         model.onDestroy();
         model = null;
@@ -45,6 +53,7 @@ public class LoginPresenterImp implements LoginMVP.Presenter{
 
     @Override
     public void doLogin(Bundle extra) {
+
         if (extra != null && !extra.isEmpty()) {
             Aluno aluno = new Aluno();
             aluno.setEmail(extra.getString("email"));
@@ -62,6 +71,7 @@ public class LoginPresenterImp implements LoginMVP.Presenter{
             @Override
             public void run() {
                 Aluno aluno = retrieveFromDB();
+
                 if (aluno == null) {
                     getContext().startActivity(new Intent(getContext(), EnterActivity.class));
                     finishActivity();
