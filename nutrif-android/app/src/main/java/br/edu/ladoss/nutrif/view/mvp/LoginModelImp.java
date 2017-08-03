@@ -11,6 +11,7 @@ import com.squareup.okhttp.ResponseBody;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -55,9 +56,29 @@ public class LoginModelImp implements LoginMVP.Model{
             public void run() {
                 Timer timer = new Timer();
                 timer.schedule(new TimerTask() {
+                                   Random random = new Random();
                                    @Override
                                    public void run() {
-                                       presenter.changeMessage();
+
+                                       String message = "Inicializando Aplicação...";
+                                       switch (random.nextInt(5)) {
+                                           case 0:
+                                               message = presenter.getContext().getString(R.string.funnylogin1);
+                                               break;
+                                           case 1:
+                                               message = presenter.getContext().getString(R.string.funnylogin2);
+                                               break;
+                                           case 2:
+                                               message = presenter.getContext().getString(R.string.funnylogin3);
+                                               break;
+                                           case 3:
+                                               message = presenter.getContext().getString(R.string.funnylogin4);
+                                               break;
+                                           case 4:
+                                               message = presenter.getContext().getString(R.string.funnylogin5);
+                                               break;
+                                       }
+                                       presenter.changeMessage(message);
                                    }
                                },
                         0,        //initial delay

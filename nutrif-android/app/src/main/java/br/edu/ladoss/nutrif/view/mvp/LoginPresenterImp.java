@@ -40,8 +40,8 @@ public class LoginPresenterImp implements LoginMVP.Presenter{
     }
 
     @Override
-    public void changeMessage() {
-        view.changeMessage();
+    public void changeMessage(String message) {
+        view.changeMessage(message);
     }
 
     @Override

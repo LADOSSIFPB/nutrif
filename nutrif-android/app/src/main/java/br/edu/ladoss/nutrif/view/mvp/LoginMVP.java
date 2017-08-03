@@ -94,7 +94,7 @@ public interface LoginMVP {
         /**
          * Muda o texto no TextView de carregamento
          */
-        void changeMessage();
+        void changeMessage(String message);
     }
 
     interface Presenter extends MVPApp.Presenter {
@@ -134,6 +134,12 @@ public interface LoginMVP {
          * Finaliza a avtivity
          */
         void finishActivity();
+
+        /**
+         * Chama o método changeMessage na view para fazer a animação de login, trocando de mensagem.
+         * @param message - Nova mensagem a ser exibida
+         */
+        void changeMessage(String message);
 
     }
 

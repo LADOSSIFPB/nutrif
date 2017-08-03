@@ -21,7 +21,6 @@ public interface MVPApp {
 
     interface Presenter {
         Context getContext();
-        void changeMessage();
         void onDestroy();
     }
 

@@ -50,32 +50,9 @@ public class LoginActivity extends AppCompatActivity implements LoginMVP.View{
     }
 
     @Override
-    public void changeMessage() {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                Random random = new Random();
-                String message = "Inicializando Aplicação...";
-                switch (random.nextInt(5)) {
-                    case 0:
-                        message = getString(R.string.funnylogin1);
-                        break;
-                    case 1:
-                        message = getString(R.string.funnylogin2);
-                        break;
-                    case 2:
-                        message = getString(R.string.funnylogin3);
-                        break;
-                    case 3:
-                        message = getString(R.string.funnylogin4);
-                        break;
-                    case 4:
-                        message = getString(R.string.funnylogin5);
-                        break;
-                }
-                messages.setText(message);
-            }
-        });
+    public void changeMessage(String message) {
+        final String finalMessage = message;
+        messages.setText(finalMessage);
     }
 
 
