@@ -54,6 +54,8 @@ public class LoginModelImp implements LoginMVP.Model{
         new Thread(new Runnable() {
             @Override
             public void run() {
+                /* Essa parte aqui seria a animação então seria melhor colocar em um método separado para não misturar com a lógica do login.
+
                 Timer timer = new Timer();
                 timer.schedule(new TimerTask() {
                                    Random random = new Random();
@@ -82,7 +84,7 @@ public class LoginModelImp implements LoginMVP.Model{
                                    }
                                },
                         0,        //initial delay
-                        3 * 1000);  //subsequent rate
+                        3 * 1000);  //subsequent rate*/
                 ConnectionServer.getInstance().updateServiceAdress();
                 Aluno aluno = alunoReferencial;
 

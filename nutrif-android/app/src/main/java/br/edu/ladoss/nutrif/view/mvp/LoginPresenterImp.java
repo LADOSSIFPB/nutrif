@@ -64,8 +64,8 @@ public class LoginPresenterImp implements LoginMVP.Presenter{
                 return;
             }
         }
-
-        final Bundle extraFinal = extra;
+       //O ideal seria repassar para o modelo e ele verificar no BD
+       /* final Bundle extraFinal = extra;
 
         new Thread(new Runnable() {
             @Override
@@ -73,13 +73,14 @@ public class LoginPresenterImp implements LoginMVP.Presenter{
                 Aluno aluno = retrieveFromDB();
 
                 if (aluno == null) {
+
                     getContext().startActivity(new Intent(getContext(), EnterActivity.class));
                     finishActivity();
                 } else {
                     model.doLogin(aluno, extraFinal);
                 }
             }
-        }).start();
+        }).start();*/
     }
 
     @Override
