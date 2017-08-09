@@ -33,6 +33,18 @@ nutrifApp.factory("toastUtil", function ($mdToast) {
             );
 
             return true;
+        },
+        showToast: function (message="") {
+
+            $mdToast.show(
+                $mdToast.simple()
+                .textContent(message)
+                .position('top right')
+                .action('OK')
+                .hideDelay(6000)
+            );
+
+            return true;
         }
     }
 });

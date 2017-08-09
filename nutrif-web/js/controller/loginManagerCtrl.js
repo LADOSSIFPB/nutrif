@@ -10,7 +10,9 @@ nutrifApp.controller("loginManagerCtrl", function ($scope, $state, toastUtil, lo
             .then(function(response) {
                 // Cookie do usuário.
                 userService.storeUser(response.data);
-                $state.go("home.entrada-alunos");
+            
+                // Redirecionamento para a tela da entrada no Refeitório.
+                $state.go("home.entrar-restaurante");
             })
             .catch(function(error) {
                 delete $scope.funcionario.senha;                

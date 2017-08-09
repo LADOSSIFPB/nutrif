@@ -4,7 +4,7 @@
 nutrifApp.controller("sideNavCtrl", function ($mdMedia, $mdSidenav, $state, $scope, toastUtil, userService, loginService) {
 
     this.isOpened = true;
-    
+
     this.title = $state.current.title;
 
     // Usuário
@@ -12,14 +12,24 @@ nutrifApp.controller("sideNavCtrl", function ($mdMedia, $mdSidenav, $state, $sco
     this.user = userService.getUser();
 
     this.logoutManager = function () {
-        
+
         loginService.fazerLogout()
-            .then(function(response) {
+            .then(function (response) {
+                // Remover Usuário Logado;
                 userService.removeUser();
+            
+                // Redirecionar para a página de login.
                 $state.go("login.gerenciamento");
             })
-            .catch(function(error) {               
+            .catch(function (error) {
+                // Problema no serviço de logout.
                 toastUtil.showErrorToast(error);
+                
+                // Remover Usuário Logado;
+                userService.removeUser();
+
+                // Redirecionar para a página de login.
+                $state.go("login.gerenciamento");
             });
     }
 

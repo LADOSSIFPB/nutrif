@@ -9,7 +9,15 @@ nutrifApp.factory("userService", function ($cookies) {
     };
     
     var _removeUser = function (user) {
-        $cookies.remove("user");
+        
+        var isRemoved = false;
+        
+        if (_isLoggedIn()) {
+            $cookies.remove("user");
+            isRemoved = true;
+        }
+        
+        return isRemoved;
     };
 
     var _isLoggedIn = function () {

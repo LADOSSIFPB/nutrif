@@ -126,21 +126,21 @@ nutrifApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
                 permissions: ['admin']
             })
 
-            .state('home.entrada-alunos', {
-                url: '/entrada/aluno',
-                title: 'Entrar no Refeotório',
-                templateUrl: 'view/manager/entrada-alunos.html',
-                controller: 'entradaAlunoCtrl',
-                controllerAs: 'entrada',
+            .state('home.entrar-restaurante', {
+                url: '/entrar/restaurante',
+                title: 'Entrar no Restaurante',
+                templateUrl: 'view/manager/entrar-restaurante.html',
+                controller: 'entrarRestauranteCtrl',
+                controllerAs: 'entrarRestaurante',
                 permissions: ['inspetor', 'admin']
             })
 
-            .state('home.qrcode', {
-                url: '/qrcode',
-                title: 'Entrada de Alunos',
-                templateUrl: 'view/manager/entrada-qrcode.html',
-                controller: 'entradaQrCtrl',
-                controllerAs: 'qr',
+            .state('home.entrar-restaurante-qrcode', {
+                url: '/entrar/restaurante/qrcode',
+                title: 'Entrar no Restaurante por QR-Code',
+                templateUrl: 'view/manager/entrar-restaurante-qrcode.html',
+                controller: 'entrarRestauranteQrCodeCtrl',
+                controllerAs: 'entrarRestauranteQrCode',
                 permissions: ['inspetor', 'admin']
             })
 

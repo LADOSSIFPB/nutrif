@@ -1,8 +1,7 @@
 /*
  *  Controlar entrada no Refeitório do Aluno.
  */
-nutrifApp.controller('entradaAlunoCtrl', function ($scope, $mdDialog,
-    $mdToast, toastUtil, userService, diaRefeicaoService) {
+nutrifApp.controller('entrarRestauranteCtrl', function ($scope, $mdDialog, toastUtil, userService, diaRefeicaoService) {
 
     var TAM_MINIMO_MATRICULA = 11;
     var TAM_MAXIMO_MATRICULA = 13;
@@ -38,11 +37,7 @@ nutrifApp.controller('entradaAlunoCtrl', function ($scope, $mdDialog,
 
     function onSuccessCallback(response) {
 
-        var status = response.status;
-
-        if (status == 200) {
-            $scope.refeicoes = response.data;
-        }
+        $scope.refeicoes = response.data;
     }
 
     function onErrorCallback(error) {
@@ -75,7 +70,7 @@ nutrifApp.controller('entradaAlunoCtrl', function ($scope, $mdDialog,
     }
 });
 
-function DialogController($scope, $mdDialog, $mdToast, refeicao,
+function DialogController($scope, $mdDialog, refeicao,
     toastUtil, userService, refeicaoRealizadaService, pretensaoService, arquivoService) {
 
     $scope.refeicao = refeicao;

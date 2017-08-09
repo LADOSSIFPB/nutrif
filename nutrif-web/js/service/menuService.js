@@ -9,7 +9,7 @@ nutrifApp.factory("menu", function ($location, $rootScope) {
                 pages: [
                     {
                         name: 'Entrar no Restaurante',
-                        state: 'home.entrada-alunos',
+                        state: 'home.entrar-restaurante',
                         type: 'link',                    
                         icon: 'image/icon/download-button.svg'
                     },

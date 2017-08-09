@@ -14,6 +14,7 @@ nutrifApp.controller('estatisticasCtrl', function ($scope, config, toastUtil, pr
     function carregaGraficoPretensao(periodoPretensao) {
 
         var _periodoPretensao = angular.copy(periodoPretensao);
+        
         _periodoPretensao.refeicao = {
             id: 1
         };
@@ -24,9 +25,9 @@ nutrifApp.controller('estatisticasCtrl', function ($scope, config, toastUtil, pr
 
         pretensaoService.mapaRefeicao(_periodoPretensao)
             .then(function (response) {
-                
+
                 var data = response.data;
-            
+
                 for (var i = 0; i < data.length; i++) {
                     $scope.pretensaoChart.labels.push(moment(data[i].data).locale("pt-br").format('DD/MM'));
                     _dadosPretensaoAlmoco.push(data[i].quantidade);
@@ -41,9 +42,9 @@ nutrifApp.controller('estatisticasCtrl', function ($scope, config, toastUtil, pr
 
                 pretensaoService.mapaRefeicao(_periodoPretensao)
                     .then(function (response) {
-                
+
                         var data = response.data;
-                    
+
                         for (var i = 0; i < data.length; i++) {
                             _dadosPretensaoJantar.push(data[i].quantidade);
                             _listaPretensaoJantar.push(data[i].lista);
@@ -75,9 +76,9 @@ nutrifApp.controller('estatisticasCtrl', function ($scope, config, toastUtil, pr
 
         refeicaoRealizadaService.mapaRefeicao(_periodoPretensao)
             .then(function (response) {
-                
+
                 var data = response.data;
-                    
+
                 for (var i = 0; i < data.length; i++) {
                     $scope.refeicaoRealizadaChart.labels.push(moment(data[i].data).locale("pt-br").format('DD/MM'));
                     _dadosPretensaoAlmoco.push(data[i].quantidade);
@@ -92,9 +93,9 @@ nutrifApp.controller('estatisticasCtrl', function ($scope, config, toastUtil, pr
 
                 refeicaoRealizadaService.mapaRefeicao(_periodoPretensao)
                     .then(function (response) {
-                
+
                         var data = response.data;
-                    
+
                         for (var i = 0; i < data.length; i++) {
                             _dadosPretensaoJantar.push(data[i].quantidade);
                             _listaRefeicaoJantar.push(data[i].lista);
