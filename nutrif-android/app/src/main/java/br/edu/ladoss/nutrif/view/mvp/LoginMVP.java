@@ -74,6 +74,12 @@ public interface LoginMVP {
          */
         Aluno receiveUser(Aluno aluno);
 
+        /**
+         * Verifica se o aluno armazenado é válido e tenta fazer login, senão redireciona para EnterActivity
+         * @param extra
+         */
+        void redirectLogin(Bundle extra);
+
     }
 
     interface View extends MVPApp.View {
@@ -117,12 +123,6 @@ public interface LoginMVP {
          * Chama o metodo showRefresh na camada de view.
          */
         void showRefresh();
-
-        /**
-         * Troca o texto que aparece na tela de carregamento em um intervalo de TIME_ANIMATION
-         * milissegundos.
-         */
-        void doAnimation();
 
         /**
          * Chama o metodo showMessage na camada de view.

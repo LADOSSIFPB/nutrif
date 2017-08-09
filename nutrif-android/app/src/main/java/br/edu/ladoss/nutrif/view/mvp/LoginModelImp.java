@@ -39,6 +39,12 @@ public class LoginModelImp implements LoginMVP.Model{
 
     private LoginMVP.Presenter presenter;
 
+    private Timer timer;
+    /*
+        Tempo de animação da tela de login para troca de mensagem, em milissegundos
+     */
+    private final int TIME_ANIMATION = 3000;
+
     public LoginModelImp(LoginMVP.Presenter presenter) {
         this.presenter = presenter;
     }
@@ -54,37 +60,8 @@ public class LoginModelImp implements LoginMVP.Model{
         new Thread(new Runnable() {
             @Override
             public void run() {
-                /* Essa parte aqui seria a animação então seria melhor colocar em um método separado para não misturar com a lógica do login.
+                startAnimation();
 
-                Timer timer = new Timer();
-                timer.schedule(new TimerTask() {
-                                   Random random = new Random();
-                                   @Override
-                                   public void run() {
-
-                                       String message = "Inicializando Aplicação...";
-                                       switch (random.nextInt(5)) {
-                                           case 0:
-                                               message = presenter.getContext().getString(R.string.funnylogin1);
-                                               break;
-                                           case 1:
-                                               message = presenter.getContext().getString(R.string.funnylogin2);
-                                               break;
-                                           case 2:
-                                               message = presenter.getContext().getString(R.string.funnylogin3);
-                                               break;
-                                           case 3:
-                                               message = presenter.getContext().getString(R.string.funnylogin4);
-                                               break;
-                                           case 4:
-                                               message = presenter.getContext().getString(R.string.funnylogin5);
-                                               break;
-                                       }
-                                       presenter.changeMessage(message);
-                                   }
-                               },
-                        0,        //initial delay
-                        3 * 1000);  //subsequent rate*/
                 ConnectionServer.getInstance().updateServiceAdress();
                 Aluno aluno = alunoReferencial;
 
@@ -120,9 +97,43 @@ public class LoginModelImp implements LoginMVP.Model{
                     }
                 presenter.getContext().startActivity(new Intent(presenter.getContext(), HomeActivity.class));
                 presenter.finishActivity();
+
+                //Para a animação
                 timer.cancel();
             }
         }).start();
+    }
+
+    private void startAnimation() {
+        timer = new Timer();
+        timer.schedule(new TimerTask() {
+                           Random random = new Random();
+                           @Override
+                           public void run() {
+
+                               String message = "Inicializando Aplicação...";
+                               switch (random.nextInt(5)) {
+                                   case 0:
+                                       message = presenter.getContext().getString(R.string.funnylogin1);
+                                       break;
+                                   case 1:
+                                       message = presenter.getContext().getString(R.string.funnylogin2);
+                                       break;
+                                   case 2:
+                                       message = presenter.getContext().getString(R.string.funnylogin3);
+                                       break;
+                                   case 3:
+                                       message = presenter.getContext().getString(R.string.funnylogin4);
+                                       break;
+                                   case 4:
+                                       message = presenter.getContext().getString(R.string.funnylogin5);
+                                       break;
+                               }
+                               presenter.changeMessage(message);
+                           }
+                       },
+                0,        //initial delay
+                TIME_ANIMATION);  //subsequent rate*/
     }
 
     @Override
@@ -183,6 +194,25 @@ public class LoginModelImp implements LoginMVP.Model{
         }
 
         return aluno;
+    }
+
+    @Override
+    public void redirectLogin(Bundle extra) {
+        final Bundle extraFinal = extra;
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Aluno aluno = retrieveFromDB();
+
+                if (aluno == null) {
+                    presenter.getContext().startActivity(new Intent(presenter.getContext(), EnterActivity.class));
+                    presenter.finishActivity();
+                } else {
+                    doLogin(aluno, extraFinal);
+                }
+            }
+        }).start();
     }
 
     @Override

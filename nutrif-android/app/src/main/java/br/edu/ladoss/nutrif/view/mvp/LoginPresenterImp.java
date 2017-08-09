@@ -64,32 +64,12 @@ public class LoginPresenterImp implements LoginMVP.Presenter{
                 return;
             }
         }
-       //O ideal seria repassar para o modelo e ele verificar no BD
-       /* final Bundle extraFinal = extra;
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Aluno aluno = retrieveFromDB();
-
-                if (aluno == null) {
-
-                    getContext().startActivity(new Intent(getContext(), EnterActivity.class));
-                    finishActivity();
-                } else {
-                    model.doLogin(aluno, extraFinal);
-                }
-            }
-        }).start();*/
+        model.redirectLogin(extra);
     }
 
     @Override
     public void showRefresh() {
-
-    }
-
-    @Override
-    public void doAnimation() {
 
     }
 
