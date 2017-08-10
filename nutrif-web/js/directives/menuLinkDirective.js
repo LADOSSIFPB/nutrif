@@ -2,7 +2,7 @@ nutrifApp.run(function ($templateCache) {
         $templateCache.put('partials/menu-link.tmpl.html',
             '<md-button ng-class="{\'{{section.icon}}\' : true}" ui-sref-active="active" \n' +
             '  ui-sref="{{section.state}}" ng-click="focusSection()"'+
-            '  ui-sref-opts="{reload: true}">\n' +
+            '  ui-sref-opts="{reload: true}" permission="[\'aluno\']">\n' +
             '  {{section | humanizeDoc}}\n' +
             '  <span  class="md-visually-hidden "\n' +
             '    ng-if="isSelected()">\n' +

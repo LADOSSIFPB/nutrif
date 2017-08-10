@@ -8,7 +8,7 @@ nutrifApp.directive('permission', function(userService) {
        link: function (scope, elem, attrs) {
             scope.$watch(userService.isLoggedIn, function() {
                 if (!userService.hasRoles(scope.permission)) {
-                    attrs.class = "ng-hide";
+                    elem.addClass('hide');
                 }
             });                
        }
