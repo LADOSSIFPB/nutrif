@@ -108,7 +108,9 @@ public class PessoaController {
 				
 				} else {
 					
-					builder.status(Response.Status.UNAUTHORIZED);
+					builder.status(Response.Status.UNAUTHORIZED).entity(
+							ErrorFactory.getErrorFromIndex(ErrorFactory.ACESSO_USUARIO_NAO_PERMITIDO));
+					
 				}
 			
 			} catch (SQLExceptionNutrIF exception) {

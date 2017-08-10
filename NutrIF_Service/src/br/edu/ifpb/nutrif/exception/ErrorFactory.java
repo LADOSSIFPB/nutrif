@@ -34,6 +34,7 @@ public class ErrorFactory {
 	public static final int EMAIL_USUARIO_INVALIDO = 12;
 	public static final int SENHA_USUARIO_INVALIDA = 13;
 	public static final int KEY_CONFIRMATION_INVALIDA = 14;
+	public static final int ACESSO_USUARIO_NAO_PERMITIDO = 61;
 	
 	/*
 	 * Error status: Dia da Refeição.
@@ -164,7 +165,7 @@ public class ErrorFactory {
 		hashMap.put(CONFIRMACAO_REFEICAO_INVALIDA, "Confirmação da refeição inválida.");
 		hashMap.put(NOME_MATRICULA_ALUNO_INVALIDOS, "Nome e matrícula do aluno inválidos.");
 		hashMap.put(PRETENSAO_REFEICAO_NAO_ENCONTRADA, "Pretensão da refeição não encontrada.");
-		hashMap.put(ACESSO_ALUNO_NAO_PERMITIDO, "Acesso não permitido. Dados de login não conferem.");
+		hashMap.put(ACESSO_ALUNO_NAO_PERMITIDO, "Acesso não permitido. Dados de login do Aluno não conferem.");
 		hashMap.put(REFEICAO_REALIZADA_NAO_ENCONTRADA, "Refeição realizada não encotrada.");
 		hashMap.put(CONFIRMACAO_PRETENSAO_INVALIDA, "Confirmação de pretensão inválida.");
 		hashMap.put(CHAVE_ACESSO_PRETENSAO_INVALIDA, "Chave de acesso da pretensão da refeição inválida.");
@@ -204,6 +205,8 @@ public class ErrorFactory {
 		hashMap.put(ID_TURMA_INVALIDO, "Turma do Curso inválida.");
 		hashMap.put(ID_TURNO_INVALIDO, "Turno da Turma inválido.");
 		hashMap.put(AUTORIZATION_INVALIDO, "Autorização inválida.");
+		hashMap.put(ACESSO_USUARIO_NAO_PERMITIDO, "Acesso não permitido. Dados de e-mail e senha não conferem.");
+		
 		
 		return hashMap;
 	}

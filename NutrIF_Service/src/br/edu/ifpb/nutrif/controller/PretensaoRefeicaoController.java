@@ -345,7 +345,9 @@ public class PretensaoRefeicaoController {
 					//int status = openDoorPostRequest();
                     //logger.info("Catraca: " + status);
                     
-					builder.status(Response.Status.OK);				
+					builder.status(Response.Status.OK);
+					
+					//TODO: Adicionar mensagem.
 				}
 				
 			} else {
