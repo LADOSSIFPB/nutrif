@@ -4,12 +4,13 @@ nutrifApp.run(function ($templateCache) {
             '  ng-click="toggle()"\n' +
             '  aria-controls="docs-menu-{{section.name | nospace}}"\n' +
             '  flex layout="row"\n' +
-            '  aria-expanded="{{isOpen()}}">\n' +
+            '  aria-expanded="{{isOpen()}}" permission="section.permissions">\n' +
             '  {{section.name}}\n' +
             '  <span aria-hidden="true" class=" pull-right fa fa-chevron-down md-toggle-icon"\n' +
             '  ng-class="{\'toggled\' : isOpen()}"></span>\n' +
             '</md-button>\n' +
             '<ul ng-show="isOpen()" id="docs-menu-{{section.name | nospace}}" class="menu-toggle-list">\n' +
+            
             '  <li ng-repeat="page in section.pages">\n' +
             '    <menu-link section="page"></menu-link>\n' +
             '  </li>\n' +

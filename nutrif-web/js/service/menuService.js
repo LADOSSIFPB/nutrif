@@ -6,35 +6,41 @@ nutrifApp.factory("menu", function ($location, $rootScope) {
             {
                 name: 'Aluno',
                 type: 'toggle',
+                permissions:['admin', 'inspetor'],
                 pages: [
                     {
                         name: 'Entrar no Restaurante',
                         state: 'home.entrar-restaurante',
                         type: 'link',                    
-                        icon: 'image/icon/download-button.svg'
+                        icon: 'image/icon/download-button.svg',
+                        permissions:['admin', 'inspetor']
                     },
                     {
                         name: 'Listar',
                         state: 'home.listar-alunos',
                         type: 'link',                    
-                        icon: 'image/icon/user-shape.svg'
+                        icon: 'image/icon/user-shape.svg',
+                        permissions:['admin']
                     },
                     {
                         name: 'Migrar Sábado Letivo',
                         state: 'home.migrar-sabado',
                         type: 'link',                    
-                        icon: 'image/icon/swap-horizontal.svg'
+                        icon: 'image/icon/swap-horizontal.svg',
+                        permissions:['admin']
                     }]
             }, 
             {
                 name: 'Funcionário',
                 state: 'home.listar-funcionarios',
                 type: 'link',
-                icon: 'image/icon/employee-icon.svg'
+                icon: 'image/icon/employee-icon.svg',
+                permissions:['admin']
             },
             {
                 name: 'Edital',
                 type: 'toggle',
+                permissions:['admin'],
                 pages: [
                     {
                         name: 'Listar',
@@ -47,23 +53,27 @@ nutrifApp.factory("menu", function ($location, $rootScope) {
                 name: 'Refeição',
                 state: 'home.listar-refeicoes',
                 type: 'link',
-                icon: 'image/icon/restaurant-teste.svg'
+                icon: 'image/icon/restaurant-teste.svg',
+                permissions:['admin']
             },
             {
                 name: 'Evento',
                 state: 'home.listar-eventos',
                 type: 'link',
-                icon: 'image/icon/connection-indicator.svg'
+                icon: 'image/icon/connection-indicator.svg',
+                permissions:['admin']
             },
             {
                 name: 'Curso',
                 state: 'home.listar-cursos',
                 type: 'link',
-                icon: 'image/icon/graduate-cap.svg'
+                icon: 'image/icon/graduate-cap.svg',
+                permissions:['admin']
             },
             {
                 name: 'Análise',
                 type: 'toggle',
+                permissions:['admin'],
                 pages: [
                     {
                         name: 'Dashboard',
