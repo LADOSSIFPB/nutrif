@@ -107,7 +107,7 @@ public interface LoginMVP {
         /**
          * Tempo em milissegundos de cada texto que aparecerá.
          */
-        final static int TIME_ANIMATION = 5000;
+        final static int TIME_ANIMATION = 3000;
 
         /**
          * Chama uma sequência de métodos no modelo para que seja executado o login

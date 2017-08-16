@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 
 import com.squareup.okhttp.ResponseBody;
@@ -16,6 +17,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import br.edu.ladoss.nutrif.R;
+import br.edu.ladoss.nutrif.asynctask.LoginAnimationAsyncTask;
 import br.edu.ladoss.nutrif.database.dao.AlunoDAO;
 import br.edu.ladoss.nutrif.model.Aluno;
 import br.edu.ladoss.nutrif.model.Pessoa;
@@ -38,12 +40,7 @@ import retrofit.Response;
 public class LoginModelImp implements LoginMVP.Model{
 
     private LoginMVP.Presenter presenter;
-
     private Timer timer;
-    /*
-        Tempo de animação da tela de login para troca de mensagem, em milissegundos
-     */
-    private final int TIME_ANIMATION = 3000;
 
     public LoginModelImp(LoginMVP.Presenter presenter) {
         this.presenter = presenter;
@@ -97,43 +94,26 @@ public class LoginModelImp implements LoginMVP.Model{
                     }
                 presenter.getContext().startActivity(new Intent(presenter.getContext(), HomeActivity.class));
                 presenter.finishActivity();
-
-                //Para a animação
                 timer.cancel();
             }
         }).start();
     }
 
     private void startAnimation() {
+        final Handler handler = new Handler(presenter.getContext().getMainLooper());
         timer = new Timer();
-        timer.schedule(new TimerTask() {
-                           Random random = new Random();
-                           @Override
-                           public void run() {
-
-                               String message = "Inicializando Aplicação...";
-                               switch (random.nextInt(5)) {
-                                   case 0:
-                                       message = presenter.getContext().getString(R.string.funnylogin1);
-                                       break;
-                                   case 1:
-                                       message = presenter.getContext().getString(R.string.funnylogin2);
-                                       break;
-                                   case 2:
-                                       message = presenter.getContext().getString(R.string.funnylogin3);
-                                       break;
-                                   case 3:
-                                       message = presenter.getContext().getString(R.string.funnylogin4);
-                                       break;
-                                   case 4:
-                                       message = presenter.getContext().getString(R.string.funnylogin5);
-                                       break;
-                               }
-                               presenter.changeMessage(message);
-                           }
-                       },
-                0,        //initial delay
-                TIME_ANIMATION);  //subsequent rate*/
+        TimerTask doAsynchronousTask = new TimerTask() {
+            @Override
+            public void run() {
+                handler.post(new Runnable() {
+                    public void run() {
+                        LoginAnimationAsyncTask task = new LoginAnimationAsyncTask(presenter, presenter.getContext());
+                        task.execute();
+                    }
+                });
+            }
+        };
+        timer.schedule(doAsynchronousTask, 0, presenter.TIME_ANIMATION);
     }
 
     @Override
