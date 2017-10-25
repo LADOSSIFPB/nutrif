@@ -5,4 +5,4 @@
         
         - Módulos complementares: LoadingBar, Cookies, DataTable, ImageCrop, Timeline, TableToCSV, ExpasionPanels, Charts.
  */
-var nutrifApp = angular.module('AngularApp', ['ngRoute', 'ui.router', 'ngMaterial', 'ngAnimate', 'ngAria', 'angular-loading-bar', 'angular-loading-bar', 'ngCookies', 'md.data.table', 'webcam', 'ngImgCrop', 'angular-timeline', 'ngTableToCsv', 'material.components.expansionPanels', 'chart.js']);
+var nutrifApp = angular.module('AngularApp', ['ngRoute', 'ui.router', 'ngMaterial', 'ngAnimate', 'ngAria', 'angular-loading-bar', 'ngCookies', 'md.data.table', 'webcam', 'ngImgCrop', 'angular-timeline', 'ngTableToCsv', 'material.components.expansionPanels', 'chart.js']);
