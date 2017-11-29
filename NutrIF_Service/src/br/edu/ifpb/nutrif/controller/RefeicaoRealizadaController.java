@@ -27,6 +27,7 @@ import br.edu.ifpb.nutrif.dao.RefeicaoDAO;
 import br.edu.ifpb.nutrif.dao.RefeicaoRealizadaDAO;
 import br.edu.ifpb.nutrif.exception.ErrorFactory;
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
+import br.edu.ifpb.nutrif.util.BancoUtil;
 import br.edu.ifpb.nutrif.util.DateUtil;
 import br.edu.ifpb.nutrif.validation.Validate;
 import br.edu.ladoss.entity.ConfirmaRefeicaoDia;
@@ -109,13 +110,20 @@ public class RefeicaoRealizadaController {
 						refeicaoRealizada.setInspetor(inspetor);
 						
 						//Inserir a Refeição Realizada.
-						boolean success = RefeicaoRealizadaDAO.getInstance()
-								.insertOrUpdate(refeicaoRealizada);					
+						int idRefeicaoRealizada = RefeicaoRealizadaDAO.getInstance()
+								.insert(refeicaoRealizada);					
+						logger.info("RefeicaoRealizada: " + idRefeicaoRealizada + "->" + refeicaoRealizada);
 						
-						if (success) {
+						if (idRefeicaoRealizada != BancoUtil.ID_VAZIO) {
 							
 							// Operação realizada com sucesso.
 							builder.status(Response.Status.OK);
+						} else {
+							
+							// Mensagem de pretensão obrigatória.
+							builder.status(Response.Status.NOT_MODIFIED).entity(
+									ErrorFactory.getErrorFromIndex(
+											ErrorFactory.REFEICAO_NAO_REALIZADA));
 						}
 					
 					} else {

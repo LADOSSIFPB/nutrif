@@ -42,12 +42,13 @@ public class RefeicaoRealizadaDAO extends GenericDao<Integer, RefeicaoRealizada>
 			
 			session.beginTransaction();
 			
-			String sql = "INSERT INTO tb_refeicao_realizada (dt_refeicao, hr_refeicao, fk_id_dia_refeicao)"
-					+ " VALUES(CURRENT_DATE(), CURRENT_TIME(), :diaRefeicao)";
+			String sql = "INSERT INTO tb_refeicao_realizada (dt_refeicao, hr_refeicao, fk_id_dia_refeicao, fk_id_funcionario)"
+					+ " VALUES(CURRENT_DATE(), CURRENT_TIME(), :idDiaRefeicao, :idFuncionario)";
 			
 			Query query = session.createSQLQuery(sql);
-			query.setParameter("diaRefeicao", refeicaoRealizada
+			query.setParameter("idDiaRefeicao", refeicaoRealizada
 					.getConfirmaRefeicaoDia().getDiaRefeicao().getId());
+			query.setParameter("idFuncionario", refeicaoRealizada.getInspetor().getId());
 			
 			id = query.executeUpdate();	
 			

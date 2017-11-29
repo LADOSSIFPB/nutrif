@@ -2,6 +2,7 @@ package br.edu.ladoss.entity;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -65,6 +66,7 @@ public class RefeicaoRealizada {
 		this.horaRefeicao = horaRefeicao;
 	}
 	
+	@XmlElement
 	public Funcionario getInspetor() {
 		return inspetor;
 	}

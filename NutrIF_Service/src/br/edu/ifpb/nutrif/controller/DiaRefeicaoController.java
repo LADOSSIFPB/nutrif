@@ -357,7 +357,6 @@ public class DiaRefeicaoController {
 					} else {
 						
 						// Dia de refeição não existente.
-						// Dia de refeição não existente.
 						builder.status(Response.Status.NOT_FOUND)
 								.entity(ErrorFactory.getErrorFromIndex(
 										ErrorFactory.DIA_REFEICAO_NAO_DEFINIDO_ALUNO));

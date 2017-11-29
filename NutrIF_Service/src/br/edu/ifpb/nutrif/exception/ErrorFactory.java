@@ -133,7 +133,9 @@ public class ErrorFactory {
 	public static final int DIA_REFEICAO_NAO_DEFINIDO_EDITAL = 57;
 	public static final int DIA_REFEICAO_NAO_DEFINIDO_ALUNO = 58;	
 	
-	public static final int ERRO_INTERNO_SERVICO = 59;
+	public static final int REFEICAO_NAO_REALIZADA = 59;	
+	
+	public static final int ERRO_INTERNO_SERVICO = 60;
 	
 	/*
 	 * Mapa de erros: código e mensagem.
@@ -201,6 +203,8 @@ public class ErrorFactory {
 		hashMap.put(ID_PERIODO_INVALIDO, "Período da Turma inválido.");
 		hashMap.put(ID_TURMA_INVALIDO, "Turma do Curso inválida.");
 		hashMap.put(ID_TURNO_INVALIDO, "Turno da Turma inválido.");
+		hashMap.put(REFEICAO_NAO_REALIZADA, "Refeição não realizada.");
+		
 		
 		return hashMap;
 	}
