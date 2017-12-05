@@ -48,7 +48,7 @@ angular.module('NutrifApp').controller('editarAlunoCtrl', function ($scope,
                 .error(onErrorCallback);
 
         } else {
-            
+
             var data = {};
             data.mensagem = "A senha de confirmação não está correta.";
             onErrorCallback(data);
@@ -63,7 +63,6 @@ angular.module('NutrifApp').controller('editarAlunoCtrl', function ($scope,
             clickOutsideToClose: true,
             fullscreen: false,
             locals: {
-                refeicoes: $scope.refeicoes,
                 aluno: $scope.aluno
             }
         }).then(function () {}, function () {});
@@ -208,38 +207,50 @@ angular.module('NutrifApp').controller('editarAlunoCtrl', function ($scope,
 
 // Controller Adicionar Refeição.
 function adicionarRefeicaoCtrl($scope, $mdDialog, $mdToast, $state, $stateParams, userService,
-    editalService, diaRefeicaoService, refeicoes, aluno, refeicaoService, diaService) {
+    editalService, diaRefeicaoService, refeicaoService, diaService, aluno) {
 
     $scope.editais = [];
-    $scope.tiposRefeicao = [];
+    $scope.refeicoes = [];
     $scope.dias = [];
-    $scope.refeicoes = refeicoes;
+    $scope.selectedDias = [];
     $scope.aluno = aluno;
 
-    $scope.hide = function (refeicao) {
-
-        var encontrarRefeicao = function (element, index, array) {
-            if (element.refeicao.id === parseInt(refeicao.refeicao.id) &&
-                element.dia.id === parseInt(refeicao.dia.id)) {
-                return true;
-            }
-            return false;
-        }
-
-        $mdDialog.hide();
+    $scope.adicionarDiaRefeicao = function (diaRefeicao) {
 
         // Dia de refeição.
-        refeicao.funcionario = {};
-        refeicao.funcionario.id = userService.getUser().id;
-        refeicao.aluno = $scope.aluno;
+        diaRefeicao.funcionario = {};
+        diaRefeicao.funcionario.id = userService.getUser().id;
+        diaRefeicao.aluno = {};
+        diaRefeicao.aluno.id = $scope.aluno.id;
 
-        // Serviço para adicionar dia de refeição para o aluno.
-        diaRefeicaoService.cadastrarRefeicao(refeicao)
-            .success(onSuccessCallback)
-            .error(onErrorCallback);
+        for (var selectedDia of $scope.selectedDias) {
+            // Cópia do dia de refeição.    
+            var _diaRefeicao = angular.copy(diaRefeicao);
+            // Dia
+            _diaRefeicao.dia = {};
+            _diaRefeicao.dia.id = angular.copy(selectedDia.id);
+            // Serviço para adicionar dia de refeição para o aluno.   
+            diaRefeicaoService.cadastrarRefeicao(_diaRefeicao)
+                .success(onSuccessCallback)
+                .error(onErrorCallback);
+        }
+    };
+
+    $scope.toggle = function (item, list) {
+        var idx = list.indexOf(item);
+        if (idx > -1) {
+            list.splice(idx, 1);
+        } else {
+            list.push(item);
+        }
+    };
+
+    $scope.exists = function (item, list) {
+        return list.indexOf(item) > -1;
     };
 
     function onSuccessCallback(data, status) {
+        // Toast de sucesso.
         $mdToast.show(
             $mdToast.simple()
             .textContent('Refeição adicionada com sucesso')
@@ -248,7 +259,15 @@ function adicionarRefeicaoCtrl($scope, $mdDialog, $mdToast, $state, $stateParams
             .hideDelay(6000)
         );
 
-        atualizarState();
+        // Fechar caixa de diálogo.
+        $mdDialog.hide();
+
+        // Recarregar a página.
+        $state.transitionTo($state.current, $stateParams, {
+            reload: true,
+            inherit: false,
+            notify: true
+        });
     }
 
     function onErrorCallback(data, status) {
@@ -272,14 +291,6 @@ function adicionarRefeicaoCtrl($scope, $mdDialog, $mdToast, $state, $stateParams
         $mdDialog.cancel();
     };
 
-    function atualizarState() {
-        $state.transitionTo($state.current, $stateParams, {
-            reload: true,
-            inherit: false,
-            notify: true
-        });
-    }
-
     // Carregar itens do modal de inserção do Dia da Refeção.
     function carregamentoInicial() {
 
@@ -297,7 +308,7 @@ function adicionarRefeicaoCtrl($scope, $mdDialog, $mdToast, $state, $stateParams
 
         refeicaoService.listarRefeicoes()
             .success(function (data, status) {
-                $scope.tiposRefeicao = data;
+                $scope.refeicoes = data;
             })
             .error(onErrorCallback);
     }
