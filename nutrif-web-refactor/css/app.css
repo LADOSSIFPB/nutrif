@@ -34,7 +34,9 @@ md-toolbar.md-table-toolbar div.toolbar-input>input {
     width: 100%;
 }
 
+
 /* Card */
+
 .nutrif-md-card-header {
     background-color: #F0F0F0;
 }
@@ -43,7 +45,9 @@ md-card md-card-header md-card-avatar+md-card-header-text {
     max-height: none;
 }
 
+
 /* Hints - help */
+
 .hint {
     /* Position the hint */
     display: block;
@@ -53,7 +57,7 @@ md-card md-card-header md-card-avatar+md-card-header-text {
     line-height: 14px;
     transition: all 0.3s cubic-bezier(0.55, 0, 0.55, 0.2);
     /* Set our own color */
-    color: grey;    
+    color: grey;
 }
 
 .hint.ng-hide,
@@ -69,7 +73,9 @@ md-card md-card-header md-card-avatar+md-card-header-text {
     opacity: 1;
 }
 
+
 /* Imagem do Perfl do aluno */
-.img-perfil{
+
+.img-perfil {
     width: 200px;
 }
