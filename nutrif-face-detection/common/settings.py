@@ -20,6 +20,8 @@ uri_ocs = 'mysql+mysqlconnector://{}:{}@localhost/{}'.format(
     senha_ocs,
     'ocs')
 
+uri_openface = 'http://localhost:5000/recognize'
+
 SQLALCHEMY_DATABASE_URI = uri_mysql
 SQLALCHEMY_TRACK_MODIFICATIONS = False
 SQLALCHEMY_BINDS = {

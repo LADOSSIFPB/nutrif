@@ -65,12 +65,13 @@ class Deteccao():
                 if len(c['detects']) > 0:
                     for i in c['detects']:
                         x, y, w, h = i
-                        cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 0, 255), 2)
+                        cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 0, 255), 2) #x1, y1     x2, y2
                         #cv2.putText(frame, c['label'], (x,y), cv2.FONT_HERSHEY_SIMPLEX,1,(0,255,255))
 
                         # Transforms the image into base64
-                        cnt = cv2.imencode('.jpg', frame)[1]
+                        cnt = cv2.imencode('.jpg', frame[y:y+h, x:x+w])[1]
                         foto64 = base64.b64encode(cnt)
+                        continuar = False
 
 
             # for c in cascades:
@@ -78,11 +79,7 @@ class Deteccao():
                     c['anterior'] = len(c['detects'])
                     log.info(c['label']+" detects: "+str(len(c['detects']))+" at "+str(dt.datetime.now()))
 
-            # Display the resulting frame
-            cv2.imshow('Video', frame)
-
             if cv2.waitKey(1) & 0xFF == ord('q'):
-                sleep(2)
                 break
 
         # When everything is done, release the capture and return the base64

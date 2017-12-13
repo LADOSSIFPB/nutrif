@@ -15,4 +15,4 @@ app.register_blueprint(api_bp, url_prefix='/api')
 auth = HTTPBasicAuth()
 
 if __name__ == '__main__':
-    app.run()
+    app.run(port=5001)
