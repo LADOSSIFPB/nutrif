@@ -1,0 +1,164 @@
+/* CSS */
+
+
+/* CSS - Página */
+
+
+/* Reset */
+
+.wrapper {
+    height: 100%;
+    margin: 0 auto;
+    /* Flex para o parent */
+    display: flex;
+    flex-direction: column;
+}
+
+
+/* main */
+
+main {
+    padding: 1vh;
+    flex-grow: 1;
+    background-color: #ecf0f1;
+}
+
+#main-visitante {
+    margin-top: 70px;
+    margin-bottom: 70px;
+}
+
+
+/* toolbar */
+
+.toolbar-input {
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    align-items: center;
+}
+
+.toolbar-input>input {
+    flex-grow: 2;
+}
+
+md-card-header {
+    background-color: #F0F0F0;
+}
+
+ng-md-icon>svg {
+    fill: rgba(0, 0, 0, .54);
+}
+
+.header-toolbar-icon>svg {
+    fill: rgba(255, 255, 255, .8);
+}
+
+
+/* header - login */
+
+.logo-login {
+    margin: 0 auto;
+    text-align: center;
+    padding-bottom: 5px;
+}
+
+
+/* header - visitante */
+
+#header-visitante {
+    background-color: grey;
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    z-index: 1;
+    display: block;
+}
+
+.toolbar-header-visitante,
+.toolbar-footer {
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    align-items: center;
+}
+
+.logo-visitante {
+    flex-grow: 1;
+}
+
+.logo-visitante img {
+    width: 5.5em;
+}
+
+.header-visitante-clock {
+    text-align: right;
+    padding-right: 20px;
+}
+
+
+/* footer - login e admin */
+
+.toolbar-footer>div {
+    flex-grow: 1;
+}
+
+.toolbar-footer>div>img {
+    flex-grow: 1;
+    display: block;
+    margin-left: auto;
+    margin-right: auto
+}
+
+
+/* footer - visitante */
+
+#footer-visitante {
+    background-color: cadetblue;
+    position: fixed;
+    left: 0px;
+    bottom: 0px;
+    width: 100%;
+}
+
+
+/* Sidnav */
+
+.logo-sidenav>img {
+    width: 5.5em;
+}
+
+
+/* Carousel */
+
+.box-carousel {
+    width: 90%;
+    margin: 0 auto;
+}
+
+.right.carousel-control,
+.left.carousel-control,
+.carousel-indicators {
+    /*display: none;*/
+    opacity: 0;
+    filter: alpha(opacity=0);
+    /* IE support */
+}
+
+.row-carousel {
+    text-align: left;
+}
+
+md-card md-card-header md-card-avatar+md-card-header-text {
+    max-height: none;
+}
+
+#main-visitante table.md-table td.md-cell {
+    font-size: 120%;
+}
+
+.md-column-cronograma:nth-child(1),
+.md-column-cronograma:nth-child(6) {
+    flex: 0 0 30%;
+}

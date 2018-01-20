@@ -1,0 +1,26 @@
+<md-card>
+    <md-card-title>
+        <md-card-title-text>
+            <span class="md-headline">Login</span>
+            <span class="md-subhead">Informe o e-mail ou matrícula e senha para efetuar o login de qualquer perfil de usuário.</span>
+        </md-card-title-text>
+    </md-card-title>
+    <md-card-content>
+        <form layout="column">
+
+            <md-input-container class="md-icon-float md-block">
+                <label>E-mail</label>
+                <input ng-model="usuario.login" type="text" ng-required="true">
+            </md-input-container>
+
+            <md-input-container class="md-icon-float md-block">
+                <label>Senha</label>
+                <input ng-model="usuario.senha" type="password" ng-required="true">
+            </md-input-container>
+
+            <md-button ng-click="loginUsuario(usuario)" class="md-raised md-primary md-hue-1">
+                Entrar
+            </md-button>
+        </form>
+    </md-card-content>
+</md-card>
