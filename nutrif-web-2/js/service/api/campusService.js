@@ -1,7 +1,7 @@
 /*
  *  Mapeamento dos serviço de Campus.
  */
-nutrifApp.factory("campusService", function ($http, config) {
+nutrIFApp.factory("campusService", function ($http, config) {
 
     var _path = config.baseUrl() + "/campus";
 

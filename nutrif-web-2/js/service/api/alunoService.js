@@ -1,9 +1,9 @@
 /*
  *  Mapeamento dos serviço de Aluno.
  */
-nutrifApp.factory("alunoService", function($http, config){
+nutrIFApp.factory("alunoService", function($http, serviceCfg){
 
-	var _path = config.baseUrl() + "/aluno";
+	var _path = serviceCfg.baseUrl() + "/aluno";
 
 	var _buscaAlunoPorNome = function (nome){
 		return $http.get(_path + "/listar/nome/" + encodeURI(nome))

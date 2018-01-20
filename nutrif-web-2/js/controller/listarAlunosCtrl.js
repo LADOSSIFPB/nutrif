@@ -1,7 +1,7 @@
 /*
  *  Controlar ações da listagem do Aluno.
  */
-nutrifApp.controller('listarAlunosCtrl', function ($scope, toastUtil,
+nutrIFApp.controller('listarAlunosCtrl', function ($scope, toastUtil,
     alunoService) {
 
     var TAM_MINIMO_MATRICULA = 11;

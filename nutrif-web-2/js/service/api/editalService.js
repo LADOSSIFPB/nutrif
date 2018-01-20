@@ -1,7 +1,7 @@
 /*
  *  Mapeamento dos serviço de Edital.
  */
-nutrifApp.factory("editalService", function($http, config){
+nutrIFApp.factory("editalService", function($http, config){
 
 	var _path = config.baseUrl() + "/edital";
 

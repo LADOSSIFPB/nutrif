@@ -1,7 +1,7 @@
 /*
  *  Controlar ações da listagem do Edital.
  */
-nutrifApp.controller('listarEditalCtrl', function ($scope, toastUtil, editalService) {
+nutrIFApp.controller('listarEditalCtrl', function ($scope, toastUtil, editalService) {
 
     $scope.texto = "";
     $scope.editais = [];

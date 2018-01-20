@@ -1,7 +1,7 @@
 /*
  *  Mapeamento dos serviço de Refeição.
  */
-nutrifApp.factory("refeicaoService", function($http, config){
+nutrIFApp.factory("refeicaoService", function($http, config){
 
     var _path = config.baseUrl() + "/refeicao";
 

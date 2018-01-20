@@ -1,7 +1,7 @@
 /*
  *  Controlar atualização do Aluno.
  */
-nutrifApp.controller('atualizarAlunoCtrl', function (toastUtil, cursoService, alunoService, turnoService, turmaService, campusService, periodoService, $scope, $mdToast, $state, $stateParams) {
+nutrIFApp.controller('atualizarAlunoCtrl', function (toastUtil, cursoService, alunoService, turnoService, turmaService, campusService, periodoService, $scope, $mdToast, $state, $stateParams) {
 
     $scope.aluno = {};
     $scope.turnos = [];

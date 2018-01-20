@@ -1,7 +1,7 @@
 /*
  *  Mapeamento dos serviço de Período.
  */
-nutrifApp.factory("periodoService", function($http, config){
+nutrIFApp.factory("periodoService", function($http, config){
 
     var _path = config.baseUrl() + "/periodo";
 

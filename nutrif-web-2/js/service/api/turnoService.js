@@ -1,7 +1,7 @@
 /*
  *  Mapeamento dos serviço de Turno.
  */
-nutrifApp.factory("turnoService", function($http, config){
+nutrIFApp.factory("turnoService", function($http, config){
 
     var _path = config.baseUrl() + "/turno";
 

@@ -1,7 +1,7 @@
 /*
  *  Controlar ações da listagem do Curso.
  */
-nutrifApp.controller('listarCursoCtrl', function ($scope, toastUtil, cursoService) {
+nutrIFApp.controller('listarCursoCtrl', function ($scope, toastUtil, cursoService) {
 
     $scope.nome = "";
     $scope.cursos = [];

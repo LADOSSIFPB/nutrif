@@ -1,7 +1,7 @@
 /*
  *  Controlar ações da listagem da Refeição.
  */
-nutrifApp.controller('dashboardCtrl', function (
+nutrIFApp.controller('dashboardCtrl', function (
     $scope, $timeout, $state, $interval, $mdExpansionPanelGroup, $mdExpansionPanel, toastUtil, diaService, refeicaoService, pretensaoService, refeicaoRealizadaService, diaRefeicaoService) {
 
     // Campos Dia e Refeição para consulta.

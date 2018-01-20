@@ -1,7 +1,7 @@
 /*
  *  Mapeamento dos serviço de Funcionário.
  */
-nutrifApp.factory("funcionarioService", function($http, config){
+nutrIFApp.factory("funcionarioService", function($http, config){
 
 	var _path = config.baseUrl() + "/funcionario";
 

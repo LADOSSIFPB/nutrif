@@ -1,7 +1,7 @@
 /*
  *  Mapeamento dos serviço de DiaRefeicao.
  */
-nutrifApp.factory("diaRefeicaoService", function ($http, config) {
+nutrIFApp.factory("diaRefeicaoService", function ($http, config) {
 
     var _path = config.baseUrl() + "/diarefeicao";
 

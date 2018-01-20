@@ -1,7 +1,7 @@
 /*
  *  Controlar inserção do Aluno.
  */
-nutrifApp.controller('cadastrarAlunoCtrl', function ($scope, $mdToast, $state, cursoService, alunoService, campusService, periodoService, turnoService, turmaService) {
+nutrIFApp.controller('cadastrarAlunoCtrl', function ($scope, $mdToast, $state, cursoService, alunoService, campusService, periodoService, turnoService, turmaService) {
 
     $scope.cursos = [];
     $scope.campi = [];

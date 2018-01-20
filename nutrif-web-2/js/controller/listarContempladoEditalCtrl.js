@@ -1,4 +1,4 @@
-nutrifApp.controller('listarContempladosEditalCtrl', function ($scope,
+nutrIFApp.controller('listarContempladosEditalCtrl', function ($scope,
 	$stateParams, $state, $mdToast, diaRefeicaoService) {
 
 	$scope.idEdital = $stateParams.id;

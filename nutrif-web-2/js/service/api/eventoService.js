@@ -1,7 +1,7 @@
 /*
  *  Mapeamento dos serviço de Evento.
  */
-nutrifApp.factory("eventoService", function ($http, config) {
+nutrIFApp.factory("eventoService", function ($http, config) {
 
     var _path = config.baseUrl() + "/evento";
 

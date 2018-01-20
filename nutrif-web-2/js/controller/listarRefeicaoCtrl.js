@@ -1,7 +1,7 @@
 /*
  *  Controlar ações da listagem da Refeição.
  */
-nutrifApp.controller('listarRefeicaoCtrl', function ($scope, $mdToast, refeicaoService) {
+nutrIFApp.controller('listarRefeicaoCtrl', function ($scope, $mdToast, refeicaoService) {
 
     $scope.tipo = "";
     $scope.refeicoes = [];

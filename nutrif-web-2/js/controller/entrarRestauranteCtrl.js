@@ -1,7 +1,7 @@
 /*
  *  Controlar entrada no Refeitório do Aluno.
  */
-nutrifApp.controller('entrarRestauranteCtrl', function ($scope, $mdDialog, toastUtil, userService, diaRefeicaoService) {
+nutrIFApp.controller('entrarRestauranteCtrl', function ($scope, $mdDialog, toastUtil, userService, diaRefeicaoService) {
 
     var TAM_MINIMO_MATRICULA = 11;
     var TAM_MAXIMO_MATRICULA = 13;

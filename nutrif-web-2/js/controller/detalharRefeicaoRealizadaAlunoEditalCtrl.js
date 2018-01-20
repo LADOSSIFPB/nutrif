@@ -1,4 +1,4 @@
-nutrifApp.controller('detalharRefeicaoRealizadaAlunoEditalCtrl', function ($scope,
+nutrIFApp.controller('detalharRefeicaoRealizadaAlunoEditalCtrl', function ($scope,
 	$stateParams, $state, $mdToast, refeicaoRealizadaService) {
     
     $scope.idEdital = $stateParams.idEdital;

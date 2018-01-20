@@ -1,7 +1,7 @@
 /*
  *  Controlar ações de login para acesso do aluno.
  */
-nutrifApp.controller('loginAlunoCtrl', function ($stateParams, $scope, $state, toastUtil, userService, alunoService) {
+nutrIFApp.controller('loginAlunoCtrl', function ($stateParams, $scope, $state, toastUtil, userService, alunoService) {
 
     $scope.aluno = {};
     $scope.aluno.matricula = $stateParams.matricula;

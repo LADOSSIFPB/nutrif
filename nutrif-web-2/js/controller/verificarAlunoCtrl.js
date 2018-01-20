@@ -1,7 +1,7 @@
 /*
  *  Controlar ações de verificação prévia do login para acesso de perfil de aluno.
  */
-nutrifApp.controller("verificarAlunoCtrl", function (userService, alunoService, toastUtil, $state, $mdToast, $scope) {
+nutrIFApp.controller("verificarAlunoCtrl", function (userService, alunoService, toastUtil, $state, $mdToast, $scope) {
 
     var ACESSO_CONFIRMADO = true;
 

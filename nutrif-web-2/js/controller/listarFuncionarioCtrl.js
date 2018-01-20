@@ -1,7 +1,7 @@
 /*
  *  Controlar ações da listagem do Funcionário.
  */
-nutrifApp.controller('listarFuncionariosCtrl', function ($scope, toastUtil, funcionarioService) {
+nutrIFApp.controller('listarFuncionariosCtrl', function ($scope, toastUtil, funcionarioService) {
 
     $scope.nome = "";
     $scope.funcionarios = [];

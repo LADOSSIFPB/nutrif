@@ -1,7 +1,7 @@
 /*
  *  Mapeamento dos serviço de Turma.
  */
-nutrifApp.factory("turmaService", function($http, config){
+nutrIFApp.factory("turmaService", function($http, config){
 
     var _path = config.baseUrl() + "/turma";
 

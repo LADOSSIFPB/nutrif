@@ -1,7 +1,7 @@
 /*
  *  Controlar ações da Migração do Sábado Letivo.
  */
-nutrifApp.controller('migrarSabadoLetivoCtrl', function ($scope, $state, $window,
+nutrIFApp.controller('migrarSabadoLetivoCtrl', function ($scope, $state, $window,
         toastUtil, diaRefeicaoService, userService, editalService, funcionarioService, diaService) {
 	
         $scope.dias = [];

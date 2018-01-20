@@ -1,7 +1,7 @@
 /*
  *  Mapeamento dos serviço de Login para Pessoa.
  */
-nutrifApp.factory("loginService", function ($http, config) {
+nutrIFApp.factory("loginService", function ($http, config) {
 
     var _path = config.baseUrl() + "/pessoa";
 

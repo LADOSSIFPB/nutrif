@@ -10,7 +10,7 @@ nutrIFApp.factory("menu", function ($location, $rootScope) {
         },
         {
             name: 'Aluno',
-            state: 'administrador.home',
+            state: 'administrador.listar-alunos',
             type: 'link'
         },
 
