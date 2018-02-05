@@ -34,8 +34,8 @@ public class DiaRefeicao implements DataEntity {
 	private Integer id;
 
 	@ManyToOne(cascade=CascadeType.ALL)
-	@JoinColumn(name="fk_id_aluno")
-	private Aluno aluno;
+	@JoinColumn(name="fk_id_matricula")
+	private Matricula matricula;
 
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "fk_id_dia")
@@ -86,12 +86,12 @@ public class DiaRefeicao implements DataEntity {
 	}
 
 	@XmlElement
-	public Aluno getAluno() {
-		return aluno;
+	public Matricula getMatricula() {
+		return matricula;
 	}
 
-	public void setAluno(Aluno aluno) {
-		this.aluno = aluno;
+	public void setMatricula(Matricula matricula) {
+		this.matricula = matricula;
 	}
 
 	@XmlElement
@@ -177,7 +177,8 @@ public class DiaRefeicao implements DataEntity {
 	
 	@Override
 	public String toString() {
-		return "DiaRefeicao [id=" + id + ", aluno=" + aluno 
+		return "DiaRefeicao [id=" + id + ""
+				+ ", matricula=" + matricula 
 				+ ", dia=" + dia 
 				+ ", refeicao=" + refeicao
 				+ ", edital=" + edital 

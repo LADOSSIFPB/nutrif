@@ -70,6 +70,8 @@ public class Curso implements DataEntity {
 
 	@Override
 	public String toString() {
-		return "Curso [id=" + id + ", nome=" + nome + ", nivel=" + nivel + "]";
+		return "Curso [id=" + id 
+				+ ", nome=" + nome 
+				+ ", nivel=" + nivel + "]";
 	}
 }

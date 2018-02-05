@@ -25,7 +25,7 @@ public class Matricula {
 	@Column(name = "id_matricula")
 	private Integer id;
 	
-	@Column(name = "nm_numero")
+	@Column(name = "nr_numero", length = 13, unique = true)
 	private String numero;
 	
 	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
@@ -44,6 +44,14 @@ public class Matricula {
 	@JoinColumn(name = "fk_id_periodo")
 	private Periodo periodo;
 
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinColumn(name = "fk_id_turma")
+	private Turma turma;
+	
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinColumn(name = "fk_id_situacao_matricula")
+	private SituacaoMatricula situacao;
+	
 	@XmlElement
 	public Integer getId() {
 		return id;
@@ -97,6 +105,24 @@ public class Matricula {
 	public void setPeriodo(Periodo periodo) {
 		this.periodo = periodo;
 	}
+
+	@XmlElement
+	public Turma getTurma() {
+		return turma;
+	}
+
+	public void setTurma(Turma turma) {
+		this.turma = turma;
+	}
+	
+	@XmlElement
+	public SituacaoMatricula getSituacao() {
+		return situacao;
+	}
+
+	public void setSituacao(SituacaoMatricula situacao) {
+		this.situacao = situacao;
+	}
 	
 	@Override
 	public String toString() {
@@ -105,6 +131,7 @@ public class Matricula {
 					+ ", aluno=" + aluno
 					+ ", curso=" + curso 
 					+ ", turno=" + turno
-					+ ", periodo=" + periodo + "]";
+					+ ", periodo=" + periodo 
+					+ ", situacao=" + situacao + "]";
 	}
 }

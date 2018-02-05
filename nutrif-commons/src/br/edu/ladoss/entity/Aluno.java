@@ -28,25 +28,6 @@ public class Aluno extends Pessoa {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_aluno")
 	private Integer id;
-
-	@Column(name = "nm_matricula", length = 13, unique = true)
-	private String matricula;
-	
-	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JoinColumn(name = "fk_id_curso")
-	private Curso curso;
-	
-	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JoinColumn(name = "fk_id_periodo")
-	private Periodo periodo;
-	
-	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JoinColumn(name = "fk_id_turma")
-	private Turma turma;
-	
-	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JoinColumn(name = "fk_id_turno")
-	private Turno turno;
 	
 	@Column(name = "nm_keyconfirmation")
 	private String keyConfirmation;
@@ -69,24 +50,6 @@ public class Aluno extends Pessoa {
 
 	public void setId(Integer id) {
 		this.id = id;
-	}
-
-	@XmlElement
-	public String getMatricula() {
-		return matricula;
-	}
-
-	public void setMatricula(String matricula) {
-		this.matricula = matricula;
-	}
-
-	@XmlElement
-	public Curso getCurso() {
-		return curso;
-	}
-
-	public void setCurso(Curso curso) {
-		this.curso = curso;
 	}
 	
 	@XmlElement
@@ -115,36 +78,8 @@ public class Aluno extends Pessoa {
 		this.acesso = acesso;
 	}
 	
-	@XmlElement
-	public Turma getTurma() {
-		return turma;
-	}
-
-	public void setTurma(Turma turma) {
-		this.turma = turma;
-	}
-
-	@XmlElement
-	public Turno getTurno() {
-		return turno;
-	}
-	
-	public void setTurno(Turno turno) {
-		this.turno = turno;
-	}
-	
-	@XmlElement
-	public Periodo getPeriodo() {
-		return periodo;
-	}
-
-	public void setPeriodo(Periodo periodo) {
-		this.periodo = periodo;
-	}
-	
 	@Override
 	public String toString() {
-		return "Aluno [" + super.toString() + ", curso=" + curso 
-				+ ", matricula=" + matricula + "]";
+		return "Aluno [" + super.toString() + "]";
 	}	
 }

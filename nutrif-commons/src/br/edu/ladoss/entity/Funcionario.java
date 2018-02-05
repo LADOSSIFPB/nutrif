@@ -1,7 +1,5 @@
 package br.edu.ladoss.entity;
 
-import java.util.Date;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
@@ -14,8 +12,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -37,14 +33,12 @@ public class Funcionario extends Pessoa {
 	@Column(name = "id_funcionario")
 	private Integer id;
 	
+	@Column(name = "nr_siape", length = 13, unique = true)
+	private String siape;
+	
 	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name = "fk_id_setor")
 	private Setor setor;
-	
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "dt_insercao", nullable = false,
-		    columnDefinition="TIMESTAMP default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP")
-	private Date dataInsercao;
 
 	@XmlElement
 	public Integer getId() {
@@ -62,15 +56,6 @@ public class Funcionario extends Pessoa {
 
 	public void setSetor(Setor setor) {
 		this.setor = setor;
-	}
-	
-	@XmlElement
-	public Date getDataInsercao() {
-		return dataInsercao;
-	}
-
-	public void setDataInsercao(Date dataInsercao) {
-		this.dataInsercao = dataInsercao;
 	}
 	
 	public static Funcionario getFuncionario(Pessoa pessoa) {
