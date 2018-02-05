@@ -244,30 +244,36 @@ public class ArquivoController {
 		return builder.build();		
 	}	
 	
+	/**
+	 * Recuperar a imagem do Aluno através de sua Matrícula.
+	 * 
+	 * @param matricula
+	 * @return
+	 */
 	@RolesAllowed({TipoRole.ADMIN, TipoRole.COMENSAL, TipoRole.COMENSAL})
 	@GET
 	@Path("/download/perfil/aluno/{id}")
 	@Produces(MediaType.APPLICATION_FORM_URLENCODED)
-	public Response downloadImagemPerfilAluno(@PathParam("id") int idAluno) {
+	public Response downloadImagemPerfilAluno(@PathParam("matricula") String matricula) {
 
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
 		builder.expires(new Date());
 		
 		// Validação dos dados de entrada.
-		int validacao = Validate.downloadImagemPerfil(idAluno);
+		int validacao = Validate.downloadImagemPerfil(matricula);
 		
 		if (validacao == Validate.VALIDATE_OK) {
 			
 			try {				
 			
 				// Recuperar registro persistente do arquivo da imagem para o perfil do aluno.
-				Aluno aluno = AlunoDAO.getInstance().getById(idAluno);
+				Aluno aluno = AlunoDAO.getInstance().getByMatricula(matricula);
 				
 				if (aluno != null) {
 					
 					String fileName = "perfil.jpg";
 					String imagem = FileUtil.readBase64(TipoArquivo.ARQUIVO_FOTO_PERFIL,
-							aluno.getMatricula() + "/" + fileName);
+							matricula + "/" + fileName);
 					
 					StringBuilder base64StringBuilder = new StringBuilder();
 					base64StringBuilder.append("data:image/jpg;base64,");

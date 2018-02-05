@@ -9,6 +9,7 @@ import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -29,7 +30,6 @@ public class CursoController {
 
 	@RolesAllowed({TipoRole.ADMIN})
 	@POST
-	@Path("/inserir")
 	@Consumes("application/json")
 	@Produces("application/json")
 	public Response insert(Curso curso) {
@@ -44,7 +44,7 @@ public class CursoController {
 			
 			try {			
 				
-				//Inserir o Aluno.
+				//Inserir o Curso.
 				Integer idCurso = CursoDAO.getInstance().insert(curso);
 				
 				if (idCurso != BancoUtil.ID_VAZIO) {
@@ -71,7 +71,6 @@ public class CursoController {
 	
 	@PermitAll
 	@GET
-	@Path("/listar")
 	@Produces("application/json")
 	public List<Curso> getAll() {
 		
@@ -84,7 +83,7 @@ public class CursoController {
 	
 	@PermitAll
 	@GET
-	@Path("/id/{id}")
+	@Path("/{id}")
 	@Produces("application/json")
 	public Response getCursoById(@PathParam("id") int idCurso) {
 		
@@ -117,8 +116,7 @@ public class CursoController {
 	 * @return
 	 */
 	@RolesAllowed({TipoRole.ADMIN})
-	@POST
-	@Path("/atualizar")
+	@PUT
 	@Consumes("application/json")
 	@Produces("application/json")
 	public Response update(Curso curso) {
@@ -161,7 +159,7 @@ public class CursoController {
 	 */
 	@PermitAll
 	@GET
-	@Path("/listar/nome/{nome}")
+	@Path("/nome/{nome}")
 	@Produces("application/json")
 	public Response listByNome(@PathParam("nome") String nome) {
 		

@@ -511,7 +511,7 @@ public class RefeicaoRealizadaController {
 						MapaRefeicao<RefeicaoRealizada> mapa = new MapaRefeicao<RefeicaoRealizada>();
 						mapa.setDia(diaRefeicao.getDia());
 						mapa.setEdital(diaRefeicao.getEdital());
-						mapa.setAluno(diaRefeicao.getAluno());						
+						//TODO: mapa.setAluno(diaRefeicao.getAluno());						
 						mapa.setLista(refeicoesRealizadas);
 						mapa.setQuantidade(refeicoesRealizadas.size());	
 						

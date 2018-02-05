@@ -4,10 +4,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Query;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.HibernateException;
-import org.hibernate.Query;
 import org.hibernate.Session;
 
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
@@ -15,8 +16,6 @@ import br.edu.ifpb.nutrif.hibernate.HibernateUtil;
 import br.edu.ifpb.nutrif.util.BancoUtil;
 import br.edu.ifpb.nutrif.util.DateUtil;
 import br.edu.ladoss.entity.Dia;
-import br.edu.ladoss.entity.DiaRefeicao;
-import br.edu.ladoss.entity.MapaRefeicao;
 import br.edu.ladoss.entity.Refeicao;
 import br.edu.ladoss.entity.RefeicaoRealizada;
 
@@ -84,7 +83,7 @@ public class RefeicaoRealizadaDAO extends GenericDao<Integer, RefeicaoRealizada>
 			query.setParameter("refeicao", refeicao.getId());
 			query.setParameter("dataRefeicao", dataRefeicao);
 			
-			refeicoesRealizadas = (List<RefeicaoRealizada>) query.list();
+			refeicoesRealizadas = (List<RefeicaoRealizada>) query.getResultList();
 	        
 		} catch (HibernateException hibernateException) {
 			
@@ -121,7 +120,7 @@ public class RefeicaoRealizadaDAO extends GenericDao<Integer, RefeicaoRealizada>
 			query.setParameter("matricula", matricula);
 			query.setParameter("dia", dia.getId());
 			
-			refeicaoRealizada = (RefeicaoRealizada) query.uniqueResult();
+			refeicaoRealizada = (RefeicaoRealizada) query.getSingleResult();
 	        
 		} catch (HibernateException hibernateException) {
 			
@@ -160,7 +159,7 @@ public class RefeicaoRealizadaDAO extends GenericDao<Integer, RefeicaoRealizada>
 			query.setParameter("data", data);
 			query.setParameter("idRefeicao", refeicao.getId());
 			
-			quantidadeDia = (Long) query.uniqueResult();
+			quantidadeDia = (Long) query.getSingleResult();
 	        
 		} catch (HibernateException hibernateException) {
 			
@@ -196,7 +195,7 @@ public class RefeicaoRealizadaDAO extends GenericDao<Integer, RefeicaoRealizada>
 			query.setParameter("matricula", matricula);
 			query.setParameter("idDia", idDia);
 			
-			refeicoesRealizadas = (List<RefeicaoRealizada>) query.list();
+			refeicoesRealizadas = (List<RefeicaoRealizada>) query.getResultList();
 	        
 		} catch (HibernateException hibernateException) {
 			
@@ -229,9 +228,9 @@ public class RefeicaoRealizadaDAO extends GenericDao<Integer, RefeicaoRealizada>
 			Query query = session.createQuery(hql);
 			query.setParameter("idDia", idDia);
 			query.setParameter("idRefeicao", idRefeicao);
-			query.setDate("dataRefeicao", dataRefeicao);
+			query.setParameter("dataRefeicao", dataRefeicao);
 		
-			refeicoesRealizadas = (List<RefeicaoRealizada>) query.list();
+			refeicoesRealizadas = (List<RefeicaoRealizada>) query.getResultList();
 	        
 		} catch (HibernateException hibernateException) {
 			
@@ -263,9 +262,9 @@ public class RefeicaoRealizadaDAO extends GenericDao<Integer, RefeicaoRealizada>
 		
 			Query query = session.createQuery(hql);
 			query.setParameter("idDiaRefeicao", idDiaRefeicao);
-			query.setParameterList("datasRefeicao", datasRefeicao);
+			query.setParameter("datasRefeicao", datasRefeicao); //TODO: Verificar consulta.
 		
-			refeicoesRealizadas = (List<RefeicaoRealizada>) query.list();
+			refeicoesRealizadas = (List<RefeicaoRealizada>) query.getResultList();
 	        
 		} catch (HibernateException hibernateException) {
 			
@@ -296,7 +295,7 @@ public class RefeicaoRealizadaDAO extends GenericDao<Integer, RefeicaoRealizada>
 			
 			Query query = session.createQuery(hql, Boolean.class);
 			query.setParameter("idDiaRefeicao", idDiaRefeicao);
-			query.setDate("dataRefeicao", dataRefeicao);
+			query.setParameter("dataRefeicao", dataRefeicao);
 			
 			refecaoRealizada = (Boolean) query.getSingleResult();;
 	        

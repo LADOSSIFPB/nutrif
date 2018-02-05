@@ -7,11 +7,11 @@
 	<session-factory>
 
 		<property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
-        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/nutrif_20170803?useSSL=false&amp;useUnicode=true&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;useTimezone=true&amp;serverTimezone=America/Fortaleza</property>
+        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/nutrif_migracao?useSSL=false&amp;useUnicode=true&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;useTimezone=true&amp;serverTimezone=America/Fortaleza</property>
         <property name="hibernate.connection.username">root</property>
         <property name="hibernate.connection.password">ifpbinfo</property>
         
-        <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</property>
 
 		<!-- show mysql queries output in console -->
 		<property name="hibernate.show_sql">true</property>
@@ -42,6 +42,8 @@
 		<!-- Entidades -->
 		<mapping class="br.edu.ladoss.entity.Pessoa" />
 		<mapping class="br.edu.ladoss.entity.Aluno" />
+		<mapping class="br.edu.ladoss.entity.Matricula" />
+		<mapping class="br.edu.ladoss.entity.SituacaoMatricula" />		
 		<mapping class="br.edu.ladoss.entity.Funcionario" />
 		<mapping class="br.edu.ladoss.entity.Curso" />
 		<mapping class="br.edu.ladoss.entity.Dia" />

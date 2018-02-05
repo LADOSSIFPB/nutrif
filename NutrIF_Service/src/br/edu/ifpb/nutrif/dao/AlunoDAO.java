@@ -4,10 +4,11 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Query;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.HibernateException;
-import org.hibernate.Query;
 import org.hibernate.Session;
 
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
@@ -15,7 +16,6 @@ import br.edu.ifpb.nutrif.hibernate.HibernateUtil;
 import br.edu.ifpb.nutrif.util.BancoUtil;
 import br.edu.ifpb.nutrif.util.StringUtil;
 import br.edu.ladoss.entity.Aluno;
-import br.edu.ladoss.entity.DiaRefeicao;
 import br.edu.ladoss.entity.Pessoa;
 
 public class AlunoDAO extends GenericDao<Integer, Aluno> {
@@ -40,10 +40,10 @@ public class AlunoDAO extends GenericDao<Integer, Aluno> {
 			String hql = "from Aluno as a"
 					+ " where a.nome like :nome";
 			
-			Query query = session.createQuery(hql);
+			Query query = session.createQuery(hql, Aluno.class);
 			query.setParameter("nome", "%" + nome + "%");
 			
-			alunos = (List<Aluno>) query.list();
+			alunos = (List<Aluno>) query.getResultList();
 	        
 		} catch (HibernateException hibernateException) {
 			
@@ -59,6 +59,63 @@ public class AlunoDAO extends GenericDao<Integer, Aluno> {
 		return alunos;
 	}
 	
+	/**
+	 * Login do Aluno através do número da Matrícula e senha.
+	 * 
+	 * @param matricula
+	 * @param senhaPlana
+	 * @return funcionario
+	 * @throws UnsupportedEncodingException
+	 */
+	public Pessoa login(String matricula, String senhaPlana) 
+			throws UnsupportedEncodingException {
+		
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		
+		Pessoa pessoa = null;
+		
+		try {
+			
+			String senhaCriptografada = StringUtil.criptografarBase64(
+					senhaPlana);
+			
+			logger.info("Verificando o login pela matrícula do aluno: " 
+					+ matricula);			
+			
+			String hql = "from Aluno as al"
+					+ " where al.senha = :senha"
+					+ " and al.id in (" 
+					+ " 	select mat.aluno.id"
+					+ " 	from Matricula as mat"
+					+ " 	where mat.numero = :matricula"
+					+ " )";
+			
+			Query query = session.createQuery(hql);			
+			query.setParameter("matricula", matricula);
+			query.setParameter("senha", senhaCriptografada);
+			
+			pessoa = (Pessoa) query.getSingleResult();
+	        
+		} catch (HibernateException hibernateException) {
+			
+			session.getTransaction().rollback();
+			
+			throw new SQLExceptionNutrIF(hibernateException);
+			
+		} finally {
+		
+			session.close();
+		}
+		
+		return pessoa;
+	}
+	
+	/**
+	 * Recuperar o Aluno através do número da Matrícula.
+	 * 
+	 * @param matricula
+	 * @return aluno
+	 */
 	public Aluno getByMatricula(String matricula) {
 		
 		Session session = HibernateUtil.getSessionFactory().openSession();
@@ -67,13 +124,17 @@ public class AlunoDAO extends GenericDao<Integer, Aluno> {
 		
 		try {
 			
-			String hql = "from Aluno as a"
-					+ " where a.matricula = :matricula";
+			String hql = "from Aluno as al"
+					+ " where al.id in (" 
+					+ " 	select mat.aluno.id"
+					+ " 	from Matricula as mat"
+					+ " 	where mat.numero = :matricula"
+					+ " )";
 			
 			Query query = session.createQuery(hql);
 			query.setParameter("matricula", matricula);
 			
-			aluno = (Aluno) query.uniqueResult();
+			aluno = (Aluno) query.getSingleResult();
 	        
 		} catch (HibernateException hibernateException) {
 			
@@ -105,7 +166,7 @@ public class AlunoDAO extends GenericDao<Integer, Aluno> {
 			query.setParameter("matricula", matricula);
 			query.setParameter("keyConfirmation", keyConfirmation);			
 			
-			Aluno aluno = (Aluno) query.uniqueResult();
+			Aluno aluno = (Aluno) query.getSingleResult();
 			
 			if (aluno != null 
 					&& aluno.getKeyConfirmation().equals(keyConfirmation)) {
@@ -124,54 +185,6 @@ public class AlunoDAO extends GenericDao<Integer, Aluno> {
 		}
 		
 		return isKeyConfirmatio;
-	}
-	
-	/**
-	 * Login do Aluno através da matrícula e senha.
-	 * 
-	 * @param matricula
-	 * @param senhaPlana
-	 * @return funcionario
-	 * @throws UnsupportedEncodingException
-	 */
-	public Pessoa login(String matricula, String senhaPlana) 
-			throws UnsupportedEncodingException {
-		
-		Session session = HibernateUtil.getSessionFactory().openSession();
-		
-		Pessoa pessoa = null;
-		
-		try {
-			
-			String senhaCriptografada = StringUtil.criptografarBase64(
-					senhaPlana);
-			
-			logger.info("Verificando o login: " + matricula);
-			
-			String hql = "from Aluno as a"
-					+ " where a.matricula = :matricula"
-					+ " and a.senha = :senha"
-					+ " and a.ativo = :ativo";
-			
-			Query query = session.createQuery(hql);			
-			query.setParameter("matricula", matricula);
-			query.setParameter("senha", senhaCriptografada);
-			query.setParameter("ativo", BancoUtil.ATIVO);
-			
-			pessoa = (Pessoa) query.uniqueResult();
-	        
-		} catch (HibernateException hibernateException) {
-			
-			session.getTransaction().rollback();
-			
-			throw new SQLExceptionNutrIF(hibernateException);
-			
-		} finally {
-		
-			session.close();
-		}
-		
-		return pessoa;
 	}
 	
 	/**
@@ -197,11 +210,11 @@ public class AlunoDAO extends GenericDao<Integer, Aluno> {
 					+ " )"
 					+ " order by al.nome ASC";
 
-			Query query = session.createQuery(hql);
+			Query query = session.createQuery(hql, Aluno.class);
 			query.setParameter("idEdital", idEdital);
 			query.setParameter("ativo", BancoUtil.ATIVO);
 
-			alunos = (List<Aluno>) query.list();
+			alunos = query.getResultList();
 
 		} catch (HibernateException hibernateException) {
 
@@ -241,12 +254,12 @@ public class AlunoDAO extends GenericDao<Integer, Aluno> {
 					+ " )"
 					+ " order by al.nome ASC";			
 			
-			Query query = session.createQuery(hql);
+			Query query = session.createQuery(hql, Aluno.class);
 			query.setParameter("idEdital", idEdital);
 			query.setParameter("nome", "%" + nome + "%");
 			query.setParameter("ativo", BancoUtil.ATIVO);
 
-			alunos = (List<Aluno>) query.list();
+			alunos = (List<Aluno>) query.getResultList();
 
 		} catch (HibernateException hibernateException) {
 

@@ -7,6 +7,7 @@ import java.util.List;
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -23,6 +24,7 @@ import br.edu.ifpb.nutrif.dao.DiaDAO;
 import br.edu.ifpb.nutrif.dao.DiaRefeicaoDAO;
 import br.edu.ifpb.nutrif.dao.EditalDAO;
 import br.edu.ifpb.nutrif.dao.FuncionarioDAO;
+import br.edu.ifpb.nutrif.dao.MatriculaDAO;
 import br.edu.ifpb.nutrif.dao.RefeicaoDAO;
 import br.edu.ifpb.nutrif.dao.RefeicaoRealizadaDAO;
 import br.edu.ifpb.nutrif.exception.ErrorFactory;
@@ -37,6 +39,7 @@ import br.edu.ladoss.entity.Edital;
 import br.edu.ladoss.entity.Error;
 import br.edu.ladoss.entity.Funcionario;
 import br.edu.ladoss.entity.MapaRefeicao;
+import br.edu.ladoss.entity.Matricula;
 import br.edu.ladoss.entity.Refeicao;
 import br.edu.ladoss.entity.RefeicaoRealizada;
 import br.edu.ladoss.enumeration.TipoRole;
@@ -62,7 +65,6 @@ public class DiaRefeicaoController {
 	 */
 	@RolesAllowed({TipoRole.ADMIN})
 	@POST
-	@Path("/inserir")
 	@Consumes("application/json")
 	@Produces("application/json")
 	public Response insert(DiaRefeicao diaRefeicao) {
@@ -77,10 +79,10 @@ public class DiaRefeicaoController {
 			
 			try {			
 				
-				// Recuperar Aluno.
-				int idAluno = diaRefeicao.getAluno().getId();
-				Aluno aluno = AlunoDAO.getInstance().getById(idAluno);
-				diaRefeicao.setAluno(aluno);
+				// Recuperar Matrícula do Aluno.
+				int idMatricula = diaRefeicao.getMatricula().getId();
+				Matricula matricula = MatriculaDAO.getInstance().getById(idMatricula);
+				diaRefeicao.setMatricula(matricula);;
 				
 				// Recuperar Edital.
 				int idEdital = diaRefeicao.getEdital().getId();
@@ -103,7 +105,7 @@ public class DiaRefeicaoController {
 						.getById(idFuncionario);
 				diaRefeicao.setFuncionario(funcionario);
 				
-				if (aluno != null
+				if (matricula != null
 						&& edital != null
 						&& dia != null 
 						&& refeicao != null
@@ -115,7 +117,7 @@ public class DiaRefeicaoController {
 									idEdital);
 					
 					boolean isContemplado = DiaRefeicaoDAO.getInstance()
-							.isAlunoContemplado(idEdital, aluno.getMatricula());
+							.isAlunoContemplado(idEdital, matricula.getId());
 					
 					int quantidadeBeneficiadosPrevista = edital.getQuantidadeBeneficiadosPrevista();
 					int novaQuantidadeBeneficiados = quantidadeBeneficiadosReal + 1;
@@ -190,6 +192,12 @@ public class DiaRefeicaoController {
 		return builder.build();		
 	}
 	
+	/**
+	 * Verificar a vigência do Edital.
+	 * 
+	 * @param diasRefeicao
+	 * @return
+	 */
 	private boolean isDiaRefeicaoVigente(List<DiaRefeicao> diasRefeicao) {
 		
 		boolean isDiaRefeicaoVigente = BancoUtil.INATIVO;
@@ -218,25 +226,24 @@ public class DiaRefeicaoController {
 	 * @return builder
 	 */
 	@RolesAllowed({TipoRole.ADMIN})
-	@POST
-	@Path("/remover")
+	@DELETE
+	@Path("/{id}")
 	@Consumes("application/json")
 	@Produces("application/json")
-	public Response remover(DiaRefeicao diaRefeicao) {
+	public Response remover(@PathParam("id") int idDiaRefeicao) {		
 		
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
 		builder.expires(new Date());
 		
 		// Validação dos dados de entrada.
-		int validacao = Validate.diaRefeicao(diaRefeicao);
+		int validacao = Validate.diaRefeicao(idDiaRefeicao);
 		
 		if (validacao == Validate.VALIDATE_OK) {
 			
 			try {			
 				
 				// Recuperar Dia da Refeição.
-				diaRefeicao = DiaRefeicaoDAO.getInstance().getById(
-						diaRefeicao.getId());
+				DiaRefeicao diaRefeicao = DiaRefeicaoDAO.getInstance().getById(idDiaRefeicao);
 				
 				// Desabilitar.
 				diaRefeicao.setAtivo(false);
@@ -267,7 +274,6 @@ public class DiaRefeicaoController {
 	
 	@RolesAllowed({TipoRole.ADMIN})
 	@GET
-	@Path("/listar")
 	@Produces("application/json")
 	public List<DiaRefeicao> getAll() {
 		
@@ -287,7 +293,7 @@ public class DiaRefeicaoController {
 	 */
 	@RolesAllowed({TipoRole.ADMIN, TipoRole.INSPETOR})
 	@GET
-	@Path("/id/{id}")
+	@Path("/{id}")
 	@Produces("application/json")
 	public Response getDiaRefeicaoById(
 			@PathParam("id") int idCronogramaRefeicao) {
@@ -330,7 +336,7 @@ public class DiaRefeicaoController {
 	 */
 	@RolesAllowed({TipoRole.ADMIN, TipoRole.INSPETOR})
 	@GET
-	@Path("/buscar/aluno/nome/{nome}")
+	@Path("/aluno/nome/{nome}")
 	@Produces("application/json")
 	public Response getDiaRefeicaoRealizacaoByAlunoNome(
 			@PathParam("nome") String nome) {
@@ -346,6 +352,7 @@ public class DiaRefeicaoController {
 				
 				if (RefeicaoDAO.getInstance().isPeriodoRefeicao()) {
 					
+					//TODO: Refatorar consulta do Aluno via nome através da Matrícula.
 					List<DiaRefeicao> diasRefeicao = DiaRefeicaoDAO
 							.getInstance().getDiaRefeicaoRealizadaByAlunoNome(nome);
 					
@@ -398,7 +405,7 @@ public class DiaRefeicaoController {
 	 */
 	@RolesAllowed({TipoRole.ADMIN, TipoRole.INSPETOR})
 	@GET
-	@Path("/buscar/aluno/matricula/{matricula}")
+	@Path("/aluno/matricula/{matricula}")
 	@Produces("application/json")
 	public Response getDiaRefeicaoRealizacaoByAlunoMatricula(
 			@PathParam("matricula") String matricula) {
@@ -415,6 +422,7 @@ public class DiaRefeicaoController {
 
 				if (RefeicaoDAO.getInstance().isPeriodoRefeicao()) {
 					
+					//TODO: Refatorar consulta do Aluno via nome através da Matrícula.
 					List<DiaRefeicao> diasRefeicao = DiaRefeicaoDAO
 							.getInstance().getDiaRefeicaoRealizadaByAlunoMatricula(
 									matricula);
@@ -438,7 +446,7 @@ public class DiaRefeicaoController {
 									ErrorFactory.REFEICAO_JA_REALIZADA);
 							
 							String nome = refeicaoRealizada.getConfirmaRefeicaoDia()
-									.getDiaRefeicao().getAluno().getNome();
+									.getDiaRefeicao().getMatricula().getAluno().getNome();
 							String mensagem = nome + ". " + error.getMensagem();
 							
 							error.setMensagem(mensagem);
@@ -482,7 +490,7 @@ public class DiaRefeicaoController {
 	 */
 	@PermitAll
 	@GET
-	@Path("/listar/vigentes/aluno/matricula/{matricula}")
+	@Path("/vigentes/aluno/matricula/{matricula}")
 	@Produces("application/json")
 	public Response getAllVigentesByAlunoMatricula(
 			@PathParam("matricula") String matricula) {
@@ -502,6 +510,7 @@ public class DiaRefeicaoController {
 
 				List<DiaRefeicao> diasRefeicao = DiaRefeicaoDAO
 						.getInstance().getAllVigentesByAlunoMatricula(matricula);
+				
 				logger.info("Quantidade de Dias das Refeições de Editais Vigentes: " 
 						+ diasRefeicao.size());
 				
@@ -776,108 +785,6 @@ public class DiaRefeicaoController {
 		}
 
 		return builder.build();
-	}	
-	
-	
-	/**
-	 * Migrar os dias de refeição dos alunos para um edital.
-	 * O edital que vier com identificação será recuperado e associado aos dias de refeição,
-	 * caso contrário será castrado.
-	 * 
-	 * @param idDiaOrigem
-	 * @param edital
-	 * @return
-	 */
-	@RolesAllowed({TipoRole.ADMIN})
-	@POST
-	@Path("/migrar/dia/origem/{idOrigem}/destino/{idDestino}")
-	@Produces("application/json")
-	public Response migrarDiaRefeicao(
-			@PathParam("idOrigem") Integer idDiaOrigem, 
-			@PathParam("idDestino") Integer idDiaDestino,
-			Edital edital) {
-		
-		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
-		builder.expires(new Date());
-
-		//TODO: Validação. Verificar se o idDia Origem e Destino são válidos como inteiro.
-		
-		try {
-			
-			//Obter todos os dias de refeição para o dia escolhido.
-			List<DiaRefeicao> diasRefeicaoOrigem = DiaRefeicaoDAO
-					.getInstance().listDiaRefeicaoByDia(idDiaOrigem);			
-			
-			// Inserir ou obter Edital.
-			Integer idEdital = edital.getId();
-			
-			if(idEdital == BancoUtil.ID_VAZIO){
-				
-				Date agora = new Date();
-				edital.setDataInsercao(agora);
-				
-				// Inserir novo Edital.
-				idEdital = EditalDAO.getInstance().insert(edital);
-				
-			} else {
-				
-				// Recuperar Edital completo.
-				edital = EditalDAO.getInstance().getById(idEdital);
-			}
-				
-			if (diasRefeicaoOrigem != null && !diasRefeicaoOrigem.isEmpty()
-					&& edital != null && edital.getId() != BancoUtil.ID_VAZIO) {
-				
-				// Dia destino
-				Dia diaDestino = DiaDAO.getInstance().getById(idDiaDestino);
-				
-				// Novos Dias de Refeição.
-				for(DiaRefeicao diaRefeicaoOrigem : diasRefeicaoOrigem){
-					
-					DiaRefeicao diaRefeicaoDestino = new DiaRefeicao();
-					
-					// Aluno
-					diaRefeicaoDestino.setAluno(diaRefeicaoOrigem.getAluno());
-					
-					// Dia
-					diaRefeicaoDestino.setDia(diaDestino);	
-					
-					// Refeição
-					diaRefeicaoDestino.setRefeicao(diaRefeicaoOrigem.getRefeicao());
-					
-					// Edital
-					diaRefeicaoDestino.setEdital(edital);
-		
-					// Migração
-					diaRefeicaoDestino.setMigracao(BancoUtil.ATIVO);
-					
-					// Ativo
-					diaRefeicaoDestino.setAtivo(BancoUtil.ATIVO);
-					
-					// Funcionário
-					diaRefeicaoDestino.setFuncionario(edital.getFuncionario());
-					
-					// Data e hora de inserção.
-					Date agora = new Date();
-					diaRefeicaoDestino.setDataInsercao(agora);
-					
-					DiaRefeicaoDAO.getInstance().insert(diaRefeicaoDestino);
-				}
-				
-				builder.status(Response.Status.OK);
-				
-			} else {
-				
-				builder.status(Response.Status.NOT_FOUND);
-			}			
-
-		} catch (SQLExceptionNutrIF exception) {
-
-			builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
-					exception.getError());
-		}
-
-		return builder.build();
 	}
 	
 	/**
@@ -888,7 +795,7 @@ public class DiaRefeicaoController {
 	 */
 	@RolesAllowed({TipoRole.ADMIN})
 	@GET
-	@Path("/listar/edital/{id}")
+	@Path("/edital/{id}")
 	@Produces("application/json")
 	public Response listDiaRefeicaoByEdital(@PathParam("id") Integer idEdital) {
 

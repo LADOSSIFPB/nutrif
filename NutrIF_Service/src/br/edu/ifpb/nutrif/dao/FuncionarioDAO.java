@@ -2,10 +2,11 @@ package br.edu.ifpb.nutrif.dao;
 
 import java.util.List;
 
+import javax.persistence.Query;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.HibernateException;
-import org.hibernate.Query;
 import org.hibernate.Session;
 
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
@@ -38,7 +39,7 @@ public class FuncionarioDAO extends GenericDao<Integer, Funcionario> {
 			Query query = session.createQuery(hql);
 			query.setParameter("nome", "%" + nome + "%");
 			
-			funcionario = (List<Funcionario>) query.list();
+			funcionario = (List<Funcionario>) query.getResultList();
 	        
 		} catch (HibernateException hibernateException) {
 			

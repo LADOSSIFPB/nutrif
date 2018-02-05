@@ -16,7 +16,6 @@ public class TurnoController {
 	
 	@PermitAll
 	@GET
-	@Path("/listar")
 	@Produces("application/json")
 	public List<Turno> getAll() {
 		

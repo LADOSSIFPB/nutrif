@@ -2,10 +2,11 @@ package br.edu.ifpb.nutrif.dao;
 
 import java.util.List;
 
+import javax.persistence.Query;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.HibernateException;
-import org.hibernate.Query;
 import org.hibernate.Session;
 
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
@@ -38,7 +39,7 @@ public class EditalDAO extends GenericDao<Integer, Edital>{
 			Query query = session.createQuery(hql);
 			query.setParameter("nome", "%" + nome + "%");
 			
-			editais = (List<Edital>) query.list();
+			editais = (List<Edital>) query.getResultList();
 	        
 		} catch (HibernateException hibernateException) {
 			
@@ -69,7 +70,7 @@ public class EditalDAO extends GenericDao<Integer, Edital>{
 			Query query = session.createQuery(hql);
 			query.setParameter("ativo", BancoUtil.ATIVO);
 			
-			editais = (List<Edital>) query.list();
+			editais = (List<Edital>) query.getResultList();
 	        
 		} catch (HibernateException hibernateException) {
 			
@@ -102,7 +103,7 @@ public class EditalDAO extends GenericDao<Integer, Edital>{
 			query.setParameter("nome", nome);
 			query.setParameter("ativo", BancoUtil.ATIVO);
 			
-			editais = (List<Edital>) query.list();
+			editais = (List<Edital>) query.getResultList();
 	        
 		} catch (HibernateException hibernateException) {
 			

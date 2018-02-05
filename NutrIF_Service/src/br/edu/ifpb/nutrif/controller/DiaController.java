@@ -28,7 +28,6 @@ public class DiaController {
 
 	@RolesAllowed({TipoRole.ADMIN})
 	@POST
-	@Path("/inserir")
 	@Consumes("application/json")
 	@Produces("application/json")
 	public Response insert(Dia dia) {
@@ -68,7 +67,6 @@ public class DiaController {
 	
 	@PermitAll
 	@GET
-	@Path("/listar")
 	@Produces("application/json")
 	public List<Dia> getAll() {
 		
@@ -81,7 +79,7 @@ public class DiaController {
 	
 	@PermitAll
 	@GET
-	@Path("/id/{id}")
+	@Path("/{id}")
 	@Produces("application/json")
 	public Response getDiaById(@PathParam("id") int idCurso) {
 		

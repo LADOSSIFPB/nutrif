@@ -138,6 +138,11 @@ public class ErrorFactory {
 	
 	public static final int ERRO_INTERNO_SERVICO = 60;
 	
+	public static final int CPF_INVALIDO = 61;
+	
+	public static final int CIDADE_INVALIDA = 62;
+	public static final int SIGLA_INVALIDA = 63;
+	
 	/*
 	 * Mapa de erros: código e mensagem.
 	 */
@@ -206,7 +211,9 @@ public class ErrorFactory {
 		hashMap.put(ID_TURNO_INVALIDO, "Turno da Turma inválido.");
 		hashMap.put(AUTORIZATION_INVALIDO, "Autorização inválida.");
 		hashMap.put(ACESSO_USUARIO_NAO_PERMITIDO, "Acesso não permitido. Dados de e-mail e senha não conferem.");
-		
+		hashMap.put(CPF_INVALIDO, "Cpf inválido.");
+		hashMap.put(CIDADE_INVALIDA, "Cidade inválida.");
+		hashMap.put(SIGLA_INVALIDA, "Sigla inválida.");		
 		
 		return hashMap;
 	}

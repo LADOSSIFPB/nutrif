@@ -2,10 +2,11 @@ package br.edu.ifpb.nutrif.dao;
 
 import java.util.List;
 
+import javax.persistence.Query;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.HibernateException;
-import org.hibernate.Query;
 import org.hibernate.Session;
 
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
@@ -37,7 +38,7 @@ public class EventoDAO extends GenericDao<Integer, Evento>{
 			Query query = session.createQuery(hql);
 			query.setParameter("nome", "%" + nome + "%");
 			
-			eventos = (List<Evento>) query.list();
+			eventos = (List<Evento>) query.getResultList();
 	        
 		} catch (HibernateException hibernateException) {
 			

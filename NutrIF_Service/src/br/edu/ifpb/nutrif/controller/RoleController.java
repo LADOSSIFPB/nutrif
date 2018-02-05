@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -20,13 +20,13 @@ import br.edu.ifpb.nutrif.util.BancoUtil;
 import br.edu.ifpb.nutrif.validation.Validate;
 import br.edu.ladoss.entity.Error;
 import br.edu.ladoss.entity.Role;
+import br.edu.ladoss.enumeration.TipoRole;
 
 @Path("role")
 public class RoleController {
 
-	@PermitAll
+	@RolesAllowed({TipoRole.ADMIN})
 	@POST
-	@Path("/inserir")
 	@Consumes("application/json")
 	@Produces("application/json")
 	public Response insert(Role role) {
@@ -41,7 +41,7 @@ public class RoleController {
 			
 			try {			
 				
-				//Inserir o Aluno.
+				// Inserir o Perfil de permissões do usuário.
 				Integer idCurso = RoleDAO.getInstance().insert(role);
 				
 				if (idCurso != BancoUtil.ID_VAZIO) {
@@ -66,9 +66,8 @@ public class RoleController {
 		return builder.build();		
 	}
 	
-	@PermitAll
+	@RolesAllowed({TipoRole.ADMIN})
 	@GET
-	@Path("/listar")
 	@Produces("application/json")
 	public List<Role> getAll() {
 		

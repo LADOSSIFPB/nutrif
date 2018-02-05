@@ -9,6 +9,7 @@ import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -29,7 +30,6 @@ public class RefeicaoController {
 
 	@RolesAllowed({TipoRole.ADMIN})
 	@POST
-	@Path("/inserir")
 	@Consumes("application/json")
 	@Produces("application/json")
 	public Response insert(Refeicao refeicao) {
@@ -44,7 +44,7 @@ public class RefeicaoController {
 			
 			try {			
 				
-				//Inserir o Aluno.
+				//Inserir a Refeição.
 				Integer idRefeicao = RefeicaoDAO.getInstance().insert(refeicao);
 				
 				if (idRefeicao != BancoUtil.ID_VAZIO) {
@@ -71,7 +71,6 @@ public class RefeicaoController {
 	
 	@PermitAll
 	@GET
-	@Path("/listar")
 	@Produces("application/json")
 	public List<Refeicao> getAll() {
 		
@@ -84,7 +83,7 @@ public class RefeicaoController {
 	
 	@PermitAll
 	@GET
-	@Path("/id/{id}")
+	@Path("/{id}")
 	@Produces("application/json")
 	public Response getRefeicaoById(@PathParam("id") int idRefeicao) {
 		
@@ -109,7 +108,7 @@ public class RefeicaoController {
 	
 	@PermitAll
 	@GET
-	@Path("/listar/tipo/{tipo}")
+	@Path("/tipo/{tipo}")
 	@Produces("application/json")
 	public Response listByTipo(@PathParam("tipo") String tipo) {
 		
@@ -141,8 +140,7 @@ public class RefeicaoController {
 	 * @return
 	 */
 	@RolesAllowed({TipoRole.ADMIN})
-	@POST
-	@Path("/atualizar")
+	@PUT
 	@Consumes("application/json")
 	@Produces("application/json")
 	public Response update(Refeicao refeicao) {

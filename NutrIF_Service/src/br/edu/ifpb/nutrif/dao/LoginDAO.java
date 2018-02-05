@@ -2,10 +2,11 @@ package br.edu.ifpb.nutrif.dao;
 
 import java.util.List;
 
+import javax.persistence.Query;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.HibernateException;
-import org.hibernate.Query;
 import org.hibernate.Session;
 
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
@@ -40,7 +41,7 @@ public class LoginDAO extends GenericDao<Integer, Login> {
 			query.setParameter("keyAuth", authorization);
 			query.setParameter("loged", BancoUtil.ATIVO);
 			
-			login = (Login) query.uniqueResult();
+			login = (Login) query.getSingleResult();
 	        
 		} catch (HibernateException hibernateException) {
 			

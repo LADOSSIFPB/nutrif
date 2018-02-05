@@ -17,7 +17,7 @@ import br.edu.ladoss.entity.DiaRefeicao;
 import br.edu.ladoss.entity.Edital;
 import br.edu.ladoss.entity.Evento;
 import br.edu.ladoss.entity.Funcionario;
-import br.edu.ladoss.entity.Periodo;
+import br.edu.ladoss.entity.Matricula;
 import br.edu.ladoss.entity.PeriodoPretensaoRefeicao;
 import br.edu.ladoss.entity.PeriodoRefeicaoRealizada;
 import br.edu.ladoss.entity.PessoaAcesso;
@@ -27,7 +27,6 @@ import br.edu.ladoss.entity.RefeicaoRealizada;
 import br.edu.ladoss.entity.Role;
 import br.edu.ladoss.entity.Setor;
 import br.edu.ladoss.entity.Turma;
-import br.edu.ladoss.entity.Turno;
 import br.edu.ladoss.enumeration.TipoArquivo;
 import br.edu.ladoss.form.FileUploadForm;
 
@@ -40,6 +39,7 @@ public class Validate {
 	private static EmailValidator emailValidator = new EmailValidator();
 	private static ImageValidator imageValidator = new ImageValidator();
 	private static DataValidator dataValidator = new DataValidator();
+	private static CpfValidator cpfValidator = new CpfValidator();
 	private static Time24HoursValidator time24HoursValidator = new Time24HoursValidator();
 
 	public static int VALIDATE_OK = 0;
@@ -52,51 +52,23 @@ public class Validate {
 		
 		logger.info("Validação para Aluno.");
 		
+		// Nome
 		if (!stringValidator.validateSomenteLetras(aluno.getNome()))
 			return ErrorFactory.NOME_ALUNO_INVALIDO;
 		
-		String matricula = aluno.getMatricula();
+		// Cpf
+		if (!cpfValidator.validate(aluno.getCpf()))
+			return ErrorFactory.CPF_INVALIDO;
 		
-		if (matricula(matricula) != VALIDATE_OK) {
-			
-			return ErrorFactory.MATRICULA_ALUNO_INVALIDA;
-		}
-			
-		Curso curso = aluno.getCurso();
-		if (curso == null 
-				|| (curso != null 
-					&& !numeroValidator.isMaiorZero(curso.getId())))
-			return ErrorFactory.ID_CURSO_INVALIDO;
+		// E-mail
+		if (!emailValidator.validate(aluno.getEmail()))
+			return ErrorFactory.EMAIL_USUARIO_INVALIDO;
 		
 		Campus campus = aluno.getCampus();
-		if (campus==null 
+		if (campus == null 
 				|| (campus != null && !numeroValidator.isMaiorZero(campus.getId()))) {
 			return ErrorFactory.ID_CAMPUS_INVALIDO;
-		}
-		
-		Periodo periodo = aluno.getPeriodo();
-		if (periodo == null 
-				|| (periodo != null
-				&& !numeroValidator.isInteiroPositivo(periodo.getId()))) {
-			
-			return ErrorFactory.ID_PERIODO_INVALIDO;
-		}
-		
-		Turma turma = aluno.getTurma();
-		if (turma == null 
-				|| (turma != null
-				&& !numeroValidator.isInteiroPositivo(turma.getId()))) {
-			
-			return ErrorFactory.ID_TURMA_INVALIDO;
-		}
-		
-		Turno turno = aluno.getTurno();
-		if (turno == null 
-				|| (turno != null
-				&& !numeroValidator.isInteiroPositivo(turno.getId()))) {
-			
-			return ErrorFactory.ID_TURNO_INVALIDO;
-		}
+		}	
 		
 		return VALIDATE_OK;
 	}
@@ -105,38 +77,22 @@ public class Validate {
 		
 		logger.info("Validação para inserção do acesso de Aluno.");
 		
-		String matricula = aluno.getMatricula();
+		// Nome
+		if (!stringValidator.validateSomenteLetras(aluno.getNome()))
+			return ErrorFactory.NOME_ALUNO_INVALIDO;
 		
-		if (matricula(matricula) != VALIDATE_OK) {
-			
-			return ErrorFactory.MATRICULA_ALUNO_INVALIDA;
-		}
+		// Cpf
+		if (!cpfValidator.validate(aluno.getCpf()))
+			return ErrorFactory.CPF_INVALIDO;
 		
+		// E-mail
 		if (!emailValidator.validate(aluno.getEmail()))
 			return ErrorFactory.EMAIL_USUARIO_INVALIDO;
-
-		Periodo periodo = aluno.getPeriodo();
-		if (periodo == null 
-				|| (periodo != null
-				&& !numeroValidator.isInteiroPositivo(periodo.getId()))) {
-			
-			return ErrorFactory.ID_PERIODO_INVALIDO;
-		}
 		
-		Turma turma = aluno.getTurma();
-		if (turma == null 
-				|| (turma != null
-				&& !numeroValidator.isInteiroPositivo(turma.getId()))) {
-			
-			return ErrorFactory.ID_TURMA_INVALIDO;
-		}
-		
-		Turno turno = aluno.getTurno();
-		if (turno == null 
-				|| (turno != null
-				&& !numeroValidator.isInteiroPositivo(turno.getId()))) {
-			
-			return ErrorFactory.ID_TURNO_INVALIDO;
+		Campus campus = aluno.getCampus();
+		if (campus==null 
+				|| (campus != null && !numeroValidator.isMaiorZero(campus.getId()))) {
+			return ErrorFactory.ID_CAMPUS_INVALIDO;
 		}
 		
 		if (!stringValidator.validate(aluno.getSenha(), 5, 40))
@@ -159,13 +115,15 @@ public class Validate {
 		
 		logger.info("Validação para confirmação de aluno.");
 		
+		//TODO: Modificar para cpf.
+		/*
 		String matricula = aluno.getMatricula();
 		
 		if (matricula(matricula) != VALIDATE_OK) {
 			
 			return ErrorFactory.MATRICULA_ALUNO_INVALIDA;
 		}
-		
+		*/
 		if (!stringValidator.validate(aluno.getKeyConfirmation(), 5))
 			return ErrorFactory.KEY_CONFIRMATION_INVALIDA;
 		
@@ -180,6 +138,23 @@ public class Validate {
 		
 		if (!stringValidator.validateSomenteLetras(nome))
 			return ErrorFactory.NOME_CURSO_INVALIDO;		
+		
+		return VALIDATE_OK;
+	}
+	
+	public static int campus(Campus campus) {		
+		
+		logger.info("Validação para Campus.");
+		
+		String cidade = campus.getCidade();
+		
+		if (!stringValidator.validateSomenteLetras(cidade))
+			return ErrorFactory.CIDADE_INVALIDA;
+		
+		String sigla = campus.getSigla();
+		
+		if (!stringValidator.validateSomenteLetras(sigla))
+			return ErrorFactory.SIGLA_INVALIDA;
 		
 		return VALIDATE_OK;
 	}
@@ -377,13 +352,13 @@ public class Validate {
 		
 		logger.info("Validação para Dia da Refeição.");
 		
-		Aluno aluno = diaRefeicao.getAluno();
-		if (aluno == null || 
-				(aluno != null 
-					&& !numeroValidator.isMaiorZero(aluno.getId()))) {
-			
-			return ErrorFactory.ID_ALUNO_INVALIDO;
-		}
+		Matricula matricula = diaRefeicao.getMatricula();
+		if (matricula == null || 
+				(matricula != null 
+					&& (!numeroValidator.isMaiorZero(matricula.getId())) 
+						|| matricula(matricula.getNumero()) != VALIDATE_OK)) {
+			return ErrorFactory.MATRICULA_ALUNO_INVALIDA;
+		}	
 		
 		Edital edital = diaRefeicao.getEdital();
 		if (edital == null || 
@@ -536,27 +511,18 @@ public class Validate {
 		return VALIDATE_OK;
 	}
 	
-	public static int loginPessoa(PessoaAcesso pessoaAcesso) {
+	public static int login(PessoaAcesso pessoaAcesso) {
 		
-		logger.info("Validação para login de Funcionário.");
-		
-		if (!emailValidator.validate(pessoaAcesso.getEmail()))
-			return ErrorFactory.EMAIL_USUARIO_INVALIDO;
-
-		if (!stringValidator.validate(pessoaAcesso.getSenha(), 5, 40))
-			return ErrorFactory.SENHA_USUARIO_INVALIDA;
-		
-		return VALIDATE_OK;
-	}
-	
-	public static int loginAluno(PessoaAcesso pessoaAcesso) {
-		
-		logger.info("Validação para login de Aluno.");
+		logger.info("Validação para login.");
 		
 		String matricula = pessoaAcesso.getMatricula();
+		String email = pessoaAcesso.getEmail();
 		
-		if (matricula(matricula) != VALIDATE_OK) {
-			
+		if (!emailValidator.validate(email))
+			return ErrorFactory.EMAIL_USUARIO_INVALIDO;
+		
+		if(emailValidator.validate(email) &&
+				matricula(matricula) != VALIDATE_OK) {
 			return ErrorFactory.MATRICULA_ALUNO_INVALIDA;
 		}
 
@@ -591,12 +557,14 @@ public class Validate {
 		return VALIDATE_OK;
 	}
 	
-	public static int downloadImagemPerfil(int idAluno) {
+	public static int downloadImagemPerfil(String matricula) {
 		
 		logger.info("Validação para Download da Imagem do Perfil.");
 		
-		if (!numeroValidator.isMaiorZero(idAluno))
-			return ErrorFactory.ID_ALUNO_INVALIDO;
+		if (matricula(matricula) != VALIDATE_OK) {
+			
+			return ErrorFactory.MATRICULA_ALUNO_INVALIDA;
+		}
 		
 		return VALIDATE_OK;
 	}
@@ -772,6 +740,10 @@ public class Validate {
 	}
 
 	public static int setor(Setor setor) {
+		return VALIDATE_OK;
+	}
+	
+	public static int turma(Turma turma) {
 		return VALIDATE_OK;
 	}
 

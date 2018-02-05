@@ -4,10 +4,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Query;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.HibernateException;
-import org.hibernate.Query;
 import org.hibernate.Session;
 
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
@@ -98,7 +99,7 @@ public class PretensaoRefeicaoDAO extends GenericDao<Integer, PretensaoRefeicao>
 			Query query = session.createQuery(hql);
 			query.setParameter("keyAccess", keyAccess);
 			
-			pretensaoRefeicao = (PretensaoRefeicao) query.uniqueResult();
+			pretensaoRefeicao = (PretensaoRefeicao) query.getSingleResult();
 	        
 		} catch (HibernateException hibernateException) {
 			
@@ -141,7 +142,7 @@ public class PretensaoRefeicaoDAO extends GenericDao<Integer, PretensaoRefeicao>
 			query.setParameter("dataPretensao", dataPretensao);
 			query.setParameter("ativo", BancoUtil.ATIVO);
 			
-			pretensaoRefeicao = (PretensaoRefeicao) query.uniqueResult();
+			pretensaoRefeicao = (PretensaoRefeicao) query.getSingleResult();
 	        
 		} catch (HibernateException hibernateException) {
 			
@@ -188,7 +189,7 @@ public class PretensaoRefeicaoDAO extends GenericDao<Integer, PretensaoRefeicao>
 			query.setParameter("idRefeicao", idRefeicao);
 			query.setParameter("ativo", BancoUtil.ATIVO);
 			
-			quantidadeDia = (Long) query.uniqueResult();
+			quantidadeDia = (Long) query.getSingleResult();
 	        
 		} catch (HibernateException hibernateException) {
 			
@@ -224,7 +225,7 @@ public class PretensaoRefeicaoDAO extends GenericDao<Integer, PretensaoRefeicao>
 			query.setParameter("dataPretensao", dataPretensao);
 			query.setParameter("ativo", BancoUtil.ATIVO);
 			
-			pretensoesRefeicao = (List<PretensaoRefeicao>) query.list();
+			pretensoesRefeicao = (List<PretensaoRefeicao>) query.getResultList();
 	        
 		} catch (HibernateException hibernateException) {
 			

@@ -3,10 +3,11 @@ package br.edu.ifpb.nutrif.dao;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 
+import javax.persistence.Query;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.HibernateException;
-import org.hibernate.Query;
 import org.hibernate.Session;
 
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
@@ -48,7 +49,7 @@ public class PessoaDAO extends GenericDao<Integer, Pessoa> {
 			query.setParameter("keyAuth", keyAuth);
 			query.setParameter("ativo", BancoUtil.ATIVO);			
 			
-			pessoa = (Pessoa) query.uniqueResult();
+			pessoa = (Pessoa) query.getSingleResult();
 	        
 		} catch (HibernateException hibernateException) {
 			
@@ -96,7 +97,7 @@ public class PessoaDAO extends GenericDao<Integer, Pessoa> {
 			query.setParameter("senha", senhaCriptografada);
 			query.setParameter("ativo", BancoUtil.ATIVO);
 			
-			pessoa = (Pessoa) query.uniqueResult();
+			pessoa = (Pessoa) query.getSingleResult();
 	        
 		} catch (HibernateException hibernateException) {
 			

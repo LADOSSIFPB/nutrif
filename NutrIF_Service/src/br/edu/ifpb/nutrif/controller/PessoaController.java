@@ -18,6 +18,7 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import br.edu.ifpb.nutrif.dao.AlunoDAO;
 import br.edu.ifpb.nutrif.dao.LoginDAO;
 import br.edu.ifpb.nutrif.dao.LogoutDAO;
 import br.edu.ifpb.nutrif.dao.PessoaDAO;
@@ -49,7 +50,7 @@ public class PessoaController {
 	@Path("/login")
 	@Consumes("application/json")
 	@Produces("application/json")
-	public Response loginPessoa(@HeaderParam("user-agent") String userAgent,
+	public Response login(@HeaderParam("user-agent") String userAgent,
 			@Context HttpServletRequest request,
 			PessoaAcesso pessoaAcesso) {
 		
@@ -60,16 +61,28 @@ public class PessoaController {
 		logger.info("Host: " + request.getRemoteAddr());
 		
 		// Validação dos dados de entrada.
-		int validacao = Validate.loginPessoa(pessoaAcesso);
+		int validacao = Validate.login(pessoaAcesso);
 		
 		if (validacao == Validate.VALIDATE_OK) {
 			
 			try {
 				
-				//Login Pessoa.
+				//Login universal.
 				Pessoa pessoa = PessoaDAO.getInstance().login(
 						pessoaAcesso.getEmail(), 
 						pessoaAcesso.getSenha());
+				
+				if (pessoa == null) {
+					//TODO: Consultar por siape e senha do funcionário.
+
+				}
+				
+				if (pessoa == null) {
+					// Consultar por matrícula e senha do aluno.
+					pessoa = AlunoDAO.getInstance().login(
+							pessoaAcesso.getMatricula(), 
+							pessoaAcesso.getSenha());
+				}
 				
 				if (pessoa != null) {
 					
@@ -107,9 +120,10 @@ public class PessoaController {
 					}					
 				
 				} else {
-					
+									
 					builder.status(Response.Status.UNAUTHORIZED).entity(
-							ErrorFactory.getErrorFromIndex(ErrorFactory.ACESSO_USUARIO_NAO_PERMITIDO));
+							ErrorFactory.getErrorFromIndex(
+									ErrorFactory.ACESSO_USUARIO_NAO_PERMITIDO));
 					
 				}
 			

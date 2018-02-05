@@ -1,11 +1,12 @@
 package br.edu.ifpb.nutrif.dao;
 import java.util.List;
 
+import javax.persistence.Query;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
-import org.hibernate.Query;
 import org.hibernate.Session;
 
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
@@ -136,7 +137,7 @@ public abstract class GenericDao<PK, T> {
 			
 			session.beginTransaction();
 			Query query = session.getNamedQuery(namedQuery);
-			list = (List<T>) query.list();
+			list = query.getResultList();
 			session.getTransaction().commit();
 			
 		} catch (HibernateException hibernateException) {

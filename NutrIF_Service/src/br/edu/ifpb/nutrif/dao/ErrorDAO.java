@@ -1,6 +1,5 @@
 package br.edu.ifpb.nutrif.dao;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -10,8 +9,8 @@ import org.hibernate.SessionFactory;
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
 import br.edu.ifpb.nutrif.hibernate.HibernateUtil;
 import br.edu.ifpb.nutrif.util.BancoUtil;
-import br.edu.ladoss.entity.Role;
 import br.edu.ladoss.entity.Error;
+import br.edu.ladoss.entity.Role;
 
 public class ErrorDAO extends GenericDao<Integer, Error>{
 	

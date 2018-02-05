@@ -4,10 +4,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Query;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.HibernateException;
-import org.hibernate.Query;
 import org.hibernate.Session;
 
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
@@ -15,10 +16,10 @@ import br.edu.ifpb.nutrif.hibernate.HibernateUtil;
 import br.edu.ifpb.nutrif.util.BancoUtil;
 import br.edu.ifpb.nutrif.util.DateUtil;
 import br.edu.ifpb.nutrif.util.StringUtil;
-import br.edu.ladoss.entity.Aluno;
 import br.edu.ladoss.entity.Dia;
 import br.edu.ladoss.entity.DiaRefeicao;
 import br.edu.ladoss.entity.Edital;
+import br.edu.ladoss.entity.Matricula;
 import br.edu.ladoss.entity.Refeicao;
 
 public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
@@ -45,7 +46,7 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 			Dia dia = DateUtil.getCurrentDayOfWeek();
 			
 			String hql = "from DiaRefeicao as dr"
-					+ " where dr.aluno.nome like :nome"
+					+ " where dr.matricula.aluno.nome like :nome"
 					+ " and dr.dia.id = :dia"
 					+ " and dr.ativo = :ativo"
 					+ "	and CURRENT_TIME() between dr.refeicao.horaInicio and dr.refeicao.horaFinal"
@@ -54,7 +55,7 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 					+ " and dr.refeicao.id not in ("
 					+ "		select rr.confirmaRefeicaoDia.diaRefeicao.refeicao.id"
 					+ " 	from RefeicaoRealizada as rr"
-					+ "		where rr.confirmaRefeicaoDia.diaRefeicao.aluno.nome like :nome"
+					+ "		where rr.confirmaRefeicaoDia.diaRefeicao.matricula.aluno.nome like :nome"
 					+ "		and rr.confirmaRefeicaoDia.diaRefeicao.dia.id = :dia"
 					+ "		and rr.confirmaRefeicaoDia.dataRefeicao = CURRENT_DATE()"
 					+ "		and CURRENT_TIME() between rr.confirmaRefeicaoDia.diaRefeicao.refeicao.horaInicio"
@@ -66,7 +67,7 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 			query.setParameter("dia", dia.getId());
 			query.setParameter("ativo", BancoUtil.ATIVO);
 			
-			diasRefeicao = (List<DiaRefeicao>) query.list();
+			diasRefeicao = (List<DiaRefeicao>) query.getResultList();
 	        
 		} catch (HibernateException hibernateException) {
 			
@@ -96,7 +97,7 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 			Dia dia = DateUtil.getCurrentDayOfWeek();
 			
 			String hql = "from DiaRefeicao as dr"
-					+ " where dr.aluno.matricula = :matricula"
+					+ " where dr.matricula.numero = :matricula"
 					+ " and dr.dia.id = :dia"
 					+ " and dr.ativo = :ativo"
 					+ "	and CURRENT_TIME() between dr.refeicao.horaInicio and dr.refeicao.horaFinal"
@@ -105,7 +106,7 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 					+ " and dr.refeicao.id not in ("
 					+ "		select rr.confirmaRefeicaoDia.diaRefeicao.refeicao.id"
 					+ " 	from RefeicaoRealizada as rr"
-					+ "		where rr.confirmaRefeicaoDia.diaRefeicao.aluno.matricula = :matricula"
+					+ "		where rr.confirmaRefeicaoDia.diaRefeicao.matricula.numero = :matricula"
 					+ "		and rr.confirmaRefeicaoDia.diaRefeicao.dia.id = :dia"
 					+ "		and rr.confirmaRefeicaoDia.dataRefeicao = CURRENT_DATE()"
 					+ "		and CURRENT_TIME() between rr.confirmaRefeicaoDia.diaRefeicao.refeicao.horaInicio"
@@ -117,7 +118,7 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 			query.setParameter("dia", dia.getId());
 			query.setParameter("ativo", BancoUtil.ATIVO);
 			
-			diasRefeicao = (List<DiaRefeicao>) query.list();
+			diasRefeicao = (List<DiaRefeicao>) query.getResultList();
 	        
 		} catch (HibernateException hibernateException) {
 			
@@ -142,7 +143,7 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 		try {
 			
 			String hql = "from DiaRefeicao as dr"
-					+ " where dr.aluno.matricula = :matricula"
+					+ " where dr.matricula.numero = :matricula"
 					+ " and dr.ativo = :ativo"
 					+ " and dr.edital.ativo = :ativo"
 					+ " order by dr.edital.id, dr.id, dr.dia.id asc";
@@ -151,7 +152,7 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 			query.setParameter("matricula", matricula);
 			query.setParameter("ativo", BancoUtil.ATIVO);
 			
-			diasRefeicao = (List<DiaRefeicao>) query.list();
+			diasRefeicao = (List<DiaRefeicao>) query.getResultList();
 	        
 		} catch (HibernateException hibernateException) {
 			
@@ -176,7 +177,7 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 		try {
 			
 			String hql = "from DiaRefeicao as dr"
-					+ " where dr.aluno.matricula = :matricula"
+					+ " where dr.matricula.numero = :matricula"
 					+ " and dr.ativo = :ativo"
 					+ " and CURRENT_TIMESTAMP() <= dr.edital.dataFinal"
 					+ " and dr.edital.ativo = :ativo"
@@ -187,7 +188,7 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 			query.setParameter("matricula", matricula.trim());
 			query.setParameter("ativo", BancoUtil.ATIVO);
 			
-			diasRefeicao = (List<DiaRefeicao>) query.list();
+			diasRefeicao = (List<DiaRefeicao>) query.getResultList();
 	        
 		} catch (HibernateException hibernateException) {
 			
@@ -213,7 +214,7 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 			
 			String hql = "from DiaRefeicao as dr"
 					+ " where dr.edital.id = :idEdital"
-					+ " and dr.aluno.matricula = :matricula"
+					+ " and dr.matricula.numero = :matricula"
 					+ " and dr.ativo = :ativo"
 					+ " group by dr.dia.id"
 					+ " order by dr.dia.id asc";			
@@ -224,7 +225,7 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 			query.setParameter("matricula", matricula.trim());
 			query.setParameter("ativo", BancoUtil.ATIVO);
 			
-			diasRefeicao = (List<DiaRefeicao>) query.list();
+			diasRefeicao = (List<DiaRefeicao>) query.getResultList();
 	        
 		} catch (HibernateException hibernateException) {
 			
@@ -250,12 +251,12 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 		try {
 			
 			String hql = "from DiaRefeicao as dr"
-					+ " where dr.aluno.matricula = :matricula"
+					+ " where dr.matricula.numero = :matricula"
 					+ " and dr.ativo = :ativo"
 					+ " and dr.refeicao.id not in ("
 					+ "		select pr.confirmaPretensaoDia.diaRefeicao.refeicao.id"
 					+ " 	from PretensaoRefeicao as pr"
-					+ "		where pr.confirmaPretensaoDia.diaRefeicao.aluno.id = dr.aluno.id"
+					+ "		where pr.confirmaPretensaoDia.diaRefeicao.matricula.id = dr.matricula.id"
 					+ "		and pr.confirmaPretensaoDia.diaRefeicao.dia.id = dr.dia.id"
 					+ "		and pr.confirmaPretensaoDia.dataPretensao = CURRENT_DATE()"
 					+ ")"
@@ -265,7 +266,7 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 			query.setParameter("matricula", matricula);
 			query.setParameter("ativo", BancoUtil.ATIVO);
 			
-			diasRefeicao = (List<DiaRefeicao>) query.list();
+			diasRefeicao = (List<DiaRefeicao>) query.getResultList();
 	        
 		} catch (HibernateException hibernateException) {
 			
@@ -305,7 +306,7 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 			query.setParameter("idEdital", idEdital);
 			query.setParameter("ativo", BancoUtil.ATIVO);
 			
-			quantidadeDiaRefeicao = (Long) query.uniqueResult();
+			quantidadeDiaRefeicao = (Long) query.getSingleResult();
 	        
 		} catch (HibernateException hibernateException) {
 			
@@ -344,7 +345,7 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 			query.setParameter("idRefeicao", idRefeicao);
 			query.setParameter("ativo", BancoUtil.ATIVO);
 			
-			quantidadeBeneficiados = (Long) query.uniqueResult();
+			quantidadeBeneficiados = (Long) query.getSingleResult();
 	        
 		} catch (HibernateException hibernateException) {
 			
@@ -391,7 +392,7 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 			query.setParameter("dataDiaRefeicao", dataDiaRefeicao);
 			query.setParameter("ativo", BancoUtil.ATIVO);
 			
-			quantidadeBeneficiados = (Long) query.uniqueResult();
+			quantidadeBeneficiados = (Long) query.getSingleResult();
 	        
 		} catch (HibernateException hibernateException) {
 			
@@ -408,6 +409,13 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 				quantidadeBeneficiados.toString()): BancoUtil.QUANTIDADE_ZERO;		
 	}
 	
+	/**
+	 * Verificar os dias de refeições válidas de um período para uma Matrícula de Aluno 
+	 * num determinado Dia da semana.
+	 * 
+	 * @param diaRefeicao
+	 * @return
+	 */
 	public List<DiaRefeicao> getDiaRefeicaoByPeriodoEdital(DiaRefeicao diaRefeicao){
 		
 		List<DiaRefeicao> diasRefeicao = new ArrayList<DiaRefeicao>();
@@ -417,7 +425,7 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 		try {
 			
 			String hql = "from DiaRefeicao as dr"
-					+ " where dr.aluno.id = :idAluno"
+					+ " where dr.matricula.id = :idMatricula"
 					+ " and dr.dia.id = :idDia"
 					+ " and dr.refeicao.id = :idRefeicao"
 					+ " and dr.ativo = :ativo"
@@ -435,13 +443,13 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 					+ " )"
 					+ " order by dr.dataInsercao DESC";
 			
-			Aluno aluno = diaRefeicao.getAluno();
+			Matricula matricula = diaRefeicao.getMatricula();
 			Dia dia = diaRefeicao.getDia();
 			Refeicao refeicao = diaRefeicao.getRefeicao();
 			Edital edital = diaRefeicao.getEdital();
 			
 			Query query = session.createQuery(hql);			
-			query.setParameter("idAluno", aluno.getId());
+			query.setParameter("idMatricula", matricula.getId());
 			query.setParameter("idDia", dia.getId());
 			query.setParameter("idRefeicao", refeicao.getId());
 			query.setParameter("ativo", BancoUtil.ATIVO);
@@ -451,7 +459,7 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 			query.setParameter("dataInicial", edital.getDataInicial());
 			query.setParameter("dataFinal", edital.getDataFinal());			
 			
-			diasRefeicao = (List<DiaRefeicao>) query.list();			
+			diasRefeicao = (List<DiaRefeicao>) query.getResultList();			
 	        
 		} catch (HibernateException hibernateException) {
 			
@@ -478,25 +486,25 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 		
 		try {
 			
-			Aluno aluno = diaRefeicao.getAluno();
-			String matricula = StringUtil.isEmptyOrNull(aluno.getMatricula()) 
-					? StringUtil.STRING_VAZIO : aluno.getMatricula();
+			Matricula matricula = diaRefeicao.getMatricula();
+			String numMatricula = matricula != null && StringUtil.isEmptyOrNull(matricula.getNumero()) 
+					? StringUtil.STRING_VAZIO : matricula.getNumero();
 			
 			String hql = "from DiaRefeicao as dr"
-					+ " where (dr.aluno.id = :idAluno"
-					+ " OR dr.aluno.matricula = :matricula)"
+					+ " where (dr.matricula.id = :idMatricula"
+					+ " OR dr.matricula.numero = :numMatricula)"
 					+ " and dr.dia.id = :idDia"
 					+ " and dr.refeicao.id = :idRefeicao"
 					+ " and dr.ativo = :ativo";
 			
 			Query query = session.createQuery(hql);
-			query.setParameter("idAluno", diaRefeicao.getAluno().getId());
-			query.setParameter("matricula", matricula);
+			query.setParameter("idMatricula", matricula.getId());
+			query.setParameter("numMatricula", numMatricula);
 			query.setParameter("idDia", diaRefeicao.getDia().getId());
 			query.setParameter("idRefeicao", diaRefeicao.getRefeicao().getId());
 			query.setParameter("ativo", BancoUtil.ATIVO);			
 			
-			diaRefeicao = (DiaRefeicao) query.uniqueResult();
+			diaRefeicao = (DiaRefeicao) query.getSingleResult();
 	        
 		} catch (HibernateException hibernateException) {
 			
@@ -512,7 +520,7 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 		return diaRefeicao;
 	}
 	
-	public boolean isAlunoContemplado(int idEdital, String matricula) {
+	public boolean isAlunoContemplado(int idEdital, int idMatricula) {
 		
 		boolean contemplado = false;
 		
@@ -523,12 +531,12 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 			String hql = "select case when (count(dr) > 0) then true else false end " 
 					+ " from DiaRefeicao as dr"
 					+ " where dr.edital.id = :idEdital"
-					+ " and dr.aluno.matricula = :matricula"
+					+ " and dr.matricula.id = :idMatricula"
 					+ " and dr.ativo = :ativo";
 			
 			Query query = session.createQuery(hql, Boolean.class);
 			query.setParameter("idEdital", idEdital);
-			query.setParameter("matricula", matricula);
+			query.setParameter("idMatricula", idMatricula);
 			query.setParameter("ativo", BancoUtil.ATIVO);
 			
 			contemplado = (Boolean) query.getSingleResult();;
@@ -567,7 +575,7 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 			query.setParameter("idDia", dia);
 			query.setParameter("ativo", BancoUtil.ATIVO);
 			
-			diasRefeicao = (List<DiaRefeicao>) query.list();
+			diasRefeicao = (List<DiaRefeicao>) query.getResultList();
 	        
 		} catch (HibernateException hibernateException) {
 			
@@ -606,7 +614,7 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 			query.setParameter("idRefeicao", idRefeicao);
 			query.setParameter("ativo", BancoUtil.ATIVO);
 			
-			diasRefeicao = (List<DiaRefeicao>) query.list();
+			diasRefeicao = (List<DiaRefeicao>) query.getResultList();
 	        
 		} catch (HibernateException hibernateException) {
 			
@@ -645,7 +653,7 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 			query.setParameter("idEdital", idEdital);
 			query.setParameter("ativo", BancoUtil.ATIVO);
 
-			diasRefeicao = (List<DiaRefeicao>) query.list();
+			diasRefeicao = (List<DiaRefeicao>) query.getResultList();
 
 		} catch (HibernateException hibernateException) {
 
