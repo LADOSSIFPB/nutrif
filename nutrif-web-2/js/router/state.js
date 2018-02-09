@@ -79,10 +79,10 @@ nutrIFApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
             /* Aluno */
             .state('administrador.adicionar-alunos', {
                 url: '/adicionar/aluno',
-                title: 'Adicionar Alunos',
+                title: 'Adicionar Aluno',
                 templateUrl: 'view/administrador/adicionar-alunos.html',
                 controller: 'cadastrarAlunoCtrl',
-                controllerAs: 'cadastrar',
+                controllerAs: 'cadastrarAluno',
                 permissions: ['admin']
             })
 

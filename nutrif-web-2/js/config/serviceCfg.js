@@ -7,8 +7,8 @@ nutrIFApp.value("serviceCfg", {
 
 		var _protocol = "//"
 		var _hostAddress = "127.0.0.1";
-		var _port = "5000";
-		var _context = "/checkin/api";
+		var _port = "3000";
+		var _context = "";
         
 		return _protocol + _hostAddress + ":" + _port + _context;
 	}

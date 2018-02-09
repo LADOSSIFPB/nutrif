@@ -1,9 +1,9 @@
 /*
  *  Mapeamento dos serviço de Curso.
  */
-nutrIFApp.factory("cursoService", function ($http, config) {
+nutrIFApp.factory("cursoService", function ($http, serviceCfg){
 
-    var _path = config.baseUrl() + "/curso";
+	var _path = serviceCfg.baseUrl() + "/curso";
 
     var _listarCursos = function (curso) {
         return $http.get(_path + "/listar");
