@@ -305,7 +305,7 @@ public class AlunoController {
 	 */
 	@PermitAll
 	@POST
-	@Path("/inserir/acesso")
+	@Path("/acesso")
 	@Consumes("application/json")
 	@Produces("application/json")
 	public Response insertAcesso(AlunoAcesso alunoAcesso) {
@@ -323,14 +323,58 @@ public class AlunoController {
 	 * @return
 	 */
 	@RolesAllowed({ TipoRole.ADMIN })
-	@POST
-	@Path("/atualizar/acesso")
+	@PUT
+	@Path("/acesso")
 	@Consumes("application/json")
 	@Produces("application/json")
 	public Response atualizarAcesso(Aluno aluno) {
 
 		ResponseBuilder builder = Response.status(Response.Status.NOT_IMPLEMENTED);
 		builder.expires(new Date());
+
+		return builder.build();
+	}
+	
+	@PermitAll
+	@GET
+	@Path("/acesso/matricula/{matricula}")
+	@Produces("application/json")
+	public Response verificarAcesso(@PathParam("matricula") String matricula) {
+
+		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
+		builder.expires(new Date());
+
+		// Validação dos dados de entrada.
+		int validacao = Validate.verificarAcessoAluno(matricula);
+
+		if (validacao == Validate.VALIDATE_OK) {
+
+			try {
+
+				Aluno aluno = AlunoDAO.getInstance().getByMatricula(matricula);
+
+				if (aluno != null) {
+
+					// Operação realizada com sucesso.
+					builder.status(Response.Status.OK);
+					builder.entity(aluno);
+
+				} else {
+
+					Error error = ErrorFactory.getErrorFromIndex(ErrorFactory.ALUNO_NAO_ENCONTRADO);
+
+					builder.status(Response.Status.NOT_FOUND).entity(error);
+				}
+
+			} catch (SQLExceptionNutrIF exception) {
+
+				builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(exception.getError());
+			}
+
+		} else {
+
+			builder.status(Response.Status.BAD_REQUEST).entity(ErrorFactory.getErrorFromIndex(validacao));
+		}
 
 		return builder.build();
 	}
@@ -405,50 +449,6 @@ public class AlunoController {
 
 		ResponseBuilder builder = Response.status(Response.Status.NOT_IMPLEMENTED);
 		builder.expires(new Date());
-
-		return builder.build();
-	}
-
-	@PermitAll
-	@GET
-	@Path("/verificar/acesso/matricula/{matricula}")
-	@Produces("application/json")
-	public Response verificarAcesso(@PathParam("matricula") String matricula) {
-
-		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
-		builder.expires(new Date());
-
-		// Validação dos dados de entrada.
-		int validacao = Validate.verificarAcessoAluno(matricula);
-
-		if (validacao == Validate.VALIDATE_OK) {
-
-			try {
-
-				Aluno aluno = AlunoDAO.getInstance().getByMatricula(matricula);
-
-				if (aluno != null) {
-
-					// Operação realizada com sucesso.
-					builder.status(Response.Status.OK);
-					builder.entity(aluno);
-
-				} else {
-
-					Error error = ErrorFactory.getErrorFromIndex(ErrorFactory.ALUNO_NAO_ENCONTRADO);
-
-					builder.status(Response.Status.NOT_FOUND).entity(error);
-				}
-
-			} catch (SQLExceptionNutrIF exception) {
-
-				builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(exception.getError());
-			}
-
-		} else {
-
-			builder.status(Response.Status.BAD_REQUEST).entity(ErrorFactory.getErrorFromIndex(validacao));
-		}
 
 		return builder.build();
 	}

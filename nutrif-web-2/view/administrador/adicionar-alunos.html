@@ -13,16 +13,16 @@
 
             <!-- Salvar alterações -->
             <md-card-icon-actions>
-                <md-button aria-label="Salvar Alterações dos dados básicos do Aluno." ng-click="atualizarBasico(alunoCopy)">
-                    <md-tooltip md-direction="bottom">Salvar Alterações dos Dados Básicos</md-tooltip>
+                <md-button aria-label="Salvar Alterações dos dados básicos do Aluno." ng-click="adicionar()">
+                    <md-tooltip md-direction="bottom">Salvar Aluno</md-tooltip>
                     <ng-md-icon icon="save" size="42"></ng-md-icon>
                 </md-button>
             </md-card-icon-actions>
         </md-card-header>
         
         <md-card-content layout="column">
-            <form layout="column" ng-submit="adicionar()">
-
+            <form layout="column">
+                
                 <!-- CPF -->
                 <md-input-container class="md-icon-float md-block">
                     <label>Cpf</label>
@@ -50,8 +50,6 @@
                         </md-option>
                     </md-select>
                 </md-input-container>
-
-                <md-button type="submit" layout-fill type="submit" class="md-raised md-primary md-hue-1 flex" style="margin-top: 40px">Cadastrar Aluno</md-button>
             </form>
         </md-card-content>
     </md-card>

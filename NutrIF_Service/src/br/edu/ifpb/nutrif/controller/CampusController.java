@@ -68,7 +68,7 @@ public class CampusController {
 		return builder.build();		
 	}
 	
-	@RolesAllowed({TipoRole.ADMIN})
+	@PermitAll
 	@GET
 	@Produces("application/json")
 	public List<Campus> getAll() {

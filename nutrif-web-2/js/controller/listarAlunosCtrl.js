@@ -10,15 +10,16 @@ nutrIFApp.controller('listarAlunosCtrl', function ($scope, toastUtil,
     $scope.nomeMatricula = "";
     $scope.alunos = [];
 
-    $scope.pesquisar = function (nomeMatricula) {
-        if (nomeMatricula.length >= 3) {
-            if (nomeMatricula.match(/[a-zA-Z]/i) != null) {
-                alunoService.buscaAlunoPorNome(nomeMatricula)
+    $scope.pesquisar = function (nomeOuMatricula) {
+        if (nomeOuMatricula.length >= 3) {
+            if (nomeOuMatricula.match(/[a-zA-Z]/i) != null) {
+                alunoService.buscarPorNome(nomeOuMatricula)
                     .then(onSuccessCallback)
                     .catch(onErrorCallback);                
-            } else if ((parseInt(nomeMatricula.substring(0, 4)) <= 2015 && nomeMatricula.length == TAM_MINIMO_MATRICULA) ||
-                ((parseInt(nomeMatricula.substring(0, 4)) >= 2016 && nomeMatricula.length <= TAM_MAXIMO_MATRICULA))) {
-                alunoService.buscaAlunoPorMatricula(nomeMatricula)
+            } else if ((parseInt(nomeOuMatricula.substring(0, 4)) <= 2015
+                        && nomeOuMatricula.length == TAM_MINIMO_MATRICULA)
+                       ||((parseInt(nomeOuMatricula.substring(0, 4)) >= 2016 && nomeOuMatricula.length <= TAM_MAXIMO_MATRICULA))) {
+                alunoService.buscarPorMatricula(nomeOuMatricula)
                     .then(onSuccessCallback)
                     .catch(onErrorCallback); 
             }

@@ -32,7 +32,7 @@
                     <ng-md-icon icon="search" size="32"></ng-md-icon>
 
                     <div class="toolbar-input" flex>
-                        <input type="text" ng-model="nomeMatricula" ng-keyup="pesquisar(nomeMatricula)" placeholder="Nome ou matrícula do aluno">
+                        <input type="text" ng-model="nomeOuMatricula" ng-keyup="pesquisar(nomeOuMatricula)" placeholder="Nome ou matrícula do aluno">
                     </div>
 
                     <md-button aria-label="Limpar Busca" ng-click="limparBusca()">
@@ -46,9 +46,8 @@
             <table md-table>
                 <thead md-head>
                     <tr md-row>
-                        <th md-column>Matrícula</th>
                         <th md-column>Nome Completo</th>
-                        <th md-column>Curso</th>
+                        <th md-column>CPF</th>
                         <th md-column>Campus</th>
                         <th md-column>Acesso</th>
                         <th md-column>Ativo</th>
@@ -58,14 +57,13 @@
 
                 <tbody md-body>
                     <tr md-row ng-repeat="aluno in alunos | limitTo: query.limit: (query.page - 1) * query.limit">
-                        <td md-cell>{{aluno.matricula}}</td>
                         <td md-cell>{{aluno.nome | uppercase}}</td>
-                        <td md-cell>{{aluno.curso.nome | uppercase}}</td>
+                        <td md-cell>{{aluno.cpf | cpf}}</td>
                         <td md-cell>{{aluno.campus.cidade | uppercase}}</td>
                         <td md-cell>{{aluno.acesso | yesNo}}</td>
                         <td md-cell>{{aluno.ativo | yesNo}}</td>
                         <td md-cell>
-                            <md-button aria-label="Editar Apresentação" ui-sref="home.editar-aluno({matricula: aluno.matricula})" ui-sref-opts="{reload: true}">
+                            <md-button aria-label="Editar Aluno" ui-sref="home.editar-aluno({id: aluno.id})" ui-sref-opts="{reload: true}">
                                 <ng-md-icon icon="edit" size="18"></ng-md-icon>
                                 <md-tooltip md-direction="bottom">
                                     Editar

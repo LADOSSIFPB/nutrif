@@ -1,13 +1,13 @@
 /*
  *  Controlar inserção do Aluno.
  */
-nutrIFApp.controller('cadastrarAlunoCtrl', function ($scope, $mdToast, $state, alunoService, campusService, toastUtil) {
+nutrIFApp.controller('cadastrarAlunoCtrl', function ($scope, $state, alunoService, campusService, toastUtil) {
 
-    $scope.aluno;
+    $scope.aluno = {};
     $scope.campi = [];
 
     $scope.adicionar = function () {
-        alunoService.cadastrarAluno($scope.aluno)
+        alunoService.cadastrar($scope.aluno)
             .then(function (response) {
                 $state.transitionTo('home.editar-aluno', {
                     matricula: response.data.matricula

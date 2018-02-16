@@ -76,7 +76,7 @@ nutrIFApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
                 permissions: ['admin']
             })
 
-            /* Aluno */
+            /* Administrador - Aluno */
             .state('administrador.adicionar-alunos', {
                 url: '/adicionar/aluno',
                 title: 'Adicionar Aluno',
