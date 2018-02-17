@@ -19,7 +19,7 @@ public class TimeZoneListener implements ServletContextListener {
 	public void contextInitialized(ServletContextEvent arg0) {
     	
 		// Timezone para o Nordeste do Brasil.
-		TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
+		TimeZone.setDefault(TimeZone.getTimeZone("America/Recife"));
     	
     	// Verificação.
     	Calendar now = Calendar.getInstance();
