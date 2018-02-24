@@ -106,6 +106,13 @@ public class RefeicaoController {
 		return builder.build();
 	}
 	
+	/**
+	 * Listar Refeição pesquisando pelo Tipo.
+	 * 
+	 * @param tipo
+	 * @return
+	 */
+	//TODO: @RolesAllowed({TipoRole.ADMIN})
 	@PermitAll
 	@GET
 	@Path("/tipo/{tipo}")

@@ -77,10 +77,10 @@ nutrIFApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
             })
 
             /* Administrador - Aluno */
-            .state('administrador.adicionar-alunos', {
+            .state('administrador.adicionar-aluno', {
                 url: '/adicionar/aluno',
                 title: 'Adicionar Aluno',
-                templateUrl: 'view/administrador/adicionar-alunos.html',
+                templateUrl: 'view/administrador/adicionar-aluno.html',
                 controller: 'cadastrarAlunoCtrl',
                 controllerAs: 'cadastrarAluno',
                 permissions: ['admin']
@@ -96,11 +96,39 @@ nutrIFApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
             })
 
             .state('administrador.editar-aluno', {
-                url: '/editar/aluno/matricula/:matricula',
+                url: '/editar/aluno/:id',
                 title: 'Editar Aluno',
                 templateUrl: 'view/administrador/editar-aluno.html',
                 controller: 'editarAlunoCtrl',
-                controllerAs: 'editar',
+                controllerAs: 'editarAluno',
+                permissions: ['admin']
+            })
+    
+            /* Administrador - Refeição */
+            .state('administrador.adicionar-refeicao', {
+                url: '/adicionar/refeicao',
+                title: 'Adicionar Refeição',
+                templateUrl: 'view/administrador/adicionar-refeicao.html',
+                controller: 'cadastrarRefeicaoCtrl',
+                controllerAs: 'cadastrarRefeicao',
+                permissions: ['admin']
+            })
+
+            .state('administrador.listar-refeicoes', {
+                url: '/listar/refeicoes',
+                title: 'Listar Refeições',
+                templateUrl: 'view/administrador/listar-refeicoes.html',
+                controller: 'listarRefeicoesCtrl',
+                controllerAs: 'listarRefeicoes',
+                permissions: ['admin']
+            })
+
+            .state('administrador.editar-refeicao', {
+                url: '/editar/refeicao/:id',
+                title: 'Editar refeicao',
+                templateUrl: 'view/administrador/editar-refeicao.html',
+                controller: 'editarRefeicaoCtrl',
+                controllerAs: 'editarRefeicao',
                 permissions: ['admin']
             })
     })

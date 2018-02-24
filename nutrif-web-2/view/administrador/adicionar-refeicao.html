@@ -1,0 +1,63 @@
+<md-content flex layout-padding>
+    <md-card flex layout-padding>
+
+        <md-card-header>
+            <md-card-avatar>
+                <ng-md-icon icon="local_restaurant" size="42"></ng-md-icon>
+            </md-card-avatar>
+
+            <md-card-header-text>
+                <span class="md-title">Adicionar Refeição</span>
+                <span class="md-subhead">Clique nesse botão salvar para alterar as informações básicas da Refeição.</span>
+            </md-card-header-text>
+
+            <!-- Salvar alterações -->
+            <md-card-icon-actions>
+                <md-button aria-label="Salvar Alterações dos dados básicos da Refeição." ng-click="adicionar()">
+                    <md-tooltip md-direction="bottom">Salvar Refeição</md-tooltip>
+                    <ng-md-icon icon="save" size="42"></ng-md-icon>
+                </md-button>
+            </md-card-icon-actions>
+        </md-card-header>
+
+        <md-card-content layout="column">
+            <form layout="column">
+
+                <!-- Tipo -->
+                <md-input-container class="md-icon-float md-block">
+                    <label>Nome</label>
+                    <input ng-model="refeicao.tipo" type="text" required>
+                </md-input-container>
+
+                <!-- Horário de Início -->
+                <md-input-container class="md-input-has-placeholder">
+                    <label>Horário de Início</label>
+                    <input mdc-datetime-picker="" date="false" time="true" class=" md-input" type="text" placeholder="hh:mm" ng-model="refeicao.horaInicio" required>
+                    <div class="md-errors-spacer"></div>
+                </md-input-container>
+                
+                <!-- Horário de Fim -->
+                <md-input-container class="md-input-has-placeholder">
+                    <label>Horário de Início</label>
+                    <input mdc-datetime-picker="" date="false" time="true" class=" md-input" type="text" placeholder="hh:mm" ng-model="refeicao.horaFinal" required>
+                    <div class="md-errors-spacer"></div>
+                </md-input-container>
+
+                <!-- Custo -->
+                <md-input-container class="md-icon-float md-block">
+                    <label>Custo</label>
+                    <input currency-mask ng-model="refeicao.custo" />
+                </md-input-container>
+
+                <!-- Tempo que antecede a refeição e será permitido para lançamento da Pretensao -->
+                <md-input-container flex-gt-md="30">
+                    <label>Previsão da Pretensão</label>
+                    
+                    <input mdc-datetime-picker="" date="false" time="true" class=" md-input" type="text" placeholder="hh:mm" ng-model="refeicao.horaPrevisaoPretensao">
+                                        
+                    <div class="hint">Tempo em <b>horas e minutos</b> que antecede a Refeição e permite ao beneficiário solicitar a Pretensão.</div>
+                </md-input-container>
+            </form>
+        </md-card-content>
+    </md-card>
+</md-content>

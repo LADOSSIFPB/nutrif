@@ -229,11 +229,12 @@ public class AlunoController {
 	}
 
 	/**
-	 * Recuperar Aluno pela matrícula.
+	 * Listar Aluno pesquisando pela matrícula.
 	 * 
 	 * @param matricula
 	 * @return
 	 */
+	//TODO: @RolesAllowed({TipoRole.ADMIN})
 	@PermitAll
 	@GET
 	@Path("/matricula/{matricula}")
@@ -269,6 +270,12 @@ public class AlunoController {
 		return builder.build();
 	}
 
+	/**
+	 * Listar Aluno pesquisando pelo Nome.
+	 * 
+	 * @param nome
+	 * @return
+	 */
 	@PermitAll
 	@GET
 	@Path("/nome/{nome}")

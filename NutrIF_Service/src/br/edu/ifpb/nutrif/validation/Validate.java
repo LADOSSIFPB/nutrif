@@ -1,5 +1,6 @@
 package br.edu.ifpb.nutrif.validation;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -187,8 +188,14 @@ public class Validate {
 		}
 		
 		Date horaPrevisaoPretensao = refeicao.getHoraPrevisaoPretensao();
-		if (!time24HoursValidator.validate(horaPrevisaoPretensao)) {
+		if (horaPrevisaoPretensao != null 
+				&& !time24HoursValidator.validate(horaPrevisaoPretensao)) {
 			return ErrorFactory.PERIODO_PREVISAO_PRETENSAO;
+		}
+		
+		BigDecimal custo = refeicao.getCusto();
+		if (custo != null) {
+			// TODO: Implementar validação para bigdecimal.
 		}
 		
 		return VALIDATE_OK;

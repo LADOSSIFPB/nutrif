@@ -7,6 +7,10 @@ nutrIFApp.controller('cadastrarAlunoCtrl', function ($scope, $state, alunoServic
     $scope.campi = [];
 
     $scope.adicionar = function () {
+        
+        var cpf = CPF.strip($scope.aluno.cpf);
+        $scope.aluno.cpf = cpf;
+        
         alunoService.cadastrar($scope.aluno)
             .then(function (response) {
                 $state.transitionTo('home.editar-aluno', {

@@ -13,6 +13,33 @@ nutrIFApp.factory("menu", function ($location, $rootScope) {
             state: 'administrador.listar-alunos',
             type: 'link'
         },
+        {
+            name: 'Refeição',
+            state: 'administrador.listar-refeicoes',
+            type: 'link'
+        },
+        {
+            name: 'Campus',
+            state: 'administrador.home',
+            type: 'link'
+        },
+        {
+            name: 'Curso',
+            state: 'administrador.home',
+            type: 'link'
+        },
+
+        {
+            name: 'Evento',
+            state: 'administrador.home',
+            type: 'link'
+        },
+
+        {
+            name: 'Servidor',
+            state: 'administrador.home',
+            type: 'link'
+        },
 
         {
             name: 'Refeitório',

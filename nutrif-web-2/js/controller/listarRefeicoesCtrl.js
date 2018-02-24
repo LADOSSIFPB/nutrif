@@ -1,7 +1,7 @@
 /*
  *  Controlar ações da listagem da Refeição.
  */
-nutrIFApp.controller('listarRefeicaoCtrl', function ($scope, $mdToast, refeicaoService) {
+nutrIFApp.controller('listarRefeicoesCtrl', function ($scope, $state, toastUtil, refeicaoService) {
 
     $scope.tipo = "";
     $scope.refeicoes = [];
@@ -15,7 +15,7 @@ nutrIFApp.controller('listarRefeicaoCtrl', function ($scope, $mdToast, refeicaoS
         if(tipo.length >= 3) {
             if (tipo.match(/[a-zA-Z]/i) != null) {
             	
-                refeicaoService.buscarRefeicaoPorTipo(tipo)
+                refeicaoService.buscarPorTipo(tipo)
                     .then(function (response) {
                         $scope.refeicoes = response.data;
                     })

@@ -1,65 +1,76 @@
-angular.module('NutrifApp').controller('editarRefeicaoCtrl', function ($scope,
-	$stateParams, $state, $mdToast, refeicaoService) {
+/*
+ *  Controlar atualização da Refeição.
+ */
+nutrIFApp.controller('editarRefeicaoCtrl', function ($scope,
+    $stateParams, $state, toastUtil, dateTimeUtil, refeicaoService) {
 
-	$scope.refeicao = {};
+    $scope.refeicao = {};
 
-	$scope.atualizar = function (refeicao) {
+    $scope.atualizar = function (refeicao) {
 
-		refeicao.horaInicio = Date.parse(refeicao.horaInicio);
-		refeicao.horaFinal = Date.parse(refeicao.horaFinal);
-		refeicao.horaPrevisaoPretensao = Date.parse(refeicao.horaPrevisaoPretensao);
+        let refeicao = $scope.refeicao;
 
-		refeicaoService.editarRefeicao(refeicao)
-			.success(function (data, status) {
-				$state.transitionTo('home.listar-refeicoes', {reload: true});
-				$mdToast.show(
-					$mdToast.simple()
-					.textContent('Refeição atualizada com sucesso!')
-					.position('top right')
-					.action('OK')
-					.hideDelay(6000)
-				);
-			})
-			.error(onErrorCallback);
-	}
+        refeicao.horaInicio = Date.parse(refeicao.horaInicio);
+        refeicao.horaFinal = Date.parse(refeicao.horaFinal);
+        refeicao.horaPrevisaoPretensao = Date.parse(refeicao.horaPrevisaoPretensao);
 
-	function carregamentoInicial() {
-		var _id = $stateParams.id;
+        refeicaoService.atualizar(refeicao)
+            .then(function (response) {
+                // Mensagem
+                toastUtil.showSuccessToast('Refeição atualizada com sucesso.');
 
-		if (_id == 0){
-			$state.transitionTo('home.listar-refeicoes', {reload: true});
-		}
+                // Redirecionamento
+                $state.transitionTo('administrador.listar-refeicoes', {
+                    reload: true
+                });
+            })
+            .catch(function (error) {
+                toastUtil.showErrorToast(error);
+            });
+    }
 
-		  refeicaoService.getById(_id)
-	      .success(function(data,status){
-	    	  $scope.refeicao = data;
-	      })
-	      .error(onErrorLoadCallback);
+    /**
+        Carregar os dados iniciais.
+     */
+    function carregar() {
 
-	}
+        let id = $stateParams.id;
 
-	carregamentoInicial();
+        if (id <= 0) {
+            redirecionarListagem();
+        } else {
+            refeicaoService.getById(id)
+                .then(function (response) {
+                    // Refeição 
+                    let refeicao = response.data;
 
-	function onErrorCallback(data, status) {
-		var _message = '';
+                    // Hora de início e fim da apresentação
+                    let horaInicio = dateTimeUtil.timeToDate(refeicao.horaInicio);
+                    let horaFinal = dateTimeUtil.timeToDate(refeicao.horaFinal);
+                    let horaPrevisaoPretensao = dateTimeUtil.timeToDate(refeicao.horaPrevisaoPretensao);
 
-		if (!data) {
-			_message = 'Ocorreu um erro na comunicação com o servidor, favor chamar o suporte.'
-		} else {
-			_message = data.mensagem
-		}
+                    refeicao.horaInicio = horaInicio;
+                    refeicao.horaFinal = horaFinal;
+                    refeicao.horaPrevisaoPretensao = horaPrevisaoPretensao;
+                    
+                    // Refeição - ng-model do formulário.
+                    $scope.refeicao = refeicao;
+                })
+                .catch(function (error) {
+                    toastUtil.showErrorToast(error);
+                    redirecionarListagem();
+                });
+        }
+    }
 
-		$mdToast.show(
-			$mdToast.simple()
-			.textContent(_message)
-			.position('top right')
-			.action('OK')
-			.hideDelay(6000)
-		);
-	}
+    /**
+        Redirecionar para a página de listagem.
+     */
+    function redirecionarListagem() {
+        $state.transitionTo('administrador.listar-refeicoes', {
+            reload: true
+        });
+    }
 
-	function onErrorLoadCallback(data, status) {
-		onErrorCallback(data, status);
-		$state.transitionTo('home.listar-refeicoes', {reload: true});
-	}
+    carregar();
 });
