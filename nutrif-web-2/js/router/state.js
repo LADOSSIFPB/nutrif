@@ -19,8 +19,8 @@ nutrIFApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
             .state('inicio.login', {
                 url: '/login',
                 templateUrl: 'view/login.html',
-                controller: 'loginCtrl',
-                controllerAs: 'login'
+                controller: 'logarPessoaCtrl',
+                controllerAs: 'logarPessoa'
             })
 
             // Subrota - Aluno
@@ -64,7 +64,7 @@ nutrIFApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
                 abstract: true,
                 controller: 'sideNavCtrl',
                 controllerAs: 'sideNav',
-                url: '/administrador',
+                url: '/administrador/campus/:id',
                 templateUrl: 'view/administrador/administrador.html'
             })
 

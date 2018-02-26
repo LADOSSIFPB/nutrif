@@ -9,49 +9,73 @@ nutrIFApp.factory("menu", function ($location, $rootScope) {
             type: 'link'
         },
         {
-            name: 'Aluno',
-            state: 'administrador.listar-alunos',
-            type: 'link'
-        },
-        {
-            name: 'Refeição',
-            state: 'administrador.listar-refeicoes',
-            type: 'link'
-        },
-        {
-            name: 'Campus',
-            state: 'administrador.home',
-            type: 'link'
-        },
-        {
-            name: 'Curso',
-            state: 'administrador.home',
-            type: 'link'
-        },
-
-        {
-            name: 'Evento',
-            state: 'administrador.home',
-            type: 'link'
-        },
-
-        {
-            name: 'Servidor',
-            state: 'administrador.home',
-            type: 'link'
-        },
-
-        {
             name: 'Refeitório',
             type: 'toggle',
             pages: [
                 {
-                    name: 'Entrada',
+                    name: 'Aluno',
+                    state: 'administrador.listar-alunos',
+                    type: 'link'
+                },
+                {
+                    name: 'Refeição',
+                    state: 'administrador.listar-refeicoes',
+                    type: 'link'
+                },
+                {
+                    name: 'Campus',
+                    state: 'administrador.home',
+                    type: 'link'
+                },
+                {
+                    name: 'Curso',
+                    state: 'administrador.home',
+                    type: 'link'
+                },
+                {
+                    name: 'Evento',
+                    state: 'administrador.home',
+                    type: 'link'
+                },
+                {
+                    name: 'Edital',
+                    state: 'administrador.home',
+                    type: 'link'
+                },
+                {
+                    name: 'Servidor',
+                    state: 'administrador.home',
+                    type: 'link'
+                }
+            ]
+        },
+        {
+            name: 'Salão de Refeições',
+            type: 'toggle',
+            pages: [
+                {
+                    name: 'Entrada de Alunos',
                     state: '#',
                     type: 'link'
                 },
                 {
                     name: 'Reconhecimento Facial',
+                    state: '#',
+                    type: 'link'
+                }
+            ]
+        },
+        {
+            name: 'Estatísticas',
+            type: 'toggle',
+            pages: [
+                {
+                    name: 'Gráficos',
+                    state: '#',
+                    type: 'link'
+                },
+                {
+                    name: 'Dashboard',
                     state: '#',
                     type: 'link'
                 }

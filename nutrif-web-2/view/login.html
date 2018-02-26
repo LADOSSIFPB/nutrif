@@ -10,15 +10,15 @@
 
             <md-input-container class="md-icon-float md-block">
                 <label>E-mail</label>
-                <input ng-model="usuario.login" type="text" ng-required="true">
+                <input ng-model="pessoa.email" type="email" ng-required="true">
             </md-input-container>
 
             <md-input-container class="md-icon-float md-block">
                 <label>Senha</label>
-                <input ng-model="usuario.senha" type="password" ng-required="true">
+                <input ng-model="pessoa.senha" type="password" ng-required="true">
             </md-input-container>
 
-            <md-button ng-click="loginUsuario(usuario)" class="md-raised md-primary md-hue-1">
+            <md-button ng-click="login()" class="md-raised md-primary md-hue-1">
                 Entrar
             </md-button>
         </form>
