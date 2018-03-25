@@ -11,7 +11,10 @@ nutrIFApp.controller('listarRefeicoesCtrl', function ($scope, $state, toastUtil,
         $scope.refeicoes = [];
     };
 
-    $scope.pesquisar = function (tipo){
+    $scope.pesquisar = function (){
+        
+        let tipo = $scope.tipo;
+        
         if(tipo.length >= 3) {
             if (tipo.match(/[a-zA-Z]/i) != null) {
             	

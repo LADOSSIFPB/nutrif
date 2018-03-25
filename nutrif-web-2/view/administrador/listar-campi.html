@@ -4,22 +4,22 @@
             <!-- Cabeçalho de opções -->
             <md-card-header>
                 <md-card-avatar>
-                    <ng-md-icon icon="local_restaurant" size="42"></ng-md-icon>
+                    <ng-md-icon icon="place" size="42"></ng-md-icon>
                 </md-card-avatar>
 
                 <md-card-header-text>
-                    <span class="md-title">Refeição</span>
+                    <span class="md-title">Campus</span>
                     <span class="md-subhead">
-                        Digite o nome da Refeição no campo abaixo para buscar ou selecione a opção para adicionar um novo registro. Para adicionar um nova Refeição clique no botão Adicionar Refeição.                    
+                        Digite o nome do Campus no campo abaixo para buscar ou selecione a opção para adicionar um novo registro. Para adicionar um novo Campus clique no botão Adicionar Campus.                    
                     </span>
                 </md-card-header-text>
 
                 <md-card-actions layout="row">
                     <md-card-icon-actions>
-                        <md-button aria-label="Adicionar Refeição" ui-sref="administrador.adicionar-refeicao">
+                        <md-button aria-label="Adicionar Refeição" ui-sref="administrador.adicionar-campus">
                             <ng-md-icon icon="add" size="42"></ng-md-icon>
                             <md-tooltip md-direction="bottom">
-                                Adicionar Refeição
+                                Adicionar Campus
                             </md-tooltip>
                         </md-button>
                     </md-card-icon-actions>
@@ -32,7 +32,7 @@
                     <ng-md-icon icon="search" size="32"></ng-md-icon>
 
                     <div class="toolbar-input" flex>
-                        <input type="text" ng-model="tipo" ng-keyup="pesquisar()" placeholder="Nome da Refeição">
+                        <input type="text" ng-model="cidade" ng-keyup="pesquisar()" placeholder="Cidade do Campus">
                     </div>
 
                     <md-button aria-label="Limpar Busca" ng-click="limparBusca()">
@@ -46,24 +46,17 @@
             <table md-table>
                 <thead md-head>
                     <tr md-row>
-                        <th md-column>Tipo</th>
-                        <th md-column>Inicio</th>
-                        <th md-column>Fim</th>
-                        <th md-column>Custo</th>
-                        <th md-column>Previsão Pretensão</th>
-                        <th md-column>Editar</th>
+                        <th md-column>Sigla</th>
+                        <th md-column>Cidade</th>
                     </tr>
                 </thead>
 
                 <tbody md-body>
-                    <tr md-row ng-repeat="refeicao in refeicoes | limitTo: query.limit: (query.page - 1) * query.limit">
-                        <td md-cell>{{refeicao.tipo | uppercase}}</td>
-                        <td md-cell>{{refeicao.horaInicio | date: hh:mm:ss}}</td>
-                        <td md-cell>{{refeicao.horaFinal | date: hh:mm:ss}}</td>
-                        <td md-cell>{{refeicao.custo | uppercase}}</td>             
-                        <td md-cell>{{refeicao.horaPrevisaoPretensao | date: hh:mm:ss}}</td>
+                    <tr md-row ng-repeat="campus in campi | limitTo: query.limit: (query.page - 1) * query.limit">
+                        <td md-cell>{{campus.cidade | uppercase}}</td>
+                        <td md-cell>{{campus.sigla | uppercase}}</td>
                         <td md-cell>
-                            <md-button aria-label="Editar Refeição" ui-sref="administrador.editar-refeicao({id: refeicao.id})" ui-sref-opts="{reload: true}">
+                            <md-button aria-label="Editar Campus" ui-sref="administrador.editar-campus({id: campus.id})" ui-sref-opts="{reload: true}">
                                 <ng-md-icon icon="edit" size="18"></ng-md-icon>
                                 <md-tooltip md-direction="bottom">
                                     Editar

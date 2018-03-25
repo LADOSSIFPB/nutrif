@@ -13,6 +13,10 @@ nutrIFApp.factory("alunoService", function($http, serviceCfg){
 		return $http.put(_path, aluno)
 	};
     
+    var _buscarPorId = function (id){
+		return $http.get(_path + "/" + encodeURI(id))
+	};
+    
 	var _buscarPorNome = function (nome){
 		return $http.get(_path + "/nome/" + encodeURI(nome))
 	};
@@ -40,6 +44,7 @@ nutrIFApp.factory("alunoService", function($http, serviceCfg){
 	return {		
 		cadastrar: _cadastrar,
 		atualizar: _atualizar,
+        buscarPorId: _buscarPorId,
         buscarPorNome: _buscarPorNome,
         buscarPorMatricula: _buscarPorMatricula,
         atualizarAcesso: _atualizarAcesso,

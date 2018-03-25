@@ -13,8 +13,8 @@ nutrIFApp.controller('cadastrarAlunoCtrl', function ($scope, $state, alunoServic
         
         alunoService.cadastrar($scope.aluno)
             .then(function (response) {
-                $state.transitionTo('home.editar-aluno', {
-                    matricula: response.data.matricula
+                $state.transitionTo('administrador.editar-aluno', {
+                    id: response.data.id
                 }, {
                     reload: true,
                     inherit: false,

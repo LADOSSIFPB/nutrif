@@ -1,9 +1,9 @@
 /*
- *  Mapeamento dos serviço de Campus.
+ *  Mapeamento dos serviço da Matrícula.
  */
-nutrIFApp.factory("campusService", function ($http, serviceCfg){
+nutrIFApp.factory("matriculaService", function ($http, serviceCfg){
 
-	var _path = serviceCfg.baseUrl() + "/campus";
+	var _path = serviceCfg.baseUrl() + "/matricula";
 
     var _cadastrar = function (campus){
 		return $http.post(_path, campus)
@@ -12,19 +12,19 @@ nutrIFApp.factory("campusService", function ($http, serviceCfg){
     var _listar = function () {
         return $http.get(_path);
     }
-
-    var _buscarPorCidade = function (cidade){
-		return $http.get(_path + "/cidade/" + cidade)
-	};
     
     var _getById = function (id) {
         return $http.get(_path + "/" + id);
+    }
+    
+    var _getByAlunoId = function (id) {
+        return $http.get(_path + "/aluno/" + id);
     }
 
     return {
         cadastrar: _cadastrar,
         listar: _listar,
         getById: _getById,
-        buscarPorCidade: _buscarPorCidade
+        getByAlunoId: _getByAlunoId
     };
 });

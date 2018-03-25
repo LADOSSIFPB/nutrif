@@ -2,7 +2,7 @@
 <md-card>
     <md-card-header>
         <md-card-avatar>
-            <md-icon class="md-avatar-icon" md-svg-icon="image/icon/create-new-pencil-button.svg"></md-icon>
+            <ng-md-icon icon="school" size="42"></ng-md-icon>
         </md-card-avatar>
 
         <md-card-header-text>
@@ -23,16 +23,22 @@
     </md-card-header>
     <md-card-content layout="column">
 
+        <!-- CPF -->
+        <md-input-container class="md-icon-float md-block">
+            <label>Cpf</label>
+            <input ng-model="aluno.cpf" ui-mask="999.999.999-99" title="Formato para cadastro de cpf: 000.000.00-00" required>
+        </md-input-container>
+
         <!-- Nome -->
         <md-input-container class="md-icon-float md-block">
             <label>Nome</label>
             <input ng-model="aluno.nome" type="text" required>
         </md-input-container>
 
-        <!-- Matrícula -->
+        <!-- Email -->
         <md-input-container class="md-icon-float md-block">
-            <label>Matrícula</label>
-            <input ng-model="aluno.matricula" type="text" required>
+            <label>E-mail</label>
+            <input ng-model="aluno.email" type="email" title="Formato para cadastro de email: usuario@email.com" required>
         </md-input-container>
 
         <!-- Campus -->
@@ -51,8 +57,8 @@
 <!-- Acesso -->
 <md-card>
     <md-card-header>
-        <md-card-avatar>            
-            <ng-md-icon icon="security" size="42"></ng-md-icon>            
+        <md-card-avatar>
+            <ng-md-icon icon="security" size="42"></ng-md-icon>
         </md-card-avatar>
 
         <md-card-header-text>
@@ -91,36 +97,36 @@
             <input ng-model="aluno.resenha" type="password" required>
             <div class="hint">Redigite a senha para confirmação.</div>
         </md-input-container>
-        
+
     </md-card-content>
 </md-card>
 
-<!-- Tab 1 -->
-<!-- Adição e remoção de Dia de refeição -->
+<!-- Adição e remoção de Matrículas -->
 <md-tabs md-dynamic-height md-border-bottom>
-    <md-tab label="Refeições atuais">
+    <!-- Tab 1 -->
+    <md-tab label="Matrículas">
         <md-card>
             <md-card-header>
                 <md-card-avatar>
-                    <ng-md-icon icon="list" size="42"></ng-md-icon>
+                    <ng-md-icon icon="list" size="36"></ng-md-icon>
                 </md-card-avatar>
 
                 <md-card-header-text>
-                    <span class="md-title">Gerenciar refeições</span>
-                    <span class="md-subhead">Selecione a(s) Refeição(ões) para Remover ou Adicione uma nova.</span>
+                    <span class="md-title">Gerenciar Matrículas</span>
+                    <span class="md-subhead">Selecione a(s) Matrículas(s) para Remover ou Adicione uma nova.</span>
                 </md-card-header-text>
 
                 <md-card-actions layout="row">
                     <md-card-icon-actions>
 
-                        <md-button class="md-icon-button" aria-label="Apagar Refeições" ng-click="removerRefeicao(selected)">
-                            <md-tooltip md-direction="bottom">Apagar Refeições</md-tooltip>
-                            <md-icon md-svg-icon="image/icon/rubbish-bin-delete-button.svg"></md-icon>
+                        <md-button class="md-icon-button" aria-label="Apagar Matrículas" ng-click="remover(selected)">
+                            <md-tooltip md-direction="bottom">Apagar Matrículas</md-tooltip>
+                            <ng-md-icon icon="delete" size="24"></ng-md-icon>
                         </md-button>
 
-                        <md-button class="md-icon-button" aria-label="Adicionar Refeições" ng-click="adicionarRefeicao()">
-                            <md-tooltip md-direction="bottom">Adicionar Refeições</md-tooltip>
-                            <md-icon md-svg-icon="image/icon/add-plus-button.svg"></md-icon>
+                        <md-button class="md-icon-button" aria-label="Adicionar Matrícula" ng-click="adicionar()">
+                            <md-tooltip md-direction="bottom">Adicionar Matrícula</md-tooltip>
+                            <ng-md-icon icon="add" size="24"></ng-md-icon>
                         </md-button>
 
                     </md-card-icon-actions>
@@ -131,42 +137,34 @@
                 <table md-table md-row-select multiple ng-model="selected">
                     <thead md-head>
                         <tr md-row>
-                            <th md-column>Tipo da Refeição</th>
-                            <th md-column>Dia da Refeição</th>
-                            <th md-column>Edital</th>
-                            <th md-column>Validade</th>
+                            <th md-column>Número</th>
+                            <th md-column>Curso</th>
+                            <th md-column>Turno</th>
+                            <th md-column>Período</th>
+                            <th md-column>Turma</th>
+                            <th md-column>Situação</th>
                         </tr>
                     </thead>
                     <tbody md-body>
-                        <tr md-row md-select="diaRefeicao" md-select-id="id" md-auto-select ng-repeat="diaRefeicao in refeicoes">
-                            <td md-cell>{{diaRefeicao.refeicao.tipo | uppercase}}</td>
-                            <td md-cell>{{diaRefeicao.dia.nome | uppercase}}</td>
-                            <td md-cell>{{diaRefeicao.edital.nome | uppercase}}</td>
+                        <tr md-row md-select="autor" md-select-id="id" md-auto-select ng-repeat="matricula in matriculas">
+                            <td md-cell>{{matricula.numero | uppercase}}</td>
+                            <td md-cell>{{matricula.curso.nome | uppercase}}</td>
+                            <td md-cell>{{matricula.turno.nome | uppercase}}</td>
+                            <td md-cell>{{matricula.periodo.nome | uppercase}}</td>
+                            <td md-cell>{{matricula.turma.nome | uppercase}}</td>
+                            <td md-cell>{{matricula.situacao.nome | uppercase}}</td>
                             <td md-cell>
-                                {{diaRefeicao.edital.dataInicial | date:'dd/MM/yyyy h:mma'}} - {{diaRefeicao.edital.dataFinal | date:'dd/MM/yyyy h:mma'}}
+                                <md-button aria-label="Editar Matrícula" ui-sref="administrador.editar-matricula({id: matricula.id})" ui-sref-opts="{reload: true}">
+                                    <ng-md-icon icon="edit" size="18"></ng-md-icon>
+                                    <md-tooltip md-direction="bottom">
+                                        Editar
+                                    </md-tooltip>
+                                </md-button>
                             </td>
                         </tr>
                     </tbody>
                 </table>
             </md-table-container>
         </md-card>
-    </md-tab>
-
-    <!-- Tab 2 -->
-    <md-tab label="Histórico de refeições">
-        <timeline>
-            <timeline-event ng-repeat="diaRefeicao in diaRefeicaoHistorico">
-                <timeline-panel>
-                    <timeline-heading>
-                        <h4>{{diaRefeicao.refeicao.tipo}}</h4>
-                    </timeline-heading>
-                    <p>Edital: {{diaRefeicao.edital.nome}}</p>
-                    <p>Dia: {{diaRefeicao.dia.nome}}</p>
-                    <p>Validade: {{diaRefeicao.edital.dataInicial | date:'dd/MM/yyyy h:mma'}} - {{diaRefeicao.edital.dataFinal | date:'dd/MM/yyyy h:mma'}}
-                    </p>
-                    <p>Inserido: {{diaRefeicao.edital.dataInsercao | date}}</p>
-                </timeline-panel>
-            </timeline-event>
-        </timeline>
     </md-tab>
 </md-tabs>

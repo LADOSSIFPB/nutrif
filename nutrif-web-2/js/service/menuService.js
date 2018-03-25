@@ -24,7 +24,7 @@ nutrIFApp.factory("menu", function ($location, $rootScope) {
                 },
                 {
                     name: 'Campus',
-                    state: 'administrador.home',
+                    state: 'administrador.listar-campi',
                     type: 'link'
                 },
                 {

@@ -7,10 +7,13 @@ nutrIFApp.controller('listarAlunosCtrl', function ($scope, toastUtil,
     var TAM_MINIMO_MATRICULA = 11;
     var TAM_MAXIMO_MATRICULA = 13;
 
-    $scope.nomeMatricula = "";
+    $scope.nomeOuMatricula = "";
     $scope.alunos = [];
 
-    $scope.pesquisar = function (nomeOuMatricula) {
+    $scope.pesquisar = function () {
+        
+        let nomeOuMatricula = $scope.nomeOuMatricula;
+        
         if (nomeOuMatricula.length >= 3) {
             if (nomeOuMatricula.match(/[a-zA-Z]/i) != null) {
                 alunoService.buscarPorNome(nomeOuMatricula)
@@ -23,7 +26,7 @@ nutrIFApp.controller('listarAlunosCtrl', function ($scope, toastUtil,
                     .then(onSuccessCallback)
                     .catch(onErrorCallback); 
             }
-        } else if (nomeMatricula.length === 0) {
+        } else if (nomeOuMatricula.length === 0) {
             $scope.alunos = [];
         }
     };
@@ -37,7 +40,7 @@ nutrIFApp.controller('listarAlunosCtrl', function ($scope, toastUtil,
     }
     
     $scope.limparBusca = function () {
-        $scope.nomeMatricula = "";
+        $scope.nomeOuMatricula = "";
         $scope.alunos = [];
     };
 

@@ -3,20 +3,22 @@
  */
 nutrIFApp.factory("toastUtil", function ($mdToast) {
     return {
+        
         showErrorToast: function (error) {
-            var message = "";
             
-            if (!error.data) {
-                message = "Ocorreu um problema do NutrIF no Servidor, favor chamar o suporte."
-            } else {
-                message = error.data.message;
+            let mensagem = "Ocorreu um problema do NutrIF no Servidor, favor chamar o suporte.";
+            let codigo = 0;
+            
+            if (error.data) {
+                mensagem = error.data.mensagem;
+                codigo = error.data.codigo;
             }
 
             $mdToast.show(
                 $mdToast.simple()
-                .textContent(message)
+                .textContent(mensagem)
                 .position('top right')
-                .action('OK')
+                .action('Ok')
                 .hideDelay(6000)
             );
 

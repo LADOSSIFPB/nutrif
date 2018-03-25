@@ -18,7 +18,7 @@ nutrIFApp.factory("refeicaoService", function($http, serviceCfg){
 	};
 	
 	var _buscarPorTipo = function (tipo){
-		return $http.get(_path + "/tipo/" +tipo)
+		return $http.get(_path + "/tipo/" + tipo)
 	};
 	
 	var _getById = function(id){

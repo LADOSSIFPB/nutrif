@@ -64,7 +64,7 @@ nutrIFApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
                 abstract: true,
                 controller: 'sideNavCtrl',
                 controllerAs: 'sideNav',
-                url: '/administrador/campus/:id',
+                url: '/administrador/campus/:idCampus',
                 templateUrl: 'view/administrador/administrador.html'
             })
 
@@ -129,6 +129,34 @@ nutrIFApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
                 templateUrl: 'view/administrador/editar-refeicao.html',
                 controller: 'editarRefeicaoCtrl',
                 controllerAs: 'editarRefeicao',
+                permissions: ['admin']
+            })
+    
+            /* Administrador - Campus */
+            .state('administrador.adicionar-campus', {
+                url: '/adicionar/campus',
+                title: 'Adicionar Campus',
+                templateUrl: 'view/administrador/adicionar-campus.html',
+                controller: 'cadastrarCampusCtrl',
+                controllerAs: 'cadastrarCampus',
+                permissions: ['admin']
+            })
+
+            .state('administrador.listar-campi', {
+                url: '/listar/campi',
+                title: 'Listar Campi',
+                templateUrl: 'view/administrador/listar-campi.html',
+                controller: 'listarCampiCtrl',
+                controllerAs: 'listarCampi',
+                permissions: ['admin']
+            })
+
+            .state('administrador.editar-campus', {
+                url: '/editar/campus/:id',
+                title: 'Editar Campus',
+                templateUrl: 'view/administrador/editar-campus.html',
+                controller: 'editarCampusCtrl',
+                controllerAs: 'editarCampus',
                 permissions: ['admin']
             })
     })

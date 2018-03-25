@@ -32,7 +32,7 @@
                     <ng-md-icon icon="search" size="32"></ng-md-icon>
 
                     <div class="toolbar-input" flex>
-                        <input type="text" ng-model="nomeOuMatricula" ng-keyup="pesquisar(nomeOuMatricula)" placeholder="Nome ou matrícula do aluno">
+                        <input type="text" ng-model="nomeOuMatricula" ng-keyup="pesquisar()" placeholder="Nome ou matrícula do aluno">
                     </div>
 
                     <md-button aria-label="Limpar Busca" ng-click="limparBusca()">
@@ -63,7 +63,7 @@
                         <td md-cell>{{aluno.acesso | yesNo}}</td>
                         <td md-cell>{{aluno.ativo | yesNo}}</td>
                         <td md-cell>
-                            <md-button aria-label="Editar Aluno" ui-sref="home.editar-aluno({id: aluno.id})" ui-sref-opts="{reload: true}">
+                            <md-button aria-label="Editar Aluno" ui-sref="administrador.editar-aluno({id: aluno.id})" ui-sref-opts="{reload: true}">
                                 <ng-md-icon icon="edit" size="18"></ng-md-icon>
                                 <md-tooltip md-direction="bottom">
                                     Editar
