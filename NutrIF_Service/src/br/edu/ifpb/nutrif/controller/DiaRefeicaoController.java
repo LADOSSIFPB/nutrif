@@ -174,7 +174,9 @@ public class DiaRefeicaoController {
 					
 				} else {
 					
-					//TODO: Informações do edital não encontrada.
+					// Dados não encontrados na busca para compor a entidade a ser inserida.
+					builder.entity(ErrorFactory.getErrorFromIndex(
+									ErrorFactory.DADOS_NAO_ECONTRADOS));
 				}
 				
 			} catch (SQLExceptionNutrIF exception) {

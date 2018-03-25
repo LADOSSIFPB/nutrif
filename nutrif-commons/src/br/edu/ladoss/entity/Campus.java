@@ -35,7 +35,7 @@ public class Campus implements Serializable {
 	private String cidade;
 	
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "dt_insercao", nullable = false,
+	@Column(name = "dt_insercao",
 		    columnDefinition="TIMESTAMP default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP")
 	private Date dataInsercao;
 	

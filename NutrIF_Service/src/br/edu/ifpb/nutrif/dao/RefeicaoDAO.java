@@ -26,7 +26,7 @@ public class RefeicaoDAO extends GenericDao<Integer, Refeicao>{
 	}
 	
 	/**
-	 * Verificar a refeiï¿½ï¿½o de acordo com o perï¿½odo do dia.
+	 * Verificar a refeição de acordo com o período do dia.
 	 * 
 	 * @return
 	 */
@@ -76,11 +76,10 @@ public class RefeicaoDAO extends GenericDao<Integer, Refeicao>{
 			String hql = "from Refeicao as r"
 					+ " where r.tipo like :tipo";
 			
-			Query query = session.createQuery(hql);
+			Query query = session.createQuery(hql, Refeicao.class);
 			query.setParameter("tipo", "%" + tipo + "%");			
 	        
 			refeicoes = (List<Refeicao>) query.getResultList();
-			logger.info("Refeições: " + refeicoes);
 			
 		} catch (HibernateException hibernateException) {
 			
