@@ -104,6 +104,15 @@ nutrIFApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
                 permissions: ['admin']
             })
     
+            .state('administrador.adicionar-matricula', {
+                url: '/editar/matricula/aluno/:id',
+                title: 'Adicionar Matrícula',
+                templateUrl: 'view/administrador/adicionar-matricula.html',
+                controller: 'cadastrarMatriculaCtrl',
+                controllerAs: 'cadastrarMatricula',
+                permissions: ['admin']
+            })
+    
             /* Administrador - Refeição */
             .state('administrador.adicionar-refeicao', {
                 url: '/adicionar/refeicao',

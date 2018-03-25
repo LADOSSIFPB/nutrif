@@ -1,0 +1,102 @@
+<md-content flex layout-padding>
+    <md-card flex layout-padding>
+
+        <md-card-header>
+            <md-card-avatar>
+                <ng-md-icon icon="assignment_ind" size="42"></ng-md-icon>
+            </md-card-avatar>
+
+            <md-card-header-text>
+                <span class="md-title">Adicionar Matrícula</span>
+                <span class="md-subhead">Clique nesse botão salvar para alterar as informações básicas da Matrícula e redirecionar para os dados básicos do Aluno.</span>
+            </md-card-header-text>
+
+            <!-- Salvar alterações -->
+            <md-card-icon-actions>
+                <md-button aria-label="Salvar Alterações dos dados básicos da Matrícula para o Aluno." ng-click="adicionar()">
+                    <md-tooltip md-direction="bottom">Salvar Matrícula</md-tooltip>
+                    <ng-md-icon icon="save" size="42"></ng-md-icon>
+                </md-button>
+            </md-card-icon-actions>
+        </md-card-header>
+
+        <md-card-content layout="column">
+            <form layout="column">
+
+                <!-- Aluno -->
+                <!-- CPF -->
+                <md-input-container class="md-icon-float md-block">
+                    <label>Cpf</label>
+                    <input ng-model="aluno.cpf" ng-readonly="true" ui-mask="999.999.999-99" title="Formato para cadastro de cpf: 000.000.00-00" required>
+                </md-input-container>
+
+                <!-- Nome -->
+                <md-input-container class="md-icon-float md-block">
+                    <label>Nome</label>
+                    <input ng-model="aluno.nome" ng-readonly="true" type="text" required>
+                </md-input-container>
+
+                <!-- Matrícula -->
+                <!-- Número -->
+                <md-input-container class="md-icon-float md-block">
+                    <label>Número</label>
+                    <input ng-model="aluno.matricula.numero" type="text" required>
+                </md-input-container>
+
+                <!-- Curso 
+                <md-input-container class="md-icon-float md-block">
+                    <label>Trilha</label>
+                    <md-autocomplete md-input-name="autocompleteField" md-search-text="editarApresentacoes.nomeTrilha" md-items="trilha in editarApresentacoes.pesquisarTrilhaNome(editarApresentacoes.nomeTrilha)" md-selected-item="editarApresentacoes.trilhaSelecionada" md-item-text="trilha.nome" md-input-minlength="3" md-input-maxlength="255" required flex>
+                        <md-item-template>
+                            <span md-highlight-text="editarApresentacoes.nomeTrilha">{{trilha.nome}}</span>
+                        </md-item-template>
+                        <md-not-found>
+                            Nenhuma trilha foi encontrada.
+                            <a ui-sref="administrador.adicionar-trilhas">Deseja criar?</a>
+                        </md-not-found>
+                    </md-autocomplete>
+                </md-input-container>
+                -->
+                <!-- Curso -->
+                <md-input-container class="md-icon-float md-block">
+                    <label>Curso</label>
+                    <md-select ng-model="aluno.matricula.curso.id" aria-label="Selecione o Curso">
+                        <md-option ng-repeat="curso in cursos" value="{{curso.id}}">
+                            {{curso.nome + " - " + curso.campus.cidade}}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+                
+                <!-- Turno -->
+                <md-input-container class="md-icon-float md-block">
+                    <label>Turno</label>
+                    <md-select ng-model="aluno.matricula.turno.id" aria-label="Selecione o Turno">
+                        <md-option ng-repeat="turno in turnos" value="{{turno.id}}">
+                            {{turno.nome}}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+
+                <!-- Periodo -->
+                <md-input-container class="md-icon-float md-block">
+                    <label>Período</label>
+                    <md-select ng-model="aluno.matricula.periodo.id" aria-label="Selecione o Período">
+                        <md-option ng-repeat="periodo in periodos" value="{{periodo.id}}">
+                            {{periodo.nome}}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+
+                <!-- Turma -->
+                <md-input-container class="md-icon-float md-block">
+                    <label>Turma</label>
+                    <md-select ng-model="aluno.matricula.turma.id" aria-label="Selecione a Turma">
+                        <md-option ng-repeat="turma in turmas" value="{{turma.id}}">
+                            {{turma.nome}}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+            </form>
+        </md-card-content>
+    </md-card>
+</md-content>

@@ -16,7 +16,6 @@ public class PeriodoController {
 	
 	@PermitAll
 	@GET
-	@Path("/listar")
 	@Produces("application/json")
 	public List<Periodo> getAll() {
 		

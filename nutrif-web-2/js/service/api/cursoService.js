@@ -3,33 +3,33 @@
  */
 nutrIFApp.factory("cursoService", function ($http, serviceCfg){
 
-	var _path = serviceCfg.baseUrl() + "/curso";
+	var _path = serviceCfg.baseUrl() + "/curso";    
 
-    var _listarCursos = function (curso) {
-        return $http.get(_path + "/listar");
+    var _cadastrar = function (curso) {
+        return $http.post(_path, curso);
+    }
+    
+    var _listar = function (curso) {
+        return $http.get(_path);
     };
 
-    var _cadastrarCurso = function (curso) {
-        return $http.post(_path + "/inserir", curso);
-    }
-
     var _buscarCursoPorNome = function (nome) {
-        return $http.get(_path + "/listar/nome/" + nome);
+        return $http.get(_path + "/nome/" + nome);
     };
 
     var _getCursoById = function (id) {
-        return $http.get(_path + "/id/" + id);
+        return $http.get(_path + "/" + id);
     };
 
-    var _atualizarCurso = function (curso) {
-        return $http.post(_path + "/atualizar", curso);
+    var _atualizar = function (curso) {
+        return $http.put(_path, curso);
     };
 
-    return {
-        listarCursos: _listarCursos,
-        cadastrarCurso: _cadastrarCurso,
+    return {        
+        cadastrar: _cadastrar,
+        listar: _listar,
         buscarCursoPorNome: _buscarCursoPorNome,
         getCursoById: _getCursoById,
-        atualizarCurso: _atualizarCurso
+        atualizar: _atualizar
     };
 });

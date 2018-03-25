@@ -1,8 +1,7 @@
 /*
  *  Controlar atualização do Aluno.
  */
-nutrIFApp.controller('editarAlunoCtrl', function ($scope,
-    $stateParams, $state, $mdDialog, toastUtil, alunoService, campusService, matriculaService) {
+nutrIFApp.controller('editarAlunoCtrl', function ($scope, $stateParams, $state, $mdDialog, toastUtil, alunoService, campusService, matriculaService, stringUtil) {
 
     $scope.aluno = {};
 
@@ -15,7 +14,23 @@ nutrIFApp.controller('editarAlunoCtrl', function ($scope,
 
     $scope.atualizarAcesso = function (aluno) {}
 
-    $scope.adicionar = function () {}
+    $scope.adicionarMatricula = function () {
+
+        var _id = $scope.aluno.id;
+
+        if (!(stringUtil.isEmpty(_id))) {
+            $state.transitionTo('administrador.adicionar-matricula', {
+                id: _id
+            }, {
+                reload: true,
+                inherit: false,
+                notify: true
+            });
+        } else {
+
+        }
+    }
+
 
     $scope.remover = function (selected) {}
 

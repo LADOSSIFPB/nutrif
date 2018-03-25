@@ -1,15 +1,15 @@
 /*
  *  Mapeamento dos serviço de Turma.
  */
-nutrIFApp.factory("turmaService", function($http, config){
+nutrIFApp.factory("turmaService", function($http, serviceCfg){
 
-    var _path = config.baseUrl() + "/turma";
+	var _path = serviceCfg.baseUrl() + "/turma";
 
-	var _listarTurma = function(){
-		return $http.get(_path + "/listar");
+	var _listar = function(){
+		return $http.get(_path);
 	};
 	
 	return {
-		listarTurma: _listarTurma
+		listar: _listar
 	};
 });

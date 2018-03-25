@@ -1,15 +1,15 @@
 /*
  *  Mapeamento dos serviço de Período.
  */
-nutrIFApp.factory("periodoService", function($http, config){
+nutrIFApp.factory("periodoService", function($http, serviceCfg){
 
-    var _path = config.baseUrl() + "/periodo";
+	var _path = serviceCfg.baseUrl() + "/periodo";
 
-	var _listarPeriodo = function(){
-		return $http.get(_path + "/listar");
+	var _listar = function(){
+		return $http.get(_path);
 	};
 
 	return {
-		listarPeriodo: _listarPeriodo
+		listar: _listar
 	};
 });

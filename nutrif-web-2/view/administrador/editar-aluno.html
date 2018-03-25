@@ -101,70 +101,74 @@
     </md-card-content>
 </md-card>
 
-<!-- Adição e remoção de Matrículas -->
-<md-tabs md-dynamic-height md-border-bottom>
-    <!-- Tab 1 -->
-    <md-tab label="Matrículas">
-        <md-card>
-            <md-card-header>
-                <md-card-avatar>
-                    <ng-md-icon icon="list" size="36"></ng-md-icon>
-                </md-card-avatar>
+<md-card flex layout-padding>
+    <md-card-content layout="column">
+        <!-- Adição e remoção de Matrículas -->
+        <md-tabs md-dynamic-height md-border-bottom>
+            <!-- Tab 1 -->
+            <md-tab label="Matrículas">
+                <md-card>
+                    <md-card-header>
+                        <md-card-avatar>
+                            <ng-md-icon icon="list" size="36"></ng-md-icon>
+                        </md-card-avatar>
 
-                <md-card-header-text>
-                    <span class="md-title">Gerenciar Matrículas</span>
-                    <span class="md-subhead">Selecione a(s) Matrículas(s) para Remover ou Adicione uma nova.</span>
-                </md-card-header-text>
+                        <md-card-header-text>
+                            <span class="md-title">Gerenciar Matrículas</span>
+                            <span class="md-subhead">Selecione a(s) Matrículas(s) para Remover ou Adicione uma nova.</span>
+                        </md-card-header-text>
 
-                <md-card-actions layout="row">
-                    <md-card-icon-actions>
+                        <md-card-actions layout="row">
+                            <md-card-icon-actions>
 
-                        <md-button class="md-icon-button" aria-label="Apagar Matrículas" ng-click="remover(selected)">
-                            <md-tooltip md-direction="bottom">Apagar Matrículas</md-tooltip>
-                            <ng-md-icon icon="delete" size="24"></ng-md-icon>
-                        </md-button>
-
-                        <md-button class="md-icon-button" aria-label="Adicionar Matrícula" ng-click="adicionar()">
-                            <md-tooltip md-direction="bottom">Adicionar Matrícula</md-tooltip>
-                            <ng-md-icon icon="add" size="24"></ng-md-icon>
-                        </md-button>
-
-                    </md-card-icon-actions>
-                </md-card-actions>
-            </md-card-header>
-
-            <md-table-container>
-                <table md-table md-row-select multiple ng-model="selected">
-                    <thead md-head>
-                        <tr md-row>
-                            <th md-column>Número</th>
-                            <th md-column>Curso</th>
-                            <th md-column>Turno</th>
-                            <th md-column>Período</th>
-                            <th md-column>Turma</th>
-                            <th md-column>Situação</th>
-                        </tr>
-                    </thead>
-                    <tbody md-body>
-                        <tr md-row md-select="autor" md-select-id="id" md-auto-select ng-repeat="matricula in matriculas">
-                            <td md-cell>{{matricula.numero | uppercase}}</td>
-                            <td md-cell>{{matricula.curso.nome | uppercase}}</td>
-                            <td md-cell>{{matricula.turno.nome | uppercase}}</td>
-                            <td md-cell>{{matricula.periodo.nome | uppercase}}</td>
-                            <td md-cell>{{matricula.turma.nome | uppercase}}</td>
-                            <td md-cell>{{matricula.situacao.nome | uppercase}}</td>
-                            <td md-cell>
-                                <md-button aria-label="Editar Matrícula" ui-sref="administrador.editar-matricula({id: matricula.id})" ui-sref-opts="{reload: true}">
-                                    <ng-md-icon icon="edit" size="18"></ng-md-icon>
-                                    <md-tooltip md-direction="bottom">
-                                        Editar
-                                    </md-tooltip>
+                                <md-button class="md-icon-button" aria-label="Apagar Matrículas" ng-click="remover(selected)">
+                                    <md-tooltip md-direction="bottom">Apagar Matrículas</md-tooltip>
+                                    <ng-md-icon icon="delete" size="24"></ng-md-icon>
                                 </md-button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </md-table-container>
-        </md-card>
-    </md-tab>
-</md-tabs>
+
+                                <md-button class="md-icon-button" aria-label="Adicionar Matrícula" ng-click="adicionarMatricula()">
+                                    <md-tooltip md-direction="bottom">Adicionar Matrícula</md-tooltip>
+                                    <ng-md-icon icon="add" size="24"></ng-md-icon>
+                                </md-button>
+
+                            </md-card-icon-actions>
+                        </md-card-actions>
+                    </md-card-header>
+
+                    <md-table-container>
+                        <table md-table md-row-select multiple ng-model="selected">
+                            <thead md-head>
+                                <tr md-row>
+                                    <th md-column>Número</th>
+                                    <th md-column>Curso</th>
+                                    <th md-column>Turno</th>
+                                    <th md-column>Período</th>
+                                    <th md-column>Turma</th>
+                                    <th md-column>Situação</th>
+                                </tr>
+                            </thead>
+                            <tbody md-body>
+                                <tr md-row md-select="autor" md-select-id="id" md-auto-select ng-repeat="matricula in matriculas">
+                                    <td md-cell>{{matricula.numero | uppercase}}</td>
+                                    <td md-cell>{{matricula.curso.nome | uppercase}}</td>
+                                    <td md-cell>{{matricula.turno.nome | uppercase}}</td>
+                                    <td md-cell>{{matricula.periodo.nome | uppercase}}</td>
+                                    <td md-cell>{{matricula.turma.nome | uppercase}}</td>
+                                    <td md-cell>{{matricula.situacao.nome | uppercase}}</td>
+                                    <td md-cell>
+                                        <md-button aria-label="Editar Matrícula" ui-sref="administrador.editar-matricula({id: matricula.id})" ui-sref-opts="{reload: true}">
+                                            <ng-md-icon icon="edit" size="18"></ng-md-icon>
+                                            <md-tooltip md-direction="bottom">
+                                                Editar
+                                            </md-tooltip>
+                                        </md-button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </md-table-container>
+                </md-card>
+            </md-tab>
+        </md-tabs>
+    </md-card-content>
+</md-card>
