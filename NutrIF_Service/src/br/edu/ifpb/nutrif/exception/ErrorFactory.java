@@ -34,114 +34,118 @@ public class ErrorFactory {
 	public static final int EMAIL_USUARIO_INVALIDO = 12;
 	public static final int SENHA_USUARIO_INVALIDA = 13;
 	public static final int KEY_CONFIRMATION_INVALIDA = 14;
-	public static final int ACESSO_USUARIO_NAO_PERMITIDO = 61;
+	public static final int ACESSO_USUARIO_NAO_PERMITIDO = 15;
 	
 	/*
 	 * Error status: Dia da Refeição.
 	 */
-	public static final int ID_DIA_REFEICAO_INVALIDO = 15;
-	public static final int ID_ALUNO_INVALIDO = 16;
-	public static final int ID_DIA_INVALIDO = 17;
-	public static final int ID_REFEICAO_INVALIDA = 18;
-	public static final int DIA_REFEICAO_DUPLICADO = 19;
-	public static final int DIA_REFEICAO_NAO_DEFINIDO = 20;
-	public static final int QUANTIDADE_BENEFICIARIOS_EXCEDENTE = 21;
+	public static final int ID_DIA_REFEICAO_INVALIDO = 16;
+	public static final int ID_ALUNO_INVALIDO = 17;
+	public static final int ID_DIA_INVALIDO = 18;
+	public static final int ID_REFEICAO_INVALIDA = 19;
+	public static final int DIA_REFEICAO_DUPLICADO = 20;
+	public static final int DIA_REFEICAO_NAO_DEFINIDO = 21;
+	public static final int QUANTIDADE_BENEFICIARIOS_EXCEDENTE = 22;
 	
 	/*
 	 * Confirmação da Refeição.
 	 */
-	public static final int CONFIRMACAO_REFEICAO_INVALIDA = 22;
+	public static final int CONFIRMACAO_REFEICAO_INVALIDA = 23;
 	
 	/*
 	 * Pretensão da Refeição
 	 */
-	public static final int PRETENSAO_REFEICAO_NAO_ENCONTRADA = 23;
-	public static final int PRETENSAO_REFEICAO_INVALIDA = 24;
-	public static final int CONFIRMACAO_PRETENSAO_INVALIDA = 25;
-	public static final int CHAVE_ACESSO_PRETENSAO_INVALIDA = 26;
+	public static final int PRETENSAO_REFEICAO_NAO_ENCONTRADA = 24;
+	public static final int PRETENSAO_REFEICAO_INVALIDA = 25;
+	public static final int CONFIRMACAO_PRETENSAO_INVALIDA = 26;
+	public static final int CHAVE_ACESSO_PRETENSAO_INVALIDA = 27;
 	
 	/*
 	 * Realização da Refeição
 	 */
-	public static final int REFEICAO_REALIZADA_NAO_ENCONTRADA = 27;
-	public static final int REFEICAO_JA_REALIZADA = 28;
+	public static final int REFEICAO_REALIZADA_NAO_ENCONTRADA = 28;
+	public static final int REFEICAO_JA_REALIZADA = 29;
 	
 	/*
 	 * Funcionário
 	 */
-	public static final int CODIGO_FUNCIONARIO_INSPETOR_INVALIDO = 29;
-	public static final int ID_FUNCIONARIO_INVALIDO = 30;
-	public static final int ID_RESPONSAVEL_INVALIDO = 31;
+	public static final int CODIGO_FUNCIONARIO_INSPETOR_INVALIDO = 30;
+	public static final int ID_FUNCIONARIO_INVALIDO = 31;
+	public static final int ID_RESPONSAVEL_INVALIDO = 32;
 	
 	/*
 	 * Pessoa
 	 */
-	public static final int CHAVE_AUTORIZACAO_PESSOA_INVALIDA = 32;
-	public static final int ID_PESSOA_INVALIDO = 33;
+	public static final int CHAVE_AUTORIZACAO_PESSOA_INVALIDA = 33;
+	public static final int ID_PESSOA_INVALIDO = 34;
 	
-	public static final int IMPOSSIVEL_CRIPTOGRAFAR_VALOR = 34;
+	public static final int IMPOSSIVEL_CRIPTOGRAFAR_VALOR = 35;
 	
 	/*
 	 * Arquivo
 	 */
-	public static final int TIPO_ARQUIVO_INVALIDO = 35;
-	public static final int NOME_ARQUIVO_INVALIDO = 36;
-	public static final int TAMANHO_ARQUIVO_INVALIDO = 37;
-	public static final int FORMULARIO_ARQUIVO_INVALIDO = 38;
-	public static final int ARQUIVO_PERFIL_INVALIDO = 39;
+	public static final int TIPO_ARQUIVO_INVALIDO = 36;
+	public static final int NOME_ARQUIVO_INVALIDO = 37;
+	public static final int TAMANHO_ARQUIVO_INVALIDO = 38;
+	public static final int FORMULARIO_ARQUIVO_INVALIDO = 39;
+	public static final int ARQUIVO_PERFIL_INVALIDO = 40;
 	
 	/*
 	 * Roles
 	 */
-	public static final int ROLES_INVALIDAS = 40;
-	public static final int NOME_ROLE_INVALIDO = 41;
-	public static final int DATA_INVALIDA = 42;
+	public static final int ROLES_INVALIDAS = 41;
+	public static final int NOME_ROLE_INVALIDO = 42;
+	public static final int DATA_INVALIDA = 43;
 	
 	/*
 	 * Campus
 	 */
-	public static final int ID_CAMPUS_INVALIDO = 43;
+	public static final int ID_CAMPUS_INVALIDO = 44;
 	
 	/*
 	 * Edital
 	 */
-	public static final int ID_EDITAL_INVALIDO = 44;
-	public static final int QTD_COMTEMPLADO_INVALIDO = 45;
-	public static final int INTERVALO_DATA_INVALIDO = 46;
+	public static final int ID_EDITAL_INVALIDO = 45;
+	public static final int QTD_COMTEMPLADO_INVALIDO = 46;
+	public static final int INTERVALO_DATA_INVALIDO = 47;
 	
 	/*
 	 * Evento
 	 */
-	public static final int ID_EVENTO_INVALIDO = 47;
-	public static final int NOME_EVENTO_INVALIDO = 48;
-	public static final int DESCRICAO_EVENTO_INVALIDO = 49;
+	public static final int ID_EVENTO_INVALIDO = 48;
+	public static final int NOME_EVENTO_INVALIDO = 49;
+	public static final int DESCRICAO_EVENTO_INVALIDO = 50;
 	
 	/*
 	 * Refeição
 	 */
-	public static final int PERIODO_REFEICAO_INVALIDO = 50;
-	public static final int TIPO_REFEICAO_INVALIDO = 51;
-	public static final int DIA_PREVISTO_PRETENSAO_INVALIDO = 52;
-	public static final int PERIODO_PREVISAO_PRETENSAO = 53;
+	public static final int PERIODO_REFEICAO_INVALIDO = 51;
+	public static final int TIPO_REFEICAO_INVALIDO = 52;
+	public static final int DIA_PREVISTO_PRETENSAO_INVALIDO = 53;
+	public static final int PERIODO_PREVISAO_PRETENSAO = 54;
 	
 	/*
 	 * Período, turma e turno.
 	 */
-	public static final int ID_PERIODO_INVALIDO = 54;
-	public static final int ID_TURMA_INVALIDO = 55;
-	public static final int ID_TURNO_INVALIDO = 56;
+	public static final int ID_PERIODO_INVALIDO = 55;
+	public static final int ID_TURMA_INVALIDO = 56;
+	public static final int ID_TURNO_INVALIDO = 57;
 	
-	public static final int DIA_REFEICAO_NAO_DEFINIDO_EDITAL = 57;
-	public static final int DIA_REFEICAO_NAO_DEFINIDO_ALUNO = 58;
+	public static final int DIA_REFEICAO_NAO_DEFINIDO_EDITAL = 58;
+	public static final int DIA_REFEICAO_NAO_DEFINIDO_ALUNO = 59;
 	
-	public static final int AUTORIZATION_INVALIDO = 59;
+	public static final int AUTORIZATION_INVALIDO = 60;
 	
-	public static final int ERRO_INTERNO_SERVICO = 60;
+	public static final int ERRO_INTERNO_SERVICO = 61;
 	
-	public static final int CPF_INVALIDO = 61;
+	public static final int CPF_INVALIDO = 62;
 	
-	public static final int CIDADE_INVALIDA = 62;
-	public static final int SIGLA_INVALIDA = 63;
+	public static final int CIDADE_INVALIDA = 63;
+	public static final int SIGLA_INVALIDA = 64;
+	
+	public static final int ID_SITUACAO_MATRICULA_INVALIDO = 65;
+	
+	public static final int DADOS_NAO_ECONTRADOS = 66;
 	
 	/*
 	 * Mapa de erros: código e mensagem.
@@ -210,10 +214,12 @@ public class ErrorFactory {
 		hashMap.put(ID_TURMA_INVALIDO, "Turma do Curso inválida.");
 		hashMap.put(ID_TURNO_INVALIDO, "Turno da Turma inválido.");
 		hashMap.put(AUTORIZATION_INVALIDO, "Autorização inválida.");
-		hashMap.put(ACESSO_USUARIO_NAO_PERMITIDO, "Acesso não permitido. Dados de e-mail e senha não conferem.");
+		hashMap.put(ACESSO_USUARIO_NAO_PERMITIDO, "Acesso não permitido. Dados de e-mail ou matrícula e senha não conferem.");
 		hashMap.put(CPF_INVALIDO, "Cpf inválido.");
 		hashMap.put(CIDADE_INVALIDA, "Cidade inválida.");
-		hashMap.put(SIGLA_INVALIDA, "Sigla inválida.");		
+		hashMap.put(SIGLA_INVALIDA, "Sigla inválida.");
+		hashMap.put(DADOS_NAO_ECONTRADOS, "Operação inválida. Dados não encontrados.");
+		
 		
 		return hashMap;
 	}

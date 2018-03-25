@@ -7,6 +7,12 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import br.edu.ifpb.nutrif.dao.AlunoDAO;
+import br.edu.ifpb.nutrif.dao.CursoDAO;
+import br.edu.ifpb.nutrif.dao.PeriodoDAO;
+import br.edu.ifpb.nutrif.dao.SituacaoMatriculaDAO;
+import br.edu.ifpb.nutrif.dao.TurmaDAO;
+import br.edu.ifpb.nutrif.dao.TurnoDAO;
 import br.edu.ifpb.nutrif.exception.ErrorFactory;
 import br.edu.ladoss.entity.Aluno;
 import br.edu.ladoss.entity.Campus;
@@ -19,6 +25,7 @@ import br.edu.ladoss.entity.Edital;
 import br.edu.ladoss.entity.Evento;
 import br.edu.ladoss.entity.Funcionario;
 import br.edu.ladoss.entity.Matricula;
+import br.edu.ladoss.entity.Periodo;
 import br.edu.ladoss.entity.PeriodoPretensaoRefeicao;
 import br.edu.ladoss.entity.PeriodoRefeicaoRealizada;
 import br.edu.ladoss.entity.PessoaAcesso;
@@ -27,7 +34,9 @@ import br.edu.ladoss.entity.Refeicao;
 import br.edu.ladoss.entity.RefeicaoRealizada;
 import br.edu.ladoss.entity.Role;
 import br.edu.ladoss.entity.Setor;
+import br.edu.ladoss.entity.SituacaoMatricula;
 import br.edu.ladoss.entity.Turma;
+import br.edu.ladoss.entity.Turno;
 import br.edu.ladoss.enumeration.TipoArquivo;
 import br.edu.ladoss.form.FileUploadForm;
 
@@ -525,12 +534,12 @@ public class Validate {
 		String matricula = pessoaAcesso.getMatricula();
 		String email = pessoaAcesso.getEmail();
 		
-		if (!emailValidator.validate(email))
-			return ErrorFactory.EMAIL_USUARIO_INVALIDO;
-		
-		if(emailValidator.validate(email) &&
-				matricula(matricula) != VALIDATE_OK) {
-			return ErrorFactory.MATRICULA_ALUNO_INVALIDA;
+		if (!emailValidator.validate(email)) {
+			if (matricula(matricula) != VALIDATE_OK) {
+				return ErrorFactory.MATRICULA_ALUNO_INVALIDA;
+			} else {
+				return ErrorFactory.EMAIL_USUARIO_INVALIDO;
+			}
 		}
 
 		if (!stringValidator.validate(pessoaAcesso.getSenha(), 5, 40))
@@ -707,6 +716,48 @@ public class Validate {
 		return VALIDATE_OK;
 	}
 
+	public static int matricula(Matricula matricula) {
+		
+		String numero = matricula.getNumero();
+		
+		if (matricula(numero) != VALIDATE_OK) {
+			
+			return ErrorFactory.MATRICULA_ALUNO_INVALIDA;
+		}
+		
+		// Aluno
+		Aluno aluno = matricula.getAluno();
+		if (aluno == null) {
+			return ErrorFactory.ID_ALUNO_INVALIDO;
+		}
+		
+		// Curso
+		Curso curso = matricula.getCurso();
+		if (curso == null) {
+			return ErrorFactory.ID_CURSO_INVALIDO;
+		}
+		
+		// Turno
+		Turno turno = matricula.getTurno();
+		if (turno == null) {
+			return ErrorFactory.ID_TURNO_INVALIDO;
+		}
+		
+		// Periodo
+		Periodo periodo = matricula.getPeriodo();
+		if (periodo == null) {
+			return ErrorFactory.ID_PERIODO_INVALIDO;
+		}
+		
+		// Turma
+		Turma turma = matricula.getTurma();
+		if (turma == null) {
+			return ErrorFactory.ID_TURMA_INVALIDO;
+		}	
+		
+		return VALIDATE_OK;
+	}
+	
 	public static int matricula(String matricula) {
 		
 		if (!numeroValidator.validate(matricula)

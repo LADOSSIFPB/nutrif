@@ -16,6 +16,7 @@ import br.edu.ifpb.nutrif.controller.DiaRefeicaoController;
 import br.edu.ifpb.nutrif.controller.EditalController;
 import br.edu.ifpb.nutrif.controller.EventoController;
 import br.edu.ifpb.nutrif.controller.FuncionarioController;
+import br.edu.ifpb.nutrif.controller.MatriculaController;
 import br.edu.ifpb.nutrif.controller.PeriodoController;
 import br.edu.ifpb.nutrif.controller.PessoaController;
 import br.edu.ifpb.nutrif.controller.PretensaoRefeicaoController;
@@ -51,6 +52,7 @@ public class NutrIFApplication extends Application {
 		this.singletons.add(new EventoController());
 		this.singletons.add(new DiaRefeicaoController());
 		this.singletons.add(new CursoController());
+		this.singletons.add(new MatriculaController());
 		this.singletons.add(new RefeicaoController());
 		this.singletons.add(new DiaController());
 		this.singletons.add(new RoleController());

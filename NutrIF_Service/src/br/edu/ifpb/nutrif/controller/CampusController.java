@@ -27,7 +27,8 @@ import br.edu.ladoss.enumeration.TipoRole;
 @Path("campus")
 public class CampusController {
 
-	@RolesAllowed({TipoRole.ADMIN})
+	//TODO: @RolesAllowed({TipoRole.ADMIN})
+	@PermitAll
 	@POST
 	@Consumes("application/json")
 	@Produces("application/json")
@@ -42,6 +43,10 @@ public class CampusController {
 		if (validacao == Validate.VALIDATE_OK) {
 			
 			try {			
+				
+				// Sigla
+				String sigla = campus.getSigla();
+				campus.setSigla(sigla.toUpperCase());
 				
 				//Inserir o Campus.
 				Integer idCampus = CampusDAO.getInstance().insert(campus);
@@ -102,6 +107,39 @@ public class CampusController {
 			erro.setMensagem(qme.getMessage());
 
 			builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(erro);
+		}
+
+		return builder.build();
+	}
+	
+	/**
+	 * Listar Campi pesquisando pela Cidade.
+	 * 
+	 * @param nome
+	 * @return
+	 */
+	@PermitAll
+	@GET
+	@Path("/cidade/{cidade}")
+	@Produces("application/json")
+	public Response listByCidade(@PathParam("cidade") String cidade) {
+
+		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
+		builder.expires(new Date());
+
+		List<Campus> campi = new ArrayList<Campus>();
+
+		try {
+
+			campi = CampusDAO.getInstance().listByCidade(cidade);
+
+			builder.status(Response.Status.OK);
+			builder.entity(campi);
+
+		} catch (SQLExceptionNutrIF exception) {
+
+			builder.status(Response.Status.INTERNAL_SERVER_ERROR)
+				.entity(exception.getError());
 		}
 
 		return builder.build();

@@ -4,6 +4,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 import org.apache.logging.log4j.LogManager;
@@ -13,6 +14,7 @@ import org.hibernate.Session;
 
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
 import br.edu.ifpb.nutrif.hibernate.HibernateUtil;
+import br.edu.ifpb.nutrif.hibernate.QueryUtil;
 import br.edu.ifpb.nutrif.util.BancoUtil;
 import br.edu.ifpb.nutrif.util.StringUtil;
 import br.edu.ladoss.entity.Aluno;
@@ -94,7 +96,8 @@ public class AlunoDAO extends GenericDao<Integer, Aluno> {
 			query.setParameter("matricula", matricula);
 			query.setParameter("senha", senhaCriptografada);
 			
-			pessoa = (Pessoa) query.getSingleResult();
+			QueryUtil<Pessoa> queryUtil = new QueryUtil<Pessoa>();
+			pessoa = queryUtil.getUniqueResult(query);
 	        
 		} catch (HibernateException hibernateException) {
 			
@@ -134,7 +137,8 @@ public class AlunoDAO extends GenericDao<Integer, Aluno> {
 			Query query = session.createQuery(hql);
 			query.setParameter("matricula", matricula);
 			
-			aluno = (Aluno) query.getSingleResult();
+			QueryUtil<Aluno> queryUtil = new QueryUtil<Aluno>();
+			aluno = queryUtil.getUniqueResult(query);
 	        
 		} catch (HibernateException hibernateException) {
 			

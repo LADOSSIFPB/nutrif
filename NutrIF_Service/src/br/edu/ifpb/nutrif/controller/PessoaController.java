@@ -67,14 +67,13 @@ public class PessoaController {
 			
 			try {
 				
-				//Login universal.
+				//Login universal: email e senha.
 				Pessoa pessoa = PessoaDAO.getInstance().login(
 						pessoaAcesso.getEmail(), 
 						pessoaAcesso.getSenha());
 				
 				if (pessoa == null) {
 					//TODO: Consultar por siape e senha do funcionário.
-
 				}
 				
 				if (pessoa == null) {

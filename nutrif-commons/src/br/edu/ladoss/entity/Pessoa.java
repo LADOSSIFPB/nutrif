@@ -86,7 +86,7 @@ public class Pessoa implements Serializable {
 	private Date dataInsercao;
 	
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "dt_modificacao", nullable = false,
+	@Column(name = "dt_modificacao", nullable = true,
 		    columnDefinition="TIMESTAMP default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP")
 	private Date dataModificacao;
 	

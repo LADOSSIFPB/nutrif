@@ -50,6 +50,7 @@
 		<mapping class="br.edu.ladoss.entity.Refeicao" />
 		<mapping class="br.edu.ladoss.entity.DiaRefeicao" />
 		<mapping class="br.edu.ladoss.entity.Campus" />
+		<mapping class="br.edu.ladoss.entity.CampusRefeicao" />		
 		<mapping class="br.edu.ladoss.entity.Edital" />
 		<mapping class="br.edu.ladoss.entity.Evento" />
 		<mapping class="br.edu.ladoss.entity.RefeicaoRealizada" />

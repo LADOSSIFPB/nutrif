@@ -48,14 +48,17 @@ public class AlunoController {
 	 * @param aluno
 	 * @return
 	 */
-	@RolesAllowed({ TipoRole.ADMIN })
+	//TODO: @RolesAllowed({ TipoRole.ADMIN })
+	@PermitAll
 	@POST
 	@Consumes("application/json")
 	@Produces("application/json")
 	public Response insert(Aluno aluno) {
 
+		// Data e hora atual.
+		Date agora = new Date();
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
-		builder.expires(new Date());
+		builder.expires(agora);
 
 		// Validação dos dados de entrada.
 		int validacao = Validate.inserirAluno(aluno);
@@ -82,6 +85,9 @@ public class AlunoController {
 				// Inativar o Aluno.
 				aluno.setAtivo(BancoUtil.INATIVO);
 
+				// Data Inserção
+				aluno.setDataInsercao(agora);
+				
 				// Inserir o Aluno.
 				Integer idAluno = AlunoDAO.getInstance().insert(aluno);
 
@@ -239,7 +245,7 @@ public class AlunoController {
 	@GET
 	@Path("/matricula/{matricula}")
 	@Produces("application/json")
-	public Response getAlunoByMatricula(@PathParam("matricula") String matricula) {
+	public Response getByMatricula(@PathParam("matricula") String matricula) {
 
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
 		builder.expires(new Date());

@@ -1,5 +1,4 @@
 package br.edu.ladoss.entity;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -27,6 +26,8 @@ public class SituacaoMatricula {
 	@Column(name = "nm_descricao")
 	private String descricao;
 
+	public static int ID_MATRICULADO = 1;
+	
 	@XmlElement
 	public Integer getId() {
 		return id;
