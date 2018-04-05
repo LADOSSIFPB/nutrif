@@ -60,7 +60,32 @@ public class Validate {
 	
 	public static int inserirAluno(Aluno aluno) {
 		
-		logger.info("Validação para Aluno.");
+		logger.info("Validação para inserção do Aluno.");
+		
+		// Nome
+		if (!stringValidator.validateSomenteLetras(aluno.getNome()))
+			return ErrorFactory.NOME_ALUNO_INVALIDO;
+		
+		// Cpf
+		if (!cpfValidator.validate(aluno.getCpf()))
+			return ErrorFactory.CPF_INVALIDO;
+		
+		// E-mail
+		if (!emailValidator.validate(aluno.getEmail()))
+			return ErrorFactory.EMAIL_USUARIO_INVALIDO;
+		
+		Campus campus = aluno.getCampus();
+		if (campus == null 
+				|| (campus != null && !numeroValidator.isMaiorZero(campus.getId()))) {
+			return ErrorFactory.ID_CAMPUS_INVALIDO;
+		}	
+		
+		return VALIDATE_OK;
+	}
+	
+	public static int atualizarAluno(Aluno aluno) {
+		
+		logger.info("Validação para atualização do Aluno.");
 		
 		// Nome
 		if (!stringValidator.validateSomenteLetras(aluno.getNome()))
@@ -371,10 +396,9 @@ public class Validate {
 		Matricula matricula = diaRefeicao.getMatricula();
 		if (matricula == null || 
 				(matricula != null 
-					&& (!numeroValidator.isMaiorZero(matricula.getId())) 
-						|| matricula(matricula.getNumero()) != VALIDATE_OK)) {
+					&& !numeroValidator.isMaiorZero(matricula.getId()))) {
 			return ErrorFactory.MATRICULA_ALUNO_INVALIDA;
-		}	
+		}
 		
 		Edital edital = diaRefeicao.getEdital();
 		if (edital == null || 
@@ -716,12 +740,11 @@ public class Validate {
 		return VALIDATE_OK;
 	}
 
-	public static int matricula(Matricula matricula) {
+	public static int inserirMatricula(Matricula matricula) {
 		
 		String numero = matricula.getNumero();
 		
-		if (matricula(numero) != VALIDATE_OK) {
-			
+		if (matricula(numero) != VALIDATE_OK) {			
 			return ErrorFactory.MATRICULA_ALUNO_INVALIDA;
 		}
 		
@@ -754,6 +777,31 @@ public class Validate {
 		if (turma == null) {
 			return ErrorFactory.ID_TURMA_INVALIDO;
 		}	
+		
+		return VALIDATE_OK;
+	}
+	
+	public static int atualizarMatricula(Matricula matricula) {
+		
+		int codigo = inserirMatricula(matricula);
+		
+		if (codigo != VALIDATE_OK) {
+			return codigo;
+		}
+		
+		SituacaoMatricula situacao = matricula.getSituacao();
+		if (situacao == null) {
+			return ErrorFactory.ID_SITUACAO_MATRICULA_INVALIDO;
+		}
+		
+		return VALIDATE_OK;
+	}
+	
+	public static int removerMatricula(Integer idMatricula) {
+		
+		if (!numeroValidator.isInteiroPositivo(idMatricula)) {
+			return ErrorFactory.ID_MATRICULA_INVALIDO;
+		}
 		
 		return VALIDATE_OK;
 	}

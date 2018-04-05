@@ -498,7 +498,7 @@ public class RefeicaoRealizadaController {
 				
 					// Recuperar todos os dias de refeição ativos
 					List<DiaRefeicao> diasRefeicao = DiaRefeicaoDAO.getInstance()
-							.getAllVigentesByAlunoMatricula(matricula);
+							.getVigentesByMatricula(matricula);
 					
 					for (DiaRefeicao diaRefeicao: diasRefeicao) {
 						// Calcular intervalo.

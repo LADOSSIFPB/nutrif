@@ -144,8 +144,9 @@ public class ErrorFactory {
 	public static final int SIGLA_INVALIDA = 64;
 	
 	public static final int ID_SITUACAO_MATRICULA_INVALIDO = 65;
+	public static final int ID_MATRICULA_INVALIDO = 66;
 	
-	public static final int DADOS_NAO_ECONTRADOS = 66;
+	public static final int DADOS_NAO_ECONTRADOS = 67;
 	
 	/*
 	 * Mapa de erros: código e mensagem.
@@ -219,7 +220,7 @@ public class ErrorFactory {
 		hashMap.put(CIDADE_INVALIDA, "Cidade inválida.");
 		hashMap.put(SIGLA_INVALIDA, "Sigla inválida.");
 		hashMap.put(DADOS_NAO_ECONTRADOS, "Operação inválida. Dados não encontrados.");
-		
+		hashMap.put(ID_MATRICULA_INVALIDO, "Identificador de matrícula inválido.");	
 		
 		return hashMap;
 	}

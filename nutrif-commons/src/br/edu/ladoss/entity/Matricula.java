@@ -52,6 +52,10 @@ public class Matricula {
 	@JoinColumn(name = "fk_id_situacao_matricula")
 	private SituacaoMatricula situacao;
 	
+	@Column(name = "is_ativo", columnDefinition = "boolean default true", 
+			nullable = false, insertable = true, updatable = true)
+	private boolean ativo;
+	
 	@XmlElement
 	public Integer getId() {
 		return id;
@@ -122,6 +126,14 @@ public class Matricula {
 
 	public void setSituacao(SituacaoMatricula situacao) {
 		this.situacao = situacao;
+	}
+	
+	public boolean isAtivo() {
+		return ativo;
+	}
+
+	public void setAtivo(boolean ativo) {
+		this.ativo = ativo;
 	}
 	
 	@Override

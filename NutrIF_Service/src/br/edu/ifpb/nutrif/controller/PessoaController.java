@@ -57,7 +57,7 @@ public class PessoaController {
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
 		builder.expires(new Date());
 		
-		logger.info("Login usuário: " + pessoaAcesso.getNome());
+		logger.info("Login usuário: " + pessoaAcesso.getEmail());
 		logger.info("Host: " + request.getRemoteAddr());
 		
 		// Validação dos dados de entrada.

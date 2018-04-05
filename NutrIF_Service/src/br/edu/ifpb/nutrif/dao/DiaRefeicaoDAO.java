@@ -168,7 +168,7 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 		return diasRefeicao;		
 	}
 	
-	public List<DiaRefeicao> getAllVigentesByAlunoMatricula(String matricula) {
+	public List<DiaRefeicao> getVigentesByMatricula(String numero) {
 		
 		Session session = HibernateUtil.getSessionFactory().openSession();
 
@@ -177,15 +177,15 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 		try {
 			
 			String hql = "from DiaRefeicao as dr"
-					+ " where dr.matricula.numero = :matricula"
+					+ " where dr.matricula.numero = :numero"
 					+ " and dr.ativo = :ativo"
 					+ " and CURRENT_TIMESTAMP() <= dr.edital.dataFinal"
 					+ " and dr.edital.ativo = :ativo"
 					+ " order by dr.dia.id asc";			
 			
-			Query query = session.createQuery(hql);	
+			Query query = session.createQuery(hql, DiaRefeicao.class);	
 			
-			query.setParameter("matricula", matricula.trim());
+			query.setParameter("numero", numero.trim());
 			query.setParameter("ativo", BancoUtil.ATIVO);
 			
 			diasRefeicao = (List<DiaRefeicao>) query.getResultList();
@@ -296,7 +296,7 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 		
 		try {
 			
-			String hql = "select count(distinct dr.aluno.id)"
+			String hql = "select count(distinct dr.matricula.id)"
 					+ " from DiaRefeicao as dr"
 					+ " where dr.edital.id = :idEdital"
 					+ " and dr.edital.ativo = :ativo"

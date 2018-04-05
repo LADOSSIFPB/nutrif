@@ -6,8 +6,10 @@ import java.util.List;
 
 import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -37,7 +39,6 @@ public class EditalController {
 
 	@RolesAllowed({TipoRole.ADMIN})
 	@POST
-	@Path("/inserir")
 	@Consumes("application/json")
 	@Produces("application/json")
 	public Response insert(Edital edital) {
@@ -126,8 +127,8 @@ public class EditalController {
 	}
 	
 	@RolesAllowed({TipoRole.ADMIN})
-	@GET
-	@Path("/remover/id/{id}")
+	@DELETE
+	@Path("/id/{id}")
 	@Produces("application/json")
 	public Response remover(@PathParam("id") int idEdital) {
 		
@@ -188,7 +189,6 @@ public class EditalController {
 	
 	@RolesAllowed({TipoRole.ADMIN})
 	@GET
-	@Path("/listar")
 	@Produces("application/json")
 	public List<Edital> getAll() {
 		
@@ -201,7 +201,7 @@ public class EditalController {
 	
 	@RolesAllowed({TipoRole.ADMIN})
 	@GET
-	@Path("/listar/vigentes")
+	@Path("/vigentes")
 	@Produces("application/json")
 	public List<Edital> getVigentes() {
 		
@@ -214,7 +214,7 @@ public class EditalController {
 	
 	@RolesAllowed({TipoRole.ADMIN})
 	@GET
-	@Path("/listar/vigentes/nome/{nome}")
+	@Path("/vigentes/nome/{nome}")
 	@Produces("application/json")
 	public List<Edital> getVigentesByNome(@PathParam("nome") String nome) {
 		
@@ -261,7 +261,7 @@ public class EditalController {
 	
 	@RolesAllowed({TipoRole.ADMIN})
 	@GET
-	@Path("/listar/nome/{nome}")
+	@Path("/nome/{nome}")
 	@Produces("application/json")
 	public Response getByNome(@PathParam("nome") String nome) {
 		
@@ -304,8 +304,7 @@ public class EditalController {
 	 * @return
 	 */
 	@RolesAllowed({TipoRole.ADMIN})
-	@POST
-	@Path("/atualizar")
+	@PUT
 	@Consumes("application/json")
 	@Produces("application/json")
 	public Response update(Edital edital) {

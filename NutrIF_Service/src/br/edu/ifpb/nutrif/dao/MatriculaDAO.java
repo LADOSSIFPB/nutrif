@@ -12,6 +12,7 @@ import org.hibernate.Session;
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
 import br.edu.ifpb.nutrif.hibernate.HibernateUtil;
 import br.edu.ifpb.nutrif.hibernate.QueryUtil;
+import br.edu.ifpb.nutrif.util.BancoUtil;
 import br.edu.ladoss.entity.Aluno;
 import br.edu.ladoss.entity.Matricula;
 
@@ -33,7 +34,7 @@ public class MatriculaDAO extends GenericDao<Integer, Matricula> {
 
 	@Override
 	public Class<?> getEntityClass() {		
-		return Aluno.class;
+		return Matricula.class;
 	}
 
 	@Override
@@ -92,6 +93,38 @@ public class MatriculaDAO extends GenericDao<Integer, Matricula> {
 			
 			Query query = session.createQuery(hql, Matricula.class);
 			query.setParameter("idAluno", id);
+			
+			matriculas = (List<Matricula>) query.getResultList();
+	        
+		} catch (HibernateException hibernateException) {
+			
+			session.getTransaction().rollback();
+			
+			throw new SQLExceptionNutrIF(hibernateException);
+			
+		} finally {
+		
+			session.close();
+		}
+		
+		return matriculas;
+	}
+	
+	public List<Matricula> getVigentesByAlunoId(Integer id) {
+		
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		
+		List<Matricula> matriculas = null;
+		
+		try {
+			
+			String hql = "from Matricula as m"
+					+ " where m.aluno.id = :idAluno"
+					+ " and m.ativo = :ativo";
+			
+			Query query = session.createQuery(hql, Matricula.class);
+			query.setParameter("idAluno", id);
+			query.setParameter("ativo", BancoUtil.ATIVO);
 			
 			matriculas = (List<Matricula>) query.getResultList();
 	        

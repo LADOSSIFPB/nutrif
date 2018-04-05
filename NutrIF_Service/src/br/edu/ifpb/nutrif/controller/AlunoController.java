@@ -48,7 +48,7 @@ public class AlunoController {
 	 * @param aluno
 	 * @return
 	 */
-	//TODO: @RolesAllowed({ TipoRole.ADMIN })
+	@RolesAllowed({ TipoRole.ADMIN })
 	@PermitAll
 	@POST
 	@Consumes("application/json")
@@ -119,48 +119,58 @@ public class AlunoController {
 	 * Atualizar dados básicos do Aluno: nome, matrícula, campus, curso, período,
 	 * turma e turno.
 	 * 
-	 * @param aluno
+	 * @param alunoAtualizado
 	 * @return
 	 */
 	@RolesAllowed({ TipoRole.ADMIN })
 	@PUT
 	@Consumes("application/json")
 	@Produces("application/json")
-	public Response update(Aluno aluno) {
+	public Response update(Aluno alunoAtualizado) {
 
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
 		builder.expires(new Date());
 
 		// Validação dos dados de entrada.
-		int validacao = Validate.inserirAluno(aluno);
+		int validacao = Validate.atualizarAluno(alunoAtualizado);
 
 		if (validacao == Validate.VALIDATE_OK) {
 
 			try {
-
-				// Nome do aluno somente com a primeira letra de cada palavra em maiúsculo.
-				String nome = aluno.getNome();
-				aluno.setNome(StringUtil.upperCaseFirstChar(nome));
+				
+				// Dados atualizados do Aluno
+				String cpf = alunoAtualizado.getCpf();
+				String nome = StringUtil.upperCaseFirstChar(
+						alunoAtualizado.getNome());
+				String email = alunoAtualizado.getEmail();
+				Campus campus = CampusDAO.getInstance().getById(
+						alunoAtualizado.getCampus().getId());				
+				
+				// Atualizar dados do Aluno
+				Aluno alunoDesatualizado = AlunoDAO.getInstance().getById(
+						alunoAtualizado.getId());				
+				alunoDesatualizado.setCpf(cpf);
+				alunoDesatualizado.setNome(nome);
+				alunoDesatualizado.setEmail(email);
+				
+				if (campus != null) {
+					alunoDesatualizado.setCampus(campus);
+				}				
 
 				// Role de acesso.
 				Role role = RoleDAO.getInstance().getById(Role.Tipo.COMENSAL.getId());
 				List<Role> roles = new ArrayList<Role>();
 				roles.add(role);
-				aluno.setRoles(roles);
+				alunoAtualizado.setRoles(roles);
 				
-				// Campus
-				int idCampus = aluno.getCampus().getId();
-				Campus campus = CampusDAO.getInstance().getById(idCampus);
-				aluno.setCampus(campus);
-
 				// Atualizar o Aluno.
-				aluno = AlunoDAO.getInstance().update(aluno);
+				alunoAtualizado = AlunoDAO.getInstance().update(alunoDesatualizado);
 
-				if (aluno != null) {
+				if (alunoAtualizado != null) {
 
 					// Operação realizada com sucesso.
 					builder.status(Response.Status.OK);
-					builder.entity(aluno);
+					builder.entity(alunoAtualizado);
 				}
 
 			} catch (SQLExceptionNutrIF exception) {
@@ -240,8 +250,7 @@ public class AlunoController {
 	 * @param matricula
 	 * @return
 	 */
-	//TODO: @RolesAllowed({TipoRole.ADMIN})
-	@PermitAll
+	@RolesAllowed({TipoRole.ADMIN})
 	@GET
 	@Path("/matricula/{matricula}")
 	@Produces("application/json")
@@ -282,7 +291,7 @@ public class AlunoController {
 	 * @param nome
 	 * @return
 	 */
-	@PermitAll
+	@RolesAllowed({TipoRole.ADMIN})
 	@GET
 	@Path("/nome/{nome}")
 	@Produces("application/json")

@@ -23,6 +23,7 @@ public class PessoaAcesso extends Pessoa {
 		pessoaAcesso.setTipo(pessoa.getTipo());
 		pessoaAcesso.setEmail(pessoa.getEmail());
 		pessoaAcesso.setRoles(pessoa.getRoles());
+		pessoaAcesso.setCampus(pessoa.getCampus());
 		pessoaAcesso.setAtivo(pessoa.isAtivo());
 		
 		return pessoaAcesso;
