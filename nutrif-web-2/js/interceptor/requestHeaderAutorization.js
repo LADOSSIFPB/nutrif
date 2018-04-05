@@ -10,9 +10,9 @@ nutrIFApp.config(['$httpProvider', function ($httpProvider) {
                 var user = userService.getUser();
 
                 if (user) {
-                    config.headers.Authorization = 'Basic ' + user;
+                    config.headers.Authorization = user.keyAuth;
                 } else {
-                    config.headers.authorization = '';
+                    config.headers.Authorization = '';
                 }
                 
                 return config;

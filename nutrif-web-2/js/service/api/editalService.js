@@ -1,45 +1,45 @@
 /*
  *  Mapeamento dos serviço de Edital.
  */
-nutrIFApp.factory("editalService", function($http, config){
+nutrIFApp.factory("editalService", function($http, serviceCfg){
 
-	var _path = config.baseUrl() + "/edital";
+    var _path = serviceCfg.baseUrl() + "/edital";
 
-	var _cadastrarEdital = function (edital){
-		return $http.post(_path + "/inserir", edital)
+	var _cadastrar = function (edital){
+		return $http.post(_path, edital)
 	};
 
-	var _listarEdital = function (){
-		return $http.get(_path + "/listar/")
+	var _listar = function (){
+		return $http.get(_path)
 	};
 
-	var _listarEditalVigentes = function (){
-		return $http.get(_path + "/listar/vigentes")
-	};
-	
-	var _buscarEditalPorNome = function (nome){
-		return $http.get(_path + "/listar/nome/" + encodeURI(nome))
+	var _listarVigentes = function (){
+		return $http.get(_path + "/vigentes")
 	};
 	
-	var _getEditalById = function (id){
+	var _buscarPorNome = function (nome){
+		return $http.get(_path + "/nome/" + encodeURI(nome))
+	};
+	
+	var _getById = function (id){
 		return $http.get(_path + "/id/" + encodeURI(id))
 	};
 	
-	var _atualizarEdital = function (edital){
-		return $http.post(_path + "/atualizar", edital)
+	var _atualizar = function (edital){
+		return $http.put(_path, edital)
 	};
 	
-	var _removerEdital = function (id){
-		return $http.get(_path + "/remover/id/"+ id)
+	var _remover = function (id){
+		return $http.delete(_path + "/id/" + id)
 	};
 
 	return {
-		cadastrarEdital: _cadastrarEdital,
-		listarEditalVigentes: _listarEditalVigentes,
-		listarEdital: _listarEdital,
-		buscarEditalPorNome: _buscarEditalPorNome,
-		getEditalById: _getEditalById,
-		atualizarEdital: _atualizarEdital,
-		removerEdital: _removerEdital
+		cadastrar: _cadastrar,
+        listar: _listar,
+        listarVigentes: _listarVigentes,
+        buscarPorNome: _buscarPorNome,
+        getById: _getById,
+        atualizar: _atualizar,
+        remover: _remover
 	};
 });

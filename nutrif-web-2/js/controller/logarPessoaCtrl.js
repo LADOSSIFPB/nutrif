@@ -6,10 +6,7 @@ nutrIFApp.controller('logarPessoaCtrl', function ($stateParams, $scope, $state, 
     $scope.pessoa = {};
     
     $scope.login = function () {
-
-        // Redirecionamento temporário: Trecho abaixo deverá ser ativado.
-        // Identificação do campus do usuário logado.
-        // $state.transitionTo("administrador.home", {id: 1});
+        
         let pessoa = $scope.pessoa;
         
         pessoaService.login(pessoa)
@@ -17,12 +14,20 @@ nutrIFApp.controller('logarPessoaCtrl', function ($stateParams, $scope, $state, 
                 
                 // Cookie do usuário.
                 let usuarioLogin = response.data;
-                let authdata = btoa(usuarioLogin.token + ':unused');
-                    
-                userService.setUser(authdata);
+            
+                let usuario = {};
+                usuario.id = usuarioLogin.id;
+                usuario.keyAuth = usuarioLogin.keyAuth;
+            
+                // Identificação do campus do usuário logado.
+                let campus = {};
+                campus.id = usuarioLogin.campus.id;
+                usuario.campus = campus;
+            
+                userService.setUser(usuario);
 
                 // Redirecionamento com identificador do Campus
-                $state.transitionTo("administrador.home", {idCampus: 1});
+                $state.transitionTo("administrador.home", {idCampus: campus.id});
             })
             .catch(function (error) {
                 toastUtil.showErrorToast(error);

@@ -1,0 +1,73 @@
+<md-content flex layout-padding>
+    <md-card flex layout-padding>
+
+        <md-card-header>
+            <md-card-avatar>
+                <ng-md-icon icon="assignment_turned_in" size="42"></ng-md-icon>
+            </md-card-avatar>
+
+            <md-card-header-text>
+                <span class="md-title">Adicionar Dia de Refeição</span>
+                <span class="md-subhead">Clique no botão Salvar para alterar as informações básicas do Dia de Refeição.</span>
+            </md-card-header-text>
+
+            <!-- Salvar alterações -->
+            <md-card-icon-actions>
+                <md-button aria-label="Salvar Alterações dos dados básicos do Campus." ng-click="adicionar()">
+                    <md-tooltip md-direction="bottom">Salvar Dia de Refeição</md-tooltip>
+                    <ng-md-icon icon="save" size="42"></ng-md-icon>
+                </md-button>
+            </md-card-icon-actions>
+        </md-card-header>
+
+        <md-card-content layout="column">
+            <form layout="column">
+                
+                <!-- Nome -->
+                <md-input-container class="md-icon-float md-block">
+                    <label>Nome</label>
+                    <input ng-model="diaRefeicao.matricula.aluno.nome" ng-readonly="true" type="text" required>
+                </md-input-container>
+                
+                <!-- Número Matrícula -->                
+                <md-input-container class="md-icon-float md-block">
+                    <label>Matrícula</label>
+                    <input ng-model="diaRefeicao.matricula.numero" ng-readonly="true" type="text" required>
+                </md-input-container>
+                
+                <!-- Edital -->
+                <md-input-container class="md-icon-float md-block">
+                    <label>Edital</label>
+                    <md-select ng-model="diaRefeicao.edital.id" aria-label="Selecione o Edital">
+                        <md-option ng-repeat="edital in editais" value="{{edital.id}}">
+                            {{edital.nome + " - " + edital.resposavel.nome}} {{" - "}}
+                            
+                            {{edital.dataInicial | date:'dd/MM/yyyy'}}{{" até "}}{{edital.dataFinal | date:'dd/MM/yyyy'}}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+                
+                <!-- Refeição -->
+                <md-input-container class="md-icon-float md-block">
+                    <label>Refeição</label>
+                    <md-select ng-model="diaRefeicao.refeicao.id" aria-label="Selecione a Refeição">
+                        <md-option ng-repeat="refeicao in refeicoes" value="{{refeicao.id}}">
+                            {{refeicao.tipo}} {{" - "}} {{refeicao.campus.cidade}} 
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+                
+                <!-- Dia -->
+                <fieldset>
+                    <legend>Dias</legend>
+                    <div class="demo-select-all-checkboxes" ng-repeat="dia in dias" >
+                        <md-checkbox ng-required="true" aria-label="dia.nome" value="{{dia.id}}" ng-checked="exists(dia, selectedDias)" ng-click="toggle(dia, selectedDias)">
+                            {{ dia.nome }}
+                        </md-checkbox>
+                    </div>
+                </fieldset>
+                
+            </form>
+        </md-card-content>
+    </md-card>
+</md-content>

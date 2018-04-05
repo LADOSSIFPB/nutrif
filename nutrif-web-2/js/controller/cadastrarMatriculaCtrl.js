@@ -1,33 +1,57 @@
 /*
  *  Controlar inserção do Aluno.
  */
-nutrIFApp.controller('cadastrarMatriculaCtrl', function ($scope, $stateParams, $state, alunoService, cursoService, turnoService, periodoService, turmaService, toastUtil, stringUtil) {
+nutrIFApp.controller('cadastrarMatriculaCtrl', function ($scope, $stateParams, $state, matriculaService, alunoService, cursoService, turnoService, periodoService, turmaService, toastUtil, stringUtil) {
 
-    $scope.aluno = {};
+    $scope.matricula = {};
 
     $scope.cursos = [];
     $scope.turnos = [];
     $scope.periodos = [];
     $scope.turmas = [];
 
-    $scope.campi = [];
+    $scope.selected = [];
 
     $scope.adicionar = function () {
-
-        var cpf = CPF.strip($scope.aluno.cpf);
-        $scope.aluno.cpf = cpf;
-
-        alunoService.cadastrar($scope.aluno)
+        
+        let aluno = {};
+        aluno.id = $scope.matricula.aluno.id;
+        
+        let curso = {};
+        curso.id = $scope.matricula.curso.id;
+        
+        let turno = {};
+        turno.id = $scope.matricula.turno.id;
+        
+        let periodo = {};
+        periodo.id = $scope.matricula.periodo.id;
+        
+        let turma = {};
+        turma.id = $scope.matricula.turma.id;
+        
+        let matricula = {};
+        matricula.numero = $scope.matricula.numero;
+        matricula.aluno = aluno;
+        matricula.curso = curso;
+        matricula.turno = turno;
+        matricula.periodo = periodo;
+        matricula.turma = turma;
+        
+        matriculaService.cadastrar(matricula)
             .then(function (response) {
-                $state.transitionTo('administrador.editar-aluno', {
-                    id: response.data.id
+                
+                let matriculaResponse = response.data;
+            
+                $state.transitionTo('administrador.aditar-matricula', {
+                    id: matriculaResponse.id
                 }, {
                     reload: true,
                     inherit: false,
                     notify: true
                 });
+            
                 // Mensagem
-                toastUtil.showSuccessToast('Aluno(a) cadastrado(a) com sucesso. Inclua o Aluno(a) em um curso e informe sua matrícula.');
+                toastUtil.showSuccessToast('Matrícula cadastrada com sucesso. Inclua o(s) Dia(s) de Refeição.');
             })
             .catch(function (error) {
                 toastUtil.showErrorToast(error);
@@ -48,7 +72,7 @@ nutrIFApp.controller('cadastrarMatriculaCtrl', function ($scope, $stateParams, $
             alunoService.buscarPorId(_id)
                 .then(function (response) {
                     // Aluno 
-                    $scope.aluno = response.data;
+                    $scope.matricula.aluno = response.data;
                 })
                 .catch(function (error) {
                     toastUtil.showErrorToast(error);
@@ -90,8 +114,6 @@ nutrIFApp.controller('cadastrarMatriculaCtrl', function ($scope, $stateParams, $
                     toastUtil.showErrorToast(error);
                 });
         }
-
-
     }
 
     // Inicializar listagem de cursos e campi.

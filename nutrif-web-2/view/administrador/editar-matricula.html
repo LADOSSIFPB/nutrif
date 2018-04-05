@@ -1,5 +1,5 @@
 <md-content flex layout-padding>
-    <md-card flex layout-padding>
+    <md-card>
 
         <md-card-header>
             <md-card-avatar>
@@ -13,7 +13,7 @@
 
             <!-- Salvar alterações -->
             <md-card-icon-actions>
-                <md-button aria-label="Salvar Alterações dos dados básicos da Matrícula para o Aluno." ng-click="adicionar()">
+                <md-button aria-label="Salvar Alterações dos dados básicos da Matrícula para o Aluno." ng-click="atualizar()">
                     <md-tooltip md-direction="bottom">Salvar Matrícula</md-tooltip>
                     <ng-md-icon icon="save" size="42"></ng-md-icon>
                 </md-button>
@@ -23,24 +23,17 @@
         <md-card-content layout="column">
             <form layout="column">
 
-                <!-- Aluno -->
-                <!-- CPF -->
-                <md-input-container class="md-icon-float md-block">
-                    <label>Cpf</label>
-                    <input ng-model="aluno.cpf" ng-readonly="true" ui-mask="999.999.999-99" title="Formato para cadastro de cpf: 000.000.00-00" required>
-                </md-input-container>
-
                 <!-- Nome -->
                 <md-input-container class="md-icon-float md-block">
                     <label>Nome</label>
-                    <input ng-model="aluno.nome" ng-readonly="true" type="text" required>
+                    <input ng-model="matricula.aluno.nome" ng-readonly="true" type="text" required>
                 </md-input-container>
 
                 <!-- Matrícula -->
                 <!-- Número -->
                 <md-input-container class="md-icon-float md-block">
                     <label>Número</label>
-                    <input ng-model="aluno.matricula.numero" type="text" required>
+                    <input ng-model="matricula.numero" type="text" required>
                 </md-input-container>
 
                 <!-- Curso 
@@ -60,7 +53,7 @@
                 <!-- Curso -->
                 <md-input-container class="md-icon-float md-block">
                     <label>Curso</label>
-                    <md-select ng-model="aluno.matricula.curso.id" aria-label="Selecione o Curso">
+                    <md-select ng-model="matricula.curso.id" aria-label="Selecione o Curso">
                         <md-option ng-repeat="curso in cursos" value="{{curso.id}}">
                             {{curso.nome + " - " + curso.campus.cidade}}
                         </md-option>
@@ -70,7 +63,7 @@
                 <!-- Turno -->
                 <md-input-container class="md-icon-float md-block">
                     <label>Turno</label>
-                    <md-select ng-model="aluno.matricula.turno.id" aria-label="Selecione o Turno">
+                    <md-select ng-model="matricula.turno.id" aria-label="Selecione o Turno">
                         <md-option ng-repeat="turno in turnos" value="{{turno.id}}">
                             {{turno.nome}}
                         </md-option>
@@ -80,7 +73,7 @@
                 <!-- Periodo -->
                 <md-input-container class="md-icon-float md-block">
                     <label>Período</label>
-                    <md-select ng-model="aluno.matricula.periodo.id" aria-label="Selecione o Período">
+                    <md-select ng-model="matricula.periodo.id" aria-label="Selecione o Período">
                         <md-option ng-repeat="periodo in periodos" value="{{periodo.id}}">
                             {{periodo.nome}}
                         </md-option>
@@ -90,16 +83,28 @@
                 <!-- Turma -->
                 <md-input-container class="md-icon-float md-block">
                     <label>Turma</label>
-                    <md-select ng-model="aluno.matricula.turma.id" aria-label="Selecione a Turma">
+                    <md-select ng-model="matricula.turma.id" aria-label="Selecione a Turma">
                         <md-option ng-repeat="turma in turmas" value="{{turma.id}}">
                             {{turma.nome}}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+                
+                <!-- Situação da Matrícula -->
+                <md-input-container class="md-icon-float md-block">
+                    <label>Situação da Matrícula</label>
+                    <md-select ng-model="matricula.situacao.id" aria-label="Selecione a Situação da Matrícula">
+                        <md-option ng-repeat="situacao in situacoes" value="{{situacao.id}}">
+                            {{situacao.nome}}
                         </md-option>
                     </md-select>
                 </md-input-container>
             </form>
         </md-card-content>
     </md-card>
-    <md-card flex layout-padding>
+    
+    <!-- Dia de Refeição -->
+    <md-card>
         <md-card-content layout="column">
             <!-- Adição e remoção de Dia de Refeição -->
             <md-tabs md-dynamic-height md-border-bottom>
@@ -119,7 +124,7 @@
                             <md-card-actions layout="row">
                                 <md-card-icon-actions>
 
-                                    <md-button class="md-icon-button" aria-label="Apagar Matrículas" ng-click="remover(selected)">
+                                    <md-button class="md-icon-button" aria-label="Apagar Matrículas" ng-click="removerDiaRefeicao(selected)">
                                         <md-tooltip md-direction="bottom">Apagar Dias de Refeição</md-tooltip>
                                         <ng-md-icon icon="delete" size="24"></ng-md-icon>
                                     </md-button>
@@ -134,33 +139,21 @@
                         </md-card-header>
 
                         <md-table-container>
-                            <table md-table md-row-select multiple ng-model="selected">
+                            <table md-table md-row-select multiple ng-model="selectedDiasRefeicao">
                                 <thead md-head>
                                     <tr md-row>
-                                        <th md-column>Número</th>
-                                        <th md-column>Curso</th>
-                                        <th md-column>Turno</th>
-                                        <th md-column>Período</th>
-                                        <th md-column>Turma</th>
-                                        <th md-column>Situação</th>
+                                        <th md-column>Tipo da Refeição</th>
+                                        <th md-column>Dia da Refeição</th>
+                                        <th md-column>Edital</th>
+                                        <th md-column>Validade</th>
                                     </tr>
                                 </thead>
                                 <tbody md-body>
-                                    <tr md-row md-select="autor" md-select-id="id" md-auto-select ng-repeat="matricula in matriculas">
-                                        <td md-cell>{{matricula.numero | uppercase}}</td>
-                                        <td md-cell>{{matricula.curso.nome | uppercase}}</td>
-                                        <td md-cell>{{matricula.turno.nome | uppercase}}</td>
-                                        <td md-cell>{{matricula.periodo.nome | uppercase}}</td>
-                                        <td md-cell>{{matricula.turma.nome | uppercase}}</td>
-                                        <td md-cell>{{matricula.situacao.nome | uppercase}}</td>
-                                        <td md-cell>
-                                            <md-button aria-label="Editar Matrícula" ui-sref="administrador.editar-matricula({id: matricula.id})" ui-sref-opts="{reload: true}">
-                                                <ng-md-icon icon="edit" size="18"></ng-md-icon>
-                                                <md-tooltip md-direction="bottom">
-                                                    Editar
-                                                </md-tooltip>
-                                            </md-button>
-                                        </td>
+                                    <tr md-row md-select="diaRefeicao" md-select-id="id" md-auto-select ng-repeat="diaRefeicao in diasRefeicao">
+                                        <td md-cell>{{diaRefeicao.refeicao.tipo | uppercase}}</td>
+                                        <td md-cell>{{diaRefeicao.dia.nome | uppercase}}</td>
+                                        <td md-cell>{{diaRefeicao.edital.nome | uppercase}}</td>
+                                        <td md-cell>{{diaRefeicao.edital.dataInicial | date:'dd/MM/yyyy'}}{{" - "}}{{diaRefeicao.edital.dataFinal | date:'dd/MM/yyyy'}}</td>
                                     </tr>
                                 </tbody>
                             </table>
