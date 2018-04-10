@@ -27,7 +27,7 @@ nutrIFApp.controller('logarPessoaCtrl', function ($stateParams, $scope, $state, 
                 userService.setUser(usuario);
 
                 // Redirecionamento com identificador do Campus
-                $state.transitionTo("administrador.home", {idCampus: campus.id});
+                $state.transitionTo("administrador.home");
             })
             .catch(function (error) {
                 toastUtil.showErrorToast(error);
