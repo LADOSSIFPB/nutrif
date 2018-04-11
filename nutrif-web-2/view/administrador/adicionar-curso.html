@@ -1,0 +1,53 @@
+<md-content flex layout-padding>
+    <md-card flex layout-padding>
+        <md-card-header>
+            <md-card-avatar>
+                <ng-md-icon icon="school" size="42"></ng-md-icon>
+            </md-card-avatar>
+
+            <md-card-header-text>
+                <span class="md-title">Adicionar Curso</span>
+                <span class="md-subhead">Clique nesse botão salvar para alterar as informações básicas do Curso.</span>
+            </md-card-header-text>
+
+            <!-- Salvar alterações -->
+            <md-card-icon-actions>
+                <md-button aria-label="Salvar Alterações dos dados básicos do Curso." ng-click="adicionar()">
+                    <md-tooltip md-direction="bottom">Salvar Curso</md-tooltip>
+                    <ng-md-icon icon="save" size="42"></ng-md-icon>
+                </md-button>
+            </md-card-icon-actions>
+        </md-card-header>
+
+        <md-card-content layout="column">
+            <form layout="column">
+
+                <!-- Nome -->
+                <md-input-container class="md-icon-float md-block">
+                    <label>Nome</label>
+                    <input ng-model="curso.nome" type="text" required>
+                </md-input-container>
+
+                <!-- Nível -->
+                <md-input-container class="md-icon-float md-block">
+                    <label>Nível</label>
+                    <md-select ng-model="curso.nivel.id" aria-label="Selecione o Nível" ng-required="true">
+                        <md-option ng-repeat="nivel in niveis" value="{{nivel.id}}">
+                            {{nivel.nome}}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+                
+                <!-- Campus -->
+                <md-input-container class="md-icon-float md-block">
+                    <label>Campus</label>
+                    <md-select ng-model="curso.campus.id" aria-label="Selecione o Campus" ng-required="true">
+                        <md-option ng-repeat="campus in campi" value="{{campus.id}}">
+                            {{campus.cidade}}
+                        </md-option>
+                    </md-select>
+                </md-input-container>               
+            </form>
+        </md-card-content>
+    </md-card>
+</md-content>

@@ -29,7 +29,7 @@ nutrIFApp.factory("menu", function ($location, $rootScope) {
                 },
                 {
                     name: 'Curso',
-                    state: 'administrador.home',
+                    state: 'administrador.listar-cursos',
                     type: 'link'
                 },
                 {
@@ -55,7 +55,7 @@ nutrIFApp.factory("menu", function ($location, $rootScope) {
             pages: [
                 {
                     name: 'Entrada de Alunos',
-                    state: '#',
+                    state: 'administrador.listar-entradarefeitorio',
                     type: 'link'
                 },
                 {

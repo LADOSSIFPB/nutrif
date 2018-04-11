@@ -40,6 +40,6 @@ nutrIFApp.controller('cadastrarAlunoCtrl', function ($scope, $state, alunoServic
             });
     }
 
-    // Inicializar listagem de cursos e campi.
+    // Inicializar listagem de campi.
     carregamentoInicial();
 });

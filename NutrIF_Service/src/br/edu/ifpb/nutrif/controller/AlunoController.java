@@ -48,7 +48,7 @@ public class AlunoController {
 	 * @param aluno
 	 * @return
 	 */
-	@RolesAllowed({ TipoRole.ADMIN })
+	@RolesAllowed({TipoRole.ADMIN, TipoRole.NUTRICIONISTA})
 	@PermitAll
 	@POST
 	@Consumes("application/json")
@@ -122,7 +122,7 @@ public class AlunoController {
 	 * @param alunoAtualizado
 	 * @return
 	 */
-	@RolesAllowed({ TipoRole.ADMIN })
+	@RolesAllowed({TipoRole.ADMIN})
 	@PUT
 	@Consumes("application/json")
 	@Produces("application/json")
@@ -247,21 +247,21 @@ public class AlunoController {
 	/**
 	 * Listar Aluno pesquisando pela matrícula.
 	 * 
-	 * @param matricula
+	 * @param numero
 	 * @return
 	 */
 	@RolesAllowed({TipoRole.ADMIN})
 	@GET
-	@Path("/matricula/{matricula}")
+	@Path("/matricula/{numero}")
 	@Produces("application/json")
-	public Response getByMatricula(@PathParam("matricula") String matricula) {
+	public Response getByMatricula(@PathParam("numero") String numero) {
 
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
 		builder.expires(new Date());
 
 		try {
 
-			Aluno aluno = AlunoDAO.getInstance().getByMatricula(matricula);
+			Aluno aluno = AlunoDAO.getInstance().getByMatricula(numero);
 
 			if (aluno != null) {
 
@@ -344,7 +344,7 @@ public class AlunoController {
 	 * @param aluno
 	 * @return
 	 */
-	@RolesAllowed({ TipoRole.ADMIN })
+	@RolesAllowed({TipoRole.ADMIN})
 	@PUT
 	@Path("/acesso")
 	@Consumes("application/json")

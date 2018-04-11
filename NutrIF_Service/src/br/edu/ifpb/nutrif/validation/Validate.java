@@ -214,6 +214,14 @@ public class Validate {
 		if (!stringValidator.validateSomenteLetras(tipo))
 			return ErrorFactory.TIPO_REFEICAO_INVALIDO;		
 		
+		Campus campus = refeicao.getCampus();
+		if (campus == null 
+				|| (campus != null
+				&& !numeroValidator.isInteiroPositivo(campus.getId()))) {
+			
+			return ErrorFactory.ID_CAMPUS_INVALIDO;
+		}
+		
 		Date horaInicio = refeicao.getHoraInicio();		
 		Date horaFinal = refeicao.getHoraFinal();		
 		if (!dataValidator.isGrowingDate(horaInicio, horaFinal)) {
@@ -818,7 +826,7 @@ public class Validate {
 		return VALIDATE_OK;
 	}
 	
-	public static int nomeAlunoBusca(String nome) {
+	public static int nomeAluno(String nome) {
 		
 		if (!stringValidator.validate(nome, 3, 255)) {
 			

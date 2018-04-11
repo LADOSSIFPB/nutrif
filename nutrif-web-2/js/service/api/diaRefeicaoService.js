@@ -25,11 +25,21 @@ nutrIFApp.factory("diaRefeicaoService", function ($http, serviceCfg){
         return $http.get(_path + "/vigentes/matricula/numero/" + encodeURI(numero))
     };
 
+    var _buscarDiaRefeicaoPorNome = function (nome) {
+        return $http.get(_path + "/aluno/nome/" + encodeURI(nome) + "/entrada")
+    };
+
+    var _buscarDiaRefeicaoPorMatricula = function (numero) {
+        return $http.get(_path + "/matricula/numero/" + encodeURI(numero) + "/entrada")
+    };
+    
     return {
         cadastrar: _cadastrar,
         atualizar: _atualizar,
         listar: _listar,
         remover: _remover,
-        listarVigentesPorMatricula: _listarVigentesPorMatricula
+        listarVigentesPorMatricula: _listarVigentesPorMatricula,
+        buscarDiaRefeicaoPorNome: _buscarDiaRefeicaoPorNome,
+        buscarDiaRefeicaoPorMatricula: _buscarDiaRefeicaoPorMatricula
     };
 });

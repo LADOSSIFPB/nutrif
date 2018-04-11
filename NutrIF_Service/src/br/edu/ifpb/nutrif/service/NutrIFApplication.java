@@ -17,6 +17,7 @@ import br.edu.ifpb.nutrif.controller.EditalController;
 import br.edu.ifpb.nutrif.controller.EventoController;
 import br.edu.ifpb.nutrif.controller.FuncionarioController;
 import br.edu.ifpb.nutrif.controller.MatriculaController;
+import br.edu.ifpb.nutrif.controller.NivelController;
 import br.edu.ifpb.nutrif.controller.PeriodoController;
 import br.edu.ifpb.nutrif.controller.PessoaController;
 import br.edu.ifpb.nutrif.controller.PretensaoRefeicaoController;
@@ -64,6 +65,7 @@ public class NutrIFApplication extends Application {
 		this.singletons.add(new PeriodoController());
 		this.singletons.add(new TurnoController());
 		this.singletons.add(new TurmaController());
+		this.singletons.add(new NivelController());
 		
 		// Information service.
 		this.singletons.add(new NutrIFRestIndex());

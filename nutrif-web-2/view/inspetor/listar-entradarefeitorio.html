@@ -8,22 +8,11 @@
                 </md-card-avatar>
 
                 <md-card-header-text>
-                    <span class="md-title">Campus</span>
+                    <span class="md-title">Entrada de Aluno no Refeitório</span>
                     <span class="md-subhead">
-                        Digite o nome do Campus no campo abaixo para buscar ou selecione a opção para adicionar um novo registro. Para adicionar um novo Campus clique no botão Adicionar Campus.                    
+                        Digite o nome do Aluno ou Matrícula no campo abaixo para buscar.
                     </span>
                 </md-card-header-text>
-
-                <md-card-actions layout="row">
-                    <md-card-icon-actions>
-                        <md-button aria-label="Adicionar Refeição" ui-sref="administrador.adicionar-campus">
-                            <ng-md-icon icon="add" size="42"></ng-md-icon>
-                            <md-tooltip md-direction="bottom">
-                                Adicionar Campus
-                            </md-tooltip>
-                        </md-button>
-                    </md-card-icon-actions>
-                </md-card-actions>
             </md-card-header>
 
             <md-toolbar class="md-table-toolbar md-default">
@@ -32,7 +21,7 @@
                     <ng-md-icon icon="search" size="32"></ng-md-icon>
 
                     <div class="toolbar-input" flex>
-                        <input type="text" ng-model="cidade" ng-keyup="pesquisar()" placeholder="Cidade do Campus">
+                        <input type="text" ng-model="nomeOuMatricula" ng-keyup="pesquisar()" placeholder="Nome ou Matrícula do Aluno">
                     </div>
 
                     <md-button aria-label="Limpar Busca" ng-click="limparBusca()">
@@ -46,28 +35,23 @@
             <table md-table>
                 <thead md-head>
                     <tr md-row>
-                        <th md-column>Sigla</th>
-                        <th md-column>Cidade</th>
-                        <th md-column>Editar</th>
+                        <th md-column>Nome</th>
+                        <th md-column>Matrícula</th>
+                        <th md-column>Refeição</th>
+                        <th md-column>Dia</th>
                     </tr>
                 </thead>
 
                 <tbody md-body>
-                    <tr md-row ng-repeat="campus in campi | limitTo: query.limit: (query.page - 1) * query.limit">
-                        <td md-cell>{{campus.cidade | uppercase}}</td>
-                        <td md-cell>{{campus.sigla | uppercase}}</td>
-                        <td md-cell>
-                            <md-button aria-label="Editar Campus" ui-sref="administrador.editar-campus({id: campus.id})" ui-sref-opts="{reload: true}">
-                                <ng-md-icon icon="edit" size="18"></ng-md-icon>
-                                <md-tooltip md-direction="bottom">
-                                    Editar
-                                </md-tooltip>
-                            </md-button>
-                        </td>
+                    <tr md-row ng-repeat="diaRefeicao in diasRefeicao | limitTo: query.limit: (query.page - 1) * query.limit">
+                        <td md-cell>{{diaRefeicao.matricula.aluno.nome}}</td>
+                        <td md-cell>{{diaRefeicao.matricula.numero}}</td>
+                        <td md-cell>{{diaRefeicao.refeicao.tipo}}</td>
+                        <td md-cell>{{diaRefeicao.dia.nome}}</td>                        
                     </tr>
                 </tbody>
             </table>
         </md-table-container>
-        <md-table-pagination md-limit="query.limit" md-page="query.page" md-total="{{refeicoes.length}}" md-page-select></md-table-pagination>
+        <md-table-pagination md-limit="query.limit" md-page="query.page" md-total="{{diasRefeicao.length}}" md-page-select></md-table-pagination>
     </md-card>
 </md-content>

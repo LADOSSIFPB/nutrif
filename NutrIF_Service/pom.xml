@@ -88,6 +88,14 @@
 			<version>3.0.19.Final</version>
 		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/org.jboss.resteasy/resteasy-jaxb-provider -->
+		<dependency>
+		    <groupId>org.jboss.resteasy</groupId>
+		    <artifactId>resteasy-jaxb-provider</artifactId>
+		    <version>3.0.19.Final</version>
+		</dependency>
+		
+		
 		<!-- Commons-io -->
 		<dependency>
 			<groupId>commons-io</groupId>

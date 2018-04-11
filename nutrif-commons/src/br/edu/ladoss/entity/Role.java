@@ -18,7 +18,7 @@ public class Role {
 
 	public enum Tipo {
 		
-		ADMIN(1), INSPETOR(2), COMENSAL(3);
+		ADMIN(1), INSPETOR(2), COMENSAL(3), NUTRICIONISTA(4);
 		
 		private int id;
 		
@@ -70,7 +70,9 @@ public class Role {
 	
 	@Override
 	public String toString() {
-		return "Role [id=" + id + ", nome=" + nome + "]";
+		return "Role [id=" + id 
+				+ ", nome=" + nome 
+				+ ", descricao=" + descricao + "]";
 	}
 	
 	@Override

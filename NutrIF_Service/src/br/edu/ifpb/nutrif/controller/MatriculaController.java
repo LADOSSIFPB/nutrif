@@ -20,7 +20,6 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 
 import br.edu.ifpb.nutrif.dao.AlunoDAO;
 import br.edu.ifpb.nutrif.dao.CursoDAO;
-import br.edu.ifpb.nutrif.dao.DiaRefeicaoDAO;
 import br.edu.ifpb.nutrif.dao.MatriculaDAO;
 import br.edu.ifpb.nutrif.dao.PeriodoDAO;
 import br.edu.ifpb.nutrif.dao.SituacaoMatriculaDAO;
@@ -32,7 +31,6 @@ import br.edu.ifpb.nutrif.util.BancoUtil;
 import br.edu.ifpb.nutrif.validation.Validate;
 import br.edu.ladoss.entity.Aluno;
 import br.edu.ladoss.entity.Curso;
-import br.edu.ladoss.entity.DiaRefeicao;
 import br.edu.ladoss.entity.Error;
 import br.edu.ladoss.entity.Matricula;
 import br.edu.ladoss.entity.Periodo;
@@ -44,7 +42,7 @@ import br.edu.ladoss.enumeration.TipoRole;
 @Path("matricula")
 public class MatriculaController {
 
-	@RolesAllowed({ TipoRole.ADMIN })
+	@RolesAllowed({TipoRole.ADMIN})
 	@POST
 	@Consumes("application/json")
 	@Produces("application/json")
@@ -193,7 +191,7 @@ public class MatriculaController {
 		return matriculas;
 	}
 	
-	@PermitAll
+	@RolesAllowed({TipoRole.ADMIN})
 	@GET
 	@Path("/{id}")
 	@Produces("application/json")
@@ -226,7 +224,7 @@ public class MatriculaController {
 	 * @param nome
 	 * @return
 	 */
-	@PermitAll
+	@RolesAllowed({TipoRole.ADMIN})
 	@GET
 	@Path("/numero/{numero}")
 	@Produces("application/json")
@@ -257,7 +255,7 @@ public class MatriculaController {
 	 * @param nome
 	 * @return
 	 */
-	@PermitAll
+	@RolesAllowed({TipoRole.ADMIN})
 	@GET
 	@Path("/aluno/{id}")
 	@Produces("application/json")
@@ -284,11 +282,11 @@ public class MatriculaController {
 		return builder.build();
 	}
 	
-	@PermitAll
+	@RolesAllowed({TipoRole.ADMIN})
 	@GET
 	@Path("/aluno/{id}/vigentes")
 	@Produces("application/json")
-	public Response getVigentesByAlunoId(@PathParam("id") Integer idAluno) {
+	public Response listVigentesByAlunoId(@PathParam("id") Integer idAluno) {
 
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
 		builder.expires(new Date());
@@ -317,7 +315,7 @@ public class MatriculaController {
 	 * @param matricula
 	 * @return
 	 */
-	@RolesAllowed({ TipoRole.ADMIN })
+	@RolesAllowed({TipoRole.ADMIN})
 	@PUT
 	@Consumes("application/json")
 	@Produces("application/json")

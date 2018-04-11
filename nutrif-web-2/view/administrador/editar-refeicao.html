@@ -29,6 +29,16 @@
                     <input ng-model="refeicao.tipo" type="text" required>
                 </md-input-container>
 
+                <!-- Campus -->
+                <md-input-container class="md-icon-float md-block">
+                    <label>Campus</label>
+                    <md-select ng-model="refeicao.campus.id" aria-label="Selecione o Campus" ng-required="true">
+                        <md-option ng-repeat="campus in campi" value="{{campus.id}}">
+                            {{campus.cidade}}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+        
                 <!-- Horário de Início -->
                 <md-input-container class="md-input-has-placeholder">
                     <label>Horário de Início</label>

@@ -60,6 +60,15 @@ public class Curso implements DataEntity {
 	}
 	
 	@XmlElement
+	public Nivel getNivel() {
+		return nivel;
+	}
+
+	public void setNivel(Nivel nivel) {
+		this.nivel = nivel;
+	}
+	
+	@XmlElement
 	public Campus getCampus() {
 		return campus;
 	}
@@ -72,6 +81,7 @@ public class Curso implements DataEntity {
 	public String toString() {
 		return "Curso [id=" + id 
 				+ ", nome=" + nome 
-				+ ", nivel=" + nivel + "]";
+				+ ", nivel=" + nivel 
+				+ ", campus=" + campus + "]";
 	}
 }

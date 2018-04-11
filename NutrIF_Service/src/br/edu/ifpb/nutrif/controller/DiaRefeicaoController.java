@@ -339,25 +339,25 @@ public class DiaRefeicaoController {
 	 */
 	@RolesAllowed({TipoRole.ADMIN, TipoRole.INSPETOR})
 	@GET
-	@Path("/entrada/aluno/nome/{nome}")
+	@Path("/aluno/nome/{nome}/entrada")
 	@Produces("application/json")
-	public Response getByAlunoNome(
+	public Response listByAlunoNome(
 			@PathParam("nome") String nome) {
 		
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
 		builder.expires(new Date());
 		
 		// Validação dos dados de entrada.
-		int validacao = Validate.nomeAlunoBusca(nome);
+		int validacao = Validate.nomeAluno(nome);
 		
 		if (validacao == Validate.VALIDATE_OK) {
 			try {
 				
 				if (RefeicaoDAO.getInstance().isPeriodoRefeicao()) {
 					
-					//TODO: Refatorar consulta do Aluno via nome através da Matrícula.
+					// Refatorar consulta do Aluno via nome através da Matrícula.
 					List<DiaRefeicao> diasRefeicao = DiaRefeicaoDAO
-							.getInstance().getDiaRefeicaoRealizadaByAlunoNome(nome);
+							.getInstance().getDiaRefeicaoEntradaByAlunoNome(nome);
 					
 					if (diasRefeicao.size() > BancoUtil.QUANTIDADE_ZERO) {
 						
@@ -366,7 +366,6 @@ public class DiaRefeicaoController {
 						
 					} else {
 						
-						// Dia de refeição não existente.
 						// Dia de refeição não existente.
 						builder.status(Response.Status.NOT_FOUND)
 								.entity(ErrorFactory.getErrorFromIndex(
@@ -408,9 +407,9 @@ public class DiaRefeicaoController {
 	 */
 	@RolesAllowed({TipoRole.ADMIN, TipoRole.INSPETOR})
 	@GET
-	@Path("/entrada/matricula/numero/{numero}")
+	@Path("/matricula/numero/{numero}/entrada")
 	@Produces("application/json")
-	public Response getByMatricula(
+	public Response getByMatriculaNumero(
 			@PathParam("numero") String numero) {
 		
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
@@ -425,9 +424,9 @@ public class DiaRefeicaoController {
 
 				if (RefeicaoDAO.getInstance().isPeriodoRefeicao()) {
 					
-					//TODO: Refatorar consulta do Aluno via nome através da Matrícula.
+					// Refatorar consulta do Aluno via nome através da Matrícula.
 					List<DiaRefeicao> diasRefeicao = DiaRefeicaoDAO
-							.getInstance().getDiaRefeicaoRealizadaByAlunoMatricula(
+							.getInstance().getDiaRefeicaoEntradaByMatricula(
 									numero);
 					
 					if (diasRefeicao.size() > BancoUtil.QUANTIDADE_ZERO) {
@@ -495,7 +494,7 @@ public class DiaRefeicaoController {
 	@GET
 	@Path("/vigentes/matricula/numero/{numero}")
 	@Produces("application/json")
-	public Response getVigentesByMatricula(
+	public Response listVigentesByMatricula(
 			@PathParam("numero") String numero) {
 		
 		logger.info("Consulta do Dia da Refeição pela Matrícula"
@@ -545,7 +544,7 @@ public class DiaRefeicaoController {
 	@GET
 	@Path("/matricula/numero/{matricula}")
 	@Produces("application/json")
-	public Response getAllByMatricula(
+	public Response listByMatricula(
 			@PathParam("matricula") String matricula) {
 		
 		logger.info("Consultar histórico dos Dias das Refeições do Aluno pela Matrícula: " + matricula);

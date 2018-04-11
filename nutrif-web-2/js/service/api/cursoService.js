@@ -13,11 +13,11 @@ nutrIFApp.factory("cursoService", function ($http, serviceCfg){
         return $http.get(_path);
     };
 
-    var _buscarCursoPorNome = function (nome) {
+    var _buscarPorNome = function (nome) {
         return $http.get(_path + "/nome/" + nome);
     };
 
-    var _getCursoById = function (id) {
+    var _getById = function (id) {
         return $http.get(_path + "/" + id);
     };
 
@@ -28,8 +28,8 @@ nutrIFApp.factory("cursoService", function ($http, serviceCfg){
     return {        
         cadastrar: _cadastrar,
         listar: _listar,
-        buscarCursoPorNome: _buscarCursoPorNome,
-        getCursoById: _getCursoById,
+        buscarPorNome: _buscarPorNome,
+        getById: _getById,
         atualizar: _atualizar
     };
 });

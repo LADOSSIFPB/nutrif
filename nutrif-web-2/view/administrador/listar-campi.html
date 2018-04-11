@@ -16,7 +16,7 @@
 
                 <md-card-actions layout="row">
                     <md-card-icon-actions>
-                        <md-button aria-label="Adicionar Refeição" ui-sref="administrador.adicionar-campus">
+                        <md-button aria-label="Adicionar Campus" ui-sref="administrador.adicionar-campus">
                             <ng-md-icon icon="add" size="42"></ng-md-icon>
                             <md-tooltip md-direction="bottom">
                                 Adicionar Campus
@@ -68,6 +68,6 @@
                 </tbody>
             </table>
         </md-table-container>
-        <md-table-pagination md-limit="query.limit" md-page="query.page" md-total="{{refeicoes.length}}" md-page-select></md-table-pagination>
+        <md-table-pagination md-limit="query.limit" md-page="query.page" md-total="{{campi.length}}" md-page-select></md-table-pagination>
     </md-card>
 </md-content>

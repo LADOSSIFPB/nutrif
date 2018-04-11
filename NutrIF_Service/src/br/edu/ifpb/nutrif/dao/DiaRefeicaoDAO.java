@@ -33,7 +33,7 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 		return instance;
 	}
 
-	public List<DiaRefeicao> getDiaRefeicaoRealizadaByAlunoNome(String nome) {
+	public List<DiaRefeicao> getDiaRefeicaoEntradaByAlunoNome(String nome) {
 		
 		logger.info("Buscar Dia de Refeição por Nome: " + nome);
 		
@@ -83,7 +83,7 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 		return diasRefeicao;		
 	}
 	
-	public List<DiaRefeicao> getDiaRefeicaoRealizadaByAlunoMatricula(
+	public List<DiaRefeicao> getDiaRefeicaoEntradaByMatricula(
 			String matricula) {
 		
 		logger.info("Buscar Dia de Refeição por Matrícula: " + matricula);

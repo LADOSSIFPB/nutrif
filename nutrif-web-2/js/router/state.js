@@ -48,14 +48,24 @@ nutrIFApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
                     label: 'Inspetor'
                 },
                 url: '/inspetor',
-                templateUrl: 'view/inspetor/aluno.html'
+                templateUrl: 'view/inspetor/inspetor.html'
             })
     
-            // Inspetor - Home
+            /* Inspetor - Home */
             .state('inspetor.home', {
                 url: '/home',
                 title: 'Inspetor - Home',
                 templateUrl: 'view/inspetor/home.html',
+                permissions: ['admin', 'inspetor']
+            })
+    
+            /* Inspetor - Entrada de Aluno */
+            .state('inspetor.listar-entradarefeitorio', {
+                url: '/listar/entradarefeitorio',
+                title: 'Listar os Alunos para Entrada do Refeitório',
+                templateUrl: 'view/inspetor/listar-entradarefeitorio.html',
+                controller: 'listarEntradaRefeitorioCtrl',
+                controllerAs: 'listarEntradaRefeitorio',
                 permissions: ['admin', 'inspetor']
             })
 
@@ -64,7 +74,7 @@ nutrIFApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
                 abstract: true,
                 controller: 'sideNavCtrl',
                 controllerAs: 'sideNav',
-                url: '/administrador/campus/:idCampus',
+                url: '/administrador',
                 templateUrl: 'view/administrador/administrador.html'
             })
 
@@ -187,6 +197,44 @@ nutrIFApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
                 controller: 'editarCampusCtrl',
                 controllerAs: 'editarCampus',
                 permissions: ['admin']
+            })
+    
+            /* Administrador - Curso */
+            .state('administrador.adicionar-curso', {
+                url: '/adicionar/curso',
+                title: 'Adicionar Curso',
+                templateUrl: 'view/administrador/adicionar-curso.html',
+                controller: 'cadastrarCursoCtrl',
+                controllerAs: 'cadastrarCurso',
+                permissions: ['admin']
+            })
+
+            .state('administrador.listar-cursos', {
+                url: '/listar/cursos',
+                title: 'Listar Cursos',
+                templateUrl: 'view/administrador/listar-cursos.html',
+                controller: 'listarCursosCtrl',
+                controllerAs: 'listarCursos',
+                permissions: ['admin']
+            })
+
+            .state('administrador.editar-curso', {
+                url: '/editar/curso/:id',
+                title: 'Editar Curso',
+                templateUrl: 'view/administrador/editar-curso.html',
+                controller: 'editarCursoCtrl',
+                controllerAs: 'editarCurso',
+                permissions: ['admin']
+            })
+    
+            /* Administrador - Entrada de Aluno */
+            .state('administrador.listar-entradarefeitorio', {
+                url: '/listar/entradarefeitorio',
+                title: 'Listar os Alunos para Entrada do Refeitório',
+                templateUrl: 'view/inspetor/listar-entradarefeitorio.html',
+                controller: 'listarEntradaRefeitorioCtrl',
+                controllerAs: 'listarEntradaRefeitorio',
+                permissions: ['admin', 'inspetor']
             })
     })
     //take all whitespace out of string

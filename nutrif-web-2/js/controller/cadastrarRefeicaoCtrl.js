@@ -1,10 +1,11 @@
 /*
  *  Controlar inserção da Refeição.
  */
-nutrIFApp.controller('cadastrarRefeicaoCtrl', function ($scope, $state, toastUtil, refeicaoService) {
+nutrIFApp.controller('cadastrarRefeicaoCtrl', function ($scope, $state, toastUtil, refeicaoService, campusService) {
 
     // Refeição
     $scope.refeicao = {};
+    $scope.campi = [];
 
     // Enviar para o serviço de cadastro de refeição.
     $scope.adicionar = function () {
@@ -29,4 +30,19 @@ nutrIFApp.controller('cadastrarRefeicaoCtrl', function ($scope, $state, toastUti
                 toastUtil.showErrorToast(error);
             });
     }
+    
+    function carregamentoInicial() {
+
+        // Carregar Cursos para seleção no cadastro da Refeção.
+        campusService.listar()
+            .then(function(response) {
+                $scope.campi = response.data;
+            })
+            .catch(function (error) {
+                toastUtil.showErrorToast(error);
+            });
+    }
+
+    // Inicializar listagem dos campi.
+    carregamentoInicial();
 });

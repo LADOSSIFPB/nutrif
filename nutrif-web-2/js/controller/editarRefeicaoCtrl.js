@@ -2,11 +2,12 @@
  *  Controlar atualização da Refeição.
  */
 nutrIFApp.controller('editarRefeicaoCtrl', function ($scope,
-    $stateParams, $state, toastUtil, dateTimeUtil, refeicaoService) {
+    $stateParams, $state, toastUtil, dateTimeUtil, refeicaoService, campusService) {
 
     $scope.refeicao = {};
+    $scope.campi = [];
 
-    $scope.atualizar = function (refeicao) {
+    $scope.atualizar = function () {
 
         let refeicao = $scope.refeicao;
 
@@ -52,13 +53,22 @@ nutrIFApp.controller('editarRefeicaoCtrl', function ($scope,
                     refeicao.horaInicio = horaInicio;
                     refeicao.horaFinal = horaFinal;
                     refeicao.horaPrevisaoPretensao = horaPrevisaoPretensao;
-                    
+
                     // Refeição - ng-model do formulário.
                     $scope.refeicao = refeicao;
                 })
                 .catch(function (error) {
                     toastUtil.showErrorToast(error);
                     redirecionarListagem();
+                });
+
+            // Carregar Cursos para seleção no cadastro da Refeção.
+            campusService.listar()
+                .then(function (response) {
+                    $scope.campi = response.data;
+                })
+                .catch(function (error) {
+                    toastUtil.showErrorToast(error);
                 });
         }
     }

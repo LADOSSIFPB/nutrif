@@ -85,7 +85,7 @@ public class CursoController {
 	@GET
 	@Path("/{id}")
 	@Produces("application/json")
-	public Response getCursoById(@PathParam("id") int idCurso) {
+	public Response getById(@PathParam("id") int idCurso) {
 		
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
 		builder.expires(new Date());

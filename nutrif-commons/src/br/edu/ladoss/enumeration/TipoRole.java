@@ -17,5 +17,8 @@ public class TipoRole implements Serializable {
 	public static final String INSPETOR = "inspetor";
 	
 	// Tipo Role - Comensal
-	public static final String COMENSAL = "comensal";	
+	public static final String COMENSAL = "comensal";
+	
+	// Tipo Role - Comensal
+	public static final String NUTRICIONISTA = "nutricionista";
 }

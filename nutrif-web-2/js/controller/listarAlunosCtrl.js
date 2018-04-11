@@ -35,7 +35,7 @@ nutrIFApp.controller('listarAlunosCtrl', function ($scope, toastUtil,
         $scope.alunos = response.data;
     }
 
-    function onErrorCallback(data, status) {
+    function onErrorCallback(error) {
         toastUtil.showErrorToast(error);
     }
     

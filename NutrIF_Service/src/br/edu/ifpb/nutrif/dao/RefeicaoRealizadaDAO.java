@@ -13,9 +13,11 @@ import org.hibernate.Session;
 
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
 import br.edu.ifpb.nutrif.hibernate.HibernateUtil;
+import br.edu.ifpb.nutrif.hibernate.QueryUtil;
 import br.edu.ifpb.nutrif.util.BancoUtil;
 import br.edu.ifpb.nutrif.util.DateUtil;
 import br.edu.ladoss.entity.Dia;
+import br.edu.ladoss.entity.Pessoa;
 import br.edu.ladoss.entity.Refeicao;
 import br.edu.ladoss.entity.RefeicaoRealizada;
 
@@ -110,7 +112,7 @@ public class RefeicaoRealizadaDAO extends GenericDao<Integer, RefeicaoRealizada>
 			Dia dia = DateUtil.getCurrentDayOfWeek();
 			
 			String hql = "from RefeicaoRealizada as rr"
-					+ "	where rr.confirmaRefeicaoDia.diaRefeicao.aluno.matricula = :matricula"
+					+ "	where rr.confirmaRefeicaoDia.diaRefeicao.matricula.numero = :matricula"
 					+ "	and rr.confirmaRefeicaoDia.diaRefeicao.dia.id = :dia"
 					+ "	and rr.confirmaRefeicaoDia.dataRefeicao = CURRENT_DATE()"
 					+ "	and CURRENT_TIME() between rr.confirmaRefeicaoDia.diaRefeicao.refeicao.horaInicio"
@@ -120,7 +122,8 @@ public class RefeicaoRealizadaDAO extends GenericDao<Integer, RefeicaoRealizada>
 			query.setParameter("matricula", matricula);
 			query.setParameter("dia", dia.getId());
 			
-			refeicaoRealizada = (RefeicaoRealizada) query.getSingleResult();
+			QueryUtil<RefeicaoRealizada> queryUtil = new QueryUtil<RefeicaoRealizada>();
+			refeicaoRealizada = queryUtil.getUniqueResult(query);
 	        
 		} catch (HibernateException hibernateException) {
 			
