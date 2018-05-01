@@ -2,13 +2,14 @@
     <!-- Menu Lateral -->
     <md-sidenav class="md-sidenav-left" md-component-id="left" md-component-id="sideNav" md-is-locked-open="$mdMedia('gt-md') && sideNav.isOpened" md-whiteframe="4">
 
-        <md-toolbar class="md-theme-indigo">
+        <md-toolbar class="md-theme-indigo" ng-controller="SideNavToolbarCtrl as vm">
             <div class="logo-sidenav">
-                <img src="image/logo-branca-small.png" alt="NutrIF">
+                {{vm.user.nome}}{{" - "}}
+                {{vm.user.campus.cidade}}                
             </div>
         </md-toolbar>
         <!-- É necessário criar um controller para gerenciar o Sidnav: MenuController -->
-        <md-content layout-padding ng-controller="menuCtrl as vm">
+        <md-content layout-padding ng-controller="SideNavMenuCtrl as vm">
 
             <ul class="side-menu">
                 <li ng-repeat="section in vm.menu.sections" class="parent-list-item" ng-class="{'parentActive' : vm.isSectionSelected(section)}">
