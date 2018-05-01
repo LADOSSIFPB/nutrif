@@ -15,6 +15,23 @@
 }
 
 
+/* main - login */
+main.welcome {
+    background: url("../image/background_2.jpg") no-repeat center center fixed;
+    /* Photo by Lex Sirikiat on Unsplash */
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+div.login {
+    float: right;
+    width: 35%;
+    padding: 30px;
+}
+
+
 /* main */
 
 main {
