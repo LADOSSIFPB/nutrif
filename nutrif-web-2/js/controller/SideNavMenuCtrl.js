@@ -1,7 +1,7 @@
 /*
  *  Controlar ações do menu.
  */
-nutrIFApp.controller('menuCtrl', function ($scope, $timeout, $rootScope, $state, $location, $mdSidenav, menu) {
+nutrIFApp.controller('SideNavMenuCtrl', function ($scope, $timeout, $rootScope, $state, $location, $mdSidenav, menu) {
 
     var vm = this;
 
@@ -29,7 +29,7 @@ nutrIFApp.controller('menuCtrl', function ($scope, $timeout, $rootScope, $state,
         // Component lookup should always be available since we are not using `ng-if`
         $mdSidenav('left').close()
             .then(function () {
-                $log.debug("close LEFT is done");
+                console.log("close LEFT is done");
             });
 
     };

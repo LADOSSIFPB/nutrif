@@ -227,6 +227,25 @@ nutrIFApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
                 permissions: ['admin']
             })
     
+            /* Administrador - Edital */
+            .state('administrador.adicionar-edital', {
+                url: '/adicionar/edital',
+                title: 'Adicionar Edital',
+                templateUrl: 'view/administrador/adicionar-edital.html',
+                controller: 'cadastrarEditalCtrl',
+                controllerAs: 'cadastrarEdital',
+                permissions: ['admin']
+            })
+    
+            .state('administrador.listar-editais', {
+                url: '/listar/editais',
+                title: 'Listar Editais',
+                templateUrl: 'view/administrador/listar-editais.html',
+                controller: 'listarEditaisCtrl',
+                controllerAs: 'listarEditais',
+                permissions: ['admin']
+            })
+    
             /* Administrador - Entrada de Aluno */
             .state('administrador.listar-entradarefeitorio', {
                 url: '/listar/entradarefeitorio',

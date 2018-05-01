@@ -8,8 +8,13 @@ nutrIFApp.factory("pessoaService", function ($http, serviceCfg) {
     var _login = function (pessoa) {
         return $http.post(_path + '/login', pessoa);
     };
+    
+    var _getById = function (id) {
+        return $http.get(_path + "/" + encodeURI(id));
+    };
 
     return {
-        login: _login
+        login: _login,
+        getById: _getById
     };
 });
