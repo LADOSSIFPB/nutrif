@@ -1,9 +1,7 @@
 /*
  *  Configuração do query limit.
  */
-nutrIFApp.value("serviceCfg", {
-
+nutrIFApp.value("queryLimitValue", {
 	limit: 8,
     page: 1
-
 })

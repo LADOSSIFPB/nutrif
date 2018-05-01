@@ -1,7 +1,7 @@
 /*
  *  Controlar inserção do Dia da Refeição.
  */
-nutrIFApp.controller('cadastrarDiaRefeicaoCtrl', function ($scope, $stateParams, $state, matriculaService, diaRefeicaoService, diaService, refeicaoService, editalService, userService, toastUtil, stringUtil) {
+nutrIFApp.controller('cadastrarDiaRefeicaoCtrl', function ($scope, $stateParams, $state, matriculaService, diaRefeicaoService, diaService, refeicaoService, editalService, userService, toastUtil, stringUtil, arrayUtil) {
 
     $scope.diaRefeicao = {};
 
@@ -10,6 +10,10 @@ nutrIFApp.controller('cadastrarDiaRefeicaoCtrl', function ($scope, $stateParams,
     $scope.editais = [];
 
     $scope.selectedDias = [];
+
+    // Auto-complete
+    $scope.nomeEdital = "";
+    $scope.editalSelecionado = null;
 
     $scope.adicionar = function () {
 
@@ -31,7 +35,7 @@ nutrIFApp.controller('cadastrarDiaRefeicaoCtrl', function ($scope, $stateParams,
 
         // Edital
         let edital = {};
-        edital.id = $scope.diaRefeicao.edital.id;
+        edital.id = $scope.editalSelecionado.id;
         diaRefeicao.edital = edital;
 
         for (var selectedDia of $scope.selectedDias) {
@@ -65,6 +69,21 @@ nutrIFApp.controller('cadastrarDiaRefeicaoCtrl', function ($scope, $stateParams,
         }
 
     }
+
+    $scope.pesquisarEditalNome = function (nome) {
+        return editalService.buscarVigentesPorNome(nome)
+            .then(function (result) {
+
+                if (!arrayUtil.isEmpty(result.data)) {
+                    return result.data;
+                } else {
+                    return $scope.editais;
+                }
+
+            }).catch(function (error) {
+                toastUtil.showErrorToast(error);
+            });
+    };
 
     $scope.toggle = function (item, list) {
         var idx = list.indexOf(item);

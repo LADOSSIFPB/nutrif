@@ -20,6 +20,10 @@ nutrIFApp.factory("editalService", function($http, serviceCfg){
 	var _buscarPorNome = function (nome){
 		return $http.get(_path + "/nome/" + encodeURI(nome))
 	};
+    
+    var _buscarVigentesPorNome = function (nome){
+		return $http.get(_path + "/vigentes/nome/" + encodeURI(nome))
+	};
 	
 	var _getById = function (id){
 		return $http.get(_path + "/id/" + encodeURI(id))
@@ -37,6 +41,7 @@ nutrIFApp.factory("editalService", function($http, serviceCfg){
 		cadastrar: _cadastrar,
         listar: _listar,
         listarVigentes: _listarVigentes,
+        buscarVigentesPorNome: _buscarVigentesPorNome,
         buscarPorNome: _buscarPorNome,
         getById: _getById,
         atualizar: _atualizar,

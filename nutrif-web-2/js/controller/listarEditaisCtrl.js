@@ -1,30 +1,33 @@
 /*
- *  Controlar ações da listagem do Curso.
+ *  Controlar ações da listagem do Edital.
  */
-nutrIFApp.controller('listarCursoCtrl', function ($scope, toastUtil, cursoService) {
+nutrIFApp.controller('listarEditaisCtrl', function ($scope, toastUtil, editalService) {
 
     $scope.nome = "";
-    $scope.cursos = [];
+    $scope.editais = [];
 
-    $scope.pesquisar = function (nome) {
+    $scope.pesquisar = function () {
+        
+        let nome = $scope.nome;
+        
         if (nome.length >= 3) {
             if (nome.match(/[a-zA-Z]/i) != null) {
-                cursoService.buscarPorNome(nome)
+                editalService.buscarPorNome(nome)
                     .then(onSuccessCallback)
                     .catch(onErrorCallback);
             }
         } else if (nome.length === 0) {
-            $scope.cursos = [];
+            $scope.editais = [];
         }
     };
     
     $scope.limparBusca = function () {
         $scope.nome = "";
-        $scope.cursos = [];
+        $scope.editais = [];
     };
     
     function onSuccessCallback(response) {
-        $scope.cursos = response.data;
+        $scope.editais = response.data;
     }
 
     function onErrorCallback(error) {

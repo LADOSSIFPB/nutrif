@@ -22,51 +22,73 @@
 
         <md-card-content layout="column">
             <form layout="column">
-                
+
                 <!-- Nome -->
                 <md-input-container class="md-icon-float md-block">
                     <label>Nome</label>
                     <input ng-model="diaRefeicao.matricula.aluno.nome" ng-readonly="true" type="text" required>
                 </md-input-container>
-                
-                <!-- Número Matrícula -->                
+
+                <!-- Número Matrícula -->
                 <md-input-container class="md-icon-float md-block">
                     <label>Matrícula</label>
                     <input ng-model="diaRefeicao.matricula.numero" ng-readonly="true" type="text" required>
                 </md-input-container>
-                
-                <!-- Edital -->
+
+                <!-- Edital 
                 <md-input-container class="md-icon-float md-block">
                     <label>Edital</label>
                     <md-select ng-model="diaRefeicao.edital.id" aria-label="Selecione o Edital">
                         <md-option ng-repeat="edital in editais" value="{{edital.id}}">
-                            {{edital.nome + " - " + edital.resposavel.nome}} {{" - "}}
-                            
-                            {{edital.dataInicial | date:'dd/MM/yyyy'}}{{" até "}}{{edital.dataFinal | date:'dd/MM/yyyy'}}
+                            {{edital.nome + " - " + edital.resposavel.nome}} {{" - "}} {{edital.dataInicial | date:'dd/MM/yyyy'}}{{" até "}}{{edital.dataFinal | date:'dd/MM/yyyy'}}
                         </md-option>
                     </md-select>
                 </md-input-container>
-                
+                -->
+
+                <!-- Edital -->
+                <md-input-container class="md-icon-float md-block">
+                    <label>Edital</label>
+                    <md-autocomplete md-input-name="autocompleteEdital" 
+                                     md-search-text="nomeEdital" 
+                                     md-items="edital in pesquisarEditalNome(nomeEdital)"
+                                     md-selected-item="editalSelecionado" 
+                                     md-item-text="edital.nome" 
+                                     md-input-minlength="0"
+                                     required 
+                                     flex>
+                        <md-item-template>
+                            <span md-highlight-text="nomeEdital" md-highlight-flags="^i">
+                                {{edital.nome + " - " + edital.resposavel.nome}} {{" - "}} {{edital.dataInicial | date:'dd/MM/yyyy'}}{{" até "}}{{edital.dataFinal | date:'dd/MM/yyyy'}}
+                            </span>
+                        </md-item-template>
+                        <md-not-found>
+                            Nenhum Edital com o nome "{{nomeEdital}}" foi encontrado.
+                            <a ui-sref="administrador.adicionar-edital">Deseja criar?</a>
+                        </md-not-found>
+                    </md-autocomplete>
+                </md-input-container>
+
                 <!-- Refeição -->
                 <md-input-container class="md-icon-float md-block">
                     <label>Refeição</label>
                     <md-select ng-model="diaRefeicao.refeicao.id" aria-label="Selecione a Refeição">
                         <md-option ng-repeat="refeicao in refeicoes" value="{{refeicao.id}}">
-                            {{refeicao.tipo}} {{" - "}} {{refeicao.campus.cidade}} 
+                            {{refeicao.tipo}} {{" - "}} {{refeicao.campus.cidade}}
                         </md-option>
                     </md-select>
                 </md-input-container>
-                
+
                 <!-- Dia -->
                 <fieldset>
                     <legend>Dias</legend>
-                    <div class="demo-select-all-checkboxes" ng-repeat="dia in dias" >
+                    <div class="demo-select-all-checkboxes" ng-repeat="dia in dias">
                         <md-checkbox ng-required="true" aria-label="dia.nome" value="{{dia.id}}" ng-checked="exists(dia, selectedDias)" ng-click="toggle(dia, selectedDias)">
                             {{ dia.nome }}
                         </md-checkbox>
                     </div>
                 </fieldset>
-                
+
             </form>
         </md-card-content>
     </md-card>

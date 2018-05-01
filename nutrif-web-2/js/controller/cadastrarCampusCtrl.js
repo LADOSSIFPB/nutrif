@@ -3,10 +3,10 @@
  */
 nutrIFApp.controller('cadastrarCampusCtrl', function ($scope, $state, toastUtil, campusService) {
 
-    // Refeição
+    // Campus
     $scope.campus = {};
 
-    // Enviar para o serviço de cadastro de refeição.
+    // Enviar para o serviço de cadastro do Campus.
     $scope.adicionar = function () {
 
         let campus = $scope.campus;

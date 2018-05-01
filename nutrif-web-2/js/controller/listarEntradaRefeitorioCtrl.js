@@ -1,7 +1,7 @@
 /*
  *  Controlar inserção do Dia da Refeição.
  */
-nutrIFApp.controller('listarEntradaRefeitorioCtrl', function ($scope, $stateParams, $state, diaRefeicaoService, toastUtil, stringUtil) {
+nutrIFApp.controller('listarEntradaRefeitorioCtrl', function ($scope, $stateParams, $state, $mdDialog, diaRefeicaoService, toastUtil, stringUtil) {
 
     var TAM_MINIMO_MATRICULA = 11;
     var TAM_MAXIMO_MATRICULA = 13;
@@ -10,6 +10,8 @@ nutrIFApp.controller('listarEntradaRefeitorioCtrl', function ($scope, $statePara
     $scope.diasRefeicao = [];
 
     $scope.nomeOuMatricula = "";
+
+    $scope.selectedDiasRefeicao = [];
 
     $scope.pesquisar = function () {
 
@@ -42,18 +44,43 @@ nutrIFApp.controller('listarEntradaRefeitorioCtrl', function ($scope, $statePara
     }
 
     function onErrorCallback(error) {
-        
+
         // Limpar dia de refeição listados anteriormente.
         $scope.diasRefeicao = [];
-        
+
         // Mensagem de Erro.
         toastUtil.showErrorToast(error);
     }
 
+    // Adicionar Dia de Refeição.
+    $scope.adicionarRefeicaoRealizada = function (diaRefeicao) {
+
+        let dialog = {
+            controller: 'cadastrarRefeicaoRealizadaCtrl',
+            controllerAs: 'cadastrarRefeicaoRealizada',
+            templateUrl: 'view/inspetor/modals/adicionar-refeicaorealizada.html',
+            parent: angular.element(document.body),
+            clickOutsideToClose: true,
+            fullscreen: false,
+            locals: {
+                idDiaRefeicao: diaRefeicao.id
+            }
+        };
+
+        $mdDialog.show(dialog)
+            .then(function(response) {})
+            .catch(function (error) {}) 
+            .finally(limparBusca, function () {
+                $scope.selectedDiasRefeicao = [];
+            });
+    }
+
     $scope.limparBusca = function () {
         $scope.nomeOuMatricula = "";
-        
+
         // Limpar dia de refeição listados anteriormente.
         $scope.diasRefeicao = [];
     };
+
+    let limparBusca = $scope.limparBusca;
 });

@@ -14,11 +14,11 @@ nutrIFApp.factory("campusService", function ($http, serviceCfg){
     }
 
     var _buscarPorCidade = function (cidade){
-		return $http.get(_path + "/cidade/" + cidade)
+		return $http.get(_path + "/cidade/" + encodeURI(cidade))
 	};
     
     var _getById = function (id) {
-        return $http.get(_path + "/" + id);
+        return $http.get(_path + "/" + encodeURI(id));
     }
 
     return {

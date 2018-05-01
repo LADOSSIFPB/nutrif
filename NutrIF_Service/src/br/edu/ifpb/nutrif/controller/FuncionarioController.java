@@ -10,6 +10,7 @@ import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -48,7 +49,6 @@ public class FuncionarioController {
 	 */
 	@RolesAllowed({TipoRole.ADMIN})
 	@POST
-	@Path("/inserir")
 	@Consumes("application/json")
 	@Produces("application/json")
 	public Response insert(PessoaAcesso pessoaAcesso) {
@@ -135,8 +135,7 @@ public class FuncionarioController {
 	 * @return
 	 */
 	@RolesAllowed({TipoRole.ADMIN})
-	@POST
-	@Path("/atualizar")
+	@PUT
 	@Consumes("application/json")
 	@Produces("application/json")
 	public Response update(Funcionario funcionario) {
@@ -199,7 +198,6 @@ public class FuncionarioController {
 	
 	@RolesAllowed({TipoRole.ADMIN})
 	@GET
-	@Path("/listar")
 	@Produces("application/json")
 	public List<Funcionario> getAll() {
 		
@@ -212,7 +210,7 @@ public class FuncionarioController {
 	
 	@RolesAllowed({TipoRole.ADMIN})
 	@GET
-	@Path("/id/{id}")
+	@Path("/{id}")
 	@Produces("application/json")
 	public Response getUsuarioById(@PathParam("id") int idUsuario) {
 		
@@ -237,7 +235,7 @@ public class FuncionarioController {
 	
 	@RolesAllowed({TipoRole.ADMIN})
 	@GET
-	@Path("/listar/nome/{nome}")
+	@Path("/nome/{nome}")
 	@Produces("application/json")
 	public Response getByNome(@PathParam("nome") String nome) {
 		

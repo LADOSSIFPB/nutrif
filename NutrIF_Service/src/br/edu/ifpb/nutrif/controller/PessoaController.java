@@ -5,11 +5,14 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 
 import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
@@ -19,6 +22,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import br.edu.ifpb.nutrif.dao.AlunoDAO;
+import br.edu.ifpb.nutrif.dao.FuncionarioDAO;
 import br.edu.ifpb.nutrif.dao.LoginDAO;
 import br.edu.ifpb.nutrif.dao.LogoutDAO;
 import br.edu.ifpb.nutrif.dao.PessoaDAO;
@@ -28,10 +32,12 @@ import br.edu.ifpb.nutrif.util.BancoUtil;
 import br.edu.ifpb.nutrif.util.StringUtil;
 import br.edu.ifpb.nutrif.validation.Validate;
 import br.edu.ladoss.entity.Error;
+import br.edu.ladoss.entity.Funcionario;
 import br.edu.ladoss.entity.Login;
 import br.edu.ladoss.entity.Logout;
 import br.edu.ladoss.entity.Pessoa;
 import br.edu.ladoss.entity.PessoaAcesso;
+import br.edu.ladoss.enumeration.TipoRole;
 
 @Path("pessoa")
 public class PessoaController {
@@ -217,6 +223,37 @@ public class PessoaController {
 		}
 		
 		return builder.build();		
+	}
+	
+	/**
+	 * Buscar Pessoa através do identificador.
+	 * 
+	 * @param idPessoa
+	 * @return
+	 */
+	@RolesAllowed({TipoRole.ADMIN})
+	@GET
+	@Path("/{id}")
+	@Produces("application/json")
+	public Response getById(@PathParam("id") int idPessoa) {
+		
+		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
+		builder.expires(new Date());
+
+		try {
+
+			Pessoa pessoa = PessoaDAO.getInstance().getById(idPessoa); 
+			
+			builder.status(Response.Status.OK);
+			builder.entity(pessoa);
+
+		} catch (SQLExceptionNutrIF exception) {
+
+			builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
+					exception.getError());			
+		}
+
+		return builder.build();
 	}
 	
 	/**

@@ -11,6 +11,7 @@ import org.hibernate.Session;
 
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
 import br.edu.ifpb.nutrif.hibernate.HibernateUtil;
+import br.edu.ifpb.nutrif.util.BancoUtil;
 import br.edu.ladoss.entity.Funcionario;
 
 public class FuncionarioDAO extends GenericDao<Integer, Funcionario> {
@@ -29,17 +30,19 @@ public class FuncionarioDAO extends GenericDao<Integer, Funcionario> {
 		
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		
-		List<Funcionario> funcionario = null;
+		List<Funcionario> funcionarios = null;
 		
 		try {
 			
 			String hql = "from Funcionario as f"
-					+ " where f.nome like :nome";
+					+ " where f.nome like :nome"
+					+ " and f.ativo = :ativo";
 			
 			Query query = session.createQuery(hql);
 			query.setParameter("nome", "%" + nome + "%");
+			query.setParameter("ativo", BancoUtil.ATIVO);
 			
-			funcionario = (List<Funcionario>) query.getResultList();
+			funcionarios = (List<Funcionario>) query.getResultList();
 	        
 		} catch (HibernateException hibernateException) {
 			
@@ -52,7 +55,7 @@ public class FuncionarioDAO extends GenericDao<Integer, Funcionario> {
 			session.close();
 		}
 		
-		return funcionario;
+		return funcionarios;
 	}
 	
 	@Override

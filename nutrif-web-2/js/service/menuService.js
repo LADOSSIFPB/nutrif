@@ -39,7 +39,7 @@ nutrIFApp.factory("menu", function ($location, $rootScope) {
                 },
                 {
                     name: 'Edital',
-                    state: 'administrador.home',
+                    state: 'administrador.listar-editais',
                     type: 'link'
                 },
                 {
