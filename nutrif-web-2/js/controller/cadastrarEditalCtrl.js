@@ -2,7 +2,7 @@
  * Cadastro do Edital.
  */
 nutrIFApp.controller('cadastrarEditalCtrl', function ($scope,
-    $mdToast, $state, toastUtil, arrayUtil, campusService, funcionarioService, editalService) {
+    $mdToast, $state, toastUtil, arrayUtil, campusService, funcionarioService, editalService, eventoService, userService) {
 
     // Edital
     $scope.edital = {};
@@ -26,7 +26,10 @@ nutrIFApp.controller('cadastrarEditalCtrl', function ($scope,
         edital.dataInicial = Date.parse(edital.dataInicial);
         edital.dataFinal = Date.parse(edital.dataFinal);
         
-        edital.responsavel = responsavelSelecionado;
+        edital.responsavel = $scope.responsavelSelecionado;
+        
+        edital.funcionario = {};
+        edital.funcionario.id = userService.getUser().id;
 
         editalService.cadastrar(edital)
             .then(function (response) {
@@ -60,10 +63,19 @@ nutrIFApp.controller('cadastrarEditalCtrl', function ($scope,
     
     function carregamentoInicial() {
 
-        // Carregar Cursos para seleção no cadastro do Curso.
+        // Carregar Cursos para seleção no cadastro do Edital.
         campusService.listar()
             .then(function(response) {
                 $scope.campi = response.data;
+            })
+            .catch(function (error) {
+                toastUtil.showErrorToast(error);
+            });
+        
+        // Carregar Eventos para seleção no cadastro do Edital.
+        eventoService.listar()
+            .then(function(response) {
+                $scope.eventos = response.data;
             })
             .catch(function (error) {
                 toastUtil.showErrorToast(error);

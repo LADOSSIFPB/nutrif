@@ -18,11 +18,11 @@ nutrIFApp.factory("funcionarioService", function($http, serviceCfg) {
 	}
 
 	var _listByNome = function (nome){
-		return $http.get(_path+ "/nome/" + nome);
+		return $http.get(_path + "/nome/" + encodeURI(nome));
 	}
 
 	var _getRoles = function(){
-		return $http.get(config.baseUrl() + "/role/listar");
+		return $http.get(_path + "/role/");
 	}
 
 	var _atualizar = function(funcionario){

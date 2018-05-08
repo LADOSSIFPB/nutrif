@@ -64,7 +64,7 @@
                 <!-- Campus -->
                 <md-input-container flex>
                     <label>Campus</label>
-                    <md-select ng-model="edital.campus.id" aria-label="Selecione o campus">
+                    <md-select ng-model="edital.campus.id" aria-label="Selecione o campus" required>
                         <md-option ng-repeat="campus in campi" value="{{campus.id}}">
                             {{campus.cidade}}
                         </md-option>
@@ -78,14 +78,18 @@
                 </md-input-container>
 
                 <!-- Validade -->
-                <md-content>
-                    <label>Validade</label>
-                    <md-datepicker ng-model="edital.dataInicial" md-placeholder="Início" ng-required="true">
-                    </md-datepicker>
-                    <md-datepicker ng-model="edital.dataFinal" md-placeholder="Fim" ng-required="true">
-                    </md-datepicker>
-                </md-content>
-
+                <!-- Data Inicial -->
+                <md-input-container class="md-input-has-placeholder">
+                    <label>Início</label>
+                    <input date="true" time="true" mdc-datetime-picker="" type="text" id="dataInicial" placeholder="Data Inicial da Validade" ng-model="edital.dataInicial" class=" md-input" readonly="readonly" required>
+                </md-input-container>
+                
+                <!-- Data Final -->
+                <md-input-container class="md-input-has-placeholder">
+                    <label>Fim</label>
+                    <input date="true" time="true" mdc-datetime-picker="" type="text" id="dataFinal" placeholder="Data Final da Validade" ng-model="edital.dataFinal" class=" md-input" readonly="readonly" required>
+                </md-input-container>
+                
                 <!-- Pretensão -->
                 <md-input-container class="md-block">
                     <md-checkbox ng-model="edital.previstoPretensao" aria-label="Obrigatório Pretensão">

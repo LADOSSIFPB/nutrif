@@ -1,35 +1,35 @@
 /*
  *  Mapeamento dos serviço de Evento.
  */
-nutrIFApp.factory("eventoService", function ($http, config) {
+nutrIFApp.factory("eventoService", function ($http, serviceCfg) {
 
-    var _path = config.baseUrl() + "/evento";
+    var _path = serviceCfg.baseUrl() + "/evento";
 
-    var _listarEvento = function () {
-        return $http.get(_path + "/listar");
+    var _listar = function () {
+        return $http.get(_path);
     }
 
-    var _cadastrarEvento = function (evento) {
-        return $http.post(_path + "/inserir", evento);
+    var _cadastrar = function (evento) {
+        return $http.post(_path, evento);
     }
 
-    var _buscarEventoPorNome = function (nome) {
-        return $http.get(_path + "/listar/nome/" + nome);
+    var _buscarPorNome = function (nome) {
+        return $http.get(_path + "/nome/" + encodeURI(nome));
     }
 
-    var _getEventoById = function (id) {
-        return $http.get(_path + "/id/" + id);
+    var _getById = function (id) {
+        return $http.get(_path + "/" + encodeURI(id));
     }
 
-    var _atualizarEvento = function (evento) {
-        return $http.post(_path + "/atualizar", evento);
+    var _atualizar = function (evento) {
+        return $http.put(_path, evento);
     }
 
     return {
-        listarEvento: _listarEvento,
-        cadastrarEvento: _cadastrarEvento,
-        buscarEventoPorNome: _buscarEventoPorNome,
-        getEventoById: _getEventoById,
-        atualizarEvento: _atualizarEvento
+        listar: _listar,
+        cadastrar: _cadastrar,
+        buscarPorNome: _buscarPorNome,
+        getById: _getById,
+        atualizar: _atualizar        
     };
 });

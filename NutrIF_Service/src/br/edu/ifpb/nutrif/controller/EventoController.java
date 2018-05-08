@@ -8,19 +8,18 @@ import javax.annotation.security.PermitAll;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
-import br.edu.ifpb.nutrif.dao.CursoDAO;
 import br.edu.ifpb.nutrif.dao.EventoDAO;
 import br.edu.ifpb.nutrif.exception.ErrorFactory;
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
 import br.edu.ifpb.nutrif.util.BancoUtil;
 import br.edu.ifpb.nutrif.validation.Validate;
-import br.edu.ladoss.entity.Curso;
 import br.edu.ladoss.entity.Error;
 import br.edu.ladoss.entity.Evento;
 
@@ -29,7 +28,6 @@ public class EventoController {
 	
 	@PermitAll
 	@GET
-	@Path("/listar")
 	@Produces("application/json")
 	public List<Evento> getAll() {
 		
@@ -66,7 +64,6 @@ public class EventoController {
 	
 	@PermitAll
 	@POST
-	@Path("/inserir")
 	@Consumes("application/json")
 	@Produces("application/json")
 	public Response insert(Evento evento) {
@@ -113,8 +110,7 @@ public class EventoController {
 	 * @return
 	 */
 	@PermitAll
-	@POST
-	@Path("/atualizar")
+	@PUT
 	@Consumes("application/json")
 	@Produces("application/json")
 	public Response update(Evento evento) {
@@ -156,7 +152,7 @@ public class EventoController {
 	 */
 	@PermitAll
 	@GET
-	@Path("/listar/nome/{nome}")
+	@Path("/nome/{nome}")
 	@Produces("application/json")
 	public Response listByNome(@PathParam("nome") String nome) {
 		
