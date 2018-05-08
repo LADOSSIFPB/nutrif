@@ -1,0 +1,32 @@
+{
+    "aluno": [
+        {
+            "id": 1,
+            "nome": "João da Silva",
+            "cpf": "00000000000",
+            "email": "joão@codingthesmartway.com",
+            "campus": {
+                "id": 1
+            }
+        },
+        {
+            "id": 1,
+            "nome": "Maria da Silva",
+            "cpf": "11111111111",
+            "email": "maria@codingthesmartway.com",
+            "campus": {
+                "id": 1
+            }
+        }
+    ],
+    "campus": [
+        {
+            "id": 1,
+            "cidade": "Campina Grande"
+        },
+        {
+            "id": 2,
+            "cidade": "Guarabira"
+        }
+    ]
+}

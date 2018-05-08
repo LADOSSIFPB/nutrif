@@ -1,7 +1,7 @@
 /*
  *  Mapeamento dos serviço de Pretensão.
  */
-nutrifApp.factory("pretensaoService", function ($http, config, userService) {
+nutrIFApp.factory("pretensaoService", function ($http, config, userService) {
 
     var _path = config.baseUrl() + "/pretensaorefeicao";
 

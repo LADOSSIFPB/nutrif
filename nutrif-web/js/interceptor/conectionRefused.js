@@ -1,9 +1,14 @@
-nutrifApp.config(function ($httpProvider) {
+/**
+ * Interceptador para requisições sem sucesso. Host sem alcance.
+ */
+nutrIFApp.config(function ($httpProvider) {
     $httpProvider.interceptors.push(function ($q, $injector) {
         return {
             responseError: function (rejection) {
 
                 if (rejection.status <= 0) {
+
+                    console.log("Conexão recusada");
 
                     var mdToast = $injector.get("$mdToast");
 

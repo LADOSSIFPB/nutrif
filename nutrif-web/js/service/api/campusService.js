@@ -1,20 +1,30 @@
 /*
  *  Mapeamento dos serviço de Campus.
  */
-nutrifApp.factory("campusService", function ($http, config) {
+nutrIFApp.factory("campusService", function ($http, serviceCfg){
 
-    var _path = config.baseUrl() + "/campus";
+	var _path = serviceCfg.baseUrl() + "/campus";
 
-    var _listarCampi = function () {
-        return $http.get(_path + "/listar");
+    var _cadastrar = function (campus){
+		return $http.post(_path, campus)
+	};
+    
+    var _listar = function () {
+        return $http.get(_path);
     }
 
+    var _buscarPorCidade = function (cidade){
+		return $http.get(_path + "/cidade/" + encodeURI(cidade))
+	};
+    
     var _getById = function (id) {
-        return $http.get(_path + "/id/" + id);
+        return $http.get(_path + "/" + encodeURI(id));
     }
 
     return {
-        listarCampi: _listarCampi,
-        getById: _getById
+        cadastrar: _cadastrar,
+        listar: _listar,
+        getById: _getById,
+        buscarPorCidade: _buscarPorCidade
     };
 });

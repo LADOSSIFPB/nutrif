@@ -1,7 +1,7 @@
 /*
  *  Controlar entrada no Refeitório do Aluno através do QR-Code.
  */
-nutrifApp.controller('entrarRestauranteQrCodeCtrl', function ($scope, userService, pretensaoService, toastUtil, $mdToast, $state, $stateParams) {
+nutrIFApp.controller('entrarRestauranteQrCodeCtrl', function ($scope, userService, pretensaoService, toastUtil, $mdToast, $state, $stateParams) {
 
     $scope.onSuccess = function (data) {
         pretensaoService.verifyChaveAcesso(data)

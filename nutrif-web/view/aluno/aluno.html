@@ -1,13 +1,6 @@
-<div flex layout="column">
-
-    <div ng-include="'view/templates/pretensao/toolbar-pretensao.html'"></div>
-
-    <md-content flex layout="column">
-        <div class="container-margin">
-            <div ui-view></div>
-        </div>
-        <span flex></span>
-     	<div ng-include="'view/templates/footer.html'"></div>
-    </md-content>
-
-</div>
+<header id="header-visitante" ng-include="'view/templates/visitante/header.html'"></header>
+<main id="main-visitante">
+    <!-- <ui-breadcrumb></ui-breadcrumb> -->
+    <div ui-view></div>
+</main>
+<footer id="footer-visitante" ng-include="'view/templates/footer.html'"></footer>

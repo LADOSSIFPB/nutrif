@@ -1,15 +1,15 @@
 /*
  *  Mapeamento dos serviço de Dia.
  */
-nutrifApp.factory("diaService", function($http, config){
+nutrIFApp.factory("diaService", function($http, serviceCfg){
 
-    var _path = config.baseUrl() + "/dia";
+	var _path = serviceCfg.baseUrl() + "/dia";
 
-	var _listarDias = function(refeicao){
-		return $http.get(_path + "/listar", refeicao);
+	var _listar = function(){
+		return $http.get(_path);
 	};
 
 	return {
-		listarDias : _listarDias
+		listar: _listar
 	};
 });

@@ -1,64 +1,52 @@
-angular.module('NutrifApp').controller('cadastrarCursoCtrl', function ($scope,
-		$mdToast, $state,cursoService,campusService) {
-	
-	
-	    $scope.campi = [];
+/*
+ *  Controlar inserção da Refeição.
+ */
+nutrIFApp.controller('cadastrarCursoCtrl', function ($scope,
+    $mdToast, $state, cursoService, campusService, nivelService) {
 
-		this.cadastrar = function (curso) {
-			
-			console.log(curso);
+    $scope.campi = [];
+    $scope.niveis = [];
 
-			// Enviar para o serviço de cadastro de curso.
-			cursoService.cadastrarCurso(curso)
-			.success(onSuccessCallback)
-			.error(onErrorCallback);
-		}
+    // Enviar para o serviço de cadastro do Curso.
+    $scope.adicionar = function () {
 
-		function onSuccessCallback (data, status) {
+        // Enviar para o serviço de cadastro de curso.            
+        cursoService.cadastrar(curso)
+            .then(function (response) {
+                // Mensagem
+                toastUtil.showSuccessToast('Curso cadastrado com sucesso.');
 
-			$mdToast.show(
-				$mdToast.simple()
-				.textContent('Curso cadastrado com sucesso!')
-				.position('top right')
-				.action('OK')
-				.hideDelay(6000)
-			);
+                // Redirecionamento            
+                $state.transitionTo('administrador.listar-cursos', {
+                    reload: true
+                });
+            })
+            .catch(function (error) {
+                toastUtil.showErrorToast(error);
+            });
+    }
 
-			$state.transitionTo('home.listar-cursos');
-		}
+    function carregamentoInicial() {
 
-		function onErrorCallback (data, status) {
-			var _message = '';
+        // Carregar Cursos para seleção no cadastro do Curso.
+        campusService.listar()
+            .then(function(response) {
+                $scope.campi = response.data;
+            })
+            .catch(function (error) {
+                toastUtil.showErrorToast(error);
+            });
+        
+        // Carregar Níveis para seleção no cadastro do Curso.
+        nivelService.listar()
+            .then(function(response) {
+                $scope.niveis = response.data;
+            })
+            .catch(function (error) {
+                toastUtil.showErrorToast(error);
+            });
+    }
 
-			if (!data) {
-				_message = 'Ocorreu um erro na comunicação com o servidor, favor chamar o suporte.'
-			} else {
-				_message = data.mensagem
-			}
-
-			$mdToast.show(
-				$mdToast.simple()
-				.textContent(_message)
-				.position('top right')
-				.action('OK')
-				.hideDelay(6000)
-			);
-
-			$state.transitionTo('home.listar-cursos');
-		}
-
-		function carregarCampi () {
-			campusService.listarCampi()
-			.success(function (data, status){
-				$scope.campi = data;
-				console.log($scope.campi);
-			})
-			.error(function (data, status){
-				alert("Houve um problema ao carregar os Campus.");
-			});
-		}
-		
-		carregarCampi();
-		
-
+    // Inicializar listagem dos campi e níveis.
+    carregamentoInicial();
 });

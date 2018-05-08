@@ -1,15 +1,15 @@
 /*
  *  Mapeamento dos serviço de Turno.
  */
-nutrifApp.factory("turnoService", function($http, config){
+nutrIFApp.factory("turnoService", function($http, serviceCfg){
 
-    var _path = config.baseUrl() + "/turno";
+	var _path = serviceCfg.baseUrl() + "/turno";
 
-	var _listarTurnos = function(){
-		return $http.get(_path + "/listar");
+	var _listar = function(){
+		return $http.get(_path);
 	};
 	
 	return {
-		listarTurnos: _listarTurnos
+		listar: _listar
 	};
 });

@@ -1,7 +1,7 @@
 /*
  *  Controlar ações da listagem do Evento.
  */
-nutrifApp.controller('listarEventoCtrl', function ($scope, toastUtil, eventoService) {
+nutrIFApp.controller('listarEventoCtrl', function ($scope, toastUtil, eventoService) {
 
     $scope.nome = "";
     $scope.eventos = [];

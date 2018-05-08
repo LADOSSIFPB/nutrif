@@ -1,142 +1,87 @@
 /**
  * Cadastro do Edital.
  */
-angular.module('NutrifApp').controller('cadastrarEditalCtrl', function ($scope, $mdToast, $state, $window,
-        editalService, userService, funcionarioService, campusService, eventoService) {
+nutrIFApp.controller('cadastrarEditalCtrl', function ($scope,
+    $mdToast, $state, toastUtil, arrayUtil, campusService, funcionarioService, editalService, eventoService, userService) {
 
-        $scope.campi = [];
-        $scope.eventos = [];
+    // Edital
+    $scope.edital = {};
+    
+    // Campi
+    $scope.campi = [];
+    
+    // Eventos
+    $scope.eventos = [];
+    
+    // Auto-complete
+    $scope.responsaveis = [];
+    $scope.nomeResponsavel = "";
+    $scope.responsavelSelecionado = null;
+    
+    // Enviar para o serviço de cadastro do Edital.
+    $scope.adicionar = function () {
+        
+        let edital = $scope.edital;
 
-        // Responsáveis
-        this.selectedItem = null;
-        this.searchText = null;
-        this.autocompleteDemoRequireMatch = true;
-        $scope.responsaveis = [];
+        edital.dataInicial = Date.parse(edital.dataInicial);
+        edital.dataFinal = Date.parse(edital.dataFinal);
+        
+        edital.responsavel = $scope.responsavelSelecionado;
+        
+        edital.funcionario = {};
+        edital.funcionario.id = userService.getUser().id;
 
-        this.cadastrar = function (edital) {
+        editalService.cadastrar(edital)
+            .then(function (response) {
+                // Mensagem
+                toastUtil.showSuccessToast('Edital cadastrado com sucesso.');
 
-            // Adicionar funcionário.
-            edital.funcionario = {};
-            edital.funcionario.id = userService.getUser().id;
-
-            // Responsável
-            edital.responsavel = this.selectedItem;
-
-            // Enviar para o serviço de cadastro de Edital.
-            editalService.cadastrarEdital(edital)
-                .success(onSuccessCallback)
-                .error(onErrorCallback);
-        }
-
-        function onSuccessCallback(data, status) {
-
-            $mdToast.show(
-                $mdToast.simple()
-                .textContent('Edital cadastrado com sucesso!')
-                .position('top right')
-                .action('OK')
-                .hideDelay(6000)
-            );
-
-            $state.transitionTo('home.listar-edital');
-        }
-
-        function onErrorCallback(data, status) {
-            var _message = '';
-
-            if (!data) {
-                _message = 'Ocorreu um erro na comunicação com o servidor, favor chamar o suporte.'
-            } else {
-                _message = data.mensagem
-            }
-
-            $mdToast.show(
-                $mdToast.simple()
-                .textContent(_message)
-                .position('top right')
-                .action('OK')
-                .hideDelay(6000)
-            );
-
-            $state.transitionTo('home.listar-edital');
-        }
-
-        // Selecionar responsável pelo Edital.
-        this.buscarResponsaveis = function buscarResponsaveis(query) {
-
-            var lowerCaseQuery = angular.lowercase(query);
-
-            var results = this.listarFuncionario(lowerCaseQuery);
-
-            return results || [];
-        }
-
-        // Consultar responsável no serviço.
-        this.listarFuncionario = function listarFuncionario(query) {
-
-            funcionarioService.getFuncionarioByNome(query)
-                .success(onSuccessListarFuncionario)
-                .error(onErrorCallback);
-
-            return $scope.responsaveis;
-        }
-
-        function onSuccessListarFuncionario(data, status) {
-            return $scope.responsaveis = data;
-        }
-
-        function transformChip(responsavel) {
-            // If it is an object, it's already a known chip
-            if (angular.isObject(responsavel)) {
-                console.log("Responsá" + responsavel);
-                return responsavel;
-            }
-        }
-
-        // Carregar os Campi para seleção no Edital
-        function carregarCampi() {
-            campusService.listarCampi()
-                .success(function (data, status) {
-                    $scope.campi = data;
-                })
-                .error(function (data, status) {
-                    alert("Houve um problema ao carregar os Campus.");
+                // Redirecionamento            
+                $state.transitionTo('administrador.listar-editais', {
+                    reload: true
                 });
-        }
+            })
+            .catch(function (error) {
+                toastUtil.showErrorToast(error);
+            });
+    };
 
-        // Carregar os Eventos para definir o tipo do Edital.
-        function carregarEventos() {
-            eventoService.listarEvento()
-                .success(function (data, status) {
-                    $scope.eventos = data;
-                })
-                .error(function (data, status) {
-                    alert("Houve um problema ao carregar os Eventos.");
-                });
-        }
+    $scope.pesquisarReponsavelNome = function (nome) {
+        return funcionarioService.listByNome(nome)
+            .then(function (result) {
 
-        carregarEventos();
-        carregarCampi();
-    })
-    .config(function ($mdDateLocaleProvider) {
-        // Example of a Spanish localization.
-        $mdDateLocaleProvider.months = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
-                                  'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
-        $mdDateLocaleProvider.shortMonths = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun',
-                                  'Jul', 'Ago', 'Sep', 'Out', 'Nov', 'Dez'];
-        $mdDateLocaleProvider.days = ['Domingo', 'Segunda', 'Terça', 'Quarta',
-                                'Quinta', 'Sexta', 'Sábado'];
-        $mdDateLocaleProvider.shortDays = ['Do', 'Se', 'Te', 'Qua', 'Qui', 'Sex', 'Sab'];
-        // Can change week display to start on Monday.
-        $mdDateLocaleProvider.firstDayOfWeek = 1;
-        // Optional.
-        //$mdDateLocaleProvider.dates = [1, 2, 3, 4, 5, 6, 7,8,9,10,11,12,13,14,15,16,17,18,19,
-        //                               20,21,22,23,24,25,26,27,28,29,30,31];
-        // In addition to date display, date components also need localized messages
-        // for aria-labels for screen-reader users.
-        $mdDateLocaleProvider.weekNumberFormatter = function (weekNumber) {
-            return 'Semana ' + weekNumber;
-        };
-        $mdDateLocaleProvider.msgCalendar = 'Calendario';
-        $mdDateLocaleProvider.msgOpenCalendar = 'Abrir calendario';
-    });
+                if (!arrayUtil.isEmpty(result.data)) {
+                    return result.data;
+                } else {
+                    return [];
+                }
+
+            }).catch(function (error) {
+                toastUtil.showErrorToast(error);
+            });
+    };
+    
+    function carregamentoInicial() {
+
+        // Carregar Cursos para seleção no cadastro do Edital.
+        campusService.listar()
+            .then(function(response) {
+                $scope.campi = response.data;
+            })
+            .catch(function (error) {
+                toastUtil.showErrorToast(error);
+            });
+        
+        // Carregar Eventos para seleção no cadastro do Edital.
+        eventoService.listar()
+            .then(function(response) {
+                $scope.eventos = response.data;
+            })
+            .catch(function (error) {
+                toastUtil.showErrorToast(error);
+            });
+    }
+
+    // Inicializar listagem dos campi e níveis.
+    carregamentoInicial();
+});

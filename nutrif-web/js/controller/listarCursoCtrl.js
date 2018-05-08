@@ -1,21 +1,15 @@
 /*
  *  Controlar ações da listagem do Curso.
  */
-nutrifApp.controller('listarCursoCtrl', function ($scope, toastUtil, cursoService) {
+nutrIFApp.controller('listarCursoCtrl', function ($scope, toastUtil, cursoService) {
 
     $scope.nome = "";
     $scope.cursos = [];
 
-    $scope.listarCursos = function () {
-        cursoService.listarCursos()
-            .then(onSuccessCallback)
-            .catch(onErrorCallback);
-    }
-
     $scope.pesquisar = function (nome) {
         if (nome.length >= 3) {
             if (nome.match(/[a-zA-Z]/i) != null) {
-                cursoService.buscarCursoPorNome(nome)
+                cursoService.buscarPorNome(nome)
                     .then(onSuccessCallback)
                     .catch(onErrorCallback);
             }
@@ -42,6 +36,4 @@ nutrifApp.controller('listarCursoCtrl', function ($scope, toastUtil, cursoServic
         limit: 8,
         page: 1
     };
-
-    $scope.listarCursos();
 });

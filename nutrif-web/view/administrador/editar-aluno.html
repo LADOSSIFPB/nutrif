@@ -1,0 +1,177 @@
+<md-content flex layout-padding>
+    <!-- Dados básicos -->
+    <md-card>
+        <md-card-header>
+            <md-card-avatar>
+                <ng-md-icon icon="school" size="42"></ng-md-icon>
+            </md-card-avatar>
+
+            <md-card-header-text>
+                <span class="md-title">Editar informações básicas do Aluno</span>
+                <span class="md-subhead">Clique nesse botão salvar para alterar as informações básicas do Aluno.</span>
+            </md-card-header-text>
+
+            <!-- Salvar alterações -->
+            <md-card-icon-actions>
+                <md-button aria-label="Salvar Alterações dos dados básicos do Aluno." ng-click="atualizarBasico()">
+                    <md-tooltip md-direction="bottom">
+                        Salvar Alterações dos dados básicos do Aluno
+                    </md-tooltip>
+                    <ng-md-icon icon="save" size="42"></ng-md-icon>
+                </md-button>
+            </md-card-icon-actions>
+
+        </md-card-header>
+        <md-card-content layout="column">
+
+            <!-- CPF -->
+            <md-input-container class="md-icon-float md-block">
+                <label>Cpf</label>
+                <input ng-model="aluno.cpf" ui-mask="999.999.999-99" title="Formato para cadastro de cpf: 000.000.00-00" required>
+            </md-input-container>
+
+            <!-- Nome -->
+            <md-input-container class="md-icon-float md-block">
+                <label>Nome</label>
+                <input ng-model="aluno.nome" type="text" required>
+            </md-input-container>
+
+            <!-- Email -->
+            <md-input-container class="md-icon-float md-block">
+                <label>E-mail</label>
+                <input ng-model="aluno.email" type="email" title="Formato para cadastro de email: usuario@email.com" required>
+            </md-input-container>
+
+            <!-- Campus -->
+            <md-input-container class="md-icon-float md-block">
+                <label>Campus</label>
+                <md-select ng-model="aluno.campus.id" aria-label="Selecione o Campus" ng-required="true">
+                    <md-option ng-repeat="campus in campi" value="{{campus.id}}">
+                        {{campus.cidade}}
+                    </md-option>
+                </md-select>
+            </md-input-container>
+
+        </md-card-content>
+    </md-card>
+
+    <!-- Acesso -->
+    <md-card>
+        <md-card-header>
+            <md-card-avatar>
+                <ng-md-icon icon="security" size="42"></ng-md-icon>
+            </md-card-avatar>
+
+            <md-card-header-text>
+                <span class="md-title">Informações de Acesso</span>
+                <span class="md-subhead">Clique nesse botão salvar para alterar as informações de Acesso do Aluno.</span>
+            </md-card-header-text>
+
+            <!-- Salvar alterações -->
+            <md-card-icon-actions>
+                <md-button aria-label="Salvar Alterações de Acesso." ng-click="atualizarAcesso(aluno)">
+                    <md-tooltip md-direction="bottom">Salvar alterações de acesso do Aluno</md-tooltip>
+                    <ng-md-icon icon="save" size="42"></ng-md-icon>
+                </md-button>
+            </md-card-icon-actions>
+
+        </md-card-header>
+        <md-card-content layout="column">
+
+            <!-- E-mail -->
+            <md-input-container class="md-icon-float md-block">
+                <label>E-mail</label>
+                <input ng-model="aluno.email" type="email" required>
+                <div class="hint">Informe um e-mail que será utilizado para recuperação de senha.</div>
+            </md-input-container>
+
+            <!-- Senha -->
+            <md-input-container class="md-icon-float md-block">
+                <label>Senha</label>
+                <input ng-model="aluno.senha" type="password" required>
+                <div class="hint">Informe uma senha que será utilizada para acessar o sistema na solicitação da Pretensão.</div>
+            </md-input-container>
+
+            <!-- Re-Senha -->
+            <md-input-container class="md-icon-float md-block">
+                <label>Redigite a Senha</label>
+                <input ng-model="aluno.resenha" type="password" required>
+                <div class="hint">Redigite a senha para confirmação.</div>
+            </md-input-container>
+
+        </md-card-content>
+    </md-card>
+
+    <md-card>
+        <md-card-content layout="column">
+            <!-- Adição e remoção de Matrículas -->
+            <md-tabs md-dynamic-height md-border-bottom>
+                <!-- Tab 1 -->
+                <md-tab label="Matrículas">
+                    <md-card>
+                        <md-card-header>
+                            <md-card-avatar>
+                                <ng-md-icon icon="list" size="36"></ng-md-icon>
+                            </md-card-avatar>
+
+                            <md-card-header-text>
+                                <span class="md-title">Gerenciar Matrículas</span>
+                                <span class="md-subhead">Selecione a(s) Matrículas(s) para Remover ou Adicione uma nova.</span>
+                            </md-card-header-text>
+
+                            <md-card-actions layout="row">
+                                <md-card-icon-actions>
+
+                                    <md-button class="md-icon-button" aria-label="Apagar Matrículas" ng-click="removerMatricula()">
+                                        <md-tooltip md-direction="bottom">Apagar Matrículas</md-tooltip>
+                                        <ng-md-icon icon="delete" size="24"></ng-md-icon>
+                                    </md-button>
+
+                                    <md-button class="md-icon-button" aria-label="Adicionar Matrícula" ng-click="adicionarMatricula()">
+                                        <md-tooltip md-direction="bottom">Adicionar Matrícula</md-tooltip>
+                                        <ng-md-icon icon="add" size="24"></ng-md-icon>
+                                    </md-button>
+
+                                </md-card-icon-actions>
+                            </md-card-actions>
+                        </md-card-header>
+
+                        <md-table-container>
+                            <table md-table md-row-select multiple ng-model="selectedMatriculas">
+                                <thead md-head>
+                                    <tr md-row>
+                                        <th md-column>Número</th>
+                                        <th md-column>Curso</th>
+                                        <th md-column>Turno</th>
+                                        <th md-column>Período</th>
+                                        <th md-column>Turma</th>
+                                        <th md-column>Situação</th>
+                                        <th md-column>Editar</th>
+                                    </tr>
+                                </thead>
+                                <tbody md-body>
+                                    <tr md-row md-select="matricula" md-select-id="id" md-auto-select ng-repeat="matricula in matriculas">
+                                        <td md-cell>{{matricula.numero | uppercase}}</td>
+                                        <td md-cell>{{matricula.curso.nome | uppercase}}</td>
+                                        <td md-cell>{{matricula.turno.nome | uppercase}}</td>
+                                        <td md-cell>{{matricula.periodo.nome | uppercase}}</td>
+                                        <td md-cell>{{matricula.turma.nome | uppercase}}</td>
+                                        <td md-cell>{{matricula.situacao.nome | uppercase}}</td>
+                                        <td md-cell>
+                                            <md-button aria-label="Editar Matrícula" ui-sref="administrador.aditar-matricula({id: matricula.id})" ui-sref-opts="{reload: true}">
+                                                <ng-md-icon icon="edit" size="18"></ng-md-icon>
+                                                <md-tooltip md-direction="bottom">
+                                                    Editar
+                                                </md-tooltip>
+                                            </md-button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </md-table-container>
+                    </md-card>
+                </md-tab>
+            </md-tabs>
+        </md-card-content>
+    </md-card>
+</md-content>

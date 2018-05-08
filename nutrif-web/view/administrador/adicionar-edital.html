@@ -1,0 +1,103 @@
+<md-content flex layout-padding>
+    <md-card flex layout-padding>
+        <md-card-header>
+            <md-card-avatar>
+                <ng-md-icon icon="description" size="42"></ng-md-icon>
+            </md-card-avatar>
+
+            <md-card-header-text>
+                <span class="md-title">Adicionar Edital</span>
+                <span class="md-subhead">Clique nesse botão salvar para alterar as informações básicas do Edital.</span>
+            </md-card-header-text>
+
+            <!-- Salvar alterações -->
+            <md-card-icon-actions>
+                <md-button aria-label="Salvar Alterações dos dados básicos do Edital." ng-click="adicionar()">
+                    <md-tooltip md-direction="bottom">Salvar Edital</md-tooltip>
+                    <ng-md-icon icon="save" size="42"></ng-md-icon>
+                </md-button>
+            </md-card-icon-actions>
+        </md-card-header>
+
+        <md-card-content layout="column">
+            <form layout="column">
+                
+                <!-- Nome -->
+                <md-input-container class="md-icon-float md-block">
+                    <label>Nome</label>
+                    <input ng-model="edital.nome" type="text" required>
+                </md-input-container>
+
+                <!-- Evento -->
+                <md-input-container flex>
+                    <label>Evento</label>
+                    <md-select ng-model="edital.evento.id" aria-label="Selecione o evento" required>
+                        <md-option ng-repeat="evento in eventos" value="{{evento.id}}">
+                            {{evento.nome}}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+
+                <!-- Responsável -->
+                <md-input-container class="md-icon-float md-block">
+                    <label>Responsável</label>
+                    <md-autocomplete md-input-name="autocompleteResponsavel" 
+                                     md-search-text="nomeResponsavel" 
+                                     md-items="responsavel in pesquisarReponsavelNome(nomeResponsavel)"
+                                     md-selected-item="responsavelSelecionado" 
+                                     md-item-text="responsavel.nome" 
+                                     md-input-minlength="0"
+                                     required 
+                                     flex>
+                        <md-item-template>
+                            <span md-highlight-text="nomeResponsavel" md-highlight-flags="^i">
+                                {{responsavel.nome}}{{" - "}}{{responsavel.campus.cidade}}
+                            </span>
+                        </md-item-template>
+                        <md-not-found>
+                            Nenhum Responsável com o nome "{{nomeResponsavel}}" foi encontrado.
+                            <a ui-sref="administrador.adicionar-">Deseja criar</a>?
+                        </md-not-found>
+                    </md-autocomplete>
+                </md-input-container>
+                
+                <!-- Campus -->
+                <md-input-container flex>
+                    <label>Campus</label>
+                    <md-select ng-model="edital.campus.id" aria-label="Selecione o campus" required>
+                        <md-option ng-repeat="campus in campi" value="{{campus.id}}">
+                            {{campus.cidade}}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+
+                <!-- Quantidade de contemplados -->
+                <md-input-container class="md-icon-float md-block">
+                    <label>Cota</label>
+                    <input ng-model="edital.quantidadeBeneficiadosPrevista" type="text" required>
+                </md-input-container>
+
+                <!-- Validade -->
+                <!-- Data Inicial -->
+                <md-input-container class="md-input-has-placeholder">
+                    <label>Início</label>
+                    <input date="true" time="true" mdc-datetime-picker="" type="text" id="dataInicial" placeholder="Data Inicial da Validade" ng-model="edital.dataInicial" class=" md-input" readonly="readonly" required>
+                </md-input-container>
+                
+                <!-- Data Final -->
+                <md-input-container class="md-input-has-placeholder">
+                    <label>Fim</label>
+                    <input date="true" time="true" mdc-datetime-picker="" type="text" id="dataFinal" placeholder="Data Final da Validade" ng-model="edital.dataFinal" class=" md-input" readonly="readonly" required>
+                </md-input-container>
+                
+                <!-- Pretensão -->
+                <md-input-container class="md-block">
+                    <md-checkbox ng-model="edital.previstoPretensao" aria-label="Obrigatório Pretensão">
+                        Obrigatória a realização da Pretensão.
+                    </md-checkbox>
+                    <div class="hint">Realização da pretensão para todos os beneficiários do Edital.</div>
+                </md-input-container>
+            </form>
+        </md-card-content>
+    </md-card>
+</md-content>

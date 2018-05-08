@@ -1,75 +1,181 @@
-.container-margin {
-    margin-right: 10%;
-    margin-left: 10%;
-    margin-top: 3%;
-    margin-bottom: 3%;
+/* CSS */
+
+
+/* CSS - Página */
+
+
+/* Reset */
+
+.wrapper {
+    height: 100%;
+    margin: 0 auto;
+    /* Flex para o parent */
+    display: flex;
+    flex-direction: column;
 }
+
+
+/* main - login */
+main.welcome {
+    background: url("../image/background_2.jpg") no-repeat center center fixed;
+    /* Photo by Lex Sirikiat on Unsplash */
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+div.login {
+    float: right;
+    width: 35%;
+    padding: 30px;
+}
+
+
+/* main */
+
+main {
+    padding: 1vh;
+    flex-grow: 1;
+    background-color: #ecf0f1;
+}
+
+#main-visitante {
+    margin-top: 70px;
+    margin-bottom: 70px;
+}
+
+
+/* toolbar */
 
 .toolbar-input {
-    margin-left: 15px;
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    align-items: center;
 }
 
-md-toolbar.md-table-toolbar div.toolbar-input>input {
-    width: 100%;
-    margin: 0;
-    border: none;
-    color: rgba(0, 0, 0, 0.87);
-    outline: 0;
+.toolbar-input>input {
+    flex-grow: 2;
 }
 
-.home-background {
-    background-color: #F7F7F7;
-}
-
-.layout-padding {
-    padding-left: 6%;
-    padding-right: 6%;
-    padding-bottom: 4%;
-    padding-top: 3%
-}
-
-.modal-footer {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-}
-
-/* Card */
-.nutrif-md-card-header {
+md-card-header {
     background-color: #F0F0F0;
+}
+
+ng-md-icon>svg {
+    fill: rgba(0, 0, 0, .54);
+}
+
+.header-toolbar-icon>svg {
+    fill: rgba(255, 255, 255, .8);
+}
+
+
+/* header - login */
+
+.logo-login {
+    margin: 0 auto;
+    text-align: center;
+    padding-bottom: 5px;
+}
+
+
+/* header - visitante */
+
+#header-visitante {
+    background-color: grey;
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    z-index: 1;
+    display: block;
+}
+
+.toolbar-header-visitante,
+.toolbar-footer {
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    align-items: center;
+}
+
+.logo-visitante {
+    flex-grow: 1;
+}
+
+.logo-visitante img {
+    width: 5.5em;
+}
+
+.header-visitante-clock {
+    text-align: right;
+    padding-right: 20px;
+}
+
+
+/* footer - login e admin */
+
+.toolbar-footer>div {
+    flex-grow: 1;
+}
+
+.toolbar-footer>div>img {
+    flex-grow: 1;
+    display: block;
+    margin-left: auto;
+    margin-right: auto
+}
+
+
+/* footer - visitante */
+
+#footer-visitante {
+    background-color: cadetblue;
+    position: fixed;
+    left: 0px;
+    bottom: 0px;
+    width: 100%;
+}
+
+
+/* Sidnav */
+
+.logo-sidenav>img {
+    /*width: 5.5em;*/
+}
+
+
+/* Carousel */
+
+.box-carousel {
+    width: 90%;
+    margin: 0 auto;
+}
+
+.right.carousel-control,
+.left.carousel-control,
+.carousel-indicators {
+    /*display: none;*/
+    opacity: 0;
+    filter: alpha(opacity=0);
+    /* IE support */
+}
+
+.row-carousel {
+    text-align: left;
 }
 
 md-card md-card-header md-card-avatar+md-card-header-text {
     max-height: none;
 }
 
-/* Hints - help */
-.hint {
-    /* Position the hint */
-    display: block;
-    margin-top: 5px;
-    /* Copy styles from ng-messages */
-    font-size: 12px;
-    line-height: 14px;
-    transition: all 0.3s cubic-bezier(0.55, 0, 0.55, 0.2);
-    /* Set our own color */
-    color: grey;    
+#main-visitante table.md-table td.md-cell {
+    font-size: 120%;
 }
 
-.hint.ng-hide,
-.hint.ng-enter,
-.hint.ng-leave.ng-leave-active {
-    bottom: 26px;
-    opacity: 0;
-}
-
-.hint.ng-leave,
-.hint.ng-enter.ng-enter-active {
-    bottom: 2px;
-    opacity: 1;
-}
-
-/* Imagem do Perfl do aluno */
-.img-perfil{
-    width: 200px;
+.md-column-cronograma:nth-child(1),
+.md-column-cronograma:nth-child(6) {
+    flex: 0 0 30%;
 }

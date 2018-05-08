@@ -1,7 +1,7 @@
 /*
  *  Controlar ações da Estatística.
  */
-nutrifApp.controller('estatisticasCtrl', function ($scope, config, toastUtil, pretensaoService, refeicaoRealizadaService) {
+nutrIFApp.controller('estatisticasCtrl', function ($scope, config, toastUtil, pretensaoService, refeicaoRealizadaService) {
 
     $scope.periodoPretensao = {
         dataInicio: Date.parse('-6'),

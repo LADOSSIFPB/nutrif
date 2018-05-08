@@ -1,7 +1,7 @@
 /*
  *  Mapeamento dos serviço de Arquivo: download e upload.
  */
-nutrifApp.factory("arquivoService", function ($http, config) {
+nutrIFApp.factory("arquivoService", function ($http, config) {
 
     var _path = config.baseUrl() + "/arquivo";
 

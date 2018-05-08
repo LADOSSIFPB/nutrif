@@ -1,7 +1,7 @@
 /*
  *  Controlar cadastro do Funcionário.
  */
-nutrifApp.controller('cadastrarFuncionarioCtrl', function ($scope, $mdToast, $state, toastUtil, funcionarioService, campusService) {
+nutrIFApp.controller('cadastrarFuncionarioCtrl', function ($scope, $mdToast, $state, toastUtil, funcionarioService, campusService) {
 
     $scope.roles = [];
     $scope.campi = [];

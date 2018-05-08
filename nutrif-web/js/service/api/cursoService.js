@@ -1,35 +1,35 @@
 /*
  *  Mapeamento dos serviço de Curso.
  */
-nutrifApp.factory("cursoService", function ($http, config) {
+nutrIFApp.factory("cursoService", function ($http, serviceCfg){
 
-    var _path = config.baseUrl() + "/curso";
+	var _path = serviceCfg.baseUrl() + "/curso";    
 
-    var _listarCursos = function (curso) {
-        return $http.get(_path + "/listar");
-    };
-
-    var _cadastrarCurso = function (curso) {
-        return $http.post(_path + "/inserir", curso);
+    var _cadastrar = function (curso) {
+        return $http.post(_path, curso);
     }
-
-    var _buscarCursoPorNome = function (nome) {
-        return $http.get(_path + "/listar/nome/" + nome);
+    
+    var _listar = function (curso) {
+        return $http.get(_path);
     };
 
-    var _getCursoById = function (id) {
-        return $http.get(_path + "/id/" + id);
+    var _buscarPorNome = function (nome) {
+        return $http.get(_path + "/nome/" + nome);
     };
 
-    var _atualizarCurso = function (curso) {
-        return $http.post(_path + "/atualizar", curso);
+    var _getById = function (id) {
+        return $http.get(_path + "/" + id);
     };
 
-    return {
-        listarCursos: _listarCursos,
-        cadastrarCurso: _cadastrarCurso,
-        buscarCursoPorNome: _buscarCursoPorNome,
-        getCursoById: _getCursoById,
-        atualizarCurso: _atualizarCurso
+    var _atualizar = function (curso) {
+        return $http.put(_path, curso);
+    };
+
+    return {        
+        cadastrar: _cadastrar,
+        listar: _listar,
+        buscarPorNome: _buscarPorNome,
+        getById: _getById,
+        atualizar: _atualizar
     };
 });

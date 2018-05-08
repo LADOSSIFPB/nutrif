@@ -1,40 +1,40 @@
 /*
  *  Mapeamento dos serviço de Funcionário.
  */
-nutrifApp.factory("funcionarioService", function($http, config){
+nutrIFApp.factory("funcionarioService", function($http, serviceCfg) {
 
-	var _path = config.baseUrl() + "/funcionario";
+    var _path = serviceCfg.baseUrl() + "/funcionario";
 
-	var _cadastrarFuncionario = function (funcionario){
-		return $http.post(_path + "/inserir", funcionario);
+	var _cadastrar = function (funcionario){
+		return $http.post(_path, funcionario);
 	}
 
 	var _getAll = function(){
-		return $http.get(_path + "/listar");
+		return $http.get(_path);
 	}
 
-	var _getFuncionarioById = function (id){
-		return $http.get(_path + "/id/" + encodeURI(id));
+	var _getById = function (id){
+		return $http.get(_path + "/" + encodeURI(id));
 	}
 
-	var _getFuncionarioByNome = function (nome){
-		return $http.get(_path+ "/listar/nome/" + nome);
+	var _listByNome = function (nome){
+		return $http.get(_path + "/nome/" + encodeURI(nome));
 	}
 
 	var _getRoles = function(){
-		return $http.get(config.baseUrl() + "/role/listar");
+		return $http.get(_path + "/role/");
 	}
 
-	var _atualizarFuncionario = function(funcionario){
-		return $http.post(_path + "/atualizar" ,funcionario);
+	var _atualizar = function(funcionario){
+		return $http.put(_path, funcionario);
 	}
 
 	return {
-		cadastrarFuncionario: _cadastrarFuncionario,
+		cadastrar: _cadastrar,
 		getAll: _getAll,
-		getFuncionarioById: _getFuncionarioById,
-		getFuncionarioByNome : _getFuncionarioByNome ,
+		getById: _getById,
+		listByNome : _listByNome,
 		getRoles: _getRoles,
-		atualizarFuncionario:  _atualizarFuncionario
+		atualizar:  _atualizar
 	};
 });

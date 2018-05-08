@@ -1,12 +1,12 @@
 /*
  *  Mapeamento dos serviço de Refeição Realizada.
  */
-nutrifApp.factory("refeicaoRealizadaService", function($http, config){
+nutrIFApp.factory("refeicaoRealizadaService", function($http, serviceCfg){
 
-    var _path = config.baseUrl() + "/refeicaorealizada";
+	var _path = serviceCfg.baseUrl() + "/refeicaorealizada";
 
-	var _inserirRefeicao = function(refeicao){
-		return $http.post(_path + "/inserir", refeicao)
+	var _cadastrar = function(refeicaoRealizada){
+		return $http.post(_path + "/inserir", refeicaoRealizada)
 	};
 
     var _mapaRefeicao = function(periodoPretensao){
@@ -26,7 +26,7 @@ nutrifApp.factory("refeicaoRealizadaService", function($http, config){
 	};
 
 	return {
-		inserirRefeicao: _inserirRefeicao,
+		cadastrar: _cadastrar,
         mapaRefeicao: _mapaRefeicao,
 		getQuantidadeRefeicoesRealizadas: _getQuantidadeRefeicoesRealizadas,
         getMapaRefeicaoRealizadaByDiaRefeicao: _getMapaRefeicaoRealizadaByDiaRefeicao,

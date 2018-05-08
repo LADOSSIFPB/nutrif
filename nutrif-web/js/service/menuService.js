@@ -1,94 +1,87 @@
-nutrifApp.factory("menu", function ($location, $rootScope) {
+/*
+ *  Mapeamento dos serviço do Menu.
+ */
+nutrIFApp.factory("menu", function ($location, $rootScope) {
 
-    var sections = [];
-
-    sections.push(
-            {
-                name: 'Aluno',
-                type: 'toggle',
-                permissions:['admin', 'inspetor'],
-                pages: [
-                    {
-                        name: 'Entrar no Restaurante',
-                        state: 'home.entrar-restaurante',
-                        type: 'link',                    
-                        icon: 'image/icon/download-button.svg',
-                        permissions:['admin', 'inspetor']
-                    },
-                    {
-                        name: 'Listar',
-                        state: 'home.listar-alunos',
-                        type: 'link',                    
-                        icon: 'image/icon/user-shape.svg',
-                        permissions:['admin']
-                    },
-                    {
-                        name: 'Migrar Sábado Letivo',
-                        state: 'home.migrar-sabado',
-                        type: 'link',                    
-                        icon: 'image/icon/swap-horizontal.svg',
-                        permissions:['admin']
-                    }]
-            }, 
-            {
-                name: 'Funcionário',
-                state: 'home.listar-funcionarios',
-                type: 'link',
-                icon: 'image/icon/employee-icon.svg',
-                permissions:['admin']
-            },
-            {
-                name: 'Edital',
-                type: 'toggle',
-                permissions:['admin'],
-                pages: [
-                    {
-                        name: 'Listar',
-                        state: 'home.listar-edital',
-                        type: 'link',                    
-                        icon: 'image/icon/copy-content.svg'
-                    }]
-            },
-            {
-                name: 'Refeição',
-                state: 'home.listar-refeicoes',
-                type: 'link',
-                icon: 'image/icon/restaurant-teste.svg',
-                permissions:['admin']
-            },
-            {
-                name: 'Evento',
-                state: 'home.listar-eventos',
-                type: 'link',
-                icon: 'image/icon/connection-indicator.svg',
-                permissions:['admin']
-            },
-            {
-                name: 'Curso',
-                state: 'home.listar-cursos',
-                type: 'link',
-                icon: 'image/icon/graduate-cap.svg',
-                permissions:['admin']
-            },
-            {
-                name: 'Análise',
-                type: 'toggle',
-                permissions:['admin'],
-                pages: [
-                    {
-                        name: 'Dashboard',
-                        state: 'home.dashboard',
-                        type: 'link',                    
-                        icon: 'image/icon/dashteste.svg'
-                    },
-                    {
-                        name: 'Estatística',
-                        state: 'home.estatisticas',
-                        type: 'link',                    
-                        icon: 'image/icon/poll-symbol-on-black-square-with-rounded-corners.svg'
-                    }]
-            }
-        );
+    var sections = [{
+            name: 'Início',
+            state: 'administrador.home',
+            type: 'link'
+        },
+        {
+            name: 'Refeitório',
+            type: 'toggle',
+            pages: [
+                {
+                    name: 'Aluno',
+                    state: 'administrador.listar-alunos',
+                    type: 'link'
+                },
+                {
+                    name: 'Refeição',
+                    state: 'administrador.listar-refeicoes',
+                    type: 'link'
+                },
+                {
+                    name: 'Campus',
+                    state: 'administrador.listar-campi',
+                    type: 'link'
+                },
+                {
+                    name: 'Curso',
+                    state: 'administrador.listar-cursos',
+                    type: 'link'
+                },
+                {
+                    name: 'Evento',
+                    state: 'administrador.home',
+                    type: 'link'
+                },
+                {
+                    name: 'Edital',
+                    state: 'administrador.listar-editais',
+                    type: 'link'
+                },
+                {
+                    name: 'Servidor',
+                    state: 'administrador.home',
+                    type: 'link'
+                }
+            ]
+        },
+        {
+            name: 'Salão de Refeições',
+            type: 'toggle',
+            pages: [
+                {
+                    name: 'Entrada de Alunos',
+                    state: 'administrador.listar-entradarefeitorio',
+                    type: 'link'
+                },
+                {
+                    name: 'Reconhecimento Facial',
+                    state: '#',
+                    type: 'link'
+                }
+            ]
+        },
+        {
+            name: 'Estatísticas',
+            type: 'toggle',
+            pages: [
+                {
+                    name: 'Gráficos',
+                    state: '#',
+                    type: 'link'
+                },
+                {
+                    name: 'Dashboard',
+                    state: '#',
+                    type: 'link'
+                }
+            ]
+        }
+    ];
 
     var self;
 

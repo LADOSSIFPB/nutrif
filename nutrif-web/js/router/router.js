@@ -1,4 +1,7 @@
-nutrifApp.config(function ($routeProvider, $locationProvider) {    
+/**
+ * Configuração da rota padrão do AnguarJS.
+ */
+nutrIFApp.config(function ($routeProvider, $locationProvider) {    
     
     // Remover a exclamação (!) da URL
     var SEM_PREFIXO = '';

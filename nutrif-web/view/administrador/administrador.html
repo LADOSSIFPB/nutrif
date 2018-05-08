@@ -1,0 +1,15 @@
+<div flex layout="row">
+    <!-- Sidnav - Menu -->
+    <nav ng-include="'view/templates/administrador/sidenav.html'"></nav>
+
+    <div flex layout="column">
+        <!-- Header -->
+        <header ng-include="'view/templates/administrador/header.html'"></header>
+        <!-- Main - Conteúdo -->
+        <main>
+            <div ui-view></div>
+        </main>
+        <!-- Footer -->
+        <footer ng-include="'view/templates/footer.html'"></footer>
+    </div>
+</div>

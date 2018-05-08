@@ -1,34 +1,35 @@
 /*
  *  Mapeamento dos serviço de Refeição.
  */
-nutrifApp.factory("refeicaoService", function($http, config){
+nutrIFApp.factory("refeicaoService", function($http, serviceCfg){
 
-    var _path = config.baseUrl() + "/refeicao";
+    var _path = serviceCfg.baseUrl() + "/refeicao";
 
-	var _listarRefeicoes = function(){
-		return $http.get(_path + "/listar");
+    var _cadastrar = function (refeicao){
+		return $http.post(_path, refeicao)
 	};
-
-	var _cadastrarRefeicao = function (refeicao){
-		return $http.post(_path + "/inserir", refeicao)
+    
+    var _atualizar = function(refeicao){
+		return $http.put(_path, refeicao)
+	};
+    
+	var _listar = function(){
+		return $http.get(_path);
 	};
 	
-	var _buscarRefeicaoPorTipo = function (tipo){
-		return $http.get(_path + "/listar/tipo/" +tipo)
+	var _buscarPorTipo = function (tipo){
+		return $http.get(_path + "/tipo/" + tipo)
 	};
 	
 	var _getById = function(id){
-		return $http.get(_path + "/id/"+ id);
+		return $http.get(_path + "/" + id);
 	};	
-	var _editarRefeicao = function(refeicao){
-		return $http.post(_path + "/atualizar", refeicao)
-	};
 
 	return {
-		listarRefeicoes: _listarRefeicoes,
-		getById: _getById,
-		cadastrarRefeicao: _cadastrarRefeicao,
-		buscarRefeicaoPorTipo: _buscarRefeicaoPorTipo,
-		editarRefeicao: _editarRefeicao
+		cadastrar: _cadastrar,
+        atualizar: _atualizar,
+        listar: _listar,
+        buscarPorTipo: _buscarPorTipo,
+        getById: _getById       
 	};
 });

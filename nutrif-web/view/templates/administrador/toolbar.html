@@ -1,0 +1,24 @@
+<md-toolbar layout="row" layout-align="space-between center">
+    <!-- Toogle Sidnav -->
+    <div>
+        <md-button aria-label="Menu" ng-click="sideNav.openOrCloseSideNav()">
+            <ng-md-icon class="header-toolbar-icon" icon="menu" size="24"></ng-md-icon>
+            <md-tooltip md-direction="bottom">
+                Mostrar/Ocultar Menu
+            </md-tooltip>
+        </md-button>
+    </div>
+
+    <!-- Título da página corrente -->
+    <div>
+        <h3 ng-bind="sideNav.title"></h3>
+    </div>
+
+    <!-- Logout -->
+    <div>
+        <md-button aria-label="Menu" ng-click="sideNav.logout()">
+            <ng-md-icon class="header-toolbar-icon" icon="logout" size="24"></ng-md-icon>
+            <md-tooltip md-direction="bottom">Sair</md-tooltip>
+        </md-button>
+    </div>
+</md-toolbar>

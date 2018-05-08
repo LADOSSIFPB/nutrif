@@ -1,306 +1,259 @@
-nutrifApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
+/**
+ * Configuração da rota com ui-router.
+ */
+nutrIFApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
 
         // Rota padrão.
-        $urlRouterProvider.otherwise("/login/gerenciamento");
+        $urlRouterProvider.otherwise("/inicio/login");
 
-        // Estados
+        // Estados        
         $stateProvider
-            // Subrota - Login
-            .state('login', {
+            // Subrota - Inicio
+            .state('inicio', {
                 abstract: true,
+                url: '/inicio',
+                templateUrl: 'view/inicio.html'
+            })
+
+            // Login
+            .state('inicio.login', {
                 url: '/login',
-                templateUrl: 'view/login.html'
-            })
-
-            // Login Gerência
-            .state('login.gerenciamento', {
-                url: '/gerenciamento',
-                templateUrl: 'view/login-gerenciamento.html',
-                controller: 'loginManagerCtrl',
-                controllerAs: 'loginManager',
-                permissions: ['non-logged']
-            })
-
-            // Login Aluno
-            .state('login.aluno', {
-                url: '/aluno/matricula/:matricula',
-                templateUrl: 'view/login-aluno.html',
-                controller: 'loginAlunoCtrl',
-                controllerAs: 'loginAluno',
-                permissions: ['non-logged']
-            })
-
-            // Verificação do Aluno.
-            .state('login.verificar-aluno', {
-                url: '/aluno/verificar',
-                templateUrl: 'view/verificar-aluno.html',
-                controller: 'verificarAlunoCtrl',
-                controllerAs: 'verificarAluno',
-                permissions: ['non-logged']
+                templateUrl: 'view/login.html',
+                controller: 'logarPessoaCtrl',
+                controllerAs: 'logarPessoa'
             })
 
             // Subrota - Aluno
             .state('aluno', {
                 abstract: true,
+                data: {
+                    label: 'Aluno'
+                },
                 url: '/aluno',
                 templateUrl: 'view/aluno/aluno.html'
             })
-
-            .state('aluno.atualizar', {
-                url: '/atualizar/:matricula',
-                templateUrl: 'view/aluno/atualizar-aluno.html',
-                title: 'Atualizar dados do aluno',
-                controller: 'atualizarAlunoCtrl',
-                controllerAs: 'atualizarAluno',
-                permissions: ['non-logged']
+    
+            // Aluno - Home
+            .state('aluno.home', {
+                url: '/home',
+                title: 'Aluno - Home',
+                templateUrl: 'view/aluno/home.html',
+                permissions: ['admin', 'aluno']
+            })
+    
+            // Subrota - Inspetor
+            .state('inspetor', {
+                abstract: true,
+                data: {
+                    label: 'Inspetor'
+                },
+                url: '/inspetor',
+                templateUrl: 'view/inspetor/inspetor.html'
+            })
+    
+            /* Inspetor - Home */
+            .state('inspetor.home', {
+                url: '/home',
+                title: 'Inspetor - Home',
+                templateUrl: 'view/inspetor/home.html',
+                permissions: ['admin', 'inspetor']
+            })
+    
+            /* Inspetor - Entrada de Aluno */
+            .state('inspetor.listar-entradarefeitorio', {
+                url: '/listar/entradarefeitorio',
+                title: 'Listar os Alunos para Entrada do Refeitório',
+                templateUrl: 'view/inspetor/listar-entradarefeitorio.html',
+                controller: 'listarEntradaRefeitorioCtrl',
+                controllerAs: 'listarEntradaRefeitorio',
+                permissions: ['admin', 'inspetor']
             })
 
-            // Subrota - Gerenciamento
-            .state('home', {
-                url: '/inicio',
+            // Subrota - Administrador
+            .state('administrador', {
                 abstract: true,
                 controller: 'sideNavCtrl',
                 controllerAs: 'sideNav',
-                templateUrl: 'view/manager/home.html'
+                url: '/administrador',
+                templateUrl: 'view/administrador/administrador.html'
             })
 
-            /* Funcionário */
-            .state('home.listar-funcionarios', {
-                url: '/listar/funcionarios',
-                title: 'Listar Funcionários',
-                templateUrl: 'view/manager/admin/listar-funcionarios.html',
-                controller: 'listarFuncionariosCtrl',
-                controllerAs: 'listarFuncionarios',
-                permissions: ['admin']
-            })
-            .state('home.adicionar-funcionarios', {
-                url: '/adicionar/funcionario',
-                title: 'Adicionar Funcionarios',
-                templateUrl: 'view/manager/admin/adicionar-funcionarios.html',
-                controller: 'cadastrarFuncionarioCtrl',
-                controllerAs: 'cadastrarFuncionarios',
-                permissions: ['admin']
-            })
-            .state('home.editar-funcionario', {
-                url: '/editar/funcionario/:id',
-                title: 'Editar Funcionario',
-                templateUrl: 'view/manager/admin/editar-funcionario.html',
-                controller: 'editarFuncionarioCtrl',
-                controllerAs: 'editar',
+            /* Administrador - Home */
+            .state('administrador.home', {
+                url: '/home',
+                title: 'Administrador - Home',
+                templateUrl: 'view/administrador/home.html',
                 permissions: ['admin']
             })
 
-            .state('home.perfil-aluno', {
-                url: '/perfil/aluno/matricula/:matricula',
-                title: 'Perfil Aluno',
-                templateUrl: 'view/manager/admin/perfil-aluno.html',
-                controller: 'webcamCtrl',
-                permissions: ['admin']
-            })
-
-            /* Aluno */
-            .state('home.adicionar-alunos', {
+            /* Administrador - Aluno */
+            .state('administrador.adicionar-aluno', {
                 url: '/adicionar/aluno',
-                title: 'Adicionar Alunos',
-                templateUrl: 'view/manager/admin/adicionar-alunos.html',
+                title: 'Adicionar Aluno',
+                templateUrl: 'view/administrador/adicionar-aluno.html',
                 controller: 'cadastrarAlunoCtrl',
-                controllerAs: 'cadastrar',
+                controllerAs: 'cadastrarAluno',
                 permissions: ['admin']
             })
 
-            .state('home.listar-alunos', {
-                url: '/listar/aluno',
+            .state('administrador.listar-alunos', {
+                url: '/listar/alunos',
                 title: 'Listar Alunos',
-                templateUrl: 'view/manager/admin/listar-alunos.html',
+                templateUrl: 'view/administrador/listar-alunos.html',
                 controller: 'listarAlunosCtrl',
                 controllerAs: 'listarAlunos',
                 permissions: ['admin']
             })
 
-            .state('home.editar-aluno', {
-                url: '/editar/aluno/matricula/:matricula',
+            .state('administrador.editar-aluno', {
+                url: '/editar/aluno/:id',
                 title: 'Editar Aluno',
-                templateUrl: 'view/manager/admin/editar-aluno.html',
+                templateUrl: 'view/administrador/editar-aluno.html',
                 controller: 'editarAlunoCtrl',
-                controllerAs: 'editar',
+                controllerAs: 'editarAluno',
                 permissions: ['admin']
             })
-
-            .state('home.entrar-restaurante', {
-                url: '/entrar/restaurante',
-                title: 'Entrar no Restaurante',
-                templateUrl: 'view/manager/entrar-restaurante.html',
-                controller: 'entrarRestauranteCtrl',
-                controllerAs: 'entrarRestaurante',
-                permissions: ['inspetor', 'admin']
-            })
-
-            .state('home.entrar-restaurante-qrcode', {
-                url: '/entrar/restaurante/qrcode',
-                title: 'Entrar no Restaurante por QR-Code',
-                templateUrl: 'view/manager/entrar-restaurante-qrcode.html',
-                controller: 'entrarRestauranteQrCodeCtrl',
-                controllerAs: 'entrarRestauranteQrCode',
-                permissions: ['inspetor', 'admin']
-            })
-
-            /* Edital*/
-            .state('home.adicionar-edital', {
-                url: '/adicionar/edital',
-                title: 'Adicionar Edital',
-                templateUrl: 'view/manager/admin/adicionar-edital.html',
-                controller: 'cadastrarEditalCtrl',
-                controllerAs: 'cadastrarEdital',
+    
+            /* Administrador - Matrícula */
+            .state('administrador.adicionar-matricula', {
+                url: '/adicionar/matricula/aluno/:id',
+                title: 'Adicionar Matrícula',
+                templateUrl: 'view/administrador/adicionar-matricula.html',
+                controller: 'cadastrarMatriculaCtrl',
+                controllerAs: 'cadastrarMatricula',
                 permissions: ['admin']
             })
-
-            .state('home.listar-edital', {
-                url: '/listar/edital',
-                title: 'Listar Edital',
-                templateUrl: 'view/manager/admin/listar-edital.html',
-                controller: 'listarEditalCtrl',
-                controllerAs: 'listarEdital',
+    
+            .state('administrador.aditar-matricula', {
+                url: '/editar/matricula/:id',
+                title: 'Editar Matrícula',
+                templateUrl: 'view/administrador/editar-matricula.html',
+                controller: 'editarMatriculaCtrl',
+                controllerAs: 'aditarMatricula',
                 permissions: ['admin']
             })
-
-            .state('home.editar-edital', {
-                url: '/editar/edital/:id',
-                title: 'Editar Edital',
-                templateUrl: 'view/manager/admin/editar-edital.html',
-                controller: 'editarEditalCtrl',
-                controllerAs: 'editarEdital',
+            
+            /* Administrador - Dia Refeição */
+            .state('administrador.adicionar-diarefeicao', {
+                url: '/adicionar/diarefeicao/matricula/:id',
+                title: 'Adicionar Dia de Refeição',
+                templateUrl: 'view/administrador/adicionar-diarefeicao.html',
+                controller: 'cadastrarDiaRefeicaoCtrl',
+                controllerAs: 'cadastrarDiaRefeicao',
                 permissions: ['admin']
             })
-
-            .state('home.listar-contemplados-edital', {
-                url: '/listar/alunos/edital/:id',
-                title: 'Listar Contemplados do Edital',
-                templateUrl: 'view/manager/admin/listar-contemplados-edital.html',
-                controller: 'listarContempladosEditalCtrl',
-                controllerAs: 'listarContempladosEdital',
-                permissions: ['admin']
-            })
-
-            .state('home.detalhar-refeicaorealizada-aluno-edital', {
-                url: '/detalhar/refeicoesrealizadas/edital/:idEdital/aluno/:matricula',
-                title: 'Detalhar Refeições Realizadas do Aluno para o Edital',
-                templateUrl: 'view/manager/admin/detalhar-refeicaorealizada-aluno-edital.html',
-                controller: 'detalharRefeicaoRealizadaAlunoEditalCtrl',
-                controllerAs: 'detalharRefeicaoRealizadaAlunoEdital',
-                permissions: ['admin']
-            })
-
-            /* Curso */
-            .state('home.listar-cursos', {
-                url: '/listar/curso',
-                title: 'Listar Curso',
-                templateUrl: 'view/manager/admin/listar-cursos.html',
-                controller: 'listarCursoCtrl',
-                controllerAs: 'listarCurso',
-                permissions: ['admin']
-            })
-
-            .state('home.adicionar-cursos', {
-                url: '/adicionar/curso',
-                title: 'Adicionar curso',
-                templateUrl: 'view/manager/admin/adicionar-curso.html',
-                controller: 'cadastrarCursoCtrl',
-                controllerAs: 'cadastrarCurso',
-                permissions: ['admin']
-            })
-
-            .state('home.editar-curso', {
-                url: '/editar/curso/:id',
-                title: 'Editar Curso',
-                templateUrl: 'view/manager/admin/editar-curso.html',
-                controller: 'editarCursoCtrl',
-                controllerAs: 'editar',
-                permissions: ['admin']
-            })
-
-            /* Evento */
-            .state('home.listar-eventos', {
-                url: '/listar/evento',
-                title: 'Listar Evento',
-                templateUrl: 'view/manager/admin/listar-eventos.html',
-                controller: 'listarEventoCtrl',
-                controllerAs: 'listarEvento',
-                permissions: ['admin']
-            })
-
-            .state('home.adicionar-eventos', {
-                url: '/adicionar/evento',
-                title: 'Adicionar Evento',
-                templateUrl: 'view/manager/admin/adicionar-evento.html',
-                controller: 'cadastrarEventoCtrl',
-                controllerAs: 'cadastrarEvento',
-                permissions: ['admin']
-            })
-
-            .state('home.editar-evento', {
-                url: '/editar/evento/:id',
-                title: 'Editar Evento',
-                templateUrl: 'view/manager/admin/editar-evento.html',
-                controller: 'editarEventoCtrl',
-                controllerAs: 'editar',
-                permissions: ['admin']
-            })
-
-            /* Refeição */
-            .state('home.adicionar-refeicao', {
+    
+            /* Administrador - Refeição */
+            .state('administrador.adicionar-refeicao', {
                 url: '/adicionar/refeicao',
                 title: 'Adicionar Refeição',
-                templateUrl: 'view/manager/admin/adicionar-refeicao.html',
+                templateUrl: 'view/administrador/adicionar-refeicao.html',
                 controller: 'cadastrarRefeicaoCtrl',
                 controllerAs: 'cadastrarRefeicao',
                 permissions: ['admin']
             })
 
-            .state('home.listar-refeicoes', {
-                url: '/listar/refeicao',
-                title: 'Listar Refeição',
-                templateUrl: 'view/manager/admin/listar-refeicoes.html',
-                controller: 'listarRefeicaoCtrl',
-                controllerAs: 'listarRefeicao',
+            .state('administrador.listar-refeicoes', {
+                url: '/listar/refeicoes',
+                title: 'Listar Refeições',
+                templateUrl: 'view/administrador/listar-refeicoes.html',
+                controller: 'listarRefeicoesCtrl',
+                controllerAs: 'listarRefeicoes',
                 permissions: ['admin']
             })
 
-            .state('home.editar-refeicao', {
+            .state('administrador.editar-refeicao', {
                 url: '/editar/refeicao/:id',
-                title: 'Editar Refeicao',
-                templateUrl: 'view/manager/admin/editar-refeicao.html',
+                title: 'Editar refeicao',
+                templateUrl: 'view/administrador/editar-refeicao.html',
                 controller: 'editarRefeicaoCtrl',
                 controllerAs: 'editarRefeicao',
                 permissions: ['admin']
             })
-
-            /* Migrar Sábado Letivo */
-            .state('home.migrar-sabado', {
-                url: '/migrar/sabado/',
-                title: 'Migrar Sábado Letivo',
-                templateUrl: 'view/manager/admin/migrar-sabado-letivo.html',
-                controller: 'migrarSabadoLetivoCtrl',
-                controllerAs: 'migrarSabado',
+    
+            /* Administrador - Campus */
+            .state('administrador.adicionar-campus', {
+                url: '/adicionar/campus',
+                title: 'Adicionar Campus',
+                templateUrl: 'view/administrador/adicionar-campus.html',
+                controller: 'cadastrarCampusCtrl',
+                controllerAs: 'cadastrarCampus',
                 permissions: ['admin']
             })
 
-            /* Dashboard e Estatística */
-            .state('home.dashboard', {
-                url: '/dashboard',
-                title: 'Dashboard',
-                templateUrl: 'view/manager/admin/dashboard.html',
-                controller: 'dashboardCtrl',
-                controllerAs: 'dashboard',
+            .state('administrador.listar-campi', {
+                url: '/listar/campi',
+                title: 'Listar Campi',
+                templateUrl: 'view/administrador/listar-campi.html',
+                controller: 'listarCampiCtrl',
+                controllerAs: 'listarCampi',
+                permissions: ['admin']
+            })
+
+            .state('administrador.editar-campus', {
+                url: '/editar/campus/:id',
+                title: 'Editar Campus',
+                templateUrl: 'view/administrador/editar-campus.html',
+                controller: 'editarCampusCtrl',
+                controllerAs: 'editarCampus',
                 permissions: ['admin']
             })
     
-            .state('home.estatisticas', {
-                url: '/estatisticas',
-                title: 'Estatisticas',
-                templateUrl: 'view/manager/admin/estatisticas.html',
-                controller: 'estatisticasCtrl',
-                controllerAs: 'estatisticas',
+            /* Administrador - Curso */
+            .state('administrador.adicionar-curso', {
+                url: '/adicionar/curso',
+                title: 'Adicionar Curso',
+                templateUrl: 'view/administrador/adicionar-curso.html',
+                controller: 'cadastrarCursoCtrl',
+                controllerAs: 'cadastrarCurso',
                 permissions: ['admin']
+            })
+
+            .state('administrador.listar-cursos', {
+                url: '/listar/cursos',
+                title: 'Listar Cursos',
+                templateUrl: 'view/administrador/listar-cursos.html',
+                controller: 'listarCursosCtrl',
+                controllerAs: 'listarCursos',
+                permissions: ['admin']
+            })
+
+            .state('administrador.editar-curso', {
+                url: '/editar/curso/:id',
+                title: 'Editar Curso',
+                templateUrl: 'view/administrador/editar-curso.html',
+                controller: 'editarCursoCtrl',
+                controllerAs: 'editarCurso',
+                permissions: ['admin']
+            })
+    
+            /* Administrador - Edital */
+            .state('administrador.adicionar-edital', {
+                url: '/adicionar/edital',
+                title: 'Adicionar Edital',
+                templateUrl: 'view/administrador/adicionar-edital.html',
+                controller: 'cadastrarEditalCtrl',
+                controllerAs: 'cadastrarEdital',
+                permissions: ['admin']
+            })
+    
+            .state('administrador.listar-editais', {
+                url: '/listar/editais',
+                title: 'Listar Editais',
+                templateUrl: 'view/administrador/listar-editais.html',
+                controller: 'listarEditaisCtrl',
+                controllerAs: 'listarEditais',
+                permissions: ['admin']
+            })
+    
+            /* Administrador - Entrada de Aluno */
+            .state('administrador.listar-entradarefeitorio', {
+                url: '/listar/entradarefeitorio',
+                title: 'Listar os Alunos para Entrada do Refeitório',
+                templateUrl: 'view/inspetor/listar-entradarefeitorio.html',
+                controller: 'listarEntradaRefeitorioCtrl',
+                controllerAs: 'listarEntradaRefeitorio',
+                permissions: ['admin', 'inspetor']
             })
     })
     //take all whitespace out of string
