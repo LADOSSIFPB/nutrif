@@ -16,9 +16,6 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
@@ -56,7 +53,6 @@ public class PretensaoRefeicaoController {
 	
 	@RolesAllowed({TipoRole.ADMIN, TipoRole.COMENSAL})
 	@POST
-	@Path("/inserir")
 	@Consumes("application/json")
 	@Produces("application/json")
 	public Response insert(PretensaoRefeicao pretensaoRefeicao) {
@@ -90,7 +86,7 @@ public class PretensaoRefeicaoController {
 						
 						// Chave de acesso ao Refeitório através da pretensão lançada.
 						Date agora = new Date();
-						pretensaoRefeicao.setKeyAccess(
+						pretensaoRefeicao.setChaveAcesso(
 								StringUtil.criptografarSha256(agora.toString()));
 						
 						//Inserir a Pretensão.
@@ -323,7 +319,7 @@ public class PretensaoRefeicaoController {
 			
 			pretensaoRefeicao = PretensaoRefeicaoDAO.getInstance()
 					.getPretensaoRefeicaoByKeyAccess(pretensaoRefeicao
-							.getKeyAccess());
+							.getChaveAcesso());
 			
 			if (pretensaoRefeicao != null) {
 				
@@ -364,15 +360,6 @@ public class PretensaoRefeicaoController {
 		}
 		
 		return builder.build();
-	}
-	
-	public int openDoorPostRequest() {
-		
-		Client client = ClientBuilder.newClient();
-		Response response = client.target("http://192.168.2.110:8080/IFOpenDoors_SERVICE/room/open")
-				.request().post(Entity.json("{\"person\":{\"id\":1}, \"room\":{\"id\":1}}"));
-		
-		return response.getStatus(); 
 	}
 	
 	@RolesAllowed({TipoRole.ADMIN})
@@ -516,7 +503,6 @@ public class PretensaoRefeicaoController {
 	
 	@DenyAll	
 	@GET
-	@Path("/listar")
 	@Produces("application/json")
 	public List<PretensaoRefeicao> getAll() {
 		

@@ -21,6 +21,7 @@ import br.edu.ladoss.entity.DiaRefeicao;
 import br.edu.ladoss.entity.Edital;
 import br.edu.ladoss.entity.Matricula;
 import br.edu.ladoss.entity.Refeicao;
+import br.edu.ladoss.entity.SituacaoMatricula;
 
 public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 	
@@ -378,18 +379,21 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 		
 		try {
 			
-			String hql = "select count(distinct dr.aluno.id)"
+			String hql = "select count(distinct dr.matricula.id)"
 					+ " from DiaRefeicao as dr"
 					+ " where dr.dia.id = :idDia"
 					+ " 	and dr.refeicao.id = :idRefeicao"
 					+ "		and :dataDiaRefeicao between dr.edital.dataInicial and dr.edital.dataFinal"
 					+ " 	and dr.edital.ativo = :ativo"
+					+ " 	and dr.matricula.ativo = :ativo"
+					+ " 	and dr.matricula.situacao.id = :situacao"
 					+ " 	and dr.ativo = :ativo";
 			
 			Query query = session.createQuery(hql);			
 			query.setParameter("idDia", diaRefeicao.getDia().getId());
 			query.setParameter("idRefeicao", diaRefeicao.getRefeicao().getId());
 			query.setParameter("dataDiaRefeicao", dataDiaRefeicao);
+			query.setParameter("situacao", SituacaoMatricula.ID_MATRICULADO);
 			query.setParameter("ativo", BancoUtil.ATIVO);
 			
 			quantidadeBeneficiados = (Long) query.getSingleResult();

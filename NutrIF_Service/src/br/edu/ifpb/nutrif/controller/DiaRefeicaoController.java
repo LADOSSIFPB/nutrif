@@ -641,7 +641,7 @@ public class DiaRefeicaoController {
 	@Path("/quantificar/dia/{idDia}/refeicao/{idRefeicao}")
 	@Produces("application/json")
 	public Response getQuantidadeDiaRefeicaoByDiaRefeicao(
-			@PathParam("id") int idEdital) {
+			@PathParam("idDia") int idDia, @PathParam("idRefeicao") int idRefeicao) {
 		return null;
 	}
 	
