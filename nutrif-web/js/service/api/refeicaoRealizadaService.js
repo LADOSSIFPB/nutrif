@@ -9,12 +9,12 @@ nutrIFApp.factory("refeicaoRealizadaService", function($http, serviceCfg){
 		return $http.post(_path + "/inserir", refeicaoRealizada)
 	};
 
+    var _buscarQuantidade = function(diaRefeicao){
+		return $http.post(_path + "/quantificar" , diaRefeicao);
+	};
+    
     var _mapaRefeicao = function(periodoPretensao){
 		return $http.post(_path + "/consultar/mapa", periodoPretensao);
-	};    
-
-	var _getQuantidadeRefeicoesRealizadas = function(diaRefeicao){
-		return $http.post(_path + "/quantificar" , diaRefeicao);
 	};
     
     var _getMapaRefeicaoRealizadaByDiaRefeicao = function(idDia, idRefeicao){
@@ -27,8 +27,8 @@ nutrIFApp.factory("refeicaoRealizadaService", function($http, serviceCfg){
 
 	return {
 		cadastrar: _cadastrar,
-        mapaRefeicao: _mapaRefeicao,
-		getQuantidadeRefeicoesRealizadas: _getQuantidadeRefeicoesRealizadas,
+        buscarQuantidade: _buscarQuantidade,
+        mapaRefeicao: _mapaRefeicao,		
         getMapaRefeicaoRealizadaByDiaRefeicao: _getMapaRefeicaoRealizadaByDiaRefeicao,
         detalharRefeicaoRealizadaByEditalAluno: _detalharRefeicaoRealizadaByEditalAluno
 	};

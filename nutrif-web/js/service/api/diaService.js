@@ -1,7 +1,7 @@
 /*
  *  Mapeamento dos serviço de Dia.
  */
-nutrIFApp.factory("diaService", function($http, serviceCfg){
+nutrIFApp.factory("diaService", function ($http, serviceCfg){
 
 	var _path = serviceCfg.baseUrl() + "/dia";
 

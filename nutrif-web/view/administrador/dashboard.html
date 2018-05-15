@@ -1,0 +1,116 @@
+<md-content flex layout-padding>
+    <md-card flex layout-padding>
+
+        <md-card-header>
+            <md-card-avatar>
+                <ng-md-icon icon="trending_up" size="42"></ng-md-icon>
+            </md-card-avatar>
+
+            <md-card-header-text>
+                <span class="md-title">Dashboard</span>
+                <span class="md-subhead">Informações detalhadas da Pretensão, Dia de Refeição e Refeição Realizada. As informações numéricas e listagens serão referentes a semana corrente.</span>
+            </md-card-header-text>
+
+            <!-- Salvar alterações -->
+            <md-card-icon-actions>
+                <md-button aria-label="Buscar dados para os quadros do Dashboard." ng-click="buscar()">
+                    <md-tooltip md-direction="bottom">Buscar</md-tooltip>
+                    <ng-md-icon icon="search" size="42"></ng-md-icon>
+                </md-button>
+            </md-card-icon-actions>
+        </md-card-header>
+
+        <md-card-content layout="column">
+            <form layout="column">
+
+                <!-- Dia -->
+                <md-input-container class="md-icon-float md-block">
+                    <label>Dia</label>
+                    <md-select ng-model="diaRefeicao.dia.id" ng-required="true">
+                        <md-option ng-repeat="dia in dias" value="{{dia.id}}">
+                            {{dia.nome}}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+
+                <!-- Refeição -->
+                <md-input-container class="md-icon-float md-block">
+                    <label>Refeição</label>
+                    <md-select ng-model="diaRefeicao.refeicao.id" ng-required="true">
+                        <md-option ng-repeat="refeicao in refeicoes" value="{{refeicao.id}}">
+                            {{refeicao.tipo}} - {{refeicao.campus.cidade}}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+            </form>
+        </md-card-content>
+    </md-card>
+
+    <md-content class="md-padding" layout-xs="column" layout="row">
+        <div flex layout="row">
+            <!-- Pretensão -->
+            <md-card>
+                <md-card-header>
+                    <md-card-header-text>
+                        <span class="md-title">Pretensão</span>
+                        <span class="md-subhead">Refeições agendadas previamente pelos Alunos.</span>
+                    </md-card-header-text>
+                </md-card-header>
+
+                <md-card-title>
+                    <md-card-title-text>
+                        <span class="md-headline">{{ mapaPretensao.quantidade }}</span>
+                    </md-card-title-text>
+                </md-card-title>
+
+                <md-card-content>
+                    <p>
+                        {{mapaPretensao.data | date : "dd/MM/yyyy" : timestamp }}
+                    </p>
+                </md-card-content>
+            </md-card>
+            <!-- Refeições -->
+            <md-card>
+                <md-card-header>
+                    <md-card-header-text>
+                        <span class="md-title">Edital</span>
+                        <span class="md-subhead">Refeições contabilizadas baseadas nos benefícios concedidos aos Alunos.</span>
+                    </md-card-header-text>
+                </md-card-header>
+
+                <md-card-title>
+                    <md-card-title-text>
+                        <span class="md-headline">{{ mapaDiaRefeicao.quantidade }}</span>
+                    </md-card-title-text>
+                </md-card-title>
+
+                <md-card-content>
+                    <p>
+                        {{mapaDiaRefeicao.data | date : "dd/MM/yyyy" : timestamp }}
+                    </p>
+                </md-card-content>
+            </md-card>
+            
+            <md-card>
+                <md-card-header>
+                    <md-card-header-text>
+                        <span class="md-title">Realização</span>
+                        <span class="md-subhead">Refeições realizadas no dia pelos Alunos.</span>
+                    </md-card-header-text>
+                </md-card-header>
+
+                <md-card-title>
+                    <md-card-title-text>
+                        <span class="md-headline">{{ mapaRefeicaoRealizada.quantidade }}</span>
+                    </md-card-title-text>
+                </md-card-title>
+
+                <md-card-content>
+                    <p>
+                        {{  mapaRefeicaoRealizada.data | date : "dd/MM/yyyy" : timestamp}}
+                    </p>
+                </md-card-content>
+            </md-card>
+        </div>
+    </md-content>
+</md-content>

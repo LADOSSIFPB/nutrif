@@ -255,6 +255,16 @@ nutrIFApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
                 controllerAs: 'listarEntradaRefeitorio',
                 permissions: ['admin', 'inspetor']
             })
+    
+            /* Administrador - Dashboard */
+            .state('administrador.dashboard', {
+                url: '/dashboard',
+                title: 'Dashboard',
+                templateUrl: 'view/administrador/dashboard.html',
+                controller: 'dashboardCtrl',
+                controllerAs: 'dashboard',
+                permissions: ['admin']
+            })
     })
     //take all whitespace out of string
     .filter('nospace', function () {

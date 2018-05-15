@@ -37,6 +37,11 @@ nutrIFApp.factory("diaRefeicaoService", function ($http, serviceCfg){
 		return $http.get(_path + "/" + encodeURI(id))
 	};
     
+    var _buscarQuantidade = function (diaRefeicao) {
+
+        return $http.post(_path + "/quantificar", diaRefeicao);
+    };
+    
     return {
         cadastrar: _cadastrar,
         atualizar: _atualizar,
@@ -45,6 +50,7 @@ nutrIFApp.factory("diaRefeicaoService", function ($http, serviceCfg){
         listarVigentesPorMatricula: _listarVigentesPorMatricula,
         buscarDiaRefeicaoPorNome: _buscarDiaRefeicaoPorNome,
         buscarDiaRefeicaoPorMatricula: _buscarDiaRefeicaoPorMatricula,
-        buscarPorId: _buscarPorId
+        buscarPorId: _buscarPorId,
+        buscarQuantidade: _buscarQuantidade
     };
 });
