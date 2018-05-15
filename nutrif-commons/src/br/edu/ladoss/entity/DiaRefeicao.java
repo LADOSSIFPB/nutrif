@@ -55,15 +55,13 @@ public class DiaRefeicao implements DataEntity {
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "dt_insercao", nullable = false,
-		    columnDefinition="TIMESTAMP default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP")
+		    columnDefinition="TIMESTAMP default CURRENT_TIMESTAMP")
 	private Date dataInsercao;
 	
-	@Column(name = "is_ativo", columnDefinition = "boolean default true", 
-			nullable = false, insertable = true, updatable = true)
+	@Column(name = "is_ativo", nullable = false, insertable = true, updatable = true)
 	private boolean ativo;
 	
-	@Column(name = "is_migracao", columnDefinition = "boolean default false", 
-			nullable = false, insertable = true, updatable = true)
+	@Column(name = "is_migracao", nullable = false, insertable = true, updatable = true)
 	private boolean migracao;
 	
 	@Transient

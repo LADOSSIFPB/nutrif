@@ -46,7 +46,7 @@ public class Login {
 	@Column(name = "nm_remoteaddr")
 	private String remoteAddr;
 	
-	@Column(name = "is_loged", columnDefinition = "boolean default true")
+	@Column(name = "is_loged")
 	private boolean loged;
 
 	@XmlElement

@@ -66,8 +66,7 @@ public class Pessoa implements Serializable {
 	@Column(name = "tp_pessoa", insertable = false, updatable = false)
     private String tipo;
 	
-	@Column(name = "is_ativo", columnDefinition = "boolean default true", 
-			nullable = false, insertable = true, updatable = true)
+	@Column(name = "is_ativo", nullable = false, insertable = true, updatable = true)
 	private boolean ativo;
 
 	@ManyToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
@@ -86,8 +85,7 @@ public class Pessoa implements Serializable {
 	private Date dataInsercao;
 	
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "dt_modificacao", nullable = true,
-		    columnDefinition="TIMESTAMP default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP")
+	@Column(name = "dt_modificacao", nullable = true)
 	private Date dataModificacao;
 	
 	@XmlElement

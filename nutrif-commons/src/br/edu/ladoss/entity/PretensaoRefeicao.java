@@ -34,8 +34,7 @@ public class PretensaoRefeicao {
 	@Column(name = "nm_keyaccess", unique = true)
 	private String keyAccess;	
 	
-	@Column(name = "is_ativo", columnDefinition = "boolean default true", 
-			nullable = false, insertable = true, updatable = true)
+	@Column(name = "is_ativo", nullable = false, insertable = true, updatable = true)
 	private boolean ativo;
 	
 	@XmlElement
