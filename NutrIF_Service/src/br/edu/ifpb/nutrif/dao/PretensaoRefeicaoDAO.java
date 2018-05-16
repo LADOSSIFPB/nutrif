@@ -48,7 +48,7 @@ public class PretensaoRefeicaoDAO extends GenericDao<Integer, PretensaoRefeicao>
 					.getConfirmaPretensaoDia().getDataPretensao());
 			query.setParameter("diaRefeicao", pretensaoRefeicao
 					.getConfirmaPretensaoDia().getDiaRefeicao().getId());
-			query.setParameter("keyAccess", pretensaoRefeicao.getKeyAccess());
+			query.setParameter("keyAccess", pretensaoRefeicao.getChaveAcesso());
 			
 			idPretensaoRefeicao = query.executeUpdate();	
 			

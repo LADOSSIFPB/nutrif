@@ -47,8 +47,7 @@ public class Bloqueio {
 		    columnDefinition="TIMESTAMP default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP")
 	private Date dataBloqueio;
 
-	@Column(name = "is_ativo", columnDefinition = "boolean default true", 
-			nullable = false, insertable = true, updatable = true)
+	@Column(name = "is_ativo", nullable = false, insertable = true, updatable = true)
 	private boolean ativo;
 
 	@XmlElement

@@ -39,8 +39,7 @@ public class Campus implements Serializable {
 		    columnDefinition="TIMESTAMP default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP")
 	private Date dataInsercao;
 	
-	@Column(name = "is_ativo", columnDefinition = "boolean default true", 
-			nullable = false, insertable = false, updatable = true)
+	@Column(name = "is_ativo", nullable = false, insertable = false, updatable = true)
 	private boolean ativo;
 
 	@XmlElement

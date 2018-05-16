@@ -377,7 +377,7 @@ public class Validate {
  
 		if (pretensaoRefeicao == null 
 				|| !(pretensaoRefeicao != null && stringValidator.validate(
-						pretensaoRefeicao.getKeyAccess(), 64)))
+						pretensaoRefeicao.getChaveAcesso(), 64)))
 			return ErrorFactory.CHAVE_ACESSO_PRETENSAO_INVALIDA;
 		
 		return VALIDATE_OK;

@@ -31,11 +31,10 @@ public class PretensaoRefeicao {
 	@Column(name = "dt_solicitacao", insertable = true, updatable = false)
 	private Date dataSolicitacao;
 
-	@Column(name = "nm_keyaccess", unique = true)
-	private String keyAccess;	
+	@Column(name = "nm_chaveacesso", unique = true)
+	private String chaveAcesso;	
 	
-	@Column(name = "is_ativo", columnDefinition = "boolean default true", 
-			nullable = false, insertable = true, updatable = true)
+	@Column(name = "is_ativo", nullable = false, insertable = true, updatable = true)
 	private boolean ativo;
 	
 	@XmlElement
@@ -66,12 +65,12 @@ public class PretensaoRefeicao {
 	}
 
 	@XmlElement
-	public String getKeyAccess() {
-		return keyAccess;
+	public String getChaveAcesso() {
+		return chaveAcesso;
 	}
 
-	public void setKeyAccess(String keyAccess) {
-		this.keyAccess = keyAccess;
+	public void setChaveAcesso(String chaveAcesso) {
+		this.chaveAcesso = chaveAcesso;
 	}
 	
 	@XmlElement

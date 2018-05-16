@@ -23,8 +23,7 @@ public class Motivo {
 	@Column(name = "nm_motivo")
 	private String nome;
 	
-	@Column(name = "is_definitivo", columnDefinition = "boolean default false", 
-			nullable = false, insertable = true, updatable = true)
+	@Column(name = "is_definitivo", nullable = false, insertable = true, updatable = true)
 	private boolean defitivo;
 
 	public Integer getId() {

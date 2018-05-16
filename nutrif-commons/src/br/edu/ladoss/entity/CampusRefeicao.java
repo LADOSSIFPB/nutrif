@@ -65,8 +65,7 @@ public class CampusRefeicao implements DataEntity {
 		    columnDefinition="TIMESTAMP default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP")
 	private Date dataInsercao;
 	
-	@Column(name = "is_ativo", columnDefinition = "boolean default true", 
-			nullable = false, insertable = true, updatable = true)
+	@Column(name = "is_ativo", nullable = false, insertable = true, updatable = true)
 	private boolean ativo;
 		
 	public CampusRefeicao() {

@@ -52,8 +52,7 @@ public class Matricula {
 	@JoinColumn(name = "fk_id_situacao_matricula")
 	private SituacaoMatricula situacao;
 	
-	@Column(name = "is_ativo", columnDefinition = "boolean default true", 
-			nullable = false, insertable = true, updatable = true)
+	@Column(name = "is_ativo", nullable = false, insertable = true, updatable = true)
 	private boolean ativo;
 	
 	@XmlElement
