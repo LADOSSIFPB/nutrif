@@ -1,153 +1,106 @@
 /*
- *  Controlar ações da listagem da Refeição.
+ *  Controlar ações do Dashboard.
  */
-nutrIFApp.controller('dashboardCtrl', function (
-    $scope, $timeout, $state, $interval, $mdExpansionPanelGroup, $mdExpansionPanel, toastUtil, diaService, refeicaoService, pretensaoService, refeicaoRealizadaService, diaRefeicaoService) {
+nutrIFApp.controller('dashboardCtrl', function ($scope, $state, toastUtil, diaService, refeicaoService, pretensaoService, refeicaoRealizadaService, diaRefeicaoService) {
+
+    // Dia de Refeição.
+    $scope.diaRefeicao = {};
 
     // Campos Dia e Refeição para consulta.
     $scope.dias = [];
     $scope.refeicoes = [];
-
-    $scope.dataHoje = new Date();
-    $scope.diaRefeicao = {};
 
     // Mapas.
     $scope.mapaPretensao = {};
     $scope.mapaRefeicaoRealizada = {};
     $scope.mapaDiaRefeicao = {};
 
-    $scope.refeicoesRealizadas = [];
-    $scope.diaRefeicoes = [];
+    $scope.labels = [];
+    $scope.data = [];
 
-    // Carregar os dias da semana.
-    $scope.carregarDia = function () {
-        diaService.listarDias()
+    $scope.buscar = function () {
+        let diaRefeicao = $scope.diaRefeicao;
+
+        limparGrafico();
+        
+        buscarQuantidadePretensao(diaRefeicao);
+
+        buscarQuantidadeRefeicoesDoDia(diaRefeicao);
+
+        buscarQuantidadeRefeicoesRealizadas(diaRefeicao)
+    }
+    
+    function limparGrafico() {
+        $scope.labels = [];
+        $scope.data = [];
+    }
+
+    function buscarQuantidadePretensao(diaRefeicao) {
+        pretensaoService.buscarQuantidade(diaRefeicao)
+            .then(function (response) {
+                let mapaPretensao = response.data;
+
+                $scope.labels.push("Pretensão");
+                $scope.data.push(mapaPretensao.quantidade);
+
+                $scope.mapaPretensao = mapaPretensao;
+            })
+            .catch(function (error) {
+                toastUtil.showErrorToast(error);
+            });
+    }
+
+    function buscarQuantidadeRefeicoesDoDia(diaRefeicao) {
+        diaRefeicaoService.buscarQuantidade(diaRefeicao)
+            .then(function (response) {
+                let mapaDiaRefeicao = response.data;
+            
+                $scope.labels.push("Edital");
+                $scope.data.push(mapaDiaRefeicao.quantidade);
+            
+                $scope.mapaDiaRefeicao = mapaDiaRefeicao;
+            })
+            .catch(function (error) {
+                toastUtil.showErrorToast(error);
+            });
+    }
+
+    function buscarQuantidadeRefeicoesRealizadas(diaRefeicao) {
+        refeicaoRealizadaService.buscarQuantidade(diaRefeicao)
+            .then(function (response) {
+                let mapaRefeicaoRealizada = response.data;
+            
+                $scope.labels.push("Realizadas");
+                $scope.data.push(mapaRefeicaoRealizada.quantidade);
+            
+                $scope.mapaRefeicaoRealizada = mapaRefeicaoRealizada;
+            })
+            .catch(function (error) {
+                toastUtil.showErrorToast(error);
+            });
+    }
+
+    function carregamentoInicial() {
+
+        // Carregar Dias para seleção no Dashboasd.
+        diaService.listar()
             .then(function (response) {
                 $scope.dias = response.data;
             })
-            .catch(onErrorCallback);
-    }
+            .catch(function (error) {
+                toastUtil.showErrorToast(error);
+            });
 
-    // Carregar os tipos das refeições.
-    $scope.carregarRefeicao = function () {
-        refeicaoService.listarRefeicoes()
+        // Carregar Refeições para seleção no Dashboasd.
+        refeicaoService.listar()
             .then(function (response) {
                 $scope.refeicoes = response.data;
             })
-            .catch(onErrorCallback);
+            .catch(function (error) {
+                toastUtil.showErrorToast(error);
+            });
     }
 
-    // Iniciar a quantidade nos mapas.
-    $scope.initMapas = function () {
-
-        $scope.mapaRefeicaoRealizada.quantidade = 0;
-        $scope.mapaPretensao.quantidade = 0;
-        $scope.mapaDiaRefeicao.quantidade = 0;
-
-        $scope.mapaRefeicaoRealizada.data = new Date();
-        $scope.mapaPretensao.data = new Date();
-        $scope.mapaDiaRefeicao.data = new Date();
-    }
-
-    function onErrorCallback(error) {
-        toastUtil.showErrorToast(error);
-    }
-
-    var getQuantidadePretensao = function () {
-
-        pretensaoService.getQuantidadePretensao($scope.diaRefeicao)
-            .then(function (response) {
-                $scope.mapaPretensao = response.data;
-            })
-            .catch(onErrorCallback);
-
-    }
-
-    var getQuantidadeRefeicoesRealizadas = function () {
-
-        refeicaoRealizadaService.getQuantidadeRefeicoesRealizadas($scope.diaRefeicao)
-            .then(function (response) {
-                $scope.mapaRefeicaoRealizada = response.data;
-            })
-            .catch(onErrorCallback);
-    }
-
-    var getQuantidadeRefeicoesDoDia = function () {
-
-        diaRefeicaoService.getQuantidadeRefeicoes($scope.diaRefeicao)
-            .then(function (response) {
-                $scope.mapaDiaRefeicao = response.data;
-            })
-            .catch(onErrorCallback);
-    }
-
-    // Lista de refeições realizadas.
-    var getMapaRefeicaoRealizadaByDiaRefeicao = function () {
-
-        var idDia = $scope.diaRefeicao.dia.id;
-        var idRefeicao = $scope.diaRefeicao.refeicao.id;
-
-        refeicaoRealizadaService.getMapaRefeicaoRealizadaByDiaRefeicao(idDia, idRefeicao)
-            .then(function (response) {
-                $scope.refeicoesRealizadas = response.data.lista;
-            })
-            .catch(onErrorCallback);
-    }
-
-    // Lista de refeições para o dia.
-    var getAllDiaRefeicaoByDiaAndRefeicao = function () {
-
-        var idDia = $scope.diaRefeicao.dia.id;
-        var idRefeicao = $scope.diaRefeicao.refeicao.id;
-
-        diaRefeicaoService.getAllByDiaAndRefeicao(idDia, idRefeicao)
-            .then(function (response) {
-                $scope.diaRefeicoes = response.data;
-            })
-            .catch(onErrorCallback);
-    }
-
-    $scope.consulta = function () {
-        getQuantidadePretensao();
-        getQuantidadeRefeicoesRealizadas();
-        getQuantidadeRefeicoesDoDia();
-
-        getMapaRefeicaoRealizadaByDiaRefeicao();
-        getAllDiaRefeicaoByDiaAndRefeicao();
-    }
-
-    // Carregamento inicial.
-    $scope.carregarDia();
-    $scope.carregarRefeicao();
-    $scope.initMapas();
-
-    /* Panel expandido
-     */
-    // Async 
-    $mdExpansionPanel().waitFor('refeicaoRealizadaExpPanel').then(function (instance) {
-        console.log("Foi: " + instance.isOpen());
-    });
-
-    // Ordenamento
-    $scope.orderByNome = "confirmaRefeicaoDia.diaRefeicao.aluno.nome";
-
-    $scope.logOrder = function (order) {
-        console.log('order: ', order);
-    };
-
-    /*
-     *   Método que faz com que a informação seja atualizada periodicamente, parando de atualizala, quando o usuário muda de página, onde seu controller é alterado.
-     */
-    this.consultaAutomatica = function () {
-        var timer;
-        timer = $interval(function () {
-            var currentCtrl = $state.current.controller;
-            if (currentCtrl === "dashboardCtrl") {
-                $scope.consulta();
-            } else {
-                console.log(currentCtrl);
-                $interval.cancel(timer);
-            }
-        }, 10000);
-    }
+    // Inicializar listagem dos Dias e Refeições.
+    carregamentoInicial();
 });

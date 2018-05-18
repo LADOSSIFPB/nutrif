@@ -9,7 +9,7 @@ nutrIFApp.factory("menu", function ($location, $rootScope) {
             type: 'link'
         },
         {
-            name: 'Refeitório',
+            name: 'Restaurante',
             type: 'toggle',
             pages: [
                 {
@@ -76,7 +76,7 @@ nutrIFApp.factory("menu", function ($location, $rootScope) {
                 },
                 {
                     name: 'Dashboard',
-                    state: '#',
+                    state: 'administrador.dashboard',
                     type: 'link'
                 }
             ]
