@@ -588,12 +588,14 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 
 		List<DiaRefeicao> diasRefeicao = new ArrayList<DiaRefeicao>();
 		
+		Date dataRefeicao = DateUtil.getDateOfDayWeek(idDia);
+		
 		try {			
 			
 			String hql = "from DiaRefeicao as dr"
 					+ " where dr.dia.id = :idDia"
 					+ " and dr.refeicao.id = :idRefeicao"
-					+ " and CURRENT_TIMESTAMP() between dr.edital.dataInicial and dr.edital.dataFinal"
+					+ " and :dataRefeicao between dr.edital.dataInicial and dr.edital.dataFinal"
 					+ " and dr.edital.ativo = :ativo"
 					+ " and dr.ativo = :ativo"
 					+ " order by dr.edital.id, dr.aluno.nome";
@@ -601,6 +603,7 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 			Query query = session.createQuery(hql);			
 			query.setParameter("idDia", idDia);
 			query.setParameter("idRefeicao", idRefeicao);
+			query.setParameter("dataRefeicao", dataRefeicao);
 			query.setParameter("ativo", BancoUtil.ATIVO);
 			
 			diasRefeicao = (List<DiaRefeicao>) query.list();
