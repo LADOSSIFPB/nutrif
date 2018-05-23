@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+	<session-factory>
+		
+		<property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
+		<property name="hibernate.connection.url">jdbc:mysql://localhost:3306/nutrif_migration?useSSL=false&amp;useUnicode=true&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;useTimezone=true&amp;serverTimezone=America/Recife</property>
+		<property name="hibernate.connection.username">root</property>
+		<property name="hibernate.connection.password">ifpbinfo</property>
+		
+		<property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+
+		<!-- show mysql queries output in console -->
+		<property name="hibernate.show_sql">true</property>
+		<property name="hibernate.format_sql">true</property>
+
+		<!-- manage automatic database creation -->
+		<property name="hibernate.hbm2ddl.auto">update</property>
+
+		<!-- <property name="hibernate.discriminator.ignore_explicit_for_joined">true</property> -->
+
+		<!-- JDBC connection pool (use the built-in) -->
+		<property name="current_session_context_class">thread</property>
+
+		<!-- Produção -->
+		<property name="cache.provider_class">org.hibernate.cache.NoCacheProvider</property>
+		<!-- <property name="hibernate.connection.provider_class">org.hibernate.connection.C3P0ConnectionProvider</property> -->
+		<property name="connection.pool_size">10</property>
+		<property name="c3p0.min_size">5</property>
+		<property name="c3p0.max_size">20</property>
+		<property name="c3p0.timeout">300</property>
+		<property name="c3p0.max_statements">50</property>
+		<property name="c3p0.idle_test_period">1</property>
+		<property name="hibernate.c3p0.preferredTestQuery">select 1;</property>
+
+		<!-- Jadira -->
+		<property name="jadira.usertype.autoRegisterUserTypes">true</property>
+
+		<!-- Entidades -->
+		<mapping class="br.edu.ladoss.entity.migration.Pessoa" />
+		<mapping class="br.edu.ladoss.entity.migration.Aluno" />
+		<mapping class="br.edu.ladoss.entity.migration.Matricula" />
+		<mapping class="br.edu.ladoss.entity.migration.SituacaoMatricula" />		
+		<mapping class="br.edu.ladoss.entity.migration.Funcionario" />
+		<mapping class="br.edu.ladoss.entity.migration.Curso" />
+		<mapping class="br.edu.ladoss.entity.migration.Dia" />
+		<mapping class="br.edu.ladoss.entity.migration.Refeicao" />
+		<mapping class="br.edu.ladoss.entity.migration.DiaRefeicao" />
+		<mapping class="br.edu.ladoss.entity.migration.Campus" />
+		<mapping class="br.edu.ladoss.entity.migration.CampusRefeicao" />		
+		<mapping class="br.edu.ladoss.entity.migration.Edital" />
+		<mapping class="br.edu.ladoss.entity.migration.Evento" />
+		<mapping class="br.edu.ladoss.entity.migration.RefeicaoRealizada" />
+		<mapping class="br.edu.ladoss.entity.migration.ConfirmaRefeicaoDia" />
+		<mapping class="br.edu.ladoss.entity.migration.PretensaoRefeicao" />
+		<mapping class="br.edu.ladoss.entity.migration.Role" />
+		<mapping class="br.edu.ladoss.entity.migration.Arquivo" />
+		<mapping class="br.edu.ladoss.entity.migration.Login" />
+		<mapping class="br.edu.ladoss.entity.migration.Logout" />
+		<mapping class="br.edu.ladoss.entity.migration.Setor" />
+		<mapping class="br.edu.ladoss.entity.migration.Error" />
+		<mapping class="br.edu.ladoss.entity.migration.Turno" />
+		<mapping class="br.edu.ladoss.entity.migration.Turma" />
+		<mapping class="br.edu.ladoss.entity.migration.Periodo" />
+		<mapping class="br.edu.ladoss.entity.migration.Nivel" />
+		<mapping class="br.edu.ladoss.entity.migration.Bloqueio" />
+		<mapping class="br.edu.ladoss.entity.migration.Motivo" />
+
+	</session-factory>
+</hibernate-configuration>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns="http://xmlns.jcp.org/xml/ns/javaee" 
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" 
+	id="WebApp_ID" 
+	version="3.1">
+	
+	<display-name>NutrIF_Migration</display-name>
+	
+	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+	</welcome-file-list>
+  
+  	<listener>
+		<listener-class>
+    		br.edu.ifpb.nutrif.hibernate.HibernateListener
+		</listener-class>
+	</listener>
+  
+  	<listener>
+		<listener-class>
+			org.jboss.resteasy.plugins.server.servlet.ResteasyBootstrap
+		</listener-class>
+	</listener>
+	
+	<servlet>
+		<servlet-name>Resteasy</servlet-name>
+		<servlet-class>
+			org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher
+		</servlet-class>
+		<init-param>
+			  <param-name>javax.ws.rs.Application</param-name>
+			  <param-value>br.edu.ifpb.nutrif.service.NutrIFApplication</param-value>
+		</init-param>
+		<async-supported>true</async-supported>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Resteasy</servlet-name>
+		<url-pattern>/*</url-pattern>
+	</servlet-mapping>
+	
+	<!-- Provider - Proteção de acesso aos serviços -->
+	<context-param>
+	      <param-name>resteasy.providers</param-name>
+	      <param-value>br.edu.ifpb.nutrif.service.SecurityInterceptor</param-value>
+	</context-param>
+	
+	<!-- Verificação e preparação de Response com Erro/Exceção -->
+	<context-param>
+        <param-name>resteasy.providers</param-name>
+        <param-value>br.edu.ifpb.nutrif.service.DefaultExceptionHandlerProvider</param-value>
+	</context-param>
+</web-app>
