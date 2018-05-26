@@ -27,7 +27,7 @@ public class SetorDAO extends GenericDao<Integer, Setor>{
 
 	@Override
 	public Class<?> getEntityClass() {
-		return Refeicao.class;
+		return Setor.class;
 	}
 
 	@Override
