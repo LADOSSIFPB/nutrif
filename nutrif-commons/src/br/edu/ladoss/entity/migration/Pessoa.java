@@ -56,7 +56,7 @@ public class Pessoa implements Serializable {
 	@Transient
 	private String keyAuth;
 
-	@Column(name = "nm_email", unique = true, nullable = false)
+	@Column(name = "nm_email", unique = true, nullable = true)
 	private String email;
 	
 	@OneToOne(fetch = FetchType.EAGER)

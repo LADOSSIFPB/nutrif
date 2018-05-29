@@ -58,7 +58,7 @@ public class Refeicao implements DataEntity {
 	@Column(name = "vl_custo")
     private BigDecimal custo;
 	
-	@Column(name = "is_ativo", nullable = false, insertable = false, updatable = true)
+	@Column(name = "is_ativo", nullable = false, insertable = true, updatable = true)
 	private boolean ativo;
 	
 	@OneToOne(fetch = FetchType.EAGER)

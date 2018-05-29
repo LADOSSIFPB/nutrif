@@ -11,6 +11,7 @@ import org.hibernate.SessionFactory;
 
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
 import br.edu.ifpb.nutrif.hibernate.HibernateUtil;
+import br.edu.ladoss.entity.Aluno;
 
 public abstract class GenericDao<PK, T> {
 	
@@ -20,7 +21,7 @@ public abstract class GenericDao<PK, T> {
 	
 	public abstract Class<?> getEntityClass();
 	
-	public SessionFactory sessionFactory;
+	private SessionFactory sessionFactory;
 	
 	public GenericDao(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
@@ -30,7 +31,7 @@ public abstract class GenericDao<PK, T> {
 		
 		logger.info("Init abstract Insert to: " + entity.getClass());
 		
-		Session session = HibernateUtil.getSessionFactoryOld().openSession();
+		Session session = this.sessionFactory.openSession();
 
 		Integer id;
 		
@@ -58,7 +59,7 @@ public abstract class GenericDao<PK, T> {
 		
 		logger.info("Init abstract Insert to: " + entity.getClass());
 		
-		Session session = HibernateUtil.getSessionFactoryOld().openSession();
+		Session session = this.sessionFactory.openSession();
 		
 		boolean success = false;
 		
@@ -88,7 +89,7 @@ public abstract class GenericDao<PK, T> {
 		
 		logger.info("Init abstract Update to: " + entity.getClass());
 		
-		Session session = HibernateUtil.getSessionFactoryOld().openSession();
+		Session session = this.sessionFactory.openSession();
 
 		try {
 			
@@ -112,7 +113,7 @@ public abstract class GenericDao<PK, T> {
 
 	public void delete(T entity) {
 		
-		Session session = HibernateUtil.getSessionFactoryOld().openSession();
+		Session session = this.sessionFactory.openSession();
 
 		try {
 			
@@ -136,13 +137,15 @@ public abstract class GenericDao<PK, T> {
 		
 		logger.info("Init abstract GetAll to: " + namedQuery);
 		
-		Session session = HibernateUtil.getSessionFactoryOld().openSession();
+		Session session = this.sessionFactory.openSession();
 		List<T> list = null;
 
 		try {
 			
 			session.beginTransaction();
-			Query query = session.getNamedQuery(namedQuery);
+			
+	        Query query = session.createNamedQuery(namedQuery);
+	        
 			list = (List<T>) query.list();
 			session.getTransaction().commit();
 			
@@ -159,10 +162,40 @@ public abstract class GenericDao<PK, T> {
 
 		return list;
 	}
+	
+	public List<T> getAll(int pageNumber, int pageSize) {
+        
+		Session session = this.sessionFactory.getCurrentSession();
+		List<T> list = null;
+		
+		try {
+			
+			session.beginTransaction();
+
+			String nameClass = getEntityClass().getSimpleName();
+			String namedQuery = nameClass + ".getAll";
+			
+	        Query query = session.createNamedQuery(namedQuery);
+	        
+	        query.setFirstResult((pageNumber - 1) * pageSize);
+	        query.setMaxResults(pageSize);
+
+	        list = (List<T>) query.list();
+	        session.getTransaction().commit();
+	        
+		} catch (HibernateException hibernateException) {
+			
+			session.getTransaction().rollback();
+			
+			throw new SQLExceptionNutrIF(hibernateException);
+		}		
+        
+        return list;
+    }
 
 	public T getById(Integer pk) throws SQLExceptionNutrIF {		
 		
-		Session session = HibernateUtil.getSessionFactoryOld().openSession();
+		Session session = this.sessionFactory.openSession();
 		
 		T entity = null;
 		

@@ -21,7 +21,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQuery(name = "Campus.getAll", query = "from Campus")
 public class Campus implements Serializable {
 
-	private static final long serialVersionUID = 528815040331491634L;
+	private static final long serialVersionUID = -2290123461812706238L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,7 +39,7 @@ public class Campus implements Serializable {
 		    columnDefinition="TIMESTAMP default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP")
 	private Date dataInsercao;
 	
-	@Column(name = "is_ativo", nullable = false, insertable = false, updatable = true)
+	@Column(name = "is_ativo", nullable = false, insertable = true, updatable = true)
 	private boolean ativo;
 
 	@XmlElement

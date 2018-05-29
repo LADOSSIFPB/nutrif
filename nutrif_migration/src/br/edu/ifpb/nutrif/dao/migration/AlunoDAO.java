@@ -1,8 +1,7 @@
-package br.edu.ifpb.nutrif.dao;
+package br.edu.ifpb.nutrif.dao.migration;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -10,16 +9,14 @@ import org.apache.logging.log4j.Logger;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 
+import br.edu.ifpb.nutrif.dao.GenericDao;
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
 import br.edu.ifpb.nutrif.hibernate.HibernateUtil;
 import br.edu.ifpb.nutrif.util.BancoUtil;
 import br.edu.ifpb.nutrif.util.StringUtil;
-import br.edu.ladoss.entity.Aluno;
-import br.edu.ladoss.entity.DiaRefeicao;
 import br.edu.ladoss.entity.Pessoa;
-import br.edu.ladoss.entity.Refeicao;
+import br.edu.ladoss.entity.migration.Aluno;
 
 public class AlunoDAO extends GenericDao<Integer, Aluno> {
 
@@ -28,41 +25,12 @@ public class AlunoDAO extends GenericDao<Integer, Aluno> {
 	private static AlunoDAO instance;
 	
 	public AlunoDAO() {
-		super(HibernateUtil.getSessionFactoryOld());
+		super(HibernateUtil.getSessionFactoryMigration());
 	}
 	
 	public static AlunoDAO getInstance() {		
 		instance = new AlunoDAO();		
 		return instance;
-	}
-	
-	public Long getQuantidadeTotalAluno() {
-		
-		Long quantidadeDia = Long.valueOf(BancoUtil.QUANTIDADE_ZERO);
-		
-		Session session = HibernateUtil.getSessionFactoryOld().openSession();
-		
-		try {	
-			
-			String hql = "select count(al.id)"
-					+ " from Aluno as al";
-			
-			Query query = session.createQuery(hql);
-			
-			quantidadeDia = (Long) query.uniqueResult();
-	        
-		} catch (HibernateException hibernateException) {
-			
-			session.getTransaction().rollback();
-			
-			throw new SQLExceptionNutrIF(hibernateException);
-			
-		} finally {
-		
-			session.close();
-		}
-		
-		return quantidadeDia;
 	}
 
 	public List<Aluno> listByNome(String nome) {
