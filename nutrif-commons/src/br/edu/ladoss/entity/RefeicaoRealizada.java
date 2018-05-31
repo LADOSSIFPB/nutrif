@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
@@ -24,7 +25,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class RefeicaoRealizada {
 
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id_refeicao_realizada", unique = true) // columnDefinition = "INT(10) UNSIGNED AUTO_INCREMENT"
+	@Column(name = "id_refeicao_realizada", unique = true, columnDefinition = "INT(10) UNSIGNED AUTO_INCREMENT")
 	private Integer id;
 	
 	@EmbeddedId	  
