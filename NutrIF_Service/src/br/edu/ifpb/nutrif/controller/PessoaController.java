@@ -231,7 +231,7 @@ public class PessoaController {
 	 * @param idPessoa
 	 * @return
 	 */
-	@RolesAllowed({TipoRole.ADMIN})
+	@RolesAllowed({TipoRole.ADMIN, TipoRole.INSPETOR, TipoRole.COMENSAL})
 	@GET
 	@Path("/{id}")
 	@Produces("application/json")

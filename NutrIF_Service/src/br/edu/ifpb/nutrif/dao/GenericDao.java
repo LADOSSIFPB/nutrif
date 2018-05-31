@@ -154,6 +154,36 @@ public abstract class GenericDao<PK, T> {
 		return list;
 	}
 
+	public List<T> getAll(int pageNumber, int pageSize) {
+        
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		List<T> list = null;
+		
+		try {
+			
+			session.beginTransaction();
+
+			String nameClass = getEntityClass().getSimpleName();
+			String namedQuery = nameClass + ".getAll";
+			
+	        Query query = session.createNamedQuery(namedQuery);
+	        
+	        query.setFirstResult((pageNumber - 1) * pageSize);
+	        query.setMaxResults(pageSize);
+
+	        list = query.getResultList();
+	        session.getTransaction().commit();
+	        
+		} catch (HibernateException hibernateException) {
+			
+			session.getTransaction().rollback();
+			
+			throw new SQLExceptionNutrIF(hibernateException);
+		}		
+        
+        return list;
+    }
+
 	public T getById(Integer pk) throws SQLExceptionNutrIF {		
 		
 		Session session = HibernateUtil.getSessionFactory().openSession();

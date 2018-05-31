@@ -68,7 +68,7 @@ public class RefeicaoRealizadaController {
 			
 			try {			
 				
-				// Recuperar o Cronograma da Refeição.
+				// Recuperar o Dia da Refeição.
 				int idDiaRefeicao = refeicaoRealizada.getConfirmaRefeicaoDia()
 						.getDiaRefeicao().getId();
 				DiaRefeicao diaRefeicao = DiaRefeicaoDAO
@@ -84,7 +84,7 @@ public class RefeicaoRealizadaController {
 							.getInstance().getPretensaoRefeicaoByDiaRefeicao(
 									idDiaRefeicao, agora);
 					
-					// Analise para lançamento obrigatório da prentesão.
+					// Análise para lançamento obrigatório da prentesão.
 					if ((!diaRefeicao.getEdital().isPrevistoPretensao() 
 							&& pretensaoRefeicao == null) ||
 							(!diaRefeicao.getEdital().isPrevistoPretensao() 

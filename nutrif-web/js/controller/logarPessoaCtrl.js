@@ -1,7 +1,7 @@
 /*
  *  Controlar ações de autenticação para acesso.
  */
-nutrIFApp.controller('logarPessoaCtrl', function ($stateParams, $scope, $state, pessoaService, userService, toastUtil) {
+nutrIFApp.controller('logarPessoaCtrl', function ($stateParams, $scope, $state, pessoaService, userService, toastUtil, loginCfg) {
 
     $scope.pessoa = {};
     
@@ -17,7 +17,9 @@ nutrIFApp.controller('logarPessoaCtrl', function ($stateParams, $scope, $state, 
             
                 let usuario = {};
                 usuario.id = usuarioLogin.id;
+                usuario.nome = usuarioLogin.nome;
                 usuario.keyAuth = usuarioLogin.keyAuth;
+                usuario.roles = usuarioLogin.roles;
             
                 // Identificação do campus do usuário logado.
                 let campus = {};
@@ -25,9 +27,9 @@ nutrIFApp.controller('logarPessoaCtrl', function ($stateParams, $scope, $state, 
                 usuario.campus = campus;
             
                 userService.setUser(usuario);
-
+            
                 // Redirecionamento com identificador do Campus
-                $state.transitionTo("administrador.home");
+                $state.transitionTo(loginCfg.state[usuarioLogin.roles[0].nome]);
             })
             .catch(function (error) {
                 toastUtil.showErrorToast(error);

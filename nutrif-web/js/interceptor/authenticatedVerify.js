@@ -1,7 +1,7 @@
 /*
  *  Verificar se usuário está logado e redirecionar requisição para a página correta.
  */
-nutrIFApp.run(function ($rootScope, $state, userService) {
+nutrIFApp.run(function ($rootScope, $state, userService, loginCfg) {
     
     let loginStates = ['inicio.login'];
     
@@ -19,15 +19,15 @@ nutrIFApp.run(function ($rootScope, $state, userService) {
     // Register listener to watch route changes
     $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
 
-        let user = userService.getUser();
+        let usuario = userService.getUser();
         let nameState = toState.name;
 
-        if (user) {
+        if (usuario) {
 
             if (isLoginState(nameState)) {
                 // Redirecionamento para a seção do administrador.
                 event.preventDefault();
-                $state.go("administrador.home");
+                $state.go(loginCfg.state[usuario.roles[0].nome]);
             }
 
         } else {

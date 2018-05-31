@@ -13,7 +13,9 @@ import org.hibernate.Session;
 
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
 import br.edu.ifpb.nutrif.hibernate.HibernateUtil;
+import br.edu.ifpb.nutrif.hibernate.QueryUtil;
 import br.edu.ifpb.nutrif.util.BancoUtil;
+import br.edu.ladoss.entity.Pessoa;
 import br.edu.ladoss.entity.PretensaoRefeicao;
 import br.edu.ladoss.entity.Refeicao;
 
@@ -142,7 +144,8 @@ public class PretensaoRefeicaoDAO extends GenericDao<Integer, PretensaoRefeicao>
 			query.setParameter("dataPretensao", dataPretensao);
 			query.setParameter("ativo", BancoUtil.ATIVO);
 			
-			pretensaoRefeicao = (PretensaoRefeicao) query.getSingleResult();
+			QueryUtil<PretensaoRefeicao> queryUtil = new QueryUtil<PretensaoRefeicao>();
+			pretensaoRefeicao = queryUtil.getUniqueResult(query);
 	        
 		} catch (HibernateException hibernateException) {
 			

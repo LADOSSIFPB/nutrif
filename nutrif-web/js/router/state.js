@@ -38,7 +38,7 @@ nutrIFApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
                 url: '/home',
                 title: 'Aluno - Home',
                 templateUrl: 'view/aluno/home.html',
-                permissions: ['admin', 'aluno']
+                permissions: ['aluno']
             })
     
             // Subrota - Inspetor
@@ -56,7 +56,7 @@ nutrIFApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
                 url: '/home',
                 title: 'Inspetor - Home',
                 templateUrl: 'view/inspetor/home.html',
-                permissions: ['admin', 'inspetor']
+                permissions: ['inspetor']
             })
     
             /* Inspetor - Entrada de Aluno */
@@ -66,7 +66,7 @@ nutrIFApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
                 templateUrl: 'view/inspetor/listar-entradarefeitorio.html',
                 controller: 'listarEntradaRefeitorioCtrl',
                 controllerAs: 'listarEntradaRefeitorio',
-                permissions: ['admin', 'inspetor']
+                permissions: ['inspetor']
             })
 
             // Subrota - Administrador
