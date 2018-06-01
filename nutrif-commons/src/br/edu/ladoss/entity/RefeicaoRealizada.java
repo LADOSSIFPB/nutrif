@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class RefeicaoRealizada {
 
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id_refeicao_realizada", unique = true, columnDefinition = "INT(10) UNSIGNED AUTO_INCREMENT")
+	@Column(name = "id_refeicao_realizada", unique = true, columnDefinition = "INT(10) UNSIGNED AUTO_INCREMENT") // ALTER TABLE tb_refeicao_realizada CHANGE id_refeicao_realizada id_refeicao_realizada INT(10)AUTO_INCREMENT;
 	private Integer id;
 	
 	@EmbeddedId	  
