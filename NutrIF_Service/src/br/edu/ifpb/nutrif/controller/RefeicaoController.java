@@ -99,7 +99,7 @@ public class RefeicaoController {
 	@GET
 	@Path("/{id}")
 	@Produces("application/json")
-	public Response getRefeicaoById(@PathParam("id") int idRefeicao) {
+	public Response getById(@PathParam("id") int idRefeicao) {
 		
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
 		builder.expires(new Date());
