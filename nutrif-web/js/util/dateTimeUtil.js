@@ -15,6 +15,11 @@ nutrIFApp.factory("dateTimeUtil", function ($mdToast) {
         millisToDate: function (milli) {
             let date = new Date(milli);
             return date;
+        },
+        
+        toDate: function (stringDate) {
+            let date = new Date(stringDate);
+            return date;
         }
     }
 });

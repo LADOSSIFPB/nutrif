@@ -1,223 +1,125 @@
-angular.module('NutrifApp')
-    .controller('editarEditalCtrl', function ($scope,
-        editalService, campusService, eventoService, 
-        userService, funcionarioService, diaRefeicaoService, 
-        $stateParams, $state, $mdToast, $mdDialog) {
+/**
+ * Editar do Edital.
+ */
+nutrIFApp.controller('editarEditalCtrl', function ($scope, $stateParams, $state, toastUtil, arrayUtil, dateTimeUtil, campusService, funcionarioService, editalService, eventoService, userService) {
 
-        $scope.nomes = [];
-        $scope.campi = [];
-        $scope.eventos = [];
-        $scope.mapas = [];
-    
-        $scope.editalCopy = {};
-        $scope.edital = {};
-        $scope.responsavel = {};
-        $scope.selectedItem = null;
+    // Edital
+    $scope.edital = {};
 
-        // Responsáveis
-        this.searchText = null;
-        this.autocompleteDemoRequireMatch = true;
-        $scope.responsaveis = [];
+    // Campi
+    $scope.campi = [];
 
-        this.editar = function (edital) {
-            
-            // Funcionário.
-            edital.funcionario = {};
-            edital.funcionario.id = userService.getUser().id;
+    // Eventos
+    $scope.eventos = [];
 
-            edital.responsavel = $scope.selectedItem;
+    // Auto-complete
+    $scope.responsaveis = [];
+    $scope.nomeResponsavel = "";
+    $scope.responsavelSelecionado = null;
 
-            editalService.atualizarEdital(edital)
-                .success(function (data, status) {
+    // Enviar para o serviço de atualização do Edital.
+    $scope.atualizar = function () {
 
-                    $state.transitionTo('home.listar-edital', {
-                        reload: true
-                    });
-                    $mdToast.show(
-                        $mdToast.simple()
-                        .textContent('Edital atualizado com sucesso!')
-                        .position('top right')
-                        .action('OK')
-                        .hideDelay(6000)
-                    );
-                })
-                .error(onErrorCallback);
-        }
+        let edital = $scope.edital;
 
-        this.remove = function (id) {
+        edital.dataInicial = Date.parse(edital.dataInicial);
+        edital.dataFinal = Date.parse(edital.dataFinal);
 
-            $mdDialog.show({
-                controller: confirmarRemocaoRefeicaoCtrl,
-                templateUrl: 'view/manager/modals/modal-confirmar-remocao-refeicao.html',
-                parent: angular.element(document.body),
-                clickOutsideToClose: true,
-                fullscreen: false,
-                locals: {
-                    id: id
-                }
-            })
-        }
+        edital.responsavel = {};
+        edital.responsavel.id = $scope.responsavelSelecionado.id;
 
-        function confirmarRemocaoRefeicaoCtrl(id, $scope, $mdDialog, $mdToast, editalService) {
+        edital.funcionario = {};
+        edital.funcionario.id = userService.getUser().id;
 
-            $scope.id = id;
+        editalService.atualizar(edital)
+            .then(function (response) {
+                // Mensagem
+                toastUtil.showSuccessToast('Edital atualizado com sucesso.');
 
-            $scope.hide = function () {
-
-                editalService.removerEdital(id)
-                    .success(function (data, status) {
-
-                        $mdDialog.cancel();
-                        $state.transitionTo('home.listar-edital', {
-                            reload: true
-                        });
-
-                        $mdToast.show(
-                            $mdToast.simple()
-                            .textContent('Edital removido com sucesso!')
-                            .position('top right')
-                            .action('OK')
-                            .hideDelay(6000)
-                        );
-                    })
-                    .error(onErrorCallback);
-            };
-
-            function onErrorCallback(data, status) {
-                var _message = '';
-
-                if (!data) {
-                    _message = 'Erro no servidor, por favor chamar administração ou suporte.'
-                } else {
-                    _message = data.mensagem
-                }
-
-                $mdToast.show(
-                    $mdToast.simple()
-                    .textContent(_message)
-                    .position('top right')
-                    .action('OK')
-                    .hideDelay(6000)
-                );
-            }
-
-            $scope.cancel = function () {
-                $mdDialog.cancel();
-            };
-        };
-
-        function carregamentoInicial() {
-            
-            var _id = $stateParams.id;
-
-            if (_id == 0) {
-                $state.transitionTo('home.listar-edital', {
+                // Redirecionamento            
+                $state.transitionTo('administrador.listar-editais', {
                     reload: true
                 });
-            }
-
-            // Dados do Edital.
-            editalService.getEditalById(_id)
-                .success(function (data, status) {
-                    $scope.edital = data;
-                    $scope.editalCopy = angular.copy($scope.edital);
-                    var inicialData = $scope.editalCopy.dataInicial;
-                    var finalData = $scope.editalCopy.dataFinal;
-                    $scope.editalCopy.dataInicial = new Date(inicialData);
-                    $scope.editalCopy.dataFinal = new Date(finalData);
-                    $scope.selectedItem = $scope.editalCopy.responsavel;
-                })
-                .error(onErrorLoadCallback);
-
-            // Carregamento dos Campi.
-            campusService.listarCampi()
-                .success(function (data, status) {
-                    $scope.campi = data;
-                })
-                .error(onErrorLoadCallback);
-
-            // Tipos de Eventos para o Edital.
-            eventoService.listarEvento()
-                .success(function (data, status) {
-                    $scope.eventos = data;
-                })
-                .error(onErrorLoadCallback);
-            
-            // Quantidade de Beneficiados do Edital por Dia.
-            diaRefeicaoService.getQuantidadeBeneficiadosByEdital(_id)
-                .success(function (data, status) {
-                    $scope.mapas = data;
-                })
-                .error(onErrorLoadCallback);
-        }
-
-        carregamentoInicial();
-
-        function onErrorLoadCallback(data, status) {
-            onErrorCallback(data, status);
-            $state.transitionTo('home.listar-edital', {
-                reload: true
+            })
+            .catch(function (error) {
+                toastUtil.showErrorToast(error);
             });
+    };
+
+    $scope.pesquisarReponsavelNome = function (nome) {
+        return funcionarioService.listByNome(nome)
+            .then(function (result) {
+
+                if (!arrayUtil.isEmpty(result.data)) {
+                    return result.data;
+                } else {
+                    return [];
+                }
+
+            }).catch(function (error) {
+                toastUtil.showErrorToast(error);
+            });
+    };
+
+    function carregamentoInicial() {
+
+        let id = $stateParams.id;
+
+        if (id <= 0) {
+            redirecionarListagem();
+        } else {
+            
+            // Recuperar Edital para edição.
+            editalService.getById(id)
+                .then(function (response) {
+                    $scope.edital = response.data;
+                    let edital = $scope.edital;
+                
+                    // Data/hora de início e fim do Edital.
+                    let dataInicial = dateTimeUtil.toDate(edital.dataInicial);
+                    let dataFinal = dateTimeUtil.toDate(edital.dataFinal);
+                    
+                    $scope.edital.dataInicial = dataInicial;
+                    $scope.edital.dataFinal = dataFinal;                  
+                
+                    // Responsável
+                    let responsavel = edital.responsavel;
+                    $scope.responsavelSelecionado = responsavel;
+                    $scope.nomeResponsavel = responsavel.nome;
+                })
+                .catch(function (error) {
+                    toastUtil.showErrorToast(error);
+                });            
+            
+            // Carregar Cursos para seleção no cadastro do Edital.
+            campusService.listar()
+                .then(function (response) {
+                    $scope.campi = response.data;
+                })
+                .catch(function (error) {
+                    toastUtil.showErrorToast(error);
+                });
+
+            // Carregar Eventos para seleção no cadastro do Edital.
+            eventoService.listar()
+                .then(function (response) {
+                    $scope.eventos = response.data;
+                })
+                .catch(function (error) {
+                    toastUtil.showErrorToast(error);
+                });
         }
+    }
 
-        function onErrorCallback(data, status) {
-            var _message = '';
-            if (!data) {
-                _message = 'Erro no servidor, por favor chamar administração ou suporte.'
-            } else {
-                _message = data.mensagem
-            }
-
-            $mdToast.show(
-                $mdToast.simple()
-                .textContent(_message)
-                .position('top right')
-                .action('OK')
-                .hideDelay(6000)
-            );
-        }
-
-        // Selecionar responsável pelo Edital.
-        this.buscarResponsaveis = function buscarResponsaveis(query) {
-            var lowerCaseQuery = angular.lowercase(query);
-
-            console.log(lowerCaseQuery);
-
-            var results = this.listarFuncionario(lowerCaseQuery);
-
-            return results || [];
-        }
-
-        // Consultar responsável no serviço.
-        this.listarFuncionario = function listarFuncionario(query) {
-
-            funcionarioService.getFuncionarioByNome(query)
-                .success(onSuccessListarFuncionario)
-                .error(onErrorCallback);
-
-            return $scope.responsaveis;
-
-        }
-
-        function onSuccessListarFuncionario(data, status) {
-            return $scope.responsaveis = data;
-        }
-
-        function transformChip(responsavel) {
-            // If it is an object, it's already a known chip
-            if (angular.isObject(responsavel)) {
-                return responsavel;
-            }
-        }
-
-    })
-    .config(function ($mdDateLocaleProvider) {
-        $mdDateLocaleProvider.formatDate = function (date) {
-            return date ? moment(date).format('DD/MM/YYYY') : '';
-        };
-
-        $mdDateLocaleProvider.parseDate = function (dateString) {
-            var m = moment(dateString, 'DD/MM/YYYY', true);
-            return m.isValid() ? m.toDate() : new Date(NaN);
-        };
-    });
+    /**
+        Redirecionar para a página de listagem.
+     */
+    function redirecionarListagem() {
+        $state.transitionTo('administrador.listar-editais', {
+            reload: true
+        });
+    }
+    
+    // Inicializar listagem dos campi e níveis.
+    carregamentoInicial();
+});

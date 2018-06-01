@@ -47,6 +47,8 @@ nutrIFApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
                 data: {
                     label: 'Inspetor'
                 },
+                controller: 'sideNavCtrl',
+                controllerAs: 'sideNav',
                 url: '/inspetor',
                 templateUrl: 'view/inspetor/inspetor.html'
             })
@@ -72,6 +74,9 @@ nutrIFApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
             // Subrota - Administrador
             .state('administrador', {
                 abstract: true,
+                data: {
+                    label: 'Administrador'
+                },
                 controller: 'sideNavCtrl',
                 controllerAs: 'sideNav',
                 url: '/administrador',
@@ -243,6 +248,15 @@ nutrIFApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
                 templateUrl: 'view/administrador/listar-editais.html',
                 controller: 'listarEditaisCtrl',
                 controllerAs: 'listarEditais',
+                permissions: ['admin']
+            })
+            
+            .state('administrador.editar-edital', {
+                url: '/editar/edital/:id',
+                title: 'Editar Edital',
+                templateUrl: 'view/administrador/editar-edital.html',
+                controller: 'editarEditalCtrl',
+                controllerAs: 'editarEdital',
                 permissions: ['admin']
             })
     

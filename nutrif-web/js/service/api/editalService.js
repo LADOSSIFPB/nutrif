@@ -26,7 +26,7 @@ nutrIFApp.factory("editalService", function($http, serviceCfg){
 	};
 	
 	var _getById = function (id){
-		return $http.get(_path + "/id/" + encodeURI(id))
+		return $http.get(_path + "/" + encodeURI(id))
 	};
 	
 	var _atualizar = function (edital){
@@ -34,7 +34,7 @@ nutrIFApp.factory("editalService", function($http, serviceCfg){
 	};
 	
 	var _remover = function (id){
-		return $http.delete(_path + "/id/" + id)
+		return $http.delete(_path + "/" + id)
 	};
 
 	return {

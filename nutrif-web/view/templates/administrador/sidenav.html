@@ -12,7 +12,7 @@
         <md-content layout-padding ng-controller="SideNavMenuCtrl as vm">
 
             <ul class="side-menu">
-                <li ng-repeat="section in vm.menu.sections" class="parent-list-item" ng-class="{'parentActive' : vm.isSectionSelected(section)}">
+                <li ng-repeat="section in vm.menu.getSectionsByUserRole()" class="parent-list-item" ng-class="{'parentActive' : vm.isSectionSelected(section)}">
                     <h2 class="menu-heading" ng-if="section.type === 'heading'" id="heading_{{ section.name | nospace }}">
                         {{section}}
                     </h2>

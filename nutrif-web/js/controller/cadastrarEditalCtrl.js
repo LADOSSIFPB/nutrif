@@ -1,8 +1,7 @@
 /**
  * Cadastro do Edital.
  */
-nutrIFApp.controller('cadastrarEditalCtrl', function ($scope,
-    $mdToast, $state, toastUtil, arrayUtil, campusService, funcionarioService, editalService, eventoService, userService) {
+nutrIFApp.controller('cadastrarEditalCtrl', function ($scope, $state, toastUtil, arrayUtil, campusService, funcionarioService, editalService, eventoService, userService) {
 
     // Edital
     $scope.edital = {};

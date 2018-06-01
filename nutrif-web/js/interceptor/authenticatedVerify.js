@@ -1,7 +1,7 @@
 /*
  *  Verificar se usuário está logado e redirecionar requisição para a página correta.
  */
-nutrIFApp.run(function ($rootScope, $state, userService, loginCfg) {
+nutrIFApp.run(function ($rootScope, $state, userService) {
     
     let loginStates = ['inicio.login'];
     
@@ -27,14 +27,13 @@ nutrIFApp.run(function ($rootScope, $state, userService, loginCfg) {
             if (isLoginState(nameState)) {
                 // Redirecionamento para a seção do administrador.
                 event.preventDefault();
-                $state.go(loginCfg.state[usuario.roles[0].nome]);
+                $state.go(userService.getUserHome());
             }
 
         } else {
 
             // Verificar se a página solicitada já é o login.
             if (!isLoginState(nameState)) {
-                console.log("inicio.login!");
                 // Redirecionamento para o login do usuário.
                 event.preventDefault();
                 $state.go("inicio.login");

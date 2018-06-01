@@ -1,7 +1,7 @@
 /*
  *  Controlar ações de autenticação para acesso.
  */
-nutrIFApp.controller('logarPessoaCtrl', function ($stateParams, $scope, $state, pessoaService, userService, toastUtil, loginCfg) {
+nutrIFApp.controller('logarPessoaCtrl', function ($stateParams, $scope, $state, pessoaService, userService, toastUtil) {
 
     $scope.pessoa = {};
     
@@ -29,7 +29,7 @@ nutrIFApp.controller('logarPessoaCtrl', function ($stateParams, $scope, $state, 
                 userService.setUser(usuario);
             
                 // Redirecionamento com identificador do Campus
-                $state.transitionTo(loginCfg.state[usuarioLogin.roles[0].nome]);
+                $state.transitionTo(userService.getUserHome());
             })
             .catch(function (error) {
                 toastUtil.showErrorToast(error);

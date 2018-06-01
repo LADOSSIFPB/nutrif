@@ -227,9 +227,9 @@ public class EditalController {
 	
 	@RolesAllowed({TipoRole.ADMIN})
 	@GET
-	@Path("/id/{id}")
+	@Path("/{id}")
 	@Produces("application/json")
-	public Response getEditalById(@PathParam("id") int idEdital) {
+	public Response getById(@PathParam("id") int idEdital) {
 		
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
 		builder.expires(new Date());

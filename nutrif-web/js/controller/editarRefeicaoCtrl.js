@@ -45,7 +45,7 @@ nutrIFApp.controller('editarRefeicaoCtrl', function ($scope,
                     // Refeição 
                     let refeicao = response.data;
 
-                    // Hora de início e fim da apresentação
+                    // Hora de início e fim da Refeição.
                     let horaInicio = dateTimeUtil.timeToDate(refeicao.horaInicio);
                     let horaFinal = dateTimeUtil.timeToDate(refeicao.horaFinal);
                     let horaPrevisaoPretensao = dateTimeUtil.timeToDate(refeicao.horaPrevisaoPretensao);
