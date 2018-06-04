@@ -39,9 +39,15 @@ public class Pessoa implements Serializable {
 
 	private static final long serialVersionUID = 3773602055618799026L;
 
+	public Pessoa() {}
+	
+	public Pessoa(int id) {
+		this.id = id;
+	}
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id_pessoa")
+	@Column(name = "id_pessoa", insertable=true)
 	private Integer id;
 
 	@Column(name = "nm_pessoa", nullable = false)

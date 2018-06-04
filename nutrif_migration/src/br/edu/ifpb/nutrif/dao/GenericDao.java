@@ -11,7 +11,9 @@ import org.hibernate.SessionFactory;
 
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
 import br.edu.ifpb.nutrif.hibernate.HibernateUtil;
+import br.edu.ifpb.nutrif.util.BancoUtil;
 import br.edu.ladoss.entity.Aluno;
+import br.edu.ladoss.entity.Pessoa;
 
 public abstract class GenericDao<PK, T> {
 	
@@ -205,6 +207,37 @@ public abstract class GenericDao<PK, T> {
 			entity = (T) session.get(getEntityClass(), pk);
 	        Hibernate.initialize(entity);
 	        session.getTransaction().commit();
+	        
+		} catch (HibernateException hibernateException) {
+			
+			session.getTransaction().rollback();
+			
+			throw new SQLExceptionNutrIF(hibernateException);
+			
+		} finally {
+		
+			session.close();
+		}
+		
+		return entity;
+	}
+	
+	public T getByIdMigracao(Integer idMigracao) throws SQLExceptionNutrIF {		
+		
+		Session session = this.sessionFactory.openSession();
+		
+		T entity = null;
+		
+		try {
+		
+			String nameClass = getEntityClass().getSimpleName();
+			String hql = "from "+ nameClass +" as ent"
+					+ " where ent.idMigracao = :idMigracao";
+			
+			Query query = session.createQuery(hql);			
+			query.setParameter("idMigracao", idMigracao);
+			
+			entity = (T) query.uniqueResult();
 	        
 		} catch (HibernateException hibernateException) {
 			

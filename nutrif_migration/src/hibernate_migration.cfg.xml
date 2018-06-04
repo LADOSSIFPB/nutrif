@@ -17,7 +17,7 @@
 		<property name="hibernate.show_sql">true</property>
 		<property name="hibernate.format_sql">true</property>
 
-		<!-- manage automatic database creation -->
+		<!-- manage automatic database creation: update, create -->
 		<property name="hibernate.hbm2ddl.auto">update</property>
 
 		<!-- <property name="hibernate.discriminator.ignore_explicit_for_joined">true</property> -->
@@ -68,6 +68,7 @@
 		<mapping class="br.edu.ladoss.entity.migration.Nivel" />
 		<mapping class="br.edu.ladoss.entity.migration.Bloqueio" />
 		<mapping class="br.edu.ladoss.entity.migration.Motivo" />
+		<mapping class="br.edu.ladoss.entity.migration.ExtratoRefeicao" />		
 
 	</session-factory>
 </hibernate-configuration>

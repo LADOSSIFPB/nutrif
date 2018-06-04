@@ -5,6 +5,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "pessoaAcesso")
 public class AlunoAcesso extends Aluno {
+	
+	public AlunoAcesso(int idPessoa) {
+		super(idPessoa);
+	}
 
 	private static final long serialVersionUID = 8011399615861874456L;
 
@@ -14,7 +18,7 @@ public class AlunoAcesso extends Aluno {
 	public static AlunoAcesso getInstance(Pessoa pessoa) {
 
 		// Conversão de Pessoa para PessoaAcesso.
-		AlunoAcesso pessoaAcesso = new AlunoAcesso();		
+		AlunoAcesso pessoaAcesso = new AlunoAcesso(pessoa.getId());		
 		pessoaAcesso.setId(pessoa.getId());
 		pessoaAcesso.setNome(pessoa.getNome());
 		pessoaAcesso.setTipo(pessoa.getTipo());

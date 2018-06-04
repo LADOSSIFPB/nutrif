@@ -99,6 +99,36 @@ public class RefeicaoDAO extends GenericDao<Integer, Refeicao>{
 		
 		return refeicoes;
 	}
+	
+	public List<Refeicao> listByIdCampus(Integer idCampus) {
+		
+		Session session = HibernateUtil.getSessionFactoryMigration().openSession();
+		
+		List<Refeicao> refeicoes = null;
+		
+		try {
+			
+			String hql = "from Refeicao as r"
+					+ " where r.campus.id = :idCampus";
+			
+			Query query = session.createQuery(hql);
+			query.setParameter("idCampus", idCampus);			
+	        
+			refeicoes = (List<Refeicao>) query.list();
+			
+		} catch (HibernateException hibernateException) {
+			
+			session.getTransaction().rollback();
+			
+			throw new SQLExceptionNutrIF(hibernateException);
+			
+		} finally {
+		
+			session.close();
+		}
+		
+		return refeicoes;
+	}
 
 	@Override
 	public List<Refeicao> getAll() throws SQLExceptionNutrIF {

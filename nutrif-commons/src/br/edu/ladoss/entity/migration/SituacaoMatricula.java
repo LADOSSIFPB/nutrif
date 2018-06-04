@@ -28,6 +28,13 @@ public class SituacaoMatricula {
 
 	public static int ID_MATRICULADO = 1;
 	
+	public SituacaoMatricula() {}
+	
+	public SituacaoMatricula(String nome, String descricao) {
+		this.nome = nome;
+		this.descricao = descricao;
+	}
+	
 	@XmlElement
 	public Integer getId() {
 		return id;

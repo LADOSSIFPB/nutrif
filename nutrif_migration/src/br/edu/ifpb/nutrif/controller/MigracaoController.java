@@ -24,28 +24,34 @@ import br.edu.ifpb.nutrif.dao.EventoDAO;
 import br.edu.ifpb.nutrif.dao.FuncionarioDAO;
 import br.edu.ifpb.nutrif.dao.PeriodoDAO;
 import br.edu.ifpb.nutrif.dao.RefeicaoDAO;
+import br.edu.ifpb.nutrif.dao.RefeicaoRealizadaDAO;
 import br.edu.ifpb.nutrif.dao.RoleDAO;
 import br.edu.ifpb.nutrif.dao.SetorDAO;
 import br.edu.ifpb.nutrif.dao.TurmaDAO;
 import br.edu.ifpb.nutrif.dao.TurnoDAO;
+import br.edu.ifpb.nutrif.dao.migration.ExtratoRefeicaoDAO;
 import br.edu.ifpb.nutrif.dao.migration.MatriculaDAO;
+import br.edu.ifpb.nutrif.dao.migration.SituacaoMatriculaDAO;
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
-import br.edu.ifpb.nutrif.util.BancoUtil;
+import br.edu.ifpb.nutrif.util.DateUtil;
 import br.edu.ladoss.entity.Aluno;
 import br.edu.ladoss.entity.Campus;
 import br.edu.ladoss.entity.Curso;
 import br.edu.ladoss.entity.Dia;
+import br.edu.ladoss.entity.DiaRefeicao;
+import br.edu.ladoss.entity.Edital;
+import br.edu.ladoss.entity.Evento;
 import br.edu.ladoss.entity.Funcionario;
 import br.edu.ladoss.entity.Periodo;
 import br.edu.ladoss.entity.Refeicao;
+import br.edu.ladoss.entity.RefeicaoRealizada;
 import br.edu.ladoss.entity.Role;
 import br.edu.ladoss.entity.Setor;
 import br.edu.ladoss.entity.Turma;
 import br.edu.ladoss.entity.Turno;
-import br.edu.ladoss.entity.DiaRefeicao;
-import br.edu.ladoss.entity.Edital;
-import br.edu.ladoss.entity.Evento;
+import br.edu.ladoss.entity.migration.ExtratoRefeicao;
 import br.edu.ladoss.entity.migration.Matricula;
+import br.edu.ladoss.entity.migration.SituacaoMatricula;
 import br.edu.ladoss.enumeration.TipoRole;
 
 @Path("migracao")
@@ -56,6 +62,8 @@ public class MigracaoController {
 	private static int CAMPUS_CAMPINA_GRANDE = 3;
 	
 	private static int LIMIT_QUERY = 50;
+	
+	private static int UM_DIA = 1;
 	
 	/**
 	 * 
@@ -72,6 +80,8 @@ public class MigracaoController {
 		builder.expires(new Date());
 
 		try {
+			
+			logger.info("Migrar - Iniciar processo...");
 			
 			// Campus
 			migrarCampus();			
@@ -103,22 +113,149 @@ public class MigracaoController {
 			// Evento
 			migrarEvento();
 			
+			// Situação Matrícula
+			criarSituacaoMatricula();
+					
+			// Com idMigracao
+			// Funcionário
+			migrarFuncionario();	
+			
 			// Edital
-			migrarEdital();
+			migrarEdital();			
 			
 			// Pessoa
 			migrarPessoa();
 			
-			// DiaRefeicao
-			// RefeicaoRealizada
-			// Login		
+			// Extrato
+			gerarExtratoRefeicao();
+			
+			logger.info("Migrar - Processo finalizado!");
 
 		} catch (SQLExceptionNutrIF exception) {
 
 			builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(exception.getError());
 		}
 
+		builder.status(Response.Status.OK);
+		
 		return builder.build();
+	}
+
+	@RolesAllowed({ TipoRole.ADMIN })
+	@GET
+	@Path("/extrato")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public Response migrarExtratoRefeicao() {
+		
+		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
+		builder.expires(new Date());
+
+		try {
+			
+			// Gerar Extrato. 
+			gerarExtratoRefeicao();			
+
+		} catch (SQLExceptionNutrIF exception) {
+
+			builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(exception.getError());
+		}
+
+		builder.status(Response.Status.OK);
+		
+		return builder.build();		
+	}
+	
+	private void gerarExtratoRefeicao() {
+		
+		logger.info("Gerar - ExtratoRefeicao");
+		
+		// Intervalo de datas
+		Date dataRefeicao = getMinDataRefeicao();
+		
+		Date hoje = new Date();
+		
+		while (dataRefeicao.before(hoje) || dataRefeicao.equals(hoje)) {
+			
+			logger.info("DataRefeicao: " + dataRefeicao + ", hoje: " + hoje);			
+		
+			// Campus
+			List<br.edu.ladoss.entity.migration.Campus> campi = 
+					br.edu.ifpb.nutrif.dao.migration.CampusDAO.getInstance().getAll();
+			
+			for (br.edu.ladoss.entity.migration.Campus campus: campi) {
+				
+				Integer idCampus = campus.getId();
+				
+				// Refeição
+				List<br.edu.ladoss.entity.migration.Refeicao> refeicoes = 
+						br.edu.ifpb.nutrif.dao.migration.RefeicaoDAO.getInstance().listByIdCampus(idCampus);
+				
+				for (br.edu.ladoss.entity.migration.Refeicao refeicao: refeicoes) {
+					
+					// Quantidade
+					Long quantidadeRefeicoes = br.edu.ifpb.nutrif.dao.migration.RefeicaoRealizadaDAO
+							.getInstance().getQuantidadeDiaRefeicaoRealizada(refeicao, dataRefeicao);
+					
+					logger.info("Quantidade de refeições realizadas: " + quantidadeRefeicoes);
+					
+					br.edu.ladoss.entity.migration.Dia dia = getDia(dataRefeicao);
+					Date agora = new Date();
+					
+					ExtratoRefeicao extratoRefeicao = new ExtratoRefeicao();
+					extratoRefeicao.setCampus(campus);			
+					extratoRefeicao.setDataExtrato(dataRefeicao);
+					extratoRefeicao.setDia(dia);
+					extratoRefeicao.setRefeicao(refeicao);
+					extratoRefeicao.setQuantidadeRefeicoes(quantidadeRefeicoes.intValue());
+					extratoRefeicao.setDataExcucao(agora);
+					
+					logger.info("Inserir: " + extratoRefeicao);
+					ExtratoRefeicaoDAO.getInstance().insert(extratoRefeicao);
+				}
+			}
+			
+			// Incrementar 1 dia.
+			dataRefeicao = DateUtil.addDays(dataRefeicao, UM_DIA);
+		}
+		
+		logger.info("Fim - ExtratoRefeicao");
+	}
+
+	private br.edu.ladoss.entity.migration.Dia getDia(Date dataRefeicao) {
+		
+		Dia dia = DateUtil.getDayOfWeek(dataRefeicao);
+		
+		br.edu.ladoss.entity.migration.Dia diaMigracao = 
+				br.edu.ifpb.nutrif.dao.migration.DiaDAO.getInstance().getById(dia.getId());
+		
+		return diaMigracao;
+	}
+
+	private Date getMinDataRefeicao() {
+
+		Date dataRefeicao = br.edu.ifpb.nutrif.dao.migration.RefeicaoRealizadaDAO
+				.getInstance().getMinDataRefeicao();
+		return dataRefeicao;
+	}
+
+	private void criarSituacaoMatricula() {
+		
+		logger.info("Migrar - SituacaoMatricula");
+		
+		SituacaoMatricula matricuado = new SituacaoMatricula("Aluno matriculado e ativo.", "Matriculado");
+		SituacaoMatriculaDAO.getInstance().insert(matricuado);
+		
+		SituacaoMatricula concluido = new SituacaoMatricula("Aluno com curso concluído.", "Concluído");
+		SituacaoMatriculaDAO.getInstance().insert(concluido);
+		
+		SituacaoMatricula cancelado = new SituacaoMatricula("Aluno com matrícula cancelada.", "Cancelado");
+		SituacaoMatriculaDAO.getInstance().insert(cancelado);
+		
+		SituacaoMatricula jubilado = new SituacaoMatricula("Aluno com matrícula jubilada.", "Jubilado");
+		SituacaoMatriculaDAO.getInstance().insert(jubilado);
+		
+		logger.info("Fim - SituacaoMatricula");
 	}
 
 	private void migrarDia() {
@@ -172,9 +309,11 @@ public class MigracaoController {
 		
 		for (Edital edital: editais) {
 			
+			int idEdital = edital.getId();
+			
 			br.edu.ladoss.entity.migration.Edital editalMigracao = 
 					new br.edu.ladoss.entity.migration.Edital();
-			editalMigracao.setId(edital.getId());
+			editalMigracao.setIdMigracao(idEdital);
 			editalMigracao.setNome(edital.getNome());
 			editalMigracao.setDataInicial(edital.getDataInicial());
 			editalMigracao.setDataFinal(edital.getDataFinal());
@@ -209,16 +348,16 @@ public class MigracaoController {
 			if (responsavel != null) {
 				int idResponsavel = responsavel.getId();
 				br.edu.ladoss.entity.migration.Funcionario responsavelMigracao = 
-						br.edu.ifpb.nutrif.dao.migration.FuncionarioDAO.getInstance().getById(idResponsavel);
+						br.edu.ifpb.nutrif.dao.migration.FuncionarioDAO.getInstance().getByIdMigracao(idResponsavel);
 				editalMigracao.setResponsavel(responsavelMigracao);
 			}
 			
 			// Funcionário
-			Funcionario funcionario = edital.getResponsavel();
+			Funcionario funcionario = edital.getFuncionario();
 			if (funcionario != null) {
-				int idResponsavel = funcionario.getId();
+				int idFuncionario = funcionario.getId();
 				br.edu.ladoss.entity.migration.Funcionario funcionarioMigracao = 
-						br.edu.ifpb.nutrif.dao.migration.FuncionarioDAO.getInstance().getById(idResponsavel);
+						br.edu.ifpb.nutrif.dao.migration.FuncionarioDAO.getInstance().getByIdMigracao(idFuncionario);
 				editalMigracao.setFuncionario(funcionarioMigracao);
 			}
 			
@@ -273,11 +412,7 @@ public class MigracaoController {
 
 	private void migrarPessoa() {
 		
-		logger.info("Migrar - Pessoa");
-		
-		// Pessoa-Role
-		// Funcionário
-		migrarFuncionario();		
+		logger.info("Migrar - Pessoa");			
 		
 		// Aluno
 		migrarAluno();
@@ -289,21 +424,23 @@ public class MigracaoController {
 		
 		logger.info("Migrar - Aluno");
 		
+		// Paginação da consulta.
 		Long quantidadeAluno = AlunoDAO.getInstance().getQuantidadeTotalAluno();
 		Double quantidadePaginas = Math.floor(quantidadeAluno/LIMIT_QUERY) + 1;
-		logger.info("Quantidade de página - Aluno: " + quantidadePaginas.intValue());
+		logger.info("Quantidade de página(s) - Aluno: " + quantidadePaginas.intValue());
 		
 		for (int paginaAtual = 1; paginaAtual <= quantidadePaginas; paginaAtual++) {
 			
 			List<Aluno> alunos = AlunoDAO.getInstance().getAll(paginaAtual, LIMIT_QUERY);
-			logger.info("Quantidade por página - Aluno: " + alunos.size());
+			logger.info("Item(ns) por página:" + alunos.size());
 			
 			for (Aluno aluno: alunos) {
 				Date agora = new Date();
 				
+				int idAluno = aluno.getId();
 				br.edu.ladoss.entity.migration.Aluno alunoMigracao = 
 						new br.edu.ladoss.entity.migration.Aluno();
-				alunoMigracao.setId(aluno.getId());
+				alunoMigracao.setIdMigracao(idAluno);
 				alunoMigracao.setNome(aluno.getNome());
 				alunoMigracao.setEmail(aluno.getEmail());
 				alunoMigracao.setSenha(aluno.getSenha());
@@ -312,6 +449,7 @@ public class MigracaoController {
 				alunoMigracao.setAtivo(aluno.isAtivo());
 				alunoMigracao.setDataInsercao(agora);
 				alunoMigracao.setAcesso(aluno.isAcesso());
+				alunoMigracao.setTipo(Aluno.TIPO_ALUNO);
 				
 				// Campus
 				Campus campus = aluno.getCampus();
@@ -323,6 +461,7 @@ public class MigracaoController {
 					alunoMigracao.setCampus(campusMigracao);
 				}
 							
+				logger.info("Inserir: " + alunoMigracao);
 				br.edu.ifpb.nutrif.dao.migration.AlunoDAO.getInstance().insert(alunoMigracao);
 				
 				// Matricula				
@@ -347,7 +486,7 @@ public class MigracaoController {
 			
 			br.edu.ladoss.entity.migration.DiaRefeicao diaRefeicaoMigracao =
 					new br.edu.ladoss.entity.migration.DiaRefeicao();
-			diaRefeicaoMigracao.setId(diaRefeicao.getId());
+			diaRefeicaoMigracao.setIdMigracao(diaRefeicao.getId());
 			diaRefeicaoMigracao.setDataInsercao(diaRefeicao.getDataInsercao());
 			diaRefeicaoMigracao.setAtivo(diaRefeicao.isAtivo());
 			diaRefeicaoMigracao.setMigracao(true);
@@ -370,7 +509,7 @@ public class MigracaoController {
 			if (edital != null) {
 				int idEdital = edital.getId();
 				br.edu.ladoss.entity.migration.Edital editalMigracao = 
-						br.edu.ifpb.nutrif.dao.migration.EditalDAO.getInstance().getById(idEdital);
+						br.edu.ifpb.nutrif.dao.migration.EditalDAO.getInstance().getByIdMigracao(idEdital);
 				diaRefeicaoMigracao.setEdital(editalMigracao);
 			}
 			
@@ -388,14 +527,67 @@ public class MigracaoController {
 			if (funcionario != null) {
 				int idResponsavel = funcionario.getId();
 				br.edu.ladoss.entity.migration.Funcionario funcionarioMigracao = 
-						br.edu.ifpb.nutrif.dao.migration.FuncionarioDAO.getInstance().getById(idResponsavel);
+						br.edu.ifpb.nutrif.dao.migration.FuncionarioDAO.getInstance().getByIdMigracao(idResponsavel);
 				diaRefeicaoMigracao.setFuncionario(funcionarioMigracao);
 			}
 			
-			br.edu.ifpb.nutrif.dao.migration.DiaRefeicaoDAO.getInstance().insert(diaRefeicaoMigracao);		
+			logger.info("Inserir: " + diaRefeicaoMigracao);
+			br.edu.ifpb.nutrif.dao.migration.DiaRefeicaoDAO.getInstance().insert(diaRefeicaoMigracao);
+			
+			migrarRefeicaoRealizada(diaRefeicao, diaRefeicaoMigracao);
 		}
 		
 		logger.info("Fim - DiaRefeicao");
+	}
+
+	private void migrarRefeicaoRealizada(DiaRefeicao diaRefeicao,
+			br.edu.ladoss.entity.migration.DiaRefeicao diaRefeicaoMigracao) {
+		
+		logger.info("Migrar - RefeicaoRealizada");
+		
+		int idDiaRefeicao = diaRefeicao.getId();
+		List<RefeicaoRealizada> refeicoesRealizadas = RefeicaoRealizadaDAO.getInstance()
+				.getRefeicoesRealizadasByDiaRefeicaoId(idDiaRefeicao);
+		
+		for (RefeicaoRealizada refeicaoRealizada: refeicoesRealizadas) {
+			br.edu.ladoss.entity.migration.RefeicaoRealizada refeicaoRealizadaMigracao = 
+					new br.edu.ladoss.entity.migration.RefeicaoRealizada();
+			
+			int idRefeicaoRealizada = refeicaoRealizada.getId();
+			refeicaoRealizadaMigracao.setIdMigracao(idRefeicaoRealizada);
+			refeicaoRealizadaMigracao.setHoraRefeicao(refeicaoRealizada.getHoraRefeicao());
+			
+			Date dataPretensao = refeicaoRealizada.getConfirmaRefeicaoDia().getDataRefeicao();
+			br.edu.ladoss.entity.migration.ConfirmaRefeicaoDia confirmaRefeicaoDia = 
+					migrarConfirmaRefeicaoDia(diaRefeicaoMigracao, dataPretensao);
+			refeicaoRealizadaMigracao.setConfirmaRefeicaoDia(confirmaRefeicaoDia);
+			
+			// Inspetor
+			Funcionario inspetor = refeicaoRealizada.getInspetor();
+			if (inspetor != null) {
+				int idInspetor = inspetor.getId();
+				br.edu.ladoss.entity.migration.Funcionario inspetorMigracao = 
+						br.edu.ifpb.nutrif.dao.migration.FuncionarioDAO.getInstance().getByIdMigracao(idInspetor);
+				refeicaoRealizadaMigracao.setInspetor(inspetorMigracao);
+			}
+			
+			logger.info("Inserir: " + refeicaoRealizadaMigracao);
+			br.edu.ifpb.nutrif.dao.migration.RefeicaoRealizadaDAO
+				.getInstance().insertOrUpdate(refeicaoRealizadaMigracao);			
+		}
+		
+		logger.info("Fim - RefeicaoRealizada");		
+	}
+
+	private br.edu.ladoss.entity.migration.ConfirmaRefeicaoDia migrarConfirmaRefeicaoDia(
+			br.edu.ladoss.entity.migration.DiaRefeicao diaRefeicaoMigracao, Date dataPretensao) {
+		
+		br.edu.ladoss.entity.migration.ConfirmaRefeicaoDia confirmaRefeicaoDiaMigracao = 
+				new br.edu.ladoss.entity.migration.ConfirmaRefeicaoDia();
+		confirmaRefeicaoDiaMigracao.setDiaRefeicao(diaRefeicaoMigracao);
+		confirmaRefeicaoDiaMigracao.setDataRefeicao(dataPretensao);		
+		
+		return confirmaRefeicaoDiaMigracao;
 	}
 
 	private Matricula migrarMatricula(Aluno aluno, 
@@ -406,6 +598,7 @@ public class MigracaoController {
 		Matricula matricula = new Matricula();
 		matricula.setNumero(aluno.getMatricula());
 		matricula.setAluno(alunoMigracao);
+		matricula.setAtivo(aluno.isAtivo());
 					
 		// Curso
 		Curso curso = aluno.getCurso();
@@ -444,9 +637,9 @@ public class MigracaoController {
 			matricula.setPeriodo(periodoMigracao);						
 		}
 		
+		logger.info("Inserir: " + matricula);
 		MatriculaDAO.getInstance().insert(matricula);
 		
-		logger.info(matricula);
 		logger.info("Fim - Matricula");
 		
 		return matricula;
@@ -461,9 +654,10 @@ public class MigracaoController {
 			
 			Date agora = new Date();
 			
+			int idFuncionario = funcionario.getId();
 			br.edu.ladoss.entity.migration.Funcionario funcionarioMigracao = 
 					new br.edu.ladoss.entity.migration.Funcionario();
-			funcionarioMigracao.setId(funcionario.getId());
+			funcionarioMigracao.setIdMigracao(idFuncionario);
 			funcionarioMigracao.setNome(funcionario.getNome());
 			funcionarioMigracao.setEmail(funcionario.getEmail());
 			funcionarioMigracao.setSenha(funcionario.getSenha());

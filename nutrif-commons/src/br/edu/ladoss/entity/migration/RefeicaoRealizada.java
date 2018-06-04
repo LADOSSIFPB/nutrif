@@ -24,8 +24,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class RefeicaoRealizada {
 
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id_refeicao_realizada", unique = true) // columnDefinition = "INT(10) UNSIGNED AUTO_INCREMENT"
+	@Column(name = "id_refeicao_realizada", unique = true) // ALTER TABLE tb_refeicao_realizada CHANGE id_refeicao_realizada id_refeicao_realizada INT(10)AUTO_INCREMENT;
 	private Integer id;
+	
+	@Column(name = "id_migracao")
+	private int idMigracao;
 	
 	@EmbeddedId	  
 	private ConfirmaRefeicaoDia confirmaRefeicaoDia;
@@ -73,9 +76,17 @@ public class RefeicaoRealizada {
 		this.inspetor = inspetor;
 	}
 
+	public int getIdMigracao() {
+		return idMigracao;
+	}
+
+	public void setIdMigracao(int idMigracao) {
+		this.idMigracao = idMigracao;
+	}
+	
 	@Override
 	public String toString() {
 		return "RefeicaoRealizada [id=" + id + ", confirmaRefeicaoDia=" + confirmaRefeicaoDia.toString() 
 		+ ", dataHora=" + horaRefeicao + "]";
-	}
+	}	
 }

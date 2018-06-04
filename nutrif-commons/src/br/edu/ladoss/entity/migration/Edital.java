@@ -29,6 +29,9 @@ public class Edital {
 	@Column(name = "id_edital")
 	private Integer id;
 	
+	@Column(name = "id_migracao")
+	private int idMigracao;
+	
 	@Column(name = "nm_edital")
 	private String nome;
 	
@@ -150,6 +153,10 @@ public class Edital {
 		return ativo;
 	}
 
+	public void setAtivo(boolean ativo) {
+		this.ativo = ativo;
+	}
+	
 	@XmlElement
 	public Evento getEvento() {
 		return evento;
@@ -193,11 +200,16 @@ public class Edital {
 
 	public void setPrevistoPretensao(boolean previstoPretensao) {
 		this.previstoPretensao = previstoPretensao;
-	}
-	
-	public void setAtivo(boolean ativo) {
-		this.ativo = ativo;
 	}	
+	
+	@XmlElement
+	public int getIdMigracao() {
+		return idMigracao;
+	}
+
+	public void setIdMigracao(int idMigracao) {
+		this.idMigracao = idMigracao;
+	}
 	
 	@Override
 	public String toString() {

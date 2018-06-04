@@ -1,28 +1,25 @@
-package br.edu.ifpb.nutrif.dao;
+package br.edu.ifpb.nutrif.dao.migration;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.james.mime4j.storage.Storage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Projections;
-import org.hibernate.criterion.Property;
-import org.hibernate.criterion.Restrictions;
 
+import br.edu.ifpb.nutrif.dao.GenericDao;
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
 import br.edu.ifpb.nutrif.hibernate.HibernateUtil;
 import br.edu.ifpb.nutrif.util.BancoUtil;
 import br.edu.ifpb.nutrif.util.DateUtil;
 import br.edu.ladoss.entity.Dia;
-import br.edu.ladoss.entity.Refeicao;
-import br.edu.ladoss.entity.RefeicaoRealizada;
+import br.edu.ladoss.entity.migration.Refeicao;
+import br.edu.ladoss.entity.migration.RefeicaoRealizada;
 
 public class RefeicaoRealizadaDAO extends GenericDao<Integer, RefeicaoRealizada> {
 	
@@ -31,7 +28,7 @@ public class RefeicaoRealizadaDAO extends GenericDao<Integer, RefeicaoRealizada>
 	private static RefeicaoRealizadaDAO instance;
 
 	public RefeicaoRealizadaDAO() {
-		super(HibernateUtil.getSessionFactoryOld());
+		super(HibernateUtil.getSessionFactoryMigration());
 	}
 	
 	public static RefeicaoRealizadaDAO getInstance() {
@@ -76,6 +73,33 @@ public class RefeicaoRealizadaDAO extends GenericDao<Integer, RefeicaoRealizada>
 		return id;
 	}
 	
+	public Date getMinDataRefeicao() {
+		
+		Session session = HibernateUtil.getSessionFactoryMigration().openSession();
+		
+		Date dataRefeicao = null;
+		
+		try {
+
+			Criteria query = session.createCriteria(RefeicaoRealizada.class);
+			query.setProjection(Projections.min("confirmaRefeicaoDia.dataRefeicao"));
+			
+			dataRefeicao = (Date) query.uniqueResult();
+	        
+		} catch (HibernateException hibernateException) {
+			
+			session.getTransaction().rollback();
+			
+			throw new SQLExceptionNutrIF(hibernateException);
+			
+		} finally {
+		
+			session.close();
+		}
+		
+		return dataRefeicao;
+	}
+
 	public List<RefeicaoRealizada> getRefeicoesRealizadasByDiaRefeicaoId(int idRefeicaoRealizada) {
 		
 		

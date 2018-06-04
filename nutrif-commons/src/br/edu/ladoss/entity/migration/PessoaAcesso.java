@@ -14,10 +14,14 @@ public class PessoaAcesso extends Pessoa {
 	@XmlElement
 	private String matricula;
 	
+	public PessoaAcesso(int id) {
+		super(id);
+	}
+	
 	public static PessoaAcesso getInstance(Pessoa pessoa) {
 
 		// Conversão de Pessoa para PessoaAcesso.
-		PessoaAcesso pessoaAcesso = new PessoaAcesso();		
+		PessoaAcesso pessoaAcesso = new PessoaAcesso(pessoa.getId());		
 		pessoaAcesso.setId(pessoa.getId());
 		pessoaAcesso.setNome(pessoa.getNome());
 		pessoaAcesso.setTipo(pessoa.getTipo());
@@ -31,7 +35,7 @@ public class PessoaAcesso extends Pessoa {
 	
 	public Pessoa getPessoa() {
 		
-		Pessoa pessoa = new Pessoa();
+		Pessoa pessoa = new Pessoa(getId());
 		
 		pessoa.setId(getId());
 		pessoa.setNome(getNome());
