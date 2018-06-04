@@ -8,8 +8,10 @@ import javax.persistence.Query;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
+import org.hibernate.criterion.Projections;
 
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
 import br.edu.ifpb.nutrif.hibernate.HibernateUtil;
@@ -17,7 +19,6 @@ import br.edu.ifpb.nutrif.hibernate.QueryUtil;
 import br.edu.ifpb.nutrif.util.BancoUtil;
 import br.edu.ifpb.nutrif.util.DateUtil;
 import br.edu.ladoss.entity.Dia;
-import br.edu.ladoss.entity.Pessoa;
 import br.edu.ladoss.entity.Refeicao;
 import br.edu.ladoss.entity.RefeicaoRealizada;
 
@@ -314,6 +315,38 @@ public class RefeicaoRealizadaDAO extends GenericDao<Integer, RefeicaoRealizada>
 		}
 		
 		return refecaoRealizada;
+	}
+	
+	/**
+	 * Consultar menor Dia de Refeição Realizada.
+	 * 
+	 * @return
+	 */
+	public Date getMinDataRefeicao() {
+		
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		
+		Date dataRefeicao = null;
+		
+		try {
+
+			Criteria query = session.createCriteria(RefeicaoRealizada.class);
+			query.setProjection(Projections.min("confirmaRefeicaoDia.dataRefeicao"));
+			
+			dataRefeicao = (Date) query.uniqueResult();
+	        
+		} catch (HibernateException hibernateException) {
+			
+			session.getTransaction().rollback();
+			
+			throw new SQLExceptionNutrIF(hibernateException);
+			
+		} finally {
+		
+			session.close();
+		}
+		
+		return dataRefeicao;
 	}
 	
 	@Override

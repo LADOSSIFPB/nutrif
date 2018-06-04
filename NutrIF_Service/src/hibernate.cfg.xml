@@ -7,7 +7,7 @@
 	<session-factory>
 
 		<property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
-        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/nutrif_migracao?useSSL=false&amp;useUnicode=true&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;useTimezone=true&amp;serverTimezone=America/Fortaleza</property>
+        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/nutrif_migracao_20180530?useSSL=false&amp;useUnicode=true&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;useTimezone=true&amp;serverTimezone=America/Fortaleza</property>
         <property name="hibernate.connection.username">root</property>
         <property name="hibernate.connection.password">ifpbinfo</property>
         
@@ -67,7 +67,8 @@
 		<mapping class="br.edu.ladoss.entity.Periodo" />
 		<mapping class="br.edu.ladoss.entity.Nivel" />
 		<mapping class="br.edu.ladoss.entity.Bloqueio" />
-		<mapping class="br.edu.ladoss.entity.Motivo" />				
-
+		<mapping class="br.edu.ladoss.entity.Motivo" />
+		<mapping class="br.edu.ladoss.entity.ExtratoRefeicao" />	
+		
 	</session-factory>
 </hibernate-configuration>
