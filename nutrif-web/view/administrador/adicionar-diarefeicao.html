@@ -55,7 +55,7 @@
                                      md-selected-item="editalSelecionado" 
                                      md-item-text="edital.nome" 
                                      md-input-minlength="0"
-                                     required 
+                                     required="true"
                                      flex>
                         <md-item-template>
                             <span md-highlight-text="nomeEdital" md-highlight-flags="^i">
@@ -72,7 +72,7 @@
                 <!-- Refeição -->
                 <md-input-container class="md-icon-float md-block">
                     <label>Refeição</label>
-                    <md-select ng-model="diaRefeicao.refeicao.id" aria-label="Selecione a Refeição">
+                    <md-select ng-model="diaRefeicao.refeicao.id" aria-label="Selecione a Refeição" md-no-asterisk="false" required ng-required="true">
                         <md-option ng-repeat="refeicao in refeicoes" value="{{refeicao.id}}">
                             {{refeicao.tipo}} {{" - "}} {{refeicao.campus.cidade}}
                         </md-option>
