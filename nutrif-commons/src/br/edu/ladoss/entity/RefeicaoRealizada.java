@@ -28,6 +28,9 @@ public class RefeicaoRealizada {
 	@Column(name = "id_refeicao_realizada", unique = true, columnDefinition = "INT(10) UNSIGNED AUTO_INCREMENT") // ALTER TABLE tb_refeicao_realizada CHANGE id_refeicao_realizada id_refeicao_realizada INT(10)AUTO_INCREMENT;
 	private Integer id;
 	
+	@Column(name = "id_migracao")
+	private int idMigracao;
+	
 	@EmbeddedId	  
 	private ConfirmaRefeicaoDia confirmaRefeicaoDia;
 	
@@ -66,12 +69,22 @@ public class RefeicaoRealizada {
 		this.horaRefeicao = horaRefeicao;
 	}
 	
+	@XmlElement
 	public Funcionario getInspetor() {
 		return inspetor;
 	}
 
 	public void setInspetor(Funcionario inspetor) {
 		this.inspetor = inspetor;
+	}
+
+	@XmlElement
+	public int getIdMigracao() {
+		return idMigracao;
+	}
+
+	public void setIdMigracao(int idMigracao) {
+		this.idMigracao = idMigracao;
 	}
 
 	@Override

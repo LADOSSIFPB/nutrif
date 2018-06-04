@@ -32,6 +32,9 @@ public class DiaRefeicao implements DataEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_dia_refeicao")
 	private Integer id;
+	
+	@Column(name = "id_migracao")
+	private int idMigracao;
 
 	@ManyToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="fk_id_matricula")
@@ -173,6 +176,15 @@ public class DiaRefeicao implements DataEntity {
 		this.refeicaoRealizada = refeicaoRealizada;
 	}
 	
+	@XmlElement
+	public int getIdMigracao() {
+		return idMigracao;
+	}
+
+	public void setIdMigracao(int idMigracao) {
+		this.idMigracao = idMigracao;
+	}	
+	
 	@Override
 	public String toString() {
 		return "DiaRefeicao [id=" + id + ""
@@ -184,5 +196,5 @@ public class DiaRefeicao implements DataEntity {
 				+ ", funcionario=" + funcionario 
 				+ ", ativo=" + ativo
 				+ ", migracao=" + migracao + "]";
-	}	
+	}
 }

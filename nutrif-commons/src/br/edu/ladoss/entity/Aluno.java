@@ -29,6 +29,9 @@ public class Aluno extends Pessoa {
 	@Column(name = "id_aluno")
 	private Integer id;
 	
+	@Column(name = "id_migracao")
+	private int idMigracao;
+	
 	@Column(name = "nm_keyconfirmation")
 	private String keyConfirmation;
 	
@@ -76,6 +79,15 @@ public class Aluno extends Pessoa {
 
 	public void setAcesso(boolean acesso) {
 		this.acesso = acesso;
+	}
+	
+	@XmlElement
+	public int getIdMigracao() {
+		return idMigracao;
+	}
+
+	public void setIdMigracao(int idMigracao) {
+		this.idMigracao = idMigracao;
 	}
 	
 	@Override
