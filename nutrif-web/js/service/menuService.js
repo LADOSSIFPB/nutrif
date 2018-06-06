@@ -45,6 +45,11 @@ nutrIFApp.factory("menu", function ($location, $rootScope, userService) {
                         type: 'link'
                     },
                     {
+                        name: 'Extrato da Refeição',
+                        state: 'administrador.listar-extratosrefeicoes',
+                        type: 'link'
+                    },
+                    {
                         name: 'Servidor',
                         state: 'administrador.home',
                         type: 'link'

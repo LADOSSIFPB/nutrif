@@ -270,6 +270,26 @@ nutrIFApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
                 permissions: ['admin', 'inspetor']
             })
     
+            /* Administrador - Extratos das Refeições */    
+            .state('administrador.listar-extratosrefeicoes', {
+                url: '/listar/extratosrefeicoes',
+                title: 'Listar Extratos das Refeições',
+                templateUrl: 'view/administrador/listar-extratosrefeicoes.html',
+                controller: 'listarExtratosRefeicoesCtrl',
+                controllerAs: 'listarExtratosRefeicoes',
+                permissions: ['admin']
+            })
+    
+            /* Administrador - Refeições Realizadas */    
+            .state('administrador.listar-refeicoesrealizadas', {
+                url: '/listar/refeicoesrealizadas',
+                title: 'Listar Refeições Realizadas',
+                templateUrl: 'view/administrador/listar-refeicoesrealizadas.html',
+                controller: 'listarRefeicoesRealizadasCtrl',
+                controllerAs: 'listarRefeicoesRealizadas',
+                permissions: ['admin']
+            })
+    
             /* Administrador - Dashboard */
             .state('administrador.dashboard', {
                 url: '/dashboard',

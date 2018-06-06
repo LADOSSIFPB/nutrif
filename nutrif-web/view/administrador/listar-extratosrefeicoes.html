@@ -1,0 +1,79 @@
+<md-content flex layout-padding>
+    <md-card>
+        <md-table-container>
+            <!-- Cabeçalho de opções -->
+            <md-card-header>
+                <md-card-avatar>
+                    <ng-md-icon icon="publish" size="42"></ng-md-icon>
+                </md-card-avatar>
+
+                <md-card-header-text>
+                    <span class="md-title">Extrato de Refeição</span>
+                    <span class="md-subhead">
+                        Digite o período do(s) Extrato(s) nos campos abaixo para buscar.  
+                    </span>
+                </md-card-header-text>
+
+                <!-- Salvar alterações -->
+                <md-card-icon-actions>
+                    <md-button aria-label="Pesquisar o(s) Extrato(s) de Refeição(ões) do Período." ng-click="pesquisar()">
+                        <md-tooltip md-direction="bottom">Pesquisar Extrato de Refeição</md-tooltip>
+                        <ng-md-icon icon="search" size="42"></ng-md-icon>
+                    </md-button>
+                </md-card-icon-actions>
+            </md-card-header>
+
+            <md-card-content layout="column">
+                <form layout="column">
+
+                    <!-- Período -->
+                    <!-- Data Inicial -->
+                    <md-input-container class="md-input-has-placeholder">
+                        <label>Início</label>
+                        <input date="true" time="false" mdc-datetime-picker="" type="text" id="dataInicial" placeholder="Data Inicial do Período" ng-model="dataInicial" class="md-input" readonly="readonly" required>
+                    </md-input-container>
+                    
+                    <!-- Data Final -->
+                    <md-input-container class="md-input-has-placeholder">
+                        <label>Fim</label>
+                        <input date="true" time="false" mdc-datetime-picker="" type="text" id="dataFinal" placeholder="Data Final do Período" ng-model="dataFinal" class="md-input" readonly="readonly" required>
+                    </md-input-container>
+                </form>
+            </md-card-content>
+
+            <!-- Tabela -->
+            <table md-table>
+                <thead md-head>
+                    <tr md-row>
+                        <th md-column>Data</th>
+                        <th md-column>Campus</th>
+                        <th md-column>Refeição</th>
+                        <th md-column>Dia</th>
+                        <th md-column>Quantidade</th>
+                        <th md-column>Opção</th>
+                    </tr>
+                </thead>
+
+                <tbody md-body>
+                    <tr md-row ng-repeat="extratoRefeicao in extratos | limitTo: query.limit: (query.page - 1) * query.limit">
+                        <td md-cell>{{extratoRefeicao.dataExtrato | date:'dd/MM/yyyy'}}</td>
+                        <td md-cell>{{extratoRefeicao.campus.cidade | uppercase}}</td>
+                        <td md-cell>{{extratoRefeicao.refeicao.tipo | uppercase}}</td>
+                        <td md-cell>{{extratoRefeicao.dia.nome | uppercase}}</td>
+                        <td md-cell>{{extratoRefeicao.quantidadeRefeicoes | uppercase}}</td>
+                        <td md-cell>
+                            <md-button aria-label="Editar Extrato" ui-sref="administrador.listar-refeicaorealizada({idExtratoRefeicao: extratoRefeicao.id})" ui-sref-opts="{reload: true}">
+                                <ng-md-icon icon="edit" size="18"></ng-md-icon>
+                                <md-tooltip md-direction="bottom">
+                                    Editar
+                                </md-tooltip>
+                            </md-button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </md-table-container>
+
+        <md-table-pagination md-limit="query.limit" md-page="query.page" md-total="{{extratos.length}}" md-page-select></md-table-pagination>
+    </md-card>
+</md-content>

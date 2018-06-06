@@ -49,7 +49,6 @@ public class AlunoController {
 	 * @return
 	 */
 	@RolesAllowed({TipoRole.ADMIN, TipoRole.NUTRICIONISTA})
-	@PermitAll
 	@POST
 	@Consumes("application/json")
 	@Produces("application/json")

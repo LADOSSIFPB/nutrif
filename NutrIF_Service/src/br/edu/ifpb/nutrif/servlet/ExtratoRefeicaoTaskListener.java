@@ -13,7 +13,7 @@ import br.edu.ifpb.nutrif.task.MyTaskCollector;
 import it.sauronsoftware.cron4j.Scheduler;
 import it.sauronsoftware.cron4j.TaskCollector;
 
-@WebListener
+//@WebListener
 public class ExtratoRefeicaoTaskListener implements ServletContextListener {
 
 	private static Logger logger = LogManager.getLogger(TimeZoneListener.class);

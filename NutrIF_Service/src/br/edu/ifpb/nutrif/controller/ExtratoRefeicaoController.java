@@ -1,101 +1,61 @@
 package br.edu.ifpb.nutrif.controller;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
-import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
-import br.edu.ifpb.nutrif.dao.CursoDAO;
-import br.edu.ifpb.nutrif.exception.ErrorFactory;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+
+import br.edu.ifpb.nutrif.dao.ExtratoRefeicaoDAO;
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
-import br.edu.ifpb.nutrif.util.BancoUtil;
-import br.edu.ifpb.nutrif.validation.Validate;
-import br.edu.ladoss.entity.Curso;
+import br.edu.ifpb.nutrif.util.DateUtil;
 import br.edu.ladoss.entity.Error;
+import br.edu.ladoss.entity.ExtratoRefeicao;
 import br.edu.ladoss.enumeration.TipoRole;
 
 @Path("extratorefeicao")
 public class ExtratoRefeicaoController {
 
-	@RolesAllowed({TipoRole.ADMIN})
-	@POST
-	@Consumes("application/json")
-	@Produces("application/json")
-	public Response insert(Curso curso) {
-		
-		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
-		builder.expires(new Date());
-		
-		// Validação dos dados de entrada.
-		int validacao = Validate.curso(curso);
-		
-		if (validacao == Validate.VALIDATE_OK) {
-			
-			try {			
-				
-				//Inserir o Curso.
-				Integer idCurso = CursoDAO.getInstance().insert(curso);
-				
-				if (idCurso != BancoUtil.ID_VAZIO) {
-
-					// Operação realizada com sucesso.
-					builder.status(Response.Status.OK);
-					builder.entity(curso);
-				}
-			
-			} catch (SQLExceptionNutrIF exception) {
-
-				builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
-						exception.getError());			
-			}
-			
-		} else {
-			
-			Error erro = ErrorFactory.getErrorFromIndex(validacao);
-			builder.status(Response.Status.NOT_ACCEPTABLE).entity(erro);
-		}
-		
-		return builder.build();		
-	}
-	
 	@PermitAll
 	@GET
 	@Produces("application/json")
-	public List<Curso> getAll() {
+	public List<ExtratoRefeicao> getAll() {
 		
-		List<Curso> cursos = new ArrayList<Curso>();
+		List<ExtratoRefeicao> extratosRefeicoes = new ArrayList<ExtratoRefeicao>();
 		
-		cursos = CursoDAO.getInstance().getAll();
+		extratosRefeicoes = ExtratoRefeicaoDAO.getInstance().getAll();
 		
-		return cursos;
+		return extratosRefeicoes;
 	}
 	
 	@PermitAll
 	@GET
 	@Path("/{id}")
 	@Produces("application/json")
-	public Response getById(@PathParam("id") int idCurso) {
+	public Response getById(@PathParam("id") int idExtratoRefeicao) {
 		
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
 		builder.expires(new Date());
 
 		try {
 
-			Curso curso = CursoDAO.getInstance().getById(idCurso); 
+			ExtratoRefeicao extratoRefeicao = ExtratoRefeicaoDAO.getInstance()
+					.getById(idExtratoRefeicao); 
 			
 			builder.status(Response.Status.OK);
-			builder.entity(curso);
+			builder.entity(extratoRefeicao);
 
 		} catch (SQLExceptionNutrIF qme) {
 
@@ -109,78 +69,34 @@ public class ExtratoRefeicaoController {
 		return builder.build();
 	}
 	
-	/**
-	 * Atualizar dados de um Curso.
-	 * 
-	 * @param curso
-	 * @return
-	 */
 	@RolesAllowed({TipoRole.ADMIN})
-	@PUT
-	@Consumes("application/json")
-	@Produces("application/json")
-	public Response update(Curso curso) {
-		
-		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
-		builder.expires(new Date());
-		
-		// Validação dos dados de entrada.
-		int validacao = Validate.curso(curso);
-		
-		if (validacao == Validate.VALIDATE_OK) {
-			
-			try {
-				
-				//Atualizar o Curso.
-				curso = CursoDAO.getInstance().update(curso);
-				
-				if (curso != null) {
-
-					// Operação realizada com sucesso.
-					builder.status(Response.Status.OK);					
-					builder.entity(curso);
-				}
-			
-			} catch (SQLExceptionNutrIF exception) {
-
-				builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
-						exception.getError());			
-			} 
-		}				
-		
-		return builder.build();		
-	}
-	
-	/**
-	 * Listar Curso(s) pelo nome.
-	 * 
-	 * @param nome
-	 * @return
-	 */
-	@PermitAll
 	@GET
-	@Path("/nome/{nome}")
+	@Path("/inicio/{inicio}/fim/{fim}")
 	@Produces("application/json")
-	public Response listByNome(@PathParam("nome") String nome) {
+	public Response listByPeriodo(@PathParam("inicio") Long inicio, @PathParam("fim") Long fim) {
 		
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
 		builder.expires(new Date());
 
-		List<Curso> cursos = new ArrayList<Curso>();
-		
 		try {
-
-			cursos = CursoDAO.getInstance().listByNome(nome);
 			
+			Date dataInicial = DateUtil.longToDate(inicio);
+			Date dataFinal = DateUtil.longToDate(fim);
+			
+			List<ExtratoRefeicao> extratosRefeicoes = ExtratoRefeicaoDAO.getInstance()
+					.listByPeriodo(dataInicial, dataFinal);
 			builder.status(Response.Status.OK);
-			builder.entity(cursos);
+			builder.entity(extratosRefeicoes);
 
-		} catch (SQLExceptionNutrIF exception) {
+		} catch (SQLExceptionNutrIF qme) {
 
-			builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
-					exception.getError());
+			Error erro = new Error();
+			erro.setCodigo(qme.getErrorCode());
+			erro.setMensagem(qme.getMessage());
+
+			builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(erro);
 		}
 
 		return builder.build();
-	}	
+	}
 }

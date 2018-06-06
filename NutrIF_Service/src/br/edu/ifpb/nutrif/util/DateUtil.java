@@ -9,6 +9,7 @@ import java.util.List;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
+import org.joda.time.DateTimeZone;
 import org.joda.time.Duration;
 import org.joda.time.Hours;
 import org.joda.time.Instant;
@@ -134,6 +135,20 @@ public class DateUtil {
 		Duration d2 = p2.toDurationTo(now);
 		
 		return d1.isLongerThan(d2);
+	}
+	
+	/**
+	 * Converter de Long para Date (Data e Hora).
+	 * 
+	 * @param longDateTime
+	 * @return
+	 */
+	public static Date longToDate(Long longDateTime) {
+		
+		DateTime dateTime = new DateTime(longDateTime)
+				.withZone(DateTimeZone.getDefault());
+		
+		return dateTime.toDate();		
 	}
 	
 	public static long getMinutesBetweenDate(Date inicio, Date fim) {
