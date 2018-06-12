@@ -31,22 +31,41 @@
                     </md-button>
                 </div>
             </md-toolbar>
-
+            
+            <!-- Exportar conteúdo para CSV -->
+            <a class="btn" title="Exportar para CSV" ng-click="refeicoesRealizadasCSV.generate()" ng-href="{{ refeicoesRealizadasCSV.link() }}" download="refeicoes_realizadas.txt">
+                CVS
+                <ng-md-icon icon="import_export" size="16"></ng-md-icon>
+            </a>
+            
             <!-- Tabela -->
-            <table md-table>
-                <thead md-head>
+            <table md-table export-csv="refeicoesRealizadasCSV" separator=";">
+                <thead md-head md-order="refeicaoRealizada.confirmaRefeicaoDia.diaRefeicao.matricula.aluno.nome" md-on-reorder="logOrder">
                     <tr md-row>
+                        <th md-column md-order-by="refeicaoRealizada.confirmaRefeicaoDia.diaRefeicao.matricula.aluno.nome">
+                            Aluno
+                        </th>
+                        <th md-column>Matrícula</th>
+                        <th md-column>Refeição</th>
+                        <th md-column>Dia</th>
+                        <th md-column>Responsável</th>
+                        <th md-column>Data</th>
                         <th md-column>Hora</th>
                     </tr>
                 </thead>
 
                 <tbody md-body>
-                    <tr md-row ng-repeat="refeicaoRealizada in refeicoesRealizadas | limitTo: query.limit: (query.page - 1) * query.limit">
+                    <tr md-row ng-repeat="refeicaoRealizada in refeicoesRealizadas | orderBy: refeicaoRealizada.confirmaRefeicaoDia.diaRefeicao.matricula.aluno.nome">
+                        <td md-cell>{{refeicaoRealizada.confirmaRefeicaoDia.diaRefeicao.matricula.aluno.nome | uppercase}}</td>
+                        <td md-cell>{{refeicaoRealizada.confirmaRefeicaoDia.diaRefeicao.matricula.numero}}</td>                        
+                        <td md-cell>{{refeicaoRealizada.confirmaRefeicaoDia.diaRefeicao.refeicao.tipo | uppercase}}</td>
+                        <td md-cell>{{refeicaoRealizada.confirmaRefeicaoDia.diaRefeicao.dia.nome | uppercase}}</td>
+                        <td md-cell>{{refeicaoRealizada.inspetor.nome}}</td>                        
+                        <td md-cell>{{refeicaoRealizada.confirmaRefeicaoDia.dataRefeicao | date : "dd/MM/yyyy" : timestamp}}</td>
                         <td md-cell>{{refeicaoRealizada.horaRefeicao | uppercase}}</td>
                     </tr>
                 </tbody>
             </table>
         </md-table-container>
-        <md-table-pagination md-limit="query.limit" md-page="query.page" md-total="{{refeicoesRealizadas.length}}" md-page-select></md-table-pagination>
     </md-card>
 </md-content>

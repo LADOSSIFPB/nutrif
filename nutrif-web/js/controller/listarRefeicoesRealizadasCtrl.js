@@ -1,18 +1,16 @@
 /*
  *  Controlar atualização do Aluno.
  */
-nutrIFApp.controller('listarRefeicoesRealizadasCtrl', function ($scope, $stateParams, $state, $mdDialog, toastUtil, alunoService stringUtil) {
+nutrIFApp.controller('listarRefeicoesRealizadasCtrl', function ($scope, $stateParams, $state, $mdDialog, toastUtil, stringUtil, refeicaoRealizadaService) {
 
     $scope.nomeOuMatricula = "";
     
-    $scope.refeicoesrealizadas = [];
+    $scope.refeicoesRealizadas = [];
 
     $scope.pesquisar = function () {
         
         let nomeOuMatricula = $scope.nomeOuMatricula;
     }
-
-    $scope.atualizarAcesso = function (aluno) {}
 
     function carregamentoInicial() {
 
@@ -24,10 +22,10 @@ nutrIFApp.controller('listarRefeicoesRealizadasCtrl', function ($scope, $statePa
             });
         }
 
-        alunoService.buscarPorId(_id)
+        refeicaoRealizadaService.listByExtratoRefeicao(_idExtratoRefeicao)
             .then(function (response) {
                 // Aluno 
-                $scope.aluno = response.data;
+                $scope.refeicoesRealizadas = response.data;
             })
             .catch(onErrorCallback);
     }

@@ -69,7 +69,7 @@ public class RefeicaoRealizadaDAO extends GenericDao<Integer, RefeicaoRealizada>
 		return id;
 	}
 	
-	public List<RefeicaoRealizada> getMapaRefeicoesRealizadas(
+	public List<RefeicaoRealizada> listRefeicoesRealizadas(
 			Refeicao refeicao, Date dataRefeicao) {
 		
 		Session session = HibernateUtil.getSessionFactory().openSession();

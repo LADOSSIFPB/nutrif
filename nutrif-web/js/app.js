@@ -5,5 +5,5 @@
         
         - Módulos complementares: LoadingBar, Cookies, DataTable, Timeline, Charts, Material Icons.
  */
-var nutrIFApp = angular.module('NutrIFApp', ['ngRoute', 'ui.router', 'ngMaterial', 'ngAnimate', 'ngAria', 'angular-loading-bar', 'ngCookies', 'md.data.table', 'angular-timeline', 'material.components.expansionPanels', 'chart.js', 'ngMdIcons', 'ui.carousel', 'uiBreadcrumbs', 'ui.bootstrap', 'ds.clock', 'ngCpfCnpj', 'brasil.filters', 'minicolors', 'ngMaterialDatePicker', 'ui.mask']);
+var nutrIFApp = angular.module('NutrIFApp', ['ngRoute', 'ui.router', 'ngMaterial', 'ngAnimate', 'ngAria', 'angular-loading-bar', 'ngCookies', 'md.data.table', 'angular-timeline', 'material.components.expansionPanels', 'chart.js', 'ngMdIcons', 'ui.carousel', 'uiBreadcrumbs', 'ui.bootstrap', 'ds.clock', 'ngCpfCnpj', 'brasil.filters', 'minicolors', 'ngMaterialDatePicker', 'ui.mask', 'ngTableToCsv']);
 

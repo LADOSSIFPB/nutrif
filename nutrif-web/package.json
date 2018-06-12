@@ -39,6 +39,7 @@
     "ng-filters-br": "^1.1.1",
     "ng-img-crop-npm": "^0.3.2",
     "ng-material-datetimepicker": "^1.9.6",
+    "ng-table-to-csv": "^0.3.3",
     "qrcode-generator": "^1.2.0",
     "tether": "^1.4.0",
     "ui-router-breadcrumbs": "^1.1.4",

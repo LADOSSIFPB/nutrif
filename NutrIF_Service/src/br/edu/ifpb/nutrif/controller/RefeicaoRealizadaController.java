@@ -21,6 +21,7 @@ import org.apache.logging.log4j.Logger;
 
 import br.edu.ifpb.nutrif.dao.DiaDAO;
 import br.edu.ifpb.nutrif.dao.DiaRefeicaoDAO;
+import br.edu.ifpb.nutrif.dao.ExtratoRefeicaoDAO;
 import br.edu.ifpb.nutrif.dao.FuncionarioDAO;
 import br.edu.ifpb.nutrif.dao.PretensaoRefeicaoDAO;
 import br.edu.ifpb.nutrif.dao.RefeicaoDAO;
@@ -33,6 +34,7 @@ import br.edu.ladoss.entity.ConfirmaRefeicaoDia;
 import br.edu.ladoss.entity.Dia;
 import br.edu.ladoss.entity.DiaRefeicao;
 import br.edu.ladoss.entity.Error;
+import br.edu.ladoss.entity.ExtratoRefeicao;
 import br.edu.ladoss.entity.Funcionario;
 import br.edu.ladoss.entity.MapaRefeicao;
 import br.edu.ladoss.entity.PeriodoRefeicaoRealizada;
@@ -53,7 +55,6 @@ public class RefeicaoRealizadaController {
 	 */	
 	@RolesAllowed({TipoRole.ADMIN, TipoRole.INSPETOR})
 	@POST
-	@Path("/inserir")
 	@Consumes("application/json")
 	@Produces("application/json")
 	public Response insert(RefeicaoRealizada refeicaoRealizada) {
@@ -150,7 +151,6 @@ public class RefeicaoRealizadaController {
 	
 	@DenyAll
 	@GET
-	@Path("/listar")
 	@Produces("application/json")
 	public List<RefeicaoRealizada> getAll() {
 		
@@ -272,6 +272,48 @@ public class RefeicaoRealizadaController {
 		return builder.build();
 	}
 	
+	@RolesAllowed({TipoRole.ADMIN})
+	@GET
+	@Path("/extratorefeicao/{idExtratoRefeicao}")
+	@Produces("application/json")
+	public Response listByExtratoRefeicao(@PathParam("idExtratoRefeicao") int idExtratoRefeicao) {
+
+		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
+		builder.expires(new Date());
+
+		try {
+
+			ExtratoRefeicao extratoRefeicao = ExtratoRefeicaoDAO.getInstance().getById(idExtratoRefeicao);
+			
+			if (extratoRefeicao != null) {
+				// Refeição
+				Refeicao refeicao = extratoRefeicao.getRefeicao();
+				
+				// Data do extrato
+				Date dataExtrato = extratoRefeicao.getDataExtrato();
+				
+				// Listar os dias das refeições realizadas.
+				List<RefeicaoRealizada> refeicoesRealizadas = RefeicaoRealizadaDAO
+						.getInstance().listRefeicoesRealizadas(
+								refeicao, dataExtrato);
+				
+				builder.status(Response.Status.OK).entity(
+						refeicoesRealizadas);
+			} else {
+				
+				builder.status(Response.Status.NOT_FOUND).entity(
+						ErrorFactory.getErrorFromIndex(
+								ErrorFactory.ID_EXTRATO_REFEICAO_INVALIDO));
+			}			
+
+		} catch (SQLExceptionNutrIF exception) {
+
+			builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(exception.getError());
+		}
+
+		return builder.build();
+	}
+	
 	/**
 	 * Consultar refeição(ões) realizada por período.
 	 * 
@@ -313,7 +355,7 @@ public class RefeicaoRealizadaController {
 						
 						// Consulta dos dias das refeições.
 						List<RefeicaoRealizada> refeicoesRealizadas = RefeicaoRealizadaDAO
-								.getInstance().getMapaRefeicoesRealizadas(
+								.getInstance().listRefeicoesRealizadas(
 										refeicao, data);
 						
 						// Inicializa o mapa para consulta dos dias das refeições.

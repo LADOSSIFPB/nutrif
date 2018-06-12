@@ -148,6 +148,9 @@ public class ErrorFactory {
 	
 	public static final int DADOS_NAO_ECONTRADOS = 67;
 	
+	// Extrato Refeicao
+	public static final int ID_EXTRATO_REFEICAO_INVALIDO = 68;
+	
 	/*
 	 * Mapa de erros: código e mensagem.
 	 */
@@ -220,7 +223,9 @@ public class ErrorFactory {
 		hashMap.put(CIDADE_INVALIDA, "Cidade inválida.");
 		hashMap.put(SIGLA_INVALIDA, "Sigla inválida.");
 		hashMap.put(DADOS_NAO_ECONTRADOS, "Operação inválida. Dados não encontrados.");
-		hashMap.put(ID_MATRICULA_INVALIDO, "Identificador de matrícula inválido.");	
+		hashMap.put(ID_MATRICULA_INVALIDO, "Identificador de matrícula inválido.");
+		hashMap.put(ID_EXTRATO_REFEICAO_INVALIDO, "Extrato da refeição inválido.");
+		
 		
 		return hashMap;
 	}

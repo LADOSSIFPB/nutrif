@@ -282,7 +282,7 @@ nutrIFApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
     
             /* Administrador - Refeições Realizadas */    
             .state('administrador.listar-refeicoesrealizadas', {
-                url: '/listar/refeicoesrealizadas',
+                url: '/listar/refeicoesrealizadas/extratorefeicao/:idExtratoRefeicao',
                 title: 'Listar Refeições Realizadas',
                 templateUrl: 'view/administrador/listar-refeicoesrealizadas.html',
                 controller: 'listarRefeicoesRealizadasCtrl',
