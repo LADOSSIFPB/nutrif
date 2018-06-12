@@ -33,6 +33,7 @@ import br.edu.ifpb.nutrif.dao.migration.ExtratoRefeicaoDAO;
 import br.edu.ifpb.nutrif.dao.migration.MatriculaDAO;
 import br.edu.ifpb.nutrif.dao.migration.SituacaoMatriculaDAO;
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
+import br.edu.ifpb.nutrif.util.BancoUtil;
 import br.edu.ifpb.nutrif.util.DateUtil;
 import br.edu.ladoss.entity.Aluno;
 import br.edu.ladoss.entity.Campus;
@@ -64,6 +65,8 @@ public class MigracaoController {
 	private static int LIMIT_QUERY = 50;
 	
 	private static int UM_DIA = 1;
+	
+	private static int MATRICULADO = 1;
 	
 	/**
 	 * 
@@ -595,10 +598,14 @@ public class MigracaoController {
 		
 		logger.info("Migrar - Matricula");
 		
+		SituacaoMatricula situacaoMatricula = SituacaoMatriculaDAO
+				.getInstance().getById(MATRICULADO);
+		
 		Matricula matricula = new Matricula();
 		matricula.setNumero(aluno.getMatricula());
 		matricula.setAluno(alunoMigracao);
-		matricula.setAtivo(aluno.isAtivo());
+		matricula.setAtivo(BancoUtil.ATIVO); // Todos os alunos estavam inativados.
+		matricula.setSituacao(situacaoMatricula);
 					
 		// Curso
 		Curso curso = aluno.getCurso();
