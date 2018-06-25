@@ -2,7 +2,11 @@ package br.edu.ifpb.nutrif.controller;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Objects;
 
 import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.Consumes;
@@ -17,6 +21,7 @@ import org.apache.logging.log4j.Logger;
 
 import br.edu.ifpb.nutrif.dao.AlunoDAO;
 import br.edu.ifpb.nutrif.dao.CampusDAO;
+import br.edu.ifpb.nutrif.dao.CpfDAO;
 import br.edu.ifpb.nutrif.dao.DiaDAO;
 import br.edu.ifpb.nutrif.dao.DiaRefeicaoDAO;
 import br.edu.ifpb.nutrif.dao.EditalDAO;
@@ -50,6 +55,7 @@ import br.edu.ladoss.entity.Role;
 import br.edu.ladoss.entity.Setor;
 import br.edu.ladoss.entity.Turma;
 import br.edu.ladoss.entity.Turno;
+import br.edu.ladoss.entity.migration.Cpf;
 import br.edu.ladoss.entity.migration.ExtratoRefeicao;
 import br.edu.ladoss.entity.migration.Matricula;
 import br.edu.ladoss.entity.migration.SituacaoMatricula;
@@ -69,6 +75,7 @@ public class MigracaoController {
 	private static int MATRICULADO = 1;
 	
 	/**
+	 * Migração completa.
 	 * 
 	 * @return
 	 */
@@ -127,10 +134,10 @@ public class MigracaoController {
 			migrarEdital();			
 			
 			// Pessoa
-			migrarPessoa();
+			//migrarPessoa();
 			
 			// Extrato
-			gerarExtratoRefeicao();
+			//gerarExtratoRefeicao();
 			
 			logger.info("Migrar - Processo finalizado!");
 
@@ -143,7 +150,46 @@ public class MigracaoController {
 		
 		return builder.build();
 	}
+	
+	/**
+	 * Migrar os alunos.
+	 * 
+	 * @return
+	 */
+	@RolesAllowed({ TipoRole.ADMIN })
+	@GET
+	@Path("/aluno/iniciar")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public Response migrarSuplementoAluno() {
 
+		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
+		builder.expires(new Date());
+
+		try {
+			
+			logger.info("Migrar Aluno - Iniciar processo...");
+			
+			// Aluno
+			migrarAluno();
+			
+			logger.info("Migrar Aluno - Processo finalizado!");
+
+		} catch (SQLExceptionNutrIF exception) {
+
+			builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(exception.getError());
+		}
+
+		builder.status(Response.Status.OK);
+		
+		return builder.build();
+	}
+	
+	/**
+	 * Migrar o extrato das refeições.
+	 * 
+	 * @return
+	 */
 	@RolesAllowed({ TipoRole.ADMIN })
 	@GET
 	@Path("/extrato")
@@ -423,9 +469,42 @@ public class MigracaoController {
 		logger.info("Fim - Pessoa");
 	}
 
+	private Map<String, List<String>> carregarCpfMatriculas() {
+
+		logger.info("Carregar - CpfMatriculas");
+		
+		Map<String, List<String>> cpfMatriculas = new HashMap<String, List<String>>();
+
+		List<Cpf> cpfs = CpfDAO.getInstance().getAll();
+
+		for (Cpf cpf : cpfs) {
+
+			String numero = cpf.getNumero();
+
+			if (cpfMatriculas.containsKey(numero)) {
+
+				List<String> matriculas = cpfMatriculas.get(numero);
+				matriculas.add(cpf.getMatricula());
+				cpfMatriculas.put(numero, matriculas);
+				
+			} else {
+
+				List<String> matriculas = new ArrayList<String>();
+				matriculas.add(cpf.getMatricula());
+				cpfMatriculas.put(numero, matriculas);
+			}
+		}
+		
+		logger.info("Fim - CpfMatriculas");
+
+		return cpfMatriculas;
+	}
+
 	private void migrarAluno() {
 		
 		logger.info("Migrar - Aluno");
+		
+		Map<String, List<String>> cpfMatriculas = carregarCpfMatriculas();
 		
 		// Paginação da consulta.
 		Long quantidadeAluno = AlunoDAO.getInstance().getQuantidadeTotalAluno();
@@ -438,34 +517,48 @@ public class MigracaoController {
 			logger.info("Item(ns) por página:" + alunos.size());
 			
 			for (Aluno aluno: alunos) {
-				Date agora = new Date();
 				
-				int idAluno = aluno.getId();
+				// Verificar se a Pessoa do Aluno já foi inserido.
+				String cpf = getCpf(cpfMatriculas, aluno.getMatricula());
+				
 				br.edu.ladoss.entity.migration.Aluno alunoMigracao = 
-						new br.edu.ladoss.entity.migration.Aluno();
-				alunoMigracao.setIdMigracao(idAluno);
-				alunoMigracao.setNome(aluno.getNome());
-				alunoMigracao.setEmail(aluno.getEmail());
-				alunoMigracao.setSenha(aluno.getSenha());
-				alunoMigracao.setKeyAuth(aluno.getKeyAuth());
-				alunoMigracao.setKeyConfirmation(aluno.getKeyConfirmation());
-				alunoMigracao.setAtivo(aluno.isAtivo());
-				alunoMigracao.setDataInsercao(agora);
-				alunoMigracao.setAcesso(aluno.isAcesso());
-				alunoMigracao.setTipo(Aluno.TIPO_ALUNO);
+						br.edu.ifpb.nutrif.dao.migration.AlunoDAO
+							.getInstance().getByCpf(cpf);
 				
-				// Campus
-				Campus campus = aluno.getCampus();
-				if (campus != null) {
-					int idCampus = campus.getId();
-					br.edu.ladoss.entity.migration.Campus campusMigracao = 
-							br.edu.ifpb.nutrif.dao.migration.CampusDAO.getInstance()
-								.getById(idCampus);			
-					alunoMigracao.setCampus(campusMigracao);
+				if (alunoMigracao == null) {
+					
+					Date agora = new Date();
+					
+					int idAluno = aluno.getId();
+					alunoMigracao =	new br.edu.ladoss.entity.migration.Aluno();
+					alunoMigracao.setIdMigracao(idAluno);
+					alunoMigracao.setNome(aluno.getNome());
+					alunoMigracao.setEmail(aluno.getEmail());
+					alunoMigracao.setSenha(aluno.getSenha());
+					alunoMigracao.setKeyAuth(aluno.getKeyAuth());
+					alunoMigracao.setKeyConfirmation(aluno.getKeyConfirmation());
+					alunoMigracao.setAtivo(aluno.isAtivo());
+					alunoMigracao.setDataInsercao(agora);
+					alunoMigracao.setAcesso(aluno.isAcesso());
+					alunoMigracao.setCpf(cpf);
+					alunoMigracao.setTipo(Aluno.TIPO_ALUNO);
+					
+					// Campus
+					Campus campus = aluno.getCampus();
+					if (campus != null) {
+						int idCampus = campus.getId();
+						br.edu.ladoss.entity.migration.Campus campusMigracao = 
+								br.edu.ifpb.nutrif.dao.migration.CampusDAO.getInstance()
+									.getById(idCampus);			
+						alunoMigracao.setCampus(campusMigracao);
+					}
+								
+					logger.info("Inserir: " + alunoMigracao);
+					br.edu.ifpb.nutrif.dao.migration.AlunoDAO.getInstance().insert(alunoMigracao);
+				} else {
+					
+					logger.info("Aluno já inserido: " + cpf);
 				}
-							
-				logger.info("Inserir: " + alunoMigracao);
-				br.edu.ifpb.nutrif.dao.migration.AlunoDAO.getInstance().insert(alunoMigracao);
 				
 				// Matricula				
 				Matricula matricula = migrarMatricula(aluno, alunoMigracao);
@@ -476,6 +569,27 @@ public class MigracaoController {
 		}
 		
 		logger.info("Fim - Aluno");		
+	}
+
+	private String getCpf(Map<String, List<String>> cpfMatriculas, String matricula) {
+		
+		// Matrículas
+		List<String> matriculas = new ArrayList<String>();
+		matriculas.add(matricula);
+		
+		// Verificação do CPF
+		String cpf = getKeyByValue(cpfMatriculas, matriculas);
+		
+		return cpf;
+	}
+	
+	public <T, E> T getKeyByValue(Map<T, E> map, E value) {
+	    for (Entry<T, E> entry : map.entrySet()) {
+	        if (Objects.equals(value, entry.getValue())) {
+	            return entry.getKey();
+	        }
+	    }
+	    return null;
 	}
 
 	private void migrarDiaRefeicao(Matricula matricula) {

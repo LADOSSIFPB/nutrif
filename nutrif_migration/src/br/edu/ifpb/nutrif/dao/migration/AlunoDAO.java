@@ -33,6 +33,36 @@ public class AlunoDAO extends GenericDao<Integer, Aluno> {
 		return instance;
 	}
 
+	public Aluno getByCpf(String cpf) {
+		
+		Session session = HibernateUtil.getSessionFactoryMigration().openSession();
+		
+		Aluno aluno = null;
+		
+		try {
+			
+			String hql = "from Aluno as a"
+					+ " where a.cpf = :cpf";
+			
+			Query query = session.createQuery(hql);
+			query.setParameter("cpf", cpf);		
+			
+			aluno = (Aluno) query.uniqueResult();
+	        
+		} catch (HibernateException hibernateException) {
+			
+			session.getTransaction().rollback();
+			
+			throw new SQLExceptionNutrIF(hibernateException);
+			
+		} finally {
+		
+			session.close();
+		}
+		
+		return aluno;
+	}
+
 	public List<Aluno> listByNome(String nome) {
 		
 		Session session = HibernateUtil.getSessionFactoryOld().openSession();
