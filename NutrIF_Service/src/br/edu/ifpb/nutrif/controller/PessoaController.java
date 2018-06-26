@@ -22,7 +22,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import br.edu.ifpb.nutrif.dao.AlunoDAO;
-import br.edu.ifpb.nutrif.dao.FuncionarioDAO;
 import br.edu.ifpb.nutrif.dao.LoginDAO;
 import br.edu.ifpb.nutrif.dao.LogoutDAO;
 import br.edu.ifpb.nutrif.dao.PessoaDAO;
@@ -32,7 +31,6 @@ import br.edu.ifpb.nutrif.util.BancoUtil;
 import br.edu.ifpb.nutrif.util.StringUtil;
 import br.edu.ifpb.nutrif.validation.Validate;
 import br.edu.ladoss.entity.Error;
-import br.edu.ladoss.entity.Funcionario;
 import br.edu.ladoss.entity.Login;
 import br.edu.ladoss.entity.Logout;
 import br.edu.ladoss.entity.Pessoa;
@@ -78,10 +76,9 @@ public class PessoaController {
 						pessoaAcesso.getEmail(), 
 						pessoaAcesso.getSenha());
 				
-				if (pessoa == null) {
-					//TODO: Consultar por siape e senha do funcionário.
-				}
+				//TODO: Consultar por siape e senha do funcionário.
 				
+				// Aluno
 				if (pessoa == null) {
 					// Consultar por matrícula e senha do aluno.
 					pessoa = AlunoDAO.getInstance().login(

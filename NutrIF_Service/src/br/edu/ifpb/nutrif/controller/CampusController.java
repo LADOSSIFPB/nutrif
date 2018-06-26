@@ -9,6 +9,7 @@ import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -16,11 +17,13 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
 import br.edu.ifpb.nutrif.dao.CampusDAO;
+import br.edu.ifpb.nutrif.dao.CursoDAO;
 import br.edu.ifpb.nutrif.exception.ErrorFactory;
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
 import br.edu.ifpb.nutrif.util.BancoUtil;
 import br.edu.ifpb.nutrif.validation.Validate;
 import br.edu.ladoss.entity.Campus;
+import br.edu.ladoss.entity.Curso;
 import br.edu.ladoss.entity.Error;
 import br.edu.ladoss.enumeration.TipoRole;
 
@@ -83,6 +86,48 @@ public class CampusController {
 		campi = CampusDAO.getInstance().getAll();
 		
 		return campi;
+	}
+	
+	/**
+	 * Atualizar dados de um Campus.
+	 * 
+	 * @param campus
+	 * @return
+	 */
+	@RolesAllowed({TipoRole.ADMIN})
+	@PUT
+	@Consumes("application/json")
+	@Produces("application/json")
+	public Response update(Campus campus) {
+		
+		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
+		builder.expires(new Date());
+		
+		// Validação dos dados de entrada.
+		int validacao = Validate.campus(campus);
+		
+		if (validacao == Validate.VALIDATE_OK) {
+			
+			try {
+				
+				//Atualizar o Curso.
+				campus = CampusDAO.getInstance().update(campus);
+				
+				if (campus != null) {
+
+					// Operação realizada com sucesso.
+					builder.status(Response.Status.OK);					
+					builder.entity(campus);
+				}
+			
+			} catch (SQLExceptionNutrIF exception) {
+
+				builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
+						exception.getError());			
+			} 
+		}				
+		
+		return builder.build();		
 	}
 	
 	@PermitAll

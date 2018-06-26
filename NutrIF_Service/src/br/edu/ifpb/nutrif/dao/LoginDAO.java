@@ -11,8 +11,10 @@ import org.hibernate.Session;
 
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
 import br.edu.ifpb.nutrif.hibernate.HibernateUtil;
+import br.edu.ifpb.nutrif.hibernate.QueryUtil;
 import br.edu.ifpb.nutrif.util.BancoUtil;
 import br.edu.ladoss.entity.Login;
+import br.edu.ladoss.entity.Pessoa;
 
 public class LoginDAO extends GenericDao<Integer, Login> {
 
@@ -41,7 +43,8 @@ public class LoginDAO extends GenericDao<Integer, Login> {
 			query.setParameter("keyAuth", authorization);
 			query.setParameter("loged", BancoUtil.ATIVO);
 			
-			login = (Login) query.getSingleResult();
+			QueryUtil<Login> queryUtil = new QueryUtil<Login>();
+			login = queryUtil.getUniqueResult(query);
 	        
 		} catch (HibernateException hibernateException) {
 			

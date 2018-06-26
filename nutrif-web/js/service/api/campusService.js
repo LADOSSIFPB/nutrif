@@ -12,6 +12,10 @@ nutrIFApp.factory("campusService", function ($http, serviceCfg){
     var _listar = function () {
         return $http.get(_path);
     }
+    
+    var _atualizar = function(campus){
+		return $http.put(_path, campus)
+	};
 
     var _buscarPorCidade = function (cidade){
 		return $http.get(_path + "/cidade/" + encodeURI(cidade))
@@ -24,6 +28,7 @@ nutrIFApp.factory("campusService", function ($http, serviceCfg){
     return {
         cadastrar: _cadastrar,
         listar: _listar,
+        atualizar: _atualizar,
         getById: _getById,
         buscarPorCidade: _buscarPorCidade
     };

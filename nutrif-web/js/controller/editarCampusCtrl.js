@@ -2,25 +2,21 @@
  *  Controlar atualização do Campus.
  */
 nutrIFApp.controller('editarCampusCtrl', function ($scope,
-    $stateParams, $state, toastUtil, dateTimeUtil, refeicaoService) {
+    $stateParams, $state, toastUtil, campusService) {
 
-    $scope.refeicao = {};
+    $scope.campus = {};
 
     $scope.atualizar = function (refeicao) {
 
-        let refeicao = $scope.refeicao;
+        let campus = $scope.campus;
 
-        refeicao.horaInicio = Date.parse(refeicao.horaInicio);
-        refeicao.horaFinal = Date.parse(refeicao.horaFinal);
-        refeicao.horaPrevisaoPretensao = Date.parse(refeicao.horaPrevisaoPretensao);
-
-        refeicaoService.atualizar(refeicao)
+        campusService.atualizar(campus)
             .then(function (response) {
                 // Mensagem
-                toastUtil.showSuccessToast('Refeição atualizada com sucesso.');
+                toastUtil.showSuccessToast('Campus atualizado com sucesso.');
 
                 // Redirecionamento
-                $state.transitionTo('administrador.listar-refeicoes', {
+                $state.transitionTo('administrador.listar-campi', {
                     reload: true
                 });
             })
@@ -39,22 +35,13 @@ nutrIFApp.controller('editarCampusCtrl', function ($scope,
         if (id <= 0) {
             redirecionarListagem();
         } else {
-            refeicaoService.getById(id)
+            campusService.getById(id)
                 .then(function (response) {
                     // Refeição 
-                    let refeicao = response.data;
-
-                    // Hora de início e fim da apresentação
-                    let horaInicio = dateTimeUtil.timeToDate(refeicao.horaInicio);
-                    let horaFinal = dateTimeUtil.timeToDate(refeicao.horaFinal);
-                    let horaPrevisaoPretensao = dateTimeUtil.timeToDate(refeicao.horaPrevisaoPretensao);
-
-                    refeicao.horaInicio = horaInicio;
-                    refeicao.horaFinal = horaFinal;
-                    refeicao.horaPrevisaoPretensao = horaPrevisaoPretensao;
+                    let campus = response.data;
                     
                     // Refeição - ng-model do formulário.
-                    $scope.refeicao = refeicao;
+                    $scope.campus = campus;
                 })
                 .catch(function (error) {
                     toastUtil.showErrorToast(error);
@@ -67,7 +54,7 @@ nutrIFApp.controller('editarCampusCtrl', function ($scope,
         Redirecionar para a página de listagem.
      */
     function redirecionarListagem() {
-        $state.transitionTo('administrador.listar-refeicoes', {
+        $state.transitionTo('administrador.listar-campi', {
             reload: true
         });
     }
