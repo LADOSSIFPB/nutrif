@@ -141,7 +141,8 @@ public class AlunoController {
 				String cpf = alunoAtualizado.getCpf();
 				String nome = StringUtil.upperCaseFirstChar(
 						alunoAtualizado.getNome());
-				String email = alunoAtualizado.getEmail();
+				String email = !StringUtil.isEmptyOrNull(alunoAtualizado.getEmail()) ? 
+						alunoAtualizado.getEmail(): null;
 				Campus campus = CampusDAO.getInstance().getById(
 						alunoAtualizado.getCampus().getId());				
 				

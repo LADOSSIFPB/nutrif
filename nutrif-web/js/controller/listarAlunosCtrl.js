@@ -17,13 +17,13 @@ nutrIFApp.controller('listarAlunosCtrl', function ($scope, toastUtil,
         if (nomeOuMatricula.length >= 3) {
             if (nomeOuMatricula.match(/[a-zA-Z]/i) != null) {
                 alunoService.buscarPorNome(nomeOuMatricula)
-                    .then(onSuccessCallback)
+                    .then(onNomeAlunoSuccessCallback)
                     .catch(onErrorCallback);                
             } else if ((parseInt(nomeOuMatricula.substring(0, 4)) <= 2015
                         && nomeOuMatricula.length == TAM_MINIMO_MATRICULA)
                        ||((parseInt(nomeOuMatricula.substring(0, 4)) >= 2016 && nomeOuMatricula.length <= TAM_MAXIMO_MATRICULA))) {
                 alunoService.buscarPorMatricula(nomeOuMatricula)
-                    .then(onSuccessCallback)
+                    .then(onMatriculaSuccessCallback)
                     .catch(onErrorCallback); 
             }
         } else if (nomeOuMatricula.length === 0) {
@@ -31,7 +31,15 @@ nutrIFApp.controller('listarAlunosCtrl', function ($scope, toastUtil,
         }
     };
 
-    function onSuccessCallback(response) {
+    function onMatriculaSuccessCallback(response) {
+        
+        let aluno = response.data;
+        
+        $scope.alunos = [];
+        $scope.alunos.push(aluno);
+    }
+    
+    function onNomeAlunoSuccessCallback(response) {
         $scope.alunos = response.data;
     }
 

@@ -14,6 +14,7 @@ import br.edu.ifpb.nutrif.dao.SituacaoMatriculaDAO;
 import br.edu.ifpb.nutrif.dao.TurmaDAO;
 import br.edu.ifpb.nutrif.dao.TurnoDAO;
 import br.edu.ifpb.nutrif.exception.ErrorFactory;
+import br.edu.ifpb.nutrif.util.StringUtil;
 import br.edu.ladoss.entity.Aluno;
 import br.edu.ladoss.entity.Campus;
 import br.edu.ladoss.entity.ConfirmaPretensaoDia;
@@ -96,7 +97,9 @@ public class Validate {
 			return ErrorFactory.CPF_INVALIDO;
 		
 		// E-mail
-		if (!emailValidator.validate(aluno.getEmail()))
+		String email = aluno.getEmail();
+		if (!StringUtil.isEmptyOrNull(email)
+				&& !emailValidator.validate(email))
 			return ErrorFactory.EMAIL_USUARIO_INVALIDO;
 		
 		Campus campus = aluno.getCampus();
