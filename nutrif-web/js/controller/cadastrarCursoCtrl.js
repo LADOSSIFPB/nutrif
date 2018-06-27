@@ -2,7 +2,7 @@
  *  Controlar inserção da Refeição.
  */
 nutrIFApp.controller('cadastrarCursoCtrl', function ($scope,
-    $mdToast, $state, cursoService, campusService, nivelService) {
+    $mdToast, $state, toastUtil, cursoService, campusService, nivelService) {
 
     $scope.campi = [];
     $scope.niveis = [];
@@ -28,7 +28,7 @@ nutrIFApp.controller('cadastrarCursoCtrl', function ($scope,
 
     function carregamentoInicial() {
 
-        // Carregar Cursos para seleção no cadastro do Curso.
+        // Carregar Campus para seleção no cadastro do Curso.
         campusService.listar()
             .then(function(response) {
                 $scope.campi = response.data;

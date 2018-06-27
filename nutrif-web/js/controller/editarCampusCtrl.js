@@ -6,7 +6,7 @@ nutrIFApp.controller('editarCampusCtrl', function ($scope,
 
     $scope.campus = {};
 
-    $scope.atualizar = function (refeicao) {
+    $scope.atualizar = function () {
 
         let campus = $scope.campus;
 

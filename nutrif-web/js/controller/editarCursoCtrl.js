@@ -1,69 +1,90 @@
-angular.module('NutrifApp').controller('editarCursoCtrl', function ($scope,
-	$stateParams, $state, $mdToast, cursoService, campusService) {
+/*
+ *  Controlar atualização do Curso.
+ */
+nutrIFApp.controller('editarCursoCtrl', function ($scope,
+    $stateParams, $state, toastUtil, cursoService, campusService, nivelService) {
 
-	$scope.campi = [];
-	
-	$scope.atualizar = function (curso) {
+    $scope.curso = {};
 
-		cursoService.atualizarCurso(curso)
-			.success(function (data, status) {
+    $scope.campi = [];
+    $scope.niveis = [];
 
-				$state.transitionTo('home.listar-cursos', {reload: true});
-				$mdToast.show(
-					$mdToast.simple()
-					.textContent('Curso atualizado com sucesso!')
-					.position('top right')
-					.action('OK')
-					.hideDelay(6000)
-				);
-			})
-			.error(onErrorCallback);
-	}
+    $scope.atualizar = function () {
 
-	function carregamentoInicial() {
-		var _id = $stateParams.id;
+        let curso = $scope.curso;
 
-		if (_id == 0){
-			$state.transitionTo('home.listar-cursos', {reload: true});
-		}
+        cursoService.atualizar(curso)
+            .then(function (response) {
+                // Mensagem
+                toastUtil.showSuccessToast('Curso atualizado com sucesso.');
 
-		cursoService.getCursoById(_id)
-			.success(function (data, status) {
-				$scope.curso = data;
-			})
-			.error(onErrorLoadCallback);
+                // Redirecionamento
+                $state.transitionTo('administrador.listar-cursos', {
+                    reload: true
+                });
+            })
+            .catch(function (error) {
+                toastUtil.showErrorToast(error);
+            });
+    }
 
-		campusService.listarCampi()
-			.success(function (data, status){
-				$scope.campi = data;
-			})
-			.error(onErrorLoadCallback);
-		
-		
-	}
+    /**
+        Carregar os dados iniciais.
+     */
+    function carregar() {
 
-	function onErrorCallback(data, status) {
-		var _message = '';
+        let id = $stateParams.id;
 
-		if (!data) {
-			_message = 'Ocorreu um erro na comunicação com o servidor, favor chamar o suporte.'
-		} else {
-			_message = data.mensagem
-		}
+        if (id <= 0) {
+            redirecionarListagem();
+        } else {
 
-		$mdToast.show(
-			$mdToast.simple()
-			.textContent(_message)
-			.position('top right')
-			.action('OK')
-			.hideDelay(6000)
-		);
-	}
+            cursoService.getById(id)
+                .then(function (response) {
+                    // Refeição 
+                    let curso = response.data;
 
-	function onErrorLoadCallback(data, status) {
-		onErrorCallback(data, status);
-		$state.transitionTo('home.listar-cursos', {reload: true});
-	}
+                    // Curso - ng-model do formulário.
+                    $scope.curso = curso;
+                
+                    carregarComplementar();
+                })
+                .catch(function (error) {
+                    toastUtil.showErrorToast(error);
+                    redirecionarListagem();
+                });
+        }
+    }
 
-	carregamentoInicial();
+    function carregarComplementar() {
+        
+        // Carregar Campus para seleção no cadastro do Curso.
+        campusService.listar()
+            .then(function (response) {
+                $scope.campi = response.data;
+            })
+            .catch(function (error) {
+                toastUtil.showErrorToast(error);
+            });
+
+        // Carregar Níveis para seleção no cadastro do Curso.
+        nivelService.listar()
+            .then(function (response) {
+                $scope.niveis = response.data;
+            })
+            .catch(function (error) {
+                toastUtil.showErrorToast(error);
+            });
+    }
+
+    /**
+        Redirecionar para a página de listagem.
+     */
+    function redirecionarListagem() {
+        $state.transitionTo('administrador.listar-curso', {
+            reload: true
+        });
+    }
+
+    carregar();
 });
