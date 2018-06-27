@@ -34,7 +34,7 @@ public class Funcionario extends Pessoa {
 	
 	@Column(name = "nr_siape", length = 13, unique = true)
 	private String siape;
-	
+
 	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name = "fk_id_setor")
 	private Setor setor;
@@ -85,6 +85,14 @@ public class Funcionario extends Pessoa {
 
 	public void setIdMigracao(int idMigracao) {
 		this.idMigracao = idMigracao;
+	}
+	
+	public String getSiape() {
+		return siape;
+	}
+
+	public void setSiape(String siape) {
+		this.siape = siape;
 	}
 	
 	@Override

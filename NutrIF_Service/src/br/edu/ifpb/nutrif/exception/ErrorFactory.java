@@ -151,6 +151,9 @@ public class ErrorFactory {
 	// Extrato Refeicao
 	public static final int ID_EXTRATO_REFEICAO_INVALIDO = 68;
 	
+	// Siape
+	public static final int SIAPE_INVALIDO = 69;
+	
 	/*
 	 * Mapa de erros: código e mensagem.
 	 */
@@ -225,6 +228,7 @@ public class ErrorFactory {
 		hashMap.put(DADOS_NAO_ECONTRADOS, "Operação inválida. Dados não encontrados.");
 		hashMap.put(ID_MATRICULA_INVALIDO, "Identificador de matrícula inválido.");
 		hashMap.put(ID_EXTRATO_REFEICAO_INVALIDO, "Extrato da refeição inválido.");
+		hashMap.put(SIAPE_INVALIDO, "Siape inválido.");
 		
 		
 		return hashMap;

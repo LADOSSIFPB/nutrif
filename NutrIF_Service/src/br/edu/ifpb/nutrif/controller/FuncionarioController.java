@@ -44,56 +44,57 @@ public class FuncionarioController {
 	 *  "email":"[a-z]"
 	 * }
 	 * 
-	 * @param pessoaAcesso
+	 * @param funcionario
 	 * @return
 	 */
 	@RolesAllowed({TipoRole.ADMIN})
 	@POST
 	@Consumes("application/json")
 	@Produces("application/json")
-	public Response insert(PessoaAcesso pessoaAcesso) {
+	public Response insert(Funcionario funcionario) {
 		
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
 		builder.expires(new Date());
 
 		// Validação dos dados de entrada.
-		int validacao = Validate.inserirFuncionario(pessoaAcesso);
+		int validacao = Validate.inserirFuncionario(funcionario);
 		
 		if (validacao == Validate.VALIDATE_OK) {
 			
 			try {
-				// Criptografar senha.
-				String senhaCriptografada = StringUtil.criptografarBase64(
-						pessoaAcesso.getSenha());				
-				pessoaAcesso.setSenha(senhaCriptografada);
-				
-				// Gerar AuthKey.
-				Date hoje = new Date();
-				String keyAuth = StringUtil.criptografarSha256(hoje.toString());
-				pessoaAcesso.setKeyAuth(keyAuth);
-				
+								
 				// Roles do Funcionário.
 				List<Role> roles = RoleDAO.getInstance().getRolesByRolesId(
-						pessoaAcesso.getRoles());
-				pessoaAcesso.setRoles(roles);
+						funcionario.getRoles());
+				funcionario.setRoles(roles);
 				
 				// Campus
-				int idCampus = pessoaAcesso.getCampus().getId();
+				int idCampus = funcionario.getCampus().getId();
 				Campus campus = CampusDAO.getInstance().getById(idCampus);
-				pessoaAcesso.setCampus(campus);
+				funcionario.setCampus(campus);
 				
 				// Tipo Funcionário 
-				pessoaAcesso.setTipo(Funcionario.TIPO_FUNCIONARIO);
+				funcionario.setTipo(Funcionario.TIPO_FUNCIONARIO);
 				
 				// Ativar Funacionário.
-				pessoaAcesso.setAtivo(BancoUtil.ATIVO);
-				
-				//Inserir o Pessoa - Funcionário.
-				Pessoa pessoa = pessoaAcesso.getPessoa();
-				Funcionario funcionario = Funcionario.getFuncionario(pessoa);
+				funcionario.setAtivo(BancoUtil.ATIVO);
 				
 				// Data de inserção do registro do funcionário.
+				Date hoje = new Date();
 				funcionario.setDataInsercao(hoje);
+				
+				String email = funcionario.getEmail();
+				if (!StringUtil.isEmptyOrNull(email)) {
+					
+					// Criptografar senha.
+					String senhaCriptografada = StringUtil.criptografarBase64(
+							funcionario.getSenha());				
+					funcionario.setSenha(senhaCriptografada);
+					
+					// Gerar AuthKey.
+					String keyAuth = StringUtil.criptografarSha256(hoje.toString());
+					funcionario.setKeyAuth(keyAuth);
+				}
 				
 				Integer idFuncionario = FuncionarioDAO.getInstance()
 						.insert(funcionario);
@@ -102,7 +103,6 @@ public class FuncionarioController {
 					
 					// Operação realizada com sucesso.
 					builder.status(Response.Status.OK);
-					builder.entity(pessoa);
 				}
 			
 			} catch (SQLExceptionNutrIF exception) {

@@ -14,6 +14,7 @@ import br.edu.ifpb.nutrif.dao.SituacaoMatriculaDAO;
 import br.edu.ifpb.nutrif.dao.TurmaDAO;
 import br.edu.ifpb.nutrif.dao.TurnoDAO;
 import br.edu.ifpb.nutrif.exception.ErrorFactory;
+import br.edu.ifpb.nutrif.util.ListUtil;
 import br.edu.ifpb.nutrif.util.StringUtil;
 import br.edu.ladoss.entity.Aluno;
 import br.edu.ladoss.entity.Campus;
@@ -514,29 +515,44 @@ public class Validate {
 		return VALIDATE_OK;
 	}
 	
-	public static int inserirFuncionario(PessoaAcesso usuario) {
+	public static int inserirFuncionario(Funcionario funcionario) {
 		
 		logger.info("Validação para Funcionário.");
 		
-		String nome = usuario.getNome();
+		String nome = funcionario.getNome();
 		if (!stringValidator.validateSomenteLetras(nome))
 			return ErrorFactory.NOME_USUARIO_INVALIDO;
 		
-		
-		if (!stringValidator.validate(usuario.getSenha(), 5, 40))
-			return ErrorFactory.SENHA_USUARIO_INVALIDA;
-		
-		List<Role> roles = usuario.getRoles();
-		if (roles == null || (roles != null && roles.size() == 0)) {
+		List<Role> roles = funcionario.getRoles();
+		if (roles == null 
+				|| (roles != null && ListUtil.isItemNull(roles))
+				|| (roles != null && roles.isEmpty())) {
 			
 			return ErrorFactory.ROLES_INVALIDAS;			
 		}
 		
-		Campus campus = usuario.getCampus();
+		Campus campus = funcionario.getCampus();
 		if (campus == null 
 				|| (campus != null && !numeroValidator.isMaiorZero(
 						campus.getId()))) {
 			return ErrorFactory.ID_CAMPUS_INVALIDO;
+		}
+		
+		// Cpf
+		if (!cpfValidator.validate(funcionario.getCpf()))
+			return ErrorFactory.CPF_INVALIDO;
+		
+		// Siape
+		String siape = funcionario.getSiape();
+		if (siape != null && !numeroValidator.validate(siape)) {
+			return ErrorFactory.SIAPE_INVALIDO;
+		}
+		
+		String email = funcionario.getEmail();
+		if (!StringUtil.isEmptyOrNull(email)) {
+			
+			if (!stringValidator.validate(funcionario.getSenha(), 5, 40))
+				return ErrorFactory.SENHA_USUARIO_INVALIDA;
 		}
 		
 		return VALIDATE_OK;
