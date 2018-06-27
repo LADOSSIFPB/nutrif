@@ -6,9 +6,12 @@ nutrIFApp.controller('listarFuncionariosCtrl', function ($scope, toastUtil, func
     $scope.nome = "";
     $scope.funcionarios = [];
 
-    $scope.pesquisar = function (nome) {
+    $scope.pesquisar = function () {
+        
+        let nome = $scope.nome;
+        
         if (nome.length >= 3) {
-            funcionarioService.getFuncionarioByNome(nome)
+            funcionarioService.listByNome(nome)
                 .then(function (response) {
                     $scope.funcionarios = response.data;
                 })

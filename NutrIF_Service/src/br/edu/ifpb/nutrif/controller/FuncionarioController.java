@@ -212,7 +212,7 @@ public class FuncionarioController {
 	@GET
 	@Path("/{id}")
 	@Produces("application/json")
-	public Response getUsuarioById(@PathParam("id") int idUsuario) {
+	public Response getById(@PathParam("id") int idUsuario) {
 		
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
 		builder.expires(new Date());
@@ -258,53 +258,5 @@ public class FuncionarioController {
 		}
 
 		return builder.build();		
-	}
-	
-	@RolesAllowed({TipoRole.ADMIN})
-	@POST
-	@Path("/migrar")
-	@Consumes("application/json")
-	@Produces("application/json")
-	public Response migrarFuncionarios(List<PessoaAcesso> pessoasAcesso){
-		
-		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
-		builder.expires(new Date());
-		
-		List<Funcionario> funcionarios = new ArrayList<Funcionario>();
-		
-		try {
-
-			for(PessoaAcesso pessoaAcesso: pessoasAcesso) {
-				
-				// Campus
-				int idCampus = pessoaAcesso.getCampus().getId();
-				Campus campus = CampusDAO.getInstance().getById(idCampus);
-				pessoaAcesso.setCampus(campus);
-				
-				// Tipo Funcionário 
-				pessoaAcesso.setTipo(Funcionario.TIPO_FUNCIONARIO);
-				
-				// Ativar Funacionário.
-				pessoaAcesso.setAtivo(true);
-				
-				//Inserir o Pessoa - Funcionário.
-				Pessoa pessoa = pessoaAcesso.getPessoa();
-				Funcionario funcionario = Funcionario.getFuncionario(pessoa);
-				Integer idFuncionario = FuncionarioDAO.getInstance().insert(
-						funcionario);
-				
-				funcionarios.add(funcionario);
-			}
-			
-			builder.status(Response.Status.OK);
-			builder.entity(funcionarios);
-
-		} catch (SQLExceptionNutrIF exception) {
-
-			builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
-					exception.getError());
-		}
-
-		return builder.build();			
 	}
 }

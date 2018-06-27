@@ -51,7 +51,7 @@ nutrIFApp.factory("menu", function ($location, $rootScope, userService) {
                     },
                     {
                         name: 'Servidor',
-                        state: 'administrador.home',
+                        state: 'administrador.listar-funcionarios',
                         type: 'link'
                     }
                 ]

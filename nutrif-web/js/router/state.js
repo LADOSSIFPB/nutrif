@@ -119,6 +119,34 @@ nutrIFApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
                 permissions: ['admin']
             })
     
+            /* Administrador - Funcionário */
+            .state('administrador.adicionar-funcionario', {
+                url: '/adicionar/funcionario',
+                title: 'Adicionar Funcionário',
+                templateUrl: 'view/administrador/adicionar-funcionario.html',
+                controller: 'cadastrarFuncionarioCtrl',
+                controllerAs: 'cadastrarFuncionario',
+                permissions: ['admin']
+            })
+
+            .state('administrador.listar-funcionarios', {
+                url: '/listar/funcionarios',
+                title: 'Listar Funcionários',
+                templateUrl: 'view/administrador/listar-funcionarios.html',
+                controller: 'listarFuncionariosCtrl',
+                controllerAs: 'listarFuncionarios',
+                permissions: ['admin']
+            })
+
+            .state('administrador.editar-funcionario', {
+                url: '/editar/funcionario/:id',
+                title: 'Editar Funcionário',
+                templateUrl: 'view/administrador/editar-funcionario.html',
+                controller: 'editarFuncionarioCtrl',
+                controllerAs: 'editarFuncionario',
+                permissions: ['admin']
+            })
+    
             /* Administrador - Matrícula */
             .state('administrador.adicionar-matricula', {
                 url: '/adicionar/matricula/aluno/:id',
