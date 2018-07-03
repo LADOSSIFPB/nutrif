@@ -52,12 +52,13 @@
             <md-card>
                 <md-card-header>
                     <md-card-header-text>
-                        <span class="md-title">Refeição</span>
+                        <span class="md-title">Comparativo</span>
+                        <span class="md-subhead">Quantidade da Pretensão x Edital x Refeições Realizadas.</span>
                     </md-card-header-text>
                 </md-card-header>
 
                 <md-card-content>
-                    <canvas id="doughnut" class="chart chart-doughnut" chart-data="data" chart-labels="labels">
+                    <canvas id="chart-bar" class="chart chart-bar" chart-data="data" chart-labels="labels" chart-series="series">
                     </canvas>
                 </md-card-content>
             </md-card>
@@ -78,7 +79,7 @@
 
                 <md-card-content>
                     <p>
-                        {{mapaPretensao.data | date : "dd/MM/yyyy" : timestamp }}
+                        {{ mapaPretensao.data | date : "dd/MM/yyyy" : timestamp }}
                     </p>
                 </md-card-content>
             </md-card>
@@ -99,7 +100,7 @@
 
                 <md-card-content>
                     <p>
-                        {{mapaDiaRefeicao.data | date : "dd/MM/yyyy" : timestamp }}
+                        {{ mapaDiaRefeicao.data | date : "dd/MM/yyyy" : timestamp }}
                     </p>
                 </md-card-content>
             </md-card>
@@ -107,7 +108,7 @@
             <md-card>
                 <md-card-header>
                     <md-card-header-text>
-                        <span class="md-title">Realização</span>
+                        <span class="md-title">Realizadas</span>
                         <span class="md-subhead">Refeições realizadas no dia pelos Alunos.</span>
                     </md-card-header-text>
                 </md-card-header>

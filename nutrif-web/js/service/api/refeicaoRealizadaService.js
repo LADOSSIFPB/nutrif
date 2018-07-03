@@ -16,10 +16,16 @@ nutrIFApp.factory("refeicaoRealizadaService", function($http, serviceCfg){
     var _listByExtratoRefeicao = function(idExtratoRefeicao) {
         return $http.get(_path + "/extratorefeicao/" + encodeURI(idExtratoRefeicao));
     };
+    
+    var _listByExtratoRefeicaoAluno = function(idExtratoRefeicao, nome) {
+        return $http.get(_path + "/extratorefeicao/" + encodeURI(idExtratoRefeicao)
+                        + "/aluno/nome/" + encodeURI(nome));
+    };
 
 	return {
 		cadastrar: _cadastrar,
         buscarQuantidade: _buscarQuantidade,
-        listByExtratoRefeicao: _listByExtratoRefeicao
+        listByExtratoRefeicao: _listByExtratoRefeicao,
+        listByExtratoRefeicaoAluno: _listByExtratoRefeicaoAluno
 	};
 });

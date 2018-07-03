@@ -10,7 +10,7 @@
                 <md-card-header-text>
                     <span class="md-title">Refeições Realizadas</span>
                     <span class="md-subhead">
-                        Digite o nome ou a matrícula do aluno no campo abaixo para buscar a Refeição Realizada em: {{extratoRefeicao.dataRefeicao}} . Para gerar a lista em formato CSV escolha a opção Exportar.      
+                        Digite o nome ou a matrícula do aluno no campo abaixo para buscar a Refeição Realizada para o <b>{{extratoRefeicao.refeicao.tipo}}</b> em: <b>{{extratoRefeicao.dataExtrato | date : "dd/MM/yyyy" : timestamp}} - {{extratoRefeicao.dia.nome}}</b>. Para gerar a lista em formato CSV escolha a opção Exportar.      
                     </span>
                 </md-card-header-text>
                 
@@ -33,7 +33,7 @@
             </md-toolbar>
             
             <!-- Exportar conteúdo para CSV -->
-            <a class="btn" title="Exportar para CSV" ng-click="refeicoesRealizadasCSV.generate()" ng-href="{{ refeicoesRealizadasCSV.link() }}" download="refeicoes_realizadas.txt">
+            <a class="btn" title="Exportar para CSV" ng-click="refeicoesRealizadasCSV.generate()" ng-href="{{ refeicoesRealizadasCSV.link() }}" download="refeicoes_realizadas_{{0 | relativeDate}}.csv">
                 CVS
                 <ng-md-icon icon="import_export" size="16"></ng-md-icon>
             </a>
