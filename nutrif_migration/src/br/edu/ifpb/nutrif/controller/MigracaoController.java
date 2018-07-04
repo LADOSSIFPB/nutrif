@@ -21,12 +21,13 @@ import org.apache.logging.log4j.Logger;
 
 import br.edu.ifpb.nutrif.dao.AlunoDAO;
 import br.edu.ifpb.nutrif.dao.CampusDAO;
-import br.edu.ifpb.nutrif.dao.CpfDAO;
+import br.edu.ifpb.nutrif.dao.CursoDAO;
 import br.edu.ifpb.nutrif.dao.DiaDAO;
 import br.edu.ifpb.nutrif.dao.DiaRefeicaoDAO;
 import br.edu.ifpb.nutrif.dao.EditalDAO;
 import br.edu.ifpb.nutrif.dao.EventoDAO;
 import br.edu.ifpb.nutrif.dao.FuncionarioDAO;
+import br.edu.ifpb.nutrif.dao.NivelDAO;
 import br.edu.ifpb.nutrif.dao.PeriodoDAO;
 import br.edu.ifpb.nutrif.dao.RefeicaoDAO;
 import br.edu.ifpb.nutrif.dao.RefeicaoRealizadaDAO;
@@ -34,6 +35,7 @@ import br.edu.ifpb.nutrif.dao.RoleDAO;
 import br.edu.ifpb.nutrif.dao.SetorDAO;
 import br.edu.ifpb.nutrif.dao.TurmaDAO;
 import br.edu.ifpb.nutrif.dao.TurnoDAO;
+import br.edu.ifpb.nutrif.dao.migration.CpfDAO;
 import br.edu.ifpb.nutrif.dao.migration.ExtratoRefeicaoDAO;
 import br.edu.ifpb.nutrif.dao.migration.MatriculaDAO;
 import br.edu.ifpb.nutrif.dao.migration.SituacaoMatriculaDAO;
@@ -48,6 +50,7 @@ import br.edu.ladoss.entity.DiaRefeicao;
 import br.edu.ladoss.entity.Edital;
 import br.edu.ladoss.entity.Evento;
 import br.edu.ladoss.entity.Funcionario;
+import br.edu.ladoss.entity.Nivel;
 import br.edu.ladoss.entity.Periodo;
 import br.edu.ladoss.entity.Refeicao;
 import br.edu.ladoss.entity.RefeicaoRealizada;
@@ -96,8 +99,11 @@ public class MigracaoController {
 			// Campus
 			migrarCampus();			
 			
-			// Nível
+			// Nível de escolaridade
 			migrarNivel();
+			
+			// Curso
+			migrarCurso();
 			
 			// Turma
 			migrarTurma();
@@ -124,8 +130,8 @@ public class MigracaoController {
 			migrarEvento();
 			
 			// Situação Matrícula
-			criarSituacaoMatricula();
-					
+			criarSituacaoMatricula();			
+			
 			// Com idMigracao
 			// Funcionário
 			migrarFuncionario();	
@@ -134,10 +140,10 @@ public class MigracaoController {
 			migrarEdital();			
 			
 			// Pessoa
-			//migrarPessoa();
+			migrarPessoa();
 			
 			// Extrato
-			//gerarExtratoRefeicao();
+			gerarExtratoRefeicao();
 			
 			logger.info("Migrar - Processo finalizado!");
 
@@ -150,7 +156,7 @@ public class MigracaoController {
 		
 		return builder.build();
 	}
-	
+
 	/**
 	 * Migrar os alunos.
 	 * 
@@ -572,15 +578,25 @@ public class MigracaoController {
 	}
 
 	private String getCpf(Map<String, List<String>> cpfMatriculas, String matricula) {
-		
-		// Matrículas
-		List<String> matriculas = new ArrayList<String>();
-		matriculas.add(matricula);
-		
+				
 		// Verificação do CPF
-		String cpf = getKeyByValue(cpfMatriculas, matriculas);
+		String cpf = getCpfByMatricula(cpfMatriculas, matricula);
 		
 		return cpf;
+	}
+	
+	public String getCpfByMatricula(Map<String, List<String>> cpfMatriculas, String matriculaConsulta) {
+	    
+		for (Map.Entry<String, List<String>> cpfMatricula : cpfMatriculas.entrySet()) {
+		    List<String> matriculas = cpfMatricula.getValue();
+		    for (String matricula: matriculas) {		    	
+		    	if (matricula.equals(matriculaConsulta)) {
+		    		return cpfMatricula.getKey();
+		    	}
+		    }
+		}
+		
+	    return null;
 	}
 	
 	public <T, E> T getKeyByValue(Map<T, E> map, E value) {
@@ -919,8 +935,56 @@ public class MigracaoController {
 	private void migrarNivel() {
 		
 		logger.info("Migrar - Nível");
+		List<Nivel> niveis = NivelDAO.getInstance().getAll();
+		
+		for (Nivel nivel: niveis) {
+			
+			br.edu.ladoss.entity.migration.Nivel nivelMigracao = 
+					new br.edu.ladoss.entity.migration.Nivel();
+			nivelMigracao.setNome(nivel.getNome());
+			
+			logger.info("Inserir: " + nivelMigracao);
+			br.edu.ifpb.nutrif.dao.migration.NivelDAO.getInstance()
+				.insert(nivelMigracao);
+		}
 				
 		logger.info("Fim - Nível");		
+	}
+	
+	private void migrarCurso() {
+		
+		logger.info("Migrar - Curso");
+		List<Curso> cursos = CursoDAO.getInstance().getAll();
+		
+		for (Curso curso: cursos) {
+			
+			br.edu.ladoss.entity.migration.Curso cursoMigracao = 
+					new br.edu.ladoss.entity.migration.Curso();
+			cursoMigracao.setNome(curso.getNome());
+			
+			// Campus
+			Campus campus = curso.getCampus();
+			if (campus != null) {
+				br.edu.ladoss.entity.migration.Campus campusMigracao = 
+						br.edu.ifpb.nutrif.dao.migration.CampusDAO.getInstance()
+							.getById(campus.getId());
+				cursoMigracao.setCampus(campusMigracao);
+			}			
+			
+			// Nivel
+			Nivel nivel = curso.getNivel();
+			if (nivel != null) {
+				br.edu.ladoss.entity.migration.Nivel nivelMigracao =
+						br.edu.ifpb.nutrif.dao.migration.NivelDAO.getInstance()
+							.getById(nivel.getId());
+				cursoMigracao.setNivel(nivelMigracao);				
+			}
+			
+			logger.info("Inserir: " + cursoMigracao);
+			br.edu.ifpb.nutrif.dao.migration.CursoDAO.getInstance().insert(cursoMigracao);
+		}	
+		
+		logger.info("Fim - Curso");		
 	}
 
 	private void migrarCampus() {

@@ -1,7 +1,8 @@
-package br.edu.ifpb.nutrif.dao;
+package br.edu.ifpb.nutrif.dao.migration;
 
 import java.util.List;
 
+import br.edu.ifpb.nutrif.dao.GenericDao;
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
 import br.edu.ifpb.nutrif.hibernate.HibernateUtil;
 import br.edu.ladoss.entity.migration.Cpf;

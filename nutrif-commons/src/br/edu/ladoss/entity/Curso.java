@@ -68,6 +68,14 @@ public class Curso implements DataEntity {
 		this.campus = campus;
 	}
 
+	public Nivel getNivel() {
+		return nivel;
+	}
+
+	public void setNivel(Nivel nivel) {
+		this.nivel = nivel;
+	}
+	
 	@Override
 	public String toString() {
 		return "Curso [id=" + id + ", nome=" + nome + ", nivel=" + nivel + "]";
