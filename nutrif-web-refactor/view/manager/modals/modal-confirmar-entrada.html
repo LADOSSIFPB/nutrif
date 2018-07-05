@@ -1,40 +1,56 @@
-<md-dialog aria-label="Confirmar Refeição"  ng-cloak>
+<md-dialog aria-label="Confirmar Refeição" ng-cloak>
     <md-dialog-content>
         <div class="md-dialog-content">
             <h2>Deseja realmente confirmar essa refeição?</h2>
             <md-card>
+                <md-card-header class="nutrif-md-card-header">
+                    <md-card-header-text>
+                        <span class="md-title">Confirmar Refeição</span>
+                        <span class="md-subhead">Informe o CPF do Aluno para atualização dos dados cadastrais e logo após confirme a Refeição.</span>
+                    </md-card-header-text>
+                </md-card-header>
 
-                <md-table-container>
-                    <table md-table>
-                        <thead md-head>
-                            <tr md-row>
-                                <th md-column>Perfil</th>
-                                <th md-column>Nome Completo</th>
-                                <th md-column>Matrícula</th>
-                                <th md-column>Tipo da Refeição</th>
-                                <th md-column>Dia de Refeição</th>
-                                <th md-column>Pretensão/Data</th>
-                            </tr>
-                        </thead>
-                        <tbody md-body>
-                            <tr md-row>
-                                <td md-cell>
-                                  <img  class="img-perfil" src='{{image}}'/>
-                                </td>
-                                <td md-cell>{{refeicao.aluno.nome | uppercase}}</td>
-                                <td md-cell>{{refeicao.aluno.matricula}}</td>
-                                <td md-cell>{{refeicao.refeicao.tipo  | uppercase}}</td>
-                                <td md-cell>{{refeicao.dia.nome | uppercase}}</td>
-                                <td md-cell>
-                                    {{pretensaoRefeicao.ativo | yesNo}} 
-                                    / 
-                                    {{pretensaoRefeicao.confirmaPretensaoDia.dataPretensao | date:'dd/MM/yyyy'}}
-                                </td>
-                            </tr>
-                        </tbody>
+                <md-card-content layout="column">
+                    <form layout="column">
+                        <!-- CPF -->
+                        <md-input-container class="md-icon-float md-block">
+                            <label>Cpf</label>
+                            <input ng-model="refeicao.aluno.cpf" ui-mask="999.999.999-99" title="Formato para cadastro de cpf: 000.000.00-00">
+                            <div class="hint">Informe o CPF do Aluno para atualização dos dados cadastrais. A refeição poderá ser confirmada mesmo que o Aluno não possua o número. Na próxima tentativa de entrada informe ao Aluno que será necessário atualizar o cadastro com o CPF.</div>
+                        </md-input-container>
+                    </form>
 
-                    </table>
-                </md-table-container>
+
+                    <md-table-container>
+                        <table md-table>
+                            <thead md-head>
+                                <tr md-row>
+                                    <th md-column>Perfil</th>
+                                    <th md-column>Nome Completo</th>
+                                    <th md-column>Matrícula</th>
+                                    <th md-column>Tipo da Refeição</th>
+                                    <th md-column>Dia de Refeição</th>
+                                    <th md-column>Pretensão/Data</th>
+                                </tr>
+                            </thead>
+                            <tbody md-body>
+                                <tr md-row>
+                                    <td md-cell>
+                                        <img class="img-perfil" src='{{image}}' />
+                                    </td>
+                                    <td md-cell>{{refeicao.aluno.nome | uppercase}}</td>
+                                    <td md-cell>{{refeicao.aluno.matricula}}</td>
+                                    <td md-cell>{{refeicao.refeicao.tipo | uppercase}}</td>
+                                    <td md-cell>{{refeicao.dia.nome | uppercase}}</td>
+                                    <td md-cell>
+                                        {{pretensaoRefeicao.ativo | yesNo}} / {{pretensaoRefeicao.confirmaPretensaoDia.dataPretensao | date:'dd/MM/yyyy'}}
+                                    </td>
+                                </tr>
+                            </tbody>
+
+                        </table>
+                    </md-table-container>
+                </md-card-content>
             </md-card>
         </div>
     </md-dialog-content>

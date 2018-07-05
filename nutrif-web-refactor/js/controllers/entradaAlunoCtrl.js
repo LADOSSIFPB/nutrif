@@ -101,10 +101,17 @@
 
       $scope.hide = function () {
 
+          // CPF
+          var cpf = CPF.strip(refeicao.aluno.cpf);
+          
           // Dados da refeição realizada.
-          refeicaoRealizada.confirmaRefeicaoDia.diaRefeicao = {};
+          refeicaoRealizada.confirmaRefeicaoDia.diaRefeicao = {
+              aluno: {
+                  cpf: cpf
+              }
+          };
           refeicaoRealizada.confirmaRefeicaoDia.diaRefeicao.id = refeicao.id;
-          refeicaoRealizada.inspetor.id = userService.getUser().id;
+          refeicaoRealizada.inspetor.id = userService.getUser().id;         
 
           // Esconder modal.
           $mdDialog.hide();
@@ -127,7 +134,7 @@
 
       function onErrorCallback(data, status) {
           var _message = '';
-          
+
           if (!data) {
               _message = 'Erro no servidor, por favor chamar administração ou suporte.';
           } else {
@@ -167,7 +174,7 @@
       $scope.cancel = function () {
           $mdDialog.cancel();
       };
-      
+
       getImage();
-      getPretensao();      
+      getPretensao();
   }
