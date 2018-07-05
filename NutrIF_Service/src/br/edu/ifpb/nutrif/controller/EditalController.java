@@ -62,52 +62,48 @@ public class EditalController {
 						.getById(idResponsavel);
 				edital.setFuncionario(responsavel);
 				
-				// Funcionário que cadastrou o Edital.
-				int idFuncionario = edital.getFuncionario().getId();
-				Funcionario funcionario = FuncionarioDAO.getInstance()
-						.getById(idFuncionario);
-				edital.setFuncionario(funcionario);
-				
-				// Campus
-				int idCampus = edital.getCampus().getId();
-				Campus campus = CampusDAO.getInstance().getById(idCampus);
-				edital.setCampus(campus);
-				
-				// Período de validade com a hora inicial e final do dia.
-				Date dataInicial = edital.getDataInicial();
-				dataInicial = DateUtil.setTimeInDate(dataInicial, 
-						DateUtil.INICIO_DIA);
-				edital.setDataInicial(dataInicial);
-				
-				Date dataFinal = edital.getDataFinal();
-				dataFinal = DateUtil.setTimeInDate(dataFinal, 
-						DateUtil.FIM_DIA);
-				edital.setDataFinal(dataFinal);
-				
-				// Data de inserção do registro
-				Date agora = new Date();
-				edital.setDataInsercao(agora);
-				
-				if (campus != null
-						&& responsavel != null
-						&& evento != null
-						&& funcionario != null) {
-				
-					//Inserir o Aluno.
-					Integer idEdital = EditalDAO.getInstance().insert(edital);
-					
-					if (idEdital != BancoUtil.ID_VAZIO) {
-	
-						// Operação realizada com sucesso.
-						builder.status(Response.Status.OK).entity(edital);
-					} else {
-						
-						builder.status(Response.Status.NOT_MODIFIED);
+				if (idResponsavel != BancoUtil.ID_ADMINISTRADOR) {
+
+					// Funcionário que cadastrou o Edital.
+					int idFuncionario = edital.getFuncionario().getId();
+					Funcionario funcionario = FuncionarioDAO.getInstance().getById(idFuncionario);
+					edital.setFuncionario(funcionario);
+
+					// Campus
+					int idCampus = edital.getCampus().getId();
+					Campus campus = CampusDAO.getInstance().getById(idCampus);
+					edital.setCampus(campus);
+
+					// Período de validade com a hora inicial e final do dia.
+					Date dataInicial = edital.getDataInicial();
+					dataInicial = DateUtil.setTimeInDate(dataInicial, DateUtil.INICIO_DIA);
+					edital.setDataInicial(dataInicial);
+
+					Date dataFinal = edital.getDataFinal();
+					dataFinal = DateUtil.setTimeInDate(dataFinal, DateUtil.FIM_DIA);
+					edital.setDataFinal(dataFinal);
+
+					// Data de inserção do registro
+					Date agora = new Date();
+					edital.setDataInsercao(agora);
+
+					if (campus != null && responsavel != null && evento != null && funcionario != null) {
+
+						// Inserir o Aluno.
+						Integer idEdital = EditalDAO.getInstance().insert(edital);
+
+						if (idEdital != BancoUtil.ID_VAZIO) {
+
+							// Operação realizada com sucesso.
+							builder.status(Response.Status.OK).entity(edital);
+						}
 					}
 					
 				} else {
 					
-					//TODO: Mensagem de erro para Funcionário ou Campus não encontrados.
+					// Não é possível cadastrar Edital na responsabilidade do Administrador
+					Error error = ErrorFactory.getErrorFromIndex(ErrorFactory.RESPONSAVEL_ADMINISTRADOR_INVALIDO);
+					builder.entity(error);
 				}
 			
 			} catch (SQLExceptionNutrIF exception) {

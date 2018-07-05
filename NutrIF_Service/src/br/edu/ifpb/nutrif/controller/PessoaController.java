@@ -185,7 +185,7 @@ public class PessoaController {
 				
 				} else {
 					
-					builder.status(Response.Status.NOT_FOUND);
+					builder.status(Response.Status.UNAUTHORIZED);
 				}
 			
 			} catch (SQLExceptionNutrIF exception) {

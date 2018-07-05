@@ -19,6 +19,7 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import br.edu.ifpb.nutrif.dao.AlunoDAO;
 import br.edu.ifpb.nutrif.dao.DiaDAO;
 import br.edu.ifpb.nutrif.dao.DiaRefeicaoDAO;
 import br.edu.ifpb.nutrif.dao.FuncionarioDAO;
@@ -29,7 +30,9 @@ import br.edu.ifpb.nutrif.exception.ErrorFactory;
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
 import br.edu.ifpb.nutrif.util.BancoUtil;
 import br.edu.ifpb.nutrif.util.DateUtil;
+import br.edu.ifpb.nutrif.util.StringUtil;
 import br.edu.ifpb.nutrif.validation.Validate;
+import br.edu.ladoss.entity.Aluno;
 import br.edu.ladoss.entity.ConfirmaRefeicaoDia;
 import br.edu.ladoss.entity.Dia;
 import br.edu.ladoss.entity.DiaRefeicao;
@@ -69,6 +72,10 @@ public class RefeicaoRealizadaController {
 			
 			try {			
 				
+				// CPF para atualização do cadastro do Aluno.
+				String cpf = refeicaoRealizada.getConfirmaRefeicaoDia().getDiaRefeicao().getAluno() != null ?
+						refeicaoRealizada.getConfirmaRefeicaoDia().getDiaRefeicao().getAluno().getCpf(): null;
+				
 				// Recuperar o Cronograma da Refeição.
 				int idDiaRefeicao = refeicaoRealizada.getConfirmaRefeicaoDia()
 						.getDiaRefeicao().getId();
@@ -79,6 +86,10 @@ public class RefeicaoRealizadaController {
 					
 					// Data e hora atual.
 					Date agora = new Date();
+					
+					// Atualizar CPF do Aluno.
+					Aluno aluno = diaRefeicao.getAluno();
+					atualizarAlunoCPF(aluno, cpf);
 					
 					// Pretensão
 					PretensaoRefeicao pretensaoRefeicao = PretensaoRefeicaoDAO
@@ -156,6 +167,14 @@ public class RefeicaoRealizadaController {
 		return builder.build();		
 	}
 	
+	private void atualizarAlunoCPF(Aluno aluno, String cpf) {
+		
+		if (!StringUtil.isEmptyOrNull(cpf)) {			
+			aluno.setCpf(cpf);			
+			AlunoDAO.getInstance().update(aluno);
+		}		
+	}
+
 	@DenyAll
 	@GET
 	@Path("/listar")

@@ -7,6 +7,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import br.edu.ifpb.nutrif.exception.ErrorFactory;
+import br.edu.ifpb.nutrif.util.StringUtil;
 import br.edu.ladoss.entity.Aluno;
 import br.edu.ladoss.entity.Campus;
 import br.edu.ladoss.entity.ConfirmaPretensaoDia;
@@ -40,6 +41,7 @@ public class Validate {
 	private static EmailValidator emailValidator = new EmailValidator();
 	private static ImageValidator imageValidator = new ImageValidator();
 	private static DataValidator dataValidator = new DataValidator();
+	private static CpfValidator cpfValidator = new CpfValidator();
 	private static Time24HoursValidator time24HoursValidator = new Time24HoursValidator();
 
 	public static int VALIDATE_OK = 0;
@@ -471,6 +473,16 @@ public class Validate {
 				return ErrorFactory.ID_DIA_REFEICAO_INVALIDO;
 			}
 			
+			if (diaRefeicao!= null) {
+				
+				Aluno aluno = diaRefeicao.getAluno();
+				
+				if (aluno != null && 
+						(!StringUtil.isEmptyOrNull(aluno.getCpf()) && !cpfValidator.validate(aluno.getCpf()))) {
+					
+					return ErrorFactory.CPF_INVALIDO;
+				}
+			}			
 		} else {
 			
 			return ErrorFactory.CONFIRMACAO_REFEICAO_INVALIDA;

@@ -4,6 +4,8 @@ public class BancoUtil {
 
 	public static final int ID_VAZIO = 0;
 	
+	public static final int ID_ADMINISTRADOR = 517;
+	
 	public static final int QUANTIDADE_ZERO = 0;
 
 	public static boolean ATIVO = true;

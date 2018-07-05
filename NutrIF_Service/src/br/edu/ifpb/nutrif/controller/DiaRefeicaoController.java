@@ -170,9 +170,6 @@ public class DiaRefeicaoController {
 										ErrorFactory.QUANTIDADE_BENEFICIARIOS_EXCEDENTE));
 					}
 					
-				} else {
-					
-					//TODO: Informações do edital não encontrada.
 				}
 				
 			} catch (SQLExceptionNutrIF exception) {
