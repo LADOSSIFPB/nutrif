@@ -57,8 +57,6 @@ angular.module('NutrifApp').controller('cadastrarEditalCtrl', function ($scope, 
                 .action('OK')
                 .hideDelay(6000)
             );
-
-            $state.transitionTo('home.listar-edital');
         }
 
         // Selecionar responsável pelo Edital.
