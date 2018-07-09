@@ -80,11 +80,48 @@ public class RefeicaoRealizadaDAO extends GenericDao<Integer, RefeicaoRealizada>
 			
 			String hql = "from RefeicaoRealizada as rr"
 					+ " where rr.confirmaRefeicaoDia.diaRefeicao.refeicao.id = :refeicao"
-					+ " and rr.confirmaRefeicaoDia.dataRefeicao = :dataRefeicao";
+					+ " and rr.confirmaRefeicaoDia.dataRefeicao = :dataRefeicao"
+					+ " order by rr.confirmaRefeicaoDia.diaRefeicao.matricula.aluno.nome asc";
 			
 			Query query = session.createQuery(hql);
 			query.setParameter("refeicao", refeicao.getId());
 			query.setParameter("dataRefeicao", dataRefeicao);
+			
+			refeicoesRealizadas = (List<RefeicaoRealizada>) query.getResultList();
+	        
+		} catch (HibernateException hibernateException) {
+			
+			session.getTransaction().rollback();
+			
+			throw new SQLExceptionNutrIF(hibernateException);
+			
+		} finally {
+		
+			session.close();
+		}
+		
+		return refeicoesRealizadas;		
+	}
+	
+	public List<RefeicaoRealizada> listRefeicoesRealizadasAluno(
+			Refeicao refeicao, Date dataRefeicao, String nome) {
+		
+		Session session = HibernateUtil.getSessionFactory().openSession();
+
+		List<RefeicaoRealizada> refeicoesRealizadas = new ArrayList<RefeicaoRealizada>();
+		
+		try {
+			
+			String hql = "from RefeicaoRealizada as rr"
+					+ " where rr.confirmaRefeicaoDia.diaRefeicao.refeicao.id = :refeicao"
+					+ " and rr.confirmaRefeicaoDia.dataRefeicao = :dataRefeicao"
+					+ " and rr.confirmaRefeicaoDia.diaRefeicao.matricula.aluno.nome like :nome"
+					+ " order by rr.confirmaRefeicaoDia.diaRefeicao.matricula.aluno.nome asc";
+			
+			Query query = session.createQuery(hql);
+			query.setParameter("refeicao", refeicao.getId());
+			query.setParameter("dataRefeicao", dataRefeicao);
+			query.setParameter("nome", "%" + nome + "%");
 			
 			refeicoesRealizadas = (List<RefeicaoRealizada>) query.getResultList();
 	        
