@@ -16,8 +16,6 @@ public abstract class GenericDao<PK, T> {
 	
 	private static Logger logger = LogManager.getLogger(GenericDao.class);
 	
-	public abstract List<T> getAll() throws SQLExceptionNutrIF;
-	
 	public abstract Class<?> getEntityClass();
 	
 	public int insert(T entity) throws SQLExceptionNutrIF {
@@ -126,6 +124,14 @@ public abstract class GenericDao<PK, T> {
 		}
 	}
 	
+	public List<T> getAll() throws SQLExceptionNutrIF {		
+		
+		String nameClass = getEntityClass().getSimpleName();
+		String namedQuery = nameClass + ".getAll";
+		
+		return getAll(namedQuery);
+	}
+
 	public List<T> getAll(String namedQuery) throws SQLExceptionNutrIF {
 		
 		logger.info("Init abstract GetAll to: " + namedQuery);
