@@ -42,9 +42,9 @@
             </md-card-content>
 
             <!-- Exportar conteúdo para CSV -->
-            <a class="btn" title="Exportar para CSV" ng-click="extratosRefeicoesCSV.generate()" ng-href="{{ extratosRefeicoesCSV.link() }}" download="extratos_refeicoes_{{0 | relativeDate}}.csv">
+            <a class="btn" title="Exportar para CSV" ng-click="extratosRefeicoesCSV.generate()" ng-href="{{ extratosRefeicoesCSV.link() }}" download="extratos_refeicoes_{{0 | relativeDate}}.csv">    
+                <ng-md-icon icon="file_download" size="16"></ng-md-icon>
                 CVS
-                <ng-md-icon icon="import_export" size="16"></ng-md-icon>
             </a>
             
             
