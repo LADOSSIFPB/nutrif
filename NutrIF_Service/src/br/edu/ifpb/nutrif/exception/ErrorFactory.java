@@ -154,6 +154,11 @@ public class ErrorFactory {
 	// Siape
 	public static final int SIAPE_INVALIDO = 69;
 	
+	// Login e Logout
+	public static final int LOGIN_INVALIDO = 70;
+	public static final int LOGOUT_INVALIDO = 70;
+	
+	
 	/*
 	 * Mapa de erros: código e mensagem.
 	 */
@@ -229,7 +234,8 @@ public class ErrorFactory {
 		hashMap.put(ID_MATRICULA_INVALIDO, "Identificador de matrícula inválido.");
 		hashMap.put(ID_EXTRATO_REFEICAO_INVALIDO, "Extrato da refeição inválido.");
 		hashMap.put(SIAPE_INVALIDO, "Siape inválido.");
-		
+		hashMap.put(LOGIN_INVALIDO, "Login inválido.");
+		hashMap.put(LOGOUT_INVALIDO, "Logout inválido.");		
 		
 		return hashMap;
 	}
