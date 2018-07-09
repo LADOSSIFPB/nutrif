@@ -203,7 +203,9 @@ public class PessoaController {
 				
 				} else {
 					
-					builder.status(Response.Status.NOT_FOUND);
+					builder.status(Response.Status.UNAUTHORIZED)
+					.entity(ErrorFactory.getErrorFromIndex(
+							ErrorFactory.LOGIN_INVALIDO));
 				}
 			
 			} catch (SQLExceptionNutrIF exception) {

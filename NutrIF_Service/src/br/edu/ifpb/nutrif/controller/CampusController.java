@@ -17,21 +17,18 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
 import br.edu.ifpb.nutrif.dao.CampusDAO;
-import br.edu.ifpb.nutrif.dao.CursoDAO;
 import br.edu.ifpb.nutrif.exception.ErrorFactory;
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
 import br.edu.ifpb.nutrif.util.BancoUtil;
 import br.edu.ifpb.nutrif.validation.Validate;
 import br.edu.ladoss.entity.Campus;
-import br.edu.ladoss.entity.Curso;
 import br.edu.ladoss.entity.Error;
 import br.edu.ladoss.enumeration.TipoRole;
 
 @Path("campus")
 public class CampusController {
 
-	//TODO: @RolesAllowed({TipoRole.ADMIN})
-	@PermitAll
+	@RolesAllowed({TipoRole.ADMIN})
 	@POST
 	@Consumes("application/json")
 	@Produces("application/json")
