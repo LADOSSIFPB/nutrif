@@ -78,7 +78,7 @@ nutrIFApp.factory("menu", function ($location, $rootScope, userService) {
                 pages: [
                     {
                         name: 'Gráficos',
-                        state: '#',
+                        state: 'administrador.exibir-analise',
                         type: 'link'
                     },
                     {

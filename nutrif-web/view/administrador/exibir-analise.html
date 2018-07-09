@@ -13,7 +13,7 @@
 
             <!-- Salvar alterações -->
             <md-card-icon-actions>
-                <md-button aria-label="Buscar dados Estatísticos." ng-click="buscar()">
+                <md-button aria-label="Buscar dados Estatísticos." ng-click="pesquisar()">
                     <md-tooltip md-direction="bottom">Buscar</md-tooltip>
                     <ng-md-icon icon="search" size="42"></ng-md-icon>
                 </md-button>
@@ -23,13 +23,86 @@
         <md-card-content layout="column">
             <form layout="column">
 
+                <!-- Período -->
+                <!-- Data Inicial -->
+                <md-input-container class="md-input-has-placeholder">
+                    <label>Início</label>
+                    <input date="true" time="false" mdc-datetime-picker="" type="text" id="dataInicial" placeholder="Data Inicial do Período" ng-model="dataInicial" class="md-input" readonly="readonly" required>
+                </md-input-container>
+
+                <!-- Data Final -->
+                <md-input-container class="md-input-has-placeholder">
+                    <label>Fim</label>
+                    <input date="true" time="false" mdc-datetime-picker="" type="text" id="dataFinal" placeholder="Data Final do Período" ng-model="dataFinal" class="md-input" readonly="readonly" required>
+                </md-input-container>
             </form>
         </md-card-content>
     </md-card>
 
     <!-- Gráficos -->
-    <md-content class="md-padding" layout-xs="column" layout="row">
-        <div flex layout="row">            
+    <md-content class="md-padding" layout="row">
+        <div>
+            <!-- 1 
+            <md-card>
+                <md-card-header>
+                    <md-card-header-text>
+                        <span class="md-title">Comparativo</span>
+                        <span class="md-subhead">Quantidade da Pretensão x Edital x Refeições Realizadas.</span>
+                    </md-card-header-text>
+                </md-card-header>
+
+                <md-card-content>
+                    <canvas id="chart-bar" class="chart chart-bar" chart-data="data" chart-labels="labels" chart-series="series">
+                    </canvas>
+                </md-card-content>
+            </md-card>
+            -->
+            <!-- 2 -->
+            <md-card>
+                <md-card-header>
+                    <md-card-header-text>
+                        <span class="md-title">Pretensão</span>
+                        <span class="md-subhead">Refeições agendadas previamente pelos Alunos.</span>
+                    </md-card-header-text>
+                </md-card-header>
+
+                <md-card-content>
+                    <canvas id="line" class="chart chart-line" chart-data="data" chart-labels="labels" chart-series="series" chart-options="options">
+                    </canvas>
+                </md-card-content>
+            </md-card>
         </div>
+        <!--
+        <div class="dx-viewport">
+            <md-card>
+                <md-card-header>
+                    <md-card-header-text>
+                        <span class="md-title">Pretensão</span>
+                        <span class="md-subhead">Refeições agendadas previamente pelos Alunos.</span>
+                    </md-card-header-text>
+                </md-card-header>
+
+                <md-card-content>
+                    <div class="demo-container">
+                        <div id="chart" dx-chart="chartOptionsBar"></div>
+                    </div>
+                </md-card-content>
+            </md-card>
+            <md-card>
+                <md-card-header>
+                    <md-card-header-text>
+                        <span class="md-title">Pretensão</span>
+                        <span class="md-subhead">Refeições agendadas previamente pelos Alunos.</span>
+                    </md-card-header-text>
+                </md-card-header>
+
+                <md-card-content>
+                    <div class="demo-container">
+                        <div id="chart" dx-chart="chartOptionsBubble"></div>
+                    </div>
+                </md-card-content>
+            </md-card>
+        </div>
+        -->
     </md-content>
 </md-content>

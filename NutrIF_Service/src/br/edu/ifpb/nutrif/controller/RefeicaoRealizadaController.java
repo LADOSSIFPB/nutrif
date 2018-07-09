@@ -314,6 +314,50 @@ public class RefeicaoRealizadaController {
 		return builder.build();
 	}
 	
+	@RolesAllowed({TipoRole.ADMIN})
+	@GET
+	@Path("/extratorefeicao/{idExtratoRefeicao}/aluno/nome/{nome}")
+	@Produces("application/json")
+	public Response listByExtratoRefeicaoAluno(
+			@PathParam("idExtratoRefeicao") int idExtratoRefeicao,
+			@PathParam("nome") String nome) {
+
+		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
+		builder.expires(new Date());
+
+		try {
+
+			ExtratoRefeicao extratoRefeicao = ExtratoRefeicaoDAO.getInstance().getById(idExtratoRefeicao);
+			
+			if (extratoRefeicao != null) {
+				// Refeição
+				Refeicao refeicao = extratoRefeicao.getRefeicao();
+				
+				// Data do extrato
+				Date dataExtrato = extratoRefeicao.getDataExtrato();
+				
+				// Listar os dias das refeições realizadas.
+				List<RefeicaoRealizada> refeicoesRealizadas = RefeicaoRealizadaDAO
+						.getInstance().listRefeicoesRealizadasAluno(
+								refeicao, dataExtrato, nome);
+				
+				builder.status(Response.Status.OK).entity(
+						refeicoesRealizadas);
+			} else {
+				
+				builder.status(Response.Status.NOT_FOUND).entity(
+						ErrorFactory.getErrorFromIndex(
+								ErrorFactory.ID_EXTRATO_REFEICAO_INVALIDO));
+			}			
+
+		} catch (SQLExceptionNutrIF exception) {
+
+			builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(exception.getError());
+		}
+
+		return builder.build();
+	}
+	
 	/**
 	 * Consultar refeição(ões) realizada por período.
 	 * 

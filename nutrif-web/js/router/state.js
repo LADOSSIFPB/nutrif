@@ -318,13 +318,22 @@ nutrIFApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
                 permissions: ['admin']
             })
     
-            /* Administrador - Dashboard */
+            /* Administrador - Dashboard e Estatísticas */
             .state('administrador.dashboard', {
                 url: '/dashboard',
                 title: 'Dashboard',
                 templateUrl: 'view/administrador/dashboard.html',
                 controller: 'dashboardCtrl',
                 controllerAs: 'dashboard',
+                permissions: ['admin']
+            })    
+    
+            .state('administrador.exibir-analise', {
+                url: '/exibir/analise',
+                title: 'Dashboard',
+                templateUrl: 'view/administrador/exibir-analise.html',
+                controller: 'exibirAnaliseCtrl',
+                controllerAs: 'exibirAnalise',
                 permissions: ['admin']
             })
     })

@@ -32,6 +32,7 @@
     "chartjs-color-string": "^0.4.0",
     "color-name": "^1.1.2",
     "cpf_cnpj": "^0.2.0",
+    "devextreme": "^18.1.4",
     "jquery": "^3.2.1",
     "jquery-minicolors": "^2.1.10",
     "moment": "^2.18.1",
