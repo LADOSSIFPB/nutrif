@@ -36,11 +36,13 @@ public class FuncionarioDAO extends GenericDao<Integer, Funcionario> {
 			
 			String hql = "from Funcionario as f"
 					+ " where f.nome like :nome"
-					+ " and f.ativo = :ativo";
+					+ " and f.ativo = :ativo"
+					+ " and f.id != :adminId";
 			
 			Query query = session.createQuery(hql);
 			query.setParameter("nome", "%" + nome + "%");
 			query.setParameter("ativo", BancoUtil.ATIVO);
+			query.setParameter("adminId", BancoUtil.ADMIN_ID);
 			
 			funcionarios = (List<Funcionario>) query.getResultList();
 	        
