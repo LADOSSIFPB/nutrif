@@ -74,13 +74,18 @@ public class Edital {
 	 * Responsável pelo cadastramento do Edital.
 	 */
 	@OneToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "fk_id_funcionario")
+	@JoinColumn(name = "fk_id_funcionario", updatable = false)
 	private Funcionario funcionario;
 	
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "dt_insercao", nullable = false,
+	@Column(name = "dt_insercao", nullable = false, updatable = false,
 		    columnDefinition="TIMESTAMP default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP")
 	private Date dataInsercao;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "dt_madificacao", nullable = true, insertable = false, updatable = true,
+		    columnDefinition="TIMESTAMP default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP")
+	private Date dataModificacao;
 	
 	@Column(name = "is_ativo", nullable = false, insertable = true, updatable = true)
 	private boolean ativo;
@@ -146,6 +151,15 @@ public class Edital {
 
 	public void setDataInsercao(Date dataInsercao) {
 		this.dataInsercao = dataInsercao;
+	}
+	
+	@XmlElement
+	public Date getDataModificacao() {
+		return dataModificacao;
+	}
+
+	public void setDataModificacao(Date dataModificacao) {
+		this.dataModificacao = dataModificacao;
 	}
 
 	@XmlElement

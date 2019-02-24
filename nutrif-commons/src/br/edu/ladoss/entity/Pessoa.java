@@ -47,6 +47,9 @@ public class Pessoa implements Serializable {
 	@Column(name = "nm_senha")
 	private String senha;
 	
+	@Column(name = "nm_cpf", length = 11, nullable = true)
+	private String cpf;
+	
 	@Transient
 	private String keyAuth;
 
@@ -98,6 +101,15 @@ public class Pessoa implements Serializable {
 
 	public void setSenha(String senha) {
 		this.senha = senha;
+	}
+	
+	@XmlElement
+	public String getCpf() {
+		return cpf;
+	}
+
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
 	}
 
 	@JsonIgnore

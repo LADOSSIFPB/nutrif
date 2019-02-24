@@ -7,14 +7,14 @@
 	<session-factory>
 		
 		<property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
-		<property name="hibernate.connection.url">jdbc:mysql://localhost:3306/nutrif_20180617?useSSL=false&amp;useUnicode=true&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;useTimezone=true&amp;serverTimezone=America/Recife</property>
+		<property name="hibernate.connection.url">jdbc:mysql://localhost:3306/nutrif_20190119?useSSL=false&amp;useUnicode=true&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;useTimezone=true&amp;serverTimezone=America/Recife</property>
 		<property name="hibernate.connection.username">root</property>
 		<property name="hibernate.connection.password">ifpbinfo</property>
 		
 		<property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
 
 		<!-- show mysql queries output in console -->
-		<property name="hibernate.show_sql">true</property>
+		<property name="hibernate.show_sql">false</property>
 		<property name="hibernate.format_sql">true</property>
 
 		<!-- manage automatic database creation -->
@@ -65,6 +65,9 @@
 		<mapping class="br.edu.ladoss.entity.Nivel" />
 		<mapping class="br.edu.ladoss.entity.Bloqueio" />
 		<mapping class="br.edu.ladoss.entity.Motivo" />
+		
+		<!-- Suap -->
+		<mapping class="br.edu.ladoss.model.suap.AlunoSuap" />		
 
 	</session-factory>
 </hibernate-configuration>

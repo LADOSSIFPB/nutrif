@@ -42,6 +42,8 @@ import br.edu.ifpb.nutrif.dao.migration.SituacaoMatriculaDAO;
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
 import br.edu.ifpb.nutrif.util.BancoUtil;
 import br.edu.ifpb.nutrif.util.DateUtil;
+import br.edu.ifpb.nutrif.util.StringUtil;
+import br.edu.ladoss.SuapService;
 import br.edu.ladoss.entity.Aluno;
 import br.edu.ladoss.entity.Campus;
 import br.edu.ladoss.entity.Curso;
@@ -76,6 +78,77 @@ public class MigracaoController {
 	private static int UM_DIA = 1;
 	
 	private static int MATRICULADO = 1;
+	
+	/**
+	 * Migração completa.
+	 * 
+	 * @return
+	 */
+	@RolesAllowed({ TipoRole.ADMIN })
+	@GET
+	@Path("/verificar")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public Response consultarSuap() {
+		
+		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
+		builder.expires(new Date());
+
+		try {
+			
+			logger.info("Consultar matrículas dos Alunos no Suap - Iniciar processo...");
+			
+			// Paginação da consulta.
+			Long quantidadeAluno = AlunoDAO.getInstance().getQuantidadeTotalAluno();
+			Double quantidadePaginas = Math.floor(quantidadeAluno/LIMIT_QUERY) + 1;
+			logger.info("Quantidade de página(s) - Aluno: " + quantidadePaginas.intValue());
+			
+			for (int paginaAtual = 1; paginaAtual <= quantidadePaginas; paginaAtual++) {
+				
+				List<Aluno> alunos = AlunoDAO.getInstance().getAll(paginaAtual, LIMIT_QUERY);
+				logger.info("Item(ns) por página:" + alunos.size());
+				
+				for (Aluno aluno: alunos) {
+					
+					// Pesquisa Aluno no Suap.
+					String matricula = aluno.getMatricula();
+					logger.info("Buscar Aluno no Suap: " + matricula);
+					br.edu.ladoss.model.suap.AlunoSuap alunoSuap = SuapService
+							.getAlunoByMatricula(matricula);
+					logger.info("Encontrado: " + alunoSuap);
+					
+					if (alunoSuap != null) {
+						
+						String cpf = StringUtil.tirarMascaraCpfCnpj(alunoSuap.getCpf());
+						alunoSuap.setCpf(cpf);
+						
+						// Aluno Suap
+						int idAlunoSuap = br.edu.ifpb.nutrif.dao.suap.AlunoSuapDAO.getInstance()
+								.insert(alunoSuap);
+						
+						// Aluno NutrIF
+						aluno.setSuap(BancoUtil.ENCONTRADO_SUAP);
+						AlunoDAO.getInstance().update(aluno);
+						
+					} else {
+						
+						aluno.setSuap(BancoUtil.NAO_ENCONTRADO_SUAP);
+						AlunoDAO.getInstance().update(aluno);
+					}					
+				}
+			}
+			
+			logger.info("Consultar matrículas dos Alunos no Suap - Processo finalizado!");
+
+		} catch (SQLExceptionNutrIF exception) {
+
+			builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(exception.getError());
+		}
+
+		builder.status(Response.Status.OK);
+		
+		return builder.build();
+	}
 	
 	/**
 	 * Migração completa.
@@ -262,8 +335,8 @@ public class MigracaoController {
 					extratoRefeicao.setDataExtrato(dataRefeicao);
 					extratoRefeicao.setDia(dia);
 					extratoRefeicao.setRefeicao(refeicao);
-					extratoRefeicao.setQuantidadeRefeicoes(quantidadeRefeicoes.intValue());
-					extratoRefeicao.setDataExcucao(agora);
+					extratoRefeicao.setQuantidadeRefeicaoRealizada(quantidadeRefeicoes.intValue());
+					extratoRefeicao.setDataExecucao(agora);
 					
 					logger.info("Inserir: " + extratoRefeicao);
 					ExtratoRefeicaoDAO.getInstance().insert(extratoRefeicao);
@@ -524,8 +597,11 @@ public class MigracaoController {
 			
 			for (Aluno aluno: alunos) {
 				
+				String numeroMatricula = aluno.getMatricula();
+				
 				// Verificar se a Pessoa do Aluno já foi inserido.
-				String cpf = getCpf(cpfMatriculas, aluno.getMatricula());
+				String cpf = StringUtil.isEmptyOrNull(aluno.getCpf()) ? getCpf(cpfMatriculas, numeroMatricula)
+						: aluno.getCpf();
 				
 				br.edu.ladoss.entity.migration.Aluno alunoMigracao = 
 						br.edu.ifpb.nutrif.dao.migration.AlunoDAO
@@ -546,6 +622,12 @@ public class MigracaoController {
 					alunoMigracao.setAtivo(aluno.isAtivo());
 					alunoMigracao.setDataInsercao(agora);
 					alunoMigracao.setAcesso(aluno.isAcesso());
+					
+					if (StringUtil.isEmptyOrNull(cpf)) {
+						cpf = AlunoDAO.getInstance().getByMatricula(numeroMatricula).getCpf();
+						logger.info("CPF do Aluno extraído de produção: " + cpf);
+					}
+					
 					alunoMigracao.setCpf(cpf);
 					alunoMigracao.setTipo(Aluno.TIPO_ALUNO);
 					
@@ -561,6 +643,7 @@ public class MigracaoController {
 								
 					logger.info("Inserir: " + alunoMigracao);
 					br.edu.ifpb.nutrif.dao.migration.AlunoDAO.getInstance().insert(alunoMigracao);
+					
 				} else {
 					
 					logger.info("Aluno já inserido: " + cpf);

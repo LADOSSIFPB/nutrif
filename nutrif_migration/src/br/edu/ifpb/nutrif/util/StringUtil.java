@@ -34,13 +34,13 @@ public class StringUtil {
 		return orc;
 	}
 
-	public static String tirarMascaraCNPJ(String cnpj) {
+	public static String tirarMascaraCpfCnpj(String valor) {
 
-		cnpj = cnpj.replace(".", "");
-		cnpj = cnpj.replace("/", "");
-		cnpj = cnpj.replace("-", "");
+		valor = valor.replace(".", "");
+		valor = valor.replace("/", "");
+		valor = valor.replace("-", "");
 
-		return cnpj;
+		return valor;
 	}
 
 	public static String criptografarSha256(String valorPlano)

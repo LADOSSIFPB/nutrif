@@ -44,12 +44,18 @@ public class ExtratoRefeicao {
 	@JoinColumn(name = "fk_id_campus")
 	private Campus campus;
 	
-	@Column(name = "qtd_refeicoes")
-	private int quantidadeRefeicoes;
+	@Column(name = "qtd_pretencao_refeicao")
+	private int quantidadePretensaoRefeicao;
+	
+	@Column(name = "qtd_refeicao_realizada")
+	private int quantidadeRefeicaoRealizada;
+	
+	@Column(name = "qtd_refeicao_nao_realizada")
+	private int quantidadeRefeicaoNaoRealizada;
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "dt_execucao", insertable = true, updatable = true)
-	private Date dataExcucao;
+	private Date dataExecucao;
 
 	@XmlElement
 	public Integer getId() {
@@ -95,32 +101,52 @@ public class ExtratoRefeicao {
 	public void setCampus(Campus campus) {
 		this.campus = campus;
 	}
-
+	
 	@XmlElement
-	public int getQuantidadeRefeicoes() {
-		return quantidadeRefeicoes;
+	public int getQuantidadePretensaoRefeicao() {
+		return quantidadePretensaoRefeicao;
 	}
 
-	public void setQuantidadeRefeicoes(int quantidadeRefeicoes) {
-		this.quantidadeRefeicoes = quantidadeRefeicoes;
+	public void setQuantidadePretensaoRefeicao(int quantidadePretensaoRefeicao) {
+		this.quantidadePretensaoRefeicao = quantidadePretensaoRefeicao;
+	}
+
+	@XmlElement
+	public int getQuantidadeRefeicaoRealizada() {
+		return quantidadeRefeicaoRealizada;
+	}
+
+	public void setQuantidadeRefeicaoRealizada(int quantidadeRefeicaoRealizada) {
+		this.quantidadeRefeicaoRealizada = quantidadeRefeicaoRealizada;
+	}
+
+	@XmlElement
+	public int getQuantidadeRefeicaoNaoRealizada() {
+		return quantidadeRefeicaoNaoRealizada;
+	}
+
+	public void setQuantidadeRefeicaoNaoRealizada(int quantidadeRefeicaoNaoRealizada) {
+		this.quantidadeRefeicaoNaoRealizada = quantidadeRefeicaoNaoRealizada;
 	}
 	
 	@XmlElement
-	public Date getDataExcucao() {
-		return dataExcucao;
+	public Date getDataExecucao() {
+		return dataExecucao;
 	}
 
-	public void setDataExcucao(Date dataExcucao) {
-		this.dataExcucao = dataExcucao;
+	public void setDataExecucao(Date dataExcucao) {
+		this.dataExecucao = dataExcucao;
 	}
 	
 	@Override
 	public String toString() {
-		return "Migração - ExtratoRefeicao [id=" + id 
+		return "Migracao - ExtratoRefeicao [id=" + id 
 				+ ", dia=" + dia
 				+ ", refeicao=" + refeicao
 				+ ", campus=" + campus
 				+ ", dataExtrato=" + dataExtrato
-				+ ", quantidade=" + quantidadeRefeicoes +"]";
+				+ ", quantidadePretensaoRefeicao=" + quantidadePretensaoRefeicao
+				+ ", quantidadeRefeicaoRealizada=" + quantidadeRefeicaoRealizada 
+				+ ", quantidadeRefeicaoNaoRealizada=" + quantidadeRefeicaoNaoRealizada +"]";
 	}	
 }

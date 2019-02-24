@@ -47,7 +47,7 @@ public class Pessoa implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id_pessoa", insertable=true)
+	@Column(name = "id_pessoa")
 	private Integer id;
 
 	@Column(name = "nm_pessoa", nullable = false)
@@ -86,13 +86,20 @@ public class Pessoa implements Serializable {
 	public static String TIPO_ALUNO = "2";
 	
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "dt_insercao", nullable = false,
+	@Column(name = "dt_insercao", nullable = false, updatable = false,
 		    columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
 	private Date dataInsercao;
 	
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "dt_modificacao", nullable = true)
+	@Column(name = "dt_modificacao", nullable = true, updatable = true)
 	private Date dataModificacao;
+	
+	/**
+	 * Responsável pelo cadastramento da Pessoa.
+	 */
+	@OneToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "fk_id_funcionario", nullable = true, updatable = false)
+	private Funcionario funcionario;
 	
 	@XmlElement
 	public Integer getId() {
@@ -200,6 +207,15 @@ public class Pessoa implements Serializable {
 
 	public void setDataModificacao(Date dataModificacao) {
 		this.dataModificacao = dataModificacao;
+	}
+	
+	@XmlElement
+	public Funcionario getFuncionario() {
+		return funcionario;
+	}
+
+	public void setFuncionario(Funcionario funcionario) {
+		this.funcionario = funcionario;
 	}
 	
 	@Override

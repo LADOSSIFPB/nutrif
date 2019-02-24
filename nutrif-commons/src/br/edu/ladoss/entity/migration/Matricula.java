@@ -55,6 +55,13 @@ public class Matricula {
 	@Column(name = "is_ativo", nullable = false, insertable = true, updatable = true)
 	private boolean ativo;
 	
+	/**
+	 * Responsável pelo cadastramento da Matrícula.
+	 */
+	@OneToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "fk_id_funcionario", nullable = true, updatable = false)
+	private Funcionario funcionario;
+	
 	@XmlElement
 	public Integer getId() {
 		return id;
@@ -133,6 +140,15 @@ public class Matricula {
 
 	public void setAtivo(boolean ativo) {
 		this.ativo = ativo;
+	}
+	
+	@XmlElement
+	public Funcionario getFuncionario() {
+		return funcionario;
+	}
+
+	public void setFuncionario(Funcionario funcionario) {
+		this.funcionario = funcionario;
 	}
 	
 	@Override

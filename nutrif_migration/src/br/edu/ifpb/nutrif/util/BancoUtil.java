@@ -13,5 +13,9 @@ public class BancoUtil {
 	public static boolean VALIDO = true;
 	
 	public static boolean INVALIDO = false;
+	
+	public static boolean ENCONTRADO_SUAP = true;
+	
+	public static boolean NAO_ENCONTRADO_SUAP = false;
 
 }
