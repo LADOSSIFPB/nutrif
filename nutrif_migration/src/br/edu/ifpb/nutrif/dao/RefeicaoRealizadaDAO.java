@@ -11,6 +11,7 @@ import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Property;
@@ -30,8 +31,17 @@ public class RefeicaoRealizadaDAO extends GenericDao<Integer, RefeicaoRealizada>
 
 	private static RefeicaoRealizadaDAO instance;
 
+	public RefeicaoRealizadaDAO(SessionFactory sessionFactory) {
+		super(sessionFactory);
+	}
+	
 	public RefeicaoRealizadaDAO() {
 		super(HibernateUtil.getSessionFactoryOld());
+	}
+	
+	public static RefeicaoRealizadaDAO getInstance(SessionFactory sessionFactory) {
+		instance = new RefeicaoRealizadaDAO(sessionFactory);
+		return instance;
 	}
 	
 	public static RefeicaoRealizadaDAO getInstance() {
@@ -90,6 +100,41 @@ public class RefeicaoRealizadaDAO extends GenericDao<Integer, RefeicaoRealizada>
 			
 			Query query = session.createQuery(hql);
 			query.setParameter("idRefeicao", idRefeicaoRealizada);
+			
+			refeicoesRealizadas = (List<RefeicaoRealizada>) query.list();
+	        
+		} catch (HibernateException hibernateException) {
+			
+			session.getTransaction().rollback();
+			
+			throw new SQLExceptionNutrIF(hibernateException);
+			
+		} finally {
+		
+			session.close();
+		}
+		
+		return refeicoesRealizadas;
+		
+	}
+	
+	public List<RefeicaoRealizada> getRefeicoesRealizadasByDiaRefeicaoDataRefeicao(int idRefeicaoRealizada, 
+			Date dataRefeicao) {
+		
+		
+		Session session = super.getSessionFactory().openSession();
+
+		List<RefeicaoRealizada> refeicoesRealizadas = new ArrayList<RefeicaoRealizada>();
+		
+		try {
+			
+			String hql = "from RefeicaoRealizada as rr"
+					+ " where rr.confirmaRefeicaoDia.diaRefeicao.id = :idRefeicao"
+					+ " and rr.confirmaRefeicaoDia.dataRefeicao >= :dataRefeicao";;
+			
+			Query query = session.createQuery(hql);
+			query.setParameter("idRefeicao", idRefeicaoRealizada);
+			query.setParameter("dataRefeicao", dataRefeicao);
 			
 			refeicoesRealizadas = (List<RefeicaoRealizada>) query.list();
 	        

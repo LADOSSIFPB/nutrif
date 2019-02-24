@@ -23,7 +23,7 @@ public class Cpf {
 	@Column(name = "nr_matricula")
 	private String matricula;
 	
-	@Column(name = "nr_cpf")
+	@Column(name = "nm_cpf")
 	private String numero;
 
 	public String getMatricula() {

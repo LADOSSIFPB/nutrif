@@ -7,6 +7,7 @@ import org.apache.logging.log4j.Logger;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
 import br.edu.ifpb.nutrif.hibernate.HibernateUtil;
@@ -19,8 +20,17 @@ public class EditalDAO extends GenericDao<Integer, Edital>{
 	
 	private static EditalDAO instance;
 	
+	public EditalDAO(SessionFactory sessionFactory) {
+		super(sessionFactory);
+	}
+	
 	public EditalDAO() {
 		super(HibernateUtil.getSessionFactoryOld());
+	}
+	
+	public static EditalDAO getInstance(SessionFactory sessionFactory) {
+		instance = new EditalDAO(sessionFactory);
+		return instance;
 	}
 	
 	public static EditalDAO getInstance() {

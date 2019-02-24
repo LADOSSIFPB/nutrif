@@ -42,6 +42,9 @@ public class Aluno extends Pessoa {
 	@Column(name = "is_acesso")
 	private boolean acesso;
 	
+	@Column(name = "is_suap")
+	private boolean suap;
+	
 	public Aluno() {}
 	
 	public Aluno(int idPessoa) {
@@ -92,8 +95,17 @@ public class Aluno extends Pessoa {
 		this.idMigracao = idMigracao;
 	}
 	
+	@XmlElement
+	public boolean isSuap() {
+		return suap;
+	}
+
+	public void setSuap(boolean suap) {
+		this.suap = suap;
+	}
+	
 	@Override
 	public String toString() {
 		return "Aluno [" + super.toString() + "]";
-	}	
+	}		
 }

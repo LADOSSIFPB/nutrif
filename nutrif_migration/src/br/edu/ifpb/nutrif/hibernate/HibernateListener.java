@@ -8,6 +8,7 @@ public class HibernateListener implements ServletContextListener {
     public void contextInitialized(ServletContextEvent event) {  
         HibernateUtil.getSessionFactoryOld();
         HibernateUtil.getSessionFactoryMigration();
+        HibernateUtil.getSessionFactoryTransicao();
     }  
   
     public void contextDestroyed(ServletContextEvent event) {  

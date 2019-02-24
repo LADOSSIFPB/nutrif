@@ -9,6 +9,7 @@ import org.apache.logging.log4j.Logger;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
 import br.edu.ifpb.nutrif.hibernate.HibernateUtil;
@@ -23,8 +24,17 @@ public class AlunoDAO extends GenericDao<Integer, Aluno> {
 	
 	private static AlunoDAO instance;
 	
+	public AlunoDAO(SessionFactory sessionFactory) {
+		super(sessionFactory);
+	}
+	
 	public AlunoDAO() {
 		super(HibernateUtil.getSessionFactoryOld());
+	}
+	
+	public static AlunoDAO getInstance(SessionFactory sessionFactory) {		
+		instance = new AlunoDAO(sessionFactory);		
+		return instance;
 	}
 	
 	public static AlunoDAO getInstance() {		
@@ -93,7 +103,7 @@ public class AlunoDAO extends GenericDao<Integer, Aluno> {
 	
 	public Aluno getByMatricula(String matricula) {
 		
-		Session session = HibernateUtil.getSessionFactoryOld().openSession();
+		Session session = super.getSessionFactory().openSession();
 		
 		Aluno aluno = null;
 		

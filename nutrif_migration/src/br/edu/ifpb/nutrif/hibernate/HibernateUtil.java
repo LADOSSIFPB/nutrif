@@ -12,6 +12,8 @@ public class HibernateUtil {
     private static final SessionFactory sessionFactoryOld = buildSessionFactory("hibernate_old.cfg.xml");
     
     private static final SessionFactory sessionFactoryMigration = buildSessionFactory("hibernate_migration.cfg.xml");
+    
+    private static final SessionFactory sessionFactoryTransicao = buildSessionFactory("hibernate_transicao.cfg.xml");
   
     private static SessionFactory buildSessionFactory(String configName) {
         try {
@@ -39,11 +41,16 @@ public class HibernateUtil {
     public static SessionFactory getSessionFactoryMigration() {
         return sessionFactoryMigration;
     }
+    
+    public static SessionFactory getSessionFactoryTransicao() {
+        return sessionFactoryTransicao;
+    }
   
     public static void shutdown() {
         // Close caches and connection pools
         getSessionFactoryOld().close();
         getSessionFactoryMigration().close();
+        getSessionFactoryTransicao().close();
     }
   
 }

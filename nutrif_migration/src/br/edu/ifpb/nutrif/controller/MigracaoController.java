@@ -40,12 +40,14 @@ import br.edu.ifpb.nutrif.dao.migration.ExtratoRefeicaoDAO;
 import br.edu.ifpb.nutrif.dao.migration.MatriculaDAO;
 import br.edu.ifpb.nutrif.dao.migration.SituacaoMatriculaDAO;
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
+import br.edu.ifpb.nutrif.hibernate.HibernateUtil;
 import br.edu.ifpb.nutrif.util.BancoUtil;
 import br.edu.ifpb.nutrif.util.DateUtil;
 import br.edu.ifpb.nutrif.util.StringUtil;
 import br.edu.ladoss.SuapService;
 import br.edu.ladoss.entity.Aluno;
 import br.edu.ladoss.entity.Campus;
+import br.edu.ladoss.entity.ConfirmaRefeicaoDia;
 import br.edu.ladoss.entity.Curso;
 import br.edu.ladoss.entity.Dia;
 import br.edu.ladoss.entity.DiaRefeicao;
@@ -86,7 +88,138 @@ public class MigracaoController {
 	 */
 	@RolesAllowed({ TipoRole.ADMIN })
 	@GET
-	@Path("/verificar")
+	@Path("/corrigir/edital")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public Response criarEditaisTransicao() {
+		
+		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
+		builder.expires(new Date());
+
+		try {
+			
+			logger.info("Criação do Editais de Transição - Iniciar processo...");
+					
+			// Buscar Editais vigentes em 2019.
+			logger.info("Buscar Editais vigentes em 2019");
+			List<Edital> editais = EditalDAO.getInstance().listVigentes();
+			
+			// Criar Editais de transição.
+			for (Edital edital : editais) {
+				logger.info("Edital vigente: " + edital);
+				int idEditalTransicao = edital.getId();
+				
+				String nome = edital.getNome() + " - Transição";
+				Campus campus = edital.getCampus();
+				int quantidadeBeneficiadosPrevista = edital.getQuantidadeBeneficiadosPrevista();
+				Date dataInicial = DateUtil.setDateTime(2019, 2, 11, 0, 0, 0);
+				Date dataFinal = DateUtil.setDateTime(2019, 3, 1, 23, 59, 59);
+				Evento evento = edital.getEvento();
+				Funcionario responsavel = edital.getResponsavel();
+				boolean previstoPretensao = edital.isPrevistoPretensao();
+				Funcionario funcionario = edital.getFuncionario();
+				Date dataInsercao = edital.getDataInsercao();
+				boolean ativo = edital.isAtivo();
+				
+				Edital novoEdital = new Edital();
+				novoEdital.setNome(nome);
+				novoEdital.setCampus(campus);
+				novoEdital.setQuantidadeBeneficiadosPrevista(quantidadeBeneficiadosPrevista);
+				novoEdital.setDataInicial(dataInicial);
+				novoEdital.setDataFinal(dataFinal);
+				novoEdital.setEvento(evento);
+				novoEdital.setResponsavel(responsavel);
+				novoEdital.setPrevistoPretensao(previstoPretensao);
+				novoEdital.setFuncionario(funcionario);
+				novoEdital.setDataInsercao(dataInsercao);
+				novoEdital.setAtivo(ativo);
+				
+				int novoIdEdital = EditalDAO.getInstance().insert(novoEdital);
+				logger.info("Edital novo: " + novoEdital);
+				
+				// Associar dias de refeições ativos aos novos editais de transição.
+				// Na base 22-02
+				logger.info("Buscar Dias de Refeição da base de transição.");
+				List<DiaRefeicao> diasRefeicaoTransicao = DiaRefeicaoDAO.getInstance(
+						HibernateUtil.getSessionFactoryTransicao()).listDiaRefeicaoByEdital(idEditalTransicao);
+				
+				for (DiaRefeicao diaRefeicaoTransicao : diasRefeicaoTransicao) {
+					
+					Aluno aluno = AlunoDAO.getInstance().getByMatricula(diaRefeicaoTransicao.getAluno().getMatricula());
+					
+					if (aluno != null) {
+						
+						logger.info("DiaRefeicao Transição: " + diaRefeicaoTransicao);
+						int idDiaRefeicaoTransicao = diaRefeicaoTransicao.getId();
+						
+						// Preparar o novo dia de refeição
+						DiaRefeicao novoDiaRefeicao = new DiaRefeicao();
+						novoDiaRefeicao.setAluno(diaRefeicaoTransicao.getAluno());
+						novoDiaRefeicao.setDia(diaRefeicaoTransicao.getDia());
+						novoDiaRefeicao.setRefeicao(diaRefeicaoTransicao.getRefeicao());
+						novoDiaRefeicao.setEdital(novoEdital); // Edital de transição criado.
+						novoDiaRefeicao.setDataInsercao(diaRefeicaoTransicao.getDataInsercao());
+						novoDiaRefeicao.setFuncionario(diaRefeicaoTransicao.getFuncionario());
+						novoDiaRefeicao.setAtivo(diaRefeicaoTransicao.isAtivo());
+						
+						// Inserir novo dia de refeição.
+						int novoIdDiaRefeicao = DiaRefeicaoDAO.getInstance().insert(novoDiaRefeicao);
+						logger.info("DiaRefeicao novo: " + novoDiaRefeicao);
+						
+						// Buscar refeições realizadas.
+						// Na base 22-02
+						logger.info("BuscarRefeições Realizadas da base de transição.");
+						Date dataInicioTransicao = DateUtil.setDateTime(2019, 2, 11, 0, 0, 0);
+						List<RefeicaoRealizada> refeicoesRealizadasTransicao = RefeicaoRealizadaDAO.getInstance(
+								HibernateUtil.getSessionFactoryTransicao())
+									.getRefeicoesRealizadasByDiaRefeicaoDataRefeicao(idDiaRefeicaoTransicao, 
+											dataInicioTransicao);
+						
+						for (RefeicaoRealizada refeicaoRealizadaTransicao : refeicoesRealizadasTransicao) {
+							
+							logger.info("Refeição Realizada Transição: " + refeicaoRealizadaTransicao);
+							
+							// Preparar o novas refeições realizadas.
+							RefeicaoRealizada novaRefeicaoRealizada = new RefeicaoRealizada();
+							
+							ConfirmaRefeicaoDia confirmaRefeicaoDia = refeicaoRealizadaTransicao.getConfirmaRefeicaoDia();
+							confirmaRefeicaoDia.setDiaRefeicao(novoDiaRefeicao);
+							novaRefeicaoRealizada.setConfirmaRefeicaoDia(confirmaRefeicaoDia);
+							novaRefeicaoRealizada.setHoraRefeicao(refeicaoRealizadaTransicao.getHoraRefeicao());
+							novaRefeicaoRealizada.setInspetor(refeicaoRealizadaTransicao.getInspetor());
+							
+							//Inserir nova refeição realizada.
+							int novoIdRefeicaoRealizada = RefeicaoRealizadaDAO.getInstance().insert(novaRefeicaoRealizada);
+							logger.info("RefeicaoRealizada novo: " + novaRefeicaoRealizada);
+						}
+						
+					} else {
+						
+						logger.info("DiaRefeicao Irregular: " + diaRefeicaoTransicao);
+					}
+				}
+			}			
+			
+			logger.info("Criação do Editais de Transição - Finalizado processo!");
+			
+		} catch (SQLExceptionNutrIF exception) {
+
+			builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(exception.getError());
+		}
+
+		builder.status(Response.Status.OK);
+		
+		return builder.build();
+	}
+	
+	/**
+	 * Migração completa.
+	 * 
+	 * @return
+	 */
+	@RolesAllowed({ TipoRole.ADMIN })
+	@GET
+	@Path("/verificar/suap")
 	@Consumes("application/json")
 	@Produces("application/json")
 	public Response consultarSuap() {
@@ -623,11 +756,20 @@ public class MigracaoController {
 					alunoMigracao.setDataInsercao(agora);
 					alunoMigracao.setAcesso(aluno.isAcesso());
 					
+					Boolean isSuap = false;
+					
 					if (StringUtil.isEmptyOrNull(cpf)) {
+						
 						cpf = AlunoDAO.getInstance().getByMatricula(numeroMatricula).getCpf();
 						logger.info("CPF do Aluno extraído de produção: " + cpf);
-					}
+						
+					} else {
+						
+						isSuap = CpfDAO.getInstance().isCpfSuap(cpf);
+						logger.info("CPF do Aluno encontrado no Suap: " + isSuap);
+					}					
 					
+					alunoMigracao.setSuap(isSuap);
 					alunoMigracao.setCpf(cpf);
 					alunoMigracao.setTipo(Aluno.TIPO_ALUNO);
 					

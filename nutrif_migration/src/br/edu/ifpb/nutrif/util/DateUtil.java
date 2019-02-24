@@ -13,6 +13,7 @@ import org.joda.time.Duration;
 import org.joda.time.Hours;
 import org.joda.time.Instant;
 import org.joda.time.Interval;
+import org.joda.time.LocalDate;
 import org.joda.time.Minutes;
 import org.joda.time.Period;
 import org.joda.time.Weeks;
@@ -143,6 +144,14 @@ public class DateUtil {
 		
 		return minutes;
 	}
+		
+	public static Date setDate(int year, int month, int day) {
+		
+		LocalDate localDate = new LocalDate(year, month, day);
+		Date date = localDate.toDate();
+		
+		return date;
+	}
 	
 	public static Date setTimeInDate(Date date, int hora, int minuto, 
 			int segundo) {
@@ -157,6 +166,12 @@ public class DateUtil {
 		Date newDate = calendar.getTime();
 		
 		return newDate;		
+	}
+	
+	public static Date setDateTime(int year, int month, int day,
+			int hora, int minuto, int segundo) {
+		Date date = setDate(year, month, day);
+		return setTimeInDate(date, hora, minuto, segundo);
 	}
 	
 	public static Date setTimeInDate(Date date, Date newTime) {

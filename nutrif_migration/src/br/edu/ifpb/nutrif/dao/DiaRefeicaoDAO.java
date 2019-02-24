@@ -9,6 +9,7 @@ import org.apache.logging.log4j.Logger;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
 import br.edu.ifpb.nutrif.hibernate.HibernateUtil;
@@ -27,8 +28,17 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 
 	private static DiaRefeicaoDAO instance;
 
+	public DiaRefeicaoDAO(SessionFactory sessionFactory) {
+		super(sessionFactory);
+	}
+	
 	public DiaRefeicaoDAO() {
 		super(HibernateUtil.getSessionFactoryOld());
+	}
+	
+	public static DiaRefeicaoDAO getInstance(SessionFactory sessionFactory) {
+		instance = new DiaRefeicaoDAO(sessionFactory);
+		return instance;
 	}
 	
 	public static DiaRefeicaoDAO getInstance() {
@@ -631,14 +641,13 @@ public class DiaRefeicaoDAO extends GenericDao<Integer, DiaRefeicao> {
 	 */
 	public List<DiaRefeicao> listDiaRefeicaoByEdital(Integer idEdital) {
 
-		Session session = HibernateUtil.getSessionFactoryOld().openSession();
+		Session session = super.getSessionFactory().openSession();
 
 		List<DiaRefeicao> diasRefeicao = new ArrayList<DiaRefeicao>();
 
 		try {
 
-			String hql = "select distinct dr.aluno.id"
-					+ " from DiaRefeicao as dr"
+			String hql = "from DiaRefeicao as dr"
 					+ " where dr.edital.id = :idEdital"
 					+ " and dr.ativo = :ativo";
 

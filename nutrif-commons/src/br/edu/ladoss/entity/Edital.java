@@ -75,7 +75,7 @@ public class Edital {
 	private Funcionario funcionario;
 	
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "dt_insercao", nullable = false,
+	@Column(name = "dt_insercao", nullable = false, updatable = false,
 		    columnDefinition="TIMESTAMP default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP")
 	private Date dataInsercao;
 	
