@@ -7,7 +7,7 @@
 	<session-factory>
 		
 		<property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
-		<property name="hibernate.connection.url">jdbc:mysql://localhost:3306/nutrif_migracao3?useSSL=false&amp;useUnicode=true&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;useTimezone=true&amp;serverTimezone=America/Recife</property>
+		<property name="hibernate.connection.url">jdbc:mysql://localhost:3306/nutrif2_producao_20190226?useSSL=false&amp;useUnicode=true&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;useTimezone=true&amp;serverTimezone=America/Recife</property>
 		<property name="hibernate.connection.username">root</property>
 		<property name="hibernate.connection.password">ifpbinfo</property>
 		
@@ -18,7 +18,7 @@
 		<property name="hibernate.format_sql">true</property>
 
 		<!-- manage automatic database creation: validate, update, create -->
-		<property name="hibernate.hbm2ddl.auto">update</property>
+		<property name="hibernate.hbm2ddl.auto">validate</property>
 
 		<!-- <property name="hibernate.discriminator.ignore_explicit_for_joined">true</property> -->
 

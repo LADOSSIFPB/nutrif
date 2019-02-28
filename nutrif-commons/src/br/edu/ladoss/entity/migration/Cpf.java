@@ -11,7 +11,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "cpf")
 @Entity
-@Table(name = "tb_cpf_migration")
+@Table(name = "tb_cpf")
 @NamedQuery(name = "Cpf.getAll", query = "from Cpf")
 public class Cpf {
 	

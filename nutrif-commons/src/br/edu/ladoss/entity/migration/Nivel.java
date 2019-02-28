@@ -12,7 +12,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "nivel")
 @Entity
-@Table(name = "tb_nivel_migration")
+@Table(name = "tb_nivel")
 @NamedQuery(name = "Nivel.getAll", query = "from Nivel")
 public class Nivel {
 

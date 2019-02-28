@@ -20,7 +20,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "login")
 @Entity
-@Table(name = "tb_login_migration")
+@Table(name = "tb_login")
 @NamedQuery(name = "Login.getAll", query = "from Login")
 public class Login {
 

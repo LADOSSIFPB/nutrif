@@ -24,7 +24,7 @@ import br.edu.ladoss.data.DataEntity;
 
 @XmlRootElement(name = "diaRefeicao")
 @Entity
-@Table(name = "tb_dia_refeicao_migration")
+@Table(name = "tb_dia_refeicao")
 @NamedQuery(name = "DiaRefeicao.getAll", query = "from DiaRefeicao")
 public class DiaRefeicao implements DataEntity {
 	

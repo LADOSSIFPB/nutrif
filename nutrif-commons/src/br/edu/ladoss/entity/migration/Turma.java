@@ -12,7 +12,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "turma")
 @Entity
-@Table(name = "tb_turma_migration")
+@Table(name = "tb_turma")
 @NamedQuery(name = "Turma.getAll", query = "from Turma")
 public class Turma {	
 

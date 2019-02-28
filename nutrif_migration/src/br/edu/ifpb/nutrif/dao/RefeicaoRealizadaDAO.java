@@ -4,18 +4,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.james.mime4j.storage.Storage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.DetachedCriteria;
-import org.hibernate.criterion.Projections;
-import org.hibernate.criterion.Property;
-import org.hibernate.criterion.Restrictions;
 
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
 import br.edu.ifpb.nutrif.hibernate.HibernateUtil;
@@ -206,6 +200,39 @@ public class RefeicaoRealizadaDAO extends GenericDao<Integer, RefeicaoRealizada>
 			Query query = session.createQuery(hql);
 			query.setParameter("matricula", matricula);
 			query.setParameter("dia", dia.getId());
+			
+			refeicaoRealizada = (RefeicaoRealizada) query.uniqueResult();
+	        
+		} catch (HibernateException hibernateException) {
+			
+			session.getTransaction().rollback();
+			
+			throw new SQLExceptionNutrIF(hibernateException);
+			
+		} finally {
+		
+			session.close();
+		}
+		
+		return refeicaoRealizada;		
+	}
+	
+	
+	public RefeicaoRealizada getById(int idRefeicaoRealizada) {
+		
+		Session session = HibernateUtil.getSessionFactoryOld().openSession();
+
+		RefeicaoRealizada refeicaoRealizada = null;
+		
+		try {
+			
+			Dia dia = DateUtil.getCurrentDayOfWeek();
+			
+			String hql = "from RefeicaoRealizada as rr"
+					+ "	where rr.id = :idRefeicaoRealizada";
+			
+			Query query = session.createQuery(hql);
+			query.setParameter("idRefeicaoRealizada", idRefeicaoRealizada);
 			
 			refeicaoRealizada = (RefeicaoRealizada) query.uniqueResult();
 	        

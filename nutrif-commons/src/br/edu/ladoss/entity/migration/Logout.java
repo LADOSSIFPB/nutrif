@@ -19,7 +19,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "logout")
 @Entity
-@Table(name = "tb_logout_migration")
+@Table(name = "tb_logout")
 @NamedQuery(name = "Logout.getAll", query = "from Logout")
 public class Logout {
 

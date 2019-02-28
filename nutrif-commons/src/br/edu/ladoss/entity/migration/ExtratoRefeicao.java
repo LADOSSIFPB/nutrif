@@ -19,7 +19,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "extratoRefeicao")
 @Entity
-@Table(name = "tb_extrato_refeicao_migration")
+@Table(name = "tb_extrato_refeicao")
 @NamedQuery(name = "ExtratoRefeicao.getAll", query = "from ExtratoRefeicao")
 public class ExtratoRefeicao {
 	

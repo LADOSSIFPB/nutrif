@@ -17,7 +17,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "error")
 @Entity
-@Table(name = "tb_error_migration")
+@Table(name = "tb_error")
 @NamedQuery(name = "Error.getAll", query = "from Error")
 public class Error {
 	

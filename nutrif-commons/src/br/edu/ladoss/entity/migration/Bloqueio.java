@@ -21,7 +21,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "bloqueio")
 @Entity
-@Table(name = "tb_bloqueio_migration")
+@Table(name = "tb_bloqueio")
 @NamedQuery(name = "Bloqueio.getAll", query = "from Bloqueio")
 public class Bloqueio {
 	

@@ -16,7 +16,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "pretensaoRefeicao")
 @Entity
-@Table(name = "tb_pretensao_refeicao_migration")
+@Table(name = "tb_pretensao_refeicao")
 @NamedQuery(name = "PretensaoRefeicao.getAll", query = "from PretensaoRefeicao")
 public class PretensaoRefeicao {
 

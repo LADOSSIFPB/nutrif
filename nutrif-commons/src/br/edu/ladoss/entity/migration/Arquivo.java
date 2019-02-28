@@ -24,7 +24,7 @@ import br.edu.ladoss.enumeration.TipoArquivo;
 
 @XmlRootElement(name = "arquivo")
 @Entity
-@Table(name = "tb_arquivo_migration")
+@Table(name = "tb_arquivo")
 @NamedQuery(name = "Arquivo.getAll", query = "from Arquivo")
 public class Arquivo {
 

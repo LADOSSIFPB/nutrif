@@ -88,6 +88,74 @@ public class MigracaoController {
 	 */
 	@RolesAllowed({ TipoRole.ADMIN })
 	@GET
+	@Path("/corrigir/refeicaorealizada")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public Response corrigirDataHoraRefeicaoRealizada() {
+		
+		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
+		builder.expires(new Date());
+
+		try {
+			
+			logger.info("Correção da data e hora das refeições realizadas - Iniciar processo...");			 
+			
+			try {
+				Date dataRefeicaoMigracao = DateUtil.setDateTime(2019, 2, 24, 0, 0, 0);
+				List<br.edu.ladoss.entity.migration.RefeicaoRealizada> refeicoesRealizadasMigracao = 
+						br.edu.ifpb.nutrif.dao.migration.RefeicaoRealizadaDAO.getInstance()
+						.listByDataRefeicao(dataRefeicaoMigracao);
+				
+				for (br.edu.ladoss.entity.migration.RefeicaoRealizada refeicaoRealizadaMigracao : 
+						refeicoesRealizadasMigracao) {
+					
+					int idMigracaoRefeicaoRealizada = refeicaoRealizadaMigracao.getIdMigracao();
+					RefeicaoRealizada refeicaoRealizada = RefeicaoRealizadaDAO.getInstance()
+							.getById(idMigracaoRefeicaoRealizada);
+					
+					Date dataRefeicao = refeicaoRealizada.getConfirmaRefeicaoDia().getDataRefeicao();
+					Date horaRefeicao = refeicaoRealizada.getHoraRefeicao();
+					
+					// Ajustar a hora.
+					refeicaoRealizadaMigracao.setHoraRefeicao(horaRefeicao);
+					br.edu.ladoss.entity.migration.ConfirmaRefeicaoDia confirmaRefeicaoDia = refeicaoRealizadaMigracao
+							.getConfirmaRefeicaoDia();
+					// Ajutar a data.
+					confirmaRefeicaoDia.setDataRefeicao(dataRefeicao);
+					
+					refeicaoRealizadaMigracao.setConfirmaRefeicaoDia(confirmaRefeicaoDia);
+					
+					// Atualizar.
+					int idRefeicaoRealizadaMigracao = refeicaoRealizadaMigracao.getId();
+					logger.info("Refeição Realizada:" + idRefeicaoRealizadaMigracao + "- Migracao: " + idMigracaoRefeicaoRealizada);
+					logger.info("Data: " + dataRefeicao + " - Hora:" + horaRefeicao);
+					br.edu.ifpb.nutrif.dao.migration.RefeicaoRealizadaDAO.getInstance()
+						.updateDataHora(idRefeicaoRealizadaMigracao, dataRefeicao, horaRefeicao);				
+				}
+				
+			} catch (SQLExceptionNutrIF exception) {
+
+				builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(exception.getError());
+			}
+			logger.info("Finalizado processo...");
+			
+		} catch (SQLExceptionNutrIF exception) {
+
+			builder.status(Response.Status.INTERNAL_SERVER_ERROR).entity(exception.getError());
+		}
+
+		builder.status(Response.Status.OK);
+		
+		return builder.build();
+	}
+	
+	/**
+	 * Migração completa.
+	 * 
+	 * @return
+	 */
+	@RolesAllowed({ TipoRole.ADMIN })
+	@GET
 	@Path("/corrigir/edital")
 	@Consumes("application/json")
 	@Produces("application/json")
@@ -145,6 +213,7 @@ public class MigracaoController {
 				
 				for (DiaRefeicao diaRefeicaoTransicao : diasRefeicaoTransicao) {
 					
+					// Verificar se o aluno existe na base de 2018.
 					Aluno aluno = AlunoDAO.getInstance().getByMatricula(diaRefeicaoTransicao.getAluno().getMatricula());
 					
 					if (aluno != null) {
@@ -189,8 +258,10 @@ public class MigracaoController {
 							novaRefeicaoRealizada.setInspetor(refeicaoRealizadaTransicao.getInspetor());
 							
 							//Inserir nova refeição realizada.
-							int novoIdRefeicaoRealizada = RefeicaoRealizadaDAO.getInstance().insert(novaRefeicaoRealizada);
-							logger.info("RefeicaoRealizada novo: " + novaRefeicaoRealizada);
+							boolean isInsertRefeicaoRealizada = RefeicaoRealizadaDAO.getInstance()
+									.insertOrUpdate(novaRefeicaoRealizada);
+							logger.info("RefeicaoRealizada - Inserida: " + isInsertRefeicaoRealizada 
+									+ " novo: " + novaRefeicaoRealizada);
 						}
 						
 					} else {
@@ -414,8 +485,9 @@ public class MigracaoController {
 
 		try {
 			
-			// Gerar Extrato. 
-			gerarExtratoRefeicao();			
+			// Gerar Extrato.
+			Date dataRefeicao = DateUtil.setDateTime(2019, 2, 11, 0, 0, 0);
+			gerarExtratoRefeicao(dataRefeicao);			
 
 		} catch (SQLExceptionNutrIF exception) {
 
@@ -427,12 +499,20 @@ public class MigracaoController {
 		return builder.build();		
 	}
 	
+	// Gerar extrato para todas as refeições realizadas.
 	private void gerarExtratoRefeicao() {
+		gerarExtratoRefeicao(null);
+	}
+	
+	// Gerar extrato para as refeições realizadas a partir de uma data definida.
+	private void gerarExtratoRefeicao(Date dataRefeicao) {
 		
 		logger.info("Gerar - ExtratoRefeicao");
 		
 		// Intervalo de datas
-		Date dataRefeicao = getMinDataRefeicao();
+		if (dataRefeicao == null) {
+			dataRefeicao = getMinDataRefeicao();
+		}		
 		
 		Date hoje = new Date();
 		
@@ -450,7 +530,8 @@ public class MigracaoController {
 				
 				// Refeição
 				List<br.edu.ladoss.entity.migration.Refeicao> refeicoes = 
-						br.edu.ifpb.nutrif.dao.migration.RefeicaoDAO.getInstance().listByIdCampus(idCampus);
+						br.edu.ifpb.nutrif.dao.migration.RefeicaoDAO.getInstance()
+							.listByIdCampus(idCampus);
 				
 				for (br.edu.ladoss.entity.migration.Refeicao refeicao: refeicoes) {
 					

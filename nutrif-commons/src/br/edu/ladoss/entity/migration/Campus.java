@@ -17,7 +17,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "campus")
 @Entity
-@Table(name = "tb_campus_migration")
+@Table(name = "tb_campus")
 @NamedQuery(name = "Campus.getAll", query = "from Campus")
 public class Campus implements Serializable {
 

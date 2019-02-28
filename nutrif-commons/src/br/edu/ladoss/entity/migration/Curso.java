@@ -17,7 +17,7 @@ import br.edu.ladoss.data.DataEntity;
 
 @XmlRootElement(name = "curso")
 @Entity
-@Table(name = "tb_curso_migration")
+@Table(name = "tb_curso")
 @NamedQuery(name = "Curso.getAll", query = "from Curso")
 public class Curso implements DataEntity {
 	

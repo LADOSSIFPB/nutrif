@@ -36,10 +36,10 @@ public class RefeicaoRealizadaDAO extends GenericDao<Integer, RefeicaoRealizada>
 		return instance;
 	}
 
-	@Override
-	public int insert(RefeicaoRealizada refeicaoRealizada) throws SQLExceptionNutrIF {
+
+	public int updateDataHora(int idRefeicaoRealizada, Date dataInsercao, Date horaInsersao) throws SQLExceptionNutrIF {
 		
-		Session session = HibernateUtil.getSessionFactoryOld().openSession();
+		Session session = super.getSessionFactory().openSession();
 		
 		Integer id = null;
 		
@@ -47,13 +47,16 @@ public class RefeicaoRealizadaDAO extends GenericDao<Integer, RefeicaoRealizada>
 			
 			session.beginTransaction();
 			
-			String sql = "INSERT INTO tb_refeicao_realizada (dt_refeicao, hr_refeicao, fk_id_dia_refeicao, fk_id_funcionario)"
-					+ " VALUES(CURRENT_DATE(), CURRENT_TIME(), :idDiaRefeicao, :idFuncionario)";
+			String hql = "UPDATE RefeicaoRealizada as rr" + 
+					" SET" + 
+					" rr.confirmaRefeicaoDia.dataRefeicao = :dataInsercao," + 
+					" rr.horaRefeicao = :horaInsersao" + 
+					" WHERE rr.id = :idRefeicaoRealizada";
 			
-			Query query = session.createSQLQuery(sql);
-			query.setParameter("idDiaRefeicao", refeicaoRealizada
-					.getConfirmaRefeicaoDia().getDiaRefeicao().getId());
-			query.setParameter("idFuncionario", refeicaoRealizada.getInspetor().getId());
+			Query query = session.createQuery(hql);
+			query.setParameter("dataInsercao", dataInsercao);
+			query.setParameter("horaInsersao", horaInsersao);
+			query.setParameter("idRefeicaoRealizada", idRefeicaoRealizada);
 			
 			id = query.executeUpdate();	
 			
@@ -329,6 +332,36 @@ public class RefeicaoRealizadaDAO extends GenericDao<Integer, RefeicaoRealizada>
 			Query query = session.createQuery(hql);
 			query.setParameter("idDiaRefeicao", idDiaRefeicao);
 			query.setParameterList("datasRefeicao", datasRefeicao);
+		
+			refeicoesRealizadas = (List<RefeicaoRealizada>) query.list();
+	        
+		} catch (HibernateException hibernateException) {
+			
+			session.getTransaction().rollback();
+			
+			throw new SQLExceptionNutrIF(hibernateException);
+			
+		} finally {
+		
+			session.close();
+		}
+		
+		return refeicoesRealizadas;
+	}
+	
+	public List<RefeicaoRealizada> listByDataRefeicao(Date dataRefeicao) {
+		
+		Session session = super.getSessionFactory().openSession();
+		
+		List<RefeicaoRealizada> refeicoesRealizadas = new ArrayList<RefeicaoRealizada>();
+		
+		try {
+					
+			String hql = "from RefeicaoRealizada as rr"
+					+ "	where rr.confirmaRefeicaoDia.dataRefeicao = :dataRefeicao";
+		
+			Query query = session.createQuery(hql);
+			query.setParameter("dataRefeicao", dataRefeicao);
 		
 			refeicoesRealizadas = (List<RefeicaoRealizada>) query.list();
 	        

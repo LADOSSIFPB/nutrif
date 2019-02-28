@@ -31,7 +31,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 
 @XmlRootElement(name = "pessoa")
 @Entity
-@Table(name = "tb_pessoa_migration")
+@Table(name = "tb_pessoa")
 @NamedQuery(name = "Pessoa.getAll", query = "from Pessoa")
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "tp_pessoa", discriminatorType = DiscriminatorType.INTEGER)

@@ -17,7 +17,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "funcionario")
 @Entity
-@Table(name = "tb_funcionario_migration")
+@Table(name = "tb_funcionario")
 @NamedQuery(name = "Funcionario.getAll", query = "from Funcionario")
 @DiscriminatorValue(value = "1")
 public class Funcionario extends Pessoa {

@@ -10,10 +10,6 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import br.edu.ifpb.nutrif.exception.SQLExceptionNutrIF;
-import br.edu.ifpb.nutrif.hibernate.HibernateUtil;
-import br.edu.ifpb.nutrif.util.BancoUtil;
-import br.edu.ladoss.entity.Aluno;
-import br.edu.ladoss.entity.Pessoa;
 
 public abstract class GenericDao<PK, T> {
 	
