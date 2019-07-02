@@ -51,7 +51,7 @@
 		<dependency>
 			<groupId>br.edu.ifpb.ladoss</groupId>
 			<artifactId>NutrIF_Client</artifactId>
-			<version>1.0</version>
+			<version>1.1</version>
 		</dependency>
 
 		<!-- Servlet-api -->
