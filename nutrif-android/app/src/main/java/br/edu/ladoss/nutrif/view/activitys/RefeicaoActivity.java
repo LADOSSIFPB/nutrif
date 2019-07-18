@@ -1,8 +1,8 @@
 package br.edu.ladoss.nutrif.view.activitys;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
@@ -28,7 +28,7 @@ import retrofit.Callback;
 import retrofit.Response;
 import retrofit.Retrofit;
 
-public class RefeicaoActivity extends AppCompatActivity {
+public class RefeicaoActivity extends Activity {
     @Bind(R.id.carregando_layout)
     LinearLayout carregarLayout;
     @Bind(R.id.content)

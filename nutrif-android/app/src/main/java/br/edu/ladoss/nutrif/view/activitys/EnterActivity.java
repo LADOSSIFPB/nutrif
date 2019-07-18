@@ -1,7 +1,7 @@
 package br.edu.ladoss.nutrif.view.activitys;
 
+import android.app.Activity;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -11,7 +11,7 @@ import br.edu.ladoss.nutrif.model.Aluno;
 import br.edu.ladoss.nutrif.validation.Validate;
 import butterknife.*;
 
-public class EnterActivity extends AppCompatActivity {
+public class EnterActivity extends Activity {
 
     @Bind(R.id.identificadorEdit)
     EditText identificadorEditText;

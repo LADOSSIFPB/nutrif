@@ -10,10 +10,9 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.FragmentTransaction;
+import android.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
+import android.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
@@ -44,7 +43,7 @@ import br.edu.ladoss.nutrif.view.callback.MessagingCallback;
 import br.edu.ladoss.nutrif.view.fragment.ListMealsFragment;
 import butterknife.ButterKnife;
 
-public class HomeActivity extends AppCompatActivity implements MessagingCallback, AccountHeader.OnAccountHeaderProfileImageListener {
+public class HomeActivity extends Activity implements MessagingCallback, AccountHeader.OnAccountHeaderProfileImageListener {
     private static final int PERMISSIONS_REQUEST_CAMERA = 1;
 
     AccountHeader headerResult;

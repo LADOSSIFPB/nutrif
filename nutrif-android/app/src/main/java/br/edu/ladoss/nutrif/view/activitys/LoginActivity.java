@@ -1,11 +1,11 @@
 package br.edu.ladoss.nutrif.view.activitys;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.TextView;
 
@@ -29,7 +29,7 @@ import butterknife.ButterKnife;
 import retrofit.Call;
 import retrofit.Response;
 
-public class LoginActivity extends AppCompatActivity implements LoginMVP.View{
+public class LoginActivity extends Activity implements LoginMVP.View{
 
     @Bind(R.id.informativo)
     TextView messages;
