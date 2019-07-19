@@ -10,16 +10,20 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.app.FragmentTransaction;
-import android.support.v4.content.ContextCompat;
 import android.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import android.app.Fragment;
+
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
@@ -43,7 +47,9 @@ import br.edu.ladoss.nutrif.view.callback.MessagingCallback;
 import br.edu.ladoss.nutrif.view.fragment.ListMealsFragment;
 import butterknife.ButterKnife;
 
-public class HomeActivity extends Activity implements MessagingCallback, AccountHeader.OnAccountHeaderProfileImageListener {
+public class HomeActivity extends AppCompatActivity
+        implements MessagingCallback, AccountHeader.OnAccountHeaderProfileImageListener {
+
     private static final int PERMISSIONS_REQUEST_CAMERA = 1;
 
     AccountHeader headerResult;
@@ -63,7 +69,7 @@ public class HomeActivity extends Activity implements MessagingCallback, Account
         if(savedInstanceState == null){
             ListMealsFragment newFragment = ListMealsFragment.getInstance(this);
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.add(R.id.tela,newFragment);
+            transaction.add(R.id.tela, newFragment);
             transaction.commit();
         }
 

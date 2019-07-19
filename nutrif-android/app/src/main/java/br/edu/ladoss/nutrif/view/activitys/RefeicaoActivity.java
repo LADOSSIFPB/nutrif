@@ -1,13 +1,14 @@
 package br.edu.ladoss.nutrif.view.activitys;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -28,29 +29,36 @@ import retrofit.Callback;
 import retrofit.Response;
 import retrofit.Retrofit;
 
-public class RefeicaoActivity extends Activity {
+public class RefeicaoActivity extends AppCompatActivity {
+
     @Bind(R.id.carregando_layout)
     LinearLayout carregarLayout;
+
     @Bind(R.id.content)
     LinearLayout content;
 
     @Bind(R.id.dia)
     TextView dia;
+
     @Bind(R.id.hora_final)
     TextView hora_final;
+
     @Bind(R.id.hora_inicial)
     TextView hora_inicial;
+
     @Bind(R.id.tipo)
     TextView tipo;
+
     @Bind(R.id.data)
     TextView data;
+
     @Bind(R.id.pedirBtn)
     Button pedirBtn;
+
     @Bind(R.id.codeBtn)
     Button codeBtn;
 
     private PretensaoRefeicao pretensaoRefeicao;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +68,6 @@ public class RefeicaoActivity extends Activity {
         toolbar.setTitle(getString(R.string.refeicao));
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
         ButterKnife.bind(this);
         buildContent();
     }

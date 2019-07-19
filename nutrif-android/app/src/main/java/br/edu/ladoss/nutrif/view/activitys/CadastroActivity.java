@@ -1,6 +1,5 @@
 package br.edu.ladoss.nutrif.view.activitys;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -8,6 +7,9 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import br.edu.ladoss.nutrif.R;
 import br.edu.ladoss.nutrif.exceptions.DadoInvalidoException;
@@ -25,15 +27,20 @@ import retrofit.Response;
 import retrofit.Retrofit;
 
 
-public class CadastroActivity extends Activity {
+public class CadastroActivity extends AppCompatActivity {
+
     @Bind(R.id.email)
     EditText email;
+
     @Bind(R.id.password)
     EditText senha;
+
     @Bind(R.id.matricula)
     EditText matricula;
+
     @Bind(R.id.carregando)
     LinearLayout carregarLayout;
+
     @Bind(R.id.content)
     LinearLayout content;
 
@@ -51,7 +58,6 @@ public class CadastroActivity extends Activity {
         toolbar.setTitle(R.string.app_name);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
     }
 
     public void registrar(View v) {

@@ -8,6 +8,9 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
 import br.edu.ladoss.nutrif.R;
 import br.edu.ladoss.nutrif.model.input.ConfirmationKey;
 import br.edu.ladoss.nutrif.model.output.Erro;
@@ -22,7 +25,7 @@ import retrofit.Callback;
 import retrofit.Response;
 import retrofit.Retrofit;
 
-public class ConfirmationActivity extends Activity {
+public class ConfirmationActivity extends AppCompatActivity {
     @Bind(R.id.matricula)
     EditText matricula;
     @Bind(R.id.codigo)
@@ -43,7 +46,6 @@ public class ConfirmationActivity extends Activity {
         toolbar.setTitle(R.string.app_name);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
 
         Bundle bundle = this.getIntent().getExtras();
 

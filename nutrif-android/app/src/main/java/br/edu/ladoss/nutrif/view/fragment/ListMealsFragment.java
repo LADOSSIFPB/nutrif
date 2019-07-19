@@ -3,15 +3,16 @@ package br.edu.ladoss.nutrif.view.fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import java.io.IOException;
 import java.util.List;
@@ -133,7 +134,7 @@ public class ListMealsFragment extends Fragment {
             @Override
             public void run() {
                 LinearLayoutManager gridLayoutManager = new LinearLayoutManager(getActivity().getBaseContext());
-                gridLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+                gridLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
 
                 recycle.setLayoutManager(gridLayoutManager);
                 recycle.setAdapter(new HorarioAdapter(context, refeicoes, new RecycleButtonClicked() {
