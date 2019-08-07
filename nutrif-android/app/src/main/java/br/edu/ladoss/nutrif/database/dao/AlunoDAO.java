@@ -4,7 +4,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.support.annotation.Nullable;
 import android.util.Log;
 
 import java.io.File;
@@ -62,7 +61,7 @@ public class AlunoDAO extends GenericDAO {
             db.insert(ALUNO_TABLE, null, values);
     }
 
-    @Nullable
+
     public Aluno find() {
         String[] colums = new String[]{"_email", "senha", "matricula", "id", "nome"};
         Cursor cursor = db.query(ALUNO_TABLE, colums, null, null, null, null, "_email");
@@ -82,7 +81,6 @@ public class AlunoDAO extends GenericDAO {
         return null;
     }
 
-    @Nullable
     public Aluno findWithPhoto() {
         String[] colums = new String[]{"_email", "senha", "matricula", "id", "nome", "photo"};
         Cursor cursor = db.query(ALUNO_TABLE, colums, null, null, null, null, "_email");

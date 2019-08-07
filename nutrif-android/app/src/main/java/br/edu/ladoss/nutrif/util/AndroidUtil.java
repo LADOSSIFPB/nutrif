@@ -2,12 +2,13 @@ package br.edu.ladoss.nutrif.util;
 
 import android.app.Activity;
 import android.content.Context;
-import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
-import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.ViewGroup;
 import android.widget.Toast;
+
+import androidx.core.content.ContextCompat;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -43,7 +44,6 @@ public class AndroidUtil {
         return dateText;
     }
 
-    @Nullable
     public static Long parseStringToLong(String dataPretensao){
         java.text.SimpleDateFormat dateformate = new SimpleDateFormat("dd/MM");
         try {
