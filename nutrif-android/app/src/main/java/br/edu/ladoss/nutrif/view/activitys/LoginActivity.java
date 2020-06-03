@@ -18,6 +18,7 @@ import br.edu.ladoss.nutrif.R;
 import br.edu.ladoss.nutrif.database.dao.AlunoDAO;
 import br.edu.ladoss.nutrif.model.Aluno;
 import br.edu.ladoss.nutrif.model.Pessoa;
+import br.edu.ladoss.nutrif.model.PessoaAcesso;
 import br.edu.ladoss.nutrif.model.output.Erro;
 import br.edu.ladoss.nutrif.network.ConnectionServer;
 import br.edu.ladoss.nutrif.util.AndroidUtil;
@@ -173,17 +174,22 @@ public class LoginActivity extends AppCompatActivity implements LoginMVP.View{
     private Aluno receiveUser(Aluno aluno) {
         Log.i(getString(R.string.app_name), " solicitando uma chave ao servidor");
 
-        Call<Pessoa> call = ConnectionServer.getInstance().getService().login(aluno);
+        PessoaAcesso alunoAcesso = new PessoaAcesso();
+
+        alunoAcesso.setEmail(aluno.getEmail());
+        alunoAcesso.setSenha(aluno.getSenha());
+
+        Call<Pessoa> call = ConnectionServer.getInstance().getService().login(alunoAcesso);
 
         try {
             Response<Pessoa> response = call.execute();
 
             if (response.isSuccess()) {
                 Log.i(getString(R.string.app_name), " chave recuperada com sucesso");
-                aluno.setTipo(response.body().getTipo());
-                aluno.setId(response.body().getId());
-                aluno.setNome(response.body().getNome());
-                aluno.setKeyAuth(response.body().getKeyAuth());
+                alunoAcesso.setTipo(response.body().getTipo());
+                alunoAcesso.setId(response.body().getId());
+                alunoAcesso.setNome(response.body().getNome());
+                alunoAcesso.setKeyAuth(response.body().getKeyAuth());
 
             } else {
                 Log.i(getString(R.string.app_name), " a chave não foi recuperada com êxito");

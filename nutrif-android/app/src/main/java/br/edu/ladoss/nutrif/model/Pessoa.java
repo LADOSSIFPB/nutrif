@@ -23,7 +23,7 @@ public class Pessoa {
 
     private List<Role> roles;
 
-    public static final int LENGHT_MATRICULA = 11;
+    public static final int LENGHT_MATRICULA = 12;
     public static final int LENGHT_MAX_EMAIL = 30;
     public static final int LENGHT_MIN_EMAIL = 4;
     public static final int LENGHT_MAX_SENHA = 40;

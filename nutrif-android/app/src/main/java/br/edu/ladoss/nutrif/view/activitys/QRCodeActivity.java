@@ -8,6 +8,8 @@ import android.view.Display;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.WriterException;
 
@@ -16,7 +18,7 @@ import br.edu.ladoss.nutrif.util.AndroidUtil;
 import br.edu.ladoss.nutrif.util.qrcode.Contents;
 import br.edu.ladoss.nutrif.util.qrcode.QRCodeEncoder;
 
-public class QRCodeActivity extends Activity {
+public class QRCodeActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

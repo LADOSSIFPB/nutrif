@@ -15,6 +15,7 @@ import br.edu.ladoss.nutrif.validation.Validate;
  */
 public class Aluno extends Pessoa implements Serializable{
     private String matricula;
+    private String nome;
     private Curso curso;
     private String keyConfirmation;
     private byte[] photo;
@@ -38,6 +39,14 @@ public class Aluno extends Pessoa implements Serializable{
 
     public void setMatricula(String matricula) {
         this.matricula = matricula;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
     public void setPhoto(byte[] photo){

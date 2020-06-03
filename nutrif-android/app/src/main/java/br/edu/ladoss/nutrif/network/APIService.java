@@ -10,6 +10,7 @@ import java.util.List;
 import br.edu.ladoss.nutrif.model.Aluno;
 import br.edu.ladoss.nutrif.model.DiaRefeicao;
 import br.edu.ladoss.nutrif.model.Pessoa;
+import br.edu.ladoss.nutrif.model.PessoaAcesso;
 import br.edu.ladoss.nutrif.model.PretensaoRefeicao;
 import br.edu.ladoss.nutrif.model.input.ConfirmationKey;
 import retrofit.Call;
@@ -40,7 +41,7 @@ public interface APIService {
     Call<Void> confirmar(@Body ConfirmationKey confirmation);
 
     @POST("pessoa/login")
-    Call<Pessoa> login(@Body Pessoa pessoa);
+    Call<Pessoa> login(@Body PessoaAcesso pessoa);
 
     @POST("pretensaorefeicao/inserir")
     Call<PretensaoRefeicao> pedirRefeicao(@Header("Authorization") String accessKey,

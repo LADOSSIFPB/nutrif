@@ -1,17 +1,18 @@
 package br.edu.ladoss.nutrif.view.activitys;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import br.edu.ladoss.nutrif.R;
 import br.edu.ladoss.nutrif.model.Aluno;
 import br.edu.ladoss.nutrif.validation.Validate;
 import butterknife.*;
 
-public class EnterActivity extends Activity {
+public class EnterActivity extends AppCompatActivity {
 
     @Bind(R.id.identificadorEdit)
     EditText identificadorEditText;
@@ -45,7 +46,7 @@ public class EnterActivity extends Activity {
             aluno.setEmail(identificadorEditText.getText().toString().trim());
             aluno.setSenha(senhaEditText.getText().toString());
 
-            Intent intent = new Intent(this,LoginActivity.class);
+            Intent intent = new Intent(this, LoginActivity.class);
             Bundle bundle = new Bundle();
 
             bundle.putString("email", aluno.getEmail());

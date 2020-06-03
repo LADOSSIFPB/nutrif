@@ -2,8 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:theme="@style/AppTheme"
+    android:theme="@style/AppTheme"
     tools:context="br.edu.ladoss.nutrif.view.activitys.EnterActivity">
 
 
@@ -53,7 +52,6 @@
                             android:layout_height="wrap_content"
                             android:hint="@string/email"
                             android:layout_marginTop="15dp"
-                            android:imeActionId="@+id/login"
                             android:imeOptions="actionNext|actionUnspecified"
                             android:inputType="textEmailAddress"
                             android:maxLines="1"
@@ -69,7 +67,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="@string/password"
-                            android:imeActionId="@+id/login"
                             android:imeOptions="actionUnspecified"
                             android:inputType="textPassword"
                             android:maxLines="1"
@@ -81,6 +78,7 @@
                             android:textColor="@color/gelo" />
 
                     <Button
+                        android:id="@+id/btnLogin"
                         style="@style/buttomLogin"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
