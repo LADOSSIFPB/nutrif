@@ -2,6 +2,8 @@ package br.edu.ladoss.nutrif.model;
 
 import java.io.Serializable;
 
+import javax.xml.bind.annotation.XmlTransient;
+
 import br.edu.ladoss.nutrif.exceptions.DadoInvalidoException;
 import br.edu.ladoss.nutrif.validation.Validate;
 
@@ -14,12 +16,20 @@ import br.edu.ladoss.nutrif.validation.Validate;
  * para utilizar o restaurante do IFPB.
  */
 public class Aluno extends Pessoa implements Serializable{
-    private String matricula;
-    private String nome;
-    private Curso curso;
-    private String keyConfirmation;
-    private byte[] photo;
 
+    @XmlTransient
+    private String matricula;
+
+    private String keyConfirmation;
+
+    private int idMigracao;
+
+    private boolean acesso;
+
+    private boolean suap;
+
+    @XmlTransient
+    private byte[] photo;
 
     public Aluno(String matricula, String email, String senha) throws DadoInvalidoException {
         super(email, senha);
@@ -41,14 +51,6 @@ public class Aluno extends Pessoa implements Serializable{
         this.matricula = matricula;
     }
 
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
     public void setPhoto(byte[] photo){
         this.photo = photo;
     }
@@ -63,6 +65,30 @@ public class Aluno extends Pessoa implements Serializable{
 
     public void setKeyconfirmation(String keyconfirmation) {
         this.keyConfirmation = keyconfirmation;
+    }
+
+    public int getIdMigracao() {
+        return idMigracao;
+    }
+
+    public void setIdMigracao(int idMigracao) {
+        this.idMigracao = idMigracao;
+    }
+
+    public boolean isAcesso() {
+        return acesso;
+    }
+
+    public void setAcesso(boolean acesso) {
+        this.acesso = acesso;
+    }
+
+    public boolean isSuap() {
+        return suap;
+    }
+
+    public void setSuap(boolean suap) {
+        this.suap = suap;
     }
 
     @Override

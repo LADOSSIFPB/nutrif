@@ -12,11 +12,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 import java.util.Random;
 
 import br.edu.ladoss.nutrif.R;
 import br.edu.ladoss.nutrif.database.dao.AlunoDAO;
 import br.edu.ladoss.nutrif.model.Aluno;
+import br.edu.ladoss.nutrif.model.Matricula;
 import br.edu.ladoss.nutrif.model.Pessoa;
 import br.edu.ladoss.nutrif.model.PessoaAcesso;
 import br.edu.ladoss.nutrif.model.output.Erro;
@@ -186,10 +188,10 @@ public class LoginActivity extends AppCompatActivity implements LoginMVP.View{
 
             if (response.isSuccess()) {
                 Log.i(getString(R.string.app_name), " chave recuperada com sucesso");
-                alunoAcesso.setTipo(response.body().getTipo());
-                alunoAcesso.setId(response.body().getId());
-                alunoAcesso.setNome(response.body().getNome());
-                alunoAcesso.setKeyAuth(response.body().getKeyAuth());
+                aluno.setTipo(response.body().getTipo());
+                aluno.setId(response.body().getId());
+                aluno.setNome(response.body().getNome());
+                aluno.setKeyAuth(response.body().getKeyAuth());
 
             } else {
                 Log.i(getString(R.string.app_name), " a chave não foi recuperada com êxito");
@@ -212,15 +214,16 @@ public class LoginActivity extends AppCompatActivity implements LoginMVP.View{
     private boolean tryAuthorize(Aluno aluno) {
         Log.i(getString(R.string.app_name), " solicitando matrícula do aluno");
 
-        Call<Aluno> call = ConnectionServer.getInstance().getService().getMatricula(
+        Call<List<Matricula>> call = ConnectionServer.getInstance().getService().getMatriculaByAlunoId(
                 aluno.getKeyAuth(),
                 aluno.getId().toString());
         try {
-            Response<Aluno> response = call.execute();
+            Response<List<Matricula>> response = call.execute();
 
             if (response.isSuccess()) {
                 Log.i(getString(R.string.app_name), " matrícula recuperada com sucesso");
-                aluno.setMatricula(response.body().getMatricula());
+                List<Matricula> matriculas = response.body();
+                aluno.setMatricula(matriculas.get(0).getNumero());
                 AlunoDAO.getInstance(this).insertAluno(aluno);
             }
 

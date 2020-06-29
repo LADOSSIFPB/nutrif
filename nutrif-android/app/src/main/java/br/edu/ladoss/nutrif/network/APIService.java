@@ -9,6 +9,7 @@ import java.util.List;
 
 import br.edu.ladoss.nutrif.model.Aluno;
 import br.edu.ladoss.nutrif.model.DiaRefeicao;
+import br.edu.ladoss.nutrif.model.Matricula;
 import br.edu.ladoss.nutrif.model.Pessoa;
 import br.edu.ladoss.nutrif.model.PessoaAcesso;
 import br.edu.ladoss.nutrif.model.PretensaoRefeicao;
@@ -34,8 +35,11 @@ public interface APIService {
     @POST("aluno/acesso/inserir")
     Call<Aluno> inserir(@Body Aluno aluno);
 
-    @GET("aluno/id/{id}")
+    @GET("aluno/{id}")
     Call<Aluno> getMatricula(@Header("Authorization") String accessKey, @Path("id")String id);
+
+    @GET("matricula/aluno/{id}")
+    Call<List<Matricula>> getMatriculaByAlunoId(@Header("Authorization") String accessKey, @Path("id")String id);
 
     @POST("aluno/confirmar")
     Call<Void> confirmar(@Body ConfirmationKey confirmation);
