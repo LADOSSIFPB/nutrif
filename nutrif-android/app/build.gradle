@@ -28,8 +28,7 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    //implementation 'com.android.support:design:25.3.1'
-    implementation('com.mikepenz:materialdrawer:5.0.9@aar') { //NavDrawer
+    implementation('com.mikepenz:materialdrawer:6.1.2') { //NavDrawer
         transitive = true
     }
     implementation 'androidx.appcompat:appcompat:1.0.2'
@@ -44,7 +43,7 @@ dependencies {
     implementation 'com.squareup.okhttp3:okhttp:3.2.0'
     implementation 'com.journeyapps:zxing-android-embedded:3.2.0@aar'
     implementation 'com.google.zxing:core:3.2.1'
-    implementation 'com.theartofdev.edmodo:android-image-cropper:2.1.1'
+    implementation 'com.theartofdev.edmodo:android-image-cropper:2.8.+'
     testImplementation 'org.robolectric:robolectric:3.1.4'
     testImplementation 'org.khronos:opengl-api:gl1.1-android-2.1_r1'
     testImplementation 'junit:junit:4.12'
