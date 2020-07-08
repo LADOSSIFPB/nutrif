@@ -134,7 +134,7 @@ public class ListMealsFragment extends Fragment {
             @Override
             public void run() {
                 LinearLayoutManager gridLayoutManager = new LinearLayoutManager(getActivity().getBaseContext());
-                gridLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
+                gridLayoutManager.setOrientation(RecyclerView.VERTICAL);
 
                 recycle.setLayoutManager(gridLayoutManager);
                 recycle.setAdapter(new HorarioAdapter(context, refeicoes, new RecycleButtonClicked() {

@@ -11,7 +11,7 @@ import retrofit.Retrofit;
  */
 public class ConnectionServer {
 
-    private static final String URL_BASE = "http://192.168.0.101:8080/NutrIF_Service/";
+    private static final String URL_BASE = "http://192.168.0.102:8080/NutrIF_Service/";
     private static APIService service;
     private static ConnectionServer ourInstance = new ConnectionServer();
 
