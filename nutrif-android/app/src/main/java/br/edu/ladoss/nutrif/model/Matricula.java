@@ -1,8 +1,8 @@
 package br.edu.ladoss.nutrif.model;
-
+import java.io.Serializable;
 import javax.xml.bind.annotation.XmlElement;
 
-public class Matricula {
+public class Matricula implements Serializable {
 
 	private Integer id;
 

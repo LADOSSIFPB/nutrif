@@ -9,12 +9,14 @@ public class DiaRefeicao implements Serializable{
     private Dia dia;
     private Refeicao refeicao;
     private String codigo;
+    private Matricula matricula;
 
     public DiaRefeicao(){
         aluno = new Aluno();
         id = new Integer(0);
         dia = new Dia();
         refeicao = new Refeicao();
+        matricula = new Matricula();
     }
 
     public String getCodigo() {
@@ -65,5 +67,9 @@ public class DiaRefeicao implements Serializable{
 
     public void setAtivo(boolean ativo) {
         this.ativo = ativo;
+    }
+
+    public Matricula getMatricula() {
+        return matricula;
     }
 }

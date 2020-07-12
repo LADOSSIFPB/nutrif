@@ -38,7 +38,7 @@ public class DiaRefeicaoDAO extends GenericDAO<DiaRefeicao> {
         values.put("diadasemana", diaRefeicao.getDia().getNome());
         values.put("hora_init", diaRefeicao.getRefeicao().getHoraInicio());
         values.put("hora_final", diaRefeicao.getRefeicao().getHoraFinal());
-        values.put("_email", diaRefeicao.getAluno().getEmail());
+        values.put("_email", diaRefeicao.getMatricula().getAluno().getEmail());
         insert(DIAREFEICAO_TABLE, values);
     }
 
